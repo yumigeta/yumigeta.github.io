@@ -3,258 +3,321 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yumi Geta | Researcher</title>
+  <title>Kentaro Yumigeta | Condensed Matter &amp; 2D Materials</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav-container">
-      <a href="#" class="nav-logo">Yumi Geta</a>
-      <ul class="nav-links">
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-name">KY</a>
+      <ul class="nav-menu" id="nav-menu">
         <li><a href="#about">About</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#teaching">Teaching</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button class="nav-toggle" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
       </button>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
-  <main>
-    <section id="hero" class="hero">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <p class="hero-greeting">Hello, I'm</p>
-          <h1>Yumi Geta</h1>
-          <p class="hero-title">Researcher at the University of Arizona</p>
-          <p class="hero-description">
-            My research focuses on [your research area]. I am passionate about
-            advancing our understanding of [your field] through interdisciplinary
-            approaches and innovative methodologies.
-          </p>
-          <div class="hero-actions">
-            <a href="#research" class="btn btn-primary">My Research</a>
-            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-          </div>
-        </div>
-        <div class="hero-image">
-          <div class="hero-image-placeholder">
-            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="60" cy="45" r="22" stroke="currentColor" stroke-width="2"/>
-              <path d="M20 105c0-22 18-40 40-40s40 18 40 40" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>Your Photo</span>
-          </div>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-portrait">
+        <div class="portrait-frame">
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="80" r="35" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            <path d="M40 180c0-33 27-60 60-60s60 27 60 60" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+          </svg>
         </div>
       </div>
-    </section>
-
-    <section id="about" class="section">
-      <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-grid">
-          <div class="about-text">
-            <p>
-              I am a researcher at the <strong>University of Arizona</strong>.
-              My work lies at the intersection of [Field A] and [Field B],
-              where I investigate [brief research description].
-            </p>
-            <p>
-              Prior to joining the University of Arizona, I [brief background].
-              I received my Ph.D. in [Field] from [University] in [Year].
-            </p>
-          </div>
-          <div class="about-details">
-            <h3>Research Interests</h3>
-            <ul class="interest-tags">
-              <li>Research Interest 1</li>
-              <li>Research Interest 2</li>
-              <li>Research Interest 3</li>
-              <li>Research Interest 4</li>
-            </ul>
-            <h3>Education</h3>
-            <ul class="education-list">
-              <li>
-                <strong>Ph.D.</strong> in [Field], [University], [Year]
-              </li>
-              <li>
-                <strong>M.S.</strong> in [Field], [University], [Year]
-              </li>
-              <li>
-                <strong>B.S.</strong> in [Field], [University], [Year]
-              </li>
-            </ul>
-          </div>
+      <div class="hero-text">
+        <h1><span class="first-name">Kentaro</span> Yumigeta</h1>
+        <p class="hero-affiliation">University of Arizona</p>
+        <p class="hero-tagline">Condensed matter physicist exploring the quantum properties of two-dimensional materials and van der Waals heterostructures.</p>
+        <div class="hero-links">
+          <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener" class="icon-link" title="Google Scholar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+            Scholar
+          </a>
+          <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener" class="icon-link" title="ORCID">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-1.847-1.209-3.722-3.891-3.722z"/></svg>
+            ORCID
+          </a>
+          <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener" class="icon-link" title="ResearchGate">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.586 0c-1.37.009-2.735.076-3.77.344-4.195 1.084-5.26 5.1-4.52 8.42.25 1.12.652 2.14 1.145 3.04-1.204.57-2.35.92-3.52 1.13-.38.07-.77.12-1.17.17C6.57 8.904 4.9 5.88 2.3 5.04c-.7-.23-1.5-.23-2.1.16-.65.42-.82 1.35-.33 1.92 1.1 1.28 2.97 1.59 4.53 2.15 1.23.44 2.35 1.13 3.06 2.24.38.6.65 1.27.78 1.97.14.75.11 1.53-.06 2.28-.16.72-.47 1.42-.93 2-.47.6-1.1 1.05-1.82 1.3-.72.25-1.5.3-2.26.2-.37-.05-.72-.14-1.07-.26-.18-.06-.35-.14-.52-.22l-.25-.13c-.07-.04-.15-.1-.22-.15l-.4-.32c-.5-.45-.86-1.05-1.1-1.69-.48-1.29-.5-2.74-.16-4.08.16-.63.4-1.24.71-1.8.15-.29.33-.56.53-.82l.28-.35.15-.17.08-.08.04-.04-.08.06-.15.13-.28.27c-.24.25-.44.53-.63.82-.37.57-.66 1.19-.87 1.84-.42 1.31-.55 2.76-.26 4.13.15.68.41 1.35.81 1.93.4.58.96 1.05 1.59 1.38.16.08.32.16.49.23.17.07.35.13.53.18.36.11.74.18 1.12.22.77.08 1.56.01 2.3-.23.75-.24 1.43-.66 1.97-1.22.54-.56.93-1.25 1.16-1.99.24-.75.32-1.55.23-2.34-.09-.78-.34-1.54-.72-2.22-.19-.34-.42-.66-.68-.95 1.32-.32 2.57-.82 3.62-1.51.13.22.27.44.42.65 1.4 1.95 3.58 3.2 5.96 3.2 1.08 0 2.2-.24 3.16-.84 1.04-.64 1.72-1.74 1.72-2.96 0-1.2-.58-2.18-1.4-2.88-.82-.7-1.87-1.12-2.93-1.35-.53-.12-1.07-.19-1.6-.24.8-.75 1.4-1.73 1.72-2.82.62-2.16.2-4.67-1.37-6.3C23.18.77 21.48.06 19.73 0h-.14zm.16 1.66c1.3 0 2.44.56 3.2 1.56.78 1.02 1.08 2.4.79 3.76-.22 1.02-.8 1.93-1.6 2.57-.4.32-.87.57-1.36.73-.25.08-.5.14-.76.17-.13.02-.26.03-.39.03h-.22c-.54.03-1.08.07-1.6.17-.47.09-.93.23-1.37.42-.22.1-.43.21-.63.34l-.1.07c-.36-.58-.66-1.2-.88-1.86-.72-2.12-.6-4.72 1.16-6.14.71-.56 1.64-.9 2.56-.91.07 0 .14 0 .2.01zm.04 10.05c.5.05 1 .12 1.48.25.92.24 1.82.64 2.36 1.2.55.56.82 1.24.82 2.04 0 .8-.42 1.56-1.18 2.04-.77.49-1.76.7-2.7.7-2.02 0-3.85-1.03-5.06-2.67-.15-.2-.29-.42-.42-.64.45-.37.95-.65 1.5-.85.46-.17.94-.27 1.43-.34.6-.08 1.2-.1 1.77-.08z"/></svg>
+            ResearchGate
+          </a>
+          <a href="mailto:kyumiget@arizona.edu" class="icon-link" title="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            Email
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+    <div class="scroll-hint">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7 7 7 7-7"/></svg>
+    </div>
+  </section>
 
-    <section id="research" class="section section-alt">
-      <div class="container">
-        <h2 class="section-title">Research</h2>
-        <p class="section-intro">
-          My research program addresses fundamental questions in [your field].
-          Below are my current and recent research projects.
-        </p>
-        <div class="research-grid">
-          <article class="research-card">
-            <div class="research-card-icon">01</div>
-            <h3>Research Project Title 1</h3>
-            <p>
-              Brief description of the project, its goals, methodology,
-              and key findings or expected outcomes.
-            </p>
-            <span class="research-status status-active">Active</span>
-          </article>
-          <article class="research-card">
-            <div class="research-card-icon">02</div>
-            <h3>Research Project Title 2</h3>
-            <p>
-              Brief description of the project, its goals, methodology,
-              and key findings or expected outcomes.
-            </p>
-            <span class="research-status status-active">Active</span>
-          </article>
-          <article class="research-card">
-            <div class="research-card-icon">03</div>
-            <h3>Research Project Title 3</h3>
-            <p>
-              Brief description of the project, its goals, methodology,
-              and key findings or expected outcomes.
-            </p>
-            <span class="research-status status-completed">Completed</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="publications" class="section">
-      <div class="container">
-        <h2 class="section-title">Selected Publications</h2>
-        <p class="section-intro">
-          For a complete list, see my
-          <a href="#" class="inline-link">Google Scholar</a> profile.
-        </p>
-        <ol class="publication-list">
-          <li class="publication-item">
-            <span class="pub-year">2026</span>
-            <div class="pub-details">
-              <p class="pub-title">Title of Your Publication</p>
-              <p class="pub-authors"><strong>Y. Geta</strong>, Co-Author A, Co-Author B</p>
-              <p class="pub-venue">Journal or Conference Name, Volume(Issue), Pages.</p>
-              <div class="pub-links">
-                <a href="#">PDF</a>
-                <a href="#">DOI</a>
-                <a href="#">Code</a>
-              </div>
-            </div>
-          </li>
-          <li class="publication-item">
-            <span class="pub-year">2025</span>
-            <div class="pub-details">
-              <p class="pub-title">Title of Another Publication</p>
-              <p class="pub-authors"><strong>Y. Geta</strong>, Co-Author C</p>
-              <p class="pub-venue">Journal or Conference Name, Volume(Issue), Pages.</p>
-              <div class="pub-links">
-                <a href="#">PDF</a>
-                <a href="#">DOI</a>
-              </div>
-            </div>
-          </li>
-          <li class="publication-item">
-            <span class="pub-year">2024</span>
-            <div class="pub-details">
-              <p class="pub-title">Title of Yet Another Publication</p>
-              <p class="pub-authors">Co-Author D, <strong>Y. Geta</strong>, Co-Author E</p>
-              <p class="pub-venue">Journal or Conference Name, Volume(Issue), Pages.</p>
-              <div class="pub-links">
-                <a href="#">PDF</a>
-                <a href="#">DOI</a>
-              </div>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <section id="teaching" class="section section-alt">
-      <div class="container">
-        <h2 class="section-title">Teaching</h2>
-        <div class="teaching-grid">
-          <div class="teaching-card">
-            <h3>Course Name 101</h3>
-            <p class="teaching-role">Instructor</p>
-            <p>Brief description of the course and your role.</p>
-            <span class="teaching-term">Spring 2026</span>
-          </div>
-          <div class="teaching-card">
-            <h3>Course Name 201</h3>
-            <p class="teaching-role">Teaching Assistant</p>
-            <p>Brief description of the course and your role.</p>
-            <span class="teaching-term">Fall 2025</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="container">
-        <h2 class="section-title">Contact</h2>
-        <div class="contact-grid">
-          <div class="contact-info">
-            <div class="contact-item">
-              <h3>Email</h3>
-              <a href="mailto:kyumiget@arizona.edu">kyumiget@arizona.edu</a>
-            </div>
-            <div class="contact-item">
-              <h3>Office</h3>
-              <p>[Building Name], Room [Number]<br>University of Arizona<br>Tucson, AZ 85721</p>
-            </div>
-          </div>
-          <div class="contact-links">
-            <h3>Profiles</h3>
-            <ul class="profile-links">
-              <li><a href="#" class="profile-link">Google Scholar</a></li>
-              <li><a href="#" class="profile-link">ORCID</a></li>
-              <li><a href="#" class="profile-link">GitHub</a></li>
-              <li><a href="#" class="profile-link">LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
+  <section id="about" class="section">
     <div class="container">
-      <p>&copy; 2026 Yumi Geta. All rights reserved.</p>
+      <div class="section-label">About</div>
+      <div class="about-layout">
+        <div class="about-bio">
+          <p class="lead">
+            I am a researcher in the Department of Materials Science and Engineering
+            at the <strong>University of Arizona</strong>, working on the physics and
+            applications of two-dimensional layered materials and quantum heterostructures.
+          </p>
+          <p>
+            My work combines advanced synthesis techniques with optical and electronic
+            characterization to explore emergent quantum phenomena in atomically thin
+            crystals. I have contributed to the discovery of generalized Wigner crystal
+            states in transition metal dichalcogenide (TMD) moire superlattices and
+            developed new approaches for controlling the properties of rare-earth
+            tritelluride quantum materials.
+          </p>
+          <p>
+            Previously, I was at <strong>Arizona State University</strong> in the
+            Tongay Research Group, where I worked extensively on the synthesis and
+            characterization of van der Waals layered materials.
+          </p>
+        </div>
+        <aside class="about-sidebar">
+          <div class="sidebar-block">
+            <h3>Interests</h3>
+            <div class="tags">
+              <span>2D Materials</span>
+              <span>Van der Waals Heterostructures</span>
+              <span>Charge Density Waves</span>
+              <span>Rare-Earth Tritellurides</span>
+              <span>Moire Superlattices</span>
+              <span>Quantum Materials</span>
+              <span>Single Photon Emitters</span>
+            </div>
+          </div>
+          <div class="sidebar-block">
+            <h3>Affiliations</h3>
+            <ul class="affiliation-list">
+              <li>University of Arizona</li>
+              <li>Formerly: Arizona State University (Tongay Lab)</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" class="section section-dark">
+    <div class="container">
+      <div class="section-label">Research</div>
+      <p class="section-subtitle">
+        My research explores the fundamental physics and practical applications
+        of low-dimensional quantum materials.
+      </p>
+      <div class="research-cards">
+        <article class="r-card">
+          <span class="r-num">01</span>
+          <h3>Rare-Earth Tritelluride Quantum Materials</h3>
+          <p>Investigating the structure, synthesis, and emergent properties
+          (charge density waves, superconductivity) of the RTe<sub>3</sub>
+          family across the full lanthanide series, including their phononic
+          behavior, surface oxidation, and environmental stability.</p>
+        </article>
+        <article class="r-card">
+          <span class="r-num">02</span>
+          <h3>Moire Superlattices &amp; Correlated Electron States</h3>
+          <p>Studying Mott insulating states and generalized Wigner crystals
+          in WSe<sub>2</sub>/WS<sub>2</sub> moire superlattices using optical
+          spectroscopy and scanning probe techniques for real-space imaging
+          of correlated electron phases.</p>
+        </article>
+        <article class="r-card">
+          <span class="r-num">03</span>
+          <h3>2D Semiconductor Synthesis &amp; Device Fabrication</h3>
+          <p>Developing scalable methods for synthesis, transfer, and
+          device integration of atomically thin semiconductors including
+          MoTe<sub>2</sub>, GeSe, and graphene nanoribbons, with applications
+          in single-photon emission and nanoelectronics.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications" class="section">
+    <div class="container">
+      <div class="section-label">Selected Publications</div>
+      <p class="section-subtitle">
+        For a full list, see my
+        <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> profile.
+      </p>
+      <div class="pub-list">
+
+        <article class="pub">
+          <time>2025</time>
+          <div>
+            <h4>Schottky Barrier Formation and Band Realignment of Rare-Earth Tritelluride Charge Density Wave Material-Semiconductor Interfaces</h4>
+            <p class="pub-meta">ResearchGate (2025)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2025</time>
+          <div>
+            <h4>Axial and Dimensional Effects on Cryogenic Magnetic Properties in ab-Plane of Van-der-Waals Antiferromagnet GdTe<sub>3</sub></h4>
+            <p class="pub-meta">ResearchGate (2025)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2024</time>
+          <div>
+            <h4>Atomically Precise Graphene Nanoribbon Transistors with Long-Term Stability and Reliability</h4>
+            <p class="pub-meta">ACS Nano (2024)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2024</time>
+          <div>
+            <h4>Scalable Etch-Free Transfer of Low-Dimensional Materials from Metal Films to Diverse Substrates</h4>
+            <p class="pub-meta">Advanced Materials (2024)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2023</time>
+          <div>
+            <h4>Experimental and Theoretical Studies of the Surface Oxidation Process of Rare-Earth Tritellurides</h4>
+            <p class="pub-meta">(2023)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2022</time>
+          <div>
+            <h4>The Phononic and Charge Density Wave Behavior of Entire Rare-Earth Tritelluride Series with Chemical Pressure and Temperature</h4>
+            <p class="pub-meta">APL Materials 10, 111112 (2022)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2022</time>
+          <div>
+            <h4>Brightening of a Dark Monolayer Semiconductor via Strong Light-Matter Coupling in a Cavity</h4>
+            <p class="pub-meta">Nature Communications 13, 3036 (2022)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2021</time>
+          <div>
+            <h4>Imaging Two-Dimensional Generalized Wigner Crystals</h4>
+            <p class="pub-meta">Nature 597, 73-78 (2021)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2021</time>
+          <div>
+            <h4>Advances in Rare-Earth Tritelluride Quantum Materials: Structure, Properties, and Synthesis</h4>
+            <p class="pub-meta">Advanced Science 8(12), 2004762 (2021)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2020</time>
+          <div>
+            <h4>Mott and Generalized Wigner Crystal States in WSe<sub>2</sub>/WS<sub>2</sub> Moire Superlattices</h4>
+            <p class="pub-meta">Nature 579, 359-363 (2020)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2020</time>
+          <div>
+            <h4>The Synthesis of Competing Phase GeSe and GeSe<sub>2</sub> 2D Layered Materials</h4>
+            <p class="pub-meta">RSC Advances 10, 38227 (2020)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2020</time>
+          <div>
+            <h4>Low-Temperature Synthesis of 2D Anisotropic MoTe<sub>2</sub> Using a High-Pressure Soft Sputtering Technique</h4>
+            <p class="pub-meta">Nanoscale Advances 2, 1443 (2020)</p>
+          </div>
+        </article>
+
+        <article class="pub">
+          <time>2019</time>
+          <div>
+            <h4>Strain-Tunable Single Photon Sources in WSe<sub>2</sub> Monolayers</h4>
+            <p class="pub-meta">(2019)</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section section-dark">
+    <div class="container">
+      <div class="section-label">Contact</div>
+      <div class="contact-layout">
+        <div class="contact-block">
+          <h3>Email</h3>
+          <a href="mailto:kyumiget@arizona.edu">kyumiget@arizona.edu</a>
+        </div>
+        <div class="contact-block">
+          <h3>Address</h3>
+          <p>Department of Materials Science &amp; Engineering<br>
+          University of Arizona<br>
+          Tucson, AZ 85721, USA</p>
+        </div>
+        <div class="contact-block">
+          <h3>Profiles</h3>
+          <div class="contact-profiles">
+            <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+            <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener">ORCID</a>
+            <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener">ResearchGate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Kentaro Yumigeta</p>
     </div>
   </footer>
 
   <script>
-    const toggle = document.querySelector('.nav-toggle');
-    const links = document.querySelector('.nav-links');
-    toggle.addEventListener('click', () => {
-      links.classList.toggle('active');
-      toggle.classList.toggle('active');
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('open');
     });
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        links.classList.remove('active');
-        toggle.classList.remove('active');
+    document.querySelectorAll('#nav-menu a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        hamburger.classList.remove('open');
       });
     });
-
-    const header = document.querySelector('.site-header');
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 50);
+      const y = window.scrollY;
+      navbar.classList.toggle('scrolled', y > 60);
+      navbar.classList.toggle('hidden', y > lastScroll && y > 300);
+      lastScroll = y;
     });
   </script>
 </body>
