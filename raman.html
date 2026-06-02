@@ -32,33 +32,55 @@
     <h1>How Raman Spectroscopy Works</h1>
     <p>
       Raman scattering reveals the vibrational fingerprint of a material — a workhorse
-      technique in 2D materials and condensed matter physics. Explore the physics below
-      through three interactive views: the classical origin of the signal, the quantum
-      energy-level picture, and the molecular vibrations themselves.
+      technique in 2D materials and condensed matter physics. The key rule: a vibration
+      is <em>Raman-active only if it changes the molecule's polarizability</em>. Explore
+      that link below, then see the quantum energy-level picture.
     </p>
     <a href="index.html" class="back-link">&larr; Back to home</a>
   </header>
 
-  <!-- ── 1. Classical picture ── -->
+  <!-- ── 1. Vibration → polarizability → signal (unified) ── -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">01 — Classical picture</span>
-      <h2>Vibration modulates the induced dipole</h2>
+      <span class="demo-num">01 — From molecular vibration to the Raman signal</span>
+      <h2>How a vibration modulates the polarizability</h2>
       <p>
-        An incident light wave <b>E(t)</b> drives an oscillating dipole in the molecule,
-        <b>p(t) = α(t)·E(t)</b>. Because the molecular vibration periodically changes the
-        polarizability α, the dipole becomes <em>amplitude-modulated</em>. That modulation
-        creates two sidebands around the laser frequency — the <b>Stokes</b> and
-        <b>anti-Stokes</b> Raman lines. Drag the sliders and watch the spectrum respond.
+        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates on the left, and the
+        electron cloud (its <b>polarizability α</b>) breathes <em>in sync</em> on the right.
+        That changing α modulates the dipole induced by the laser field,
+        <b>p(t) = α(t)·E(t)</b> — and the modulation creates the <b>Stokes</b> and
+        <b>anti-Stokes</b> sidebands. Everything below shares one clock: the vertical
+        <span style="color:#fbbf24">“now”</span> line marks the instant shown by the molecule.
       </p>
     </div>
     <div class="demo-stage">
+
+      <div class="vib-stage">
+        <div class="vib-mol">
+          <canvas id="c-molecule"></canvas>
+        </div>
+        <div class="vib-side">
+          <div class="alpha-readout">
+            <span class="ar-label">Polarizability α</span>
+            <div class="ar-bar"><div class="ar-fill" id="ar-fill"></div></div>
+          </div>
+          <div id="activity-badge" class="mol-activity"></div>
+          <p class="mol-cap" id="mol-cap"></p>
+        </div>
+      </div>
+
+      <div class="btn-row" id="mol-btns" style="margin:16px 0 4px;">
+        <button class="demo-btn active" data-mode="sym">Symmetric stretch</button>
+        <button class="demo-btn" data-mode="asym">Asymmetric stretch</button>
+        <button class="demo-btn" data-mode="bend">Bend</button>
+      </div>
+
       <div class="trace-row">
         <div class="trace-label"><b>Incident field</b><span class="eq">E(t) = E₀ cos(ω₀t)</span></div>
         <canvas id="c-field"></canvas>
       </div>
       <div class="trace-row">
-        <div class="trace-label"><b>Polarizability</b><span class="eq">α(t) = α₀ + α′·q(t)</span></div>
+        <div class="trace-label"><b>Polarizability</b><span class="eq">α(t) = α₀ + (∂α/∂Q)·q(t)</span></div>
         <canvas id="c-alpha"></canvas>
       </div>
       <div class="trace-row">
@@ -83,7 +105,7 @@
           <input type="range" id="ctrl-vib" min="0.4" max="3" step="0.05" value="1.2">
         </div>
         <div class="control">
-          <label>Modulation depth α′ <span class="val" id="v-mod">—</span></label>
+          <label>Polarizability change ∂α/∂Q <span class="val" id="v-mod">—</span></label>
           <input type="range" id="ctrl-mod" min="0" max="1" step="0.02" value="0.6">
         </div>
         <div class="btn-row">
@@ -118,31 +140,6 @@
     </div>
   </section>
 
-  <!-- ── 3. Molecular vibrations ── -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">03 — Molecular vibrations</span>
-      <h2>Normal modes of a linear triatomic (e.g. CO₂)</h2>
-      <p>
-        Only vibrations that change the molecule's polarizability are <em>Raman-active</em>.
-        For a centrosymmetric molecule, the symmetric stretch is Raman-active while the
-        asymmetric stretch and bend are IR-active (the mutual exclusion rule). Pick a mode
-        to see it move.
-      </p>
-    </div>
-    <div class="demo-stage">
-      <div class="mol-wrap"><canvas id="c-molecule"></canvas></div>
-      <div class="controls">
-        <div class="btn-row" id="mol-btns">
-          <button class="demo-btn active" data-mode="sym">Symmetric stretch</button>
-          <button class="demo-btn" data-mode="asym">Asymmetric stretch</button>
-          <button class="demo-btn" data-mode="bend">Bend</button>
-        </div>
-      </div>
-      <p class="mol-cap" id="mol-cap"></p>
-    </div>
-  </section>
-
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Kentaro Yumigeta</p>
@@ -150,7 +147,6 @@
   </footer>
 
   <script>
-    // shared navbar behaviour
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('nav-menu');
     hamburger.addEventListener('click', () => {

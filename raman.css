@@ -110,14 +110,42 @@ input[type=range]::-moz-range-thumb {
 .svg-wrap { width: 100%; }
 .svg-wrap svg { width: 100%; height: auto; display: block; }
 
-/* Molecule */
-.mol-wrap canvas { height: 230px; }
+/* Unified vibration stage */
+.vib-stage {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;
+  align-items: center;
+}
+.vib-mol canvas {
+  width: 100%; height: 200px; display: block;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+}
+.vib-side { display: flex; flex-direction: column; gap: 12px; }
+.alpha-readout { }
+.ar-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--c-text-secondary);
+}
+.ar-bar {
+  margin-top: 6px; height: 10px; border-radius: 6px;
+  background: rgba(255,255,255,0.08); overflow: hidden;
+}
+.ar-fill {
+  height: 100%; width: 50%; border-radius: 6px;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  transition: width 0.05s linear;
+}
 .mol-activity {
-  display: inline-block; font-size: 0.72rem; font-weight: 700;
-  padding: 3px 10px; border-radius: 100px; margin-top: 10px;
+  display: inline-block; align-self: flex-start;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 100px;
 }
 .mol-activity.raman { background: #064e3b; color: #6ee7b7; }
 .mol-activity.ir { background: #422006; color: #fbbf24; }
+.mol-cap { font-size: 0.8rem; color: #a8a29e; line-height: 1.6; margin: 0; }
+
+input[type=range]:disabled { opacity: 0.4; cursor: not-allowed; }
+input[type=range]:disabled::-webkit-slider-thumb { background: #78716c; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 0.76rem; color: #a8a29e; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -127,4 +155,5 @@ input[type=range]::-moz-range-thumb {
   .trace-row { grid-template-columns: 1fr; gap: 6px; }
   .trace-label { display: flex; gap: 8px; align-items: baseline; }
   .control { min-width: 100%; }
+  .vib-stage { grid-template-columns: 1fr; }
 }
