@@ -240,6 +240,17 @@ body {
   font-size: 0.85rem; color: #a8a29e; line-height: 1.7;
 }
 
+.research-cta {
+  display: inline-flex; align-items: center; margin-top: 28px;
+  font-size: 0.9rem; font-weight: 600; text-decoration: none;
+  color: #fbbf24; padding: 11px 22px; border-radius: 100px;
+  border: 1px solid rgba(251,191,36,0.4); transition: all 0.2s;
+}
+.research-cta:hover {
+  background: rgba(251,191,36,0.12); border-color: #fbbf24;
+  color: #fde68a !important; transform: translateX(3px);
+}
+
 /* ── Publications ── */
 .pub-list { max-width: 720px; }
 

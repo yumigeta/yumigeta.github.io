@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Raman Spectroscopy | Kentaro Yumigeta</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="raman.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">KY</a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="raman.html" aria-current="page">Raman</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="raman-hero">
+    <p class="eyebrow">Interactive Demo</p>
+    <h1>How Raman Spectroscopy Works</h1>
+    <p>
+      Raman scattering reveals the vibrational fingerprint of a material — a workhorse
+      technique in 2D materials and condensed matter physics. Explore the physics below
+      through three interactive views: the classical origin of the signal, the quantum
+      energy-level picture, and the molecular vibrations themselves.
+    </p>
+    <a href="index.html" class="back-link">&larr; Back to home</a>
+  </header>
+
+  <!-- ── 1. Classical picture ── -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">01 — Classical picture</span>
+      <h2>Vibration modulates the induced dipole</h2>
+      <p>
+        An incident light wave <b>E(t)</b> drives an oscillating dipole in the molecule,
+        <b>p(t) = α(t)·E(t)</b>. Because the molecular vibration periodically changes the
+        polarizability α, the dipole becomes <em>amplitude-modulated</em>. That modulation
+        creates two sidebands around the laser frequency — the <b>Stokes</b> and
+        <b>anti-Stokes</b> Raman lines. Drag the sliders and watch the spectrum respond.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="trace-row">
+        <div class="trace-label"><b>Incident field</b><span class="eq">E(t) = E₀ cos(ω₀t)</span></div>
+        <canvas id="c-field"></canvas>
+      </div>
+      <div class="trace-row">
+        <div class="trace-label"><b>Polarizability</b><span class="eq">α(t) = α₀ + α′·q(t)</span></div>
+        <canvas id="c-alpha"></canvas>
+      </div>
+      <div class="trace-row">
+        <div class="trace-label"><b>Induced dipole</b><span class="eq">p(t) = α(t)·E(t)</span></div>
+        <canvas id="c-dipole"></canvas>
+      </div>
+
+      <div class="spectrum-wrap">
+        <canvas id="c-spectrum"></canvas>
+        <p class="cap" id="spec-cap"></p>
+      </div>
+
+      <div class="legend">
+        <span><i style="background:#16a34a"></i> Rayleigh (ω₀)</span>
+        <span><i style="background:#ef4444"></i> Stokes (ω₀−ω<sub>v</sub>)</span>
+        <span><i style="background:#3b82f6"></i> anti-Stokes (ω₀+ω<sub>v</sub>)</span>
+      </div>
+
+      <div class="controls">
+        <div class="control">
+          <label>Vibrational frequency ω<sub>v</sub> <span class="val" id="v-vib">—</span></label>
+          <input type="range" id="ctrl-vib" min="0.4" max="3" step="0.05" value="1.2">
+        </div>
+        <div class="control">
+          <label>Modulation depth α′ <span class="val" id="v-mod">—</span></label>
+          <input type="range" id="ctrl-mod" min="0" max="1" step="0.02" value="0.6">
+        </div>
+        <div class="btn-row">
+          <button class="demo-btn active" id="btn-play">Pause</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2. Jablonski diagram ── -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">02 — Quantum picture</span>
+      <h2>Energy-level (Jablonski) diagram</h2>
+      <p>
+        A photon excites the molecule to a short-lived <em>virtual state</em>, then a
+        photon is scattered as it relaxes. Where it lands sets the scattered energy:
+        same level (<b>Rayleigh</b>), a higher vibrational level (<b>Stokes</b>, red-shifted),
+        or back down from an excited level (<b>anti-Stokes</b>, blue-shifted).
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="svg-wrap" id="jab-wrap"></div>
+      <div class="controls">
+        <div class="btn-row" id="jab-btns">
+          <button class="demo-btn active" data-proc="rayleigh">Rayleigh</button>
+          <button class="demo-btn" data-proc="stokes">Stokes</button>
+          <button class="demo-btn" data-proc="antistokes">anti-Stokes</button>
+        </div>
+      </div>
+      <p class="jab-cap" id="jab-cap"></p>
+    </div>
+  </section>
+
+  <!-- ── 3. Molecular vibrations ── -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03 — Molecular vibrations</span>
+      <h2>Normal modes of a linear triatomic (e.g. CO₂)</h2>
+      <p>
+        Only vibrations that change the molecule's polarizability are <em>Raman-active</em>.
+        For a centrosymmetric molecule, the symmetric stretch is Raman-active while the
+        asymmetric stretch and bend are IR-active (the mutual exclusion rule). Pick a mode
+        to see it move.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="mol-wrap"><canvas id="c-molecule"></canvas></div>
+      <div class="controls">
+        <div class="btn-row" id="mol-btns">
+          <button class="demo-btn active" data-mode="sym">Symmetric stretch</button>
+          <button class="demo-btn" data-mode="asym">Asymmetric stretch</button>
+          <button class="demo-btn" data-mode="bend">Bend</button>
+        </div>
+      </div>
+      <p class="mol-cap" id="mol-cap"></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Kentaro Yumigeta</p>
+    </div>
+  </footer>
+
+  <script>
+    // shared navbar behaviour
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+  </script>
+  <script src="raman.js"></script>
+</body>
+</html>

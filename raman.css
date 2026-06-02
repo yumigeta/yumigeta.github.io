@@ -1,0 +1,130 @@
+/* ── Raman interactive demo page ── builds on style.css design tokens ── */
+
+.raman-hero {
+  padding: 110px 24px 40px;
+  text-align: center;
+  background: var(--c-bg);
+}
+.raman-hero .eyebrow {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--c-accent); margin-bottom: 14px;
+}
+.raman-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700; color: var(--c-text);
+  letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px;
+}
+.raman-hero p {
+  max-width: 620px; margin: 0 auto;
+  color: var(--c-text-secondary); font-size: 1.02rem; line-height: 1.7;
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 24px; font-size: 0.85rem; font-weight: 600;
+  color: var(--c-accent); text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* Demo module shell */
+.demo {
+  max-width: 820px; margin: 0 auto; padding: 48px 24px;
+}
+.demo + .demo { border-top: 1px solid var(--c-border); }
+
+.demo-head { margin-bottom: 24px; }
+.demo-num {
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  color: var(--c-accent);
+}
+.demo-head h2 {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+  color: var(--c-text); margin: 4px 0 8px; line-height: 1.25;
+}
+.demo-head p { color: var(--c-text-secondary); font-size: 0.92rem; line-height: 1.7; }
+
+.demo-stage {
+  background: var(--c-bg-dark); border-radius: var(--r);
+  padding: 20px; color: #e7e5e4;
+}
+
+/* Controls */
+.controls {
+  display: flex; flex-wrap: wrap; gap: 18px 28px;
+  align-items: center; margin-top: 18px;
+}
+.control { display: flex; flex-direction: column; gap: 6px; min-width: 180px; flex: 1; }
+.control label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--c-text-secondary);
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.control label .val { color: var(--c-accent); font-variant-numeric: tabular-nums; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 4px; background: var(--c-border);
+  outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--c-accent); cursor: pointer; border: none;
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--c-accent); cursor: pointer; border: none;
+}
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.demo-btn {
+  font-family: var(--font-body); font-size: 0.8rem; font-weight: 600;
+  padding: 8px 16px; border-radius: 100px; cursor: pointer;
+  background: var(--c-surface); color: var(--c-text);
+  border: 1px solid var(--c-border); transition: all 0.18s;
+}
+.demo-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.demo-btn.active {
+  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+}
+
+/* Canvas trace rows */
+.trace-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
+.trace-label { font-size: 0.78rem; line-height: 1.4; color: #d6d3d1; }
+.trace-label b { color: #fafaf9; }
+.trace-label .eq { display: block; font-size: 0.72rem; color: #a8a29e; margin-top: 2px; }
+.trace-row canvas, .spectrum-wrap canvas, .svg-wrap, .mol-wrap canvas {
+  width: 100%; display: block;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+}
+.trace-row canvas { height: 74px; }
+
+.spectrum-wrap { margin-top: 16px; }
+.spectrum-wrap canvas { height: 150px; }
+.spectrum-wrap .cap, .mol-cap, .jab-cap {
+  font-size: 0.8rem; color: #a8a29e; margin-top: 10px; line-height: 1.6;
+}
+
+/* Jablonski */
+.svg-wrap { width: 100%; }
+.svg-wrap svg { width: 100%; height: auto; display: block; }
+
+/* Molecule */
+.mol-wrap canvas { height: 230px; }
+.mol-activity {
+  display: inline-block; font-size: 0.72rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px; margin-top: 10px;
+}
+.mol-activity.raman { background: #064e3b; color: #6ee7b7; }
+.mol-activity.ir { background: #422006; color: #fbbf24; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 0.76rem; color: #a8a29e; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+@media (max-width: 600px) {
+  .trace-row { grid-template-columns: 1fr; gap: 6px; }
+  .trace-label { display: flex; gap: 8px; align-items: baseline; }
+  .control { min-width: 100%; }
+}
