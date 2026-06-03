@@ -754,6 +754,7 @@
 
   // ================================================================
   //  Module 03 — Quantum confinement: graphene nanoribbons
+  //  Uses the actual tight-binding band structure (not linearized).
   // ================================================================
   (function () {
     var realC = document.getElementById('c-gnr-real');
@@ -764,31 +765,40 @@
     var classDiv = document.getElementById('gnr-class');
     if (!realC) return;
 
-    var A_SPACING = 3.6;   // transverse momentum spacing Δ = A_SPACING / N
-    var EMAX = 1.0;        // energy window (ħv_F = 1, so E = ±√(k² + k⊥²))
-    var SUB = ['#fbbf24', '#fb923c', '#f87171', '#c084fc', '#60a5fa', '#34d399'];
+    var SUB = ['#fbbf24','#fb923c','#f87171','#c084fc','#60a5fa','#34d399',
+               '#f472b6','#a3e635','#22d3ee'];
 
-    function params(N) {
-      var delta = (N % 3 === 2) ? 0 : 1/3;   // armchair rule: N=3m+2 → metallic
-      var dK = A_SPACING / N;
+    var KPx = 4*PI/(3*a);
+
+    function gnrParams(N) {
+      var dk = 2*PI / (N*a);
+      var delta = (N % 3 === 2) ? 0 : 1/3;
       var metallic = (delta === 0);
-      var kmin = metallic ? 0 : dK/3;        // min |k⊥| = (δ)·dK, δ = 1/3
-      return { N:N, delta:delta, dK:dK, metallic:metallic, gap:2*kmin, kmin:kmin };
+      var kpMin = metallic ? 0 : delta * dk;
+      return { N:N, dk:dk, delta:delta, metallic:metallic, kpMin:kpMin };
     }
 
-    // Distinct non-negative |k⊥| ladder values within the energy window.
-    function ladder(p) {
-      var seen = {}, out = [];
-      for (var j = -16; j <= 16; j++) {
-        var k = Math.abs((j + p.delta) * p.dK);
-        var key = k.toFixed(4);
-        if (!seen[key] && k <= EMAX + 1e-9) { seen[key] = 1; out.push(k); }
+    function allCutLines(p, maxK) {
+      var out = [];
+      for (var j = -40; j <= 40; j++) {
+        var k = (j + p.delta) * p.dk;
+        if (abs(k) <= maxK + 1e-9) out.push(k);
       }
-      out.sort(function (a, b) { return a - b; });
       return out;
     }
 
-    // ── Real-space: confined transverse standing-wave modes ──
+    function ladderAbs(p, maxK) {
+      var seen = {}, out = [];
+      for (var j = -40; j <= 40; j++) {
+        var k = abs((j + p.delta) * p.dk);
+        var key = k.toFixed(6);
+        if (!seen[key] && k <= maxK + 1e-9) { seen[key] = 1; out.push(k); }
+      }
+      out.sort(function(a,b){ return a-b; });
+      return out;
+    }
+
+    // ── Standing-wave modes (unchanged) ──
     function drawReal() {
       var o = dpr(realC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
@@ -799,25 +809,20 @@
 
       ctx.font = '600 11px "DM Sans", sans-serif';
       ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
-      ctx.fillText('Confined transverse modes  ψₙ ∝ sin(nπy/W)', boxL, 14);
+      ctx.fillText('Confined modes  ψₙ ∝ sin(nπy/W)', boxL, 14);
 
       for (var n = 1; n <= modes; n++) {
         var midY = padT + laneH * (n - 0.5);
         var amp = laneH * 0.32;
-        // confining walls
         ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(boxL, midY - laneH*0.42); ctx.lineTo(boxL, midY + laneH*0.42);
         ctx.moveTo(boxR, midY - laneH*0.42); ctx.lineTo(boxR, midY + laneH*0.42); ctx.stroke();
-        // baseline
         ctx.strokeStyle = 'rgba(255,255,255,0.08)';
         ctx.beginPath(); ctx.moveTo(boxL, midY); ctx.lineTo(boxR, midY); ctx.stroke();
-        // standing wave
         ctx.strokeStyle = SUB[n-1]; ctx.lineWidth = 2;
         ctx.beginPath();
         for (var s = 0; s <= 60; s++) {
-          var f = s / 60;
-          var x = boxL + f * boxW;
-          var y = midY - amp * Math.sin(n * PI * f);
+          var f = s / 60, x = boxL + f * boxW, y = midY - amp * sin(n*PI*f);
           if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
@@ -826,129 +831,261 @@
       }
     }
 
-    // ── k-space: Dirac cone cross-sections + cutting lines ──
-    function drawCut(p) {
-      var o = dpr(cutC), ctx = o.ctx, W = o.w, H = o.h;
-      ctx.clearRect(0, 0, W, H);
-      var cx = W/2, cy = H/2;
-      var sc = min(W, H) * 0.40 / EMAX;   // k-units → px
+    // ── 3D Dirac cone with tight-binding surface + cutting lines ──
+    var CKR = 1.6;
+    var CMN = 24;
+    var cutPhi = PI/5;
+    var CUT_THETA = 32*PI/180;
+    var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
-      ctx.font = '600 11px "DM Sans", sans-serif';
-      ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
-      ctx.fillText('Cutting lines through the Dirac cone', 10, 14);
-
-      // constant-energy circles
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
-      [0.25, 0.5, 0.75, 1.0].forEach(function (e) {
-        ctx.beginPath(); ctx.arc(cx, cy, e*sc, 0, 2*PI); ctx.stroke();
-      });
-      // axes
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      ctx.beginPath(); ctx.moveTo(cx-EMAX*sc, cy); ctx.lineTo(cx+EMAX*sc, cy);
-      ctx.moveTo(cx, cy-EMAX*sc); ctx.lineTo(cx, cy+EMAX*sc); ctx.stroke();
-
-      // allowed horizontal cutting lines k⊥ = (j+δ)·dK
-      for (var j = -16; j <= 16; j++) {
-        var k = (j + p.delta) * p.dK;
-        if (Math.abs(k) > EMAX) continue;
-        var y = cy - k * sc;
-        var isMin = Math.abs(Math.abs(k) - p.kmin) < 1e-9;
-        ctx.strokeStyle = isMin ? (p.metallic ? '#34d399' : '#fbbf24')
-                                : 'rgba(96,165,250,0.5)';
-        ctx.lineWidth = isMin ? 2 : 1;
-        ctx.beginPath(); ctx.moveTo(cx-EMAX*sc, y); ctx.lineTo(cx+EMAX*sc, y); ctx.stroke();
-      }
-
-      // Dirac point
-      ctx.fillStyle = '#fde68a';
-      ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2*PI); ctx.fill();
-      ctx.fillStyle = '#fde68a'; ctx.font = '600 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'left'; ctx.fillText('Dirac point', cx+7, cy-6);
-
-      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'right'; ctx.fillText('k⊥', cx-6, cy-EMAX*sc+10);
-      ctx.textAlign = 'left';  ctx.fillText('k∥', cx+EMAX*sc-14, cy+14);
+    function lerpC(a, b, t) { return a + (b-a)*t; }
+    function coneCol(e, eMax) {
+      var t = max(-1, min(1, e/eMax)), r, g, b;
+      if (t >= 0) { r = lerpC(254,220,t); g = lerpC(243,38,t); b = lerpC(199,38,t); }
+      else { var u = -t; r = lerpC(207,37,u); g = lerpC(250,99,u); b = lerpC(254,235,u); }
+      return [r,g,b];
     }
 
-    // ── 1D subband structure E(k∥) ──
-    function drawBands(p) {
-      var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
+    var coneVerts = null, coneT = null, coneMaxE = 1;
+    function buildConeVerts() {
+      if (coneVerts && coneT === tHop) return;
+      var N = CMN; coneVerts = []; coneMaxE = 0.001;
+      for (var i = 0; i <= N; i++) {
+        for (var j = 0; j <= N; j++) {
+          var dkx = -CKR + 2*CKR*i/N, dky = -CKR + 2*CKR*j/N;
+          var ep = bandE(KPx + dkx, dky);
+          if (ep > coneMaxE) coneMaxE = ep;
+          coneVerts.push({x:dkx, y:dky, ep:ep});
+        }
+      }
+      coneT = tHop;
+    }
+
+    function drawCone(p) {
+      buildConeVerts();
+      var o = dpr(cutC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      var pad = {l:46, r:16, t:18, b:28};
-      var pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
-      function sx(k) { return pad.l + (k + 1)/2 * pw; }
-      function sy(e) { return pad.t + (1 - (e + EMAX)/(2*EMAX)) * ph; }
+      var N = CMN, verts = coneVerts, maxEp = coneMaxE;
 
-      // grid + zero line
-      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
-      [-1,-0.5,0.5,1].forEach(function (e){ ctx.beginPath(); ctx.moveTo(pad.l, sy(e)); ctx.lineTo(pad.l+pw, sy(e)); ctx.stroke(); });
-      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-      ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
+      var cosT = cos(CUT_THETA), sinT = sin(CUT_THETA);
+      var cosP = cos(cutPhi), sinP = sin(cutPhi);
+      var kSc = 0.42/CKR, eSc = 0.36/maxEp;
+      var vSc = min(W,H) * 0.82;
+      var Lx=0.35, Ly=0.55, Lz=0.75;
+      var Lm = sqrt(Lx*Lx+Ly*Ly+Lz*Lz); Lx/=Lm; Ly/=Lm; Lz/=Lm;
 
-      // bounding Dirac cone E = ±|k| (continuous 2D limit)
-      ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(sx(-1), sy(1)); ctx.lineTo(sx(0), sy(0)); ctx.lineTo(sx(1), sy(1));
-      ctx.moveTo(sx(-1), sy(-1)); ctx.lineTo(sx(0), sy(0)); ctx.lineTo(sx(1), sy(-1));
-      ctx.stroke(); ctx.setLineDash([]);
+      function proj(x, y, z) {
+        var xr=x*kSc, yr=y*kSc, zr=z*eSc;
+        var x1=xr*cosP-yr*sinP, y1=xr*sinP+yr*cosP;
+        var y2=y1*cosT+zr*sinT, z2=zr*cosT-y1*sinT;
+        return {sx:W/2+x1*vSc, sy:H/2-y2*vSc, depth:z2, x2:x1, y2:y2, z2:z2};
+      }
 
-      // subbands E = ±√(k² + k⊥²)
-      var ks = ladder(p);
-      for (var i = ks.length - 1; i >= 0; i--) {
-        var kp = ks[i];
-        var col = (i === 0) ? '#fbbf24' : SUB[Math.min(SUB.length-1, i)];
-        ctx.strokeStyle = col; ctx.lineWidth = (i === 0) ? 2.4 : 1.4;
-        for (var sgn = 1; sgn >= -1; sgn -= 2) {
-          ctx.beginPath();
-          for (var s = 0; s <= 120; s++) {
-            var k = -1 + 2*s/120;
-            var e = sgn * sqrt(k*k + kp*kp);
-            if (e > EMAX || e < -EMAX) { ctx.stroke(); ctx.beginPath(); continue; }
-            var X = sx(k), Y = sy(e);
-            if (s === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+      var draws = [];
+
+      for (var i = 0; i < N; i++) {
+        for (var j = 0; j < N; j++) {
+          var idx = i*(N+1)+j;
+          var q = [idx, idx+1, idx+N+2, idx+N+1];
+          for (var band = -1; band <= 1; band += 2) {
+            var ps = [];
+            for (var k = 0; k < 4; k++) {
+              var v = verts[q[k]];
+              ps.push(proj(v.x, v.y, band*v.ep));
+            }
+            var ax=ps[2].x2-ps[0].x2, ay=ps[2].y2-ps[0].y2, az=ps[2].z2-ps[0].z2;
+            var bx=ps[3].x2-ps[1].x2, by=ps[3].y2-ps[1].y2, bz=ps[3].z2-ps[1].z2;
+            var nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx;
+            var nm=sqrt(nx*nx+ny*ny+nz*nz)||1;
+            var ndl=abs((nx*Lx+ny*Ly+nz*Lz)/nm);
+            var bright=0.30+0.70*ndl;
+            var eAvg=band*(verts[q[0]].ep+verts[q[1]].ep+verts[q[2]].ep+verts[q[3]].ep)/4;
+            draws.push({t:0, p:ps,
+              depth:(ps[0].depth+ps[1].depth+ps[2].depth+ps[3].depth)/4,
+              e:eAvg, bright:bright});
           }
-          ctx.stroke();
         }
       }
 
-      // gap markers
+      var lines = allCutLines(p, CKR);
+      var LSAMP = 44;
+      for (var li = 0; li < lines.length; li++) {
+        var ky = lines[li];
+        var isNearest = abs(abs(ky) - p.kpMin) < 1e-6;
+        var isThru = abs(ky) < 1e-6 && p.metallic;
+        var col = isThru ? '#34d399' : isNearest ? '#fbbf24' : 'rgba(96,165,250,0.85)';
+        var lw = (isNearest || isThru) ? 2.5 : 1.2;
+        for (var band = -1; band <= 1; band += 2) {
+          for (var s = 0; s < LSAMP; s++) {
+            var dkx1=-CKR+2*CKR*s/LSAMP, dkx2=-CKR+2*CKR*(s+1)/LSAMP;
+            var e1=band*bandE(KPx+dkx1,ky), e2=band*bandE(KPx+dkx2,ky);
+            var p1=proj(dkx1,ky,e1), p2=proj(dkx2,ky,e2);
+            draws.push({t:1, p1:p1, p2:p2,
+              depth:(p1.depth+p2.depth)/2+0.001, col:col, lw:lw});
+          }
+        }
+      }
+
+      draws.sort(function(a,b){ return a.depth - b.depth; });
+
+      for (var i = 0; i < draws.length; i++) {
+        var d = draws[i];
+        if (d.t === 0) {
+          var c = coneCol(d.e, maxEp);
+          var r = min(255, c[0]*d.bright)|0, g = min(255, c[1]*d.bright)|0, bl = min(255, c[2]*d.bright)|0;
+          ctx.fillStyle = 'rgb('+r+','+g+','+bl+')';
+          ctx.beginPath();
+          ctx.moveTo(d.p[0].sx, d.p[0].sy);
+          ctx.lineTo(d.p[1].sx, d.p[1].sy);
+          ctx.lineTo(d.p[2].sx, d.p[2].sy);
+          ctx.lineTo(d.p[3].sx, d.p[3].sy);
+          ctx.closePath(); ctx.fill();
+        } else {
+          ctx.strokeStyle = d.col; ctx.lineWidth = d.lw;
+          ctx.beginPath(); ctx.moveTo(d.p1.sx, d.p1.sy); ctx.lineTo(d.p2.sx, d.p2.sy); ctx.stroke();
+        }
+      }
+
+      var dp = proj(0, 0, 0);
+      ctx.beginPath(); ctx.arc(dp.sx, dp.sy, 3.5, 0, 2*PI);
+      ctx.fillStyle = '#fde68a'; ctx.fill();
+
+      ctx.fillStyle = '#a8a29e'; ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Cutting lines on Dirac cone', 6, 13);
+    }
+
+    // ── Pointer interaction for 3D cone ──
+    cutC.style.cursor = 'grab';
+    cutC.style.touchAction = 'none';
+    cutC.addEventListener('pointerdown', function(e) {
+      cutDrag = true; cutLastX = e.clientX; cutLastY = e.clientY;
+      cutC.setPointerCapture(e.pointerId);
+      cutC.style.cursor = 'grabbing';
+    });
+    cutC.addEventListener('pointermove', function(e) {
+      if (!cutDrag) return;
+      cutPhi += (e.clientX - cutLastX) * 0.008;
+      CUT_THETA = max(0.12, min(PI/2-0.02, CUT_THETA - (e.clientY - cutLastY)*0.008));
+      cutLastX = e.clientX; cutLastY = e.clientY;
+    });
+    function endCutDrag() { cutDrag = false; cutC.style.cursor = 'grab'; }
+    cutC.addEventListener('pointerup', endCutDrag);
+    cutC.addEventListener('pointercancel', endCutDrag);
+
+    // ── 1D subbands from actual tight-binding dispersion ──
+    function drawSubbands(p) {
+      var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
+      ctx.clearRect(0, 0, W, H);
+
+      var kR = 1.5;
+      var ks = ladderAbs(p, CKR);
+      var NSAMP = 200;
+      var maxE = 0.001;
+      for (var li = 0; li < ks.length; li++) {
+        for (var s = 0; s <= NSAMP; s++) {
+          var dk = -kR + 2*kR*s/NSAMP;
+          var e = bandE(KPx + dk, ks[li]);
+          if (e > maxE) maxE = e;
+        }
+      }
+      maxE *= 1.08;
+
+      var pad = {l:46, r:16, t:18, b:28};
+      var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
+      function sx(dk) { return pad.l + (dk+kR)/(2*kR)*pw; }
+      function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+      var step = parseFloat((maxE/3).toPrecision(1));
+      if (step < 0.1) step = 0.1;
+      for (var e = -maxE; e <= maxE+0.01; e += step) {
+        if (abs(e) < step*0.05) continue;
+        ctx.beginPath(); ctx.moveTo(pad.l, sy(e)); ctx.lineTo(pad.l+pw, sy(e)); ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
+
+      for (var li = ks.length-1; li >= 0; li--) {
+        var kp = ks[li];
+        var isFirst = (li === 0);
+        var col = isFirst ? (p.metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, li)];
+        ctx.strokeStyle = col;
+        ctx.lineWidth = isFirst ? 2.2 : 1.3;
+        for (var sgn = -1; sgn <= 1; sgn += 2) {
+          ctx.beginPath();
+          var started = false;
+          for (var s = 0; s <= NSAMP; s++) {
+            var dk = -kR + 2*kR*s/NSAMP;
+            var e = sgn * bandE(KPx + dk, kp);
+            if (abs(e) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
+            if (!started) { ctx.moveTo(sx(dk), sy(e)); started = true; }
+            else ctx.lineTo(sx(dk), sy(e));
+          }
+          if (started) ctx.stroke();
+        }
+      }
+
       if (!p.metallic) {
+        var gapE = bandE(KPx, p.kpMin);
         ctx.strokeStyle = 'rgba(251,191,36,0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(pad.l, sy(p.kmin)); ctx.lineTo(pad.l+pw, sy(p.kmin));
-        ctx.moveTo(pad.l, sy(-p.kmin)); ctx.lineTo(pad.l+pw, sy(-p.kmin)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pad.l, sy(gapE)); ctx.lineTo(pad.l+pw, sy(gapE));
+        ctx.moveTo(pad.l, sy(-gapE)); ctx.lineTo(pad.l+pw, sy(-gapE)); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('E_g', pad.l + pw - 30, sy(0) - 4);
+        ctx.fillText('Eg = ' + (2*gapE).toFixed(2) + ' eV', pad.l + pw - 80, sy(0) - 4);
       }
 
-      // labels
       ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'center'; ctx.fillText('k∥', pad.l + pw/2, H - 8);
-      ctx.save(); ctx.translate(12, pad.t + ph/2); ctx.rotate(-PI/2);
-      ctx.fillText('E', 0, 0); ctx.restore();
+      ctx.textAlign = 'center'; ctx.fillText('k∥ (from K)', pad.l + pw/2, H-8);
+      ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
+      ctx.fillText('E (eV)', 0, 0); ctx.restore();
+
+      ctx.textAlign = 'right'; ctx.font = '500 9px "DM Sans", sans-serif';
+      ctx.fillStyle = '#a8a29e';
+      for (var e = -maxE; e <= maxE+0.01; e += step) {
+        if (abs(e) < step*0.05) continue;
+        ctx.fillText(e.toFixed(1), pad.l-5, sy(e)+3);
+      }
+      ctx.fillStyle = '#d6d3d1';
+      ctx.fillText('0', pad.l-5, sy(0)+3);
+
+      ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
+      ctx.fillStyle = '#3b82f6'; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
+    }
+
+    // ── Animation loop for the 3D cone ──
+    var curP = null, prevT = tHop;
+    function cutFrame() {
+      if (!cutDrag) cutPhi += 0.003;
+      if (curP) drawCone(curP);
+      if (tHop !== prevT) { prevT = tHop; coneT = null; if (curP) drawSubbands(curP); }
+      requestAnimationFrame(cutFrame);
     }
 
     function update() {
       var N = +slider.value;
-      var p = params(N);
+      curP = gnrParams(N);
       wval.textContent = N;
       drawReal();
-      drawCut(p);
-      drawBands(p);
-      var tag = p.metallic
-        ? '<b style="color:#6ee7b7">Metallic</b> — an allowed cutting line passes '
-          + 'exactly through the Dirac point, so a subband is gapless.'
-        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line '
-          + 'misses the Dirac point, opening a gap E<sub>g</sub> ≈ '
-          + p.gap.toFixed(2) + ' (in units of ħv<sub>F</sub>·Δk).';
+      drawSubbands(curP);
+      coneT = null;
+
+      var gapE = curP.metallic ? 0 : bandE(KPx, curP.kpMin);
+      var tag = curP.metallic
+        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line passes exactly through the Dirac point (zero gap).'
+        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line misses the Dirac point, opening a gap E<sub>g</sub> ≈ '
+          + (2*gapE).toFixed(2) + ' eV.';
       classDiv.innerHTML = '<b>N = ' + N + '</b> &nbsp;(' + (N%3===2 ? 'N = 3m+2' :
         (N%3===0 ? 'N = 3m' : 'N = 3m+1')) + '): ' + tag
-        + ' Wider ribbons (larger N) pack more subbands and shrink the gap as <b>1/W</b>.';
+        + ' Wider ribbons pack more subbands and shrink the gap as <b>1/W</b>.';
     }
 
     slider.addEventListener('input', update);
     window.addEventListener('resize', update);
     update();
+    requestAnimationFrame(cutFrame);
   })();
 })();
