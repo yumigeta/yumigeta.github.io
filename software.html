@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software | Kentaro Yumigeta</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">KY</a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="explainers.html">Explainers</a></li>
+        <li><a href="software.html" aria-current="page">Software</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <p class="eyebrow">Software</p>
+    <h1>Tools &amp; open-source projects</h1>
+    <p>
+      Software I have built for research, data analysis, and visualization.
+      Details, screenshots, and source links coming soon.
+    </p>
+    <a href="index.html" class="back-link">&larr; Back to home</a>
+  </header>
+
+  <section class="soft">
+
+    <article class="soft-card">
+      <div class="soft-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <div class="soft-info">
+        <h3>Project 1</h3>
+        <p>Description coming soon.</p>
+        <div class="soft-tags"><span>Coming soon</span></div>
+      </div>
+    </article>
+
+    <article class="soft-card">
+      <div class="soft-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <div class="soft-info">
+        <h3>Project 2</h3>
+        <p>Description coming soon.</p>
+        <div class="soft-tags"><span>Coming soon</span></div>
+      </div>
+    </article>
+
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Kentaro Yumigeta</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
