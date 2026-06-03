@@ -754,7 +754,12 @@
 
   // ================================================================
   //  Module 03 — Quantum confinement: graphene nanoribbons
-  //  Uses the actual tight-binding band structure (not linearized).
+  //
+  //  Zone-folding of armchair GNR: allowed transverse modes are
+  //  kx_q = 2qπ/(N+1) for q = 1…N.  Metallicity is NOT an input —
+  //  it emerges when kx_q coincides with a K point (kx = 4π/3).
+  //  That requires q = 2(N+1)/3 to be an integer → N = 3m+2.
+  //  Cutting lines are VERTICAL (constant kx) on the BZ.
   // ================================================================
   (function () {
     var realC = document.getElementById('c-gnr-real');
@@ -768,37 +773,56 @@
     var SUB = ['#fbbf24','#fb923c','#f87171','#c084fc','#60a5fa','#34d399',
                '#f472b6','#a3e635','#22d3ee'];
 
-    var KPx = 4*PI/(3*a);
+    // Minimum of the band energy along a whole vertical cutting line (over k∥).
+    // f² = 3 + 2cos(kx) + 4cos(kx/2)·cos(k∥√3/2); the cos(k∥√3/2) term reaches
+    // −sign(cos(kx/2)) somewhere on the line, so the minimum is
+    //   t·√(max(0, 3 + 2cos(kx) − 4|cos(kx/2)|)).
+    // This is what matters physically: a line is gapless when it passes through
+    // ANY Dirac point — including the OFF-AXIS ones at (2π/3, ±2π/√3), which a
+    // naïve check at k∥=0 would miss entirely.
+    function lineGap(kx) {
+      var v = 3 + 2*cos(kx) - 4*abs(cos(kx/2));
+      return tHop * sqrt(max(0, v));
+    }
 
+    // ── GNR parameters derived solely from width N ──
     function gnrParams(N) {
-      var dk = 2*PI / (N*a);
-      var delta = (N % 3 === 2) ? 0 : 1/3;
-      var metallic = (delta === 0);
-      var kpMin = metallic ? 0 : delta * dk;
-      return { N:N, dk:dk, delta:delta, metallic:metallic, kpMin:kpMin };
+      var dk = 2*PI / (N + 1);
+      // Find the cutting line closest to a Dirac point — metallicity is a RESULT.
+      var minGap = Infinity, qNearest = 1;
+      for (var q = 1; q <= N; q++) {
+        var g = lineGap(q * dk);
+        if (g < minGap) { minGap = g; qNearest = q; }
+      }
+      var metallic = minGap < 1e-9;
+      return { N:N, dk:dk, metallic:metallic, gapE:minGap, qNearest:qNearest };
     }
 
-    function allCutLines(p, maxK) {
-      var out = [];
-      for (var j = -40; j <= 40; j++) {
-        var k = (j + p.delta) * p.dk;
-        if (abs(k) <= maxK + 1e-9) out.push(k);
+    // All allowed vertical cutting-line kx positions within the visual range.
+    // Physical modes are q = 1…N within each period (N+1).  Equivalently,
+    // all integer n EXCEPT multiples of (N+1) (those are the excluded modes).
+    function cutLines(p) {
+      var out = [], M = p.N + 1;
+      for (var n = -120; n <= 120; n++) {
+        if (n % M === 0) continue;
+        var kx = n * p.dk;
+        if (abs(kx) > R_out + 0.1) continue;
+        var g = lineGap(kx);
+        out.push({kx:kx, gap:g, near:g < p.gapE + 1e-6});
       }
       return out;
     }
 
-    function ladderAbs(p, maxK) {
-      var seen = {}, out = [];
-      for (var j = -40; j <= 40; j++) {
-        var k = abs((j + p.delta) * p.dk);
-        var key = k.toFixed(6);
-        if (!seen[key] && k <= maxK + 1e-9) { seen[key] = 1; out.push(k); }
-      }
-      out.sort(function(a,b){ return a-b; });
-      return out;
+    // Select modes for the subband plot (8 closest to a Dirac point).
+    function subModes(p) {
+      var modes = [];
+      for (var q = 1; q <= p.N; q++)
+        modes.push({q:q, kx:q*p.dk, gap:lineGap(q*p.dk)});
+      modes.sort(function(a,b){ return a.gap - b.gap; });
+      return modes.slice(0, min(8, p.N));
     }
 
-    // ── Standing-wave modes (unchanged) ──
+    // ── Standing-wave modes ──
     function drawReal() {
       var o = dpr(realC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
@@ -809,7 +833,7 @@
 
       ctx.font = '600 11px "DM Sans", sans-serif';
       ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
-      ctx.fillText('Confined modes  ψₙ ∝ sin(nπy/W)', boxL, 14);
+      ctx.fillText('Confined modes  ψ_q ∝ sin(qπx/W)', boxL, 14);
 
       for (var n = 1; n <= modes; n++) {
         var midY = padT + laneH * (n - 0.5);
@@ -827,20 +851,15 @@
         }
         ctx.stroke();
         ctx.fillStyle = SUB[n-1]; ctx.textAlign = 'left';
-        ctx.fillText('n=' + n, 4, midY + 4);
+        ctx.fillText('q=' + n, 4, midY + 4);
       }
     }
 
-    // ── 3D band surface (same region as Module 02) + cutting lines ──
-    var R_out = BZR * 1.62;               // matches Module 02's extent
-    var B1c = [2*PI, -2*PI/sqrt3];
-    var B2c = [0, 4*PI/sqrt3];
-    var UVc = 4/3;
-    var CMN = 40;                          // mesh (multiple of 8 → K exact)
-    var SUBKR = 1.5;                       // k-window for the 1D subband panel
-    var cutPhi = -32*PI/180;
-    var CUT_THETA = 38*PI/180;
-    var cutZoom = 1;
+    // ── 3D band surface (same region as Module 02) + vertical cutting lines ──
+    var R_out = BZR * 1.62;
+    var B1c = [2*PI, -2*PI/sqrt3], B2c = [0, 4*PI/sqrt3], UVc = 4/3;
+    var CMN = 40;
+    var cutPhi = -32*PI/180, CUT_THETA = 38*PI/180, cutZoom = 1;
     var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
     function lerpC(a, b, t) { return a + (b-a)*t; }
@@ -859,7 +878,6 @@
       return true;
     }
 
-    // Mesh sampled in reciprocal coords so the K points land exactly on nodes.
     var coneMesh = null, coneT = null;
     function buildCone() {
       if (coneMesh && coneT === tHop) return;
@@ -907,7 +925,6 @@
         return {sx:W/2+x1*vSc, sy:H/2-y2*vSc, depth:z2, x2:x1, y2:y2, z2:z2};
       }
 
-      // First-BZ hexagon outline on the z = 0 plane
       ctx.lineWidth = 1; ctx.setLineDash([4,3]);
       ctx.strokeStyle = 'rgba(251,191,36,0.30)';
       ctx.beginPath();
@@ -934,22 +951,20 @@
           e:eAvg, bright:bright});
       }
 
-      // Cutting lines: quantized k⊥ = (j+δ)Δk → constant-ky lines across the
-      // whole BZ, traced along the actual band surface and depth-sorted with it.
+      // VERTICAL cutting lines at constant kx, traced along ky on the surface.
+      var lines = cutLines(p);
       var LS = 60;
-      for (var j = -50; j <= 50; j++) {
-        var ky = (j + p.delta) * p.dk;
-        if (abs(ky) > R_out) continue;
-        var isNearest = abs(abs(ky) - p.kpMin) < 1e-6;
-        var isThru = abs(ky) < 1e-6 && p.metallic;
-        var col = isThru ? '#34d399' : isNearest ? '#fbbf24' : 'rgba(147,197,253,0.85)';
-        var lw = (isNearest || isThru) ? 2.6 : 1.0;
+      for (var li = 0; li < lines.length; li++) {
+        var kxF = lines[li].kx;
+        var isNear = lines[li].near;
+        var col = isNear ? (p.metallic ? '#34d399' : '#fbbf24') : 'rgba(147,197,253,0.7)';
+        var lw = isNear ? 2.6 : 0.8;
         for (var band = -1; band <= 1; band += 2) {
           var prev = null;
           for (var s = 0; s <= LS; s++) {
-            var kx = -R_out + 2*R_out*s/LS;
-            if (!insideHexRc(kx, ky, R_out)) { prev = null; continue; }
-            var pt = proj(kx, ky, band*bandE(kx, ky));
+            var ky = -R_out + 2*R_out*s/LS;
+            if (!insideHexRc(kxF, ky, R_out)) { prev = null; continue; }
+            var pt = proj(kxF, ky, band*bandE(kxF, ky));
             if (prev) draws.push({t:1, p1:prev, p2:pt,
               depth:(prev.depth+pt.depth)/2 + 0.0015, col:col, lw:lw});
             prev = pt;
@@ -977,7 +992,6 @@
         }
       }
 
-      // Dirac-point markers at the six K corners (E = 0)
       for (var n = 0; n < 6; n++) {
         var ang = n*PI/3, dpm = proj(BZR*cos(ang), BZR*sin(ang), 0);
         ctx.beginPath(); ctx.arc(dpm.sx, dpm.sy, 2.5, 0, 2*PI);
@@ -989,7 +1003,7 @@
       ctx.fillText('Cutting lines on the band surface', 6, 13);
     }
 
-    // ── Pointer interaction for 3D cone (drag-rotate + scroll/pinch zoom) ──
+    // ── Pointer interaction (drag-rotate + scroll/pinch zoom) ──
     var cutDirty = true;
     var cutPointers = {}, cutPinch = 0;
     function cutActive() { return Object.keys(cutPointers).length; }
@@ -1030,19 +1044,22 @@
       cutDirty = true;
     }, {passive:false});
 
-    // ── 1D subbands from actual tight-binding dispersion ──
+    // ── 1D subbands E_q(k∥) = ±bandE(kx_q, k∥) ──
     function drawSubbands(p) {
       var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
 
-      var kR = 1.5;
-      var ks = ladderAbs(p, SUBKR);
-      var NSAMP = 200;
+      var modes = subModes(p);
+      // Span the full BZ height so the OFF-AXIS Dirac points at k∥ = ±2π/√3
+      // are visible — a line through them is gapless just like one through the
+      // on-axis K point at k∥ = 0.  Matches the extent of the 3D cutting lines.
+      var kyR = 2*PI/sqrt3 + 0.35;
+      var NSAMP = 240;
       var maxE = 0.001;
-      for (var li = 0; li < ks.length; li++) {
+      for (var mi = 0; mi < modes.length; mi++) {
         for (var s = 0; s <= NSAMP; s++) {
-          var dk = -kR + 2*kR*s/NSAMP;
-          var e = bandE(KPx + dk, ks[li]);
+          var ky = -kyR + 2*kyR*s/NSAMP;
+          var e = bandE(modes[mi].kx, ky);
           if (e > maxE) maxE = e;
         }
       }
@@ -1050,7 +1067,7 @@
 
       var pad = {l:46, r:16, t:18, b:28};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
-      function sx(dk) { return pad.l + (dk+kR)/(2*kR)*pw; }
+      function sx(ky) { return pad.l + (ky+kyR)/(2*kyR)*pw; }
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
       ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
@@ -1063,39 +1080,39 @@
       ctx.strokeStyle = 'rgba(255,255,255,0.2)';
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
-      for (var li = ks.length-1; li >= 0; li--) {
-        var kp = ks[li];
-        var isFirst = (li === 0);
-        var col = isFirst ? (p.metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, li)];
+      for (var mi = modes.length-1; mi >= 0; mi--) {
+        var m = modes[mi];
+        var isFirst = (mi === 0);
+        var col = isFirst ? (p.metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, mi)];
         ctx.strokeStyle = col;
         ctx.lineWidth = isFirst ? 2.2 : 1.3;
         for (var sgn = -1; sgn <= 1; sgn += 2) {
           ctx.beginPath();
           var started = false;
           for (var s = 0; s <= NSAMP; s++) {
-            var dk = -kR + 2*kR*s/NSAMP;
-            var e = sgn * bandE(KPx + dk, kp);
+            var ky = -kyR + 2*kyR*s/NSAMP;
+            var e = sgn * bandE(m.kx, ky);
             if (abs(e) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
-            if (!started) { ctx.moveTo(sx(dk), sy(e)); started = true; }
-            else ctx.lineTo(sx(dk), sy(e));
+            if (!started) { ctx.moveTo(sx(ky), sy(e)); started = true; }
+            else ctx.lineTo(sx(ky), sy(e));
           }
           if (started) ctx.stroke();
         }
       }
 
       if (!p.metallic) {
-        var gapE = bandE(KPx, p.kpMin);
+        var gE = p.gapE;
         ctx.strokeStyle = 'rgba(251,191,36,0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(pad.l, sy(gapE)); ctx.lineTo(pad.l+pw, sy(gapE));
-        ctx.moveTo(pad.l, sy(-gapE)); ctx.lineTo(pad.l+pw, sy(-gapE)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pad.l, sy(gE)); ctx.lineTo(pad.l+pw, sy(gE));
+        ctx.moveTo(pad.l, sy(-gE)); ctx.lineTo(pad.l+pw, sy(-gE)); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('Eg = ' + (2*gapE).toFixed(2) + ' eV', pad.l + pw - 80, sy(0) - 4);
+        ctx.fillText('Eg = ' + (2*gE).toFixed(2) + ' eV', pad.l + pw - 80, sy(0) - 4);
       }
 
       ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'center'; ctx.fillText('k∥ (from K)', pad.l + pw/2, H-8);
+      ctx.textAlign = 'center'; ctx.fillText('k∥ (along cutting line)', pad.l + pw/2, H-8);
       ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
       ctx.fillText('E (eV)', 0, 0); ctx.restore();
 
@@ -1113,7 +1130,7 @@
       ctx.fillStyle = '#3b82f6'; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
     }
 
-    // ── Render loop (no auto-rotation, only redraws when dirty) ──
+    // ── Render loop (dirty-flag only) ──
     var curP = null, prevT = tHop;
     function cutFrame() {
       if (tHop !== prevT) { prevT = tHop; coneT = null; cutDirty = true; if (curP) drawSubbands(curP); }
@@ -1130,14 +1147,15 @@
       coneT = null;
       cutDirty = true;
 
-      var gapE = curP.metallic ? 0 : bandE(KPx, curP.kpMin);
+      var gE2 = curP.metallic ? 0 : 2 * curP.gapE;
       var tag = curP.metallic
-        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line passes exactly through the Dirac point (zero gap).'
-        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line misses the Dirac point, opening a gap E<sub>g</sub> ≈ '
-          + (2*gapE).toFixed(2) + ' eV.';
+        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line coincides with a K point (zero gap).'
+        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line misses the K point, opening a gap E<sub>g</sub> ≈ '
+          + gE2.toFixed(2) + ' eV.';
       classDiv.innerHTML = '<b>N = ' + N + '</b> &nbsp;(' + (N%3===2 ? 'N = 3m+2' :
         (N%3===0 ? 'N = 3m' : 'N = 3m+1')) + '): ' + tag
-        + ' Wider ribbons pack more subbands and shrink the gap as <b>1/W</b>.';
+        + ' The allowed modes kx<sub>q</sub> = 2qπ/(N+1) are fixed by the boundary condition; '
+        + 'metallicity follows as a <em>consequence</em> when 2(N+1)/3 is an integer.';
     }
 
     slider.addEventListener('input', update);
