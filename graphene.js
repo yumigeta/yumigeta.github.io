@@ -448,7 +448,7 @@
     var btnWire = document.getElementById('btn-wire');
     var btnRotate = document.getElementById('btn-rotate');
 
-    var DEF_THETA = 60 * PI/180, DEF_PHI = -32 * PI/180, DEF_ZOOM = 1;
+    var DEF_THETA = 38 * PI/180, DEF_PHI = -32 * PI/180, DEF_ZOOM = 1;
     var showWire = false;
     var autoRotate = true;
     var theta = DEF_THETA, phi = DEF_PHI, zoom = DEF_ZOOM;
@@ -524,7 +524,7 @@
       function project(kx, ky, e) {
         var x = kx*kScale, y = ky*kScale, z = e*eScale;
         var x1 = x*cosP - y*sinP, y1 = x*sinP + y*cosP;
-        var y2 = y1*cosT + z*sinT, z2 = y1*sinT - z*cosT;
+        var y2 = y1*cosT + z*sinT, z2 = z*cosT - y1*sinT;
         return { sx: W/2 + x1*viewScale, sy: H/2 - y2*viewScale,
                  x2:x1, y2:y2, z2:z2, depth:z2 };
       }
@@ -657,7 +657,7 @@
     }
 
     // ── Render loop with dirty flag + adaptive resolution ──
-    var IDLE_N = 78, DRAG_N = 44;
+    var IDLE_N = 150, DRAG_N = 84;
     var dirty = true, dragging = false;
     function frame() {
       if (autoRotate && !dragging) { phi += 0.0045; dirty = true; }
