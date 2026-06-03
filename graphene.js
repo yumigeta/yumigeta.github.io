@@ -840,6 +840,7 @@
     var SUBKR = 1.5;                       // k-window for the 1D subband panel
     var cutPhi = -32*PI/180;
     var CUT_THETA = 38*PI/180;
+    var cutZoom = 1;
     var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
     function lerpC(a, b, t) { return a + (b-a)*t; }
@@ -895,7 +896,7 @@
       var cosT = cos(CUT_THETA), sinT = sin(CUT_THETA);
       var cosP = cos(cutPhi), sinP = sin(cutPhi);
       var kSc = 0.92/R_out, eSc = 0.52/eMax;
-      var vSc = min(W,H) * 0.40;
+      var vSc = min(W,H) * 0.40 * cutZoom;
       var Lx=0.35, Ly=0.55, Lz=0.75;
       var Lm = sqrt(Lx*Lx+Ly*Ly+Lz*Lz); Lx/=Lm; Ly/=Lm; Lz/=Lm;
 
@@ -988,23 +989,46 @@
       ctx.fillText('Cutting lines on the band surface', 6, 13);
     }
 
-    // ── Pointer interaction for 3D cone ──
+    // ── Pointer interaction for 3D cone (drag-rotate + scroll/pinch zoom) ──
+    var cutDirty = true;
+    var cutPointers = {}, cutPinch = 0;
+    function cutActive() { return Object.keys(cutPointers).length; }
     cutC.style.cursor = 'grab';
     cutC.style.touchAction = 'none';
     cutC.addEventListener('pointerdown', function(e) {
+      cutPointers[e.pointerId] = {x:e.clientX, y:e.clientY};
       cutDrag = true; cutLastX = e.clientX; cutLastY = e.clientY;
       cutC.setPointerCapture(e.pointerId);
       cutC.style.cursor = 'grabbing';
     });
     cutC.addEventListener('pointermove', function(e) {
-      if (!cutDrag) return;
+      if (!cutPointers[e.pointerId]) return;
+      cutPointers[e.pointerId] = {x:e.clientX, y:e.clientY};
+      if (cutActive() >= 2) {
+        var ids = Object.keys(cutPointers);
+        var a = cutPointers[ids[0]], b = cutPointers[ids[1]];
+        var dist = Math.hypot(a.x-b.x, a.y-b.y);
+        if (cutPinch) { cutZoom = max(0.5, min(3, cutZoom * dist/cutPinch)); cutDirty = true; }
+        cutPinch = dist;
+        return;
+      }
       cutPhi += (e.clientX - cutLastX) * 0.008;
       CUT_THETA = max(0.12, min(PI/2-0.02, CUT_THETA - (e.clientY - cutLastY)*0.008));
       cutLastX = e.clientX; cutLastY = e.clientY;
+      cutDirty = true;
     });
-    function endCutDrag() { cutDrag = false; cutC.style.cursor = 'grab'; }
-    cutC.addEventListener('pointerup', endCutDrag);
-    cutC.addEventListener('pointercancel', endCutDrag);
+    function endCutPointer(e) {
+      delete cutPointers[e.pointerId];
+      if (cutActive() < 2) cutPinch = 0;
+      if (cutActive() === 0) { cutDrag = false; cutC.style.cursor = 'grab'; }
+    }
+    cutC.addEventListener('pointerup', endCutPointer);
+    cutC.addEventListener('pointercancel', endCutPointer);
+    cutC.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      cutZoom = max(0.5, min(3, cutZoom * (e.deltaY < 0 ? 1.08 : 0.926)));
+      cutDirty = true;
+    }, {passive:false});
 
     // ── 1D subbands from actual tight-binding dispersion ──
     function drawSubbands(p) {
@@ -1089,12 +1113,11 @@
       ctx.fillStyle = '#3b82f6'; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
     }
 
-    // ── Animation loop for the 3D cone ──
+    // ── Render loop (no auto-rotation, only redraws when dirty) ──
     var curP = null, prevT = tHop;
     function cutFrame() {
-      if (!cutDrag) cutPhi += 0.003;
-      if (curP) drawCone(curP);
-      if (tHop !== prevT) { prevT = tHop; coneT = null; if (curP) drawSubbands(curP); }
+      if (tHop !== prevT) { prevT = tHop; coneT = null; cutDirty = true; if (curP) drawSubbands(curP); }
+      if (cutDirty && curP) { drawCone(curP); cutDirty = false; }
       requestAnimationFrame(cutFrame);
     }
 
@@ -1105,6 +1128,7 @@
       drawReal();
       drawSubbands(curP);
       coneT = null;
+      cutDirty = true;
 
       var gapE = curP.metallic ? 0 : bandE(KPx, curP.kpMin);
       var tag = curP.metallic
@@ -1117,7 +1141,7 @@
     }
 
     slider.addEventListener('input', update);
-    window.addEventListener('resize', update);
+    window.addEventListener('resize', function() { cutDirty = true; update(); });
     update();
     requestAnimationFrame(cutFrame);
   })();
