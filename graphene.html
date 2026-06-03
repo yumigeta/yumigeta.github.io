@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphene Electronic Structure — Interactive Band Structure &amp; Dirac Cones</title>
+  <meta name="description" content="Explore graphene's electronic structure interactively: honeycomb lattice, Brillouin zone, tight-binding E-k dispersion, and 3D Dirac cone visualization.">
+  <meta name="keywords" content="graphene, band structure, Dirac cone, tight-binding, Brillouin zone, honeycomb lattice, electronic structure, condensed matter, physics tutorial">
+  <link rel="canonical" href="https://yumigeta.github.io/graphene.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graphene Electronic Structure — Interactive Visualization">
+  <meta property="og:description" content="Interactive tight-binding band structure of graphene: honeycomb lattice, Brillouin zone, E-k dispersion along Γ-M-K-Γ, and rotatable 3D Dirac cones.">
+  <meta property="og:url" content="https://yumigeta.github.io/graphene.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Graphene Electronic Structure — Interactive Visualization">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Graphene Electronic Structure — Interactive Band Structure & Dirac Cones",
+    "description": "An interactive tutorial on graphene's electronic structure: honeycomb lattice, tight-binding model, E-k dispersion, and 3D Dirac cone visualization.",
+    "url": "https://yumigeta.github.io/graphene.html",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": ["Graphene", "Band structure", "Dirac cone", "Tight-binding model", "Brillouin zone"],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="graphene.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">KY</a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="explainers.html" aria-current="page">Explainers</a></li>
+        <li><a href="software.html">Software</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <p class="eyebrow">Interactive Explainer</p>
+    <h1>Graphene Electronic Structure</h1>
+    <p>
+      Graphene — a single layer of carbon atoms in a honeycomb lattice — has a
+      remarkable electronic structure: its conduction and valence bands touch at
+      the <em>K</em> points of the Brillouin zone, forming <b>Dirac cones</b>
+      where electrons behave as massless relativistic particles.
+    </p>
+    <a href="explainers.html" class="back-link">&larr; All explainers</a>
+  </header>
+
+  <!-- ═══════ Module 00 — Crystal Structure ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">00 — Crystal structure</span>
+      <h2>Honeycomb lattice &amp; Brillouin zone</h2>
+      <p>
+        Graphene's honeycomb is built from two interpenetrating triangular
+        sublattices (<b style="color:#ef4444">A</b> and
+        <b style="color:#3b82f6">B</b>). The unit cell contains exactly two
+        atoms. In reciprocal space, the first Brillouin zone is a hexagon
+        whose corners — the <em>K</em> and <em>K′</em> points — are where
+        the Dirac physics emerges.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="top-row">
+        <div class="gr-panel"><canvas id="c-lattice"></canvas></div>
+        <div class="gr-panel"><canvas id="c-bz"></canvas></div>
+      </div>
+      <p class="cap">
+        <b>Left:</b> Real-space honeycomb with lattice vectors
+        <b>a</b><sub>1</sub>, <b>a</b><sub>2</sub> and the unit cell
+        (dashed). <b>Right:</b> First Brillouin zone with high-symmetry
+        points Γ, M, K, K′ and the path Γ→M→K→Γ.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — E-k Dispersion ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">01 — Band structure</span>
+      <h2>E-k dispersion along high-symmetry path</h2>
+      <p>
+        In the nearest-neighbor tight-binding model, the energy bands are
+        E(<b>k</b>) = ±<em>t</em> |f(<b>k</b>)|, where <em>t</em> ≈ 2.7 eV
+        is the hopping energy between adjacent carbon p<sub>z</sub> orbitals.
+        The conduction (π*) and valence (π) bands touch at the K point with
+        <b>zero gap</b> — graphene is a zero-gap semiconductor.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="gr-bands"><canvas id="c-bands"></canvas></div>
+      <div class="controls">
+        <div class="control">
+          <label>Hopping energy <em>t</em> <span class="val" id="v-hop">2.70 eV</span></label>
+          <input type="range" id="ctrl-hop" min="0.5" max="5" step="0.05" value="2.7">
+        </div>
+      </div>
+      <div class="gr-info" id="band-info">
+        At the <b>K</b> point the bands touch linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|,
+        giving massless Dirac fermions with Fermi velocity v<sub>F</sub> ≈ 10<sup>6</sup> m/s.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — 3D Band Structure ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">02 — 3D Dirac cones</span>
+      <h2>Full band structure over the Brillouin zone</h2>
+      <p>
+        The complete E(k<sub>x</sub>, k<sub>y</sub>) surface reveals the
+        conical band touching points — the <b>Dirac cones</b> — at each
+        K and K′ corner of the hexagonal Brillouin zone. Drag to rotate.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="gr-3d-wrap">
+        <canvas id="c-3d"></canvas>
+        <span class="gr-3d-hint">drag to rotate</span>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <label>Hopping energy <em>t</em> <span class="val" id="v-hop3d">2.70 eV</span></label>
+          <input type="range" id="ctrl-hop3d" min="0.5" max="5" step="0.05" value="2.7">
+        </div>
+        <div class="btn-row">
+          <button class="demo-btn" id="btn-reset">Reset view</button>
+          <button class="demo-btn active" id="btn-wire">Wireframe</button>
+        </div>
+      </div>
+      <div class="gr-info">
+        The energy surface has six Dirac cones — three at <b>K</b> and three at
+        <b>K′</b> — connected by saddle points at <b>M</b>.
+        The bandwidth is 6<em>t</em> (from −3<em>t</em> at Γ in the valence
+        band to +3<em>t</em> at Γ in the conduction band).
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Kentaro Yumigeta</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+  </script>
+  <script src="graphene.js"></script>
+</body>
+</html>
