@@ -456,6 +456,15 @@
     // Extend well beyond the first BZ so every corner Dirac cone is complete.
     var R_out = BZR * 1.62;
 
+    // Reciprocal lattice vectors (match the BZ module). Sampling k-space in
+    // these fractional coordinates guarantees the Dirac points — which sit at
+    // 1/3-multiples of (b1,b2), e.g. K = (2/3,1/3) — land exactly on mesh
+    // vertices, so the cone tips close to E = 0 instead of being missed by a
+    // regular Cartesian grid.
+    var B1 = [2*PI, -2*PI/sqrt3];
+    var B2 = [0, 4*PI/sqrt3];
+    var UV = 4/3;   // fractional half-range; covers the extended hexagon
+
     // Normalized fixed light (view space): upper-right, toward viewer.
     var LL = (function () {
       var x = 0.35, y = 0.55, z = 0.75, m = sqrt(x*x+y*y+z*z);
@@ -486,11 +495,15 @@
     function getMesh(N) {
       var c = meshCache[N];
       if (c && c.t === tHop) return c;
+      // With UV = 4/3, N must be a multiple of 8 so that u,v = ±1/3, ±2/3
+      // (the K/K' points) fall exactly on grid nodes.
       var verts = [];
       for (var i = 0; i <= N; i++) {
         for (var j = 0; j <= N; j++) {
-          var kx = -R_out + 2*R_out*i/N;
-          var ky = -R_out + 2*R_out*j/N;
+          var u = -UV + 2*UV*i/N;
+          var v = -UV + 2*UV*j/N;
+          var kx = u*B1[0] + v*B2[0];
+          var ky = u*B1[1] + v*B2[1];
           verts.push({kx:kx, ky:ky, ep:bandE(kx,ky)});
         }
       }
@@ -657,7 +670,7 @@
     }
 
     // ── Render loop with dirty flag + adaptive resolution ──
-    var IDLE_N = 150, DRAG_N = 84;
+    var IDLE_N = 96, DRAG_N = 48;   // multiples of 8 → K points stay exact
     var dirty = true, dragging = false;
     function frame() {
       if (autoRotate && !dragging) { phi += 0.0045; dirty = true; }
