@@ -120,12 +120,16 @@
             <canvas id="c-dec-ray"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#ef4444">ν₀ − ν<sub>m</sub> (Stokes)</span>
+            <span class="decomp-tag" style="color:#ef4444">ν₀ − ν<sub>v</sub> (Stokes)</span>
             <canvas id="c-dec-stokes"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#3b82f6">ν₀ + ν<sub>m</sub> (anti-Stokes)</span>
+            <span class="decomp-tag" style="color:#3b82f6">ν₀ + ν<sub>v</sub> (anti-Stokes)</span>
             <canvas id="c-dec-anti"></canvas>
+          </div>
+          <div class="decomp-row">
+            <span class="decomp-tag" style="color:#a78bfa">ν₀ ± 2ν<sub>v</sub> (overtone)</span>
+            <canvas id="c-dec-over"></canvas>
           </div>
         </div>
       </div>
@@ -147,10 +151,16 @@
           <label>Vibrational frequency ω<sub>v</sub> <span class="val" id="v-vib">—</span></label>
           <input type="range" id="ctrl-vib" min="0.4" max="3" step="0.05" value="1.2">
         </div>
+        <div class="control">
+          <label>Vibration amplitude Q₀ <span class="val" id="v-amp">—</span></label>
+          <input type="range" id="ctrl-amp" min="0.15" max="1" step="0.01" value="0.7">
+        </div>
         <div class="btn-row">
           <button class="demo-btn active" id="btn-play">Pause</button>
         </div>
       </div>
+
+      <div class="physics-note" id="physics-note"></div>
     </div>
   </section>
 
