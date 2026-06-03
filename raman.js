@@ -164,63 +164,93 @@ function fitCanvas(cv) {
   const cDecRay = document.getElementById('c-dec-ray');
   const cDecStk = document.getElementById('c-dec-stokes');
   const cDecAnt = document.getElementById('c-dec-anti');
+  const cDecOvr = document.getElementById('c-dec-over');
   if (!cMol) return;
 
   const sVib   = document.getElementById('ctrl-vib');
+  const sAmp   = document.getElementById('ctrl-amp');
   const vVib   = document.getElementById('v-vib');
+  const vAmp   = document.getElementById('v-amp');
   const btn    = document.getElementById('btn-play');
   const cap    = document.getElementById('spec-cap');
   const modeEl = document.getElementById('mode-explanation');
+  const noteEl = document.getElementById('physics-note');
 
   const CARRIER = 16;
   let t0 = 0;
   let running = true;
 
+  // Each mode is defined by its polarizability expansion
+  //   α(Q) = a₀ + c₁·Q + c₂·Q²   (c₁ = ∂α/∂Q,  c₂ = ½ ∂²α/∂Q²)
   const MODES = {
     sym: {
-      raman: true, dAdQ: 0.55,
+      raman: true, a0: 0.50, c1: 0.33, c2: 0.06,
       badge: '<span class="mol-activity raman">Raman-active</span>',
-      text: '<b>Symmetric stretch</b>: both C=O bonds lengthen and shorten together → the electron cloud expands and contracts → <b>α oscillates</b> (∂α/∂Q ≠ 0 at Q=0). The induced dipole is amplitude-modulated, creating Stokes & anti-Stokes sidebands.'
+      text: '<b>Symmetric stretch</b>: both C=O bonds lengthen and shorten together → the electron cloud breathes → <b>α changes linearly with Q</b> (∂α/∂Q ≠ 0). This first-order change modulates the dipole at ω<sub>v</sub>, giving the fundamental Stokes & anti-Stokes lines.'
     },
     asym: {
-      raman: false, dAdQ: 0,
+      raman: false, a0: 0.30, c1: 0, c2: 0.50,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Asymmetric stretch</b>: one bond lengthens as the other shortens — the two polarizability changes cancel (∂α/∂Q = 0 at Q=0). The α(Q) curve has a <em>minimum</em> at equilibrium — no first-order α change, no Raman sidebands.'
+      text: '<b>Asymmetric stretch</b>: one bond lengthens as the other shortens, so the two polarizability changes cancel — ∂α/∂Q = 0 at equilibrium. α(Q) is a <em>parabola</em>: no first-order (ω<sub>v</sub>) modulation, only a weak 2ω<sub>v</sub> overtone.'
     },
     bend: {
-      raman: false, dAdQ: 0,
+      raman: false, a0: 0.30, c1: 0, c2: 0.50,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Bend</b>: the molecule flexes — by symmetry this does not change α to first order (∂α/∂Q = 0). The α(Q) curve again has a minimum at Q=0.'
+      text: '<b>Bend</b>: by symmetry ∂α/∂Q = 0 at equilibrium, so α(Q) is again a parabola — no fundamental Raman line, only a faint 2ω<sub>v</sub> overtone.'
     }
   };
   let mode = 'sym';
   let vib = +sVib.value;
+  let amp = +sAmp.value;                  // vibration amplitude Q₀
 
-  const effMod = () => MODES[mode].dAdQ;
+  // polarizability vs the vibrational coordinate (the SAME curve drawn in α–Q)
+  const alphaOfQ = Q => { const M = MODES[mode]; return M.a0 + M.c1 * Q + M.c2 * Q * Q; };
 
-  // master signals
+  // master signals — one shared clock
   const Efn = t => Math.cos(TAU * CARRIER * t);
-  const qfn = t => Math.cos(TAU * vib * t);
-  const afn = t => 1 + effMod() * qfn(t);
-  const pfn = t => afn(t) * Efn(t) / (1 + Math.max(effMod(), 0.001));
+  const Qfn = t => amp * Math.cos(TAU * vib * t);    // vibrational coordinate Q(t)
+  const afn = t => alphaOfQ(Qfn(t));                  // polarizability α(t), always > 0
+
+  // Fourier content of α(t):
+  //   α(t) = ᾱ + (c₁Q₀)·cos(ωᵥt) + (½c₂Q₀²)·cos(2ωᵥt)
+  // → fundamental sidebands ∝ c₁Q₀  (first derivative, ω₀±ωᵥ)
+  // → overtone   sidebands ∝ ½c₂Q₀² (curvature,        ω₀±2ωᵥ)
+  const abar  = () => { const M = MODES[mode]; return M.a0 + 0.5 * M.c2 * amp * amp; };
+  const fundC = () => Math.abs(MODES[mode].c1) * amp;
+  const overC = () => 0.5 * MODES[mode].c2 * amp * amp;
+  const pnorm = () => { const M = MODES[mode]; return M.a0 + Math.abs(M.c1) * amp + M.c2 * amp * amp + 1e-6; };
+  const pfn   = t => afn(t) * Efn(t) / pnorm();
 
   // decomposed components (product-to-sum identity)
-  const rayFn = t => Math.cos(TAU * CARRIER * t);
-  const stkFn = t => Math.cos(TAU * (CARRIER - vib) * t);
-  const antFn = t => Math.cos(TAU * (CARRIER + vib) * t);
+  const rayFn  = t => Math.cos(TAU * CARRIER * t);
+  const stkFn  = t => Math.cos(TAU * (CARRIER - vib) * t);
+  const antFn  = t => Math.cos(TAU * (CARRIER + vib) * t);
+  const overFn = t => Math.cos(TAU * (CARRIER + 2 * vib) * t);
 
   function readControls() {
     vib = +sVib.value;
+    amp = +sAmp.value;
     vVib.textContent = vib.toFixed(2) + '×';
+    vAmp.textContent = amp.toFixed(2);
+    updateNote();
     drawSpectrum();
   }
   sVib.addEventListener('input', readControls);
+  sAmp.addEventListener('input', readControls);
   btn.addEventListener('click', () => {
     running = !running;
     btn.textContent = running ? 'Pause' : 'Play';
     btn.classList.toggle('active', running);
     if (running) loop();
   });
+
+  function updateNote() {
+    if (MODES[mode].raman) {
+      noteEl.innerHTML = '<b>Why the slope matters.</b> The fundamental Raman lines at ω₀±ω<sub>v</sub> are set by the <b>first derivative</b> ∂α/∂Q at equilibrium (the tangent in the α–Q plot). Here it is non-zero, so they appear and grow with amplitude Q₀.';
+    } else {
+      noteEl.innerHTML = '<b>No contradiction.</b> Yes — on a parabola, a large oscillation does change α. But because ∂α/∂Q = 0 at equilibrium, that change is <b>second-order</b>: α(t) wobbles at <b>2ω<sub>v</sub></b> (an overtone ∝ Q₀²), never at the fundamental ω<sub>v</sub>. So there is still <b>no fundamental Raman line</b> at any amplitude — only a weak overtone at ω₀±2ω<sub>v</sub>. The selection rule governs the first derivative; the curvature only feeds weak overtones. Push Q₀ up to watch the overtone grow.';
+    }
+  }
 
   function setMode(m) {
     mode = m;
@@ -341,10 +371,10 @@ function fitCanvas(cv) {
   function drawMolecule() {
     const { ctx, w, h } = fitCanvas(cMol);
     const tNow = t0 + 1;
-    const q = qfn(tNow);                       // vibrational coordinate, −1..1
+    const q = Qfn(tNow);                       // vibrational coordinate Q(t) ∈ [−Q₀, Q₀]
     const cx = w / 2, cy = h / 2;
     const gap = Math.min(58, w * 0.21);
-    const A = 13;                              // displacement amplitude (px)
+    const A = 15;                              // displacement amplitude (px)
 
     // atom positions + per-bond relative stretch (drives local cloud diffuseness)
     let pos, relL, relR;
@@ -438,70 +468,49 @@ function fitCanvas(cv) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
     ctx.fillText('0', qx0, oy + plotH + 4);
 
-    // α(Q) curve shape
-    // symmetric stretch: α = α₀ + a·Q  (linear + small quadratic)
-    // asymmetric/bend:   α = α₀ + b·Q² (parabola, minimum at 0)
     const isSym = (mode === 'sym');
+    const M = MODES[mode];
+    const QX = Q => ox + (Q + 1) / 2 * plotW;     // map Q∈[-1,1] → px
+    const AY = a => oy + plotH - a * plotH;        // map α∈[0,1]  → py
+
+    // highlight the swept range [−Q₀, +Q₀] under the curve
+    ctx.fillStyle = 'rgba(56,189,248,0.10)';
+    ctx.fillRect(QX(-amp), oy, QX(amp) - QX(-amp), plotH);
+
+    // α(Q) curve
     ctx.strokeStyle = COL.vib; ctx.lineWidth = 2.5;
     ctx.beginPath();
     const N = 120;
     for (let i = 0; i <= N; i++) {
-      const Q = (i / N) * 2 - 1;                  // -1..1
-      let alpha;
-      if (isSym) {
-        alpha = 0.5 + 0.35 * Q + 0.12 * Q * Q;   // has slope at Q=0
-      } else {
-        alpha = 0.35 + 0.45 * Q * Q;              // minimum at Q=0
-      }
-      const px = ox + (Q + 1) / 2 * plotW;
-      const py = oy + plotH - alpha * plotH;
+      const Q = (i / N) * 2 - 1;
+      const px = QX(Q), py = AY(alphaOfQ(Q));
       i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
     }
     ctx.stroke();
 
-    // tangent line at Q=0 to show ∂α/∂Q
-    const slope = isSym ? 0.35 : 0;               // matches the derivative at Q=0
-    const alpha0 = isSym ? 0.5 : 0.35;
-    if (isSym) {
-      ctx.strokeStyle = 'rgba(251,191,36,0.6)'; ctx.lineWidth = 1.5;
-      ctx.setLineDash([6, 4]);
-      ctx.beginPath();
-      for (let i = 0; i <= N; i++) {
-        const Q = (i / N) * 2 - 1;
-        const a = alpha0 + slope * Q;
-        const px = ox + (Q + 1) / 2 * plotW;
-        const py = oy + plotH - a * plotH;
-        i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
-      }
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
+    // tangent line at Q=0 — its slope IS ∂α/∂Q (flat for inactive modes)
+    ctx.strokeStyle = isSym ? 'rgba(251,191,36,0.7)' : 'rgba(120,113,108,0.7)';
+    ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(QX(-1), AY(M.a0 + M.c1 * -1));
+    ctx.lineTo(QX(1),  AY(M.a0 + M.c1 *  1));
+    ctx.stroke();
+    ctx.setLineDash([]);
 
     // ∂α/∂Q annotation
-    ctx.fillStyle = isSym ? '#fbbf24' : '#78716c';
+    ctx.fillStyle = isSym ? '#fbbf24' : '#a8a29e';
     ctx.font = 'bold 12px DM Sans, sans-serif';
     ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
-    ctx.fillText(isSym ? '∂α/∂Q ≠ 0' : '∂α/∂Q = 0', ox + plotW - 4, oy + 18);
+    ctx.fillText(isSym ? '∂α/∂Q ≠ 0 (slope)' : '∂α/∂Q = 0 (flat tangent)', ox + plotW - 4, oy + 18);
 
-    // moving dot: Q oscillates sinusoidally
+    // moving dot at the current Q(t)
     const tNow = t0 + 1;
-    const Q = qfn(tNow);
-    let alphaVal;
-    if (isSym) {
-      alphaVal = 0.5 + 0.35 * Q + 0.12 * Q * Q;
-    } else {
-      alphaVal = 0.35 + 0.45 * Q * Q;
-    }
-    const dotX = ox + (Q + 1) / 2 * plotW;
-    const dotY = oy + plotH - alphaVal * plotH;
-
-    // dot trail (fading)
+    const Q = Qfn(tNow);
+    const dotX = QX(Q), dotY = AY(alphaOfQ(Q));
     ctx.fillStyle = '#fbbf24';
     ctx.beginPath(); ctx.arc(dotX, dotY, 7, 0, TAU); ctx.fill();
     ctx.fillStyle = '#1c1917';
     ctx.beginPath(); ctx.arc(dotX, dotY, 4, 0, TAU); ctx.fill();
-
-    // horizontal line from dot to α axis
     ctx.strokeStyle = 'rgba(251,191,36,0.3)'; ctx.lineWidth = 1;
     ctx.setLineDash([3, 3]);
     ctx.beginPath(); ctx.moveTo(dotX, dotY); ctx.lineTo(ox, dotY); ctx.stroke();
@@ -514,18 +523,38 @@ function fitCanvas(cv) {
     g = fitCanvas(cField); axis(g.ctx, g.w, g.h);
     plot(g.ctx, g.w, g.h, Efn, COL.field); nowLine(g.ctx, g.w, g.h);
 
-    g = fitCanvas(cAlpha); axis(g.ctx, g.w, g.h);
-    const m = effMod();
-    plot(g.ctx, g.w, g.h, t => (afn(t) - 1) / Math.max(m, 0.001), COL.vib, 2.2);
+    // α(t): mapped on a POSITIVE axis [0, αTop] around the baseline α₀ — α never goes negative
+    g = fitCanvas(cAlpha);
+    const aTop = 1.0, pad = 6;
+    const aY = a => (g.h - pad) - (a / aTop) * (g.h - 2 * pad);
+    // α=0 axis + α₀ baseline
+    g.ctx.strokeStyle = COL.axis; g.ctx.lineWidth = 1;
+    g.ctx.beginPath(); g.ctx.moveTo(0, aY(0)); g.ctx.lineTo(g.w, aY(0)); g.ctx.stroke();
+    g.ctx.strokeStyle = 'rgba(255,255,255,0.22)'; g.ctx.setLineDash([5, 4]);
+    g.ctx.beginPath(); g.ctx.moveTo(0, aY(MODES[mode].a0)); g.ctx.lineTo(g.w, aY(MODES[mode].a0)); g.ctx.stroke();
+    g.ctx.setLineDash([]);
+    g.ctx.fillStyle = 'rgba(255,255,255,0.5)'; g.ctx.font = '10px DM Sans, sans-serif';
+    g.ctx.textAlign = 'left'; g.ctx.textBaseline = 'bottom';
+    g.ctx.fillText('α₀', 4, aY(MODES[mode].a0) - 2);
+    // α(t) curve
+    g.ctx.strokeStyle = COL.vib; g.ctx.lineWidth = 2.2;
+    g.ctx.beginPath();
+    const Na = Math.max(180, g.w);
+    for (let i = 0; i <= Na; i++) {
+      const t = t0 + i / Na;
+      const y = aY(afn(t));
+      i ? g.ctx.lineTo(i / Na * g.w, y) : g.ctx.moveTo(0, y);
+    }
+    g.ctx.stroke();
     nowLine(g.ctx, g.w, g.h);
     if (!MODES[mode].raman) {
-      g.ctx.fillStyle = 'rgba(168,162,158,0.9)';
-      g.ctx.font = '11px DM Sans, sans-serif'; g.ctx.textAlign = 'left';
-      g.ctx.fillText('α constant — ∂α/∂Q = 0 at equilibrium', 8, 16);
+      g.ctx.fillStyle = 'rgba(167,139,250,0.95)';
+      g.ctx.font = '11px DM Sans, sans-serif'; g.ctx.textAlign = 'right'; g.ctx.textBaseline = 'top';
+      g.ctx.fillText('no ωᵥ term — only a 2ωᵥ ripple', g.w - 6, 4);
     }
 
+    // p(t): induced dipole (a real field — oscillates +/−), with modulation envelope
     g = fitCanvas(cDip); axis(g.ctx, g.w, g.h);
-    // modulation envelope
     g.ctx.strokeStyle = 'rgba(56,189,248,0.3)'; g.ctx.lineWidth = 1.5;
     g.ctx.setLineDash([4, 4]);
     for (const s of [1, -1]) {
@@ -533,7 +562,7 @@ function fitCanvas(cv) {
       const N = g.w;
       for (let i = 0; i <= N; i++) {
         const t = t0 + i / N;
-        const env = s * afn(t) / (1 + Math.max(m, 0.001));
+        const env = s * afn(t) / pnorm();
         const y = g.h / 2 - env * (g.h / 2 - 6);
         i ? g.ctx.lineTo(i / N * g.w, y) : g.ctx.moveTo(0, y);
       }
@@ -546,18 +575,19 @@ function fitCanvas(cv) {
 
   // ── Decomposition traces (fig 1c) ──
   function drawDecomp() {
-    const m = effMod();
-    const amp0 = 1 / (1 + Math.max(m, 0.001));
-    const ampSide = (m / 2) / (1 + Math.max(m, 0.001));
+    const nrm = pnorm();
+    const aRay  = abar() / nrm;          // elastic carrier
+    const aFund = 0.5 * fundC() / nrm;   // ω₀±ωᵥ  (∝ c₁Q₀)
+    const aOver = 0.5 * overC() / nrm;   // ω₀±2ωᵥ (∝ ½c₂Q₀²)
 
     function plotSmall(cv, fn, color, amplitude) {
       const { ctx, w, h } = fitCanvas(cv);
       ctx.strokeStyle = COL.axis; ctx.lineWidth = 0.5;
       ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
-      if (amplitude < 0.001) {
+      if (amplitude < 0.004) {
         ctx.fillStyle = 'rgba(168,162,158,0.5)';
-        ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('(zero)', w/2, h/2 - 5);
+        ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(amplitude < 1e-6 ? '(zero — forbidden)' : '(negligible)', w/2, h/2);
         return;
       }
       ctx.strokeStyle = color; ctx.lineWidth = 1.5;
@@ -571,29 +601,36 @@ function fitCanvas(cv) {
       ctx.stroke();
     }
 
-    plotSmall(cDecRay, rayFn, COL.rayleigh, amp0);
-    plotSmall(cDecStk, stkFn, COL.stokes, ampSide);
-    plotSmall(cDecAnt, antFn, COL.anti, ampSide);
+    plotSmall(cDecRay, rayFn,  COL.rayleigh, aRay);
+    plotSmall(cDecStk, stkFn,  COL.stokes,   aFund);
+    plotSmall(cDecAnt, antFn,  COL.anti,     aFund);
+    plotSmall(cDecOvr, overFn, '#a78bfa',    aOver);
   }
 
   // ── Spectrum ──
   function drawSpectrum() {
     const { ctx, w, h } = fitCanvas(cSpec);
-    const pad = 28, baseY = h - 22, topY = 14;
+    const pad = 28, baseY = h - 22, topY = 14, Hfull = baseY - topY;
     ctx.strokeStyle = COL.axis; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(pad, baseY); ctx.lineTo(w - 8, baseY); ctx.stroke();
 
     const cx2 = w / 2;
-    const span = (w / 2 - pad) / 3.2;
-    const off = Math.min(vib, 3) * span;
-    const m = effMod();
-    const rayH = baseY - topY;
-    const sideH = (baseY - topY) * (m / (1 + m)) * 1.6;
+    const span = (w / 2 - pad) / 3.4;
+    const clampX = x => Math.max(pad + 4, Math.min(w - 10, x));
+    const off1 = Math.min(vib, 3) * span;
+    const off2 = Math.min(2 * vib, 3.3) * span;
+    const clamp = v => Math.max(0, Math.min(Hfull, v));
+
+    const rayH  = clamp(abar() * 1.6 * Hfull);
+    const fundH = clamp(fundC() * 2.2 * Hfull);
+    const overH = clamp(overC() * 2.2 * Hfull);
 
     const bars = [
-      { x: cx2,       H: rayH,  c: COL.rayleigh },
-      { x: cx2 - off, H: sideH, c: COL.stokes },
-      { x: cx2 + off, H: sideH, c: COL.anti }
+      { x: cx2,              H: rayH,  c: COL.rayleigh },
+      { x: cx2 - off1,       H: fundH, c: COL.stokes },
+      { x: cx2 + off1,       H: fundH, c: COL.anti },
+      { x: clampX(cx2-off2), H: overH, c: '#a78bfa' },
+      { x: clampX(cx2+off2), H: overH, c: '#a78bfa' }
     ];
     for (const b of bars) {
       if (b.H < 1) continue;
@@ -602,17 +639,22 @@ function fitCanvas(cv) {
       ctx.fillStyle = b.c;
       ctx.beginPath(); ctx.arc(b.x, baseY - b.H, 3.5, 0, TAU); ctx.fill();
     }
-    ctx.font = '11px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#a8a29e';
+    ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#a8a29e';
     ctx.fillText('ω₀', cx2, baseY + 14);
-    if (m > 0.001) {
-      ctx.fillText('ω₀−ωᵥ', cx2 - off, baseY + 14);
-      ctx.fillText('ω₀+ωᵥ', cx2 + off, baseY + 14);
+    if (fundH >= 1) {
+      ctx.fillText('ω₀−ωᵥ', cx2 - off1, baseY + 14);
+      ctx.fillText('ω₀+ωᵥ', cx2 + off1, baseY + 14);
     }
-    ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
+    if (overH >= 1) {
+      ctx.fillStyle = '#a78bfa';
+      ctx.fillText('±2ωᵥ', clampX(cx2 - off2), baseY + 14);
+      ctx.fillText('±2ωᵥ', clampX(cx2 + off2), baseY + 14);
+    }
+    ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
 
-    cap.innerHTML = m < 0.001
-      ? 'This mode does not change α, so the induced dipole is a pure carrier — <b>only the elastic Rayleigh line</b> appears. No Raman sidebands.'
-      : 'The Raman shift equals the vibrational frequency ω<sub>v</sub>. Classically Stokes and anti-Stokes are equal; Boltzmann population makes anti-Stokes weaker at room temperature.';
+    cap.innerHTML = MODES[mode].raman
+      ? 'The <b>fundamental</b> Stokes / anti-Stokes lines at ω₀±ω<sub>v</sub> dominate (∝ ∂α/∂Q·Q₀). A faint <span style="color:#a78bfa">overtone</span> at ω₀±2ω<sub>v</sub> comes from the curvature ∂²α/∂Q². Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
+      : 'Because ∂α/∂Q = 0, <b>the fundamental ω₀±ω<sub>v</sub> lines are absent at any amplitude.</b> Only a weak <span style="color:#a78bfa">overtone</span> at ω₀±2ω<sub>v</sub> appears (∝ ∂²α/∂Q²·Q₀²) — which is why these modes count as Raman-inactive.';
   }
 
   function loop() {
