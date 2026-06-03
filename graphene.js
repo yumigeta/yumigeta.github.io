@@ -819,24 +819,34 @@
       return best;
     }
 
-    // The cutting-line family for chiral angle θ (deg) and width N.
+    // Cutting-line family for a GNR with hard-wall (open) edges.
+    // Hard-wall BC: k⊥ = n·π/(N+1), n = 1..N  (no k⊥=0, asymmetric about Γ).
+    // This is the correct BC for a physical ribbon — periodic BC (j·2π/(N+1))
+    // describes a nanotube, not a ribbon, and introduces the spurious k⊥=0 line.
+    // For armchair: the line at n=2(N+1)/3 hits the K corner → metallic iff N=3m+2.
+    // For zigzag:   no hard-wall line reaches a K corner, but the ribbon is still
+    //               metallic via localized edge states (captured in drawSubbands,
+    //               not by the cutting-line picture).
     function ribbon(theta, N) {
-      var A = (30 - theta) * PI/180;        // normal direction of the lines
+      var A = (30 - theta) * PI/180;     // normal direction of the cutting lines
       var nx = cos(A), ny = sin(A);
-      var dk = 2*PI / (N + 1);              // line spacing (width)
-      var lines = [], jmax = Math.ceil((R_out + 0.5)/dk) + 1;
-      for (var j = -jmax; j <= jmax; j++) {
-        var c = j*dk;
-        if (abs(c) > R_out + 0.05) continue;
-        lines.push({ c:c, gap:lineMinGap(nx, ny, c) });
+      var lines = [];
+      for (var n = 1; n <= N; n++) {
+        var c = n * PI / (N + 1);        // hard-wall GNR: k⊥ = nπ/(N+1)
+        lines.push({ c: c, gap: lineMinGap(nx, ny, c) });
       }
+      var isZig = (theta === 0);
       var minG = Infinity;
       for (var i = 0; i < lines.length; i++) if (lines[i].gap < minG) minG = lines[i].gap;
-      var metallic = minG < 0.025;
-      var tol = minG + 0.02;
+      // Zigzag: edge states → always metallic regardless of cutting-line gaps.
+      var metallic = isZig ? true : (minG < 0.025);
+      // Highlight: for armchair highlight lines at / near zero-gap K corner;
+      // for zigzag highlight the few lines closest to the K projection at c=0
+      // (they don't reach it — that's the point — but they're the nearest bulk modes).
+      var tol = isZig ? (minG + 0.12) : (metallic ? 0.06 : (minG + 0.02));
       for (var i = 0; i < lines.length; i++)
-        lines[i].near = metallic ? (lines[i].gap < 0.06) : (lines[i].gap <= tol);
-      return { theta:theta, N:N, A:A, nx:nx, ny:ny, dk:dk,
+        lines[i].near = lines[i].gap <= tol;
+      return { theta:theta, N:N, A:A, nx:nx, ny:ny,
                lines:lines, gapE:metallic ? 0 : minG, metallic:metallic };
     }
 
