@@ -1087,25 +1087,32 @@
       ctx.clearRect(0, 0, W, H);
 
       var modes = selectModes(p);
-      // Dispersion along each cutting line, parametrized by arclength s in the
-      // line direction t = (−ny, nx).  Sampling the full BZ chord makes every
-      // Dirac crossing (on- or off-axis) appear where the line meets a corner.
-      var tx = -p.ny, ty = p.nx, sR = R_out, NSAMP = 260;
-      function ptOf(L, s) { return [L.c*p.nx + s*tx, L.c*p.ny + s*ty]; }
-      var maxE = 0.001;
-      for (var mi = 0; mi < modes.length; mi++) {
-        for (var s2 = 0; s2 <= NSAMP; s2++) {
-          var s = -sR + 2*sR*s2/NSAMP, k = ptOf(modes[mi], s);
-          if (!insideHexRc(k[0], k[1], R_out)) continue;
-          var e = bandE(k[0], k[1]);
-          if (e > maxE) maxE = e;
-        }
+      var isArm = (p.theta === 30), isZig = (p.theta === 0);
+      var kMax = isArm ? PI/sqrt3 : isZig ? PI : R_out;
+      var nFold = isArm ? 2 : 1;
+      var NSAMP = 280;
+
+      function getE(line, kp, fold) {
+        if (isArm) return bandE(line.c, kp + fold * 2 * PI / sqrt3);
+        if (isZig) return bandE(kp, 2 * line.c - sqrt3 * kp);
+        var tx = -p.ny, ty = p.nx;
+        var kx = line.c * p.nx + kp * tx, ky = line.c * p.ny + kp * ty;
+        if (!insideHexRc(kx, ky, R_out)) return -1;
+        return bandE(kx, ky);
       }
+
+      var maxE = 0.001;
+      for (var mi = 0; mi < modes.length; mi++)
+        for (var f = 0; f < nFold; f++)
+          for (var i = 0; i <= NSAMP; i++) {
+            var e = getE(modes[mi], -kMax + 2*kMax*i/NSAMP, f);
+            if (e > maxE) maxE = e;
+          }
       maxE *= 1.08;
 
-      var pad = {l:46, r:16, t:18, b:28};
+      var pad = {l:46, r:16, t:18, b: (isArm||isZig) ? 36 : 28};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
-      function sx(s) { return pad.l + (s+sR)/(2*sR)*pw; }
+      function sx(k) { return pad.l + (k+kMax)/(2*kMax)*pw; }
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
       ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
@@ -1118,26 +1125,36 @@
       ctx.strokeStyle = 'rgba(255,255,255,0.2)';
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
+      if (isArm || isZig) {
+        ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sx(0), pad.t); ctx.lineTo(sx(0), pad.t+ph); ctx.stroke();
+        if (isZig) {
+          var kK = 2*PI/3;
+          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+          ctx.beginPath(); ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(sx(-kK), pad.t); ctx.lineTo(sx(-kK), pad.t+ph); ctx.stroke();
+        }
+      }
+
       for (var mi = modes.length-1; mi >= 0; mi--) {
-        var m = modes[mi];
-        var isFirst = (mi === 0);
+        var m = modes[mi], isFirst = (mi === 0);
         var col = isFirst ? (p.metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, mi)];
         ctx.strokeStyle = col;
-        ctx.lineWidth = isFirst ? 2.2 : 1.3;
-        for (var sgn = -1; sgn <= 1; sgn += 2) {
-          ctx.beginPath();
-          var started = false;
-          for (var s2 = 0; s2 <= NSAMP; s2++) {
-            var s = -sR + 2*sR*s2/NSAMP, k = ptOf(m, s);
-            if (!insideHexRc(k[0], k[1], R_out)) {
-              if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue;
+        for (var f = 0; f < nFold; f++) {
+          for (var sgn = -1; sgn <= 1; sgn += 2) {
+            ctx.lineWidth = (isFirst && f === 0) ? 2.2 : 1.3;
+            ctx.beginPath(); var started = false;
+            for (var i = 0; i <= NSAMP; i++) {
+              var kp = -kMax + 2*kMax*i/NSAMP;
+              var e = getE(m, kp, f);
+              if (e < 0) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
+              var ey = sgn * e;
+              if (abs(ey) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
+              if (!started) { ctx.moveTo(sx(kp), sy(ey)); started = true; }
+              else ctx.lineTo(sx(kp), sy(ey));
             }
-            var e = sgn * bandE(k[0], k[1]);
-            if (abs(e) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
-            if (!started) { ctx.moveTo(sx(s), sy(e)); started = true; }
-            else ctx.lineTo(sx(s), sy(e));
+            if (started) ctx.stroke();
           }
-          if (started) ctx.stroke();
         }
       }
 
@@ -1149,13 +1166,12 @@
         ctx.setLineDash([]);
         ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('Eg = ' + (2*gE).toFixed(2) + ' eV', pad.l + pw - 80, sy(0) - 4);
+        ctx.fillText('Eg = ' + (2*gE).toFixed(2) + ' eV', pad.l+pw-80, sy(0)-4);
       }
 
-      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'center'; ctx.fillText('k∥ (along cutting line)', pad.l + pw/2, H-8);
       ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
-      ctx.fillText('E (eV)', 0, 0); ctx.restore();
+      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText('E (eV)', 0, 0); ctx.restore();
 
       ctx.textAlign = 'right'; ctx.font = '500 9px "DM Sans", sans-serif';
       ctx.fillStyle = '#a8a29e';
@@ -1165,6 +1181,28 @@
       }
       ctx.fillStyle = '#d6d3d1';
       ctx.fillText('0', pad.l-5, sy(0)+3);
+
+      if (isArm || isZig) {
+        ctx.font = '600 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+        var yHSP = pad.t + ph + 15;
+        ctx.fillStyle = '#d6d3d1';
+        ctx.fillText('Γ', sx(0), yHSP);
+        if (isArm) {
+          ctx.fillText('X', sx(kMax), yHSP);
+          ctx.fillText('X', sx(-kMax), yHSP);
+        } else {
+          ctx.fillText('X', sx(PI), yHSP);
+          ctx.fillText('X', sx(-PI), yHSP);
+          ctx.fillStyle = '#a8a29e'; ctx.font = '500 10px "DM Sans", sans-serif';
+          ctx.fillText('K', sx(2*PI/3), yHSP);
+          ctx.fillText('K', sx(-2*PI/3), yHSP);
+        }
+        ctx.fillStyle = '#57534e'; ctx.font = '500 9px "DM Sans", sans-serif';
+        ctx.fillText(isArm ? 'armchair 1D BZ (a = √3)' : 'zigzag 1D BZ (a = 1)', pad.l+pw/2, H-4);
+      } else {
+        ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
+        ctx.textAlign = 'center'; ctx.fillText('k∥ (along cutting line)', pad.l+pw/2, H-8);
+      }
 
       ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
       ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
