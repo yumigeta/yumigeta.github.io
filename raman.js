@@ -258,78 +258,140 @@ function fitCanvas(cv) {
     ctx.stroke();
   }
 
-  // ── CO₂ molecule with electron cloud ellipse ──
+  // ── CO₂ electron-density cloud ──
+  // The cloud is NOT a drawn ellipse. It is a real electron-density field:
+  // a superposition of Gaussian densities centred on each atom and bond,
+  // ρ(r) = Σ wᵢ·exp(−|r−rᵢ|²/2σᵢ²). The shape (a peanut along the O=C=O
+  // axis) is therefore emergent, and it deforms correctly with each mode.
+  // We render the field as a heat map plus iso-density contour lines.
+  let _off, _offctx, _field, _GW, _GH;
+
+  function computeField(w, h, sources) {
+    const cell = 4;
+    const GW = Math.max(2, Math.round(w / cell));
+    const GH = Math.max(2, Math.round(h / cell));
+    if (!_field || _GW !== GW || _GH !== GH) {
+      _GW = GW; _GH = GH; _field = new Float32Array(GW * GH);
+      _off = document.createElement('canvas');
+      _off.width = GW; _off.height = GH;
+      _offctx = _off.getContext('2d');
+    }
+    let dmax = 0;
+    for (let gy = 0; gy < GH; gy++) {
+      const py = gy / (GH - 1) * h;
+      for (let gx = 0; gx < GW; gx++) {
+        const px = gx / (GW - 1) * w;
+        let d = 0;
+        for (const s of sources) {
+          const dx = px - s.x, dy = py - s.y;
+          d += s.w * Math.exp(-(dx * dx + dy * dy) / (2 * s.s * s.s));
+        }
+        _field[gy * GW + gx] = d;
+        if (d > dmax) dmax = d;
+      }
+    }
+    return dmax;
+  }
+
+  function drawHeat(ctx, w, h, dmax) {
+    const img = _offctx.createImageData(_GW, _GH);
+    const data = img.data;
+    for (let i = 0; i < _GW * _GH; i++) {
+      const n = Math.min(1, _field[i] / dmax);
+      const a = Math.pow(n, 0.9) * 0.9;
+      data[i * 4] = 56; data[i * 4 + 1] = 189; data[i * 4 + 2] = 248;
+      data[i * 4 + 3] = a * 255;
+    }
+    _offctx.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(_off, 0, 0, w, h);
+  }
+
+  function drawContour(ctx, w, h, thr, color, lw) {
+    ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
+    const sx = w / (_GW - 1), sy = h / (_GH - 1);
+    const F = _field, GW = _GW;
+    for (let y = 0; y < _GH - 1; y++) {
+      for (let x = 0; x < GW - 1; x++) {
+        const v0 = F[y*GW+x], v1 = F[y*GW+x+1], v2 = F[(y+1)*GW+x+1], v3 = F[(y+1)*GW+x];
+        let idx = 0;
+        if (v0 > thr) idx |= 1; if (v1 > thr) idx |= 2;
+        if (v2 > thr) idx |= 4; if (v3 > thr) idx |= 8;
+        if (idx === 0 || idx === 15) continue;
+        const top   = () => [(x + (thr-v0)/(v1-v0)) * sx, y * sy];
+        const right = () => [(x+1) * sx, (y + (thr-v1)/(v2-v1)) * sy];
+        const bot   = () => [(x + (thr-v3)/(v2-v3)) * sx, (y+1) * sy];
+        const left  = () => [x * sx, (y + (thr-v0)/(v3-v0)) * sy];
+        const seg = (a, b) => { ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); };
+        switch (idx) {
+          case 1: case 14: seg(left(), top()); break;
+          case 2: case 13: seg(top(), right()); break;
+          case 3: case 12: seg(left(), right()); break;
+          case 4: case 11: seg(right(), bot()); break;
+          case 6: case 9:  seg(top(), bot()); break;
+          case 7: case 8:  seg(left(), bot()); break;
+          case 5:  seg(left(), top()); seg(right(), bot()); break;
+          case 10: seg(left(), bot()); seg(top(), right()); break;
+        }
+      }
+    }
+    ctx.stroke();
+  }
+
   function drawMolecule() {
     const { ctx, w, h } = fitCanvas(cMol);
     const tNow = t0 + 1;
-    const q = qfn(tNow);
+    const q = qfn(tNow);                       // vibrational coordinate, −1..1
     const cx = w / 2, cy = h / 2;
-    const gap = Math.min(62, w * 0.22);
+    const gap = Math.min(58, w * 0.21);
+    const A = 13;                              // displacement amplitude (px)
 
-    // displacement per atom
-    const A = 14;
-    let pos;
-    if (mode === 'sym')       pos = [[cx-gap - A*q, cy], [cx, cy], [cx+gap + A*q, cy]];
-    else if (mode === 'asym') pos = [[cx-gap + A*q, cy], [cx - A*0.6*q, cy], [cx+gap + A*q, cy]];
-    else                      pos = [[cx-gap, cy - A*q], [cx, cy + A*1.1*q], [cx+gap, cy - A*q]];
-
-    // electron cloud ellipse — shape changes with mode
-    const aNow = afn(tNow);
-    let eRx, eRy;
-    if (mode === 'sym') {
-      // symmetric: ellipse elongates/contracts horizontally with vibration
-      eRx = (gap + 42) * Math.sqrt(aNow);
-      eRy = 36 / Math.sqrt(aNow);
-    } else if (mode === 'asym') {
-      // asymmetric: ellipse doesn't change (to 1st order)
-      eRx = gap + 42;
-      eRy = 36;
-    } else {
-      // bend: ellipse doesn't change (to 1st order)
-      eRx = gap + 42;
-      eRy = 36;
+    // atom positions + per-bond relative stretch (drives local cloud diffuseness)
+    let pos, relL, relR;
+    if (mode === 'sym') {                      // both bonds in phase
+      pos = [[cx-(gap+A*q), cy], [cx, cy], [cx+(gap+A*q), cy]];
+      relL = relR = q;
+    } else if (mode === 'asym') {              // one stretches, other compresses
+      pos = [[cx-(gap+A*q), cy], [cx + A*0.45*q, cy], [cx+(gap-A*q), cy]];
+      relL = q; relR = -q;
+    } else {                                   // bend — bonds keep length
+      pos = [[cx-gap, cy - A*q], [cx, cy + A*1.05*q], [cx+gap, cy - A*q]];
+      relL = relR = 0;
     }
 
-    // draw cloud
-    const grd = ctx.createRadialGradient(cx, cy, 6, cx, cy, Math.max(eRx, eRy));
-    const brightness = MODES[mode].raman ? 0.22 : 0.10;
-    grd.addColorStop(0, `rgba(56,189,248,${brightness + 0.08})`);
-    grd.addColorStop(0.7, `rgba(56,189,248,${brightness * 0.4})`);
-    grd.addColorStop(1, 'rgba(56,189,248,0)');
-    ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.ellipse(cx, cy, eRx, eRy, 0, 0, TAU); ctx.fill();
+    // electron-density sources: atoms (valence-weighted) + bond charge clouds.
+    // σ grows with bond length: stretched bonds hold electrons more loosely
+    // → more diffuse, more polarizable (this is what makes the symmetric
+    // stretch's mean polarizability oscillate).
+    const sO = 0.42 * gap + 11, sC = 0.36 * gap + 8, sB = 0.30 * gap + 7;
+    const bL = [(pos[0][0]+pos[1][0])/2, (pos[0][1]+pos[1][1])/2];
+    const bR = [(pos[1][0]+pos[2][0])/2, (pos[1][1]+pos[2][1])/2];
+    const sources = [
+      { x: pos[0][0], y: pos[0][1], w: 1.00, s: sO * (1 + 0.30*relL) },
+      { x: pos[1][0], y: pos[1][1], w: 0.80, s: sC },
+      { x: pos[2][0], y: pos[2][1], w: 1.00, s: sO * (1 + 0.30*relR) },
+      { x: bL[0], y: bL[1], w: 0.45, s: sB * (1 + 0.25*relL) },
+      { x: bR[0], y: bR[1], w: 0.45, s: sB * (1 + 0.25*relR) }
+    ];
 
-    // cloud outline
-    ctx.strokeStyle = `rgba(56,189,248,${MODES[mode].raman ? 0.5 : 0.25})`;
-    ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
-    ctx.beginPath(); ctx.ellipse(cx, cy, eRx, eRy, 0, 0, TAU); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // label
-    ctx.fillStyle = 'rgba(56,189,248,0.5)'; ctx.font = '10px DM Sans, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('electron cloud (α)', cx, cy - eRy - 6);
+    const dmax = computeField(w, h, sources);
+    drawHeat(ctx, w, h, dmax);
+    drawContour(ctx, w, h, 0.30 * dmax, 'rgba(125,211,252,0.45)', 1);
+    drawContour(ctx, w, h, 0.58 * dmax, 'rgba(186,230,253,0.6)', 1);
 
     // bonds
-    ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)'; ctx.lineWidth = 3.5;
     ctx.beginPath();
     ctx.moveTo(pos[0][0], pos[0][1]);
     ctx.lineTo(pos[1][0], pos[1][1]);
     ctx.lineTo(pos[2][0], pos[2][1]);
     ctx.stroke();
 
-    // double-bond marks
-    for (const [a, b] of [[pos[0], pos[1]], [pos[1], pos[2]]]) {
-      const mx = (a[0]+b[0])/2, my = (a[1]+b[1])/2;
-      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(mx, my-7); ctx.lineTo(mx, my+7); ctx.stroke();
-    }
-
     // atoms
     const atoms = [
-      { p: pos[0], r: 15, c: '#ef4444', t: 'O' },
-      { p: pos[1], r: 18, c: '#52525b', t: 'C' },
-      { p: pos[2], r: 15, c: '#ef4444', t: 'O' }
+      { p: pos[0], r: 14, c: '#ef4444', t: 'O' },
+      { p: pos[1], r: 17, c: '#52525b', t: 'C' },
+      { p: pos[2], r: 14, c: '#ef4444', t: 'O' }
     ];
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for (const a of atoms) {
@@ -340,6 +402,11 @@ function fitCanvas(cv) {
       ctx.fillStyle = '#fff'; ctx.font = 'bold 12px DM Sans, sans-serif';
       ctx.fillText(a.t, a.p[0], a.p[1]);
     }
+
+    // label
+    ctx.fillStyle = 'rgba(125,211,252,0.7)'; ctx.font = '10px DM Sans, sans-serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText('electron density ρ (schematic)', 8, 8);
   }
 
   // ── α(Q) curve with moving dot (textbook figure 1b) ──
