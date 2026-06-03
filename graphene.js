@@ -831,11 +831,15 @@
       }
     }
 
-    // ── 3D Dirac cone with tight-binding surface + cutting lines ──
-    var CKR = 1.6;
-    var CMN = 24;
-    var cutPhi = PI/5;
-    var CUT_THETA = 32*PI/180;
+    // ── 3D band surface (same region as Module 02) + cutting lines ──
+    var R_out = BZR * 1.62;               // matches Module 02's extent
+    var B1c = [2*PI, -2*PI/sqrt3];
+    var B2c = [0, 4*PI/sqrt3];
+    var UVc = 4/3;
+    var CMN = 40;                          // mesh (multiple of 8 → K exact)
+    var SUBKR = 1.5;                       // k-window for the 1D subband panel
+    var cutPhi = -32*PI/180;
+    var CUT_THETA = 38*PI/180;
     var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
     function lerpC(a, b, t) { return a + (b-a)*t; }
@@ -845,83 +849,109 @@
       else { var u = -t; r = lerpC(207,37,u); g = lerpC(250,99,u); b = lerpC(254,235,u); }
       return [r,g,b];
     }
+    function insideHexRc(kx, ky, R) {
+      var ap = R*sqrt3/2;
+      for (var n = 0; n < 6; n++) {
+        var ang = PI/6 + n*PI/3;
+        if (cos(ang)*kx + sin(ang)*ky > ap + 1e-6) return false;
+      }
+      return true;
+    }
 
-    var coneVerts = null, coneT = null, coneMaxE = 1;
-    function buildConeVerts() {
-      if (coneVerts && coneT === tHop) return;
-      var N = CMN; coneVerts = []; coneMaxE = 0.001;
+    // Mesh sampled in reciprocal coords so the K points land exactly on nodes.
+    var coneMesh = null, coneT = null;
+    function buildCone() {
+      if (coneMesh && coneT === tHop) return;
+      var N = CMN, verts = [];
       for (var i = 0; i <= N; i++) {
         for (var j = 0; j <= N; j++) {
-          var dkx = -CKR + 2*CKR*i/N, dky = -CKR + 2*CKR*j/N;
-          var ep = bandE(KPx + dkx, dky);
-          if (ep > coneMaxE) coneMaxE = ep;
-          coneVerts.push({x:dkx, y:dky, ep:ep});
+          var u = -UVc + 2*UVc*i/N, v = -UVc + 2*UVc*j/N;
+          var kx = u*B1c[0] + v*B2c[0], ky = u*B1c[1] + v*B2c[1];
+          verts.push({kx:kx, ky:ky, ep:bandE(kx, ky)});
         }
       }
+      var faces = [];
+      for (var i = 0; i < N; i++) {
+        for (var j = 0; j < N; j++) {
+          var idx = i*(N+1)+j, q = [idx, idx+1, idx+N+2, idx+N+1];
+          var cx = 0, cy = 0;
+          for (var k = 0; k < 4; k++) { cx += verts[q[k]].kx; cy += verts[q[k]].ky; }
+          if (insideHexRc(cx/4, cy/4, R_out)) {
+            faces.push({v:q, band:1}); faces.push({v:q, band:-1});
+          }
+        }
+      }
+      coneMesh = {verts:verts, faces:faces};
       coneT = tHop;
     }
 
     function drawCone(p) {
-      buildConeVerts();
+      buildCone();
       var o = dpr(cutC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      var N = CMN, verts = coneVerts, maxEp = coneMaxE;
+      var verts = coneMesh.verts, faces = coneMesh.faces;
+      var eMax = 3 * tHop;
 
       var cosT = cos(CUT_THETA), sinT = sin(CUT_THETA);
       var cosP = cos(cutPhi), sinP = sin(cutPhi);
-      var kSc = 0.42/CKR, eSc = 0.36/maxEp;
-      var vSc = min(W,H) * 0.82;
+      var kSc = 0.92/R_out, eSc = 0.52/eMax;
+      var vSc = min(W,H) * 0.40;
       var Lx=0.35, Ly=0.55, Lz=0.75;
       var Lm = sqrt(Lx*Lx+Ly*Ly+Lz*Lz); Lx/=Lm; Ly/=Lm; Lz/=Lm;
 
-      function proj(x, y, z) {
-        var xr=x*kSc, yr=y*kSc, zr=z*eSc;
-        var x1=xr*cosP-yr*sinP, y1=xr*sinP+yr*cosP;
-        var y2=y1*cosT+zr*sinT, z2=zr*cosT-y1*sinT;
+      function proj(kx, ky, e) {
+        var x=kx*kSc, y=ky*kSc, z=e*eSc;
+        var x1=x*cosP-y*sinP, y1=x*sinP+y*cosP;
+        var y2=y1*cosT+z*sinT, z2=z*cosT-y1*sinT;
         return {sx:W/2+x1*vSc, sy:H/2-y2*vSc, depth:z2, x2:x1, y2:y2, z2:z2};
       }
 
+      // First-BZ hexagon outline on the z = 0 plane
+      ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+      ctx.strokeStyle = 'rgba(251,191,36,0.30)';
+      ctx.beginPath();
+      for (var n = 0; n <= 6; n++) {
+        var ang = n*PI/3, pp = proj(BZR*cos(ang), BZR*sin(ang), 0);
+        if (n === 0) ctx.moveTo(pp.sx, pp.sy); else ctx.lineTo(pp.sx, pp.sy);
+      }
+      ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+
       var draws = [];
 
-      for (var i = 0; i < N; i++) {
-        for (var j = 0; j < N; j++) {
-          var idx = i*(N+1)+j;
-          var q = [idx, idx+1, idx+N+2, idx+N+1];
-          for (var band = -1; band <= 1; band += 2) {
-            var ps = [];
-            for (var k = 0; k < 4; k++) {
-              var v = verts[q[k]];
-              ps.push(proj(v.x, v.y, band*v.ep));
-            }
-            var ax=ps[2].x2-ps[0].x2, ay=ps[2].y2-ps[0].y2, az=ps[2].z2-ps[0].z2;
-            var bx=ps[3].x2-ps[1].x2, by=ps[3].y2-ps[1].y2, bz=ps[3].z2-ps[1].z2;
-            var nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx;
-            var nm=sqrt(nx*nx+ny*ny+nz*nz)||1;
-            var ndl=abs((nx*Lx+ny*Ly+nz*Lz)/nm);
-            var bright=0.30+0.70*ndl;
-            var eAvg=band*(verts[q[0]].ep+verts[q[1]].ep+verts[q[2]].ep+verts[q[3]].ep)/4;
-            draws.push({t:0, p:ps,
-              depth:(ps[0].depth+ps[1].depth+ps[2].depth+ps[3].depth)/4,
-              e:eAvg, bright:bright});
-          }
-        }
+      for (var fi = 0; fi < faces.length; fi++) {
+        var f = faces[fi], q = f.v, band = f.band, ps = [];
+        for (var k = 0; k < 4; k++) { var vv = verts[q[k]]; ps.push(proj(vv.kx, vv.ky, band*vv.ep)); }
+        var ax=ps[2].x2-ps[0].x2, ay=ps[2].y2-ps[0].y2, az=ps[2].z2-ps[0].z2;
+        var bx=ps[3].x2-ps[1].x2, by=ps[3].y2-ps[1].y2, bz=ps[3].z2-ps[1].z2;
+        var nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx;
+        var nm=sqrt(nx*nx+ny*ny+nz*nz)||1;
+        var ndl=abs((nx*Lx+ny*Ly+nz*Lz)/nm);
+        var bright=0.34+0.66*ndl;
+        var eAvg=band*(verts[q[0]].ep+verts[q[1]].ep+verts[q[2]].ep+verts[q[3]].ep)/4;
+        draws.push({t:0, p:ps,
+          depth:(ps[0].depth+ps[1].depth+ps[2].depth+ps[3].depth)/4,
+          e:eAvg, bright:bright});
       }
 
-      var lines = allCutLines(p, CKR);
-      var LSAMP = 44;
-      for (var li = 0; li < lines.length; li++) {
-        var ky = lines[li];
+      // Cutting lines: quantized k⊥ = (j+δ)Δk → constant-ky lines across the
+      // whole BZ, traced along the actual band surface and depth-sorted with it.
+      var LS = 60;
+      for (var j = -50; j <= 50; j++) {
+        var ky = (j + p.delta) * p.dk;
+        if (abs(ky) > R_out) continue;
         var isNearest = abs(abs(ky) - p.kpMin) < 1e-6;
         var isThru = abs(ky) < 1e-6 && p.metallic;
-        var col = isThru ? '#34d399' : isNearest ? '#fbbf24' : 'rgba(96,165,250,0.85)';
-        var lw = (isNearest || isThru) ? 2.5 : 1.2;
+        var col = isThru ? '#34d399' : isNearest ? '#fbbf24' : 'rgba(147,197,253,0.85)';
+        var lw = (isNearest || isThru) ? 2.6 : 1.0;
         for (var band = -1; band <= 1; band += 2) {
-          for (var s = 0; s < LSAMP; s++) {
-            var dkx1=-CKR+2*CKR*s/LSAMP, dkx2=-CKR+2*CKR*(s+1)/LSAMP;
-            var e1=band*bandE(KPx+dkx1,ky), e2=band*bandE(KPx+dkx2,ky);
-            var p1=proj(dkx1,ky,e1), p2=proj(dkx2,ky,e2);
-            draws.push({t:1, p1:p1, p2:p2,
-              depth:(p1.depth+p2.depth)/2+0.001, col:col, lw:lw});
+          var prev = null;
+          for (var s = 0; s <= LS; s++) {
+            var kx = -R_out + 2*R_out*s/LS;
+            if (!insideHexRc(kx, ky, R_out)) { prev = null; continue; }
+            var pt = proj(kx, ky, band*bandE(kx, ky));
+            if (prev) draws.push({t:1, p1:prev, p2:pt,
+              depth:(prev.depth+pt.depth)/2 + 0.0015, col:col, lw:lw});
+            prev = pt;
           }
         }
       }
@@ -931,7 +961,7 @@
       for (var i = 0; i < draws.length; i++) {
         var d = draws[i];
         if (d.t === 0) {
-          var c = coneCol(d.e, maxEp);
+          var c = coneCol(d.e, eMax);
           var r = min(255, c[0]*d.bright)|0, g = min(255, c[1]*d.bright)|0, bl = min(255, c[2]*d.bright)|0;
           ctx.fillStyle = 'rgb('+r+','+g+','+bl+')';
           ctx.beginPath();
@@ -946,13 +976,16 @@
         }
       }
 
-      var dp = proj(0, 0, 0);
-      ctx.beginPath(); ctx.arc(dp.sx, dp.sy, 3.5, 0, 2*PI);
-      ctx.fillStyle = '#fde68a'; ctx.fill();
+      // Dirac-point markers at the six K corners (E = 0)
+      for (var n = 0; n < 6; n++) {
+        var ang = n*PI/3, dpm = proj(BZR*cos(ang), BZR*sin(ang), 0);
+        ctx.beginPath(); ctx.arc(dpm.sx, dpm.sy, 2.5, 0, 2*PI);
+        ctx.fillStyle = '#fde68a'; ctx.fill();
+      }
 
       ctx.fillStyle = '#a8a29e'; ctx.font = '600 10px "DM Sans", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText('Cutting lines on Dirac cone', 6, 13);
+      ctx.fillText('Cutting lines on the band surface', 6, 13);
     }
 
     // ── Pointer interaction for 3D cone ──
@@ -979,7 +1012,7 @@
       ctx.clearRect(0, 0, W, H);
 
       var kR = 1.5;
-      var ks = ladderAbs(p, CKR);
+      var ks = ladderAbs(p, SUBKR);
       var NSAMP = 200;
       var maxE = 0.001;
       for (var li = 0; li < ks.length; li++) {
