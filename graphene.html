@@ -170,12 +170,14 @@
       <span class="demo-num">03 — Quantum confinement</span>
       <h2>From graphene to nanoribbons: discretized bands</h2>
       <p>
-        Cut graphene into a narrow <b>nanoribbon</b> of width <em>W</em> and the
-        electrons become confined in the transverse direction. Only standing-wave
-        modes ψ<sub>n</sub> ∝ sin(nπy/<em>W</em>) survive, so the transverse
-        momentum <b>k<sub>⊥</sub> = nπ/W</b> is <em>quantized</em>. Each allowed
-        k<sub>⊥</sub> slices the 2D Dirac cone into a 1D subband — turning the
-        smooth cone into a ladder of discrete bands.
+        Cut graphene into a narrow <b>nanoribbon</b> and the electrons become
+        confined across its width: the transverse momentum is <em>quantized</em>,
+        so only a discrete family of parallel <b>cutting lines</b> survives in
+        the Brillouin zone. The <em>orientation</em> of those lines is set by the
+        <b>edge geometry</b> — <b style="color:#34d399">zigzag</b> (θ = 0°),
+        <b style="color:#fbbf24">armchair</b> (θ = 30°), or <b>chiral</b> in
+        between — and their spacing by the width <em>N</em>. Whether any line
+        passes through a Dirac point decides if the ribbon is metallic.
       </p>
     </div>
     <div class="demo-stage">
@@ -184,21 +186,28 @@
         <div class="gr-panel"><canvas id="c-gnr-cut"></canvas></div>
       </div>
       <p class="cap">
-        <b>Left:</b> confined transverse standing-wave modes (particle in a box) —
-        the source of the quantization. <b>Right:</b> the full tight-binding band
-        structure over the Brillouin zone, sliced by vertical cutting lines at
-        the allowed momenta k<sub>x,q</sub> = 2qπ/(N+1) set by hard-wall
-        boundary conditions (drag to rotate, scroll to zoom).
-        Whether a line passes through a Dirac point — and the ribbon is
-        metallic — is a <em>consequence</em> of the quantization, not an input.
+        <b>Left:</b> top-down view of the Brillouin zone with the family of
+        cutting lines at the chosen edge orientation. <b>Right:</b> the same
+        lines laid over the full tight-binding band surface (drag to rotate,
+        scroll to zoom). A line through a Dirac point (corner) is
+        <em>gapless</em>; the nearest one otherwise sets the gap.
       </p>
 
       <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
 
       <div class="controls">
         <div class="control">
-          <label>Ribbon width <em>N</em> (chains) <span class="val" id="v-width">12</span></label>
+          <label>Edge orientation — chiral angle <em>θ</em> <span class="val" id="v-angle">30° · armchair</span></label>
+          <input type="range" id="ctrl-angle" min="0" max="30" step="1" value="30">
+        </div>
+        <div class="control">
+          <label>Ribbon width <em>N</em> <span class="val" id="v-width">12</span></label>
           <input type="range" id="ctrl-width" min="4" max="30" step="1" value="12">
+        </div>
+        <div class="btn-row">
+          <button class="demo-btn" id="btn-zigzag">Zigzag · 0°</button>
+          <button class="demo-btn" id="btn-chiral">Chiral · 15°</button>
+          <button class="demo-btn active" id="btn-armchair">Armchair · 30°</button>
         </div>
       </div>
 

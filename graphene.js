@@ -755,108 +755,155 @@
   // ================================================================
   //  Module 03 — Quantum confinement: graphene nanoribbons
   //
-  //  Zone-folding of armchair GNR: allowed transverse modes are
-  //  kx_q = 2qπ/(N+1) for q = 1…N.  Metallicity is NOT an input —
-  //  it emerges when kx_q coincides with a K point (kx = 4π/3).
-  //  That requires q = 2(N+1)/3 to be an integer → N = 3m+2.
-  //  Cutting lines are VERTICAL (constant kx) on the BZ.
+  //  Zone-folding for ANY edge orientation.  Confinement across the
+  //  ribbon width collapses the allowed momenta onto a family of
+  //  parallel CUTTING LINES in the Brillouin zone.  Their orientation
+  //  is the chiral angle θ (0° = zigzag, 30° = armchair, between =
+  //  chiral); their spacing is set by the width N.  A line is gapless
+  //  wherever it passes through a Dirac point, so metallicity is a
+  //  RESULT of the geometry, never an input:
+  //    • armchair → metallic only when N = 3m+2
+  //    • zigzag   → always metallic (the line through Γ hits the K's
+  //                 that project onto it)
+  //    • chiral   → generically semiconducting
   // ================================================================
   (function () {
-    var realC = document.getElementById('c-gnr-real');
-    var cutC  = document.getElementById('c-gnr-cut');
-    var bandC = document.getElementById('c-gnr-bands');
-    var slider = document.getElementById('ctrl-width');
-    var wval = document.getElementById('v-width');
+    var bzC     = document.getElementById('c-gnr-real');   // 2D BZ top view
+    var cutC    = document.getElementById('c-gnr-cut');    // 3D band surface
+    var bandC   = document.getElementById('c-gnr-bands');  // 1D subbands
+    var aSlider = document.getElementById('ctrl-angle');
+    var aVal    = document.getElementById('v-angle');
+    var wSlider = document.getElementById('ctrl-width');
+    var wVal    = document.getElementById('v-width');
     var classDiv = document.getElementById('gnr-class');
-    if (!realC) return;
+    var btnZ = document.getElementById('btn-zigzag');
+    var btnX = document.getElementById('btn-chiral');
+    var btnA = document.getElementById('btn-armchair');
+    if (!bzC) return;
 
     var SUB = ['#fbbf24','#fb923c','#f87171','#c084fc','#60a5fa','#34d399',
                '#f472b6','#a3e635','#22d3ee'];
 
-    // Minimum of the band energy along a whole vertical cutting line (over k∥).
-    // f² = 3 + 2cos(kx) + 4cos(kx/2)·cos(k∥√3/2); the cos(k∥√3/2) term reaches
-    // −sign(cos(kx/2)) somewhere on the line, so the minimum is
-    //   t·√(max(0, 3 + 2cos(kx) − 4|cos(kx/2)|)).
-    // This is what matters physically: a line is gapless when it passes through
-    // ANY Dirac point — including the OFF-AXIS ones at (2π/3, ±2π/√3), which a
-    // naïve check at k∥=0 would miss entirely.
-    function lineGap(kx) {
-      var v = 3 + 2*cos(kx) - 4*abs(cos(kx/2));
-      return tHop * sqrt(max(0, v));
-    }
+    var R_out = BZR * 1.62;   // rendered region (matches Module 02)
 
-    // ── GNR parameters derived solely from width N ──
-    function gnrParams(N) {
-      var dk = 2*PI / (N + 1);
-      // Find the cutting line closest to a Dirac point — metallicity is a RESULT.
-      var minGap = Infinity, qNearest = 1;
-      for (var q = 1; q <= N; q++) {
-        var g = lineGap(q * dk);
-        if (g < minGap) { minGap = g; qNearest = q; }
+    // Hexagonal BZ membership with a scalable radius.
+    function insideHexRc(kx, ky, R) {
+      var ap = R*sqrt3/2;
+      for (var n = 0; n < 6; n++) {
+        var ang = PI/6 + n*PI/3;
+        if (cos(ang)*kx + sin(ang)*ky > ap + 1e-6) return false;
       }
-      var metallic = minGap < 1e-9;
-      return { N:N, dk:dk, metallic:metallic, gapE:minGap, qNearest:qNearest };
+      return true;
     }
 
-    // All allowed vertical cutting-line kx positions within the visual range.
-    // Physical modes are q = 1…N within each period (N+1).  Equivalently,
-    // all integer n EXCEPT multiples of (N+1) (those are the excluded modes).
-    function cutLines(p) {
-      var out = [], M = p.N + 1;
-      for (var n = -120; n <= 120; n++) {
-        if (n % M === 0) continue;
-        var kx = n * p.dk;
-        if (abs(kx) > R_out + 0.1) continue;
-        var g = lineGap(kx);
-        out.push({kx:kx, gap:g, near:g < p.gapE + 1e-6});
+    // Minimum band energy along the line { k : k·n = c } inside the first BZ.
+    // Coarse scan + local refine so a line grazing a Dirac point resolves to
+    // ~0 cleanly.  A line is gapless ⇔ this minimum is 0.
+    function lineMinGap(nx, ny, c) {
+      var tx = -ny, ty = nx, bx = c*nx, by = c*ny;
+      var ext = 1.25*BZR, S = 260, best = Infinity, bi = 0, found = false;
+      for (var i = -S; i <= S; i++) {
+        var s = ext*i/S, kx = bx+s*tx, ky = by+s*ty;
+        if (!insideHexRc(kx, ky, BZR)) continue;
+        var e = bandE(kx, ky);
+        if (e < best) { best = e; bi = i; found = true; }
       }
-      return out;
+      if (!found) return Infinity;
+      var s0 = ext*(bi-1)/S, s1 = ext*(bi+1)/S;
+      for (var j = 0; j <= 40; j++) {
+        var s = s0 + (s1-s0)*j/40, kx = bx+s*tx, ky = by+s*ty;
+        var e = bandE(kx, ky);
+        if (e < best) best = e;
+      }
+      return best;
     }
 
-    // Select modes for the subband plot (8 closest to a Dirac point).
-    function subModes(p) {
-      var modes = [];
-      for (var q = 1; q <= p.N; q++)
-        modes.push({q:q, kx:q*p.dk, gap:lineGap(q*p.dk)});
-      modes.sort(function(a,b){ return a.gap - b.gap; });
-      return modes.slice(0, min(8, p.N));
+    // The cutting-line family for chiral angle θ (deg) and width N.
+    function ribbon(theta, N) {
+      var A = (30 - theta) * PI/180;        // normal direction of the lines
+      var nx = cos(A), ny = sin(A);
+      var dk = 2*PI / (N + 1);              // line spacing (width)
+      var lines = [], jmax = Math.ceil((R_out + 0.5)/dk) + 1;
+      for (var j = -jmax; j <= jmax; j++) {
+        var c = j*dk;
+        if (abs(c) > R_out + 0.05) continue;
+        lines.push({ c:c, gap:lineMinGap(nx, ny, c) });
+      }
+      var minG = Infinity;
+      for (var i = 0; i < lines.length; i++) if (lines[i].gap < minG) minG = lines[i].gap;
+      var metallic = minG < 0.025;
+      var tol = minG + 0.02;
+      for (var i = 0; i < lines.length; i++)
+        lines[i].near = metallic ? (lines[i].gap < 0.06) : (lines[i].gap <= tol);
+      return { theta:theta, N:N, A:A, nx:nx, ny:ny, dk:dk,
+               lines:lines, gapE:metallic ? 0 : minG, metallic:metallic };
     }
 
-    // ── Standing-wave modes ──
-    function drawReal() {
-      var o = dpr(realC), ctx = o.ctx, W = o.w, H = o.h;
+    // Lines nearest a Dirac point, for the 1D subband plot (lowest gap first).
+    function selectModes(p) {
+      var ls = p.lines.slice().sort(function(a,b){ return a.gap - b.gap; });
+      return ls.slice(0, min(8, ls.length));
+    }
+
+    // ── 2D top-down Brillouin zone with the cutting-line family ──
+    function drawBZ(p) {
+      var o = dpr(bzC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      var modes = 3;
-      var padL = 30, padR = 16, padT = 22, padB = 18;
-      var boxL = padL, boxR = W - padR, boxW = boxR - boxL;
-      var laneH = (H - padT - padB) / modes;
+      var sc = min(W, H) * 0.40 / BZR, cx = W/2, cy = H/2;
+      function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
 
-      ctx.font = '600 11px "DM Sans", sans-serif';
-      ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
-      ctx.fillText('Confined modes  ψ_q ∝ sin(qπx/W)', boxL, 14);
+      ctx.fillStyle = '#a8a29e'; ctx.font = '600 11px "DM Sans", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Cutting lines in the Brillouin zone', 8, 14);
 
-      for (var n = 1; n <= modes; n++) {
-        var midY = padT + laneH * (n - 0.5);
-        var amp = laneH * 0.32;
-        ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(boxL, midY - laneH*0.42); ctx.lineTo(boxL, midY + laneH*0.42);
-        ctx.moveTo(boxR, midY - laneH*0.42); ctx.lineTo(boxR, midY + laneH*0.42); ctx.stroke();
-        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-        ctx.beginPath(); ctx.moveTo(boxL, midY); ctx.lineTo(boxR, midY); ctx.stroke();
-        ctx.strokeStyle = SUB[n-1]; ctx.lineWidth = 2;
+      // BZ hexagon (corners = Dirac points)
+      ctx.strokeStyle = 'rgba(251,191,36,0.55)'; ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (var n = 0; n <= 6; n++) {
+        var ang = n*PI/3, pp = P(BZR*cos(ang), BZR*sin(ang));
+        if (n === 0) ctx.moveTo(pp[0], pp[1]); else ctx.lineTo(pp[0], pp[1]);
+      }
+      ctx.closePath(); ctx.stroke();
+
+      // cutting lines, clipped to the BZ
+      var tx = -p.ny, ty = p.nx, ext = 1.3*BZR;
+      for (var li = 0; li < p.lines.length; li++) {
+        var L = p.lines[li];
+        ctx.strokeStyle = L.near ? (p.metallic ? '#34d399' : '#fbbf24')
+                                 : 'rgba(147,197,253,0.55)';
+        ctx.lineWidth = L.near ? 2.2 : 0.8;
+        var bx = L.c*p.nx, by = L.c*p.ny, prev = false;
         ctx.beginPath();
-        for (var s = 0; s <= 60; s++) {
-          var f = s / 60, x = boxL + f * boxW, y = midY - amp * sin(n*PI*f);
-          if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        for (var s = -ext; s <= ext; s += ext/90) {
+          var kx = bx+s*tx, ky = by+s*ty;
+          if (!insideHexRc(kx, ky, BZR)) { prev = false; continue; }
+          var pp = P(kx, ky);
+          if (prev) ctx.lineTo(pp[0], pp[1]); else ctx.moveTo(pp[0], pp[1]);
+          prev = true;
         }
         ctx.stroke();
-        ctx.fillStyle = SUB[n-1]; ctx.textAlign = 'left';
-        ctx.fillText('q=' + n, 4, midY + 4);
       }
+
+      // Dirac points + Γ
+      for (var n = 0; n < 6; n++) {
+        var ang = n*PI/3, pp = P(BZR*cos(ang), BZR*sin(ang));
+        ctx.beginPath(); ctx.arc(pp[0], pp[1], 3, 0, 2*PI);
+        ctx.fillStyle = '#fde68a'; ctx.fill();
+      }
+      var g = P(0, 0);
+      ctx.beginPath(); ctx.arc(g[0], g[1], 2.2, 0, 2*PI);
+      ctx.fillStyle = '#a8a29e'; ctx.fill();
+      ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
+
+      // orientation readout
+      var nm = p.theta === 0 ? 'zigzag' : p.theta === 30 ? 'armchair' : 'chiral';
+      ctx.fillStyle = '#d6d3d1'; ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('θ = ' + p.theta + '°  ·  ' + nm, W-8, H-8);
     }
 
-    // ── 3D band surface (same region as Module 02) + vertical cutting lines ──
-    var R_out = BZR * 1.62;
+    // ── 3D band surface (same region as Module 02) + cutting lines ──
     var B1c = [2*PI, -2*PI/sqrt3], B2c = [0, 4*PI/sqrt3], UVc = 4/3;
     var CMN = 40;
     var cutPhi = -32*PI/180, CUT_THETA = 38*PI/180, cutZoom = 1;
@@ -869,15 +916,6 @@
       else { var u = -t; r = lerpC(207,37,u); g = lerpC(250,99,u); b = lerpC(254,235,u); }
       return [r,g,b];
     }
-    function insideHexRc(kx, ky, R) {
-      var ap = R*sqrt3/2;
-      for (var n = 0; n < 6; n++) {
-        var ang = PI/6 + n*PI/3;
-        if (cos(ang)*kx + sin(ang)*ky > ap + 1e-6) return false;
-      }
-      return true;
-    }
-
     var coneMesh = null, coneT = null;
     function buildCone() {
       if (coneMesh && coneT === tHop) return;
@@ -951,20 +989,19 @@
           e:eAvg, bright:bright});
       }
 
-      // VERTICAL cutting lines at constant kx, traced along ky on the surface.
-      var lines = cutLines(p);
-      var LS = 60;
+      // Cutting lines at constant k·n, traced along the surface in both bands.
+      var lines = p.lines, ltx = -p.ny, lty = p.nx, lext = 1.35*R_out, LS = 90;
       for (var li = 0; li < lines.length; li++) {
-        var kxF = lines[li].kx;
-        var isNear = lines[li].near;
+        var L = lines[li], isNear = L.near;
         var col = isNear ? (p.metallic ? '#34d399' : '#fbbf24') : 'rgba(147,197,253,0.7)';
         var lw = isNear ? 2.6 : 0.8;
+        var bx = L.c*p.nx, by = L.c*p.ny;
         for (var band = -1; band <= 1; band += 2) {
           var prev = null;
-          for (var s = 0; s <= LS; s++) {
-            var ky = -R_out + 2*R_out*s/LS;
-            if (!insideHexRc(kxF, ky, R_out)) { prev = null; continue; }
-            var pt = proj(kxF, ky, band*bandE(kxF, ky));
+          for (var si = 0; si <= LS; si++) {
+            var s = -lext + 2*lext*si/LS, kx = bx+s*ltx, ky = by+s*lty;
+            if (!insideHexRc(kx, ky, R_out)) { prev = null; continue; }
+            var pt = proj(kx, ky, band*bandE(kx, ky));
             if (prev) draws.push({t:1, p1:prev, p2:pt,
               depth:(prev.depth+pt.depth)/2 + 0.0015, col:col, lw:lw});
             prev = pt;
@@ -1049,17 +1086,18 @@
       var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
 
-      var modes = subModes(p);
-      // Span the full BZ height so the OFF-AXIS Dirac points at k∥ = ±2π/√3
-      // are visible — a line through them is gapless just like one through the
-      // on-axis K point at k∥ = 0.  Matches the extent of the 3D cutting lines.
-      var kyR = 2*PI/sqrt3 + 0.35;
-      var NSAMP = 240;
+      var modes = selectModes(p);
+      // Dispersion along each cutting line, parametrized by arclength s in the
+      // line direction t = (−ny, nx).  Sampling the full BZ chord makes every
+      // Dirac crossing (on- or off-axis) appear where the line meets a corner.
+      var tx = -p.ny, ty = p.nx, sR = R_out, NSAMP = 260;
+      function ptOf(L, s) { return [L.c*p.nx + s*tx, L.c*p.ny + s*ty]; }
       var maxE = 0.001;
       for (var mi = 0; mi < modes.length; mi++) {
-        for (var s = 0; s <= NSAMP; s++) {
-          var ky = -kyR + 2*kyR*s/NSAMP;
-          var e = bandE(modes[mi].kx, ky);
+        for (var s2 = 0; s2 <= NSAMP; s2++) {
+          var s = -sR + 2*sR*s2/NSAMP, k = ptOf(modes[mi], s);
+          if (!insideHexRc(k[0], k[1], R_out)) continue;
+          var e = bandE(k[0], k[1]);
           if (e > maxE) maxE = e;
         }
       }
@@ -1067,7 +1105,7 @@
 
       var pad = {l:46, r:16, t:18, b:28};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
-      function sx(ky) { return pad.l + (ky+kyR)/(2*kyR)*pw; }
+      function sx(s) { return pad.l + (s+sR)/(2*sR)*pw; }
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
       ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
@@ -1089,12 +1127,15 @@
         for (var sgn = -1; sgn <= 1; sgn += 2) {
           ctx.beginPath();
           var started = false;
-          for (var s = 0; s <= NSAMP; s++) {
-            var ky = -kyR + 2*kyR*s/NSAMP;
-            var e = sgn * bandE(m.kx, ky);
+          for (var s2 = 0; s2 <= NSAMP; s2++) {
+            var s = -sR + 2*sR*s2/NSAMP, k = ptOf(m, s);
+            if (!insideHexRc(k[0], k[1], R_out)) {
+              if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue;
+            }
+            var e = sgn * bandE(k[0], k[1]);
             if (abs(e) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
-            if (!started) { ctx.moveTo(sx(ky), sy(e)); started = true; }
-            else ctx.lineTo(sx(ky), sy(e));
+            if (!started) { ctx.moveTo(sx(s), sy(e)); started = true; }
+            else ctx.lineTo(sx(s), sy(e));
           }
           if (started) ctx.stroke();
         }
@@ -1138,28 +1179,41 @@
       requestAnimationFrame(cutFrame);
     }
 
+    function typeName(t) { return t === 0 ? 'zigzag' : t === 30 ? 'armchair' : 'chiral'; }
+
     function update() {
-      var N = +slider.value;
-      curP = gnrParams(N);
-      wval.textContent = N;
-      drawReal();
+      var theta = +aSlider.value, N = +wSlider.value;
+      curP = ribbon(theta, N);
+      var nm = typeName(theta);
+      aVal.textContent = theta + '° · ' + nm;
+      wVal.textContent = N;
+      btnZ.classList.toggle('active', theta === 0);
+      btnX.classList.toggle('active', theta !== 0 && theta !== 30);
+      btnA.classList.toggle('active', theta === 30);
+      drawBZ(curP);
       drawSubbands(curP);
       coneT = null;
       cutDirty = true;
 
-      var gE2 = curP.metallic ? 0 : 2 * curP.gapE;
+      var nmC = nm.charAt(0).toUpperCase() + nm.slice(1);
       var tag = curP.metallic
-        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line coincides with a K point (zero gap).'
-        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line misses the K point, opening a gap E<sub>g</sub> ≈ '
-          + gE2.toFixed(2) + ' eV.';
-      classDiv.innerHTML = '<b>N = ' + N + '</b> &nbsp;(' + (N%3===2 ? 'N = 3m+2' :
-        (N%3===0 ? 'N = 3m' : 'N = 3m+1')) + '): ' + tag
-        + ' The allowed modes kx<sub>q</sub> = 2qπ/(N+1) are fixed by the boundary condition; '
-        + 'metallicity follows as a <em>consequence</em> when 2(N+1)/3 is an integer.';
+        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line passes through a Dirac point (zero gap).'
+        : '<b style="color:#fbbf24">Semiconducting</b> — every cutting line misses the Dirac points; the nearest opens a gap E<sub>g</sub> ≈ '
+          + (2*curP.gapE).toFixed(2) + ' eV.';
+      var detail = theta === 30
+        ? ' Armchair ribbons are metallic only when <b>N = 3m+2</b>.'
+        : theta === 0
+          ? ' Zigzag ribbons are always metallic in this nearest-neighbour model.'
+          : ' Chiral ribbons (0° &lt; θ &lt; 30°) are metallic only at special commensurate widths.';
+      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + N + ': ' + tag + detail;
     }
 
-    slider.addEventListener('input', update);
-    window.addEventListener('resize', function() { cutDirty = true; update(); });
+    aSlider.addEventListener('input', update);
+    wSlider.addEventListener('input', update);
+    btnZ.addEventListener('click', function () { aSlider.value = 0;  update(); });
+    btnX.addEventListener('click', function () { aSlider.value = 15; update(); });
+    btnA.addEventListener('click', function () { aSlider.value = 30; update(); });
+    window.addEventListener('resize', function () { cutDirty = true; update(); });
     update();
     requestAnimationFrame(cutFrame);
   })();
