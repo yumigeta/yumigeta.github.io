@@ -771,15 +771,16 @@
     var bzC     = document.getElementById('c-gnr-real');   // 2D BZ top view
     var cutC    = document.getElementById('c-gnr-cut');    // 3D band surface
     var bandC   = document.getElementById('c-gnr-bands');  // 1D subbands
-    var aSlider = document.getElementById('ctrl-angle');
     var aVal    = document.getElementById('v-angle');
     var wSlider = document.getElementById('ctrl-width');
     var wVal    = document.getElementById('v-width');
     var classDiv = document.getElementById('gnr-class');
     var btnZ = document.getElementById('btn-zigzag');
-    var btnX = document.getElementById('btn-chiral');
     var btnA = document.getElementById('btn-armchair');
+    var widthBtns = document.querySelectorAll('#width-btns .demo-btn');
     if (!bzC) return;
+
+    var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
 
     var SUB = ['#fbbf24','#fb923c','#f87171','#c084fc','#60a5fa','#34d399',
                '#f472b6','#a3e635','#22d3ee'];
@@ -1220,14 +1221,15 @@
     function typeName(t) { return t === 0 ? 'zigzag' : t === 30 ? 'armchair' : 'chiral'; }
 
     function update() {
-      var theta = +aSlider.value, N = +wSlider.value;
+      var theta = curTheta, N = +wSlider.value;
       curP = ribbon(theta, N);
       var nm = typeName(theta);
-      aVal.textContent = theta + '° · ' + nm;
+      aVal.textContent = nm + ' · θ = ' + theta + '°';
       wVal.textContent = N;
       btnZ.classList.toggle('active', theta === 0);
-      btnX.classList.toggle('active', theta !== 0 && theta !== 30);
       btnA.classList.toggle('active', theta === 30);
+      for (var i = 0; i < widthBtns.length; i++)
+        widthBtns[i].classList.toggle('active', +widthBtns[i].dataset.width === N);
       drawBZ(curP);
       drawSubbands(curP);
       coneT = null;
@@ -1240,17 +1242,17 @@
           + (2*curP.gapE).toFixed(2) + ' eV.';
       var detail = theta === 30
         ? ' Armchair ribbons are metallic only when <b>N = 3m+2</b>.'
-        : theta === 0
-          ? ' Zigzag ribbons are always metallic in this nearest-neighbour model.'
-          : ' Chiral ribbons (0° &lt; θ &lt; 30°) are metallic only at special commensurate widths.';
+        : ' Zigzag ribbons are always metallic in this nearest-neighbour model.';
       classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + N + ': ' + tag + detail;
     }
 
-    aSlider.addEventListener('input', update);
     wSlider.addEventListener('input', update);
-    btnZ.addEventListener('click', function () { aSlider.value = 0;  update(); });
-    btnX.addEventListener('click', function () { aSlider.value = 15; update(); });
-    btnA.addEventListener('click', function () { aSlider.value = 30; update(); });
+    btnZ.addEventListener('click', function () { curTheta = 0;  update(); });
+    btnA.addEventListener('click', function () { curTheta = 30; update(); });
+    for (var wi = 0; wi < widthBtns.length; wi++)
+      widthBtns[wi].addEventListener('click', function () {
+        wSlider.value = this.dataset.width; update();
+      });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     update();
     requestAnimationFrame(cutFrame);
