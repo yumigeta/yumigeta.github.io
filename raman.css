@@ -1,4 +1,4 @@
-/* ── Raman interactive demo page ── builds on style.css design tokens ── */
+/* ── Raman-specific styles ── shared demo styles live in style.css ── */
 
 .raman-hero {
   padding: 110px 24px 40px;
@@ -20,34 +20,6 @@
   max-width: 620px; margin: 0 auto;
   color: var(--c-text-secondary); font-size: 1.02rem; line-height: 1.7;
 }
-.back-link {
-  display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 24px; font-size: 0.85rem; font-weight: 600;
-  color: var(--c-accent); text-decoration: none;
-}
-.back-link:hover { text-decoration: underline; }
-
-/* Demo module shell */
-.demo {
-  max-width: 860px; margin: 0 auto; padding: 48px 24px;
-}
-.demo + .demo { border-top: 1px solid var(--c-border); }
-
-.demo-head { margin-bottom: 24px; }
-.demo-num {
-  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
-  color: var(--c-accent);
-}
-.demo-head h2 {
-  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
-  color: var(--c-text); margin: 4px 0 8px; line-height: 1.25;
-}
-.demo-head p { color: var(--c-text-secondary); font-size: 0.92rem; line-height: 1.7; }
-
-.demo-stage {
-  background: var(--c-bg-dark); border-radius: var(--r);
-  padding: 20px; color: #e7e5e4;
-}
 
 /* ── Module 00 — Atom canvas ── */
 .atom-canvas {
@@ -56,11 +28,7 @@
   border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
 }
 
-/* ── Module 01 — Top row: molecule + α(Q) ── */
-.top-row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
-  margin-bottom: 10px;
-}
+/* ── Module 01 — Molecule + α(Q) panels ── */
 .mol-panel canvas, .aq-panel canvas {
   width: 100%; height: 220px; display: block;
   background: rgba(255,255,255,0.04);
@@ -88,45 +56,6 @@
 }
 .physics-note b { color: #ddd6fe; }
 
-/* Controls */
-.controls {
-  display: flex; flex-wrap: wrap; gap: 18px 28px;
-  align-items: center; margin-top: 18px;
-}
-.control { display: flex; flex-direction: column; gap: 6px; min-width: 180px; flex: 1; }
-.control label {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--c-text-secondary);
-  display: flex; justify-content: space-between; gap: 12px;
-}
-.control label .val { color: var(--c-accent); font-variant-numeric: tabular-nums; }
-input[type=range] {
-  -webkit-appearance: none; appearance: none;
-  height: 4px; border-radius: 4px; background: var(--c-border);
-  outline: none; cursor: pointer; width: 100%;
-}
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none;
-  width: 16px; height: 16px; border-radius: 50%;
-  background: var(--c-accent); cursor: pointer; border: none;
-}
-input[type=range]::-moz-range-thumb {
-  width: 16px; height: 16px; border-radius: 50%;
-  background: var(--c-accent); cursor: pointer; border: none;
-}
-
-.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.demo-btn {
-  font-family: var(--font-body); font-size: 0.8rem; font-weight: 600;
-  padding: 8px 16px; border-radius: 100px; cursor: pointer;
-  background: var(--c-surface); color: var(--c-text);
-  border: 1px solid var(--c-border); transition: all 0.18s;
-}
-.demo-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
-.demo-btn.active {
-  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
-}
-
 /* ── Trace rows ── */
 .trace-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
 .trace-label { font-size: 0.78rem; line-height: 1.4; color: #d6d3d1; }
@@ -138,7 +67,7 @@ input[type=range]::-moz-range-thumb {
   border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
 }
 
-/* ── Decomposition (fig 1c) ── */
+/* ── Decomposition ── */
 .decomp-section {
   margin-top: 18px;
   border: 1px solid rgba(255,255,255,0.10); border-radius: 8px;
@@ -168,7 +97,6 @@ input[type=range]::-moz-range-thumb {
 .spectrum-wrap .cap, .jab-cap {
   font-size: 0.8rem; color: #a8a29e; margin-top: 10px; line-height: 1.6;
 }
-.cap { font-size: 0.8rem; color: #a8a29e; margin-top: 10px; line-height: 1.6; }
 
 /* ── Jablonski ── */
 .svg-wrap { width: 100%; }
@@ -184,9 +112,7 @@ input[type=range]::-moz-range-thumb {
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .top-row { grid-template-columns: 1fr; }
   .trace-row { grid-template-columns: 1fr; gap: 6px; }
   .trace-label { display: flex; gap: 8px; align-items: baseline; }
   .decomp-row { grid-template-columns: 1fr; gap: 4px; }
-  .control { min-width: 100%; }
 }

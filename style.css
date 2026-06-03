@@ -406,6 +406,73 @@ body {
 }
 .soft-links a:hover { border-color: var(--c-accent); }
 
+/* ── Demo module (shared by Raman, Graphene, etc.) ── */
+.demo {
+  max-width: 860px; margin: 0 auto; padding: 48px 24px;
+}
+.demo + .demo { border-top: 1px solid var(--c-border); }
+
+.demo-head { margin-bottom: 24px; }
+.demo-num {
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  color: var(--c-accent);
+}
+.demo-head h2 {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+  color: var(--c-text); margin: 4px 0 8px; line-height: 1.25;
+}
+.demo-head p { color: var(--c-text-secondary); font-size: 0.92rem; line-height: 1.7; }
+
+.demo-stage {
+  background: var(--c-bg-dark); border-radius: var(--r);
+  padding: 20px; color: #e7e5e4;
+}
+
+.top-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 10px;
+}
+
+.controls {
+  display: flex; flex-wrap: wrap; gap: 18px 28px;
+  align-items: center; margin-top: 18px;
+}
+.control { display: flex; flex-direction: column; gap: 6px; min-width: 180px; flex: 1; }
+.control label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--c-text-secondary);
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.control label .val { color: var(--c-accent); font-variant-numeric: tabular-nums; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 4px; background: var(--c-border);
+  outline: none; cursor: pointer; width: 100%;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--c-accent); cursor: pointer; border: none;
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--c-accent); cursor: pointer; border: none;
+}
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.demo-btn {
+  font-family: var(--font-body); font-size: 0.8rem; font-weight: 600;
+  padding: 8px 16px; border-radius: 100px; cursor: pointer;
+  background: var(--c-surface); color: var(--c-text);
+  border: 1px solid var(--c-border); transition: all 0.18s;
+}
+.demo-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.demo-btn.active {
+  background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+}
+
+.cap { font-size: 0.8rem; color: #a8a29e; margin-top: 10px; line-height: 1.6; }
+
 /* ── Footer ── */
 .footer {
   text-align: center; padding: 24px 0;
@@ -437,6 +504,8 @@ body {
   .research-cards { grid-template-columns: 1fr; }
   .contact-layout { grid-template-columns: 1fr; gap: 28px; }
   .hub-grid { grid-template-columns: 1fr; }
+  .top-row { grid-template-columns: 1fr; }
+  .control { min-width: 100%; }
 
   .section { padding: 56px 0; }
 }
