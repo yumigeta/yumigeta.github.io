@@ -164,6 +164,45 @@
     </div>
   </section>
 
+  <!-- ═══════ Module 03 — Quantum confinement (GNR) ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03 — Quantum confinement</span>
+      <h2>From graphene to nanoribbons: discretized bands</h2>
+      <p>
+        Cut graphene into a narrow <b>nanoribbon</b> of width <em>W</em> and the
+        electrons become confined in the transverse direction. Only standing-wave
+        modes ψ<sub>n</sub> ∝ sin(nπy/<em>W</em>) survive, so the transverse
+        momentum <b>k<sub>⊥</sub> = nπ/W</b> is <em>quantized</em>. Each allowed
+        k<sub>⊥</sub> slices the 2D Dirac cone into a 1D subband — turning the
+        smooth cone into a ladder of discrete bands.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="top-row">
+        <div class="gr-panel"><canvas id="c-gnr-real"></canvas></div>
+        <div class="gr-panel"><canvas id="c-gnr-cut"></canvas></div>
+      </div>
+      <p class="cap">
+        <b>Left:</b> confined transverse standing-wave modes (particle in a box) —
+        the source of the quantization. <b>Right:</b> each quantized k<sub>⊥</sub>
+        is a horizontal <em>cutting line</em> through the Dirac cone; the line
+        nearest the Dirac point sets the band gap.
+      </p>
+
+      <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
+
+      <div class="controls">
+        <div class="control">
+          <label>Ribbon width <em>N</em> (chains) <span class="val" id="v-width">12</span></label>
+          <input type="range" id="ctrl-width" min="4" max="30" step="1" value="12">
+        </div>
+      </div>
+
+      <div class="gr-info" id="gnr-class"></div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Kentaro Yumigeta</p>

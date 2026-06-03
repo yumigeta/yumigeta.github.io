@@ -751,4 +751,204 @@
 
     requestAnimationFrame(frame);
   })();
+
+  // ================================================================
+  //  Module 03 — Quantum confinement: graphene nanoribbons
+  // ================================================================
+  (function () {
+    var realC = document.getElementById('c-gnr-real');
+    var cutC  = document.getElementById('c-gnr-cut');
+    var bandC = document.getElementById('c-gnr-bands');
+    var slider = document.getElementById('ctrl-width');
+    var wval = document.getElementById('v-width');
+    var classDiv = document.getElementById('gnr-class');
+    if (!realC) return;
+
+    var A_SPACING = 3.6;   // transverse momentum spacing Δ = A_SPACING / N
+    var EMAX = 1.0;        // energy window (ħv_F = 1, so E = ±√(k² + k⊥²))
+    var SUB = ['#fbbf24', '#fb923c', '#f87171', '#c084fc', '#60a5fa', '#34d399'];
+
+    function params(N) {
+      var delta = (N % 3 === 2) ? 0 : 1/3;   // armchair rule: N=3m+2 → metallic
+      var dK = A_SPACING / N;
+      var metallic = (delta === 0);
+      var kmin = metallic ? 0 : dK/3;        // min |k⊥| = (δ)·dK, δ = 1/3
+      return { N:N, delta:delta, dK:dK, metallic:metallic, gap:2*kmin, kmin:kmin };
+    }
+
+    // Distinct non-negative |k⊥| ladder values within the energy window.
+    function ladder(p) {
+      var seen = {}, out = [];
+      for (var j = -16; j <= 16; j++) {
+        var k = Math.abs((j + p.delta) * p.dK);
+        var key = k.toFixed(4);
+        if (!seen[key] && k <= EMAX + 1e-9) { seen[key] = 1; out.push(k); }
+      }
+      out.sort(function (a, b) { return a - b; });
+      return out;
+    }
+
+    // ── Real-space: confined transverse standing-wave modes ──
+    function drawReal() {
+      var o = dpr(realC), ctx = o.ctx, W = o.w, H = o.h;
+      ctx.clearRect(0, 0, W, H);
+      var modes = 3;
+      var padL = 30, padR = 16, padT = 22, padB = 18;
+      var boxL = padL, boxR = W - padR, boxW = boxR - boxL;
+      var laneH = (H - padT - padB) / modes;
+
+      ctx.font = '600 11px "DM Sans", sans-serif';
+      ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
+      ctx.fillText('Confined transverse modes  ψₙ ∝ sin(nπy/W)', boxL, 14);
+
+      for (var n = 1; n <= modes; n++) {
+        var midY = padT + laneH * (n - 0.5);
+        var amp = laneH * 0.32;
+        // confining walls
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(boxL, midY - laneH*0.42); ctx.lineTo(boxL, midY + laneH*0.42);
+        ctx.moveTo(boxR, midY - laneH*0.42); ctx.lineTo(boxR, midY + laneH*0.42); ctx.stroke();
+        // baseline
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.beginPath(); ctx.moveTo(boxL, midY); ctx.lineTo(boxR, midY); ctx.stroke();
+        // standing wave
+        ctx.strokeStyle = SUB[n-1]; ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (var s = 0; s <= 60; s++) {
+          var f = s / 60;
+          var x = boxL + f * boxW;
+          var y = midY - amp * Math.sin(n * PI * f);
+          if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.fillStyle = SUB[n-1]; ctx.textAlign = 'left';
+        ctx.fillText('n=' + n, 4, midY + 4);
+      }
+    }
+
+    // ── k-space: Dirac cone cross-sections + cutting lines ──
+    function drawCut(p) {
+      var o = dpr(cutC), ctx = o.ctx, W = o.w, H = o.h;
+      ctx.clearRect(0, 0, W, H);
+      var cx = W/2, cy = H/2;
+      var sc = min(W, H) * 0.40 / EMAX;   // k-units → px
+
+      ctx.font = '600 11px "DM Sans", sans-serif';
+      ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
+      ctx.fillText('Cutting lines through the Dirac cone', 10, 14);
+
+      // constant-energy circles
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
+      [0.25, 0.5, 0.75, 1.0].forEach(function (e) {
+        ctx.beginPath(); ctx.arc(cx, cy, e*sc, 0, 2*PI); ctx.stroke();
+      });
+      // axes
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.beginPath(); ctx.moveTo(cx-EMAX*sc, cy); ctx.lineTo(cx+EMAX*sc, cy);
+      ctx.moveTo(cx, cy-EMAX*sc); ctx.lineTo(cx, cy+EMAX*sc); ctx.stroke();
+
+      // allowed horizontal cutting lines k⊥ = (j+δ)·dK
+      for (var j = -16; j <= 16; j++) {
+        var k = (j + p.delta) * p.dK;
+        if (Math.abs(k) > EMAX) continue;
+        var y = cy - k * sc;
+        var isMin = Math.abs(Math.abs(k) - p.kmin) < 1e-9;
+        ctx.strokeStyle = isMin ? (p.metallic ? '#34d399' : '#fbbf24')
+                                : 'rgba(96,165,250,0.5)';
+        ctx.lineWidth = isMin ? 2 : 1;
+        ctx.beginPath(); ctx.moveTo(cx-EMAX*sc, y); ctx.lineTo(cx+EMAX*sc, y); ctx.stroke();
+      }
+
+      // Dirac point
+      ctx.fillStyle = '#fde68a';
+      ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2*PI); ctx.fill();
+      ctx.fillStyle = '#fde68a'; ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText('Dirac point', cx+7, cy-6);
+
+      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'right'; ctx.fillText('k⊥', cx-6, cy-EMAX*sc+10);
+      ctx.textAlign = 'left';  ctx.fillText('k∥', cx+EMAX*sc-14, cy+14);
+    }
+
+    // ── 1D subband structure E(k∥) ──
+    function drawBands(p) {
+      var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
+      ctx.clearRect(0, 0, W, H);
+      var pad = {l:46, r:16, t:18, b:28};
+      var pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+      function sx(k) { return pad.l + (k + 1)/2 * pw; }
+      function sy(e) { return pad.t + (1 - (e + EMAX)/(2*EMAX)) * ph; }
+
+      // grid + zero line
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+      [-1,-0.5,0.5,1].forEach(function (e){ ctx.beginPath(); ctx.moveTo(pad.l, sy(e)); ctx.lineTo(pad.l+pw, sy(e)); ctx.stroke(); });
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
+
+      // bounding Dirac cone E = ±|k| (continuous 2D limit)
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(sx(-1), sy(1)); ctx.lineTo(sx(0), sy(0)); ctx.lineTo(sx(1), sy(1));
+      ctx.moveTo(sx(-1), sy(-1)); ctx.lineTo(sx(0), sy(0)); ctx.lineTo(sx(1), sy(-1));
+      ctx.stroke(); ctx.setLineDash([]);
+
+      // subbands E = ±√(k² + k⊥²)
+      var ks = ladder(p);
+      for (var i = ks.length - 1; i >= 0; i--) {
+        var kp = ks[i];
+        var col = (i === 0) ? '#fbbf24' : SUB[Math.min(SUB.length-1, i)];
+        ctx.strokeStyle = col; ctx.lineWidth = (i === 0) ? 2.4 : 1.4;
+        for (var sgn = 1; sgn >= -1; sgn -= 2) {
+          ctx.beginPath();
+          for (var s = 0; s <= 120; s++) {
+            var k = -1 + 2*s/120;
+            var e = sgn * sqrt(k*k + kp*kp);
+            if (e > EMAX || e < -EMAX) { ctx.stroke(); ctx.beginPath(); continue; }
+            var X = sx(k), Y = sy(e);
+            if (s === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // gap markers
+      if (!p.metallic) {
+        ctx.strokeStyle = 'rgba(251,191,36,0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.l, sy(p.kmin)); ctx.lineTo(pad.l+pw, sy(p.kmin));
+        ctx.moveTo(pad.l, sy(-p.kmin)); ctx.lineTo(pad.l+pw, sy(-p.kmin)); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('E_g', pad.l + pw - 30, sy(0) - 4);
+      }
+
+      // labels
+      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText('k∥', pad.l + pw/2, H - 8);
+      ctx.save(); ctx.translate(12, pad.t + ph/2); ctx.rotate(-PI/2);
+      ctx.fillText('E', 0, 0); ctx.restore();
+    }
+
+    function update() {
+      var N = +slider.value;
+      var p = params(N);
+      wval.textContent = N;
+      drawReal();
+      drawCut(p);
+      drawBands(p);
+      var tag = p.metallic
+        ? '<b style="color:#6ee7b7">Metallic</b> — an allowed cutting line passes '
+          + 'exactly through the Dirac point, so a subband is gapless.'
+        : '<b style="color:#fbbf24">Semiconducting</b> — the nearest cutting line '
+          + 'misses the Dirac point, opening a gap E<sub>g</sub> ≈ '
+          + p.gap.toFixed(2) + ' (in units of ħv<sub>F</sub>·Δk).';
+      classDiv.innerHTML = '<b>N = ' + N + '</b> &nbsp;(' + (N%3===2 ? 'N = 3m+2' :
+        (N%3===0 ? 'N = 3m' : 'N = 3m+1')) + '): ' + tag
+        + ' Wider ribbons (larger N) pack more subbands and shrink the gap as <b>1/W</b>.';
+    }
+
+    slider.addEventListener('input', update);
+    window.addEventListener('resize', update);
+    update();
+  })();
 })();
