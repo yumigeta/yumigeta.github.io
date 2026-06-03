@@ -1082,40 +1082,121 @@
       cutDirty = true;
     }, {passive:false});
 
-    // ── 1D subbands E_q(k∥) = ±bandE(kx_q, k∥) ──
+    // ── Real GNR band structure (hard-wall edges) ──
+    //
+    // A nanoribbon has actual edges, so the correct boundary condition is the
+    // open / hard-wall one (the wavefunction vanishes on the missing sites just
+    // beyond each edge), NOT the periodic condition that the zone-folding
+    // cutting lines assume.  The two disagree dramatically for zigzag, where the
+    // hard wall produces the flat E≈0 edge band that folding cannot capture.
+    // The bands below come from diagonalising the actual ribbon Hamiltonian and
+    // are plotted along the ribbon's own 1D path Γ→X (armchair) / Γ→Z (zigzag).
+
+    // Eigenvalues of a real symmetric tridiagonal matrix (QL w/ implicit shifts,
+    // values only).  d[0..n-1] diagonal (overwritten), e[1..n-1] sub-diagonal.
+    function triEig(d, e, n) {
+      var E = new Array(n);
+      for (var i = 1; i < n; i++) E[i-1] = e[i];
+      E[n-1] = 0;
+      for (var l = 0; l < n; l++) {
+        var iter = 0, m;
+        do {
+          for (m = l; m < n-1; m++) {
+            var dd = abs(d[m]) + abs(d[m+1]);
+            if (abs(E[m]) <= 1e-14 * dd) break;
+          }
+          if (m !== l) {
+            if (iter++ === 60) break;
+            var g = (d[l+1] - d[l]) / (2*E[l]);
+            var r = Math.hypot(g, 1);
+            g = d[m] - d[l] + E[l] / (g + (g >= 0 ? abs(r) : -abs(r)));
+            var s = 1, c = 1, pp = 0, i2;
+            for (i2 = m-1; i2 >= l; i2--) {
+              var f = s*E[i2], b = c*E[i2];
+              r = Math.hypot(f, g);
+              E[i2+1] = r;
+              if (r === 0) { d[i2+1] -= pp; E[m] = 0; break; }
+              s = f/r; c = g/r;
+              g = d[i2+1] - pp;
+              r = (d[i2] - g)*s + 2*c*b;
+              pp = s*r;
+              d[i2+1] = g + pp;
+              g = c*r - b;
+            }
+            if (r === 0 && i2 >= l) continue;
+            d[l] -= pp; E[l] = g; E[m] = 0;
+          }
+        } while (m !== l);
+      }
+      return d;
+    }
+
+    // Zigzag GNR: bipartite trick E = ±σ, σ = singular values of the N×N
+    // sub→super coupling h(k).  M = hh† is tridiagonal with diagonal
+    // {c², 1+c², …, 1+c²} and off-diagonal c, where c = 2cos(k/2).  k ∈ [0,π].
+    function zgnrE(N, k) {
+      var c = 2*cos(k/2), c2 = c*c;
+      var d = new Array(N), e = new Array(N);
+      for (var i = 0; i < N; i++) d[i] = (i === 0 ? c2 : 1 + c2);
+      e[0] = 0; for (var j = 1; j < N; j++) e[j] = c;
+      triEig(d, e, N);
+      d.sort(function (a, b) { return a - b; });
+      var out = new Array(N);
+      for (var i = 0; i < N; i++) out[i] = tHop * sqrt(max(0, d[i]));
+      return out;            // N non-negative energies; bands are ±out
+    }
+
+    // Armchair GNR: exact hard-wall closed form.  Transverse modes
+    // p_n = nπ/(N+1); E_n = ±t√(1 + 4cos p_n cos(√3k/2) + 4cos²p_n).  k ∈ [0,π/√3].
+    function agnrE(N, k) {
+      var ck = cos(sqrt3 * k / 2), out = new Array(N);
+      for (var n = 1; n <= N; n++) {
+        var cp = cos(n*PI/(N+1));
+        out[n-1] = tHop * sqrt(max(0, 1 + 4*cp*ck + 4*cp*cp));
+      }
+      out.sort(function (a, b) { return a - b; });
+      return out;
+    }
+
+    // Armchair half-gap (min positive band, at k=0); 0 ⇔ metallic (N=3m+2).
+    function agnrGap(N) {
+      var g = Infinity;
+      for (var n = 1; n <= N; n++) {
+        var v = abs(1 + 2*cos(n*PI/(N+1)));
+        if (v < g) g = v;
+      }
+      return tHop * g;
+    }
+
+    // ── 1D subband dispersion along the ribbon's own Brillouin zone ──
     function drawSubbands(p) {
       var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
 
-      var modes = selectModes(p);
-      var isArm = (p.theta === 30), isZig = (p.theta === 0);
-      var kMax = isArm ? PI/sqrt3 : isZig ? PI : R_out;
-      var nFold = isArm ? 2 : 1;
-      var NSAMP = 280;
+      var isZig = (p.theta === 0), N = p.N;
+      var kMax = isZig ? PI : PI/sqrt3;          // Z = π (zig) · X = π/√3 (arm)
+      var metallic = isZig ? true : (N % 3 === 2);
+      var NSAMP = 240;
 
-      function getE(line, kp, fold) {
-        if (isArm) return bandE(line.c, kp + fold * 2 * PI / sqrt3);
-        if (isZig) return bandE(kp, 2 * line.c - sqrt3 * kp);
-        var tx = -p.ny, ty = p.nx;
-        var kx = line.c * p.nx + kp * tx, ky = line.c * p.ny + kp * ty;
-        if (!insideHexRc(kx, ky, R_out)) return -1;
-        return bandE(kx, ky);
+      // Sample the real ribbon bands across Γ→(X|Z).
+      var ks = [], bands = [], maxE = 0.001, gMin = Infinity;
+      for (var i = 0; i <= NSAMP; i++) {
+        var k = kMax*i/NSAMP;
+        var b = isZig ? zgnrE(N, k) : agnrE(N, k);
+        ks.push(k); bands.push(b);
+        for (var n = 0; n < N; n++) {
+          if (b[n] > maxE) maxE = b[n];
+          if (b[n] < gMin) gMin = b[n];
+        }
       }
-
-      var maxE = 0.001;
-      for (var mi = 0; mi < modes.length; mi++)
-        for (var f = 0; f < nFold; f++)
-          for (var i = 0; i <= NSAMP; i++) {
-            var e = getE(modes[mi], -kMax + 2*kMax*i/NSAMP, f);
-            if (e > maxE) maxE = e;
-          }
       maxE *= 1.08;
 
-      var pad = {l:46, r:16, t:18, b: (isArm||isZig) ? 36 : 28};
+      var pad = {l:46, r:16, t:18, b:36};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
-      function sx(k) { return pad.l + (k+kMax)/(2*kMax)*pw; }
+      function sx(k) { return pad.l + k/kMax*pw; }
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
+      // grids
       ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
       var step = parseFloat((maxE/3).toPrecision(1));
       if (step < 0.1) step = 0.1;
@@ -1126,50 +1207,44 @@
       ctx.strokeStyle = 'rgba(255,255,255,0.2)';
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
-      if (isArm || isZig) {
-        ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(sx(0), pad.t); ctx.lineTo(sx(0), pad.t+ph); ctx.stroke();
-        if (isZig) {
-          var kK = 2*PI/3;
-          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-          ctx.beginPath(); ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(sx(-kK), pad.t); ctx.lineTo(sx(-kK), pad.t+ph); ctx.stroke();
-        }
+      // Dirac projection / edge-state onset marker (zigzag: k = 2π/3).
+      if (isZig) {
+        var kK = 2*PI/3;
+        ctx.strokeStyle = 'rgba(52,211,153,0.35)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(52,211,153,0.85)'; ctx.font = '600 9px "DM Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('edge states', (sx(kK)+sx(kMax))/2, pad.t+11);
       }
 
-      for (var mi = modes.length-1; mi >= 0; mi--) {
-        var m = modes[mi], isFirst = (mi === 0);
-        var col = isFirst ? (p.metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, mi)];
-        ctx.strokeStyle = col;
-        for (var f = 0; f < nFold; f++) {
-          for (var sgn = -1; sgn <= 1; sgn += 2) {
-            ctx.lineWidth = (isFirst && f === 0) ? 2.2 : 1.3;
-            ctx.beginPath(); var started = false;
-            for (var i = 0; i <= NSAMP; i++) {
-              var kp = -kMax + 2*kMax*i/NSAMP;
-              var e = getE(m, kp, f);
-              if (e < 0) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
-              var ey = sgn * e;
-              if (abs(ey) > maxE) { if (started) { ctx.stroke(); ctx.beginPath(); started = false; } continue; }
-              if (!started) { ctx.moveTo(sx(kp), sy(ey)); started = true; }
-              else ctx.lineTo(sx(kp), sy(ey));
-            }
-            if (started) ctx.stroke();
+      // bands: draw highest index first so the edge/gap band sits on top.
+      for (var n = N-1; n >= 0; n--) {
+        var isEdge = (n === 0);
+        var col = isEdge ? (metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, n)];
+        ctx.strokeStyle = col; ctx.lineWidth = isEdge ? 2.2 : 1.3;
+        for (var sgn = -1; sgn <= 1; sgn += 2) {
+          ctx.beginPath();
+          for (var i = 0; i <= NSAMP; i++) {
+            var x = sx(ks[i]), y = sy(sgn*bands[i][n]);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
           }
+          ctx.stroke();
         }
       }
 
-      if (!p.metallic) {
-        var gE = p.gapE;
+      // gap markers (semiconducting armchair)
+      if (!metallic) {
         ctx.strokeStyle = 'rgba(251,191,36,0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(pad.l, sy(gE)); ctx.lineTo(pad.l+pw, sy(gE));
-        ctx.moveTo(pad.l, sy(-gE)); ctx.lineTo(pad.l+pw, sy(-gE)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pad.l, sy(gMin)); ctx.lineTo(pad.l+pw, sy(gMin));
+        ctx.moveTo(pad.l, sy(-gMin)); ctx.lineTo(pad.l+pw, sy(-gMin)); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('Eg = ' + (2*gE).toFixed(2) + ' eV', pad.l+pw-80, sy(0)-4);
+        ctx.fillText('Eg = ' + (2*gMin).toFixed(2) + ' eV', pad.l+pw-80, sy(0)-4);
       }
 
+      // axes labels
       ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
       ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
       ctx.textAlign = 'center'; ctx.fillText('E (eV)', 0, 0); ctx.restore();
@@ -1180,30 +1255,18 @@
         if (abs(e) < step*0.05) continue;
         ctx.fillText(e.toFixed(1), pad.l-5, sy(e)+3);
       }
-      ctx.fillStyle = '#d6d3d1';
-      ctx.fillText('0', pad.l-5, sy(0)+3);
+      ctx.fillStyle = '#d6d3d1'; ctx.fillText('0', pad.l-5, sy(0)+3);
 
-      if (isArm || isZig) {
-        ctx.font = '600 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
-        var yHSP = pad.t + ph + 15;
-        ctx.fillStyle = '#d6d3d1';
-        ctx.fillText('Γ', sx(0), yHSP);
-        if (isArm) {
-          ctx.fillText('X', sx(kMax), yHSP);
-          ctx.fillText('X', sx(-kMax), yHSP);
-        } else {
-          ctx.fillText('X', sx(PI), yHSP);
-          ctx.fillText('X', sx(-PI), yHSP);
-          ctx.fillStyle = '#a8a29e'; ctx.font = '500 10px "DM Sans", sans-serif';
-          ctx.fillText('K', sx(2*PI/3), yHSP);
-          ctx.fillText('K', sx(-2*PI/3), yHSP);
-        }
-        ctx.fillStyle = '#57534e'; ctx.font = '500 9px "DM Sans", sans-serif';
-        ctx.fillText(isArm ? 'armchair 1D BZ (a = √3)' : 'zigzag 1D BZ (a = 1)', pad.l+pw/2, H-4);
-      } else {
-        ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
-        ctx.textAlign = 'center'; ctx.fillText('k∥ (along cutting line)', pad.l+pw/2, H-8);
-      }
+      // high-symmetry points along the 1D path
+      ctx.font = '600 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+      var yHSP = pad.t + ph + 15;
+      ctx.fillStyle = '#d6d3d1';
+      ctx.fillText('Γ', sx(0), yHSP);
+      ctx.fillText(isZig ? 'Z' : 'X', sx(kMax), yHSP);
+      ctx.fillStyle = '#57534e'; ctx.font = '500 9px "DM Sans", sans-serif';
+      ctx.fillText(isZig ? 'zigzag GNR · Γ→Z  (a = 1, hard-wall edges)'
+                         : 'armchair GNR · Γ→X  (a = √3, hard-wall edges)',
+                   pad.l+pw/2, H-4);
 
       ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
       ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
@@ -1235,14 +1298,19 @@
       coneT = null;
       cutDirty = true;
 
+      var isZig = (theta === 0);
+      var metallic = isZig ? true : (N % 3 === 2);
+      var gapHalf = isZig ? 0 : agnrGap(N);
       var nmC = nm.charAt(0).toUpperCase() + nm.slice(1);
-      var tag = curP.metallic
-        ? '<b style="color:#6ee7b7">Metallic</b> — a cutting line passes through a Dirac point (zero gap).'
-        : '<b style="color:#fbbf24">Semiconducting</b> — every cutting line misses the Dirac points; the nearest opens a gap E<sub>g</sub> ≈ '
-          + (2*curP.gapE).toFixed(2) + ' eV.';
-      var detail = theta === 30
-        ? ' Armchair ribbons are metallic only when <b>N = 3m+2</b>.'
-        : ' Zigzag ribbons are always metallic in this nearest-neighbour model.';
+      var tag = metallic
+        ? '<b style="color:#6ee7b7">Metallic</b> — a band reaches the Fermi level (zero gap).'
+        : '<b style="color:#fbbf24">Semiconducting</b> — the lowest subband opens a gap E<sub>g</sub> ≈ '
+          + (2*gapHalf).toFixed(2) + ' eV at Γ.';
+      var detail = isZig
+        ? ' Zigzag ribbons carry <b style="color:#6ee7b7">edge states</b> — a flat E≈0 band for ' +
+          'k between 2π/3 and Z — so they are always metallic (this needs the hard-wall edges, ' +
+          'invisible to zone-folding).'
+        : ' Armchair ribbons are metallic only when <b>N = 3m+2</b>; the gap closes at Γ.';
       classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + N + ': ' + tag + detail;
     }
 
