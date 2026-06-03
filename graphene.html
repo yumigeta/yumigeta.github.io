@@ -174,10 +174,10 @@
         confined across its width: the transverse momentum is <em>quantized</em>,
         so only a discrete family of parallel <b>cutting lines</b> survives in
         the Brillouin zone. The <em>orientation</em> of those lines is set by the
-        <b>edge geometry</b> — <b style="color:#34d399">zigzag</b> (θ = 0°),
-        <b style="color:#fbbf24">armchair</b> (θ = 30°), or <b>chiral</b> in
-        between — and their spacing by the width <em>N</em>. Whether any line
-        passes through a Dirac point decides if the ribbon is metallic.
+        <b>edge geometry</b> — <b style="color:#34d399">zigzag</b> (θ = 0°) or
+        <b style="color:#fbbf24">armchair</b> (θ = 30°) — and their spacing by
+        the width <em>N</em>. Whether any line passes through a Dirac point
+        decides if the ribbon is metallic.
       </p>
     </div>
     <div class="demo-stage">
@@ -197,17 +197,22 @@
 
       <div class="controls">
         <div class="control">
-          <label>Edge orientation — chiral angle <em>θ</em> <span class="val" id="v-angle">30° · armchair</span></label>
-          <input type="range" id="ctrl-angle" min="0" max="30" step="1" value="30">
+          <label>Edge orientation <span class="val" id="v-angle">armchair · θ = 30°</span></label>
+          <div class="btn-row">
+            <button class="demo-btn" id="btn-zigzag">Zigzag · 0°</button>
+            <button class="demo-btn active" id="btn-armchair">Armchair · 30°</button>
+          </div>
         </div>
         <div class="control">
           <label>Ribbon width <em>N</em> <span class="val" id="v-width">12</span></label>
           <input type="range" id="ctrl-width" min="4" max="30" step="1" value="12">
-        </div>
-        <div class="btn-row">
-          <button class="demo-btn" id="btn-zigzag">Zigzag · 0°</button>
-          <button class="demo-btn" id="btn-chiral">Chiral · 15°</button>
-          <button class="demo-btn active" id="btn-armchair">Armchair · 30°</button>
+          <div class="btn-row" id="width-btns">
+            <button class="demo-btn" data-width="6">N = 6</button>
+            <button class="demo-btn" data-width="8">N = 8</button>
+            <button class="demo-btn" data-width="11">N = 11</button>
+            <button class="demo-btn active" data-width="12">N = 12</button>
+            <button class="demo-btn" data-width="20">N = 20</button>
+          </div>
         </div>
       </div>
 
