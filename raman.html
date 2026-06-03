@@ -34,47 +34,70 @@
       Raman scattering reveals the vibrational fingerprint of a material — a workhorse
       technique in 2D materials and condensed matter physics. The key rule: a vibration
       is <em>Raman-active only if it changes the molecule's polarizability</em>. Explore
-      that link below, then see the quantum energy-level picture.
+      the physics step by step below.
     </p>
     <a href="index.html" class="back-link">&larr; Back to home</a>
   </header>
 
-  <!-- ── 1. Vibration → polarizability → signal (unified) ── -->
+  <!-- ═══════ Module 00 — What is polarizability? ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">00 — What is polarizability?</span>
+      <h2>Light displaces the electron cloud</h2>
+      <p>
+        An atom has a <b style="color:#ef4444">positive nucleus</b> surrounded by a
+        <b style="color:#38bdf8">negative electron cloud</b>. When an oscillating
+        light field <b>E(t)</b> arrives, it pushes the electron cloud away from the
+        nucleus — creating an <b>induced dipole moment μ</b>. The ease of this
+        displacement is the <b>polarizability α</b>. Watch the cloud shift back and
+        forth with the field.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <canvas id="c-atom" class="atom-canvas"></canvas>
+      <p class="cap" id="atom-cap">
+        The electron cloud (large, light) moves much more than the heavy nucleus.
+        The induced dipole <b>μ = α · E</b> oscillates at the same frequency as
+        the light — this is <b>Rayleigh scattering</b>. If α itself oscillates
+        (because the molecule vibrates), sidebands appear — that's <b>Raman scattering</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Vibration → α → signal ═══════ -->
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num">01 — From molecular vibration to the Raman signal</span>
       <h2>How a vibration modulates the polarizability</h2>
       <p>
-        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates on the left, and the
-        electron cloud (its <b>polarizability α</b>) breathes <em>in sync</em> on the right.
-        That changing α modulates the dipole induced by the laser field,
-        <b>p(t) = α(t)·E(t)</b> — and the modulation creates the <b>Stokes</b> and
-        <b>anti-Stokes</b> sidebands. Everything below shares one clock: the vertical
-        <span style="color:#fbbf24">“now”</span> line marks the instant shown by the molecule.
+        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates at top-left,
+        and the <b>α vs Q</b> plot at top-right shows how the polarizability depends
+        on the vibrational coordinate. The key: only modes where the <em>slope</em>
+        ∂α/∂Q ≠ 0 at equilibrium produce a first-order α oscillation — and hence
+        Raman sidebands.
       </p>
     </div>
     <div class="demo-stage">
 
-      <div class="vib-stage">
-        <div class="vib-mol">
+      <!-- Top row: molecule + α(Q) plot -->
+      <div class="top-row">
+        <div class="mol-panel">
           <canvas id="c-molecule"></canvas>
         </div>
-        <div class="vib-side">
-          <div class="alpha-readout">
-            <span class="ar-label">Polarizability α</span>
-            <div class="ar-bar"><div class="ar-fill" id="ar-fill"></div></div>
-          </div>
-          <div id="activity-badge" class="mol-activity"></div>
-          <p class="mol-cap" id="mol-cap"></p>
+        <div class="aq-panel">
+          <canvas id="c-alphaQ"></canvas>
         </div>
       </div>
 
-      <div class="btn-row" id="mol-btns" style="margin:16px 0 4px;">
+      <div class="btn-row" id="mol-btns" style="margin:14px 0 6px;">
         <button class="demo-btn active" data-mode="sym">Symmetric stretch</button>
         <button class="demo-btn" data-mode="asym">Asymmetric stretch</button>
         <button class="demo-btn" data-mode="bend">Bend</button>
       </div>
 
+      <div id="mode-explanation" class="mode-explain"></div>
+
+      <!-- Traces: E → α(t) → p(t) -->
       <div class="trace-row">
         <div class="trace-label"><b>Incident field</b><span class="eq">E(t) = E₀ cos(ω₀t)</span></div>
         <canvas id="c-field"></canvas>
@@ -88,6 +111,26 @@
         <canvas id="c-dipole"></canvas>
       </div>
 
+      <!-- Decomposition (Fig.1c): AM → 3 components -->
+      <div class="decomp-section">
+        <div class="decomp-label">Frequency decomposition of p(t)</div>
+        <div class="decomp-traces">
+          <div class="decomp-row">
+            <span class="decomp-tag" style="color:#16a34a">ν₀ (Rayleigh)</span>
+            <canvas id="c-dec-ray"></canvas>
+          </div>
+          <div class="decomp-row">
+            <span class="decomp-tag" style="color:#ef4444">ν₀ − ν<sub>m</sub> (Stokes)</span>
+            <canvas id="c-dec-stokes"></canvas>
+          </div>
+          <div class="decomp-row">
+            <span class="decomp-tag" style="color:#3b82f6">ν₀ + ν<sub>m</sub> (anti-Stokes)</span>
+            <canvas id="c-dec-anti"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spectrum -->
       <div class="spectrum-wrap">
         <canvas id="c-spectrum"></canvas>
         <p class="cap" id="spec-cap"></p>
@@ -104,10 +147,6 @@
           <label>Vibrational frequency ω<sub>v</sub> <span class="val" id="v-vib">—</span></label>
           <input type="range" id="ctrl-vib" min="0.4" max="3" step="0.05" value="1.2">
         </div>
-        <div class="control">
-          <label>Polarizability change ∂α/∂Q <span class="val" id="v-mod">—</span></label>
-          <input type="range" id="ctrl-mod" min="0" max="1" step="0.02" value="0.6">
-        </div>
         <div class="btn-row">
           <button class="demo-btn active" id="btn-play">Pause</button>
         </div>
@@ -115,7 +154,7 @@
     </div>
   </section>
 
-  <!-- ── 2. Jablonski diagram ── -->
+  <!-- ═══════ Module 02 — Jablonski ═══════ -->
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num">02 — Quantum picture</span>
