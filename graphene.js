@@ -446,151 +446,139 @@
     var hop3dVal = document.getElementById('v-hop3d');
     var btnReset = document.getElementById('btn-reset');
     var btnWire = document.getElementById('btn-wire');
+    var btnRotate = document.getElementById('btn-rotate');
 
-    var showWire = true;
-    var theta = 62 * PI/180;
-    var phi = -28 * PI/180;
+    var DEF_THETA = 60 * PI/180, DEF_PHI = -32 * PI/180, DEF_ZOOM = 1;
+    var showWire = false;
+    var autoRotate = true;
+    var theta = DEF_THETA, phi = DEF_PHI, zoom = DEF_ZOOM;
 
-    var N = 44;
-    var span = BZR * 1.08;
+    // Extend well beyond the first BZ so every corner Dirac cone is complete.
+    var R_out = BZR * 1.62;
 
-    function eColor(e, eMax) {
-      var t = e / eMax;
-      var at = abs(t);
-      var r, g, b;
-      if (t >= 0) {
-        r = 239; g = Math.round(68 + 187*(1-at)); b = Math.round(68 + 187*(1-at));
-      } else {
-        r = Math.round(59 + 196*(1-at)); g = Math.round(130 + 125*(1-at)); b = 246;
+    // Normalized fixed light (view space): upper-right, toward viewer.
+    var LL = (function () {
+      var x = 0.35, y = 0.55, z = 0.75, m = sqrt(x*x+y*y+z*z);
+      return [x/m, y/m, z/m];
+    })();
+
+    function insideHexR(kx, ky, R) {
+      var ap = R * sqrt3/2;
+      for (var n = 0; n < 6; n++) {
+        var ang = PI/6 + n*PI/3;
+        if (cos(ang)*kx + sin(ang)*ky > ap + 1e-6) return false;
       }
-      return 'rgb(' + r + ',' + g + ',' + b + ')';
+      return true;
     }
 
-    function darken(col, f) {
-      var m = col.match(/\d+/g);
-      return 'rgb(' + Math.round(m[0]*f) + ',' + Math.round(m[1]*f) + ',' + Math.round(m[2]*f) + ')';
+    function lerp(a, b, t) { return a + (b-a)*t; }
+
+    // Diverging colormap: valence cool, conduction warm, pale near Dirac.
+    function eColor(e, eMax) {
+      var t = max(-1, min(1, e/eMax)), r, g, b;
+      if (t >= 0) { r = lerp(254,220,t);  g = lerp(243,38,t);  b = lerp(199,38,t); }
+      else        { var u = -t; r = lerp(207,37,u); g = lerp(250,99,u); b = lerp(254,235,u); }
+      return [r, g, b];
     }
 
-    function buildFaces() {
+    // ── Mesh cache (rebuilt when N or t changes) ──
+    var meshCache = {};
+    function getMesh(N) {
+      var c = meshCache[N];
+      if (c && c.t === tHop) return c;
       var verts = [];
       for (var i = 0; i <= N; i++) {
         for (var j = 0; j <= N; j++) {
-          var kx = -span + 2*span*i/N;
-          var ky = -span + 2*span*j/N;
-          var ep = bandE(kx, ky);
-          verts.push({kx:kx, ky:ky, ep:ep, em:-ep});
+          var kx = -R_out + 2*R_out*i/N;
+          var ky = -R_out + 2*R_out*j/N;
+          verts.push({kx:kx, ky:ky, ep:bandE(kx,ky)});
         }
       }
       var faces = [];
       for (var i = 0; i < N; i++) {
         for (var j = 0; j < N; j++) {
           var idx = i*(N+1)+j;
-          var i0 = idx, i1 = idx+1, i2 = idx+N+2, i3 = idx+N+1;
-          var any = insideBZ(verts[i0].kx, verts[i0].ky) ||
-                    insideBZ(verts[i1].kx, verts[i1].ky) ||
-                    insideBZ(verts[i2].kx, verts[i2].ky) ||
-                    insideBZ(verts[i3].kx, verts[i3].ky);
-          if (any) {
-            faces.push({v:[i0,i1,i2,i3], band:1});
-            faces.push({v:[i0,i1,i2,i3], band:-1});
+          var q = [idx, idx+1, idx+N+2, idx+N+1];
+          var cgx = 0, cgy = 0;
+          for (var k = 0; k < 4; k++) { cgx += verts[q[k]].kx; cgy += verts[q[k]].ky; }
+          if (insideHexR(cgx/4, cgy/4, R_out)) {
+            faces.push({v:q, band:1});
+            faces.push({v:q, band:-1});
           }
         }
       }
-      return {verts:verts, faces:faces};
+      c = {verts:verts, faces:faces, t:tHop};
+      meshCache[N] = c;
+      return c;
     }
 
-    var mesh = buildFaces();
-
-    render3D = function () {
+    function draw(mesh) {
       var o = dpr(canvas), ctx = o.ctx, W = o.w, H = o.h;
       var eMax = 3 * tHop;
       var cosT = cos(theta), sinT = sin(theta);
       var cosP = cos(phi), sinP = sin(phi);
-      var kScale = 1 / span;
-      var eScale = 0.35 / eMax;
-      var viewScale = min(W, H) * 0.38;
+      var kScale = 0.92 / R_out;
+      var eScale = 0.58 / eMax;
+      var viewScale = min(W, H) * 0.42 * zoom;
 
       function project(kx, ky, e) {
-        var x = kx * kScale, y = ky * kScale, z = e * eScale;
-        var x1 = x*cosP - y*sinP;
-        var y1 = x*sinP + y*cosP;
-        var x2 = x1;
-        var y2 = y1*cosT - z*sinT;
-        var z2 = y1*sinT + z*cosT;
-        return {sx: W/2 + x2*viewScale, sy: H/2 - y2*viewScale, depth: z2};
+        var x = kx*kScale, y = ky*kScale, z = e*eScale;
+        var x1 = x*cosP - y*sinP, y1 = x*sinP + y*cosP;
+        var y2 = y1*cosT + z*sinT, z2 = y1*sinT - z*cosT;
+        return { sx: W/2 + x1*viewScale, sy: H/2 - y2*viewScale,
+                 x2:x1, y2:y2, z2:z2, depth:z2 };
       }
 
-      ctx.fillStyle = '#1c1917';
-      ctx.fillRect(0, 0, W*2, H*2);
+      ctx.clearRect(0, 0, W, H);
 
-      // BZ boundary at z=0
-      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      for (var n = 0; n <= 6; n++) {
-        var ang = n * PI/3;
-        var p = project(BZR*cos(ang), BZR*sin(ang), 0);
-        if (n === 0) ctx.moveTo(p.sx, p.sy);
-        else ctx.lineTo(p.sx, p.sy);
+      // First-BZ boundary on the z=0 plane (drawn behind the surface).
+      function hexPath(R) {
+        ctx.beginPath();
+        for (var n = 0; n <= 6; n++) {
+          var ang = n*PI/3, p = project(R*cos(ang), R*sin(ang), 0);
+          if (n === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+        }
+        ctx.closePath();
       }
-      ctx.closePath();
-      ctx.stroke();
+      ctx.lineWidth = 1.2; ctx.setLineDash([5, 4]);
+      ctx.strokeStyle = 'rgba(251,191,36,0.35)';
+      hexPath(BZR); ctx.stroke();
       ctx.setLineDash([]);
 
-      // Axes at origin
-      var axLen = span * 0.6;
-      var orig = project(0, 0, 0);
-      var axX = project(axLen, 0, 0);
-      var axY = project(0, axLen, 0);
-      var axZ = project(0, 0, eMax * 0.8);
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-      ctx.lineWidth = 1;
-      [[orig, axX, 'kₓ'], [orig, axY, 'kₑ'], [orig, axZ, 'E']].forEach(function(ax) {
-        ctx.beginPath();
-        ctx.moveTo(ax[0].sx, ax[0].sy);
-        ctx.lineTo(ax[1].sx, ax[1].sy);
-        ctx.stroke();
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.font = '500 10px "DM Sans", sans-serif';
-        ctx.fillText(ax[2], ax[1].sx+4, ax[1].sy-2);
-      });
-
-      // Compute face depths and colors
+      // ── Build & depth-sort faces ──
       var verts = mesh.verts;
-      var sortable = [];
-      for (var fi = 0; fi < mesh.faces.length; fi++) {
-        var face = mesh.faces[fi];
-        var vs = face.v;
-        var projVerts = [];
-        var depthSum = 0;
-        var eSum = 0;
-        for (var vi = 0; vi < 4; vi++) {
-          var v = verts[vs[vi]];
-          var e = face.band === 1 ? v.ep : v.em;
-          var p = project(v.kx, v.ky, e);
-          projVerts.push(p);
-          depthSum += p.depth;
-          eSum += e;
-        }
-        sortable.push({proj: projVerts, depth: depthSum/4, e: eSum/4, band: face.band});
+      var faces = mesh.faces;
+      var draws = [];
+      for (var fi = 0; fi < faces.length; fi++) {
+        var f = faces[fi], vs = f.v, band = f.band;
+        var p0 = project(verts[vs[0]].kx, verts[vs[0]].ky, band*verts[vs[0]].ep);
+        var p1 = project(verts[vs[1]].kx, verts[vs[1]].ky, band*verts[vs[1]].ep);
+        var p2 = project(verts[vs[2]].kx, verts[vs[2]].ky, band*verts[vs[2]].ep);
+        var p3 = project(verts[vs[3]].kx, verts[vs[3]].ky, band*verts[vs[3]].ep);
+
+        // View-space normal from quad diagonals.
+        var ax = p2.x2-p0.x2, ay = p2.y2-p0.y2, az = p2.z2-p0.z2;
+        var bx = p3.x2-p1.x2, by = p3.y2-p1.y2, bz = p3.z2-p1.z2;
+        var nx = ay*bz - az*by, ny = az*bx - ax*bz, nz = ax*by - ay*bx;
+        var nm = sqrt(nx*nx+ny*ny+nz*nz) || 1;
+        var ndl = abs((nx*LL[0]+ny*LL[1]+nz*LL[2]) / nm);
+        var bright = 0.40 + 0.60*ndl;
+
+        var eAvg = band * (verts[vs[0]].ep+verts[vs[1]].ep+verts[vs[2]].ep+verts[vs[3]].ep)/4;
+        draws.push({
+          p:[p0,p1,p2,p3],
+          depth:(p0.depth+p1.depth+p2.depth+p3.depth)/4,
+          e:eAvg, bright:bright
+        });
       }
+      draws.sort(function(a, b){ return a.depth - b.depth; });
 
-      sortable.sort(function(a, b) { return a.depth - b.depth; });
-
-      // Draw faces back-to-front
-      for (var i = 0; i < sortable.length; i++) {
-        var f = sortable[i];
-        var pv = f.proj;
-        var col = eColor(f.e, eMax);
-
-        // Back-face check
-        var ux = pv[1].sx - pv[0].sx, uy = pv[1].sy - pv[0].sy;
-        var vx = pv[3].sx - pv[0].sx, vy = pv[3].sy - pv[0].sy;
-        var cross = ux*vy - uy*vx;
-        var facing = cross > 0;
-
-        ctx.fillStyle = facing ? col : darken(col, 0.55);
+      for (var i = 0; i < draws.length; i++) {
+        var d = draws[i], pv = d.p, c = eColor(d.e, eMax);
+        var r = min(255, c[0]*d.bright)|0;
+        var g = min(255, c[1]*d.bright)|0;
+        var bl = min(255, c[2]*d.bright)|0;
+        ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + bl + ')';
         ctx.beginPath();
         ctx.moveTo(pv[0].sx, pv[0].sy);
         ctx.lineTo(pv[1].sx, pv[1].sy);
@@ -598,73 +586,156 @@
         ctx.lineTo(pv[3].sx, pv[3].sy);
         ctx.closePath();
         ctx.fill();
-
         if (showWire) {
-          ctx.strokeStyle = facing ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.08)';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
+          ctx.strokeStyle = 'rgba(15,12,10,0.22)';
+          ctx.lineWidth = 0.5; ctx.stroke();
         }
       }
 
-      // K point markers on surface
-      ctx.fillStyle = '#fbbf24';
+      // ── Dirac-point markers at the six K corners (E = 0) ──
+      var frontMost = null;
       for (var n = 0; n < 6; n++) {
-        var ang = n * PI/3;
-        var kx = BZR * cos(ang), ky = BZR * sin(ang);
-        var p = project(kx, ky, 0);
-        ctx.beginPath();
-        ctx.arc(p.sx, p.sy, 3, 0, 2*PI);
-        ctx.fill();
+        var ang = n*PI/3;
+        var p = project(BZR*cos(ang), BZR*sin(ang), 0);
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 6, 0, 2*PI);
+        ctx.fillStyle = 'rgba(251,191,36,0.25)'; ctx.fill();
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 3, 0, 2*PI);
+        ctx.fillStyle = '#fde68a'; ctx.fill();
+        if (!frontMost || p.depth > frontMost.depth) frontMost = p;
+      }
+      if (frontMost) {
+        ctx.fillStyle = '#fde68a';
+        ctx.font = '600 11px "DM Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Dirac point', frontMost.sx, frontMost.sy + 20);
       }
 
-      // Γ marker
-      var gp = project(0, 0, eMax);
-      var gm = project(0, 0, -eMax);
-      ctx.fillStyle = '#16a34a';
-      ctx.beginPath(); ctx.arc(gp.sx, gp.sy, 3, 0, 2*PI); ctx.fill();
-      ctx.beginPath(); ctx.arc(gm.sx, gm.sy, 3, 0, 2*PI); ctx.fill();
-    };
+      // ── Orientation gizmo (bottom-left) ──
+      drawGizmo(ctx, 44, H - 44, cosT, sinT, cosP, sinP);
 
-    // Mouse / touch drag
-    var dragging = false, lastX, lastY;
+      // ── Energy colour legend (right) ──
+      drawLegend(ctx, W - 24, 24, 12, H - 70, eMax);
+    }
+
+    function drawGizmo(ctx, ox, oy, cosT, sinT, cosP, sinP) {
+      var L = 26;
+      function pr(x, y, z) {
+        var x1 = x*cosP - y*sinP, y1 = x*sinP + y*cosP;
+        var y2 = y1*cosT + z*sinT;
+        return [ox + x1*L, oy - y2*L];
+      }
+      var axes = [
+        {v:pr(1,0,0), c:'#f87171', t:'kx'},
+        {v:pr(0,1,0), c:'#60a5fa', t:'ky'},
+        {v:pr(0,0,1), c:'#34d399', t:'E'}
+      ];
+      ctx.lineWidth = 1.5;
+      ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'center';
+      axes.forEach(function(a) {
+        ctx.strokeStyle = a.c; ctx.fillStyle = a.c;
+        ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(a.v[0], a.v[1]); ctx.stroke();
+        ctx.fillText(a.t, a.v[0], a.v[1] - 4);
+      });
+    }
+
+    function drawLegend(ctx, x, y, w, h, eMax) {
+      for (var i = 0; i < h; i++) {
+        var e = eMax * (1 - 2*i/h);
+        var c = eColor(e, eMax);
+        ctx.fillStyle = 'rgb(' + (c[0]|0) + ',' + (c[1]|0) + ',' + (c[2]|0) + ')';
+        ctx.fillRect(x, y + i, w, 1);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
+      ctx.strokeRect(x, y, w, h);
+      ctx.fillStyle = '#a8a29e';
+      ctx.font = '500 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('+3t', x - 4, y + 8);
+      ctx.fillText('0', x - 4, y + h/2 + 3);
+      ctx.fillText('−3t', x - 4, y + h - 2);
+    }
+
+    // ── Render loop with dirty flag + adaptive resolution ──
+    var IDLE_N = 78, DRAG_N = 44;
+    var dirty = true, dragging = false;
+    function frame() {
+      if (autoRotate && !dragging) { phi += 0.0045; dirty = true; }
+      if (dirty) {
+        var N = (dragging || autoRotate) ? DRAG_N : IDLE_N;
+        draw(getMesh(N));
+        dirty = false;
+      }
+      requestAnimationFrame(frame);
+    }
+    render3D = function () { dirty = true; };   // exposed: request a redraw
+
+    // ── Pointer interaction (drag-rotate + pinch-zoom) ──
+    var pointers = {};
+    function activePointers() { return Object.keys(pointers).length; }
+    var lastX, lastY, pinchDist = 0;
+
     canvas.addEventListener('pointerdown', function (e) {
-      dragging = true; lastX = e.clientX; lastY = e.clientY;
+      pointers[e.pointerId] = {x:e.clientX, y:e.clientY};
+      dragging = true;
+      lastX = e.clientX; lastY = e.clientY;
       canvas.setPointerCapture(e.pointerId);
     });
     canvas.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
+      if (!pointers[e.pointerId]) return;
+      pointers[e.pointerId] = {x:e.clientX, y:e.clientY};
+      if (activePointers() >= 2) {
+        var ids = Object.keys(pointers);
+        var a = pointers[ids[0]], b = pointers[ids[1]];
+        var dist = Math.hypot(a.x-b.x, a.y-b.y);
+        if (pinchDist) { zoom = max(0.5, min(3, zoom * dist/pinchDist)); dirty = true; }
+        pinchDist = dist;
+        return;
+      }
       var dx = e.clientX - lastX, dy = e.clientY - lastY;
       phi += dx * 0.008;
-      theta = max(0.1, min(PI/2 - 0.05, theta - dy * 0.008));
+      theta = max(0.12, min(PI/2 - 0.02, theta - dy * 0.008));
       lastX = e.clientX; lastY = e.clientY;
-      render3D();
+      dirty = true;
     });
-    canvas.addEventListener('pointerup', function () { dragging = false; });
-    canvas.addEventListener('pointercancel', function () { dragging = false; });
+    function endPointer(e) {
+      delete pointers[e.pointerId];
+      if (activePointers() < 2) pinchDist = 0;
+      if (activePointers() === 0) dragging = false;
+    }
+    canvas.addEventListener('pointerup', endPointer);
+    canvas.addEventListener('pointercancel', endPointer);
 
-    // Slider sync
+    canvas.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoom = max(0.5, min(3, zoom * (e.deltaY < 0 ? 1.08 : 0.926)));
+      dirty = true;
+    }, {passive:false});
+
+    // ── Controls ──
     hop3dSlider.addEventListener('input', function () {
       tHop = +hop3dSlider.value;
       hop3dVal.textContent = tHop.toFixed(2) + ' eV';
-      mesh = buildFaces();
-      render3D();
       document.getElementById('v-hop').textContent = tHop.toFixed(2) + ' eV';
       document.getElementById('ctrl-hop').value = tHop;
       drawBands();
+      dirty = true;
     });
-
     btnReset.addEventListener('click', function () {
-      theta = 62 * PI/180;
-      phi = -28 * PI/180;
-      render3D();
+      theta = DEF_THETA; phi = DEF_PHI; zoom = DEF_ZOOM; dirty = true;
     });
-
     btnWire.addEventListener('click', function () {
       showWire = !showWire;
       btnWire.classList.toggle('active', showWire);
-      render3D();
+      dirty = true;
     });
+    btnRotate.addEventListener('click', function () {
+      autoRotate = !autoRotate;
+      btnRotate.classList.toggle('active', autoRotate);
+      dirty = true;
+    });
+    window.addEventListener('resize', function () { dirty = true; });
 
-    render3D();
+    requestAnimationFrame(frame);
   })();
 })();
