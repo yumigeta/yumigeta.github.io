@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Raman Spectroscopy Explained — Polarizability, Stokes & anti-Stokes Scattering</title>
-  <meta name="description" content="Learn how Raman spectroscopy works through interactive animations. Explore molecular vibrations, polarizability modulation, Stokes/anti-Stokes scattering, and Jablonski diagrams — step by step.">
-  <meta name="keywords" content="Raman spectroscopy, polarizability, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, Jablonski diagram, spectroscopy tutorial, physics animation, interactive physics">
+  <meta name="description" content="Learn how Raman spectroscopy works through interactive animations. Explore molecular vibrations, polarizability modulation, Stokes/anti-Stokes scattering, Jablonski diagrams, selection rules, scattering intensity, and Raman tensors in crystals — step by step.">
+  <meta name="keywords" content="Raman spectroscopy, polarizability, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, Jablonski diagram, Raman tensor, selection rule, phonon, angle-resolved Raman, spectroscopy tutorial, physics animation, interactive physics">
   <link rel="canonical" href="https://yumigeta.github.io/raman.html">
 
   <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
@@ -48,7 +48,11 @@
       "Polarizability",
       "Stokes and anti-Stokes scattering",
       "Molecular vibrations",
-      "Jablonski diagram"
+      "Jablonski diagram",
+      "Raman selection rules",
+      "Raman tensor",
+      "Angle-resolved Raman spectroscopy",
+      "Phonon modes in crystals"
     ],
     "inLanguage": "en",
     "isAccessibleForFree": true,
@@ -81,10 +85,13 @@
     <p class="eyebrow">Interactive Demo</p>
     <h1>How Raman Spectroscopy Works</h1>
     <p>
-      Raman scattering reveals the vibrational fingerprint of a material — a workhorse
-      technique in 2D materials and condensed matter physics. The key rule: a vibration
-      is <em>Raman-active only if it changes the molecule's polarizability</em>. Explore
-      the physics step by step below.
+      Raman scattering reveals the vibrational fingerprint of a material by detecting
+      <em>inelastic scattering</em> — photons that exchange energy with lattice vibrations
+      (phonons). The resulting <b>Stokes shift</b> directly corresponds to the phonon energy,
+      giving access to crystallinity, strain, temperature, thickness, and crystal orientation
+      from a single, non-invasive optical measurement. The key rule: a vibration is
+      <em>Raman-active only if it changes the polarizability</em>. Explore the physics
+      step by step below.
     </p>
     <a href="explainers.html" class="back-link">&larr; All explainers</a>
   </header>
@@ -111,6 +118,17 @@
         the light — this is <b>Rayleigh scattering</b>. If α itself oscillates
         (because the molecule vibrates), sidebands appear — that's <b>Raman scattering</b>.
       </p>
+      <div class="physics-note">
+        <b>Going deeper — α is a tensor.</b>
+        Polarizability α is a <b>symmetric second-rank tensor</b> (a 3×3 matrix),
+        capturing how each component of the electric field induces a dipole in
+        every direction. When the molecule vibrates along a generalized coordinate Q,
+        the first-order Taylor expansion gives
+        <b>α(Q) ≈ α₀ + (∂α/∂Q)₀ · Q</b>.
+        The derivative (∂α/∂Q)₀ — a component of the <b>Raman tensor</b> —
+        is the heart of the Raman effect: if it is non-zero, the vibration
+        modulates α and produces Raman scattering.
+      </div>
     </div>
   </section>
 
@@ -211,6 +229,32 @@
       </div>
 
       <div class="physics-note" id="physics-note"></div>
+
+      <!-- Selection rule box -->
+      <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
+        <b>Selection rule.</b>
+        A vibration along generalized coordinate Q<sub>k</sub> is Raman-active when
+        at least one component of its <b>Raman tensor</b>
+        R<sub>k</sub> = (∂α<sub>ij</sub>/∂Q<sub>k</sub>)₀ is non-zero.
+        Which components survive is dictated by the <b>symmetry of the crystal structure</b>
+        (point or space group). For centrosymmetric molecules like CO<sub>2</sub>, the
+        <b>mutual exclusion rule</b> applies: a mode is either Raman-active or IR-active,
+        never both. The symmetric stretch changes α (Raman-active, IR-inactive), while the
+        asymmetric stretch changes the dipole moment (IR-active, Raman-inactive).
+      </div>
+
+      <!-- Scattering intensity box -->
+      <div class="physics-note" style="margin-top:14px; border-left-color:#3b82f6;">
+        <b>Scattering intensity.</b>
+        The scattered intensity is proportional to
+        <b>I ∝ I₀ · |R|² · ω<sub>s</sub>⁴</b> — the incident laser intensity,
+        the square of the Raman tensor element, and the <b>fourth power of the
+        scattered frequency</b>. The ω⁴ dependence explains why shorter-wavelength
+        lasers produce stronger Raman signals. It also means anti-Stokes photons
+        (higher ω<sub>s</sub>) are intrinsically stronger per photon than Stokes —
+        but since fewer molecules occupy excited vibrational states (Boltzmann
+        statistics), Stokes peaks dominate in practice.
+      </div>
     </div>
   </section>
 
@@ -236,6 +280,119 @@
         </div>
       </div>
       <p class="jab-cap" id="jab-cap"></p>
+
+      <div class="physics-note" style="margin-top:18px; border-left-color:#f59e0b;">
+        <b>Stokes/anti-Stokes ratio and temperature.</b>
+        At thermal equilibrium, most molecules sit in the <b>ground vibrational
+        state</b> (v = 0). Stokes scattering starts from v = 0 (abundant), while
+        anti-Stokes starts from v = 1 (thermally populated). Their intensity ratio
+        <b>I<sub>aS</sub>/I<sub>S</sub> ∝ exp(−ℏω<sub>v</sub>/k<sub>B</sub>T)</b>
+        directly encodes the sample <b>temperature</b> — a principle widely used
+        in non-contact thermometry. At low temperatures, anti-Stokes peaks
+        nearly vanish; at high temperatures, they grow toward the Stokes intensity.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — From molecules to crystals ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03 — From molecules to crystals</span>
+      <h2>Raman tensors &amp; polarization dependence</h2>
+      <p>
+        In a crystal, vibrations are collective <b>phonon modes</b> classified by
+        the crystal's space group symmetry. Each Raman-active phonon has a specific
+        <b>Raman tensor</b> whose form is fixed by symmetry — and the scattered
+        intensity depends on polarization directions.
+      </p>
+    </div>
+    <div class="demo-stage">
+
+      <div class="crystal-explain">
+        <div class="crystal-concept">
+          <h3>Polarization-dependent intensity</h3>
+          <p>
+            The Raman intensity for a given mode is:
+          </p>
+          <p class="eq-block">
+            I ∝ |<b>e</b><sub>i</sub> · <b>R</b> · <b>e</b><sub>s</sub>|²
+          </p>
+          <p>
+            where <b>e</b><sub>i</sub> and <b>e</b><sub>s</sub> are the polarization
+            vectors of incident and scattered light, and <b>R</b> is the Raman tensor
+            of the phonon mode. By rotating the polarization angle
+            (<b>angle-resolved Raman spectroscopy</b>), one can determine the symmetry
+            of each mode — distinguishing A<sub>g</sub>, B<sub>1g</sub>,
+            B<sub>2g</sub> modes, etc.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Example: orthorhombic crystals (Cmcm)</h3>
+          <p>
+            For an orthorhombic crystal in the Cmcm space group, the Raman-active
+            modes and their tensor forms are:
+          </p>
+          <div class="tensor-grid">
+            <div class="tensor-card">
+              <span class="tensor-label">A<sub>g</sub></span>
+              <div class="tensor-matrix">
+                <table>
+                  <tr><td>a</td><td></td><td></td></tr>
+                  <tr><td></td><td>b</td><td></td></tr>
+                  <tr><td></td><td></td><td>c</td></tr>
+                </table>
+              </div>
+              <span class="tensor-polar">I ∝ (a cos²θ + c sin²θ)²</span>
+            </div>
+            <div class="tensor-card">
+              <span class="tensor-label">B<sub>1g</sub></span>
+              <div class="tensor-matrix">
+                <table>
+                  <tr><td></td><td>d</td><td></td></tr>
+                  <tr><td>d</td><td></td><td></td></tr>
+                  <tr><td></td><td></td><td></td></tr>
+                </table>
+              </div>
+              <span class="tensor-polar">I ∝ d² sin²2θ</span>
+            </div>
+            <div class="tensor-card">
+              <span class="tensor-label">B<sub>2g</sub></span>
+              <div class="tensor-matrix">
+                <table>
+                  <tr><td></td><td></td><td></td></tr>
+                  <tr><td></td><td></td><td>f</td></tr>
+                  <tr><td></td><td>f</td><td></td></tr>
+                </table>
+              </div>
+              <span class="tensor-polar">not observed in backscattering</span>
+            </div>
+          </div>
+          <p>
+            In backscattering geometry with parallel polarization configuration,
+            the A<sub>g</sub> mode shows <b>four-fold symmetry</b> in a polar
+            plot of intensity vs. angle θ, while B<sub>1g</sub> produces a
+            characteristic four-lobed pattern rotated by 45°. These patterns
+            serve as fingerprints for mode assignment.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>What Raman spectra tell you</h3>
+          <p>
+            Beyond identifying materials, Raman spectra encode a wealth of
+            structural and physical information:
+          </p>
+          <ul class="raman-info-list">
+            <li><b>Peak position</b> — phonon frequency, sensitive to composition and bond strength</li>
+            <li><b>Peak width</b> — crystallinity (broader = more disorder or smaller grains)</li>
+            <li><b>Peak shift</b> — strain, temperature, or doping changes</li>
+            <li><b>Peak intensity</b> — thickness (in thin films/2D materials)</li>
+            <li><b>Polarization dependence</b> — crystal orientation and mode symmetry</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </section>
 
