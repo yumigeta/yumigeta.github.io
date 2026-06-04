@@ -110,9 +110,69 @@
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
 
+/* ── Module 03 — Crystals ── */
+.crystal-explain {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.crystal-concept h3 {
+  font-size: 0.92rem; font-weight: 700; color: #fafaf9;
+  margin-bottom: 8px;
+}
+.crystal-concept p {
+  font-size: 0.84rem; color: #d6d3d1; line-height: 1.65;
+  margin-bottom: 8px;
+}
+.eq-block {
+  text-align: center; font-size: 1rem; font-weight: 600;
+  color: #e7e5e4; padding: 10px 0; letter-spacing: 0.02em;
+}
+
+.tensor-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin: 14px 0;
+}
+.tensor-card {
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 8px;
+  padding: 14px; text-align: center;
+  background: rgba(255,255,255,0.03);
+}
+.tensor-label {
+  display: block; font-size: 0.88rem; font-weight: 700;
+  color: #a78bfa; margin-bottom: 8px;
+}
+.tensor-matrix table {
+  margin: 0 auto; border-collapse: collapse;
+}
+.tensor-matrix td {
+  width: 28px; height: 28px; text-align: center;
+  font-size: 0.82rem; color: #e7e5e4; font-style: italic;
+}
+.tensor-matrix td:empty::after {
+  content: "0"; color: #57534e;
+}
+.tensor-polar {
+  display: block; margin-top: 8px;
+  font-size: 0.7rem; color: #a8a29e; font-style: italic;
+}
+
+.raman-info-list {
+  list-style: none; padding: 0; margin: 8px 0 0;
+}
+.raman-info-list li {
+  font-size: 0.82rem; color: #d6d3d1; line-height: 1.65;
+  padding: 4px 0 4px 18px; position: relative;
+}
+.raman-info-list li::before {
+  content: ""; position: absolute; left: 0; top: 12px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(167,139,250,0.5);
+}
+.raman-info-list li b { color: #fafaf9; }
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .trace-row { grid-template-columns: 1fr; gap: 6px; }
   .trace-label { display: flex; gap: 8px; align-items: baseline; }
   .decomp-row { grid-template-columns: 1fr; gap: 4px; }
+  .tensor-grid { grid-template-columns: 1fr; }
 }
