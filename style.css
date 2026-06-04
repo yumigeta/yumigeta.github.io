@@ -285,6 +285,15 @@ section.soft .card { background: #fff; }
   background: var(--accent); border-radius: 980px;
   padding: 3px 9px; margin-left: 6px; letter-spacing: 0;
 }
+/* journal cover thumbnail in publications list */
+.pub-cover {
+  display: block; margin-top: 8px; width: 48px;
+  border-radius: 4px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
+}
+.pub-cover img { display: block; width: 100%; height: auto; }
+.pub-cover:hover { transform: translateY(-2px) scale(1.03); box-shadow: var(--shadow-card-h); }
 @media (max-width: 680px) {
   .pub { grid-template-columns: 54px 1fr; }
   .pub .meta { grid-column: 2; text-align: left; margin-top: 2px; }
