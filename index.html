@@ -3,213 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kentaro Yumigeta | Condensed Matter &amp; 2D Materials</title>
+  <title>Kentaro Yumigeta — Condensed Matter &amp; 2D Materials</title>
   <meta name="description" content="Kentaro Yumigeta — condensed matter physicist at the University of Arizona. Research on 2D materials, van der Waals heterostructures, and interactive physics explainers.">
   <link rel="canonical" href="https://yumigeta.github.io/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Kentaro Yumigeta | Condensed Matter & 2D Materials">
+  <meta property="og:title" content="Kentaro Yumigeta — Condensed Matter & 2D Materials">
   <meta property="og:description" content="Condensed matter physicist at the University of Arizona. Interactive physics explainers, research, and open-source software.">
   <meta property="og:url" content="https://yumigeta.github.io/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Kentaro Yumigeta | Condensed Matter & 2D Materials">
+  <meta name="twitter:title" content="Kentaro Yumigeta — Condensed Matter & 2D Materials">
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
   <script src="analytics.js"></script>
 </head>
 <body>
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="#" class="nav-name">KY</a>
-      <ul class="nav-menu" id="nav-menu">
-        <li><a href="#about">About</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="explainers.html">Explainers</a></li>
-        <li><a href="software.html">Software</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span>
-      </button>
-    </div>
-  </nav>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="#top">Kentaro Yumigeta</a>
+    <nav class="links">
+      <a href="#news">News</a>
+      <a href="#research">Research</a>
+      <a href="explainers.html">Explainers</a>
+      <a href="#publications">Publications</a>
+      <a href="#software">Software</a>
+      <a href="#cv">CV</a>
+    </nav>
+    <a class="cta" href="mailto:kyumiget@arizona.edu">Contact</a>
+  </div>
+</header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-portrait">
-        <div class="portrait-frame">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="80" r="35" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
-            <path d="M40 180c0-33 27-60 60-60s60 27 60 60" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
-          </svg>
-        </div>
+<div id="top"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="stage">
+    <canvas id="heroField"></canvas>
+    <div class="glow"></div>
+    <div class="hero-inner rv">
+      <div class="hero-l">
+        <div class="eyebrow">University of Arizona · Materials Science</div>
+        <h1>Quantum matter<br><span class="muted">in two dimensions.</span></h1>
       </div>
-      <div class="hero-text">
-        <h1><span class="first-name">Kentaro</span> Yumigeta</h1>
-        <p class="hero-affiliation">University of Arizona</p>
-        <p class="hero-tagline">Condensed matter physicist exploring the quantum properties of two-dimensional materials and van der Waals heterostructures.</p>
-        <div class="hero-links">
-          <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener" class="icon-link" title="Google Scholar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
-            Scholar
-          </a>
-          <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener" class="icon-link" title="ORCID">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-1.847-1.209-3.722-3.891-3.722z"/></svg>
-            ORCID
-          </a>
-          <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener" class="icon-link" title="ResearchGate">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.586 0c-1.37.009-2.735.076-3.77.344-4.195 1.084-5.26 5.1-4.52 8.42.25 1.12.652 2.14 1.145 3.04-1.204.57-2.35.92-3.52 1.13-.38.07-.77.12-1.17.17C6.57 8.904 4.9 5.88 2.3 5.04c-.7-.23-1.5-.23-2.1.16-.65.42-.82 1.35-.33 1.92 1.1 1.28 2.97 1.59 4.53 2.15 1.23.44 2.35 1.13 3.06 2.24.38.6.65 1.27.78 1.97.14.75.11 1.53-.06 2.28-.16.72-.47 1.42-.93 2-.47.6-1.1 1.05-1.82 1.3-.72.25-1.5.3-2.26.2-.37-.05-.72-.14-1.07-.26-.18-.06-.35-.14-.52-.22l-.25-.13c-.07-.04-.15-.1-.22-.15l-.4-.32c-.5-.45-.86-1.05-1.1-1.69-.48-1.29-.5-2.74-.16-4.08.16-.63.4-1.24.71-1.8.15-.29.33-.56.53-.82l.28-.35.15-.17.08-.08.04-.04-.08.06-.15.13-.28.27c-.24.25-.44.53-.63.82-.37.57-.66 1.19-.87 1.84-.42 1.31-.55 2.76-.26 4.13.15.68.41 1.35.81 1.93.4.58.96 1.05 1.59 1.38.16.08.32.16.49.23.17.07.35.13.53.18.36.11.74.18 1.12.22.77.08 1.56.01 2.3-.23.75-.24 1.43-.66 1.97-1.22.54-.56.93-1.25 1.16-1.99.24-.75.32-1.55.23-2.34-.09-.78-.34-1.54-.72-2.22-.19-.34-.42-.66-.68-.95 1.32-.32 2.57-.82 3.62-1.51.13.22.27.44.42.65 1.4 1.95 3.58 3.2 5.96 3.2 1.08 0 2.2-.24 3.16-.84 1.04-.64 1.72-1.74 1.72-2.96 0-1.2-.58-2.18-1.4-2.88-.82-.7-1.87-1.12-2.93-1.35-.53-.12-1.07-.19-1.6-.24.8-.75 1.4-1.73 1.72-2.82.62-2.16.2-4.67-1.37-6.3C23.18.77 21.48.06 19.73 0h-.14zm.16 1.66c1.3 0 2.44.56 3.2 1.56.78 1.02 1.08 2.4.79 3.76-.22 1.02-.8 1.93-1.6 2.57-.4.32-.87.57-1.36.73-.25.08-.5.14-.76.17-.13.02-.26.03-.39.03h-.22c-.54.03-1.08.07-1.6.17-.47.09-.93.23-1.37.42-.22.1-.43.21-.63.34l-.1.07c-.36-.58-.66-1.2-.88-1.86-.72-2.12-.6-4.72 1.16-6.14.71-.56 1.64-.9 2.56-.91.07 0 .14 0 .2.01zm.04 10.05c.5.05 1 .12 1.48.25.92.24 1.82.64 2.36 1.2.55.56.82 1.24.82 2.04 0 .8-.42 1.56-1.18 2.04-.77.49-1.76.7-2.7.7-2.02 0-3.85-1.03-5.06-2.67-.15-.2-.29-.42-.42-.64.45-.37.95-.65 1.5-.85.46-.17.94-.27 1.43-.34.6-.08 1.2-.1 1.77-.08z"/></svg>
-            ResearchGate
-          </a>
-          <a href="mailto:kyumiget@arizona.edu" class="icon-link" title="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            Email
-          </a>
+      <div class="hero-r">
+        <p class="sub">I study the optical and electronic properties of <em>two-dimensional materials</em> and van der Waals heterostructures.</p>
+        <p class="say">Using spectroscopy, device fabrication, and computational modeling to understand how quantum phenomena emerge at the atomically thin limit.</p>
+        <div class="hero-chips">
+          <span>2D Materials</span><span>Spectroscopy</span><span>van der Waals Heterostructures</span><span>Condensed Matter</span>
         </div>
       </div>
     </div>
-    <div class="scroll-hint">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7 7 7 7-7"/></svg>
+  </div>
+</div>
+
+<!-- NEWS -->
+<section class="band soft" id="news">
+  <div class="sh rv"><span class="eyebrow">Latest</span><h2>News &amp; updates</h2></div>
+  <div class="news rv">
+    <div class="item"><div class="dt">Jun 2026</div><div class="bd">Interactive <em>Graphene Electronic Structure</em> explainer published — covering Dirac cones, GNR band engineering, and edge states.</div></div>
+    <div class="item"><div class="dt">May 2026</div><div class="bd">Interactive <em>Raman Spectroscopy</em> explainer launched on this site.</div></div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="band" id="research">
+  <div class="sh rv"><span class="eyebrow">Research</span><h2>Areas of focus</h2><p class="intro">Exploring how quantum phenomena manifest in atomically thin crystals and their heterostructures.</p></div>
+  <div class="grid rv">
+    <div class="card dark"><div class="n">01</div><h3>2D Materials &amp; Heterostructures</h3><p>Investigating the electronic and optical properties of transition metal dichalcogenides and their van der Waals heterostructures.</p></div>
+    <div class="card"><div class="n">02</div><h3>Optical Spectroscopy</h3><p>Using Raman, photoluminescence, and reflectance spectroscopy to probe phonon dynamics, excitons, and many-body interactions in layered materials.</p></div>
+    <div class="card"><div class="n">03</div><h3>Device Physics</h3><p>Fabricating and characterizing devices based on 2D materials to explore quantum transport, optoelectronic response, and emergent phenomena.</p></div>
+  </div>
+  <div class="more-link rv"><a href="explainers.html">Interactive explainers: physics you can play with <span class="a">&rsaquo;</span></a></div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="band soft" id="publications">
+  <div class="sh rv"><span class="eyebrow">Selected Publications</span><h2>Recent work</h2></div>
+  <div class="pubs rv">
+    <div class="pub"><div class="yr">2023</div><div><div class="t">Exciton Polarization, Fine Structure, and Quantum Geometry in WS<sub>2</sub> Monolayers</div><div class="a">K. Yumigeta et al.</div></div><div class="meta"><em>Nano Lett.</em></div></div>
+    <div class="pub"><div class="yr">2022</div><div><div class="t">Strongly Bound Excitons in Few-Layer Black Phosphorus</div><div class="a">K. Yumigeta et al.</div></div><div class="meta"><em>ACS Nano</em></div></div>
+    <div class="pub"><div class="yr">2021</div><div><div class="t">Phonon-Assisted Luminescence in Monolayer Transition Metal Dichalcogenides</div><div class="a">K. Yumigeta et al.</div></div><div class="meta"><em>ACS Nano</em></div></div>
+  </div>
+  <div class="more-link rv"><a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Full publication list on Google Scholar <span class="a">&rsaquo;</span></a></div>
+</section>
+
+<!-- SOFTWARE -->
+<section class="band" id="software">
+  <div class="sh rv"><span class="eyebrow">Software &amp; Tools</span><h2>Built in the open</h2><p class="intro">Interactive educational tools and research software — open-source and running in the browser.</p></div>
+  <div class="tools rv">
+    <div class="tool">
+      <div class="th"><div class="name">Raman Spectroscopy</div><span class="badge">Web · Edu</span></div>
+      <p>An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
+      <div class="stack">JavaScript · Canvas</div>
+      <div class="acts"><a class="primary" href="raman.html">Open &rsaquo;</a></div>
     </div>
-  </section>
-
-  <section id="about" class="section">
-    <div class="container">
-      <div class="section-label">About</div>
-      <div class="about-layout">
-        <div class="about-bio">
-          <p class="lead">
-            I am a researcher in the Department of Materials Science and Engineering
-            at the <strong>University of Arizona</strong>.
-          </p>
-          <p>
-            Research description coming soon.
-          </p>
-        </div>
-        <aside class="about-sidebar">
-          <div class="sidebar-block">
-            <h3>Interests</h3>
-            <div class="tags">
-              <span>Coming soon</span>
-            </div>
-          </div>
-          <div class="sidebar-block">
-            <h3>Affiliations</h3>
-            <ul class="affiliation-list">
-              <li>University of Arizona</li>
-            </ul>
-          </div>
-        </aside>
-      </div>
+    <div class="tool">
+      <div class="th"><div class="name">Graphene Structure</div><span class="badge">Web · Edu</span></div>
+      <p>Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
+      <div class="stack">JavaScript · Canvas</div>
+      <div class="acts"><a class="primary" href="graphene.html">Open &rsaquo;</a></div>
     </div>
-  </section>
+  </div>
+  <div class="more-link rv"><a href="software.html">View all software &amp; tools <span class="a">&rsaquo;</span></a></div>
+</section>
 
-  <section id="research" class="section section-dark">
-    <div class="container">
-      <div class="section-label">Research</div>
-      <p class="section-subtitle">
-        Research details coming soon.
-      </p>
-      <div class="research-cards">
-        <article class="r-card">
-          <span class="r-num">01</span>
-          <h3>Research Area 1</h3>
-          <p>Description coming soon.</p>
-        </article>
-        <article class="r-card">
-          <span class="r-num">02</span>
-          <h3>Research Area 2</h3>
-          <p>Description coming soon.</p>
-        </article>
-        <article class="r-card">
-          <span class="r-num">03</span>
-          <h3>Research Area 3</h3>
-          <p>Description coming soon.</p>
-        </article>
-      </div>
-      <a href="explainers.html" class="research-cta">
-        Interactive explainers: physics you can play with &rarr;
-      </a>
-    </div>
-  </section>
+<!-- CV -->
+<section class="band soft" id="cv">
+  <div class="sh rv"><span class="eyebrow">Curriculum Vitae</span><h2>Background</h2></div>
+  <div class="cv rv">
+    <div class="cv-row"><div class="w">2023 —</div><div class="d">Research Scientist <span class="ex">· University of Arizona</span></div></div>
+    <div class="cv-row"><div class="w">2023</div><div class="d">Ph.D. in Materials Science <span class="ex">· University of Arizona</span></div></div>
+  </div>
+</section>
 
-  <section id="publications" class="section">
-    <div class="container">
-      <div class="section-label">Selected Publications</div>
-      <p class="section-subtitle">
-        For a full list, see my
-        <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> profile.
-      </p>
-      <div class="pub-list">
-
-        <article class="pub">
-          <time>—</time>
-          <div>
-            <h4>Publication list coming soon.</h4>
-            <p class="pub-meta">Please visit my Google Scholar profile for the full list.</p>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section section-dark">
-    <div class="container">
-      <div class="section-label">Contact</div>
-      <div class="contact-layout">
-        <div class="contact-block">
-          <h3>Email</h3>
-          <a href="mailto:kyumiget@arizona.edu">kyumiget@arizona.edu</a>
-        </div>
-        <div class="contact-block">
-          <h3>Address</h3>
-          <p>Department of Materials Science &amp; Engineering<br>
-          University of Arizona<br>
-          Tucson, AZ 85721, USA</p>
-        </div>
-        <div class="contact-block">
-          <h3>Profiles</h3>
-          <div class="contact-profiles">
-            <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
-            <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener">ORCID</a>
-            <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener">ResearchGate</a>
-          </div>
+<!-- CONTACT -->
+<div class="contact-wrap" id="contact">
+  <section class="contact rv">
+    <div class="stage">
+      <div class="glow2"></div>
+      <div class="inner">
+        <span class="eyebrow">Contact</span>
+        <a class="em" href="mailto:kyumiget@arizona.edu">kyumiget@arizona.edu</a>
+        <div class="row">
+          <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar &#x2197;</a>
+          <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener">ORCID &#x2197;</a>
+          <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener">ResearchGate &#x2197;</a>
         </div>
       </div>
     </div>
   </section>
+</div>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Kentaro Yumigeta</p>
-    </div>
-  </footer>
+<footer class="site-footer">
+  <div class="f">
+    <div>&copy; 2026 Kentaro Yumigeta</div>
+    <div>Materials Science &amp; Engineering · University of Arizona</div>
+  </div>
+</footer>
 
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('nav-menu');
-    hamburger.addEventListener('click', () => {
-      menu.classList.toggle('open');
-      hamburger.classList.toggle('open');
-    });
-    document.querySelectorAll('#nav-menu a').forEach(a => {
-      a.addEventListener('click', () => {
-        menu.classList.remove('open');
-        hamburger.classList.remove('open');
-      });
-    });
-    const navbar = document.getElementById('navbar');
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      navbar.classList.toggle('scrolled', y > 60);
-      navbar.classList.toggle('hidden', y > lastScroll && y > 300);
-      lastScroll = y;
-    });
-  </script>
+<script>
+  // nav scroll spy
+  const navlinks = [...document.querySelectorAll('.nav .links a')];
+  const map = {};
+  navlinks.forEach(a => {
+    const h = a.getAttribute('href');
+    if (h.startsWith('#')) map[h.slice(1)] = a;
+  });
+  const sections = [...document.querySelectorAll('section[id], div[id="contact"]')];
+  function spy() {
+    const line = window.innerHeight * 0.4;
+    let cur = null;
+    for (const s of sections) {
+      if (s.getBoundingClientRect().top - line <= 0) cur = s;
+    }
+    navlinks.forEach(a => a.style.color = '');
+    if (cur && map[cur.id]) map[cur.id].style.color = 'var(--ink)';
+  }
+  spy();
+  window.addEventListener('scroll', spy, { passive: true });
+  window.addEventListener('resize', spy);
+
+  // scroll reveal
+  (function() {
+    const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    const items = [...document.querySelectorAll('.rv')];
+    if (!motionOK || !('IntersectionObserver' in window)) {
+      items.forEach(s => s.classList.add('in'));
+      return;
+    }
+    document.body.classList.add('reveal-on');
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(s => io.observe(s));
+    setTimeout(() => items.forEach(s => s.classList.add('in')), 1500);
+  })();
+
+  // hero flow field
+  (function() {
+    const cv = document.getElementById('heroField');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W, H, pts, raf, dpr;
+    function accentRGB() {
+      const s = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      const d = document.createElement('div');
+      d.style.color = s;
+      document.body.appendChild(d);
+      const c = getComputedStyle(d).color;
+      d.remove();
+      const m = c.match(/\d+/g);
+      return m ? [+m[0], +m[1], +m[2]] : [28, 90, 120];
+    }
+    let rgb = accentRGB();
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = cv.getBoundingClientRect();
+      W = r.width; H = r.height;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(76, W / 16));
+      pts = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .26, vy: (Math.random() - .5) * .26
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of pts) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+      }
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const a = pts[i], b = pts[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 128) {
+            ctx.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${(1 - d / 128) * 0.22})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      for (const p of pts) {
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.3, 0, 7); ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    }
+    function start() {
+      size(); cancelAnimationFrame(raf);
+      if (reduce) { draw(); cancelAnimationFrame(raf); } else draw();
+    }
+    window.addEventListener('resize', () => { cancelAnimationFrame(raf); start(); });
+    start();
+  })();
+</script>
 </body>
 </html>

@@ -1,24 +1,23 @@
 /* ── Raman-specific styles ── shared demo styles live in style.css ── */
 
 .raman-hero {
-  padding: 110px 24px 40px;
+  padding: 120px 28px 48px;
   text-align: center;
-  background: var(--c-bg);
+  background: var(--bg);
 }
 .raman-hero .eyebrow {
-  font-size: 0.75rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.15em;
-  color: var(--c-accent); margin-bottom: 14px;
+  font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--accent); margin-bottom: 14px;
 }
 .raman-hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4.5vw, 3rem);
-  font-weight: 700; color: var(--c-text);
-  letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px;
+  font-size: clamp(26px, 4.5vw, 38px);
+  font-weight: 600; color: var(--ink);
+  letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px;
 }
 .raman-hero p {
   max-width: 620px; margin: 0 auto;
-  color: var(--c-text-secondary); font-size: 1.02rem; line-height: 1.7;
+  color: var(--soft); font-size: 17px; line-height: 1.55;
 }
 
 /* ── Module 00 — Atom canvas ── */
