@@ -168,6 +168,15 @@
 }
 .raman-info-list li b { color: #fafaf9; }
 
+.crystal-concept .ext-link {
+  color: #a78bfa; text-decoration: underline;
+  text-decoration-color: rgba(167,139,250,0.4);
+  text-underline-offset: 2px; font-weight: 500;
+}
+.crystal-concept .ext-link:hover {
+  color: #c4b5fd; text-decoration-color: #c4b5fd;
+}
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .trace-row { grid-template-columns: 1fr; gap: 6px; }
