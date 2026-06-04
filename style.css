@@ -412,7 +412,7 @@ body.reveal-on .rv.in { opacity: 1; transform: none; }
 }
 .back-link:hover { opacity: .7; }
 
-/* ── Hub card grid (explainers) ── */
+/* ── Hub card grid ── */
 .hub { max-width: var(--maxw); margin: 0 auto; padding: 8px 28px 80px; }
 .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 

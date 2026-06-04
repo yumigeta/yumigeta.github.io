@@ -40,33 +40,30 @@
   <script src="analytics.js"></script>
 </head>
 <body>
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-name">Kentaro Yumigeta</a>
-      <ul class="nav-menu" id="nav-menu">
-        <li><a href="index.html#research">Research</a></li>
-        <li><a href="explainers.html" aria-current="page">Explainers</a></li>
-        <li><a href="software.html">Software</a></li>
-        <li><a href="index.html#publications">Publications</a></li>
-        <li><a href="index.html#cv">CV</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span>
-      </button>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="index.html">Kentaro Yumigeta</a>
+      <nav class="links">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="software.html" aria-current="page">Software</a>
+        <a href="index.html#cv">CV</a>
+      </nav>
+      <a class="cta" href="mailto:kyumiget@arizona.edu">Contact</a>
     </div>
-  </nav>
-
-  <header class="page-hero">
-    <p class="eyebrow">Interactive Explainer</p>
-    <h1>Graphene Electronic Structure</h1>
-    <p>
-      Graphene — a single layer of carbon atoms in a honeycomb lattice — has a
-      remarkable electronic structure: its conduction and valence bands touch at
-      the <em>K</em> points of the Brillouin zone, forming <b>Dirac cones</b>
-      where electrons behave as massless relativistic particles.
-    </p>
-    <a href="explainers.html" class="back-link">&larr; All explainers</a>
   </header>
+
+  <div class="hero" style="margin-bottom:0;">
+    <div class="stage" style="min-height:auto;">
+      <div class="glow"></div>
+      <div style="position:relative;z-index:3;max-width:var(--maxw);margin:0 auto;padding:clamp(48px,6vw,72px) 28px;color:#fff;">
+        <div class="eyebrow" style="color:color-mix(in srgb,var(--accent) 35%,#fff);margin-bottom:14px;">Interactive Demo</div>
+        <h1 style="font-size:var(--h2);font-weight:600;line-height:1.05;letter-spacing:-.03em;">Graphene Electronic Structure</h1>
+        <p style="margin-top:16px;font-size:clamp(16px,1.8vw,19px);color:rgba(255,255,255,.7);max-width:52ch;line-height:1.5;">The honeycomb lattice, Brillouin zone, tight-binding band structure — visualizing how Dirac cones emerge at the K points and give graphene its massless charge carriers.</p>
+        <a href="software.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;font-size:15px;font-weight:500;color:rgba(255,255,255,.6);transition:color .2s;">&larr; All tools</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════ Module 00 — Crystal Structure ═══════ -->
   <section class="demo">
@@ -216,19 +213,14 @@
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Kentaro Yumigeta</p>
+  <footer class="site-footer">
+    <div class="f">
+      <div>&copy; 2026 Kentaro Yumigeta</div>
+      <div>Materials Science &amp; Engineering · University of Arizona</div>
     </div>
   </footer>
 
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('nav-menu');
-    hamburger.addEventListener('click', () => {
-      menu.classList.toggle('open');
-      hamburger.classList.toggle('open');
-    });
   </script>
   <script src="graphene.js"></script>
 </body>

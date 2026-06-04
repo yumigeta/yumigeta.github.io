@@ -3,80 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software | Kentaro Yumigeta</title>
+  <title>Software &amp; Tools | Kentaro Yumigeta</title>
+  <meta name="description" content="Interactive educational tools and research software by Kentaro Yumigeta — Raman spectroscopy, graphene electronic structure, and more.">
   <link rel="stylesheet" href="style.css">
   <script src="analytics.js"></script>
 </head>
 <body>
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-name">Kentaro Yumigeta</a>
-      <ul class="nav-menu" id="nav-menu">
-        <li><a href="index.html#research">Research</a></li>
-        <li><a href="explainers.html">Explainers</a></li>
-        <li><a href="software.html" aria-current="page">Software</a></li>
-        <li><a href="index.html#publications">Publications</a></li>
-        <li><a href="index.html#cv">CV</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span>
-      </button>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="index.html">Kentaro Yumigeta</a>
+    <nav class="links">
+      <a href="index.html#news">News</a>
+      <a href="index.html#research">Research</a>
+      <a href="index.html#publications">Publications</a>
+      <a href="software.html" aria-current="page">Software</a>
+      <a href="index.html#cv">CV</a>
+    </nav>
+    <a class="cta" href="mailto:kyumiget@arizona.edu">Contact</a>
+  </div>
+</header>
+
+<!-- PAGE HERO (dark stage) -->
+<div class="hero" style="margin-bottom:0;">
+  <div class="stage" style="min-height:auto;">
+    <div class="glow"></div>
+    <div style="position:relative;z-index:3;max-width:var(--maxw);margin:0 auto;padding:clamp(48px,6vw,72px) 28px;color:#fff;">
+      <div class="eyebrow" style="color:color-mix(in srgb,var(--accent) 35%,#fff);margin-bottom:14px;">Software &amp; Tools</div>
+      <h1 style="font-size:var(--h2);font-weight:600;line-height:1.05;letter-spacing:-.03em;">Interactive tools &amp; open-source projects</h1>
+      <p style="margin-top:16px;font-size:clamp(16px,1.8vw,19px);color:rgba(255,255,255,.7);max-width:52ch;line-height:1.5;">Browser-based educational demos and research software — built for teaching, visualization, and open science.</p>
     </div>
-  </nav>
+  </div>
+</div>
 
-  <header class="page-hero">
-    <p class="eyebrow">Software</p>
-    <h1>Tools &amp; open-source projects</h1>
-    <p>
-      Software I have built for research, data analysis, and visualization.
-      Details, screenshots, and source links coming soon.
-    </p>
-    <a href="index.html" class="back-link">&larr; Back to home</a>
-  </header>
+<!-- INTERACTIVE TOOLS -->
+<section class="band">
+  <div class="sh rv"><span class="eyebrow">Interactive Demos</span><h2>Educational tools</h2></div>
+  <div class="tools rv">
+    <a href="raman.html" class="tool" style="text-decoration:none;color:inherit;">
+      <div class="th"><div class="name">Raman Spectroscopy</div><span class="badge">Interactive</span></div>
+      <p>How molecular vibrations modulate polarizability to produce Stokes and anti-Stokes scattering — with synchronized animations of the vibration, &alpha;(Q), and the resulting spectrum.</p>
+      <div class="stack">JavaScript · Canvas</div>
+      <div class="acts"><span class="primary" style="display:inline-flex;align-items:center;gap:5px;color:#fff;background:var(--accent);padding:8px 16px;border-radius:980px;font-size:14px;font-weight:500;">Open demo &rsaquo;</span></div>
+    </a>
+    <a href="graphene.html" class="tool" style="text-decoration:none;color:inherit;">
+      <div class="th"><div class="name">Graphene Electronic Structure</div><span class="badge">Interactive</span></div>
+      <p>The honeycomb lattice, its reciprocal space, and the tight-binding band structure — visualizing Dirac cones, nanoribbon subbands, and edge states.</p>
+      <div class="stack">JavaScript · Canvas</div>
+      <div class="acts"><span class="primary" style="display:inline-flex;align-items:center;gap:5px;color:#fff;background:var(--accent);padding:8px 16px;border-radius:980px;font-size:14px;font-weight:500;">Open demo &rsaquo;</span></div>
+    </a>
+  </div>
+</section>
 
-  <section class="soft-list">
+<footer class="site-footer">
+  <div class="f">
+    <div>&copy; 2026 Kentaro Yumigeta</div>
+    <div>Materials Science &amp; Engineering · University of Arizona</div>
+  </div>
+</footer>
 
-    <article class="soft-card">
-      <div class="soft-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-        </svg>
-      </div>
-      <div class="soft-info">
-        <h3>Project 1</h3>
-        <p>Description coming soon.</p>
-        <div class="soft-tags"><span>Coming soon</span></div>
-      </div>
-    </article>
-
-    <article class="soft-card">
-      <div class="soft-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-        </svg>
-      </div>
-      <div class="soft-info">
-        <h3>Project 2</h3>
-        <p>Description coming soon.</p>
-        <div class="soft-tags"><span>Coming soon</span></div>
-      </div>
-    </article>
-
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Kentaro Yumigeta</p>
-    </div>
-  </footer>
-
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('nav-menu');
-    hamburger.addEventListener('click', () => {
-      menu.classList.toggle('open');
-      hamburger.classList.toggle('open');
-    });
-  </script>
+<script>
+  // scroll reveal
+  (function() {
+    const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    const items = [...document.querySelectorAll('.rv')];
+    if (!motionOK || !('IntersectionObserver' in window)) { items.forEach(s => s.classList.add('in')); return; }
+    document.body.classList.add('reveal-on');
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(s => io.observe(s));
+    setTimeout(() => items.forEach(s => s.classList.add('in')), 1500);
+  })();
+</script>
 </body>
 </html>
