@@ -201,7 +201,7 @@ function fitCanvas(cv) {
   };
   let mode = 'sym';
   let vib = +sVib.value;
-  let amp = +sAmp.value;                  // vibration amplitude Q₀
+  const amp = 0.35;                       // vibration amplitude Q₀ (fixed)
 
   // polarizability vs the vibrational coordinate (the SAME curve drawn in α–Q)
   const alphaOfQ = Q => { const M = MODES[mode]; return M.a0 + M.c1 * Q + M.c2 * Q * Q; };
@@ -228,14 +228,11 @@ function fitCanvas(cv) {
 
   function readControls() {
     vib = +sVib.value;
-    amp = +sAmp.value;
     vVib.textContent = vib.toFixed(2) + '×';
-    vAmp.textContent = amp.toFixed(2);
     updateNote();
     drawSpectrum();
   }
   sVib.addEventListener('input', readControls);
-  sAmp.addEventListener('input', readControls);
   btn.addEventListener('click', () => {
     running = !running;
     btn.textContent = running ? 'Pause' : 'Play';
@@ -373,7 +370,7 @@ function fitCanvas(cv) {
     const q = Qfn(tNow);                       // vibrational coordinate Q(t) ∈ [−Q₀, Q₀]
     const cx = w / 2, cy = h / 2;
     const gap = Math.min(58, w * 0.21);
-    const A = 8;                               // displacement amplitude (px)
+    const A = 15;                              // displacement amplitude (px)
 
     // atom positions + per-bond relative stretch (drives local cloud diffuseness)
     let pos, relL, relR;
