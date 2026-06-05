@@ -2,4 +2,6 @@ node_modules/
 package.json
 package-lock.json
 build-derivation.js
+build-crystal-notes.js
 derivation-content.html
+crystal-notes-content.html
