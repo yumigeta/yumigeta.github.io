@@ -80,6 +80,43 @@
 .diag-card .gr-list li::before { background: rgba(167,139,250,0.5); }
 .diag-card .gr-list li { color: #d6d3d1; }
 
+/* ── Module 05 — GNR section (reuse raman.css crystal-concept pattern) ── */
+.crystal-explain {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.crystal-concept h3 {
+  font-size: 0.92rem; font-weight: 700; color: #fafaf9;
+  margin-bottom: 8px;
+}
+.crystal-concept p {
+  font-size: 0.84rem; color: #d6d3d1; line-height: 1.65;
+  margin-bottom: 8px;
+}
+.eq-block {
+  text-align: center; font-size: 1rem; font-weight: 600;
+  color: #e7e5e4; padding: 10px 0; letter-spacing: 0.02em;
+}
+
+/* ── Comparison table ── */
+.comparison-table {
+  overflow-x: auto; margin-top: 8px;
+}
+.comparison-table table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.8rem; color: #d6d3d1;
+}
+.comparison-table th {
+  text-align: left; font-weight: 700; color: #fafaf9;
+  padding: 8px 12px; border-bottom: 2px solid rgba(255,255,255,0.15);
+  font-size: 0.82rem;
+}
+.comparison-table td {
+  padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  vertical-align: top;
+}
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .diag-grid { grid-template-columns: 1fr; }

@@ -324,6 +324,166 @@
     </div>
   </section>
 
+  <!-- ═══════ Module 05 — From graphene to nanoribbons ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">05 — From 2D graphene to nanoribbons</span>
+      <h2>How quantum confinement reshapes the Raman spectrum</h2>
+      <p>
+        Cut graphene into a narrow strip — a <b>graphene nanoribbon</b> (GNR) —
+        and the Raman spectrum changes dramatically. The finite width quantizes
+        transverse momenta, creates new low-frequency modes, and activates
+        edge-related scattering. Raman spectroscopy can identify the ribbon
+        width, edge geometry, and electronic character.
+      </p>
+    </div>
+    <div class="demo-stage">
+
+      <div class="crystal-explain">
+        <div class="crystal-concept">
+          <h3>Why the spectrum changes</h3>
+          <p>
+            In 2D graphene, phonon wavevectors span a continuous Brillouin zone.
+            In a nanoribbon of width <em>W</em>, the transverse component is
+            <b>quantized</b>: only momenta q<sub>⊥</sub> = nπ/W survive
+            (n = 1, 2, …). This is the same zone-folding picture as for
+            <a href="graphene.html" style="color:#a78bfa;">electronic subbands</a>
+            — but applied to phonons. Each allowed q<sub>⊥</sub> "slices" the 2D
+            phonon dispersion, producing a family of discrete 1D phonon subbands.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Radial breathing-like mode (RBLM)</h3>
+          <p>
+            The most distinctive new feature is the <b>RBLM</b> — a
+            low-frequency mode (~100–600 cm<sup>−1</sup>) where the ribbon
+            width oscillates in-phase, analogous to the radial breathing mode
+            in carbon nanotubes. Its frequency scales inversely with width:
+          </p>
+          <p class="eq-block">
+            ω<sub>RBLM</sub> ≈ 3222 / W (cm<sup>−1</sup>·Å)
+          </p>
+          <p>
+            This provides a direct, non-destructive width measurement — the
+            narrower the ribbon, the higher the RBLM frequency.
+            For a 1 nm ribbon, ω<sub>RBLM</sub> ≈ 322 cm<sup>−1</sup>;
+            for a 5 nm ribbon, it drops to ~64 cm<sup>−1</sup>.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>G band in nanoribbons</h3>
+          <p>
+            The G band persists but is modified by confinement:
+          </p>
+          <ul class="gr-list" style="color:#d6d3d1;">
+            <li>The E<sub>2g</sub> degeneracy is <b>lifted</b> — the G band can
+              split into G<sup>+</sup> (along the ribbon axis) and
+              G<sup>−</sup> (transverse), separated by a few cm<sup>−1</sup></li>
+            <li>For very narrow ribbons (&lt; 5 nm), both components shift and
+              the splitting becomes resolvable</li>
+            <li>The splitting and shift depend on <b>edge geometry</b>
+              (armchair vs. zigzag) and width</li>
+          </ul>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>D band and edge activation</h3>
+          <p>
+            Edges act as line defects that break translational symmetry — exactly
+            the kind of elastic scattering needed for the D band. In nanoribbons:
+          </p>
+          <ul class="gr-list" style="color:#d6d3d1;">
+            <li>The <b>D band is always present</b>, even in defect-free ribbons,
+              because every edge provides the momentum q<sub>defect</sub> for
+              double resonance</li>
+            <li>I(D)/I(G) scales as <b>1/W</b> — narrower ribbons have a larger
+              edge-to-area ratio, so the D band dominates</li>
+            <li><b>Edge type matters:</b> armchair edges efficiently activate
+              the D band (inter-valley scattering), while perfect zigzag edges
+              do not (they lack the K→K′ momentum transfer). The D band
+              intensity thus distinguishes edge chirality</li>
+            <li>The D′ band (~1620 cm<sup>−1</sup>), requiring only intra-valley
+              scattering, is activated by both edge types</li>
+          </ul>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>2D band: still present, but changed</h3>
+          <p>
+            The 2D band does not require defects (two phonons conserve momentum),
+            so it persists in nanoribbons. However, quantum confinement modifies
+            which phonon wavevectors contribute to the double resonance, and the
+            electronic density of states develops <b>van Hove singularities</b>
+            that enhance specific resonance channels. The result: the 2D band
+            shape and intensity change with width, providing additional
+            confirmation of confinement effects.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Summary: graphene vs. nanoribbon Raman</h3>
+          <div class="comparison-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>2D Graphene</th>
+                  <th>Nanoribbon (GNR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>RBLM</td>
+                  <td>absent</td>
+                  <td>present — ω ∝ 1/W</td>
+                </tr>
+                <tr>
+                  <td>G band</td>
+                  <td>single peak ~1580 cm<sup>−1</sup></td>
+                  <td>split into G<sup>+</sup>/G<sup>−</sup></td>
+                </tr>
+                <tr>
+                  <td>D band</td>
+                  <td>defect-activated only</td>
+                  <td>always present (edges)</td>
+                </tr>
+                <tr>
+                  <td>I(D)/I(G)</td>
+                  <td>≈ 0 (pristine)</td>
+                  <td>∝ 1/W</td>
+                </tr>
+                <tr>
+                  <td>2D band</td>
+                  <td>single Lorentzian (1L)</td>
+                  <td>modified by subband structure</td>
+                </tr>
+                <tr>
+                  <td>Low-freq. modes</td>
+                  <td>none (Raman-active)</td>
+                  <td>quantized phonon subbands</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="physics-note" style="border-left-color:#f59e0b;">
+          <b>Connection to carbon nanotubes.</b>
+          Rolling a nanoribbon into a tube adds periodic boundary conditions
+          instead of hard-wall ones, giving the same zone-folding physics.
+          The CNT radial breathing mode (RBM, ω ≈ 248/d cm<sup>−1</sup>)
+          is the rolled-up counterpart of the RBLM. G band splitting into
+          G<sup>+</sup>/G<sup>−</sup> occurs in both systems, and the D band
+          serves as a defect/edge marker in both. Understanding GNR Raman
+          provides a direct bridge to nanotube spectroscopy.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <footer class="site-footer">
     <div class="f">
       <div>&copy; 2026 Kentaro Yumigeta</div>
