@@ -768,6 +768,8 @@
   //    • chiral   → generically semiconducting
   // ================================================================
   (function () {
+    var cellZ   = document.getElementById('c-cell-zig');   // real-space cell (zigzag)
+    var cellA   = document.getElementById('c-cell-arm');   // real-space cell (armchair)
     var bzC     = document.getElementById('c-gnr-real');   // 2D BZ top view
     var cutC    = document.getElementById('c-gnr-cut');    // 3D band surface
     var bandC   = document.getElementById('c-gnr-bands');  // 1D subbands
@@ -853,6 +855,109 @@
     function selectModes(p) {
       var ls = p.lines.slice().sort(function(a,b){ return a.gap - b.gap; });
       return ls.slice(0, min(8, ls.length));
+    }
+
+    // ── Real-space honeycomb with the ribbon's translational unit cell ──
+    // The honeycomb is rotated so the ribbon axis is horizontal: a zigzag
+    // ribbon runs along a zigzag chain (period a = 1), an armchair ribbon
+    // along an armchair chain (period √3·a).  Both use graphene's 4-atom
+    // rectangular cell (1 × √3) — only the role of the two edges (axis vs.
+    // width) swaps, which is what sets the cutting-line spacing below.
+    function drawRibbonCell(cv, type, active) {
+      if (!cv) return;
+      var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#161310'; ctx.fillRect(0, 0, W, H);
+
+      var isZig = (type === 'zigzag');
+      var phi = isZig ? 0 : -PI/2;            // bring the ribbon axis onto +x
+      var cph = cos(phi), sph = sin(phi);
+      var accent = isZig ? '#34d399' : '#fbbf24';
+      var dim = active ? 1 : 0.32;            // fade the non-selected panel
+
+      var sc = min(W, H) * 0.20;
+      var ocx = W*0.42, ocy = H*0.52;
+      var d1y = 1/sqrt3;
+      var dlt = [[0, d1y], [-0.5, -0.5*d1y], [0.5, -0.5*d1y]];
+      // map Cartesian (x,y), centred on the highlighted cell, to screen
+      function T(x, y) {
+        var X = x - 0.5, Y = y - sqrt3/2;
+        var xr = X*cph - Y*sph, yr = X*sph + Y*cph;
+        return [ocx + xr*sc, ocy - yr*sc];
+      }
+      function inView(p) { return p[0] > -6 && p[0] < W+6 && p[1] > -6 && p[1] < H+6; }
+
+      var R = 9;
+      // bonds
+      ctx.strokeStyle = 'rgba(255,255,255,' + (0.16*dim) + ')';
+      ctx.lineWidth = 1.2;
+      for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
+        var ax = n + m*0.5, ay = m*sqrt3/2, pA = T(ax, ay);
+        if (!inView(pA)) continue;
+        for (var di = 0; di < 3; di++) {
+          var pB = T(ax + dlt[di][0], ay + dlt[di][1]);
+          ctx.beginPath(); ctx.moveTo(pA[0], pA[1]); ctx.lineTo(pB[0], pB[1]); ctx.stroke();
+        }
+      }
+
+      // shaded translational unit cell (Cartesian box 0..1 × 0..√3)
+      var box = [T(0,0), T(1,0), T(1,sqrt3), T(0,sqrt3)];
+      ctx.beginPath();
+      ctx.moveTo(box[0][0], box[0][1]);
+      for (var i = 1; i < 4; i++) ctx.lineTo(box[i][0], box[i][1]);
+      ctx.closePath();
+      ctx.fillStyle = (isZig ? 'rgba(52,211,153,' : 'rgba(251,191,36,') + (0.12*dim) + ')';
+      ctx.fill();
+      ctx.strokeStyle = (isZig ? 'rgba(52,211,153,' : 'rgba(251,191,36,') + (0.85*dim) + ')';
+      ctx.lineWidth = 1.6; ctx.stroke();
+
+      // atoms (the 4 inside the cell are drawn larger / outlined)
+      function inCell(x, y) { return x > -0.01 && x < 0.99 && y > -0.01 && y < sqrt3-0.01; }
+      for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
+        var ax = n + m*0.5, ay = m*sqrt3/2;
+        var subs = [[ax, ay, '#ef4444'], [ax + 0, ay + d1y, '#3b82f6']];
+        for (var s = 0; s < 2; s++) {
+          var x = subs[s][0], y = subs[s][1], p = T(x, y);
+          if (!inView(p)) continue;
+          var here = inCell(x, y);
+          ctx.beginPath(); ctx.arc(p[0], p[1], here ? 5 : 3.4, 0, 2*PI);
+          ctx.globalAlpha = here ? dim : 0.5*dim;
+          ctx.fillStyle = subs[s][2]; ctx.fill();
+          if (here) { ctx.globalAlpha = dim; ctx.lineWidth = 1.4;
+            ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.stroke(); }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      // translation vector T along the ribbon axis (the periodic direction)
+      var a0 = T(0, 0), aEnd = isZig ? T(1, 0) : T(0, sqrt3);
+      ctx.strokeStyle = accent; ctx.globalAlpha = dim; ctx.lineWidth = 2.4;
+      (function arrow(x0,y0,x1,y1){
+        var dx=x1-x0, dy=y1-y0, L=Math.hypot(dx,dy)||1, ux=dx/L, uy=dy/L;
+        ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x1,y1);
+        ctx.lineTo(x1-ux*9+uy*5, y1-uy*9-ux*5);
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x1-ux*9-uy*5, y1-uy*9+ux*5);
+        ctx.stroke();
+      })(a0[0], a0[1], aEnd[0], aEnd[1]);
+      ctx.fillStyle = accent; ctx.font = '700 12px "DM Sans", sans-serif';
+      ctx.textAlign = 'center';
+      var mid = [(a0[0]+aEnd[0])/2, (a0[1]+aEnd[1])/2];
+      ctx.fillText(isZig ? 'T = a' : 'T = √3 a', mid[0], mid[1] - 8);
+      ctx.globalAlpha = 1;
+
+      // title
+      ctx.textAlign = 'left'; ctx.fillStyle = active ? '#fafaf9' : '#a8a29e';
+      ctx.font = '700 12px "DM Sans", sans-serif';
+      ctx.fillText((isZig ? 'Zigzag' : 'Armchair') + ' ribbon', 10, 18);
+      ctx.fillStyle = active ? accent : '#78716c';
+      ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.fillText('axis along ' + (isZig ? 'zigzag' : 'armchair') + ' edge', 10, 33);
+    }
+    function drawCells(theta) {
+      drawRibbonCell(cellZ, 'zigzag',  theta === 0);
+      drawRibbonCell(cellA, 'armchair', theta === 30);
     }
 
     // ── 2D top-down Brillouin zone with the cutting-line family ──
@@ -1345,6 +1450,7 @@
       btnA.classList.toggle('active', theta === 30);
       btnWDec.disabled = (N <= +wSlider.min);
       btnWInc.disabled = (N >= +wSlider.max);
+      drawCells(theta);
       drawBZ(curP);
       drawSubbands(curP);
       coneT = null;
