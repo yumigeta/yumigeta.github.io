@@ -245,15 +245,66 @@
     ctx.setLineDash([]);
   }
 
-  // ── 5. 2D lattice types ──
+  // ── 5. 2D crystal systems ──
+  function drawCrystalSystems(cv) {
+    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
+    var systems = [
+      { name: 'Oblique',     a1: [1, 0], a2: [0.4, 0.7],   symm: '2',   col: '#78716c' },
+      { name: 'Rectangular', a1: [1, 0], a2: [0, 0.7],      symm: '2mm', col: '#78716c' },
+      { name: 'Square',      a1: [1, 0], a2: [0, 1],        symm: '4mm', col: '#78716c' },
+      { name: 'Hexagonal',   a1: [1, 0], a2: [0.5, 0.866],  symm: '6mm', col: '#fbbf24' }
+    ];
+    var cols = 4, sp = W / cols;
+    var sc = 20;
+
+    for (var t = 0; t < systems.length; t++) {
+      var tp = systems[t];
+      var ox = sp * (t + 0.5), oy = H * 0.48;
+      var a1x = tp.a1[0] * sc, a1y = -tp.a1[1] * sc;
+      var a2x = tp.a2[0] * sc, a2y = -tp.a2[1] * sc;
+
+      for (var n = -2; n <= 2; n++) for (var m = -2; m <= 2; m++) {
+        var x = ox + n * a1x + m * a2x, y = oy + n * a1y + m * a2y;
+        if (x < sp * t + 2 || x > sp * (t + 1) - 2 || y < 28 || y > H - 30) continue;
+        dot(ctx, x, y, 2.2, 'rgba(168,162,158,.5)');
+      }
+
+      // Cell outline
+      var isHex = (t === 3);
+      ctx.strokeStyle = isHex ? 'rgba(251,191,36,.5)' : 'rgba(255,255,255,.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(ox, oy); ctx.lineTo(ox + a1x, oy + a1y);
+      ctx.lineTo(ox + a1x + a2x, oy + a1y + a2y);
+      ctx.lineTo(ox + a2x, oy + a2y); ctx.closePath(); ctx.stroke();
+
+      // Angle arc
+      ctx.strokeStyle = isHex ? 'rgba(251,191,36,.4)' : 'rgba(255,255,255,.2)';
+      ctx.lineWidth = 0.8;
+      var angStart = Math.atan2(-a1y, a1x);
+      var angEnd = Math.atan2(-a2y, a2x);
+      ctx.beginPath(); ctx.arc(ox, oy, 10, -angStart, -angEnd, true); ctx.stroke();
+      lbl(ctx, 'φ', ox + 13 * cos((angStart + angEnd) / 2), oy - 13 * sin((angStart + angEnd) / 2),
+          isHex ? 'rgba(251,191,36,.6)' : 'rgba(255,255,255,.3)', 8);
+
+      // Name & point group
+      lbl(ctx, tp.name, ox, H - 20, isHex ? '#fbbf24' : '#a8a29e', isHex ? 10 : 9);
+      lbl(ctx, tp.symm, ox, H - 8, isHex ? 'rgba(251,191,36,.6)' : '#78716c', 8);
+      if (isHex) lbl(ctx, '← graphene', ox, 16, '#fbbf24', 9);
+    }
+
+    lbl(ctx, '4 crystal systems — classified by point-group symmetry', W / 2, H - 0, '#78716c', 9);
+  }
+
+  // ── 6. 2D Bravais lattice types ──
   function draw2DTypes(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
     var types = [
-      { name: 'Oblique',    a1: [1, 0], a2: [0.4, 0.7], col: '#78716c' },
-      { name: 'Rectangular', a1: [1, 0], a2: [0, 0.7],  col: '#78716c' },
-      { name: 'Square',     a1: [1, 0], a2: [0, 1],     col: '#78716c' },
-      { name: 'Centered\nrect.', a1: [1, 0], a2: [0, 0.7], centered: true, col: '#78716c' },
-      { name: 'Hexagonal',  a1: [1, 0], a2: [0.5, 0.866], col: '#fbbf24' }
+      { name: 'Oblique (p)',      a1: [1, 0], a2: [0.4, 0.7], sys: 'oblique',  col: '#78716c' },
+      { name: 'Rect. (p)',        a1: [1, 0], a2: [0, 0.7],   sys: 'rect',     col: '#78716c' },
+      { name: 'Rect. (c)',        a1: [1, 0], a2: [0, 0.7],   sys: 'rect', centered: true, col: '#78716c' },
+      { name: 'Square (p)',       a1: [1, 0], a2: [0, 1],      sys: 'square',  col: '#78716c' },
+      { name: 'Hexagonal (p)',    a1: [1, 0], a2: [0.5, 0.866], sys: 'hex',    col: '#fbbf24' }
     ];
     var cols = 5, sp = W / cols;
     var sc = 18;
@@ -276,19 +327,25 @@
       }
 
       // Cell outline
-      ctx.strokeStyle = t === 4 ? 'rgba(251,191,36,.5)' : 'rgba(255,255,255,.15)';
+      var isHex = (t === 4);
+      ctx.strokeStyle = isHex ? 'rgba(251,191,36,.5)' : 'rgba(255,255,255,.15)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(ox, oy); ctx.lineTo(ox + a1x, oy + a1y);
       ctx.lineTo(ox + a1x + a2x, oy + a1y + a2y);
       ctx.lineTo(ox + a2x, oy + a2y); ctx.closePath(); ctx.stroke();
 
+      // Bracket for rect system
+      if (t === 1 || t === 2) {
+        ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 0.8;
+        if (t === 1) {
+          ctx.beginPath(); ctx.moveTo(sp * 1, 14); ctx.lineTo(sp * 3, 14); ctx.stroke();
+          lbl(ctx, 'rectangular system', sp * 2, 10, '#78716c', 8);
+        }
+      }
+
       // Name
-      var isHex = (t === 4);
-      var lines = tp.name.split('\n');
-      for (var li = 0; li < lines.length; li++)
-        lbl(ctx, lines[li], ox, H - 14 + (li - lines.length + 1) * 12,
-            isHex ? '#fbbf24' : '#78716c', isHex ? 10 : 9);
+      lbl(ctx, tp.name, ox, H - 8, isHex ? '#fbbf24' : '#78716c', isHex ? 10 : 9);
       if (isHex) lbl(ctx, '← graphene', ox, 14, '#fbbf24', 9);
     }
   }
@@ -483,6 +540,7 @@
     'fig-translation': drawTranslation,
     'fig-basis': drawBasis,
     'fig-cells': drawCells,
+    'fig-crystal-systems': drawCrystalSystems,
     'fig-2d-types': draw2DTypes,
     'fig-graphene': drawGraphene,
     'fig-reciprocal': drawReciprocal,
