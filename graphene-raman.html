@@ -50,6 +50,9 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="graphene-raman.css">
+  <link rel="stylesheet" href="katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
   <script src="analytics.js"></script>
 </head>
 <body>
@@ -93,14 +96,14 @@
         <b>six phonon branches</b>: three acoustic (A) and three optical (O).
         Each is further classified as in-plane longitudinal (L), in-plane
         transverse (T), or out-of-plane (Z). The Raman-active modes live
-        near the <b>Γ point</b> (first-order) and the <b>K point</b>
+        near the $\Gamma$ <b>point</b> (first-order) and the <b>K point</b>
         (double resonance).
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-phonon" class="gr-canvas-wide"></canvas>
       <p class="cap">
-        Phonon dispersion of graphene along Γ→M→K→Γ. The <b style="color:#ef4444">iTO</b>
+        Phonon dispersion of graphene along $\Gamma \to M \to K \to \Gamma$. The <b style="color:#ef4444">iTO</b>
         branch near K (~1350 cm<sup>−1</sup>) gives rise to the D and 2D bands.
         The <b style="color:#16a34a">iLO and iTO</b> branches at Γ (~1580 cm<sup>−1</sup>)
         produce the G band. Hover over the branches to identify them.
@@ -123,8 +126,8 @@
       <h2>First-order Raman scattering at ~1580 cm<sup>−1</sup></h2>
       <p>
         The <b>G band</b> is the only first-order Raman peak in graphene.
-        It originates from the doubly degenerate <b>E<sub>2g</sub></b> phonon
-        mode at the Brillouin zone center (Γ point), where adjacent carbon
+        It originates from the doubly degenerate $E_{2g}$ phonon
+        mode at the Brillouin zone center ($\Gamma$ point), where adjacent carbon
         atoms vibrate against each other in-plane.
       </p>
     </div>
@@ -132,7 +135,7 @@
       <div class="top-row">
         <div class="gr-panel">
           <canvas id="c-gmode"></canvas>
-          <p class="panel-label">E<sub>2g</sub> vibration at Γ</p>
+          <p class="panel-label">$E_{2g}$ vibration at $\Gamma$</p>
         </div>
         <div class="gr-panel">
           <canvas id="c-gprocess"></canvas>
@@ -147,7 +150,7 @@
 
       <div class="gr-info">
         <b>First-order process:</b> an incident photon creates one phonon
-        at Γ (<b>q</b> ≈ 0) and is scattered. Because this is a zone-center
+        at $\Gamma$ ($\mathbf{q} \approx 0$) and is scattered. Because this is a zone-center
         mode, the G band frequency (~1580 cm<sup>−1</sup>) is
         <b>independent of laser wavelength</b>. The G band is present in
         all sp<sup>2</sup> carbon materials — graphene, graphite, carbon
@@ -170,7 +173,7 @@
       <p>
         The <b>2D band</b> (also called G′) is the most prominent
         second-order peak. It involves <b>two iTO phonons near K</b> with
-        opposite momenta (<b>q</b> and <b>−q</b>), produced through a
+        opposite momenta ($\mathbf{q}$ and $-\mathbf{q}$), produced through a
         <b>double resonance</b> process — making it strongly dependent
         on laser energy and uniquely sensitive to the number of graphene layers.
       </p>
@@ -194,11 +197,11 @@
             to the splitting of electronic bands. In few-layer graphene, the
             shape evolves further — making the 2D lineshape a reliable
             fingerprint for layer number.</li>
-          <li><b>Dispersive:</b> The 2D frequency shifts ~100 cm<sup>−1</sup>/eV
-            with laser energy because the resonant phonon wavevector <b>q</b>
+          <li><b>Dispersive:</b> The 2D frequency shifts ~100 cm$^{-1}$/eV
+            with laser energy because the resonant phonon wavevector $\mathbf{q}$
             depends on the electronic band structure.</li>
           <li><b>No defects needed:</b> Unlike the D band, momentum is conserved
-            by the two phonons (q + (−q) = 0), so the 2D band appears in
+            by the two phonons ($\mathbf{q} + (-\mathbf{q}) = 0$), so the 2D band appears in
             pristine graphene.</li>
         </ul>
       </div>
@@ -242,7 +245,7 @@
         high defect concentrations, both peaks broaden and the ratio
         decreases — the sp<sup>2</sup> structure itself is breaking down.
         The relationship follows the Tuinstra–Koenig relation:
-        <b>I(D)/I(G) ∝ 1/L<sub>a</sub></b>, where L<sub>a</sub> is the
+        $I(D)/I(G) \propto 1/L_a$, where $L_a$ is the
         average distance between defects (crystallite size).
       </div>
 
@@ -273,20 +276,20 @@
         <div class="diag-card">
           <h3>Layer number</h3>
           <ul class="gr-list">
-            <li><b>Monolayer:</b> single symmetric 2D peak, I(2D)/I(G) &gt; 1</li>
-            <li><b>Bilayer:</b> 2D splits into 4 Lorentzians, I(2D)/I(G) ~ 1</li>
-            <li><b>Few-layer:</b> 2D broadens asymmetrically, I(2D)/I(G) &lt; 1</li>
-            <li><b>Graphite:</b> 2D has two components (2D₁, 2D₂)</li>
+            <li><b>Monolayer:</b> single symmetric 2D peak, $I(2D)/I(G) > 1$</li>
+            <li><b>Bilayer:</b> 2D splits into 4 Lorentzians, $I(2D)/I(G) \sim 1$</li>
+            <li><b>Few-layer:</b> 2D broadens asymmetrically, $I(2D)/I(G) < 1$</li>
+            <li><b>Graphite:</b> 2D has two components ($2D_1$, $2D_2$)</li>
           </ul>
         </div>
 
         <div class="diag-card">
           <h3>Defects &amp; disorder</h3>
           <ul class="gr-list">
-            <li><b>I(D)/I(G) ≈ 0:</b> pristine graphene</li>
-            <li><b>I(D)/I(G) increases:</b> more point defects or edges</li>
+            <li>$I(D)/I(G) \approx 0$: pristine graphene</li>
+            <li>$I(D)/I(G)$ <b>increases:</b> more point defects or edges</li>
             <li><b>D′ appears:</b> confirms defect activation</li>
-            <li><b>I(D)/I(D′):</b> distinguishes vacancy (~7), boundary (~3.5), sp³ (~13) defect types</li>
+            <li>$I(D)/I(D')$: distinguishes vacancy (~7), boundary (~3.5), sp$^3$ (~13) defect types</li>
           </ul>
         </div>
 
@@ -296,8 +299,8 @@
             <li>Both G and 2D peaks <b>shift</b> under strain</li>
             <li><b>Tensile:</b> red-shift (lower frequency)</li>
             <li><b>Compressive:</b> blue-shift (higher frequency)</li>
-            <li>G band splits under <b>uniaxial strain</b> (G<sup>+</sup> and G<sup>−</sup>)</li>
-            <li>Slope in ΔωG vs Δω2D plot: ~2.2 for strain</li>
+            <li>G band splits under <b>uniaxial strain</b> ($G^+$ and $G^-$)</li>
+            <li>Slope in $\Delta\omega_G$ vs $\Delta\omega_{2D}$ plot: ~2.2 for strain</li>
           </ul>
         </div>
 
@@ -307,7 +310,7 @@
             <li>G band <b>stiffens</b> (blue-shifts) with both n- and p-doping</li>
             <li>G band <b>narrows</b> due to Pauli blocking of phonon decay</li>
             <li>2D band shifts <b>down</b> for n-type, <b>up</b> for p-type</li>
-            <li>Slope in ΔωG vs Δω2D plot: ~0.7 for doping</li>
+            <li>Slope in $\Delta\omega_G$ vs $\Delta\omega_{2D}$ plot: ~0.7 for doping</li>
             <li>Distinguishes strain from doping via correlation plot</li>
           </ul>
         </div>
@@ -315,7 +318,7 @@
 
       <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
         <b>The strain–doping correlation plot.</b>
-        Plotting ΔωG vs Δω2D separates strain and doping effects: pure
+        Plotting $\Delta\omega_G$ vs $\Delta\omega_{2D}$ separates strain and doping effects: pure
         strain follows a slope of ~2.2, while pure doping gives ~0.7.
         Real samples often show a combination — the data point's position
         relative to these two axes reveals both contributions simultaneously.
@@ -345,11 +348,11 @@
           <h3>Why the spectrum changes</h3>
           <p>
             In 2D graphene, phonon wavevectors span a continuous Brillouin zone.
-            In a nanoribbon of width <em>W</em>, the transverse component is
-            <b>quantized</b>: only momenta q<sub>⊥</sub> = nπ/W survive
-            (n = 1, 2, …). This is the same zone-folding picture as for
+            In a nanoribbon of width $W$, the transverse component is
+            <b>quantized</b>: only momenta $q_\perp = n\pi/W$ survive
+            ($n = 1, 2, \ldots$). This is the same zone-folding picture as for
             <a href="graphene.html" style="color:#a78bfa;">electronic subbands</a>
-            — but applied to phonons. Each allowed q<sub>⊥</sub> "slices" the 2D
+            — but applied to phonons. Each allowed $q_\perp$ "slices" the 2D
             phonon dispersion, producing a family of discrete 1D phonon subbands.
           </p>
         </div>
@@ -363,13 +366,13 @@
             in carbon nanotubes. Its frequency scales inversely with width:
           </p>
           <p class="eq-block">
-            ω<sub>RBLM</sub> ≈ 3222 / W (cm<sup>−1</sup>·Å)
+            $$\omega_\text{RBLM} \approx \frac{3222}{W} \;\text{(cm}^{-1}\!\cdot\!\text{Å)}$$
           </p>
           <p>
             This provides a direct, non-destructive width measurement — the
             narrower the ribbon, the higher the RBLM frequency.
-            For a 1 nm ribbon, ω<sub>RBLM</sub> ≈ 322 cm<sup>−1</sup>;
-            for a 5 nm ribbon, it drops to ~64 cm<sup>−1</sup>.
+            For a 1 nm ribbon, $\omega_\text{RBLM} \approx 322$ cm$^{-1}$;
+            for a 5 nm ribbon, it drops to ~64 cm$^{-1}$.
           </p>
         </div>
 
@@ -379,9 +382,9 @@
             The G band persists but is modified by confinement:
           </p>
           <ul class="gr-list" style="color:#d6d3d1;">
-            <li>The E<sub>2g</sub> degeneracy is <b>lifted</b> — the G band can
-              split into G<sup>+</sup> (along the ribbon axis) and
-              G<sup>−</sup> (transverse), separated by a few cm<sup>−1</sup></li>
+            <li>The $E_{2g}$ degeneracy is <b>lifted</b> — the G band can
+              split into $G^+$ (along the ribbon axis) and
+              $G^-$ (transverse), separated by a few cm$^{-1}$</li>
             <li>For very narrow ribbons (&lt; 5 nm), both components shift and
               the splitting becomes resolvable</li>
             <li>The splitting and shift depend on <b>edge geometry</b>
@@ -397,9 +400,9 @@
           </p>
           <ul class="gr-list" style="color:#d6d3d1;">
             <li>The <b>D band is always present</b>, even in defect-free ribbons,
-              because every edge provides the momentum q<sub>defect</sub> for
+              because every edge provides the momentum $q_\text{defect}$ for
               double resonance</li>
-            <li>I(D)/I(G) scales as <b>1/W</b> — narrower ribbons have a larger
+            <li>$I(D)/I(G)$ scales as $\sim 1/W$ — narrower ribbons have a larger
               edge-to-area ratio, so the D band dominates</li>
             <li><b>Edge type matters:</b> armchair edges efficiently activate
               the D band (inter-valley scattering), while perfect zigzag edges
@@ -438,12 +441,12 @@
                 <tr>
                   <td>RBLM</td>
                   <td>absent</td>
-                  <td>present — ω ∝ 1/W</td>
+                  <td>present — $\omega \propto 1/W$</td>
                 </tr>
                 <tr>
                   <td>G band</td>
                   <td>single peak ~1580 cm<sup>−1</sup></td>
-                  <td>split into G<sup>+</sup>/G<sup>−</sup></td>
+                  <td>split into $G^+$/$G^-$</td>
                 </tr>
                 <tr>
                   <td>D band</td>
@@ -452,8 +455,8 @@
                 </tr>
                 <tr>
                   <td>I(D)/I(G)</td>
-                  <td>≈ 0 (pristine)</td>
-                  <td>∝ 1/W</td>
+                  <td>$\approx 0$ (pristine)</td>
+                  <td>$\propto 1/W$</td>
                 </tr>
                 <tr>
                   <td>2D band</td>
@@ -474,9 +477,9 @@
           <b>Connection to carbon nanotubes.</b>
           Rolling a nanoribbon into a tube adds periodic boundary conditions
           instead of hard-wall ones, giving the same zone-folding physics.
-          The CNT radial breathing mode (RBM, ω ≈ 248/d cm<sup>−1</sup>)
+          The CNT radial breathing mode (RBM, $\omega \approx 248/d$ cm$^{-1}$)
           is the rolled-up counterpart of the RBLM. G band splitting into
-          G<sup>+</sup>/G<sup>−</sup> occurs in both systems, and the D band
+          $G^+$/$G^-$ occurs in both systems, and the D band
           serves as a defect/edge marker in both. Understanding GNR Raman
           provides a direct bridge to nanotube spectroscopy.
         </div>

@@ -62,6 +62,9 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="raman.css">
+  <link rel="stylesheet" href="katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
   <script src="analytics.js"></script>
 </head>
 <body>
@@ -99,9 +102,9 @@
       <p>
         An atom has a <b style="color:#ef4444">positive nucleus</b> surrounded by a
         <b style="color:#38bdf8">negative electron cloud</b>. When an oscillating
-        light field <b>E(t)</b> arrives, it pushes the electron cloud away from the
-        nucleus — creating an <b>induced dipole moment μ</b>. The ease of this
-        displacement is the <b>polarizability α</b>. Watch the cloud shift back and
+        light field $\mathbf{E}(t)$ arrives, it pushes the electron cloud away from the
+        nucleus — creating an <b>induced dipole moment</b> $\boldsymbol{\mu}$. The ease of this
+        displacement is the <b>polarizability</b> $\alpha$. Watch the cloud shift back and
         forth with the field.
       </p>
     </div>
@@ -109,20 +112,20 @@
       <canvas id="c-atom" class="atom-canvas"></canvas>
       <p class="cap" id="atom-cap">
         The electron cloud (large, light) moves much more than the heavy nucleus.
-        The induced dipole <b>μ = α · E</b> oscillates at the same frequency as
-        the light — this is <b>Rayleigh scattering</b>. If α itself oscillates
+        The induced dipole $\mu = \alpha \cdot E$ oscillates at the same frequency as
+        the light — this is <b>Rayleigh scattering</b>. If $\alpha$ itself oscillates
         (because the molecule vibrates), sidebands appear — that's <b>Raman scattering</b>.
       </p>
       <div class="physics-note">
-        <b>Going deeper — α is a tensor.</b>
-        Polarizability α is a <b>symmetric second-rank tensor</b> (a 3×3 matrix),
+        <b>Going deeper — $\alpha$ is a tensor.</b>
+        Polarizability $\alpha$ is a <b>symmetric second-rank tensor</b> (a $3\times3$ matrix),
         capturing how each component of the electric field induces a dipole in
-        every direction. When the molecule vibrates along a generalized coordinate Q,
+        every direction. When the molecule vibrates along a generalized coordinate $Q$,
         the first-order Taylor expansion gives
-        <b>α(Q) ≈ α₀ + (∂α/∂Q)₀ · Q</b>.
-        The derivative (∂α/∂Q)₀ — a component of the <b>Raman tensor</b> —
+        $$\alpha(Q) \approx \alpha_0 + \left(\frac{\partial\alpha}{\partial Q}\right)_0 \!\cdot Q$$
+        The derivative $(\partial\alpha/\partial Q)_0$ — a component of the <b>Raman tensor</b> —
         is the heart of the Raman effect: if it is non-zero, the vibration
-        modulates α and produces Raman scattering.
+        modulates $\alpha$ and produces Raman scattering.
       </div>
     </div>
   </section>
@@ -134,9 +137,9 @@
       <h2>How a vibration modulates the polarizability</h2>
       <p>
         Pick a normal mode of CO<sub>2</sub>. The molecule vibrates at top-left,
-        and the <b>α vs Q</b> plot at top-right shows how the polarizability depends
+        and the $\alpha$ vs $Q$ plot at top-right shows how the polarizability depends
         on the vibrational coordinate. The key: only modes where the <em>slope</em>
-        ∂α/∂Q ≠ 0 at equilibrium produce a first-order α oscillation — and hence
+        $\partial\alpha/\partial Q \neq 0$ at equilibrium produce a first-order $\alpha$ oscillation — and hence
         Raman sidebands.
       </p>
     </div>
@@ -162,15 +165,15 @@
 
       <!-- Traces: E → α(t) → p(t) -->
       <div class="trace-row">
-        <div class="trace-label"><b>Incident field</b><span class="eq">E(t) = E₀ cos(ω₀t)</span></div>
+        <div class="trace-label"><b>Incident field</b><span class="eq">$E(t) = E_0 \cos(\omega_0 t)$</span></div>
         <canvas id="c-field"></canvas>
       </div>
       <div class="trace-row">
-        <div class="trace-label"><b>Polarizability</b><span class="eq">α(t) = α₀ + (∂α/∂Q)·q(t)</span></div>
+        <div class="trace-label"><b>Polarizability</b><span class="eq">$\alpha(t) = \alpha_0 + (\partial\alpha/\partial Q)\cdot q(t)$</span></div>
         <canvas id="c-alpha"></canvas>
       </div>
       <div class="trace-row">
-        <div class="trace-label"><b>Induced dipole</b><span class="eq">p(t) = α(t)·E(t)</span></div>
+        <div class="trace-label"><b>Induced dipole</b><span class="eq">$p(t) = \alpha(t)\cdot E(t)$</span></div>
         <canvas id="c-dipole"></canvas>
       </div>
 
@@ -179,15 +182,15 @@
         <div class="decomp-label">Frequency decomposition of p(t)</div>
         <div class="decomp-traces">
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#16a34a">ν₀ (Rayleigh)</span>
+            <span class="decomp-tag" style="color:#16a34a">$\nu_0$ (Rayleigh)</span>
             <canvas id="c-dec-ray"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#ef4444">ν₀ − ν<sub>v</sub> (Stokes)</span>
+            <span class="decomp-tag" style="color:#ef4444">$\nu_0 - \nu_v$ (Stokes)</span>
             <canvas id="c-dec-stokes"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#3b82f6">ν₀ + ν<sub>v</sub> (anti-Stokes)</span>
+            <span class="decomp-tag" style="color:#3b82f6">$\nu_0 + \nu_v$ (anti-Stokes)</span>
             <canvas id="c-dec-anti"></canvas>
           </div>
         </div>
@@ -200,9 +203,9 @@
       </div>
 
       <div class="legend">
-        <span><i style="background:#16a34a"></i> Rayleigh (ω₀)</span>
-        <span><i style="background:#ef4444"></i> Stokes (ω₀−ω<sub>v</sub>)</span>
-        <span><i style="background:#3b82f6"></i> anti-Stokes (ω₀+ω<sub>v</sub>)</span>
+        <span><i style="background:#16a34a"></i> Rayleigh ($\omega_0$)</span>
+        <span><i style="background:#ef4444"></i> Stokes ($\omega_0 - \omega_v$)</span>
+        <span><i style="background:#3b82f6"></i> anti-Stokes ($\omega_0 + \omega_v$)</span>
       </div>
 
       <div class="controls">
@@ -216,13 +219,13 @@
       <!-- Selection rule box -->
       <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
         <b>Selection rule.</b>
-        A vibration along generalized coordinate Q<sub>k</sub> is Raman-active when
+        A vibration along generalized coordinate $Q_k$ is Raman-active when
         at least one component of its <b>Raman tensor</b>
-        R<sub>k</sub> = (∂α<sub>ij</sub>/∂Q<sub>k</sub>)₀ is non-zero.
+        $R_k = (\partial\alpha_{ij}/\partial Q_k)_0$ is non-zero.
         Which components survive is dictated by the <b>symmetry of the crystal structure</b>
-        (point or space group). For centrosymmetric molecules like CO<sub>2</sub>, the
+        (point or space group). For centrosymmetric molecules like CO$_2$, the
         <b>mutual exclusion rule</b> applies: a mode is either Raman-active or IR-active,
-        never both. The symmetric stretch changes α (Raman-active, IR-inactive), while the
+        never both. The symmetric stretch changes $\alpha$ (Raman-active, IR-inactive), while the
         asymmetric stretch changes the dipole moment (IR-active, Raman-inactive).
       </div>
 
@@ -230,11 +233,12 @@
       <div class="physics-note" style="margin-top:14px; border-left-color:#3b82f6;">
         <b>Scattering intensity.</b>
         The scattered intensity is proportional to
-        <b>I ∝ I₀ · |R|² · ω<sub>s</sub>⁴</b> — the incident laser intensity,
+        $$I \propto I_0 \cdot |R|^2 \cdot \omega_s^4$$
+        — the incident laser intensity,
         the square of the Raman tensor element, and the <b>fourth power of the
-        scattered frequency</b>. The ω⁴ dependence explains why shorter-wavelength
+        scattered frequency</b>. The $\omega^4$ dependence explains why shorter-wavelength
         lasers produce stronger Raman signals. It also means anti-Stokes photons
-        (higher ω<sub>s</sub>) are intrinsically stronger per photon than Stokes —
+        (higher $\omega_s$) are intrinsically stronger per photon than Stokes —
         but since fewer molecules occupy excited vibrational states (Boltzmann
         statistics), Stokes peaks dominate in practice.
       </div>
@@ -269,7 +273,7 @@
         At thermal equilibrium, most molecules sit in the <b>ground vibrational
         state</b> (v = 0). Stokes scattering starts from v = 0 (abundant), while
         anti-Stokes starts from v = 1 (thermally populated). Their intensity ratio
-        <b>I<sub>aS</sub>/I<sub>S</sub> ∝ exp(−ℏω<sub>v</sub>/k<sub>B</sub>T)</b>
+        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_v / k_B T)$
         directly encodes the sample <b>temperature</b> — a principle widely used
         in non-contact thermometry. At low temperatures, anti-Stokes peaks
         nearly vanish; at high temperatures, they grow toward the Stokes intensity.
@@ -298,15 +302,15 @@
             The Raman intensity for a given mode is:
           </p>
           <p class="eq-block">
-            I ∝ |<b>e</b><sub>i</sub> · <b>R</b> · <b>e</b><sub>s</sub>|²
+            $$I \propto |\mathbf{e}_i \cdot \mathbf{R} \cdot \mathbf{e}_s|^2$$
           </p>
           <p>
-            where <b>e</b><sub>i</sub> and <b>e</b><sub>s</sub> are the polarization
-            vectors of incident and scattered light, and <b>R</b> is the Raman tensor
+            where $\mathbf{e}_i$ and $\mathbf{e}_s$ are the polarization
+            vectors of incident and scattered light, and $\mathbf{R}$ is the Raman tensor
             of the phonon mode. By rotating the polarization angle
             (<b>angle-resolved Raman spectroscopy</b>), one can determine the symmetry
-            of each mode — distinguishing A<sub>g</sub>, B<sub>1g</sub>,
-            B<sub>2g</sub> modes, etc.
+            of each mode — distinguishing $A_g$, $B_{1g}$,
+            $B_{2g}$ modes, etc.
           </p>
         </div>
 
@@ -318,34 +322,34 @@
           </p>
           <div class="tensor-grid">
             <div class="tensor-card">
-              <span class="tensor-label">A<sub>g</sub></span>
+              <span class="tensor-label">$A_g$</span>
               <div class="tensor-matrix">
                 <table>
-                  <tr><td>a</td><td></td><td></td></tr>
-                  <tr><td></td><td>b</td><td></td></tr>
-                  <tr><td></td><td></td><td>c</td></tr>
+                  <tr><td>$a$</td><td></td><td></td></tr>
+                  <tr><td></td><td>$b$</td><td></td></tr>
+                  <tr><td></td><td></td><td>$c$</td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">I ∝ (a cos²θ + c sin²θ)²</span>
+              <span class="tensor-polar">$I \propto (a\cos^2\theta + c\sin^2\theta)^2$</span>
             </div>
             <div class="tensor-card">
-              <span class="tensor-label">B<sub>1g</sub></span>
+              <span class="tensor-label">$B_{1g}$</span>
               <div class="tensor-matrix">
                 <table>
-                  <tr><td></td><td>d</td><td></td></tr>
-                  <tr><td>d</td><td></td><td></td></tr>
+                  <tr><td></td><td>$d$</td><td></td></tr>
+                  <tr><td>$d$</td><td></td><td></td></tr>
                   <tr><td></td><td></td><td></td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">I ∝ d² sin²2θ</span>
+              <span class="tensor-polar">$I \propto d^2 \sin^2 2\theta$</span>
             </div>
             <div class="tensor-card">
-              <span class="tensor-label">B<sub>2g</sub></span>
+              <span class="tensor-label">$B_{2g}$</span>
               <div class="tensor-matrix">
                 <table>
                   <tr><td></td><td></td><td></td></tr>
-                  <tr><td></td><td></td><td>f</td></tr>
-                  <tr><td></td><td>f</td><td></td></tr>
+                  <tr><td></td><td></td><td>$f$</td></tr>
+                  <tr><td></td><td>$f$</td><td></td></tr>
                 </table>
               </div>
               <span class="tensor-polar">not observed in backscattering</span>
@@ -353,8 +357,8 @@
           </div>
           <p>
             In backscattering geometry with parallel polarization configuration,
-            the A<sub>g</sub> mode shows <b>four-fold symmetry</b> in a polar
-            plot of intensity vs. angle θ, while B<sub>1g</sub> produces a
+            the $A_g$ mode shows <b>four-fold symmetry</b> in a polar
+            plot of intensity vs. angle $\theta$, while $B_{1g}$ produces a
             characteristic four-lobed pattern rotated by 45°. These patterns
             serve as fingerprints for mode assignment.
           </p>
