@@ -191,12 +191,12 @@ function fitCanvas(cv) {
     asym: {
       raman: false, a0: 0.30, c1: 0, c2: 0.50,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Asymmetric stretch</b>: one bond lengthens as the other shortens, so the two polarizability changes cancel — ∂α/∂Q = 0 at equilibrium. α(Q) is a <em>parabola</em>: no first-order (ω<sub>v</sub>) modulation, only a weak 2ω<sub>v</sub> overtone.'
+      text: '<b>Asymmetric stretch</b>: one bond lengthens as the other shortens, so the two polarizability changes cancel — ∂α/∂Q = 0 at equilibrium. α(Q) is a <em>parabola</em> symmetric about Q = 0: no first-order modulation at ω<sub>v</sub>, so <b>no Raman signal</b>.'
     },
     bend: {
       raman: false, a0: 0.30, c1: 0, c2: 0.50,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Bend</b>: by symmetry ∂α/∂Q = 0 at equilibrium, so α(Q) is again a parabola — no fundamental Raman line, only a faint 2ω<sub>v</sub> overtone.'
+      text: '<b>Bend</b>: by symmetry ∂α/∂Q = 0 at equilibrium, so α(Q) is again a parabola — no first-order modulation, hence <b>Raman-inactive</b>.'
     }
   };
   let mode = 'sym';
@@ -212,9 +212,8 @@ function fitCanvas(cv) {
   const afn = t => alphaOfQ(Qfn(t));                  // polarizability α(t), always > 0
 
   // Fourier content of α(t):
-  //   α(t) = ᾱ + (c₁Q₀)·cos(ωᵥt) + (½c₂Q₀²)·cos(2ωᵥt)
+  //   α(t) = ᾱ + (c₁Q₀)·cos(ωᵥt)
   // → fundamental sidebands ∝ c₁Q₀  (first derivative, ω₀±ωᵥ)
-  // → overtone   sidebands ∝ ½c₂Q₀² (curvature,        ω₀±2ωᵥ)
   const abar  = () => { const M = MODES[mode]; return M.a0 + 0.5 * M.c2 * amp * amp; };
   const fundC = () => Math.abs(MODES[mode].c1) * amp;
   const overC = () => 0.5 * MODES[mode].c2 * amp * amp;
@@ -248,7 +247,7 @@ function fitCanvas(cv) {
     if (MODES[mode].raman) {
       noteEl.innerHTML = '<b>Why the slope matters.</b> The fundamental Raman lines at ω₀±ω<sub>v</sub> are set by the <b>first derivative</b> ∂α/∂Q at equilibrium (the tangent in the α–Q plot). Here it is non-zero, so they appear and grow with amplitude Q₀.';
     } else {
-      noteEl.innerHTML = '<b>No contradiction.</b> Yes — on a parabola, a large oscillation does change α. But because ∂α/∂Q = 0 at equilibrium, that change is <b>second-order</b>: α(t) wobbles at <b>2ω<sub>v</sub></b> (an overtone ∝ Q₀²), never at the fundamental ω<sub>v</sub>. So there is still <b>no fundamental Raman line</b> at any amplitude — only a weak overtone at ω₀±2ω<sub>v</sub>. The selection rule governs the first derivative; the curvature only feeds weak overtones. Push Q₀ up to watch the overtone grow.';
+      noteEl.innerHTML = '<b>Why no Raman line?</b> Because ∂α/∂Q = 0 at equilibrium, the polarizability does not oscillate at the vibrational frequency ω<sub>v</sub>. Even if α changes slightly at large amplitudes, the induced dipole carries <b>no first-order sideband</b> at ω₀±ω<sub>v</sub>. The selection rule is determined by the first derivative — if it is zero, the mode is Raman-inactive.';
     }
   }
 
@@ -374,7 +373,7 @@ function fitCanvas(cv) {
     const q = Qfn(tNow);                       // vibrational coordinate Q(t) ∈ [−Q₀, Q₀]
     const cx = w / 2, cy = h / 2;
     const gap = Math.min(58, w * 0.21);
-    const A = 15;                              // displacement amplitude (px)
+    const A = 8;                               // displacement amplitude (px)
 
     // atom positions + per-bond relative stretch (drives local cloud diffuseness)
     let pos, relL, relR;
@@ -550,7 +549,7 @@ function fitCanvas(cv) {
     if (!MODES[mode].raman) {
       g.ctx.fillStyle = 'rgba(167,139,250,0.95)';
       g.ctx.font = '11px DM Sans, sans-serif'; g.ctx.textAlign = 'right'; g.ctx.textBaseline = 'top';
-      g.ctx.fillText('no ωᵥ term — only a 2ωᵥ ripple', g.w - 6, 4);
+      g.ctx.fillText('no ωᵥ modulation — Raman-inactive', g.w - 6, 4);
     }
 
     // p(t): induced dipole (a real field — oscillates +/−), with modulation envelope
@@ -604,7 +603,6 @@ function fitCanvas(cv) {
     plotSmall(cDecRay, rayFn,  COL.rayleigh, aRay);
     plotSmall(cDecStk, stkFn,  COL.stokes,   aFund);
     plotSmall(cDecAnt, antFn,  COL.anti,     aFund);
-    plotSmall(cDecOvr, overFn, '#a78bfa',    aOver);
   }
 
   // ── Spectrum ──
@@ -623,14 +621,11 @@ function fitCanvas(cv) {
 
     const rayH  = clamp(abar() * 1.6 * Hfull);
     const fundH = clamp(fundC() * 2.2 * Hfull);
-    const overH = clamp(overC() * 2.2 * Hfull);
 
     const bars = [
       { x: cx2,              H: rayH,  c: COL.rayleigh },
       { x: cx2 - off1,       H: fundH, c: COL.stokes },
-      { x: cx2 + off1,       H: fundH, c: COL.anti },
-      { x: clampX(cx2-off2), H: overH, c: '#a78bfa' },
-      { x: clampX(cx2+off2), H: overH, c: '#a78bfa' }
+      { x: cx2 + off1,       H: fundH, c: COL.anti }
     ];
     for (const b of bars) {
       if (b.H < 1) continue;
@@ -645,16 +640,11 @@ function fitCanvas(cv) {
       ctx.fillText('ω₀−ωᵥ', cx2 - off1, baseY + 14);
       ctx.fillText('ω₀+ωᵥ', cx2 + off1, baseY + 14);
     }
-    if (overH >= 1) {
-      ctx.fillStyle = '#a78bfa';
-      ctx.fillText('±2ωᵥ', clampX(cx2 - off2), baseY + 14);
-      ctx.fillText('±2ωᵥ', clampX(cx2 + off2), baseY + 14);
-    }
     ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
 
     cap.innerHTML = MODES[mode].raman
-      ? 'The <b>fundamental</b> Stokes / anti-Stokes lines at ω₀±ω<sub>v</sub> dominate (∝ ∂α/∂Q·Q₀). A faint <span style="color:#a78bfa">overtone</span> at ω₀±2ω<sub>v</sub> comes from the curvature ∂²α/∂Q². Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
-      : 'Because ∂α/∂Q = 0, <b>the fundamental ω₀±ω<sub>v</sub> lines are absent at any amplitude.</b> Only a weak <span style="color:#a78bfa">overtone</span> at ω₀±2ω<sub>v</sub> appears (∝ ∂²α/∂Q²·Q₀²) — which is why these modes count as Raman-inactive.';
+      ? 'The <b>Stokes</b> and <b>anti-Stokes</b> lines at ω₀±ω<sub>v</sub> appear because ∂α/∂Q ≠ 0 — their amplitude grows with Q₀. Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
+      : 'Because ∂α/∂Q = 0, <b>no Stokes or anti-Stokes lines appear</b> at ω₀±ω<sub>v</sub>. Only the Rayleigh line remains — this mode is Raman-inactive.';
   }
 
   function loop() {
