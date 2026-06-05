@@ -201,7 +201,7 @@ function fitCanvas(cv) {
   };
   let mode = 'sym';
   let vib = +sVib.value;
-  const amp = 0.35;                       // vibration amplitude Q₀ (fixed)
+  const amp = 0.15;                       // vibration amplitude Q₀ (fixed)
 
   // polarizability vs the vibrational coordinate (the SAME curve drawn in α–Q)
   const alphaOfQ = Q => { const M = MODES[mode]; return M.a0 + M.c1 * Q + M.c2 * Q * Q; };
