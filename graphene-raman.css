@@ -1,0 +1,87 @@
+/* ── Graphene Raman — specific styles ── shared demo styles in style.css ── */
+
+.hero-links {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 14px; flex-wrap: wrap;
+}
+.hero-sep { color: #57534e; font-size: 0.8rem; }
+
+/* ── Canvas panels ── */
+.gr-canvas-wide {
+  width: 100%; height: 320px; display: block;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+}
+
+.gr-panel canvas {
+  width: 100%; height: 240px; display: block;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+}
+
+.panel-label {
+  text-align: center; font-size: 0.76rem; color: #a8a29e;
+  margin-top: 6px;
+}
+
+/* ── Branch legend ── */
+.branch-legend {
+  display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px;
+  font-size: 0.76rem; color: #a8a29e;
+}
+.branch-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.branch-legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+/* ── Info boxes ── */
+.gr-info {
+  margin-top: 16px; padding: 12px 14px;
+  border-left: 3px solid #3b82f6;
+  background: rgba(59,130,246,0.08); border-radius: 4px;
+  font-size: 0.8rem; color: #93c5fd; line-height: 1.6;
+}
+.gr-info b { color: #bfdbfe; }
+
+.physics-note {
+  margin-top: 16px; padding: 12px 14px;
+  border-left: 3px solid #a78bfa;
+  background: rgba(167,139,250,0.08); border-radius: 4px;
+  font-size: 0.8rem; color: #c4b5fd; line-height: 1.6;
+}
+.physics-note b { color: #ddd6fe; }
+
+/* ── Lists inside info ── */
+.gr-list {
+  list-style: none; padding: 0; margin: 8px 0 0;
+}
+.gr-list li {
+  font-size: 0.8rem; line-height: 1.65;
+  padding: 3px 0 3px 16px; position: relative;
+}
+.gr-list li::before {
+  content: ""; position: absolute; left: 0; top: 11px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(147,197,253,0.5);
+}
+.gr-list li b { color: inherit; font-weight: 600; }
+
+/* ── Diagnostics grid (Module 04) ── */
+.diag-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 14px; margin-top: 18px;
+}
+.diag-card {
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 8px;
+  padding: 16px; background: rgba(255,255,255,0.03);
+}
+.diag-card h3 {
+  font-size: 0.88rem; font-weight: 700; color: #fafaf9;
+  margin-bottom: 8px;
+}
+.diag-card .gr-list li::before { background: rgba(167,139,250,0.5); }
+.diag-card .gr-list li { color: #d6d3d1; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .diag-grid { grid-template-columns: 1fr; }
+  .gr-canvas-wide { height: 240px; }
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphene Raman Spectroscopy — G, 2D &amp; D Bands Explained</title>
+  <meta name="description" content="Interactive guide to graphene Raman spectroscopy: phonon dispersion, G band, 2D band double resonance, D band defect activation, layer counting, strain and doping diagnostics.">
+  <meta name="keywords" content="graphene Raman, G band, 2D band, D band, double resonance, phonon dispersion, graphene layers, strain, doping, defect, spectroscopy tutorial">
+  <link rel="canonical" href="https://yumigeta.github.io/graphene-raman.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graphene Raman Spectroscopy — Interactive Guide">
+  <meta property="og:description" content="Animated guide: phonon dispersion, G/2D/D bands, double resonance, and how to read graphene Raman spectra.">
+  <meta property="og:url" content="https://yumigeta.github.io/graphene-raman.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Graphene Raman Spectroscopy — Interactive Guide">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Graphene Raman Spectroscopy — G, 2D & D Bands Explained",
+    "description": "An interactive tutorial on graphene Raman spectroscopy: phonon dispersion, first-order G band, double resonance 2D and D bands, layer identification, and strain/doping diagnostics.",
+    "url": "https://yumigeta.github.io/graphene-raman.html",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Graphene Raman spectroscopy",
+      "Phonon dispersion",
+      "G band",
+      "2D band",
+      "D band",
+      "Double resonance Raman",
+      "Layer identification",
+      "Strain and doping effects"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="graphene-raman.css">
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">Kentaro Yumigeta</a>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="explainers.html" aria-current="page">Explainers</a></li>
+        <li><a href="software.html">Software</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#cv">CV</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <p class="eyebrow">Interactive Explainer</p>
+    <h1>Graphene Raman Spectroscopy</h1>
+    <p>
+      Raman spectroscopy is the go-to tool for characterizing graphene: it
+      identifies the number of layers, quantifies defects, and measures strain
+      and doping — all from a quick, non-destructive optical measurement.
+      This page explains the physics behind graphene's characteristic Raman peaks.
+    </p>
+    <div class="hero-links">
+      <a href="explainers.html" class="back-link">&larr; All explainers</a>
+      <span class="hero-sep">|</span>
+      <a href="raman.html" class="back-link">Raman principles &rarr;</a>
+      <span class="hero-sep">|</span>
+      <a href="graphene.html" class="back-link">Graphene band structure &rarr;</a>
+    </div>
+  </header>
+
+  <!-- ═══════ Module 00 — Phonon dispersion ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">00 — Phonon dispersion</span>
+      <h2>Six phonon branches from two atoms</h2>
+      <p>
+        Graphene's unit cell has <b>two carbon atoms</b>, giving rise to
+        <b>six phonon branches</b>: three acoustic (A) and three optical (O).
+        Each is further classified as in-plane longitudinal (L), in-plane
+        transverse (T), or out-of-plane (Z). The Raman-active modes live
+        near the <b>Γ point</b> (first-order) and the <b>K point</b>
+        (double resonance).
+      </p>
+    </div>
+    <div class="demo-stage">
+      <canvas id="c-phonon" class="gr-canvas-wide"></canvas>
+      <p class="cap">
+        Phonon dispersion of graphene along Γ→M→K→Γ. The <b style="color:#ef4444">iTO</b>
+        branch near K (~1350 cm<sup>−1</sup>) gives rise to the D and 2D bands.
+        The <b style="color:#16a34a">iLO and iTO</b> branches at Γ (~1580 cm<sup>−1</sup>)
+        produce the G band. Hover over the branches to identify them.
+      </p>
+      <div class="branch-legend">
+        <span><i style="background:#ef4444"></i> iTO</span>
+        <span><i style="background:#3b82f6"></i> iLO</span>
+        <span><i style="background:#f59e0b"></i> oTO</span>
+        <span><i style="background:#8b5cf6"></i> iTA</span>
+        <span><i style="background:#10b981"></i> iLA</span>
+        <span><i style="background:#78716c"></i> oTA (ZA)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — G band ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">01 — The G band</span>
+      <h2>First-order Raman scattering at ~1580 cm<sup>−1</sup></h2>
+      <p>
+        The <b>G band</b> is the only first-order Raman peak in graphene.
+        It originates from the doubly degenerate <b>E<sub>2g</sub></b> phonon
+        mode at the Brillouin zone center (Γ point), where adjacent carbon
+        atoms vibrate against each other in-plane.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="top-row">
+        <div class="gr-panel">
+          <canvas id="c-gmode"></canvas>
+          <p class="panel-label">E<sub>2g</sub> vibration at Γ</p>
+        </div>
+        <div class="gr-panel">
+          <canvas id="c-gprocess"></canvas>
+          <p class="panel-label">Scattering process</p>
+        </div>
+      </div>
+
+      <div class="btn-row" id="gmode-btns" style="margin:14px 0 6px;">
+        <button class="demo-btn active" data-gmode="ilo">iLO mode</button>
+        <button class="demo-btn" data-gmode="ito">iTO mode</button>
+      </div>
+
+      <div class="gr-info">
+        <b>First-order process:</b> an incident photon creates one phonon
+        at Γ (<b>q</b> ≈ 0) and is scattered. Because this is a zone-center
+        mode, the G band frequency (~1580 cm<sup>−1</sup>) is
+        <b>independent of laser wavelength</b>. The G band is present in
+        all sp<sup>2</sup> carbon materials — graphene, graphite, carbon
+        nanotubes, and amorphous carbon.
+      </div>
+
+      <div class="physics-note" style="margin-top:14px;">
+        <b>Why "G"?</b> The G stands for "graphite." This was the first
+        Raman peak identified in graphitic materials, and the name has
+        persisted even as the field shifted to graphene.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — 2D band ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">02 — The 2D band</span>
+      <h2>Double resonance at ~2700 cm<sup>−1</sup></h2>
+      <p>
+        The <b>2D band</b> (also called G′) is the most prominent
+        second-order peak. It involves <b>two iTO phonons near K</b> with
+        opposite momenta (<b>q</b> and <b>−q</b>), produced through a
+        <b>double resonance</b> process — making it strongly dependent
+        on laser energy and uniquely sensitive to the number of graphene layers.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <canvas id="c-dr2d" class="gr-canvas-wide"></canvas>
+      <p class="cap">
+        The double resonance process for the 2D band. An electron–hole pair
+        is created near K, the electron is scattered by an iTO phonon to
+        K′, then scattered back by a second iTO phonon, and recombines
+        emitting a photon. Both phonon scattering events are
+        <b>inter-valley</b> (K → K′ → K).
+      </p>
+
+      <div class="gr-info">
+        <b>Why is the 2D band so useful?</b>
+        <ul class="gr-list">
+          <li><b>Layer counting:</b> In monolayer graphene, the 2D band is a
+            single sharp Lorentzian (~24 cm<sup>−1</sup> FWHM) with intensity
+            much larger than G. In bilayer, it splits into four components due
+            to the splitting of electronic bands. In few-layer graphene, the
+            shape evolves further — making the 2D lineshape a reliable
+            fingerprint for layer number.</li>
+          <li><b>Dispersive:</b> The 2D frequency shifts ~100 cm<sup>−1</sup>/eV
+            with laser energy because the resonant phonon wavevector <b>q</b>
+            depends on the electronic band structure.</li>
+          <li><b>No defects needed:</b> Unlike the D band, momentum is conserved
+            by the two phonons (q + (−q) = 0), so the 2D band appears in
+            pristine graphene.</li>
+        </ul>
+      </div>
+
+      <div class="physics-note" style="margin-top:14px;">
+        <b>Why "2D" and not "G′"?</b> The 2D band involves two phonons
+        of the same type as the D band (iTO near K), hence its frequency
+        is roughly twice the D band frequency. Both names are used in the
+        literature — "2D" emphasizes the phonon origin, while "G′"
+        avoids confusion with implying defect involvement.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — D band ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03 — The D band</span>
+      <h2>Defect-activated double resonance at ~1350 cm<sup>−1</sup></h2>
+      <p>
+        The <b>D band</b> involves the same iTO phonon near K as the 2D band,
+        but only <b>one phonon</b> participates — momentum conservation is
+        completed by <b>elastic scattering from a defect</b>. This is why
+        the D band is absent in pristine graphene and serves as a direct
+        measure of disorder.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <canvas id="c-drd" class="gr-canvas-wide"></canvas>
+      <p class="cap">
+        The double resonance process for the D band. An electron is excited
+        near K, scattered to K′ by an iTO phonon, then <b>elastically
+        scattered back</b> by a defect, and recombines. The defect provides
+        the missing momentum — no defect, no D band.
+      </p>
+
+      <div class="gr-info">
+        <b>Quantifying defects:</b> The intensity ratio <b>I(D)/I(G)</b>
+        is widely used to quantify defect density. For low defect
+        concentrations, I(D)/I(G) increases with defect density. At very
+        high defect concentrations, both peaks broaden and the ratio
+        decreases — the sp<sup>2</sup> structure itself is breaking down.
+        The relationship follows the Tuinstra–Koenig relation:
+        <b>I(D)/I(G) ∝ 1/L<sub>a</sub></b>, where L<sub>a</sub> is the
+        average distance between defects (crystallite size).
+      </div>
+
+      <div class="physics-note" style="margin-top:14px;">
+        <b>D′ and D+D′ bands.</b> The <b>D′</b> band (~1620 cm<sup>−1</sup>)
+        is another defect-activated peak, but involves <b>intra-valley</b>
+        scattering (within the same K point). The <b>D+D′</b> combination
+        band (~2940 cm<sup>−1</sup>) involves one iTO phonon (inter-valley)
+        and one iLO phonon (intra-valley), also requiring defects.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — Practical guide ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">04 — Reading a graphene Raman spectrum</span>
+      <h2>What each peak tells you</h2>
+      <p>
+        A single Raman measurement encodes layer number, crystal quality,
+        strain state, and charge doping. Here is how to extract each.
+      </p>
+    </div>
+    <div class="demo-stage">
+      <canvas id="c-overview" class="gr-canvas-wide"></canvas>
+
+      <div class="diag-grid">
+        <div class="diag-card">
+          <h3>Layer number</h3>
+          <ul class="gr-list">
+            <li><b>Monolayer:</b> single symmetric 2D peak, I(2D)/I(G) &gt; 1</li>
+            <li><b>Bilayer:</b> 2D splits into 4 Lorentzians, I(2D)/I(G) ~ 1</li>
+            <li><b>Few-layer:</b> 2D broadens asymmetrically, I(2D)/I(G) &lt; 1</li>
+            <li><b>Graphite:</b> 2D has two components (2D₁, 2D₂)</li>
+          </ul>
+        </div>
+
+        <div class="diag-card">
+          <h3>Defects &amp; disorder</h3>
+          <ul class="gr-list">
+            <li><b>I(D)/I(G) ≈ 0:</b> pristine graphene</li>
+            <li><b>I(D)/I(G) increases:</b> more point defects or edges</li>
+            <li><b>D′ appears:</b> confirms defect activation</li>
+            <li><b>I(D)/I(D′):</b> distinguishes vacancy (~7), boundary (~3.5), sp³ (~13) defect types</li>
+          </ul>
+        </div>
+
+        <div class="diag-card">
+          <h3>Strain</h3>
+          <ul class="gr-list">
+            <li>Both G and 2D peaks <b>shift</b> under strain</li>
+            <li><b>Tensile:</b> red-shift (lower frequency)</li>
+            <li><b>Compressive:</b> blue-shift (higher frequency)</li>
+            <li>G band splits under <b>uniaxial strain</b> (G<sup>+</sup> and G<sup>−</sup>)</li>
+            <li>Slope in ΔωG vs Δω2D plot: ~2.2 for strain</li>
+          </ul>
+        </div>
+
+        <div class="diag-card">
+          <h3>Doping</h3>
+          <ul class="gr-list">
+            <li>G band <b>stiffens</b> (blue-shifts) with both n- and p-doping</li>
+            <li>G band <b>narrows</b> due to Pauli blocking of phonon decay</li>
+            <li>2D band shifts <b>down</b> for n-type, <b>up</b> for p-type</li>
+            <li>Slope in ΔωG vs Δω2D plot: ~0.7 for doping</li>
+            <li>Distinguishes strain from doping via correlation plot</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
+        <b>The strain–doping correlation plot.</b>
+        Plotting ΔωG vs Δω2D separates strain and doping effects: pure
+        strain follows a slope of ~2.2, while pure doping gives ~0.7.
+        Real samples often show a combination — the data point's position
+        relative to these two axes reveals both contributions simultaneously.
+        This technique, introduced by Lee et al. (2012), is now a standard
+        tool in graphene characterization.
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Kentaro Yumigeta</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
+  </script>
+  <script src="graphene-raman.js"></script>
+</body>
+</html>
