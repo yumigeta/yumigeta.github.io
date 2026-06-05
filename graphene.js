@@ -768,8 +768,7 @@
   //    • chiral   → generically semiconducting
   // ================================================================
   (function () {
-    var cellZ   = document.getElementById('c-cell-zig');   // real-space cell (zigzag)
-    var cellA   = document.getElementById('c-cell-arm');   // real-space cell (armchair)
+    var cellCV  = document.getElementById('c-cell-ribbon'); // real-space cell (single panel)
     var bzC     = document.getElementById('c-gnr-real');   // 2D BZ top view
     var cutC    = document.getElementById('c-gnr-cut');    // 3D band surface
     var bandC   = document.getElementById('c-gnr-bands');  // 1D subbands
@@ -879,7 +878,7 @@
       var dim    = active ? 1 : 0.34;
 
       // axis (â, periodic) and width (ŵ, confined) unit vectors — fixed lattice
-      var th = isZig ? 0 : PI/6;                          // 0° zigzag · 30° armchair
+      var th = isZig ? 2*PI/3 : PI/2;                       // 120° zigzag · 90° armchair (match BZ cutting lines)
       var ax_ = cos(th), ay_ = sin(th), wx_ = -sin(th), wy_ = cos(th);
       function lc(x, y) { return x*ax_ + y*ay_; }         // longitudinal (axis)
       function wc(x, y) { return x*wx_ + y*wy_; }         // transverse (width)
@@ -916,7 +915,9 @@
       function S(x, y) { return [cx + (x-Cx)*sc, cy - (y-Cy)*sc]; }
 
       // longitudinal half-length to fill the panel along the (tilted) axis
-      var lmax = (W/2)/(sc*max(0.45, abs(ax_))) + 0.6;
+      var lmx = abs(ax_) > 0.01 ? W/2/(sc*abs(ax_)) : 1e3;
+      var lmy = abs(ay_) > 0.01 ? H/2/(sc*abs(ay_)) : 1e3;
+      var lmax = min(lmx, lmy) + 0.6;
       function fade(l) {                                  // soft ribbon ends
         var t = (lmax - abs(l)) / (0.24*lmax);
         return max(0, min(1, t));
@@ -999,8 +1000,8 @@
       ctx.fillText(isZig ? 'cut ∥ zigzag edge (0°)' : 'cut ∥ armchair edge (30°)', 10, 33);
     }
     function drawCells(theta, N) {
-      drawRibbonCell(cellZ, 'zigzag',  theta === 0,  N);
-      drawRibbonCell(cellA, 'armchair', theta === 30, N);
+      var type = theta === 0 ? 'zigzag' : 'armchair';
+      drawRibbonCell(cellCV, type, true, N);
     }
 
     // ── 2D top-down Brillouin zone with the cutting-line family ──
