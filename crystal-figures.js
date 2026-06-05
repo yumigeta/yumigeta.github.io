@@ -77,36 +77,31 @@
   // ── 1. Periodic array of atoms ──
   function drawPeriodic(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 22, cx = W / 2, cy = H / 2;
-    honeycomb(ctx, cx, cy, sc, 0, W, 8, H - 8);
+    var sc = 30, cx = W / 2, cy = H / 2;
 
-    // Overlay: show one "tile" repeating
-    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+    // Simple square lattice — one atom per point
+    for (var n = -8; n <= 8; n++) for (var m = -5; m <= 5; m++) {
+      var x = cx + n * sc, y = cy + m * sc;
+      if (x < -5 || x > W + 5 || y < 8 || y > H - 14) continue;
+      dot(ctx, x, y, 3, 'rgba(168,162,158,.45)');
+    }
+
+    // Dashed tile outlines
     ctx.setLineDash([4, 3]);
-    ctx.strokeStyle = 'rgba(251,191,36,.45)'; ctx.lineWidth = 1.2;
-    for (var n = -1; n <= 2; n++) for (var m = 0; m <= 2; m++) {
-      var bx = cx + n * a1x + m * a2x, by = cy + m * a2y;
-      ctx.beginPath();
-      ctx.moveTo(bx, by);
-      ctx.lineTo(bx + a1x, by);
-      ctx.lineTo(bx + a1x + a2x, by + a2y);
-      ctx.lineTo(bx + a2x, by + a2y);
-      ctx.closePath();
-      ctx.stroke();
+    ctx.strokeStyle = 'rgba(251,191,36,.35)'; ctx.lineWidth = 1;
+    for (var n = -1; n <= 2; n++) for (var m = -1; m <= 1; m++) {
+      var bx = cx + n * sc, by = cy + m * sc;
+      ctx.strokeRect(bx, by, sc, sc);
     }
     ctx.setLineDash([]);
 
     // Highlight one cell
-    var hx = cx, hy = cy;
-    ctx.beginPath();
-    ctx.moveTo(hx, hy); ctx.lineTo(hx + a1x, hy);
-    ctx.lineTo(hx + a1x + a2x, hy + a2y); ctx.lineTo(hx + a2x, hy + a2y);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(251,191,36,.15)'; ctx.fill();
+    ctx.fillStyle = 'rgba(251,191,36,.15)';
+    ctx.fillRect(cx, cy, sc, sc);
     ctx.strokeStyle = 'rgba(251,191,36,.8)'; ctx.lineWidth = 1.5;
-    ctx.stroke();
+    ctx.strokeRect(cx, cy, sc, sc);
 
-    lbl(ctx, 'The same unit repeats throughout the crystal', W / 2, H - 8, '#78716c', 10);
+    lbl(ctx, 'The same unit repeats throughout the crystal', W / 2, H - 6, '#78716c', 10);
   }
 
   // ── 2. Lattice translation vectors ──
@@ -350,10 +345,10 @@
     }
   }
 
-  // ── 6. Graphene: honeycomb ──
+  // ── 7. Graphene: honeycomb ──
   function drawGraphene(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 28, cx = W * 0.45, cy = H * 0.50;
+    var sc = 28, cx = W / 2, cy = H * 0.50;
     var d1y = sc / sqrt3;
     var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
 
@@ -382,34 +377,6 @@
     ctx.strokeStyle = '#c084fc'; ctx.fillStyle = '#c084fc'; ctx.lineWidth = 2;
     arw(ctx, cx, cy, cx + a2x * 0.9, cy + a2y * 0.9, 7);
     lblB(ctx, 'a₂', cx + a2x - 14, cy + a2y / 2 - 3, '#c084fc', 11);
-
-    // Right side: show A vs B neighbors
-    var rx = W * 0.82, ry1 = H * 0.28, ry2 = H * 0.72;
-    var nb = sc * 0.55;
-    // A site neighbors
-    dot(ctx, rx, ry1, 5, '#ef4444');
-    var aDirs = [[0, -1], [-sqrt3/2, 0.5], [sqrt3/2, 0.5]];
-    for (var i = 0; i < 3; i++) {
-      var nx = rx + aDirs[i][0] * nb, ny = ry1 + aDirs[i][1] * nb;
-      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(rx, ry1); ctx.lineTo(nx, ny); ctx.stroke();
-      dot(ctx, nx, ny, 3.5, '#3b82f6');
-    }
-    lbl(ctx, 'A site', rx, ry1 + nb + 10, '#ef4444', 9);
-
-    // B site neighbors (rotated 180°)
-    dot(ctx, rx, ry2, 5, '#3b82f6');
-    var bDirs = [[0, 1], [-sqrt3/2, -0.5], [sqrt3/2, -0.5]];
-    for (var i = 0; i < 3; i++) {
-      var nx = rx + bDirs[i][0] * nb, ny = ry2 + bDirs[i][1] * nb;
-      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(rx, ry2); ctx.lineTo(nx, ny); ctx.stroke();
-      dot(ctx, nx, ny, 3.5, '#ef4444');
-    }
-    lbl(ctx, 'B site', rx, ry2 - nb - 10, '#3b82f6', 9);
-
-    // ≠ between them
-    lbl(ctx, '≠', rx, (ry1 + ry2) / 2, '#fbbf24', 14);
   }
 
   // ── 7. Reciprocal lattice ──
@@ -526,7 +493,7 @@
     lbl(ctx, 'E = 0', ccx + 8, ccy - 8, '#fbbf24', 9, 'left');
     lbl(ctx, 'π*', ccx + cW + 4, ccy - cH * 0.5, '#ef4444', 9, 'left');
     lbl(ctx, 'π', ccx + cW + 4, ccy + cH * 0.5, '#3b82f6', 9, 'left');
-    lbl(ctx, 'Dirac cone at K', ccx, H - 8, '#a8a29e', 10);
+    lbl(ctx, 'Graphene: Dirac cone at K', ccx, H - 8, '#a8a29e', 10);
 
     // zoom line
     ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
