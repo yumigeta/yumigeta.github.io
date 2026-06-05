@@ -833,16 +833,14 @@
       var lines = [];
       for (var n = 1; n <= N; n++) {
         var c = n * PI / (N + 1);        // hard-wall GNR: k⊥ = nπ/(N+1)
-        lines.push({ c: c, gap: lineMinGap(nx, ny, c) });
+        var g = lineMinGap(nx, ny, c);
+        lines.push({ c: c, gap: g });
+        lines.push({ c: -c, gap: g });
       }
       var isZig = (theta === 0);
       var minG = Infinity;
       for (var i = 0; i < lines.length; i++) if (lines[i].gap < minG) minG = lines[i].gap;
-      // Zigzag: edge states → always metallic regardless of cutting-line gaps.
       var metallic = isZig ? true : (minG < 0.025);
-      // Highlight: for armchair highlight lines at / near zero-gap K corner;
-      // for zigzag highlight the few lines closest to the K projection at c=0
-      // (they don't reach it — that's the point — but they're the nearest bulk modes).
       var tol = isZig ? (minG + 0.12) : (metallic ? 0.06 : (minG + 0.02));
       for (var i = 0; i < lines.length; i++)
         lines[i].near = lines[i].gap <= tol;
