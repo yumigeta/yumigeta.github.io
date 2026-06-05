@@ -13,15 +13,15 @@
     return { ctx: ctx, w: rect.width, h: rect.height };
   }
 
-  function arrow(ctx, x0, y0, x1, y1, headLen) {
-    headLen = headLen || 8;
+  function arw(ctx, x0, y0, x1, y1, hl) {
+    hl = hl || 8;
     var dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy) || 1;
     var ux = dx / L, uy = dy / L;
     ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(x1, y1);
-    ctx.lineTo(x1 - ux * headLen + uy * headLen * 0.4, y1 - uy * headLen - ux * headLen * 0.4);
-    ctx.lineTo(x1 - ux * headLen - uy * headLen * 0.4, y1 - uy * headLen + ux * headLen * 0.4);
+    ctx.lineTo(x1 - ux * hl + uy * hl * 0.38, y1 - uy * hl - ux * hl * 0.38);
+    ctx.lineTo(x1 - ux * hl - uy * hl * 0.38, y1 - uy * hl + ux * hl * 0.38);
     ctx.closePath(); ctx.fill();
   }
 
@@ -30,352 +30,386 @@
     ctx.fillStyle = col; ctx.fill();
   }
 
-  function label(ctx, text, x, y, col, size, align) {
+  function lbl(ctx, text, x, y, col, sz, al) {
     ctx.fillStyle = col || '#a8a29e';
-    ctx.font = (size || 11) + 'px "DM Sans", sans-serif';
-    ctx.textAlign = align || 'center';
-    ctx.textBaseline = 'middle';
+    ctx.font = (sz || 11) + 'px "DM Sans",sans-serif';
+    ctx.textAlign = al || 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(text, x, y);
   }
 
-  // ── Figure 1: Crystal vs Amorphous ──
-  function drawCrystalVsAmorphous(cv) {
-    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var midX = W / 2;
-
-    // Divider
-    ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(midX, 20); ctx.lineTo(midX, H - 20); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Left: crystal (periodic grid)
-    var sp = 24, ox = midX / 2, oy = H / 2;
-    var cols = 7, rows = 5;
-    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
-      var x = ox + (c - cols / 2 + 0.5) * sp + (r % 2) * sp * 0.5;
-      var y = oy + (r - rows / 2 + 0.5) * sp * sqrt3 / 2;
-      dot(ctx, x, y, 3.2, 'rgba(59,130,246,.8)');
-    }
-    label(ctx, 'Crystal (periodic)', midX / 2, H - 12, '#78716c', 11);
-
-    // Right: amorphous (random)
-    var seed = 42;
-    function rand() { seed = (seed * 16807 + 0) % 2147483647; return seed / 2147483647; }
-    var ox2 = midX + midX / 2;
-    for (var i = 0; i < 35; i++) {
-      var x = ox2 + (rand() - 0.5) * (midX - 40);
-      var y = H / 2 + (rand() - 0.5) * (H - 60);
-      dot(ctx, x, y, 3.2, 'rgba(168,162,158,.6)');
-    }
-    label(ctx, 'Amorphous (random)', midX + midX / 2, H - 12, '#78716c', 11);
+  function lblB(ctx, text, x, y, col, sz, al) {
+    ctx.fillStyle = col || '#a8a29e';
+    ctx.font = 'bold ' + (sz || 11) + 'px "DM Sans",sans-serif';
+    ctx.textAlign = al || 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, x, y);
   }
 
-  // ── Figure 2: Bravais lattice ──
-  function drawBravais(cv) {
-    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 36, cx = W / 2, cy = H / 2;
-    var a1x = 1 * sc, a1y = 0;
-    var a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+  // Honeycomb helper: draw lattice in a region
+  function honeycomb(ctx, cx, cy, sc, xMin, xMax, yMin, yMax, opts) {
+    var d1y = sc / sqrt3;
+    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+    var bonds = [[0, -d1y], [-0.5 * sc, 0.5 * d1y], [0.5 * sc, 0.5 * d1y]];
+    var RA = 8;
+    opts = opts || {};
+    var aCol = opts.aCol || 'rgba(239,68,68,.5)';
+    var bCol = opts.bCol || 'rgba(59,130,246,.5)';
+    var bondCol = opts.bondCol || 'rgba(255,255,255,.12)';
+    var rr = opts.r || 3;
 
-    for (var n = -4; n <= 4; n++) for (var m = -3; m <= 3; m++) {
-      var x = cx + n * a1x + m * a2x;
-      var y = cy + n * a1y + m * a2y;
-      if (x < -10 || x > W + 10 || y < -10 || y > H + 10) continue;
-      var isOrigin = (n === 0 && m === 0);
-      dot(ctx, x, y, isOrigin ? 4.5 : 3, isOrigin ? '#fbbf24' : 'rgba(168,162,158,.5)');
+    for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
+      var ax = cx + n * a1x + m * a2x, ay = cy + m * a2y;
+      if (ax < xMin - sc || ax > xMax + sc || ay < yMin - sc || ay > yMax + sc) continue;
+      // bonds
+      ctx.strokeStyle = bondCol; ctx.lineWidth = 1;
+      for (var di = 0; di < 3; di++) {
+        var bx = ax + bonds[di][0], by = ay + bonds[di][1];
+        if (bx < xMin - 5 || bx > xMax + 5 || by < yMin - 5 || by > yMax + 5) continue;
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+      }
+      if (ax >= xMin && ax <= xMax && ay >= yMin && ay <= yMax)
+        dot(ctx, ax, ay, rr, aCol);
+      var bbx = ax, bby = ay - d1y;
+      if (bbx >= xMin && bbx <= xMax && bby >= yMin && bby <= yMax)
+        dot(ctx, bbx, bby, rr, bCol);
     }
-
-    // a1, a2 arrows from origin
-    ctx.strokeStyle = '#ef4444'; ctx.fillStyle = '#ef4444'; ctx.lineWidth = 2;
-    arrow(ctx, cx, cy, cx + a1x, cy + a1y, 9);
-    label(ctx, 'a₁', cx + a1x + 8, cy + 12, '#ef4444', 13, 'left');
-
-    ctx.strokeStyle = '#3b82f6'; ctx.fillStyle = '#3b82f6'; ctx.lineWidth = 2;
-    arrow(ctx, cx, cy, cx + a2x, cy + a2y, 9);
-    label(ctx, 'a₂', cx + a2x - 14, cy + a2y - 6, '#3b82f6', 13);
-
-    label(ctx, 'Every point sees the same environment', W / 2, H - 10, '#78716c', 10);
   }
 
-  // ── Figure 3: Unit cell ──
-  function drawUnitcell(cv) {
+  // ── 1. Periodic array of atoms ──
+  function drawPeriodic(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 32, midX = W / 2;
+    var sc = 22, cx = W / 2, cy = H / 2;
+    honeycomb(ctx, cx, cy, sc, 0, W, 8, H - 8);
 
-    // Left: primitive cell (parallelogram tiling)
-    var ox = midX * 0.42, oy = H / 2;
-    var a1x = sc, a1y = 0, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
-
-    // Draw a few parallelograms
-    ctx.lineWidth = 1;
-    for (var n = -2; n <= 2; n++) for (var m = -1; m <= 2; m++) {
-      var bx = ox + n * a1x + m * a2x, by = oy + n * a1y + m * a2y;
-      var isCenter = (n === 0 && m === 0);
-      ctx.strokeStyle = isCenter ? 'rgba(251,191,36,.7)' : 'rgba(255,255,255,.08)';
-      if (isCenter) { ctx.fillStyle = 'rgba(251,191,36,.12)'; }
+    // Overlay: show one "tile" repeating
+    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = 'rgba(251,191,36,.45)'; ctx.lineWidth = 1.2;
+    for (var n = -1; n <= 2; n++) for (var m = 0; m <= 2; m++) {
+      var bx = cx + n * a1x + m * a2x, by = cy + m * a2y;
       ctx.beginPath();
       ctx.moveTo(bx, by);
-      ctx.lineTo(bx + a1x, by + a1y);
-      ctx.lineTo(bx + a1x + a2x, by + a1y + a2y);
+      ctx.lineTo(bx + a1x, by);
+      ctx.lineTo(bx + a1x + a2x, by + a2y);
       ctx.lineTo(bx + a2x, by + a2y);
       ctx.closePath();
-      if (isCenter) ctx.fill();
       ctx.stroke();
     }
-    for (var n = -3; n <= 3; n++) for (var m = -2; m <= 3; m++) {
-      var x = ox + n * a1x + m * a2x, y = oy + n * a1y + m * a2y;
-      if (x < 0 || x > midX - 10 || y < 5 || y > H - 20) continue;
-      dot(ctx, x, y, 2.8, 'rgba(168,162,158,.5)');
+    ctx.setLineDash([]);
+
+    // Highlight one cell
+    var hx = cx, hy = cy;
+    ctx.beginPath();
+    ctx.moveTo(hx, hy); ctx.lineTo(hx + a1x, hy);
+    ctx.lineTo(hx + a1x + a2x, hy + a2y); ctx.lineTo(hx + a2x, hy + a2y);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(251,191,36,.15)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(251,191,36,.8)'; ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    lbl(ctx, 'The same unit repeats throughout the crystal', W / 2, H - 8, '#78716c', 10);
+  }
+
+  // ── 2. Lattice translation vectors ──
+  function drawTranslation(cv) {
+    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
+    var sc = 34, cx = W / 2, cy = H * 0.52;
+    var a1x = sc, a1y = 0;
+    var a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+
+    // Lattice points
+    for (var n = -4; n <= 4; n++) for (var m = -3; m <= 3; m++) {
+      var x = cx + n * a1x + m * a2x, y = cy + n * a1y + m * a2y;
+      if (x < 5 || x > W - 5 || y < 15 || y > H - 18) continue;
+      dot(ctx, x, y, 2.8, 'rgba(168,162,158,.4)');
     }
-    label(ctx, 'Primitive cell', ox, H - 10, '#fbbf24', 10);
+
+    // Origin
+    dot(ctx, cx, cy, 5, '#fbbf24');
+
+    // a1 arrow
+    ctx.strokeStyle = '#ef4444'; ctx.fillStyle = '#ef4444'; ctx.lineWidth = 2.2;
+    arw(ctx, cx, cy, cx + a1x, cy, 9);
+    lblB(ctx, 'a₁', cx + a1x / 2, cy + 14, '#ef4444', 13);
+
+    // a2 arrow
+    ctx.strokeStyle = '#3b82f6'; ctx.fillStyle = '#3b82f6'; ctx.lineWidth = 2.2;
+    arw(ctx, cx, cy, cx + a2x, cy + a2y, 9);
+    lblB(ctx, 'a₂', cx + a2x - 14, cy + a2y / 2 - 4, '#3b82f6', 13);
+
+    // T = 2a1 + a2 example
+    var tx = 2 * a1x + a2x, ty = 2 * a1y + a2y;
+    dot(ctx, cx + tx, cy + ty, 5, '#34d399');
+    ctx.strokeStyle = '#34d399'; ctx.fillStyle = '#34d399'; ctx.lineWidth = 1.8;
+    ctx.setLineDash([5, 3]);
+    arw(ctx, cx, cy, cx + tx, cy + ty, 8);
+    ctx.setLineDash([]);
+    lbl(ctx, 'T = 2a₁ + a₂', cx + tx + 8, cy + ty + 12, '#34d399', 10, 'left');
+
+    lbl(ctx, 'Lattice translation: any integer combination of a₁, a₂', W / 2, H - 6, '#78716c', 10);
+  }
+
+  // ── 3. Basis and crystal structure ──
+  function drawBasis(cv) {
+    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
+    var sc = 30;
+    var sec = W / 5;
+
+    // --- Lattice (just dots) ---
+    var ox1 = sec * 0.8, oy = H * 0.48;
+    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+    for (var n = -1; n <= 2; n++) for (var m = -1; m <= 2; m++) {
+      var x = ox1 + n * a1x + m * a2x, y = oy + m * a2y;
+      if (x < 0 || x > sec * 1.5 || y < 12 || y > H - 18) continue;
+      dot(ctx, x, y, 4, 'rgba(168,162,158,.6)');
+    }
+    lblB(ctx, 'Lattice', ox1, 14, '#a8a29e', 11);
+
+    // + sign
+    ctx.fillStyle = '#78716c'; ctx.font = 'bold 22px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('+', sec * 1.7, H * 0.45);
+
+    // --- Basis (one or two atoms) ---
+    var ox2 = sec * 2.3;
+    // Show 2-atom basis
+    dot(ctx, ox2, oy - 6, 6, '#ef4444');
+    dot(ctx, ox2, oy - 6 - sc / sqrt3, 6, '#3b82f6');
+    ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ox2, oy - 6); ctx.lineTo(ox2, oy - 6 - sc / sqrt3); ctx.stroke();
+    lbl(ctx, 'A', ox2 + 10, oy - 6, '#ef4444', 10, 'left');
+    lbl(ctx, 'B', ox2 + 10, oy - 6 - sc / sqrt3, '#3b82f6', 10, 'left');
+    lblB(ctx, 'Basis', ox2, 14, '#a8a29e', 11);
+
+    // = sign
+    ctx.fillStyle = '#78716c'; ctx.font = 'bold 22px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('=', sec * 3.1, H * 0.45);
+
+    // --- Crystal (honeycomb) ---
+    var ox3 = sec * 4.0;
+    honeycomb(ctx, ox3, oy, sc, sec * 3.3, W, 12, H - 18, {r: 3.5});
+    lblB(ctx, 'Crystal', ox3, 14, '#fbbf24', 11);
+  }
+
+  // ── 4. Primitive lattice cell ──
+  function drawCells(cv) {
+    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
+    var sc = 30, midX = W / 2;
+
+    // Left: primitive cell tiling
+    var ox = midX * 0.42, oy = H * 0.52;
+    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
+
+    for (var n = -2; n <= 3; n++) for (var m = -1; m <= 3; m++) {
+      var bx = ox + n * a1x + m * a2x, by = oy + m * a2y;
+      var isCtr = (n === 0 && m === 0);
+      ctx.strokeStyle = isCtr ? 'rgba(251,191,36,.7)' : 'rgba(255,255,255,.07)';
+      ctx.lineWidth = isCtr ? 1.5 : 0.8;
+      ctx.beginPath();
+      ctx.moveTo(bx, by); ctx.lineTo(bx + a1x, by);
+      ctx.lineTo(bx + a1x + a2x, by + a2y); ctx.lineTo(bx + a2x, by + a2y);
+      ctx.closePath();
+      if (isCtr) { ctx.fillStyle = 'rgba(251,191,36,.12)'; ctx.fill(); }
+      ctx.stroke();
+    }
+    for (var n = -3; n <= 4; n++) for (var m = -2; m <= 4; m++) {
+      var x = ox + n * a1x + m * a2x, y = oy + m * a2y;
+      if (x < 0 || x > midX - 5 || y < 12 || y > H - 18) continue;
+      dot(ctx, x, y, 2.5, 'rgba(168,162,158,.45)');
+    }
+    lblB(ctx, 'Primitive cell', ox, H - 8, '#fbbf24', 10);
 
     // Right: Wigner-Seitz cell
-    var ox2 = midX * 1.55, oy2 = H / 2;
-    for (var n = -3; n <= 3; n++) for (var m = -2; m <= 3; m++) {
-      var x = ox2 + n * a1x + m * a2x, y = oy2 + n * a1y + m * a2y;
-      if (x < midX + 10 || x > W || y < 5 || y > H - 20) continue;
-      dot(ctx, x, y, 2.8, 'rgba(168,162,158,.5)');
+    var ox2 = midX * 1.55, oy2 = H * 0.52;
+    for (var n = -3; n <= 4; n++) for (var m = -2; m <= 4; m++) {
+      var x = ox2 + n * a1x + m * a2x, y = oy2 + m * a2y;
+      if (x < midX + 5 || x > W || y < 12 || y > H - 18) continue;
+      dot(ctx, x, y, 2.5, 'rgba(168,162,158,.45)');
     }
-    // Hexagonal WS cell
     ctx.beginPath();
     for (var i = 0; i < 6; i++) {
-      var ang = PI / 6 + i * PI / 3;
-      var r = sc / sqrt3;
+      var ang = PI / 6 + i * PI / 3, r = sc / sqrt3;
       var px = ox2 + r * cos(ang), py = oy2 - r * sin(ang);
       if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
     }
     ctx.closePath();
     ctx.fillStyle = 'rgba(52,211,153,.1)'; ctx.fill();
-    ctx.strokeStyle = 'rgba(52,211,153,.7)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.strokeStyle = 'rgba(52,211,153,.65)'; ctx.lineWidth = 1.5; ctx.stroke();
     dot(ctx, ox2, oy2, 4, '#fbbf24');
-    label(ctx, 'Wigner–Seitz cell', ox2, H - 10, '#34d399', 10);
+    lblB(ctx, 'Wigner–Seitz cell', ox2, H - 8, '#34d399', 10);
 
     // Divider
-    ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(midX, 15); ctx.lineTo(midX, H - 22); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(midX, 12); ctx.lineTo(midX, H - 18); ctx.stroke();
     ctx.setLineDash([]);
   }
 
-  // ── Figure 4: Lattice + Basis ──
-  function drawBasis(cv) {
+  // ── 5. 2D lattice types ──
+  function draw2DTypes(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 38, midX = W / 2;
+    var types = [
+      { name: 'Oblique',    a1: [1, 0], a2: [0.4, 0.7], col: '#78716c' },
+      { name: 'Rectangular', a1: [1, 0], a2: [0, 0.7],  col: '#78716c' },
+      { name: 'Square',     a1: [1, 0], a2: [0, 1],     col: '#78716c' },
+      { name: 'Centered\nrect.', a1: [1, 0], a2: [0, 0.7], centered: true, col: '#78716c' },
+      { name: 'Hexagonal',  a1: [1, 0], a2: [0.5, 0.866], col: '#fbbf24' }
+    ];
+    var cols = 5, sp = W / cols;
+    var sc = 18;
 
-    // Left: 1-atom basis
-    var ox = midX * 0.35, oy = H * 0.45;
-    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
-    for (var n = -2; n <= 2; n++) for (var m = -1; m <= 2; m++) {
-      var x = ox + n * a1x + m * a2x, y = oy + m * a2y;
-      if (x < 0 || x > midX - 10 || y < 10 || y > H - 28) continue;
-      dot(ctx, x, y, 4.5, 'rgba(59,130,246,.7)');
+    for (var t = 0; t < types.length; t++) {
+      var tp = types[t];
+      var ox = sp * (t + 0.5), oy = H * 0.52;
+      var a1x = tp.a1[0] * sc, a1y = -tp.a1[1] * sc;
+      var a2x = tp.a2[0] * sc, a2y = -tp.a2[1] * sc;
+
+      for (var n = -2; n <= 2; n++) for (var m = -2; m <= 2; m++) {
+        var x = ox + n * a1x + m * a2x, y = oy + n * a1y + m * a2y;
+        if (x < sp * t + 2 || x > sp * (t + 1) - 2 || y < 26 || y > H - 20) continue;
+        dot(ctx, x, y, 2.2, 'rgba(168,162,158,.5)');
+        if (tp.centered) {
+          var cx2 = x + (a1x + a2x) / 2, cy2 = y + (a1y + a2y) / 2;
+          if (cx2 > sp * t + 2 && cx2 < sp * (t + 1) - 2 && cy2 > 26 && cy2 < H - 20)
+            dot(ctx, cx2, cy2, 2.2, 'rgba(168,162,158,.5)');
+        }
+      }
+
+      // Cell outline
+      ctx.strokeStyle = t === 4 ? 'rgba(251,191,36,.5)' : 'rgba(255,255,255,.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(ox, oy); ctx.lineTo(ox + a1x, oy + a1y);
+      ctx.lineTo(ox + a1x + a2x, oy + a1y + a2y);
+      ctx.lineTo(ox + a2x, oy + a2y); ctx.closePath(); ctx.stroke();
+
+      // Name
+      var isHex = (t === 4);
+      var lines = tp.name.split('\n');
+      for (var li = 0; li < lines.length; li++)
+        lbl(ctx, lines[li], ox, H - 14 + (li - lines.length + 1) * 12,
+            isHex ? '#fbbf24' : '#78716c', isHex ? 10 : 9);
+      if (isHex) lbl(ctx, '← graphene', ox, 14, '#fbbf24', 9);
     }
-    label(ctx, '1-atom basis', ox, H - 10, '#78716c', 10);
-
-    // = sign
-    ctx.fillStyle = '#78716c'; ctx.font = 'bold 18px sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('+', midX, H * 0.32);
-
-    // Right: 2-atom basis → honeycomb
-    var ox2 = midX * 1.6, oy2 = H * 0.45;
-    var dy = sc / sqrt3;
-    for (var n = -2; n <= 2; n++) for (var m = -1; m <= 2; m++) {
-      var x = ox2 + n * a1x + m * a2x, y = oy2 + m * a2y;
-      if (x < midX + 10 || x > W || y < 10 || y > H - 28) continue;
-      dot(ctx, x, y, 4.5, '#ef4444');
-      dot(ctx, x, y - dy, 4.5, '#3b82f6');
-      // bond
-      ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - dy); ctx.stroke();
-    }
-    label(ctx, '2-atom basis → honeycomb', ox2, H - 10, '#78716c', 10);
-
-    // Annotations
-    label(ctx, 'Lattice points', ox, 14, '#3b82f6', 10);
-    label(ctx, 'A + B atoms at each point', ox2, 14, '#a8a29e', 10);
-
-    ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(midX, 15); ctx.lineTo(midX, H - 22); ctx.stroke();
-    ctx.setLineDash([]);
   }
 
-  // ── Figure 5: Honeycomb ≠ Bravais ──
-  function drawHoneycombNotBravais(cv) {
+  // ── 6. Graphene: honeycomb ──
+  function drawGraphene(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 28, midX = W / 2;
+    var sc = 28, cx = W * 0.45, cy = H * 0.50;
     var d1y = sc / sqrt3;
     var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
-    var bonds = [[0, -d1y], [-0.5 * sc, 0.5 * d1y], [0.5 * sc, 0.5 * d1y]];
-    var bondsB = [[0, d1y], [-0.5 * sc, -0.5 * d1y], [0.5 * sc, -0.5 * d1y]];
 
-    // Left: A site highlighted
-    var ox = midX * 0.38, oy = H * 0.5;
-    for (var n = -3; n <= 3; n++) for (var m = -2; m <= 3; m++) {
-      var ax = ox + n * a1x + m * a2x, ay = oy + m * a2y;
-      var bx = ax, by = ay - d1y;
-      if (ax < -5 || ax > midX - 5 || ay < 5 || ay > H - 22) continue;
-      // bonds
-      ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
-      for (var di = 0; di < 3; di++) {
-        var nx = ax + bonds[di][0], ny = ay + bonds[di][1];
-        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(nx, ny); ctx.stroke();
-      }
-      dot(ctx, ax, ay, 3, 'rgba(239,68,68,.4)');
-      if (by > 5 && by < H - 22) dot(ctx, bx, by, 3, 'rgba(59,130,246,.4)');
-    }
-    // Highlight one A
-    var hx = ox, hy = oy;
-    dot(ctx, hx, hy, 6, '#ef4444');
-    for (var di = 0; di < 3; di++) {
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5;
-      var nx = hx + bonds[di][0], ny = hy + bonds[di][1];
-      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(nx, ny); ctx.stroke();
-      dot(ctx, nx, ny, 4, '#3b82f6');
-    }
-    label(ctx, 'A site: neighbors ↗ ↘ ↓', midX * 0.38, H - 8, '#ef4444', 10);
+    honeycomb(ctx, cx, cy, sc, 0, W, 8, H - 8, { r: 3 });
 
-    // Right: B site highlighted
-    var ox2 = midX * 1.6, oy2 = H * 0.5;
-    for (var n = -3; n <= 3; n++) for (var m = -2; m <= 3; m++) {
-      var ax = ox2 + n * a1x + m * a2x, ay = oy2 + m * a2y;
-      var bx = ax, by = ay - d1y;
-      if (ax < midX + 5 || ax > W + 5 || ay < 5 || ay > H - 22) continue;
-      ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
-      for (var di = 0; di < 3; di++) {
-        var nx = ax + bonds[di][0], ny = ay + bonds[di][1];
-        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(nx, ny); ctx.stroke();
-      }
-      dot(ctx, ax, ay, 3, 'rgba(239,68,68,.4)');
-      if (by > 5 && by < H - 22) dot(ctx, bx, by, 3, 'rgba(59,130,246,.4)');
-    }
-    // Highlight one B
-    var hbx = ox2, hby = oy2 - d1y;
-    dot(ctx, hbx, hby, 6, '#3b82f6');
-    for (var di = 0; di < 3; di++) {
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5;
-      var nx = hbx + bondsB[di][0], ny = hby + bondsB[di][1];
-      ctx.beginPath(); ctx.moveTo(hbx, hby); ctx.lineTo(nx, ny); ctx.stroke();
-      dot(ctx, nx, ny, 4, '#ef4444');
-    }
-    label(ctx, 'B site: neighbors ↖ ↙ ↑', midX * 1.6, H - 8, '#3b82f6', 10);
+    // Highlight A/B in one cell
+    dot(ctx, cx, cy, 5.5, '#ef4444');
+    dot(ctx, cx, cy - d1y, 5.5, '#3b82f6');
+    lblB(ctx, 'A', cx - 10, cy + 4, '#ef4444', 12, 'right');
+    lblB(ctx, 'B', cx - 10, cy - d1y, '#3b82f6', 12, 'right');
 
-    // Divider
-    ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(midX, 15); ctx.lineTo(midX, H - 20); ctx.stroke();
-    ctx.setLineDash([]);
-
-    label(ctx, '≠ Rotated 180°', midX, 14, '#fbbf24', 10);
-  }
-
-  // ── Figure 6: Graphene lattice with vectors ──
-  function drawGrapheneLattice(cv) {
-    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var sc = 30, cx = W / 2, cy = H * 0.48;
-    var d1y = sc / sqrt3;
-    var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
-    var bonds = [[0, -d1y], [-0.5 * sc, 0.5 * d1y], [0.5 * sc, 0.5 * d1y]];
-
-    // Draw honeycomb
-    for (var n = -5; n <= 5; n++) for (var m = -3; m <= 4; m++) {
-      var ax = cx + n * a1x + m * a2x, ay = cy + m * a2y;
-      if (ax < -5 || ax > W + 5 || ay < 5 || ay > H - 18) continue;
-      ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
-      for (var di = 0; di < 3; di++) {
-        var bx = ax + bonds[di][0], by = ay + bonds[di][1];
-        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
-      }
-      dot(ctx, ax, ay, 3, 'rgba(239,68,68,.5)');
-      var bx2 = ax, by2 = ay - d1y;
-      if (by2 > 5 && by2 < H - 18) dot(ctx, bx2, by2, 3, 'rgba(59,130,246,.5)');
-    }
-
-    // Unit cell parallelogram
-    var ux = cx, uy = cy;
+    // Unit cell
     ctx.beginPath();
-    ctx.moveTo(ux, uy);
-    ctx.lineTo(ux + a1x, uy);
-    ctx.lineTo(ux + a1x + a2x, uy + a2y);
-    ctx.lineTo(ux + a2x, uy + a2y);
+    ctx.moveTo(cx, cy); ctx.lineTo(cx + a1x, cy);
+    ctx.lineTo(cx + a1x + a2x, cy + a2y); ctx.lineTo(cx + a2x, cy + a2y);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(251,191,36,.1)'; ctx.fill();
-    ctx.strokeStyle = 'rgba(251,191,36,.6)'; ctx.lineWidth = 1.5;
+    ctx.fillStyle = 'rgba(251,191,36,.08)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(251,191,36,.55)'; ctx.lineWidth = 1.4;
     ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
 
-    // Highlight A, B in unit cell
-    dot(ctx, ux, uy, 5, '#ef4444');
-    dot(ctx, ux, uy - d1y, 5, '#3b82f6');
-    label(ctx, 'A', ux + 8, uy + 5, '#ef4444', 11, 'left');
-    label(ctx, 'B', ux + 8, uy - d1y, '#3b82f6', 11, 'left');
-
-    // a1, a2 arrows
+    // a1, a2
     ctx.strokeStyle = '#34d399'; ctx.fillStyle = '#34d399'; ctx.lineWidth = 2;
-    arrow(ctx, ux, uy, ux + a1x * 0.92, uy, 8);
-    label(ctx, 'a₁', ux + a1x / 2, uy + 14, '#34d399', 12);
+    arw(ctx, cx, cy, cx + a1x * 0.9, cy, 7);
+    lblB(ctx, 'a₁', cx + a1x / 2, cy + 13, '#34d399', 11);
 
     ctx.strokeStyle = '#c084fc'; ctx.fillStyle = '#c084fc'; ctx.lineWidth = 2;
-    arrow(ctx, ux, uy, ux + a2x * 0.92, uy + a2y * 0.92, 8);
-    label(ctx, 'a₂', ux + a2x - 16, uy + a2y / 2, '#c084fc', 12);
+    arw(ctx, cx, cy, cx + a2x * 0.9, cy + a2y * 0.9, 7);
+    lblB(ctx, 'a₂', cx + a2x - 14, cy + a2y / 2 - 3, '#c084fc', 11);
+
+    // Right side: show A vs B neighbors
+    var rx = W * 0.82, ry1 = H * 0.28, ry2 = H * 0.72;
+    var nb = sc * 0.55;
+    // A site neighbors
+    dot(ctx, rx, ry1, 5, '#ef4444');
+    var aDirs = [[0, -1], [-sqrt3/2, 0.5], [sqrt3/2, 0.5]];
+    for (var i = 0; i < 3; i++) {
+      var nx = rx + aDirs[i][0] * nb, ny = ry1 + aDirs[i][1] * nb;
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(rx, ry1); ctx.lineTo(nx, ny); ctx.stroke();
+      dot(ctx, nx, ny, 3.5, '#3b82f6');
+    }
+    lbl(ctx, 'A site', rx, ry1 + nb + 10, '#ef4444', 9);
+
+    // B site neighbors (rotated 180°)
+    dot(ctx, rx, ry2, 5, '#3b82f6');
+    var bDirs = [[0, 1], [-sqrt3/2, -0.5], [sqrt3/2, -0.5]];
+    for (var i = 0; i < 3; i++) {
+      var nx = rx + bDirs[i][0] * nb, ny = ry2 + bDirs[i][1] * nb;
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(rx, ry2); ctx.lineTo(nx, ny); ctx.stroke();
+      dot(ctx, nx, ny, 3.5, '#ef4444');
+    }
+    lbl(ctx, 'B site', rx, ry2 - nb - 10, '#3b82f6', 9);
+
+    // ≠ between them
+    lbl(ctx, '≠', rx, (ry1 + ry2) / 2, '#fbbf24', 14);
   }
 
-  // ── Figure 7: Real → Reciprocal ──
+  // ── 7. Reciprocal lattice ──
   function drawReciprocal(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
     var midX = W / 2;
 
-    // Left: real-space lattice (triangular)
-    var sc = 24, ox = midX * 0.38, oy = H / 2;
+    // Left: real lattice
+    var sc = 22, ox = midX * 0.38, oy = H / 2;
     var a1x = sc, a2x = 0.5 * sc, a2y = -sqrt3 / 2 * sc;
     for (var n = -3; n <= 3; n++) for (var m = -2; m <= 3; m++) {
       var x = ox + n * a1x + m * a2x, y = oy + m * a2y;
-      if (x < 0 || x > midX - 10 || y < 10 || y > H - 22) continue;
-      dot(ctx, x, y, 2.5, 'rgba(168,162,158,.45)');
+      if (x < 0 || x > midX - 10 || y < 12 || y > H - 18) continue;
+      dot(ctx, x, y, 2.3, 'rgba(168,162,158,.4)');
     }
     ctx.strokeStyle = '#34d399'; ctx.fillStyle = '#34d399'; ctx.lineWidth = 1.8;
-    arrow(ctx, ox, oy, ox + a1x, oy, 7);
+    arw(ctx, ox, oy, ox + a1x, oy, 6);
     ctx.strokeStyle = '#c084fc'; ctx.fillStyle = '#c084fc';
-    arrow(ctx, ox, oy, ox + a2x, oy + a2y, 7);
-    label(ctx, 'Real space', ox, H - 8, '#78716c', 10);
-    label(ctx, 'a₁', ox + a1x + 6, oy + 10, '#34d399', 10, 'left');
-    label(ctx, 'a₂', ox + a2x - 12, oy + a2y - 5, '#c084fc', 10);
+    arw(ctx, ox, oy, ox + a2x, oy + a2y, 6);
+    lblB(ctx, 'a₁', ox + a1x + 5, oy + 9, '#34d399', 10, 'left');
+    lblB(ctx, 'a₂', ox + a2x - 10, oy + a2y - 5, '#c084fc', 10);
+    lbl(ctx, 'Real space', ox, H - 6, '#78716c', 9);
 
-    // Arrow in the middle
-    ctx.fillStyle = '#78716c'; ctx.font = '16px sans-serif';
+    // Arrow
+    ctx.fillStyle = '#78716c'; ctx.font = '15px sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('⟶', midX, H / 2);
-    label(ctx, 'Fourier', midX, H / 2 - 14, '#78716c', 9);
+    lbl(ctx, 'aᵢ·bⱼ = 2πδᵢⱼ', midX, H / 2 - 14, '#78716c', 9);
 
-    // Right: reciprocal lattice (also triangular, rotated 30°)
-    var sc2 = 28, ox2 = midX * 1.6, oy2 = H / 2;
+    // Right: reciprocal lattice (rotated 30°)
+    var sc2 = 26, ox2 = midX * 1.6, oy2 = H / 2;
     var b1x = sc2, b1y = sc2 / sqrt3;
     var b2x = 0, b2y = -2 * sc2 / sqrt3;
     for (var n = -3; n <= 3; n++) for (var m = -3; m <= 3; m++) {
       var x = ox2 + n * b1x + m * b2x, y = oy2 - n * b1y + m * b2y;
-      if (x < midX + 10 || x > W || y < 10 || y > H - 22) continue;
-      dot(ctx, x, y, 2.5, 'rgba(168,162,158,.45)');
+      if (x < midX + 5 || x > W || y < 12 || y > H - 18) continue;
+      dot(ctx, x, y, 2.3, 'rgba(168,162,158,.4)');
     }
     ctx.strokeStyle = '#fb923c'; ctx.fillStyle = '#fb923c'; ctx.lineWidth = 1.8;
-    arrow(ctx, ox2, oy2, ox2 + b1x, oy2 - b1y, 7);
+    arw(ctx, ox2, oy2, ox2 + b1x, oy2 - b1y, 6);
     ctx.strokeStyle = '#60a5fa'; ctx.fillStyle = '#60a5fa';
-    arrow(ctx, ox2, oy2, ox2 + b2x, oy2 + b2y, 7);
-    label(ctx, 'Reciprocal space', ox2, H - 8, '#78716c', 10);
-    label(ctx, 'b₁', ox2 + b1x + 6, oy2 - b1y + 2, '#fb923c', 10, 'left');
-    label(ctx, 'b₂', ox2 + b2x + 8, oy2 + b2y / 2, '#60a5fa', 10, 'left');
+    arw(ctx, ox2, oy2, ox2 + b2x, oy2 + b2y, 6);
+    lblB(ctx, 'b₁', ox2 + b1x + 5, oy2 - b1y, '#fb923c', 10, 'left');
+    lblB(ctx, 'b₂', ox2 + b2x + 8, oy2 + b2y / 2, '#60a5fa', 10, 'left');
+    lbl(ctx, 'Reciprocal space', ox2, H - 6, '#78716c', 9);
 
-    ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(midX, 15); ctx.lineTo(midX, H - 20); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(midX, 12); ctx.lineTo(midX, H - 16); ctx.stroke();
     ctx.setLineDash([]);
   }
 
-  // ── Figure 8: Brillouin zone ──
+  // ── 8. Brillouin zone ──
   function drawBZ(cv) {
     var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var cx = W / 2, cy = H * 0.48;
-    var R = Math.min(W, H) * 0.34;
+    var cx = W * 0.38, cy = H * 0.48;
+    var R = Math.min(W * 0.3, H * 0.36);
 
     // BZ hexagon
     ctx.beginPath();
@@ -388,132 +422,71 @@
     ctx.fillStyle = 'rgba(251,191,36,.06)'; ctx.fill();
     ctx.strokeStyle = 'rgba(251,191,36,.5)'; ctx.lineWidth = 1.5; ctx.stroke();
 
-    // High-symmetry points
     // Γ
     dot(ctx, cx, cy, 4, '#fbbf24');
-    label(ctx, 'Γ', cx - 10, cy + 12, '#fbbf24', 13);
+    lblB(ctx, 'Γ', cx - 10, cy + 10, '#fbbf24', 13);
 
-    // K points (corners at 0°, 120°, 240°)
+    // K/K' corners
     for (var i = 0; i < 6; i++) {
       var ang = i * PI / 3;
       var kx = cx + R * cos(ang), ky = cy - R * sin(ang);
       dot(ctx, kx, ky, 4, i % 2 === 0 ? '#ef4444' : '#3b82f6');
     }
-    // Label just two
-    label(ctx, 'K', cx + R + 8, cy + 2, '#ef4444', 13, 'left');
-    label(ctx, 'K\'', cx + R * cos(PI / 3) - 3, cy - R * sin(PI / 3) - 10, '#3b82f6', 13);
+    lblB(ctx, 'K', cx + R + 8, cy + 2, '#ef4444', 12, 'left');
+    lblB(ctx, 'K\'', cx + R * cos(PI / 3) + 6, cy - R * sin(PI / 3) - 8, '#3b82f6', 12, 'left');
 
-    // M points (edge midpoints)
-    for (var i = 0; i < 6; i++) {
-      var ang1 = i * PI / 3, ang2 = (i + 1) * PI / 3;
-      var mx = cx + R * (cos(ang1) + cos(ang2)) / 2;
-      var my = cy - R * (sin(ang1) + sin(ang2)) / 2;
-      dot(ctx, mx, my, 3, '#78716c');
-    }
-    label(ctx, 'M', cx + R * (cos(0) + cos(PI / 3)) / 2 + 8,
-          cy - R * (sin(0) + sin(PI / 3)) / 2 - 4, '#78716c', 11, 'left');
-
-    // Path Γ→M→K→Γ
-    var Kx = cx + R, Ky = cy;
+    // M
     var Mx = cx + R * (cos(0) + cos(PI / 3)) / 2;
     var My = cy - R * (sin(0) + sin(PI / 3)) / 2;
-    ctx.strokeStyle = 'rgba(52,211,153,.5)'; ctx.lineWidth = 1.8;
+    dot(ctx, Mx, My, 3.5, '#78716c');
+    lbl(ctx, 'M', Mx + 8, My - 6, '#78716c', 11, 'left');
+
+    // Γ→M→K→Γ path
+    var Kx = cx + R, Ky = cy;
+    ctx.strokeStyle = 'rgba(52,211,153,.45)'; ctx.lineWidth = 1.6;
     ctx.setLineDash([5, 3]);
-    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(Mx, My); ctx.lineTo(Kx, Ky); ctx.lineTo(cx, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(Mx, My);
+    ctx.lineTo(Kx, Ky); ctx.lineTo(cx, cy); ctx.stroke();
     ctx.setLineDash([]);
-    label(ctx, 'Γ→M→K→Γ path', W / 2, H - 8, '#34d399', 10);
-  }
+    lbl(ctx, 'Γ→M→K→Γ', cx, H - 8, '#34d399', 10);
 
-  // ── Figure 9: Dirac points / cones ──
-  function drawDiracPoints(cv) {
-    var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
-    var cx = W / 2, cy = H * 0.5;
+    // Right: zoomed Dirac cone
+    var ccx = W * 0.78, ccy = cy;
+    var cH = H * 0.3, cW = W * 0.12;
 
-    // Draw small BZ
-    var R = Math.min(W, H) * 0.25;
-    var bzCx = W * 0.28, bzCy = cy;
-    ctx.beginPath();
-    for (var i = 0; i < 6; i++) {
-      var ang = i * PI / 3;
-      var px = bzCx + R * cos(ang), py = bzCy - R * sin(ang);
-      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-    }
-    ctx.closePath();
-    ctx.strokeStyle = 'rgba(251,191,36,.35)'; ctx.lineWidth = 1.2; ctx.stroke();
-
-    // K/K' with cones
-    for (var i = 0; i < 6; i++) {
-      var ang = i * PI / 3;
-      var kx = bzCx + R * cos(ang), ky = bzCy - R * sin(ang);
-      var isK = (i % 2 === 0);
-      var col = isK ? '#ef4444' : '#3b82f6';
-
-      // Tiny cone
-      var cs = 12;
-      ctx.beginPath();
-      ctx.moveTo(kx, ky - cs); ctx.lineTo(kx - cs * 0.6, ky); ctx.lineTo(kx + cs * 0.6, ky);
-      ctx.closePath();
-      ctx.fillStyle = isK ? 'rgba(239,68,68,.25)' : 'rgba(59,130,246,.25)'; ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(kx, ky + cs); ctx.lineTo(kx - cs * 0.6, ky); ctx.lineTo(kx + cs * 0.6, ky);
-      ctx.closePath();
-      ctx.fillStyle = isK ? 'rgba(239,68,68,.15)' : 'rgba(59,130,246,.15)'; ctx.fill();
-      dot(ctx, kx, ky, 3, col);
-    }
-    label(ctx, 'K', bzCx + R + 10, bzCy, '#ef4444', 11, 'left');
-    label(ctx, 'K\'', bzCx + R * cos(PI / 3) + 8, bzCy - R * sin(PI / 3) - 2, '#3b82f6', 11, 'left');
-
-    // Right: zoomed cone
-    var ccx = W * 0.7, ccy = cy;
-    var coneH = H * 0.32, coneW = W * 0.16;
-
-    // Upper cone (conduction)
-    ctx.beginPath();
-    ctx.moveTo(ccx, ccy);
-    ctx.lineTo(ccx - coneW, ccy - coneH);
-    ctx.lineTo(ccx + coneW, ccy - coneH);
-    ctx.closePath();
-    var g1 = ctx.createLinearGradient(ccx, ccy, ccx, ccy - coneH);
-    g1.addColorStop(0, 'rgba(239,68,68,.5)'); g1.addColorStop(1, 'rgba(239,68,68,.08)');
+    // Cones
+    var g1 = ctx.createLinearGradient(ccx, ccy, ccx, ccy - cH);
+    g1.addColorStop(0, 'rgba(239,68,68,.45)'); g1.addColorStop(1, 'rgba(239,68,68,.05)');
+    ctx.beginPath(); ctx.moveTo(ccx, ccy); ctx.lineTo(ccx - cW, ccy - cH); ctx.lineTo(ccx + cW, ccy - cH); ctx.closePath();
     ctx.fillStyle = g1; ctx.fill();
 
-    // Lower cone (valence)
-    ctx.beginPath();
-    ctx.moveTo(ccx, ccy);
-    ctx.lineTo(ccx - coneW, ccy + coneH);
-    ctx.lineTo(ccx + coneW, ccy + coneH);
-    ctx.closePath();
-    var g2 = ctx.createLinearGradient(ccx, ccy, ccx, ccy + coneH);
-    g2.addColorStop(0, 'rgba(59,130,246,.5)'); g2.addColorStop(1, 'rgba(59,130,246,.08)');
+    var g2 = ctx.createLinearGradient(ccx, ccy, ccx, ccy + cH);
+    g2.addColorStop(0, 'rgba(59,130,246,.45)'); g2.addColorStop(1, 'rgba(59,130,246,.05)');
+    ctx.beginPath(); ctx.moveTo(ccx, ccy); ctx.lineTo(ccx - cW, ccy + cH); ctx.lineTo(ccx + cW, ccy + cH); ctx.closePath();
     ctx.fillStyle = g2; ctx.fill();
 
-    // Touching point
-    dot(ctx, ccx, ccy, 4, '#fbbf24');
+    dot(ctx, ccx, ccy, 3.5, '#fbbf24');
+    lbl(ctx, 'E = 0', ccx + 8, ccy - 8, '#fbbf24', 9, 'left');
+    lbl(ctx, 'π*', ccx + cW + 4, ccy - cH * 0.5, '#ef4444', 9, 'left');
+    lbl(ctx, 'π', ccx + cW + 4, ccy + cH * 0.5, '#3b82f6', 9, 'left');
+    lbl(ctx, 'Dirac cone at K', ccx, H - 8, '#a8a29e', 10);
 
-    // Labels
-    label(ctx, 'E', ccx - coneW - 12, ccy - coneH / 2, '#a8a29e', 11);
-    label(ctx, 'π* (conduction)', ccx + coneW + 4, ccy - coneH * 0.5, '#ef4444', 9, 'left');
-    label(ctx, 'π (valence)', ccx + coneW + 4, ccy + coneH * 0.5, '#3b82f6', 9, 'left');
-    label(ctx, 'E = 0', ccx + 10, ccy - 8, '#fbbf24', 10, 'left');
-    label(ctx, 'E = ±ℏvF|q|', ccx, H - 8, '#a8a29e', 10);
-
-    // "zoom" arrow
-    ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1;
+    // zoom line
+    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
     ctx.setLineDash([3, 3]);
-    ctx.beginPath(); ctx.moveTo(bzCx + R + 16, bzCy); ctx.lineTo(ccx - coneW - 8, ccy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(Kx + 6, Ky); ctx.lineTo(ccx - cW - 6, ccy); ctx.stroke();
     ctx.setLineDash([]);
   }
 
   var figMap = {
-    'fig-crystal-vs-amorphous': drawCrystalVsAmorphous,
-    'fig-bravais': drawBravais,
-    'fig-unitcell': drawUnitcell,
+    'fig-periodic': drawPeriodic,
+    'fig-translation': drawTranslation,
     'fig-basis': drawBasis,
-    'fig-honeycomb-not-bravais': drawHoneycombNotBravais,
-    'fig-graphene-lattice': drawGrapheneLattice,
+    'fig-cells': drawCells,
+    'fig-2d-types': draw2DTypes,
+    'fig-graphene': drawGraphene,
     'fig-reciprocal': drawReciprocal,
-    'fig-bz': drawBZ,
-    'fig-dirac-points': drawDiracPoints
+    'fig-bz': drawBZ
   };
 
   function drawAll() {
@@ -526,16 +499,13 @@
     });
   }
 
-  // Draw when panel opens (canvases need to be visible for sizing)
   var panel = document.getElementById('crystal-panel');
   if (panel) {
     var obs = new MutationObserver(function () {
-      if (panel.classList.contains('open')) {
+      if (panel.classList.contains('open'))
         requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
-      }
     });
     obs.observe(panel, { attributes: true, attributeFilter: ['class'] });
   }
-  // Also on resize
   window.addEventListener('resize', function () { drawn = {}; drawAll(); });
 })();
