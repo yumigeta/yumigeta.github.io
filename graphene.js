@@ -897,16 +897,17 @@
       }
       levArr.sort(function(a,b){ return a.w - b.w; });
       var levels = levArr.map(function(d){ return d.w; });
-      // For zigzag, proper edges require even level count (B-A pairs);
-      // round up odd N so both edges have coordination 2.
-      var Neff = (isZig && N % 2 === 1) ? N + 1 : N;
-      Neff = min(Neff, levels.length);
+      // For zigzag N counts zigzag chains (2 levels/chain); for armchair
+      // N counts dimer lines (1 level each).  Always select B-A pairs so
+      // both edges have proper coordination-2 zigzag/armchair termination.
+      var Nlev = isZig ? 2 * N : N;
+      Nlev = min(Nlev, levels.length);
       var ci = 0, bd = Infinity;
       for (var i = 0; i < levels.length; i++)
         if (abs(levels[i]) < bd) { bd = abs(levels[i]); ci = i; }
-      var st = max(0, min(levels.length - Neff, ci - ((Neff/2)|0)));
-      if (isZig && st + 1 <= levels.length - Neff && levArr[st].sub === 0) st++;
-      var wmin = levels[st], wmax = levels[st + Neff - 1], wmid = (wmin+wmax)/2;
+      var st = max(0, min(levels.length - Nlev, ci - ((Nlev/2)|0)));
+      if (isZig && st + 1 <= levels.length - Nlev && levArr[st].sub === 0) st++;
+      var wmin = levels[st], wmax = levels[st + Nlev - 1], wmid = (wmin+wmax)/2;
       function inBand(x, y) { var v = wc(x, y); return v >= wmin-0.01 && v <= wmax+0.01; }
 
       // scale: fit the N-wide strip into ~74% of the smaller screen dimension
@@ -1511,12 +1512,20 @@
           'k between 2π/3 and Z — so they are always metallic (this needs the hard-wall edges, ' +
           'invisible to zone-folding).'
         : ' Armchair ribbons are metallic only when <b>N = 3m+2</b>; the gap closes at Γ.';
-      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + N + ': ' + tag + detail;
+      var Ndesc = isZig ? N + ' chains' : N;
+      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + Ndesc + ': ' + tag + detail;
     }
 
+    function setSliderRange(isZig) {
+      if (isZig) { wSlider.min = 2; wSlider.max = 10; }
+      else       { wSlider.min = 3; wSlider.max = 20; }
+      var v = +wSlider.value;
+      if (v < +wSlider.min) wSlider.value = wSlider.min;
+      if (v > +wSlider.max) wSlider.value = wSlider.max;
+    }
     wSlider.addEventListener('input', update);
-    btnZ.addEventListener('click', function () { curTheta = 0;  update(); });
-    btnA.addEventListener('click', function () { curTheta = 30; update(); });
+    btnZ.addEventListener('click', function () { curTheta = 0;  setSliderRange(true);  update(); });
+    btnA.addEventListener('click', function () { curTheta = 30; setSliderRange(false); update(); });
     function stepWidth(d) {
       var v = max(+wSlider.min, min(+wSlider.max, (+wSlider.value) + d));
       wSlider.value = v; update();
@@ -1524,6 +1533,7 @@
     btnWDec.addEventListener('click', function () { stepWidth(-1); });
     btnWInc.addEventListener('click', function () { stepWidth(+1); });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
+    setSliderRange(curTheta === 0);
     update();
     requestAnimationFrame(cutFrame);
   })();
