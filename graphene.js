@@ -975,23 +975,51 @@
       ctx.globalAlpha = 1;
 
       // Missing atoms (hard-wall BC sites) — drawn as × marks beyond each edge
+      // with dashed bonds connecting them to the physical edge atoms
       var missLevels = [];
       if (missLo !== null) missLevels.push(missLo);
       if (missHi !== null) missLevels.push(missHi);
+      function isMissing(x, y) {
+        if (abs(lc(x, y)) > lmax) return false;
+        var wv = wc(x, y);
+        for (var mi = 0; mi < missLevels.length; mi++)
+          if (abs(wv - missLevels[mi]) < 0.01) return true;
+        return false;
+      }
       if (missLevels.length > 0) {
         var xsz = max(2.5, rr * 0.7);
+        // dashed bonds from edge atoms to missing sites
+        ctx.setLineDash([max(2, sc*0.06), max(2, sc*0.06)]);
+        ctx.lineWidth = bw; ctx.lineCap = 'round';
+        for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
+          var px = n + m*0.5, py = m*sqrt3/2;
+          var msubs = [[px, py, 0], [px, py + d1y, 1]];
+          for (var s = 0; s < 2; s++) {
+            var x = msubs[s][0], y = msubs[s][1], sub = msubs[s][2];
+            if (!isMissing(x, y)) continue;
+            var fa = dim * fade(lc(x, y));
+            if (fa <= 0.01) continue;
+            var pM = S(x, y);
+            var dirs = sub === 0 ? bondDirs : [[0, -d1y], [-0.5, 0.5*d1y], [0.5, 0.5*d1y]];
+            for (var di = 0; di < 3; di++) {
+              var bx = x + dirs[di][0], by = y + dirs[di][1];
+              if (!vis(bx, by)) continue;
+              var pE = S(bx, by);
+              ctx.globalAlpha = 0.3 * fa;
+              ctx.strokeStyle = '#a8a29e';
+              ctx.beginPath(); ctx.moveTo(pM[0], pM[1]); ctx.lineTo(pE[0], pE[1]); ctx.stroke();
+            }
+          }
+        }
+        ctx.setLineDash([]);
+        // × marks
         ctx.lineWidth = max(1.2, xsz * 0.45); ctx.lineCap = 'round';
         for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
           var px = n + m*0.5, py = m*sqrt3/2;
           var msubs = [[px, py], [px, py + d1y]];
           for (var s = 0; s < 2; s++) {
             var x = msubs[s][0], y = msubs[s][1];
-            if (abs(lc(x, y)) > lmax) continue;
-            var wv = wc(x, y);
-            var isMiss = false;
-            for (var mi = 0; mi < missLevels.length; mi++)
-              if (abs(wv - missLevels[mi]) < 0.01) { isMiss = true; break; }
-            if (!isMiss) continue;
+            if (!isMissing(x, y)) continue;
             var fa = dim * fade(lc(x, y));
             if (fa <= 0.01) continue;
             var p = S(x, y);
