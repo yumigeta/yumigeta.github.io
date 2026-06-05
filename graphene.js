@@ -897,12 +897,16 @@
       }
       levArr.sort(function(a,b){ return a.w - b.w; });
       var levels = levArr.map(function(d){ return d.w; });
+      // For zigzag, proper edges require even level count (B-A pairs);
+      // round up odd N so both edges have coordination 2.
+      var Neff = (isZig && N % 2 === 1) ? N + 1 : N;
+      Neff = min(Neff, levels.length);
       var ci = 0, bd = Infinity;
       for (var i = 0; i < levels.length; i++)
         if (abs(levels[i]) < bd) { bd = abs(levels[i]); ci = i; }
-      var st = max(0, min(levels.length - N, ci - ((N/2)|0)));
-      if (isZig && st + 1 <= levels.length - N && levArr[st].sub === 0) st++;
-      var wmin = levels[st], wmax = levels[st + N - 1], wmid = (wmin+wmax)/2;
+      var st = max(0, min(levels.length - Neff, ci - ((Neff/2)|0)));
+      if (isZig && st + 1 <= levels.length - Neff && levArr[st].sub === 0) st++;
+      var wmin = levels[st], wmax = levels[st + Neff - 1], wmid = (wmin+wmax)/2;
       function inBand(x, y) { var v = wc(x, y); return v >= wmin-0.01 && v <= wmax+0.01; }
 
       // scale: fit the N-wide strip into ~74% of the smaller screen dimension
