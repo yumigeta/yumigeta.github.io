@@ -174,21 +174,20 @@
       </p>
     </div>
     <div class="demo-stage">
-      <div class="controls">
-        <div class="control">
-          <label>Edge orientation <span class="val" id="v-angle">armchair · θ = 30°</span></label>
-          <div class="btn-row">
-            <button class="demo-btn" id="btn-zigzag">Zigzag · 0°</button>
-            <button class="demo-btn active" id="btn-armchair">Armchair · 30°</button>
+      <div class="gnr-controls">
+        <div class="ctl-inline">
+          <span class="ctl-label">Edge</span>
+          <div class="segmented">
+            <button class="seg" id="btn-zigzag">Zigzag <span class="seg-sub">0°</span></button>
+            <button class="seg active" id="btn-armchair">Armchair <span class="seg-sub">30°</span></button>
           </div>
         </div>
-        <div class="control">
-          <label>Ribbon width <em>N</em> <span class="val" id="v-width">12</span></label>
+        <div class="ctl-inline">
+          <span class="ctl-label">Width&nbsp;<em>N</em></span>
+          <button class="stepper" id="btn-width-dec" aria-label="decrease width">&minus;</button>
           <input type="range" id="ctrl-width" min="4" max="30" step="1" value="12">
-          <div class="btn-row" id="width-btns">
-            <button class="demo-btn" id="btn-width-dec" aria-label="decrease width">&minus;&thinsp;1</button>
-            <button class="demo-btn" id="btn-width-inc" aria-label="increase width">+&thinsp;1</button>
-          </div>
+          <button class="stepper" id="btn-width-inc" aria-label="increase width">+</button>
+          <span class="ctl-value" id="v-width">12</span>
         </div>
       </div>
 

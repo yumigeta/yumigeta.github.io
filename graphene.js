@@ -1339,7 +1339,7 @@
       var theta = curTheta, N = +wSlider.value;
       curP = ribbon(theta, N);
       var nm = typeName(theta);
-      aVal.textContent = nm + ' · θ = ' + theta + '°';
+      if (aVal) aVal.textContent = nm + ' · θ = ' + theta + '°';
       wVal.textContent = N;
       btnZ.classList.toggle('active', theta === 0);
       btnA.classList.toggle('active', theta === 30);
