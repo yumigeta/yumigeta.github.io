@@ -777,7 +777,8 @@
     var classDiv = document.getElementById('gnr-class');
     var btnZ = document.getElementById('btn-zigzag');
     var btnA = document.getElementById('btn-armchair');
-    var widthBtns = document.querySelectorAll('#width-btns .demo-btn');
+    var btnWDec = document.getElementById('btn-width-dec');
+    var btnWInc = document.getElementById('btn-width-inc');
     if (!bzC) return;
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
@@ -1342,8 +1343,8 @@
       wVal.textContent = N;
       btnZ.classList.toggle('active', theta === 0);
       btnA.classList.toggle('active', theta === 30);
-      for (var i = 0; i < widthBtns.length; i++)
-        widthBtns[i].classList.toggle('active', +widthBtns[i].dataset.width === N);
+      btnWDec.disabled = (N <= +wSlider.min);
+      btnWInc.disabled = (N >= +wSlider.max);
       drawBZ(curP);
       drawSubbands(curP);
       coneT = null;
@@ -1368,10 +1369,12 @@
     wSlider.addEventListener('input', update);
     btnZ.addEventListener('click', function () { curTheta = 0;  update(); });
     btnA.addEventListener('click', function () { curTheta = 30; update(); });
-    for (var wi = 0; wi < widthBtns.length; wi++)
-      widthBtns[wi].addEventListener('click', function () {
-        wSlider.value = this.dataset.width; update();
-      });
+    function stepWidth(d) {
+      var v = max(+wSlider.min, min(+wSlider.max, (+wSlider.value) + d));
+      wSlider.value = v; update();
+    }
+    btnWDec.addEventListener('click', function () { stepWidth(-1); });
+    btnWInc.addEventListener('click', function () { stepWidth(+1); });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     update();
     requestAnimationFrame(cutFrame);
