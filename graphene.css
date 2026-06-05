@@ -134,6 +134,14 @@
   border-left: 2px solid rgba(124,58,71,.5);
 }
 
+.deriv-fig {
+  width: 100%; height: 200px; display: block;
+  background: #131110;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 768px) {
   .deriv-panel { width: 100vw; }
   .deriv-panel-inner { padding: 20px 18px 40px; }
