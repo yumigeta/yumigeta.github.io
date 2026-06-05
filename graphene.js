@@ -907,6 +907,8 @@
       var st = max(0, min(levels.length - Nlev, ci - ((Nlev/2)|0)));
       if (isZig && st + 1 <= levels.length - Nlev && levArr[st].sub === 0) st++;
       var wmin = levels[st], wmax = levels[st + Nlev - 1], wmid = (wmin+wmax)/2;
+      var missLo = st > 0 ? levels[st - 1] : null;
+      var missHi = st + Nlev < levels.length ? levels[st + Nlev] : null;
       function inBand(x, y) { var v = wc(x, y); return v >= wmin-0.01 && v <= wmax+0.01; }
 
       // scale: fit the N-wide strip into ~74% of the smaller screen dimension
@@ -971,6 +973,38 @@
         }
       }
       ctx.globalAlpha = 1;
+
+      // Missing atoms (hard-wall BC sites) — drawn as × marks beyond each edge
+      var missLevels = [];
+      if (missLo !== null) missLevels.push(missLo);
+      if (missHi !== null) missLevels.push(missHi);
+      if (missLevels.length > 0) {
+        var xsz = max(2.5, rr * 0.7);
+        ctx.lineWidth = max(1.2, xsz * 0.45); ctx.lineCap = 'round';
+        for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
+          var px = n + m*0.5, py = m*sqrt3/2;
+          var msubs = [[px, py], [px, py + d1y]];
+          for (var s = 0; s < 2; s++) {
+            var x = msubs[s][0], y = msubs[s][1];
+            if (abs(lc(x, y)) > lmax) continue;
+            var wv = wc(x, y);
+            var isMiss = false;
+            for (var mi = 0; mi < missLevels.length; mi++)
+              if (abs(wv - missLevels[mi]) < 0.01) { isMiss = true; break; }
+            if (!isMiss) continue;
+            var fa = dim * fade(lc(x, y));
+            if (fa <= 0.01) continue;
+            var p = S(x, y);
+            ctx.globalAlpha = 0.55 * fa;
+            ctx.strokeStyle = '#a8a29e';
+            ctx.beginPath();
+            ctx.moveTo(p[0]-xsz, p[1]-xsz); ctx.lineTo(p[0]+xsz, p[1]+xsz);
+            ctx.moveTo(p[0]+xsz, p[1]-xsz); ctx.lineTo(p[0]-xsz, p[1]+xsz);
+            ctx.stroke();
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
 
       // translation-vector arrow T along the axis (through the band centre)
       var a0 = RS(l0, wmid), a1 = RS(l0+Tper, wmid);
@@ -1508,13 +1542,15 @@
         ? '<b style="color:#6ee7b7">Metallic</b> — a band reaches the Fermi level (zero gap).'
         : '<b style="color:#fbbf24">Semiconducting</b> — the lowest subband opens a gap E<sub>g</sub> ≈ '
           + (2*gapHalf).toFixed(2) + ' eV at Γ.';
+      var bc = ' Hard-wall BC: k<sub>⊥</sub> = nπ/(' + N + '+1), n = 1…' + N +
+               ' — the wavefunction vanishes at missing atom sites beyond each edge.';
       var detail = isZig
         ? ' Zigzag ribbons carry <b style="color:#6ee7b7">edge states</b> — a flat E≈0 band for ' +
-          'k between 2π/3 and Z — so they are always metallic (this needs the hard-wall edges, ' +
+          'k between 2π/3 and Z — so they are always metallic (hard-wall edges, ' +
           'invisible to zone-folding).'
         : ' Armchair ribbons are metallic only when <b>N = 3m+2</b>; the gap closes at Γ.';
       var Ndesc = isZig ? N + ' chains' : N;
-      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + Ndesc + ': ' + tag + detail;
+      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + Ndesc + ': ' + tag + bc + detail;
     }
 
     function setSliderRange(isZig) {
