@@ -874,6 +874,41 @@
       }
       ctx.closePath(); ctx.stroke();
 
+      // ── Reduced (ribbon unit-cell) Brillouin zone ──
+      // Graphene's rectangular 4-atom cell gives a zone 2π (∥ confinement, n)
+      // × 2π/√3 (∥ ribbon axis, t).  The cutting lines are exactly the bulk
+      // bands zone-folded into this reduced rectangle; a folded Dirac point
+      // sitting on a cutting line is what makes the ribbon metallic.
+      var Wn = PI, Ht = PI/sqrt3;
+      var ux = p.nx, uy = p.ny, vx = -p.ny, vy = p.nx;
+      var rc = [
+        [ Wn*ux + Ht*vx,  Wn*uy + Ht*vy],
+        [ Wn*ux - Ht*vx,  Wn*uy - Ht*vy],
+        [-Wn*ux - Ht*vx, -Wn*uy - Ht*vy],
+        [-Wn*ux + Ht*vx, -Wn*uy + Ht*vy]
+      ];
+      ctx.strokeStyle = 'rgba(226,232,240,0.65)'; ctx.lineWidth = 1.3;
+      ctx.setLineDash([5,4]); ctx.beginPath();
+      for (var ri = 0; ri < 4; ri++) {
+        var pr = P(rc[ri][0], rc[ri][1]);
+        if (ri === 0) ctx.moveTo(pr[0], pr[1]); else ctx.lineTo(pr[0], pr[1]);
+      }
+      ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+
+      // bulk Dirac points folded into the reduced zone
+      function foldK(kx, ky) {
+        var cn = kx*ux + ky*uy, ct = kx*vx + ky*vy;
+        cn -= 2*Wn*Math.round(cn/(2*Wn));
+        ct -= 2*Ht*Math.round(ct/(2*Ht));
+        return [cn*ux + ct*vx, cn*uy + ct*vy];
+      }
+      for (var n = 0; n < 6; n++) {
+        var ang = n*PI/3, fk = foldK(BZR*cos(ang), BZR*sin(ang));
+        var fp = P(fk[0], fk[1]);
+        ctx.beginPath(); ctx.arc(fp[0], fp[1], 2.8, 0, 2*PI);
+        ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 1.4; ctx.stroke();
+      }
+
       // cutting lines, clipped to the BZ
       var tx = -p.ny, ty = p.nx, ext = 1.3*BZR;
       for (var li = 0; li < p.lines.length; li++) {
@@ -904,6 +939,14 @@
       ctx.fillStyle = '#a8a29e'; ctx.fill();
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
+
+      // legend: dashed swatch for the reduced unit-cell BZ
+      ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.75)';
+      ctx.lineWidth = 1.3; ctx.beginPath();
+      ctx.moveTo(8, H-9); ctx.lineTo(26, H-9); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText((p.theta === 0 ? 'zigzag' : 'armchair') + ' unit-cell BZ', 30, H-6);
 
       // orientation readout
       var nm = p.theta === 0 ? 'zigzag' : p.theta === 30 ? 'armchair' : 'chiral';
