@@ -201,7 +201,8 @@ function fitCanvas(cv) {
   };
   let mode = 'sym';
   let vib = +sVib.value;
-  const amp = 0.15;                       // vibration amplitude Q₀ (fixed)
+  const amp = 0.15;                       // vibration amplitude Q₀ for α-Q plot (small)
+  const molAmp = 0.7;                     // visual amplitude for molecule/electron-density panel
 
   // polarizability vs the vibrational coordinate (the SAME curve drawn in α–Q)
   const alphaOfQ = Q => { const M = MODES[mode]; return M.a0 + M.c1 * Q + M.c2 * Q * Q; };
@@ -209,6 +210,7 @@ function fitCanvas(cv) {
   // master signals — one shared clock
   const Efn = t => Math.cos(TAU * CARRIER * t);
   const Qfn = t => amp * Math.cos(TAU * vib * t);    // vibrational coordinate Q(t)
+  const QfnMol = t => molAmp * Math.cos(TAU * vib * t);  // molecule display coordinate
   const afn = t => alphaOfQ(Qfn(t));                  // polarizability α(t), always > 0
 
   // Fourier content of α(t):
@@ -367,7 +369,7 @@ function fitCanvas(cv) {
   function drawMolecule() {
     const { ctx, w, h } = fitCanvas(cMol);
     const tNow = t0 + 1;
-    const q = Qfn(tNow);                       // vibrational coordinate Q(t) ∈ [−Q₀, Q₀]
+    const q = QfnMol(tNow);                    // vibrational coordinate (visual amplitude)
     const cx = w / 2, cy = h / 2;
     const gap = Math.min(58, w * 0.21);
     const A = 15;                              // displacement amplitude (px)
