@@ -1,26 +1,25 @@
 (function () {
   'use strict';
-  var overlay = document.getElementById('deriv-overlay');
+  var panel = document.getElementById('deriv-panel');
+  var scrim = document.getElementById('deriv-scrim');
   var openBtn = document.getElementById('open-derivation');
   var closeBtn = document.getElementById('deriv-close');
-  if (!overlay || !openBtn) return;
+  if (!panel || !openBtn) return;
 
   function open(e) {
     e.preventDefault();
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    panel.classList.add('open');
+    scrim.classList.add('open');
   }
   function close() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
+    panel.classList.remove('open');
+    scrim.classList.remove('open');
   }
 
   openBtn.addEventListener('click', open);
   closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) close();
-  });
+  scrim.addEventListener('click', close);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+    if (e.key === 'Escape' && panel.classList.contains('open')) close();
   });
 })();
