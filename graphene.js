@@ -885,18 +885,23 @@
       function wc(x, y) { return x*wx_ + y*wy_; }         // transverse (width)
 
       // distinct transverse levels → keep N, centred ⇒ ribbon width
-      var RA = 24, levSet = {};
+      // Tag each level with its sublattice (0 = A, 1 = B) so we can choose
+      // proper edge termination: zigzag edges need B at the bottom (coord 2).
+      var RA = 24, levSeen = {}, levArr = [];
       for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
         var px = n + m*0.5, py = m*sqrt3/2;
-        levSet[Math.round(wc(px, py)*1e3)] = 1;
-        levSet[Math.round(wc(px, py + d1y)*1e3)] = 1;
+        var kA = Math.round(wc(px, py)*1e3);
+        var kB = Math.round(wc(px, py + d1y)*1e3);
+        if (!(kA in levSeen)) { levSeen[kA] = 1; levArr.push({w: kA/1e3, sub: 0}); }
+        if (!(kB in levSeen)) { levSeen[kB] = 1; levArr.push({w: kB/1e3, sub: 1}); }
       }
-      var levels = Object.keys(levSet).map(function(v){ return v/1e3; })
-                         .sort(function(a,b){ return a-b; });
+      levArr.sort(function(a,b){ return a.w - b.w; });
+      var levels = levArr.map(function(d){ return d.w; });
       var ci = 0, bd = Infinity;
       for (var i = 0; i < levels.length; i++)
         if (abs(levels[i]) < bd) { bd = abs(levels[i]); ci = i; }
       var st = max(0, min(levels.length - N, ci - ((N/2)|0)));
+      if (isZig && st + 1 <= levels.length - N && levArr[st].sub === 0) st++;
       var wmin = levels[st], wmax = levels[st + N - 1], wmid = (wmin+wmax)/2;
       function inBand(x, y) { var v = wc(x, y); return v >= wmin-0.01 && v <= wmax+0.01; }
 
@@ -942,7 +947,7 @@
       ctx.strokeStyle = 'rgba(' + aRGB + ',' + (0.85*dim) + ')'; ctx.lineWidth = 1.6; ctx.stroke();
 
       // atoms (A red, B blue); the unit-cell slice gets outlined atoms
-      function inSlice(x, y) { var l = lc(x, y); return l >= l0-0.01 && l <= l0+Tper+0.01; }
+      function inSlice(x, y) { var l = lc(x, y); return l >= l0-0.01 && l < l0+Tper-0.01; }
       var rr = max(1.8, min(sc*0.12, 5));
       for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
         var px = n + m*0.5, py = m*sqrt3/2;
