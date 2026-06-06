@@ -111,10 +111,10 @@
     .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: clamp(12px,1.6vw,20px); }
     .hero-top .nm { font-family: var(--mincho); font-weight: 600; font-size: clamp(14px,1.2vw,16px); letter-spacing: .02em; color: var(--ink); }
     .hero-top .rl { height: 1px; background: var(--rule); flex: 1; }
-    .ed-hero h1 { font-family: var(--mincho); font-weight: 700; font-size: clamp(32px,4.2vw,52px); line-height: 1.1; letter-spacing: -.01em; }
+    .ed-hero h1 { font-family: var(--mincho); font-weight: 700; font-size: clamp(26px,3vw,38px); line-height: 1.18; letter-spacing: -.01em; }
     .ed-hero h1 .lt { color: var(--ink-3); font-weight: 600; }
-    .hero-sub { margin-top: clamp(8px,1vw,14px); font-family: var(--gothic); font-size: clamp(13px,1.1vw,15px); line-height: 1.5; color: var(--ink-3); letter-spacing: .02em; }
-    .hero-lead { margin-top: clamp(10px,1.4vw,18px); font-size: clamp(14px,1.2vw,16px); line-height: 1.6; color: var(--ink-2); }
+    .hero-sub { margin-top: clamp(10px,1.2vw,16px); font-family: var(--gothic); font-size: clamp(13px,1.1vw,15px); line-height: 1.5; color: var(--ink-3); letter-spacing: .02em; }
+    .hero-lead { margin-top: clamp(8px,1vw,14px); font-size: clamp(14px,1.2vw,16px); line-height: 1.65; color: var(--ink-2); }
     .hero-lead em { font-style: normal; color: var(--accent); font-weight: 500; }
 
     .plate { flex: 1; display: flex; flex-direction: column; min-height: 260px; }
@@ -130,9 +130,6 @@
     .hero-chips span::before { content: "／"; color: var(--ink-3); margin-right: 8px; }
     .hero-chips span:first-child::before { display: none; }
 
-    @media (max-width: 1024px) {
-      .ed-hero h1 { font-size: clamp(28px,3.8vw,44px); }
-    }
     @media (max-width: 880px) {
       .hero-grid { grid-template-columns: 1fr; }
       .hero-l { padding-right: 0; }
