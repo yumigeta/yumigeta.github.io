@@ -143,18 +143,34 @@
     .statement .tagq { font-family: var(--mono); font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
       color: color-mix(in srgb, var(--accent) 78%, #fff); display: flex; align-items: center; gap: 14px; margin-bottom: clamp(14px,1.8vw,22px); }
     .statement .tagq::before { content: ""; width: 28px; height: 1px; background: color-mix(in srgb, var(--accent) 78%, #fff); }
-    .statement .bigq { font-family: var(--mincho); font-weight: 600; font-size: clamp(20px,2.6vw,32px); line-height: 1.3; letter-spacing: -.01em; }
+    .statement .feat-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px,3vw,40px); align-items: start; }
+    .statement .cover-link { display: block; flex: none; position: relative; }
+    .statement .cover-link img { display: block; width: clamp(100px,12vw,160px); height: auto; border: 1px solid rgba(241,236,225,.18);
+      transition: border-color .2s, box-shadow .2s; }
+    .statement .cover-link:hover img { border-color: color-mix(in srgb, var(--accent) 78%, #fff);
+      box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+    .statement .cover-link .cover-hint { position: absolute; bottom: 0; left: 0; right: 0;
+      font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; text-align: center;
+      color: var(--paper); background: rgba(0,0,0,.6); padding: 3px 0; opacity: 0; transition: opacity .2s; }
+    .statement .cover-link:hover .cover-hint { opacity: 1; }
+    .statement .feat-body { min-width: 0; }
+    .statement .bigq { font-family: var(--mincho); font-weight: 600; font-size: clamp(18px,2.2vw,28px); line-height: 1.3; letter-spacing: -.01em; }
     .statement .bigq em { font-style: italic; color: color-mix(in srgb, var(--accent) 78%, #fff); }
-    .statement .pub-meta { margin-top: clamp(10px,1.4vw,16px); display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
-      font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: rgba(241,236,225,.55); }
-    .statement .pub-meta .venue { font-family: var(--mincho); font-style: italic; font-size: clamp(14px,1.4vw,17px); color: rgba(241,236,225,.8); letter-spacing: 0; }
+    .statement .pub-meta { margin-top: clamp(8px,1.2vw,14px); display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: rgba(241,236,225,.55); }
+    .statement .pub-meta .venue { font-family: var(--mincho); font-style: italic; font-size: clamp(13px,1.3vw,16px); color: rgba(241,236,225,.8); letter-spacing: 0; }
     .statement .pub-meta .badge { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
       background: color-mix(in srgb, var(--accent) 78%, #fff); padding: 3px 8px; vertical-align: 1px; }
-    .statement .byq { margin-top: clamp(16px,2vw,24px); padding-top: clamp(12px,1.4vw,18px); border-top: 1px solid rgba(241,236,225,.16);
+    .statement .byq { margin-top: clamp(12px,1.6vw,20px); padding-top: clamp(10px,1.2vw,16px); border-top: 1px solid rgba(241,236,225,.16);
       display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(241,236,225,.55); }
+      font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(241,236,225,.55); }
     .statement .byq a { color: var(--paper); border-bottom: 1px solid color-mix(in srgb, var(--accent) 78%, #fff); padding-bottom: 2px; transition: color .18s; }
     .statement .byq a:hover { color: color-mix(in srgb, var(--accent) 78%, #fff); }
+    @media (max-width: 580px) {
+      .statement .feat-grid { grid-template-columns: 1fr; }
+      .statement .cover-link { justify-self: center; }
+      .statement .cover-link img { width: 120px; }
+    }
 
     /* ===== SECTION HEADER ===== */
     .ed-section { padding: var(--sec-pad) 0; border-bottom: 1px solid var(--rule); }
@@ -347,11 +363,19 @@
 <section class="statement">
   <div class="wrap">
     <div class="tagq rv">Featured work</div>
-    <p class="bigq rv">Electrical and structural response of <em>graphene nanoribbon transistors</em> to gamma irradiation.</p>
-    <div class="pub-meta rv"><span class="venue">ACS Applied Materials &amp; Interfaces</span> <span>18, 25103 (2026)</span> <span class="badge">Front Cover</span></div>
-    <div class="byq rv">
-      <span>Yumigeta, K.; Yusufoglu, M.; Federici, J. G.; et al.</span>
-      <a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Read the paper →</a>
+    <div class="feat-grid rv">
+      <a class="cover-link" href="cover-acsami-2026-full.jpg" target="_blank" rel="noopener" title="View high-resolution cover">
+        <img src="cover-acsami-2026.jpg" alt="ACS Applied Materials &amp; Interfaces — Front Cover, Vol. 18 (2026)" width="160" height="213">
+        <span class="cover-hint">Hi-res ↗</span>
+      </a>
+      <div class="feat-body">
+        <p class="bigq">Electrical and structural response of <em>graphene nanoribbon transistors</em> to gamma irradiation.</p>
+        <div class="pub-meta"><span class="venue">ACS Applied Materials &amp; Interfaces</span> <span>18, 25103 (2026)</span> <span class="badge">Front Cover</span></div>
+        <div class="byq">
+          <span>Yumigeta, K.; Yusufoglu, M.; Federici, J. G.; et al.</span>
+          <a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Read the paper →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -498,7 +522,7 @@
     <div class="foot">
       <span class="foot-l">© 2026 Kentaro Yumigeta</span>
       <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">
-      <span class="foot-r">Materials Science &amp; Engineering · University of Arizona</span>
+      <span class="foot-r">University of Arizona</span>
     </div>
   </div>
 </footer>
