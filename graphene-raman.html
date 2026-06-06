@@ -373,6 +373,42 @@
             For a 1 nm ribbon, $\omega_\text{RBLM} \approx 322$ cm$^{-1}$;
             for a 5 nm ribbon, it drops to ~64 cm$^{-1}$.
           </p>
+          <p>
+            This $\propto 1/W$ scaling is not just a fit — it follows from
+            <b>zone folding</b> the linear (longitudinal-acoustic, LA) part of
+            graphene's phonon dispersion. The hard-wall boundary selects
+            $q_\perp = \pi/W$, so $\omega_\text{RBLM} = a\,\pi/W$ with a slope
+            $a \approx 1025.6$ cm$^{-1}\!\cdot$Å set by the in-plane sound
+            velocity (note $a\pi \approx 3222$, matching the formula above).<sup><a href="#gnr-ref2" class="gr-cite">2</a></sup>
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Effective width: $W \rightarrow W + \delta W$</h3>
+          <p>
+            When the simple $\omega_\text{RBLM} = a\pi/W$ relation is compared to
+            <b>real spectra</b> of atomically precise, bottom-up GNRs, the measured
+            frequencies sit systematically <b>below</b> the bare-carbon prediction.
+            The fix is to replace the geometric width by an
+            <b>effective width</b> $W + \delta W$: the edge hydrogens — and, in
+            functionalized ribbons, the <b>alkyl/cove side chains</b> — vibrate
+            roughly in phase with the carbon backbone, adding mass and lengthening
+            the breathing motion. This pushes the effective width up by a few Å
+            and the RBLM frequency down.
+          </p>
+          <p class="eq-block">
+            $$\omega_\text{RBLM} \approx \frac{a\,\pi}{W + \delta W}$$
+          </p>
+          <p>
+            Verzhbitskiy <em>et al.</em> showed by combining Raman with
+            <em>ab initio</em> simulation that the RBLM is sensitive not only to
+            width but to edge modulation and functionalization, and that a full
+            description of the cove edges and alkyl chains is required to reproduce
+            the experimental peak positions, splittings, and intensities.<sup><a href="#gnr-ref1" class="gr-cite">1</a></sup>
+            The Empa group later calibrated the length/width dependence across
+            entire AGNR families, confirming the zone-folded LA assignment and the
+            need for this effective-width correction to match measured values.<sup><a href="#gnr-ref2" class="gr-cite">2</a></sup>
+          </p>
         </div>
 
         <div class="crystal-concept">
@@ -409,6 +445,33 @@
               intensity thus distinguishes edge chirality</li>
             <li>The D′ band (~1620 cm<sup>−1</sup>), requiring only intra-valley
               scattering, is activated by both edge types</li>
+          </ul>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>D peak and CH modes as zone-folding signatures</h3>
+          <p>
+            In atomically precise GNRs the picture sharpens: the
+            <b>D peak, the CH-related edge modes, and the low-frequency lines</b>
+            are not generic disorder bands but can be read off directly as
+            <b>zone-folded</b> versions of graphene's phonon dispersion. Mapping
+            the $\Gamma$-point phonons of an $N$-dimer ribbon back onto graphene
+            ("unfolding" the GNR Brillouin zone) reproduces the discrete subbands,
+            and the allowed $q_\perp = n\pi/W$ momenta pin down which graphene
+            phonon each ribbon line descends from.<sup><a href="#gnr-ref3" class="gr-cite">3</a></sup>
+          </p>
+          <ul class="gr-list" style="color:#d6d3d1;">
+            <li>The <b>D peak</b> retains its graphene-like
+              <b>dispersion</b> (frequency shifting with laser energy), which the
+              Empa study uses as a unique fingerprint that distinguishes genuine
+              GNRs from amorphous or defective sp$^2$ carbon.<sup><a href="#gnr-ref2" class="gr-cite">2</a></sup></li>
+            <li>The <b>CH modes</b> — in-plane bending and stretching of the edge
+              C–H bonds (~1200–1300 cm$^{-1}$ and ~3050 cm$^{-1}$) — appear at
+              positions fixed by the edge geometry, and serve as direct probes of
+              hydrogen termination.</li>
+            <li>The <b>sub-1000 cm$^{-1}$ region</b> is the most structure-specific:
+              it is especially sensitive to edge morphology and functional groups,
+              so it acts as a structural barcode for a given ribbon family.<sup><a href="#gnr-ref1" class="gr-cite">1</a></sup></li>
           </ul>
         </div>
 
@@ -481,6 +544,37 @@
           $G^+$/$G^-$ occurs in both systems, and the D band
           serves as a defect/edge marker in both. Understanding GNR Raman
           provides a direct bridge to nanotube spectroscopy.
+        </div>
+
+        <div class="crystal-concept gnr-refs">
+          <h3>References</h3>
+          <ol class="ref-list">
+            <li id="gnr-ref1">
+              I. A. Verzhbitskiy, M. De Corato, A. Ruini, E. Molinari, A. Narita,
+              Y. Hu, M. G. Schwab, M. Bruna, D. Yoon, S. Milana, X. Feng,
+              K. Müllen, A. C. Ferrari, C. Casiraghi, D. Prezzi,
+              "Raman Fingerprints of Atomically Precise Graphene Nanoribbons,"
+              <em>Nano Lett.</em> <b>16</b>, 3442–3447 (2016).
+              <a href="https://doi.org/10.1021/acs.nanolett.5b04183" target="_blank" rel="noopener">DOI</a>
+            </li>
+            <li id="gnr-ref2">
+              J. Overbeck, G. Borin Barin, C. Daniels, M. L. Perrin, O. Braun,
+              Q. Sun, R. Darawish, M. De Luca, X.-Y. Wang, T. Dumslaff, A. Narita,
+              K. Müllen, P. Ruffieux, V. Meunier, R. Fasel, M. Calame,
+              "A Universal Length-Dependent Vibrational Mode in Graphene Nanoribbons,"
+              <em>ACS Nano</em> <b>13</b>, 13083–13091 (2019). [Empa]
+              <a href="https://doi.org/10.1021/acsnano.9b05817" target="_blank" rel="noopener">DOI</a>
+            </li>
+            <li id="gnr-ref3">
+              R. Gillen, M. Mohr, C. Thomsen, J. Maultzsch,
+              "Vibrational properties of graphene nanoribbons by first-principles
+              calculations," <em>Phys. Rev. B</em> <b>80</b>, 155418 (2009);
+              R. Gillen, M. Mohr, J. Maultzsch,
+              "Symmetry properties of vibrational modes in graphene nanoribbons,"
+              <em>Phys. Rev. B</em> <b>81</b>, 205426 (2010).
+              <a href="https://doi.org/10.1103/PhysRevB.80.155418" target="_blank" rel="noopener">DOI</a>
+            </li>
+          </ol>
         </div>
       </div>
 
