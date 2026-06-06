@@ -240,21 +240,13 @@
       display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .more:hover { border-color: var(--accent); }
 
-    /* ===== LEARN (interactive guides) ===== */
-    .ed-learn .guide { display: grid; grid-template-columns: 1fr; gap: 0;
-      padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s; }
-    .ed-learn .guide:last-of-type { border-bottom: 1px solid var(--rule); }
-    .ed-learn .guide:hover { background: var(--paper-tint); }
-    .ed-learn .guide .g-top { display: flex; align-items: baseline; gap: 10px; }
-    .ed-learn .guide .g-name { font-family: var(--mincho); font-size: clamp(16px,1.6vw,19px); font-weight: 600; letter-spacing: -.005em; }
-    .ed-learn .guide .g-badge { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper);
-      background: var(--accent); padding: 2px 6px; font-weight: 500; border-radius: 0; white-space: nowrap; }
-    .ed-learn .guide .g-desc { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin-top: 4px; }
-    .ed-learn .guide .g-stack { font-family: var(--gothic); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
-    .ed-learn .guide .g-link { margin-top: 8px; }
-    .ed-learn .guide .g-link a { font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    /* ===== LEARN (ruled columns, same as Research) ===== */
+    .ed-learn.cols { grid-template-columns: repeat(2,1fr); }
+    @media (max-width: 820px) { .ed-learn.cols { grid-template-columns: 1fr; } }
+    .ed-learn .g-link { margin-top: 12px; }
+    .ed-learn .g-link a { font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
       border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
-    .ed-learn .guide .g-link a:hover { border-color: var(--accent); }
+    .ed-learn .g-link a:hover { border-color: var(--accent); }
 
     /* ===== CV (register) ===== */
     .ed-cv .row { display: grid; grid-template-columns: 72px 1fr auto; gap: clamp(12px,2vw,24px); align-items: baseline;
@@ -431,7 +423,7 @@
     <div class="shx rv">
       <span class="no">03</span>
       <h2>Publications</h2>
-      <span class="meta">2020 — 2026</span>
+      <span class="meta">Selected recent work</span>
     </div>
     <div class="ed-pubs rv">
       <div class="pub"><div class="yr">2026</div><div class="cite"><span class="authors">Yumigeta, K.; Yusufoglu, M.; Federici, J. G.; et al.</span> <span class="title"><a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Electrical and Structural Response of Nine-Atom-Wide Armchair Graphene Nanoribbon Transistors to Gamma Irradiation.</a></span> <span class="journal">ACS Appl. Mater. Interfaces</span> <span class="vol">2026</span>, <em>18</em>, 25103.<span class="badge">Cover</span></div></div>
@@ -452,17 +444,17 @@
       <h2>Learn</h2>
       <span class="meta">Interactive guides</span>
     </div>
-    <div class="ed-learn rv">
-      <div class="guide">
-        <div class="g-top"><span class="g-name">Raman Spectroscopy</span><span class="g-badge">Interactive</span></div>
-        <p class="g-desc">An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
-        <div class="g-stack">JavaScript · Canvas</div>
+    <div class="cols ed-learn rv">
+      <div class="c">
+        <div class="n">01</div>
+        <h3>Raman Spectroscopy</h3>
+        <p>An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
         <div class="g-link"><a href="raman.html">Open ›</a></div>
       </div>
-      <div class="guide">
-        <div class="g-top"><span class="g-name">Graphene Electronic Structure</span><span class="g-badge">Interactive</span></div>
-        <p class="g-desc">Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
-        <div class="g-stack">JavaScript · Canvas</div>
+      <div class="c">
+        <div class="n">02</div>
+        <h3>Graphene Electronic Structure</h3>
+        <p>Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
         <div class="g-link"><a href="graphene.html">Open ›</a></div>
       </div>
     </div>
