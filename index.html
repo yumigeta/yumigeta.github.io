@@ -125,8 +125,8 @@
       background-repeat: no-repeat;
     }
     #lattice { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-    .hero-chips { margin-top: auto; padding-top: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
-    .hero-chips span { font-family: var(--gothic); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 4px 10px 4px 0; }
+    .hero-chips { display: flex; flex-wrap: nowrap; justify-content: center; gap: 0; border-top: 1px solid var(--rule); padding: clamp(10px,1.4vw,16px) 0; overflow-x: auto; }
+    .hero-chips span { font-family: var(--gothic); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 4px 10px; white-space: nowrap; }
     .hero-chips span::before { content: "／"; color: var(--ink-3); margin-right: 8px; }
     .hero-chips span:first-child::before { display: none; }
 
@@ -337,15 +337,15 @@
       <div class="hero-r rv">
         <div class="plate">
           <div class="frame"><canvas id="lattice"></canvas></div>
-          <div class="hero-chips">
-            <span>Low-Dimensional Materials</span>
-            <span>Condensed Matter Physics</span>
-            <span>Synthesis &amp; Integration</span>
-            <span>Nanoelectronics</span>
-            <span>Extreme Environments</span>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="hero-chips rv">
+      <span>Low-Dimensional Materials</span>
+      <span>Condensed Matter Physics</span>
+      <span>Synthesis &amp; Integration</span>
+      <span>Nanoelectronics</span>
+      <span>Extreme Environments</span>
     </div>
   </div>
 </div>
