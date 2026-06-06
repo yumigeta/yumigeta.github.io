@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications — Kentaro Yumigeta</title>
+  <meta name="description" content="Full list of peer-reviewed publications by Kentaro Yumigeta — graphene nanoribbons, 2D materials, charge density waves, and nanoelectronic devices.">
+  <link rel="canonical" href="https://yumigeta.github.io/publications.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Publications — Kentaro Yumigeta">
+  <meta property="og:description" content="Peer-reviewed publications on graphene nanoribbons, 2D materials, charge density waves, and nanoelectronics.">
+  <meta property="og:url" content="https://yumigeta.github.io/publications.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Publications — Kentaro Yumigeta">
+  <link rel="stylesheet" href="style.css">
+  <script src="analytics.js"></script>
+  <style>
+    .phead {
+      border-bottom: 1px solid var(--line);
+      padding: clamp(34px,5vw,64px) 0 clamp(30px,4vw,52px);
+    }
+    .crumb {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--faint);
+      margin-bottom: clamp(18px,2.5vw,32px);
+    }
+    .crumb a { color: var(--soft); transition: color .2s; }
+    .crumb a:hover { color: var(--accent); }
+    .crumb .sep { color: var(--line); }
+
+    .ptop {
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: end; gap: clamp(16px,3vw,36px);
+    }
+    .ptop .no {
+      font-size: clamp(48px,7vw,100px); font-weight: 700; line-height: .76;
+      color: transparent; -webkit-text-stroke: 1.2px var(--line);
+      letter-spacing: -.03em;
+    }
+    .ptop h1 {
+      font-size: clamp(32px,5vw,60px); font-weight: 600;
+      line-height: .96; letter-spacing: -.03em;
+    }
+    .ptop .meta {
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--faint);
+      text-align: right; line-height: 1.7; padding-bottom: 6px;
+    }
+    .pintro {
+      margin-top: clamp(16px,2vw,24px); max-width: 62ch;
+      font-size: clamp(16px,1.5vw,18px); color: var(--soft); line-height: 1.6;
+    }
+    .pintro em { font-style: normal; color: var(--accent); }
+
+    .rail {
+      display: flex; flex-wrap: wrap; gap: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .rail a {
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--soft);
+      padding: 14px clamp(14px,2vw,22px);
+      border-left: 1px solid var(--line);
+      transition: color .2s, background .2s;
+    }
+    .rail a:first-child { border-left: 0; }
+    .rail a:hover { color: var(--ink); background: var(--bg-soft); }
+    .rail a.on { color: var(--accent); }
+    .rail .count {
+      margin-left: auto; align-self: center;
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--faint);
+      padding-right: clamp(2px,1vw,8px);
+    }
+
+    section.year {
+      padding: clamp(28px,4vw,48px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .yhead {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-bottom: clamp(12px,1.4vw,20px);
+    }
+    .yhead .y {
+      font-size: clamp(24px,3vw,36px); font-weight: 600;
+      line-height: 1; letter-spacing: -.02em;
+    }
+    .yhead .rl { flex: 1; height: 1px; background: var(--line); }
+    .yhead .n {
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--faint);
+    }
+
+    .fpub {
+      display: grid; grid-template-columns: 30px 1fr minmax(180px,auto);
+      gap: clamp(14px,2.5vw,36px); align-items: baseline;
+      padding: clamp(12px,1.4vw,18px) 0;
+      border-top: 1px solid var(--line);
+      transition: background .18s;
+    }
+    .fpub:first-of-type { border-top: 0; }
+    .fpub:hover { background: var(--bg-soft); }
+    .fpub .ix { font-size: 12px; font-weight: 600; color: var(--faint); }
+    .fpub .t {
+      font-size: clamp(16px,1.5vw,18px); font-weight: 600;
+      line-height: 1.35; letter-spacing: -.01em;
+    }
+    .fpub .t a { transition: color .2s; }
+    .fpub .t a:hover { color: var(--accent); }
+    .fpub .t .star { color: var(--accent); }
+    .fpub .fa {
+      font-size: 14px; color: var(--soft); margin-top: 4px;
+    }
+    .fpub .fa b { color: var(--ink); font-weight: 600; }
+    .fpub .venue {
+      font-size: 13px; color: var(--soft); text-align: right; line-height: 1.5;
+    }
+    .fpub .venue em { font-style: italic; color: var(--faint); }
+    .fpub .venue b {
+      display: inline-block; margin-top: 3px; font-size: 11px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+    }
+    .fpub .venue .cover-badge-sm {
+      color: #fff; background: var(--accent); border-radius: 980px;
+      padding: 2px 8px;
+    }
+    .fpub .flinks {
+      display: flex; gap: 0; margin-top: 6px; justify-content: flex-end;
+    }
+    .fpub .flinks a {
+      font-size: 11px; font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--soft);
+      padding: 0 0 0 10px; margin-left: 10px;
+      border-left: 1px solid var(--line); transition: color .2s;
+    }
+    .fpub .flinks a:first-child { border-left: 0; margin-left: 0; padding-left: 0; }
+    .fpub .flinks a:hover { color: var(--accent); }
+
+    @media (max-width: 680px) {
+      .ptop { grid-template-columns: 1fr; gap: 8px; }
+      .ptop .no { display: none; }
+      .ptop .meta { text-align: left; }
+      .fpub { grid-template-columns: 1fr; gap: 6px; }
+      .fpub .ix { display: none; }
+      .fpub .venue { text-align: left; }
+      .fpub .flinks { justify-content: flex-start; }
+    }
+
+    .backrow {
+      padding: clamp(24px,3vw,40px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .back-home {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--accent);
+      transition: opacity .2s;
+    }
+    .back-home:hover { opacity: .7; }
+  </style>
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="index.html">Kentaro Yumigeta</a>
+    <nav class="links">
+      <a href="index.html#news">News</a>
+      <a href="index.html#research">Research</a>
+      <a href="publications.html" aria-current="page">Publications</a>
+      <a href="index.html#software">Software</a>
+      <a href="index.html#learn">Learn</a>
+      <a href="index.html#cv">CV</a>
+    </nav>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><span>Publications</span></div>
+    <div class="ptop">
+      <span class="no">03</span>
+      <h1>Publications</h1>
+      <span class="meta">2017 — 2026<br>Peer-reviewed</span>
+    </div>
+    <p class="pintro">Selected publications on <em>graphene nanoribbons</em>, 2D materials, van der Waals heterostructures, charge density waves, and nanoelectronic devices.</p>
+  </div>
+</div>
+
+<div class="container">
+  <nav class="rail">
+    <a class="on" href="#" data-filter="all">All</a>
+    <a href="#" data-filter="gnr">Graphene Nanoribbons</a>
+    <a href="#" data-filter="2d">2D Materials</a>
+    <a href="#" data-filter="cdw">Charge Density Waves</a>
+    <span class="count"><span id="pub-count">17</span> entries</span>
+  </nav>
+</div>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2026</span><span class="rl"></span><span class="n">2 papers</span></div>
+    <div class="fpub" data-tags="gnr">
+      <span class="ix">01</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Electrical and Structural Response of Nine-Atom-Wide Armchair Graphene Nanoribbon Transistors to Gamma Irradiation</a> <span class="star">&#9733;</span></div>
+        <div class="fa"><b>K. Yumigeta</b>, M. Yusufoglu, J. G. Federici et al.</div>
+      </div>
+      <div class="venue"><em>ACS Appl. Mater. Interfaces</em> 18, 25103<br><b class="cover-badge-sm">Cover</b>
+        <div class="flinks"><a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">02</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/admi.202500630" target="_blank" rel="noopener">Scalable Etch-Free Transfer of Low-Dimensional Materials From Metal Films to Diverse Substrates</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, M. Yusufoglu, M. Sarker et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Mater. Interfaces</em> 13, e00630
+        <div class="flinks"><a href="https://doi.org/10.1002/admi.202500630" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2025</span><span class="rl"></span><span class="n">2 papers</span></div>
+    <div class="fpub" data-tags="cdw">
+      <span class="ix">03</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1063/5.0253262" target="_blank" rel="noopener">Schottky Barrier Formation and Band Realignment of Rare-Earth Tritelluride Charge Density Wave Material–Semiconductor Interfaces</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, J. Kopaczek, R. Banerjee et al.</div>
+      </div>
+      <div class="venue"><em>Appl. Phys. Lett.</em> 126, 151602
+        <div class="flinks"><a href="https://doi.org/10.1063/5.0253262" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">04</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1039/D4NR03715D" target="_blank" rel="noopener">Controllable Synthesis of Environmentally Stable vdW Antiferromagnetic Oxyhalide CrOCl</a></div>
+        <div class="fa">R. Banerjee, S. Uppala, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>Nanoscale</em> 17, 5472
+        <div class="flinks"><a href="https://doi.org/10.1039/D4NR03715D" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2024</span><span class="rl"></span><span class="n">1 paper</span></div>
+    <div class="fpub" data-tags="gnr">
+      <span class="ix">05</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1021/acsnano.4c04097" target="_blank" rel="noopener">Atomically Precise Graphene Nanoribbon Transistors with Long-Term Stability and Reliability</a></div>
+        <div class="fa">C. Dinh, M. Yusufoglu, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>ACS Nano</em> 18, 22949
+        <div class="flinks"><a href="https://doi.org/10.1021/acsnano.4c04097" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2023</span><span class="rl"></span><span class="n">3 papers</span></div>
+    <div class="fpub" data-tags="cdw 2d">
+      <span class="ix">06</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1021/acs.nanolett.2c04871" target="_blank" rel="noopener">Exfoliation of Air-Sensitive 2D Materials and Their Heterostructures Under Inert Atmosphere</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, Y. Qin, H. Li et al.</div>
+      </div>
+      <div class="venue"><em>Nano Lett.</em> 23, 4, 1429
+        <div class="flinks"><a href="https://doi.org/10.1021/acs.nanolett.2c04871" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="cdw">
+      <span class="ix">07</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/adfm.202214101" target="_blank" rel="noopener">Strongly Anisotropic Two-Dimensional Charge Density Wave in GdTe₃ and Its Modulation by Surface Defects</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, Y. Qin, H. Li et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Funct. Mater.</em> 33, 2214101
+        <div class="flinks"><a href="https://doi.org/10.1002/adfm.202214101" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">08</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/smll.202205000" target="_blank" rel="noopener">Thickness-Dependent Interlayer Charge Transfer in MoSe₂/WSe₂ Heterostructures Studied by Resonant Raman Spectroscopy</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, Y. Qin, H. Li, M. Blei, Y. Attarde et al.</div>
+      </div>
+      <div class="venue"><em>Small</em> 19, 2205000
+        <div class="flinks"><a href="https://doi.org/10.1002/smll.202205000" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2022</span><span class="rl"></span><span class="n">3 papers</span></div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">09</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/adma.202203031" target="_blank" rel="noopener">Polarized Raman Signatures and Optical Band Gap of a 2D Magnetic Semiconductor: CrOCl</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, M. Blei, R. Banerjee et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Mater.</em> 34, 2203031
+        <div class="flinks"><a href="https://doi.org/10.1002/adma.202203031" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="cdw">
+      <span class="ix">10</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/adfm.202203102" target="_blank" rel="noopener">Charge Density Waves and Kohn Anomaly in Bulk and Few-Layer TiSe₂ Studied by Raman Spectroscopy</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, Y. Qin, H. Li et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Funct. Mater.</em> 32, 2203102
+        <div class="flinks"><a href="https://doi.org/10.1002/adfm.202203102" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">11</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1021/acsnano.1c10938" target="_blank" rel="noopener">Second Harmonic Generation and Linear Electro-Optic Coefficients of Electrostatically Doped Trilayer MoS₂</a></div>
+        <div class="fa">Y. Qin, <b>K. Yumigeta</b>, H. Li et al.</div>
+      </div>
+      <div class="venue"><em>ACS Nano</em> 16, 3, 3546
+        <div class="flinks"><a href="https://doi.org/10.1021/acsnano.1c10938" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2021</span><span class="rl"></span><span class="n">2 papers</span></div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">12</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/aelm.202100640" target="_blank" rel="noopener">Magnetoresistance and Kondo Effect in Nodal-Line Semimetal VAs₂</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, M. Blei, R. Rossi et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Electron. Mater.</em> 7, 2100640
+        <div class="flinks"><a href="https://doi.org/10.1002/aelm.202100640" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">13</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1021/acs.nanolett.1c02305" target="_blank" rel="noopener">Gate-Tunable Berry Curvature Dipole Polarizability in Few-Layer WTe₂</a></div>
+        <div class="fa">Y. Qin, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>Nano Lett.</em> 21, 16, 6800
+        <div class="flinks"><a href="https://doi.org/10.1021/acs.nanolett.1c02305" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2020</span><span class="rl"></span><span class="n">2 papers</span></div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">14</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/smll.202001484" target="_blank" rel="noopener">Phonon Renormalization and Electron–Phonon Coupling in Electrostatically Doped Monolayer MoS₂</a></div>
+        <div class="fa"><b>K. Yumigeta</b>, Y. Qin, H. Li et al.</div>
+      </div>
+      <div class="venue"><em>Small</em> 16, 2001484
+        <div class="flinks"><a href="https://doi.org/10.1002/smll.202001484" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">15</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/aelm.202000400" target="_blank" rel="noopener">Ambipolar Transport in CVD-Grown PdSe₂ Field-Effect Transistors</a></div>
+        <div class="fa">M. Blei, S. Gambino, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Electron. Mater.</em> 6, 2000400
+        <div class="flinks"><a href="https://doi.org/10.1002/aelm.202000400" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2019</span><span class="rl"></span><span class="n">1 paper</span></div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">16</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/aelm.201901055" target="_blank" rel="noopener">Optoelectronic Properties and Applications of van der Waals Materials</a></div>
+        <div class="fa">M. Blei, J. L. Lado, Q. Song, D. Dey, O. Ez-Zaki, R. Braga, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Electron. Mater.</em> 5, 1901055
+        <div class="flinks"><a href="https://doi.org/10.1002/aelm.201901055" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="year">
+  <div class="container">
+    <div class="yhead"><span class="y">2017</span><span class="rl"></span><span class="n">1 paper</span></div>
+    <div class="fpub" data-tags="2d">
+      <span class="ix">17</span>
+      <div>
+        <div class="t"><a href="https://doi.org/10.1002/adfm.201606113" target="_blank" rel="noopener">Thickness Dependent Electronic Properties of Pt Dichalcogenides</a></div>
+        <div class="fa">M. S. Fuhrer, <b>K. Yumigeta</b> et al.</div>
+      </div>
+      <div class="venue"><em>Adv. Funct. Mater.</em> 27, 1606113
+        <div class="flinks"><a href="https://doi.org/10.1002/adfm.201606113" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="backrow">
+  <div class="container">
+    <a class="back-home" href="index.html#publications">&larr; Back to overview</a>
+    <span style="float:right;">
+      <a class="back-home" href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar &rsaquo;</a>
+    </span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="f">
+    <div>&copy; 2026 Kentaro Yumigeta</div>
+    <div>Materials Science &amp; Engineering &middot; University of Arizona</div>
+  </div>
+</footer>
+
+<script>
+  // filter rail
+  (function() {
+    const rail = document.querySelector('.rail');
+    const pubs = [...document.querySelectorAll('.fpub')];
+    const years = [...document.querySelectorAll('section.year')];
+    const countEl = document.getElementById('pub-count');
+
+    rail.addEventListener('click', function(e) {
+      const a = e.target.closest('a[data-filter]');
+      if (!a) return;
+      e.preventDefault();
+      rail.querySelectorAll('a').forEach(l => l.classList.remove('on'));
+      a.classList.add('on');
+      const f = a.dataset.filter;
+      let visible = 0;
+      pubs.forEach(p => {
+        const show = f === 'all' || p.dataset.tags.split(' ').includes(f);
+        p.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      years.forEach(sec => {
+        const visPubs = sec.querySelectorAll('.fpub:not([style*="display: none"])');
+        sec.style.display = visPubs.length ? '' : 'none';
+        const nSpan = sec.querySelector('.yhead .n');
+        if (nSpan) nSpan.textContent = visPubs.length + (visPubs.length === 1 ? ' paper' : ' papers');
+      });
+      countEl.textContent = visible;
+    });
+  })();
+</script>
+</body>
+</html>
