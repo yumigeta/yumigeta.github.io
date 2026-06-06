@@ -93,7 +93,7 @@
         <h1>How Raman Spectroscopy Works</h1>
         <span class="meta">Interactive guide</span>
       </div>
-      <p class="pintro">Raman scattering reveals the vibrational fingerprint of a material — photons exchange energy with lattice vibrations, and the resulting <em>Stokes shift</em> maps directly to phonon energies. A vibration is Raman-active only if it changes the polarizability.</p>
+      <p class="pintro">Raman scattering probes the vibrational fingerprint of a material: an incident photon is inelastically scattered by a lattice vibration, and the <em>frequency shift</em> $\omega_0\!\pm\!\omega_k$ maps directly onto phonon energies. This page builds the effect from a single starting point — the <b>polarizability $\alpha$ modulated by a normal coordinate $Q_k$</b> — and follows it through to the angle-resolved selection rules used to fingerprint crystal symmetry (here, the orthorhombic <i>Cmcm</i> rare-earth tritellurides RTe$_3$).</p>
     </div>
   </div>
 
@@ -103,32 +103,30 @@
       <span class="demo-num">00 — What is polarizability?</span>
       <h2>Light displaces the electron cloud</h2>
       <p>
-        An atom has a <b style="color:#ef4444">positive nucleus</b> surrounded by a
-        <b style="color:#38bdf8">negative electron cloud</b>. When an oscillating
-        light field $\mathbf{E}(t)$ arrives, it pushes the electron cloud away from the
-        nucleus — creating an <b>induced dipole moment</b> $\boldsymbol{\mu}$. The ease of this
-        displacement is the <b>polarizability</b> $\alpha$. Watch the cloud shift back and
-        forth with the field.
+        An oscillating light field $\mathbf{E}(t)$ displaces the
+        <b style="color:#38bdf8">negative electron cloud</b> against the
+        <b style="color:#ef4444">positive nucleus</b>, inducing a dipole moment
+        $\boldsymbol{\mu}=\alpha\,\mathbf{E}$. The proportionality constant — the
+        <b>polarizability</b> $\alpha$ — quantifies how easily the cloud deforms.
+        It is the single quantity from which the entire Raman effect follows.
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-atom" class="atom-canvas"></canvas>
       <p class="cap" id="atom-cap">
-        The electron cloud (large, light) moves much more than the heavy nucleus.
-        The induced dipole $\mu = \alpha \cdot E$ oscillates at the same frequency as
-        the light — this is <b>Rayleigh scattering</b>. If $\alpha$ itself oscillates
-        (because the molecule vibrates), sidebands appear — that's <b>Raman scattering</b>.
+        A <b>static</b> $\alpha$ gives a dipole oscillating at the drive frequency
+        $\omega_0$ — elastic <b>Rayleigh scattering</b>. The Raman effect appears only
+        when $\alpha$ is itself <b>modulated</b> by a lattice vibration.
       </p>
       <div class="physics-note">
-        <b>Going deeper — $\alpha$ is a tensor.</b>
-        Polarizability $\alpha$ is a <b>symmetric second-rank tensor</b> (a $3\times3$ matrix),
-        capturing how each component of the electric field induces a dipole in
-        every direction. When the molecule vibrates along a generalized coordinate $Q$,
-        the first-order Taylor expansion gives
-        $$\alpha(Q) \approx \alpha_0 + \left(\frac{\partial\alpha}{\partial Q}\right)_0 \!\cdot Q$$
-        The derivative $(\partial\alpha/\partial Q)_0$ — a component of the <b>Raman tensor</b> —
-        is the heart of the Raman effect: if it is non-zero, the vibration
-        modulates $\alpha$ and produces Raman scattering.
+        <b>$\alpha$ is a symmetric second-rank tensor.</b>
+        Each field component induces a dipole in every direction:
+        $$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{xy}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{xz}&\alpha_{yz}&\alpha_{zz}\end{pmatrix},\qquad \alpha_{\rho\sigma}=\alpha_{\sigma\rho}.$$
+        Because $\alpha$ depends on the nuclear positions, expand it to first order in the
+        normal coordinate $Q_k$ (phonon $k$):
+        $$\alpha_{\rho\sigma}(Q_k)=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k .$$
+        The derivative tensor $R_k=(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ is the
+        <b>Raman tensor</b>. Everything below follows from whether it vanishes.
       </div>
     </div>
   </section>
@@ -139,12 +137,24 @@
       <span class="demo-num">01 — From molecular vibration to the Raman signal</span>
       <h2>How a vibration modulates the polarizability</h2>
       <p>
-        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates at top-left,
-        and the $\alpha$ vs $Q$ plot at top-right shows how the polarizability depends
-        on the vibrational coordinate. The key: only modes where the <em>slope</em>
-        $\partial\alpha/\partial Q \neq 0$ at equilibrium produce a first-order $\alpha$ oscillation — and hence
-        Raman sidebands.
+        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates (top-left) and the
+        $\alpha(Q)$ curve (top-right) tracks the polarizability along the vibrational
+        coordinate. Only a non-zero <em>slope</em> $\partial\alpha/\partial Q\neq 0$ at
+        equilibrium produces a first-order modulation — and therefore Raman sidebands.
       </p>
+
+      <!-- Compact classical derivation (matches the dissertation, Appendix A.1) -->
+      <div class="physics-note" style="border-left-color:#6366f1;">
+        <b>The classical effect in four steps.</b>
+        Drive the molecule with a monochromatic field and let one mode oscillate:
+        $$\mathbf{E}(t)=E_0\,\mathbf{e}_i\cos\omega_0 t,\qquad Q_k(t)=Q_{k0}\cos\omega_k t .$$
+        Insert the expansion of $\alpha$ into $\boldsymbol\mu=\alpha\mathbf E$ and apply the
+        product-to-sum identity. The induced dipole splits into <b>three</b> frequencies:
+        $$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_0 e_{i\sigma}\cos\omega_0 t}_{\text{Rayleigh } \omega_0}
+        +\tfrac12\,(R_k)_{\rho\sigma}E_0 e_{i\sigma}\Big[\underbrace{\cos(\omega_0-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_0+\omega_k)t}_{\text{anti-Stokes}}\Big].$$
+        The Stokes/anti-Stokes sidebands carry the prefactor $R_k$ — they exist
+        <b>iff</b> the Raman tensor is non-zero.
+      </div>
     </div>
     <div class="demo-stage">
 
@@ -222,28 +232,25 @@
       <!-- Selection rule box -->
       <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
         <b>Selection rule.</b>
-        A vibration along generalized coordinate $Q_k$ is Raman-active when
-        at least one component of its <b>Raman tensor</b>
-        $R_k = (\partial\alpha_{ij}/\partial Q_k)_0$ is non-zero.
-        Which components survive is dictated by the <b>symmetry of the crystal structure</b>
-        (point or space group). For centrosymmetric molecules like CO$_2$, the
-        <b>mutual exclusion rule</b> applies: a mode is either Raman-active or IR-active,
-        never both. The symmetric stretch changes $\alpha$ (Raman-active, IR-inactive), while the
-        asymmetric stretch changes the dipole moment (IR-active, Raman-inactive).
+        A mode is Raman-active iff at least one Raman-tensor component is non-zero:
+        $$\exists\,(\rho,\sigma):\ \ (R_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_0\neq 0 .$$
+        Which components survive is fixed entirely by the <b>point/space-group symmetry</b>.
+        Centrosymmetric systems obey <b>mutual exclusion</b>: the symmetric stretch
+        modulates $\alpha$ (Raman-active, IR-inactive); the asymmetric stretch modulates
+        $\boldsymbol\mu$ (IR-active, Raman-inactive).
       </div>
 
       <!-- Scattering intensity box -->
       <div class="physics-note" style="margin-top:14px; border-left-color:#3b82f6;">
         <b>Scattering intensity.</b>
-        The scattered intensity is proportional to
-        $$I \propto I_0 \cdot |R|^2 \cdot \omega_s^4$$
-        — the incident laser intensity,
-        the square of the Raman tensor element, and the <b>fourth power of the
-        scattered frequency</b>. The $\omega^4$ dependence explains why shorter-wavelength
-        lasers produce stronger Raman signals. It also means anti-Stokes photons
-        (higher $\omega_s$) are intrinsically stronger per photon than Stokes —
-        but since fewer molecules occupy excited vibrational states (Boltzmann
-        statistics), Stokes peaks dominate in practice.
+        Radiating the induced dipole (Maxwell, far field) and squaring gives
+        $$I_s \;\propto\; I_i\,\big|\mathbf{e}_s\!\cdot R_k\cdot\mathbf{e}_i\big|^2\,\omega_s^4 .$$
+        Three factors: incident intensity $I_i$, the projected Raman tensor
+        $|\mathbf e_s\!\cdot R_k\cdot\mathbf e_i|^2$ (sets symmetry &amp; polarization rules),
+        and the $\omega_s^4$ scattered-frequency dependence — why shorter-wavelength
+        lasers scatter more strongly. Per photon, anti-Stokes ($\omega_0+\omega_k$) is
+        favored by $\omega_s^4$, yet Stokes dominates because the $v\!=\!0$ initial state
+        is far more populated (Boltzmann).
       </div>
     </div>
   </section>
@@ -287,41 +294,41 @@
   <!-- ═══════ Module 03 — From molecules to crystals ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">03 — From molecules to crystals</span>
-      <h2>Raman tensors &amp; polarization dependence</h2>
+      <span class="demo-num">03 — From molecules to crystals: angle-resolved Raman</span>
+      <h2>Raman tensors &amp; polarization dependence in RTe$_3$</h2>
       <p>
-        In a crystal, vibrations are collective <b>phonon modes</b> classified by
-        the crystal's space group symmetry. Each Raman-active phonon has a specific
-        <b>Raman tensor</b> whose form is fixed by symmetry — and the scattered
-        intensity depends on polarization directions.
+        In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
+        irreducible representations of the space group. Each Raman-active phonon carries
+        a Raman tensor $R$ of symmetry-fixed form, and rotating the light polarization
+        ($\theta$) maps out $|\mathbf e_s\!\cdot R\cdot\mathbf e_i|^2$ — a direct
+        fingerprint of mode symmetry. Below, the worked example is the orthorhombic
+        rare-earth tritelluride family RTe$_3$.
       </p>
     </div>
     <div class="demo-stage">
 
       <div class="crystal-explain">
         <div class="crystal-concept">
-          <h3>Polarization-dependent intensity</h3>
+          <h3>Step 1 — Mode count from symmetry</h3>
           <p>
-            The Raman intensity for a given mode is:
+            RTe$_3$ crystallizes in space group <i>Cmcm</i> (No. 63) with every ion on a
+            $c$ Wyckoff site. The factor-group analysis gives the zone-center decomposition
           </p>
           <p class="eq-block">
-            $$I \propto |\mathbf{e}_i \cdot \mathbf{R} \cdot \mathbf{e}_s|^2$$
+            $$\Gamma = 4A_g + 4B_{1g} + 4B_{3g} + B_{1u} + B_{2u} + B_{3u}.$$
           </p>
           <p>
-            where $\mathbf{e}_i$ and $\mathbf{e}_s$ are the polarization
-            vectors of incident and scattered light, and $\mathbf{R}$ is the Raman tensor
-            of the phonon mode. By rotating the polarization angle
-            (<b>angle-resolved Raman spectroscopy</b>), one can determine the symmetry
-            of each mode — distinguishing $A_g$, $B_{1g}$,
-            $B_{2g}$ modes, etc.
+            The three $g$ (gerade) species — $A_g,\ B_{1g},\ B_{3g}$ — are
+            <b>Raman-active</b>; the $u$ species are IR / acoustic. No $B_{2g}$ modes
+            exist by symmetry.
           </p>
         </div>
 
         <div class="crystal-concept">
-          <h3>Example: orthorhombic crystals (Cmcm)</h3>
+          <h3>Step 2 — Raman tensors (orthorhombic $D_{2h}$)</h3>
           <p>
-            For an orthorhombic crystal in the Cmcm space group, the Raman-active
-            modes and their tensor forms are:
+            Each species has a symmetry-fixed Raman tensor form ($x\!\parallel\!a$,
+            $y\!\parallel\!b$, $z\!\parallel\!c$):
           </p>
           <div class="tensor-grid">
             <div class="tensor-card">
@@ -333,7 +340,7 @@
                   <tr><td></td><td></td><td>$c$</td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">$I \propto (a\cos^2\theta + c\sin^2\theta)^2$</span>
+              <span class="tensor-polar">diagonal</span>
             </div>
             <div class="tensor-card">
               <span class="tensor-label">$B_{1g}$</span>
@@ -344,10 +351,10 @@
                   <tr><td></td><td></td><td></td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">$I \propto d^2 \sin^2 2\theta$</span>
+              <span class="tensor-polar">$xy$</span>
             </div>
             <div class="tensor-card">
-              <span class="tensor-label">$B_{2g}$</span>
+              <span class="tensor-label">$B_{3g}$</span>
               <div class="tensor-matrix">
                 <table>
                   <tr><td></td><td></td><td></td></tr>
@@ -355,15 +362,54 @@
                   <tr><td></td><td>$f$</td><td></td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">not observed in backscattering</span>
+              <span class="tensor-polar">$yz$</span>
             </div>
           </div>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Step 3 — Geometry of the experiment</h3>
           <p>
-            In backscattering geometry with parallel polarization configuration,
-            the $A_g$ mode shows <b>four-fold symmetry</b> in a polar
-            plot of intensity vs. angle $\theta$, while $B_{1g}$ produces a
-            characteristic four-lobed pattern rotated by 45°. These patterns
-            serve as fingerprints for mode assignment.
+            RTe$_3$ layers lie in the $ac$-plane, bound by van der Waals gaps along $b$.
+            Backscattering therefore propagates along $b$, and both polarization vectors
+            stay in the $ac$-plane. In the <b>parallel configuration</b>
+            ($\mathbf e_i\!\parallel\!\mathbf e_s$), with $\theta$ the angle from the $a$-axis,
+          </p>
+          <p class="eq-block">
+            $$\mathbf e_i=\mathbf e_s=\begin{pmatrix}\cos\theta\\0\\\sin\theta\end{pmatrix}.$$
+          </p>
+          <p>
+            Because $\mathbf e$ has no $y$-component, the off-diagonal $B_{1g}$ and $B_{3g}$
+            tensors give zero — <b>only the $A_g$ mode is observable</b> in this geometry.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Step 4 — Angle dependence of the $A_g$ mode</h3>
+          <p>
+            Evaluating $I_s^{\parallel}\propto|\mathbf e_s\!\cdot R_{A_g}\!\cdot\mathbf e_i|^2$
+            with the diagonal $A_g$ tensor yields
+          </p>
+          <p class="eq-block">
+            $$I_s^{\parallel}\propto a^2\cos^4\theta + c^2\sin^4\theta + 2ac\,\cos^2\theta\sin^2\theta\cos\phi,$$
+          </p>
+          <p>
+            where $\phi$ is the phase difference between the complex Raman-tensor
+            components $a$ and $c$. The polar plot of $I_s^{\parallel}(\theta)$ shows the
+            characteristic <b>two-/four-lobed pattern</b> whose shape fixes the ratio
+            $c/a$ and the phase $\phi$ — the fitting handle used to assign modes and to
+            track the four-fold CDW distortion in RTe$_3$.
+          </p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3>Two angle-resolved setups</h3>
+          <p>
+            A half-wave plate rotates the polarization. <b>Type&nbsp;I</b> sweeps the laser
+            polarization while the analyzer angle is fixed; <b>Type&nbsp;II</b> rotates
+            laser <em>and</em> signal together at a fixed parallel (or perpendicular)
+            offset. Type&nbsp;II is the parallel-polarization configuration used for the
+            $A_g$ formula above.
           </p>
         </div>
 
