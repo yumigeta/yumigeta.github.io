@@ -196,7 +196,7 @@
       padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s; }
     .reg .row:last-child { border-bottom: 1px solid var(--rule); }
     .reg .row:hover { background: var(--paper-tint); }
-    .reg .dt { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--ink-2); }
+    .reg .dt { font-family: var(--mincho); font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--accent); }
     .reg .bd { font-size: clamp(14px,1.3vw,16px); line-height: 1.5; font-weight: 500; color: var(--ink); }
     .reg .bd em { font-style: normal; color: var(--accent); }
     .reg .ix { font-size: 11px; color: var(--ink-3); text-align: right; }
@@ -222,7 +222,7 @@
       padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s; }
     .ed-pubs .pub:last-of-type { border-bottom: 1px solid var(--rule); }
     .ed-pubs .pub:hover { background: var(--paper-tint); }
-    .ed-pubs .pub .yr { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--ink-2); }
+    .ed-pubs .pub .yr { font-family: var(--mincho); font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--accent); }
     .ed-pubs .pub .cite { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
     .ed-pubs .pub .cite .authors { color: var(--ink-2); }
     .ed-pubs .pub .cite .title { font-weight: 500; }
@@ -231,7 +231,7 @@
     .ed-pubs .pub .cite .journal { font-style: italic; }
     .ed-pubs .pub .cite .vol { font-weight: 600; font-style: normal; }
     .ed-pubs .pub .cite .badge { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper);
-      background: var(--accent); padding: 2px 6px; margin-left: 6px; vertical-align: 1px; font-style: normal; font-weight: 500; }
+      background: var(--accent); padding: 2px 6px; margin-left: 6px; vertical-align: 1px; font-style: normal; font-weight: 500; border-radius: 0; }
     @media (max-width: 680px) { .ed-pubs .pub { grid-template-columns: 56px 1fr; } }
 
     .after { margin-top: clamp(16px,2vw,24px); }
@@ -239,11 +239,27 @@
       display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .more:hover { border-color: var(--accent); }
 
+    /* ===== LEARN (interactive guides) ===== */
+    .ed-learn .guide { display: grid; grid-template-columns: 1fr; gap: 0;
+      padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s; }
+    .ed-learn .guide:last-of-type { border-bottom: 1px solid var(--rule); }
+    .ed-learn .guide:hover { background: var(--paper-tint); }
+    .ed-learn .guide .g-top { display: flex; align-items: baseline; gap: 10px; }
+    .ed-learn .guide .g-name { font-family: var(--mincho); font-size: clamp(16px,1.6vw,19px); font-weight: 600; letter-spacing: -.005em; }
+    .ed-learn .guide .g-badge { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper);
+      background: var(--accent); padding: 2px 6px; font-weight: 500; border-radius: 0; white-space: nowrap; }
+    .ed-learn .guide .g-desc { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin-top: 4px; }
+    .ed-learn .guide .g-stack { font-family: var(--gothic); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
+    .ed-learn .guide .g-link { margin-top: 8px; }
+    .ed-learn .guide .g-link a { font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+      border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
+    .ed-learn .guide .g-link a:hover { border-color: var(--accent); }
+
     /* ===== CV (register) ===== */
     .ed-cv .row { display: grid; grid-template-columns: 72px 1fr auto; gap: clamp(12px,2vw,24px); align-items: baseline;
       padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); }
     .ed-cv .row:last-of-type { border-bottom: 1px solid var(--rule); }
-    .ed-cv .w { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--ink-2); }
+    .ed-cv .w { font-family: var(--mincho); font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--accent); }
     .ed-cv .d { font-size: clamp(14px,1.3vw,16px); font-weight: 500; }
     .ed-cv .d .ex { color: var(--ink-2); font-weight: 400; }
     .ed-cv .kind { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: right; }
@@ -298,6 +314,7 @@
       <a href="#news">News</a>
       <a href="#research">Research</a>
       <a href="#publications">Publications</a>
+      <a href="#learn">Learn</a>
       <a href="#cv">CV</a>
     </nav>
     <a class="end" href="#contact">Contact</a>
@@ -426,11 +443,36 @@
   </div>
 </section>
 
+<!-- LEARN -->
+<section class="ed-section" id="learn">
+  <div class="wrap">
+    <div class="shx rv">
+      <span class="no">04</span>
+      <h2>Learn</h2>
+      <span class="meta">Interactive guides</span>
+    </div>
+    <div class="ed-learn rv">
+      <div class="guide">
+        <div class="g-top"><span class="g-name">Raman Spectroscopy</span><span class="g-badge">Interactive</span></div>
+        <p class="g-desc">An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
+        <div class="g-stack">JavaScript · Canvas</div>
+        <div class="g-link"><a href="raman.html">Open ›</a></div>
+      </div>
+      <div class="guide">
+        <div class="g-top"><span class="g-name">Graphene Electronic Structure</span><span class="g-badge">Interactive</span></div>
+        <p class="g-desc">Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
+        <div class="g-stack">JavaScript · Canvas</div>
+        <div class="g-link"><a href="graphene.html">Open ›</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CV -->
 <section class="ed-section" id="cv">
   <div class="wrap">
     <div class="shx rv">
-      <span class="no">04</span>
+      <span class="no">05</span>
       <h2>CV</h2>
       <span class="meta">Curriculum Vitae</span>
     </div>
@@ -451,7 +493,7 @@
 <section class="ed-section ed-contact" id="contact">
   <div class="wrap">
     <div class="shx rv">
-      <span class="no">05</span>
+      <span class="no">06</span>
       <h2>Contact</h2>
       <span class="meta">Email &amp; profiles</span>
     </div>
