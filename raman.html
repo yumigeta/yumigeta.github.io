@@ -71,6 +71,7 @@
   <script src="analytics.js"></script>
 </head>
 <body>
+  <script src="lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
       <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
@@ -87,46 +88,52 @@
 
   <div class="phead">
     <div class="container">
-      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html">Learn</a><span class="sep">/</span><span>Raman Spectroscopy</span></div>
+      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html"><span class="i18n-en">Learn</span><span class="i18n-ja">学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Raman Spectroscopy</span><span class="i18n-ja">ラマン分光法</span></span></div>
       <div class="ptop">
         <span class="no">01</span>
-        <h1>How Raman Spectroscopy Works</h1>
-        <span class="meta">Interactive guide</span>
+        <h1><span class="i18n-en">How Raman Spectroscopy Works</span><span class="i18n-ja">ラマン分光法の仕組み</span></h1>
+        <span class="meta"><span class="i18n-en">Interactive guide</span><span class="i18n-ja">インタラクティブガイド</span></span>
+        <button class="lang-btn" aria-label="Switch language">日本語</button>
       </div>
-      <p class="pintro">Raman scattering probes the vibrational fingerprint of a material: an incident photon is inelastically scattered by a lattice vibration, and the <em>frequency shift</em> $\omega_0\!\pm\!\omega_k$ maps directly onto phonon energies. This page builds the effect from a single starting point — the <b>polarizability $\alpha$ modulated by a normal coordinate $Q_k$</b> — and follows it through to the angle-resolved selection rules used to fingerprint crystal symmetry (here, the orthorhombic <i>Cmcm</i> rare-earth tritellurides RTe$_3$).</p>
+      <p class="pintro"><span class="i18n-en">Raman scattering probes the vibrational fingerprint of a material: an incident photon is inelastically scattered by a lattice vibration, and the <em>frequency shift</em> $\omega_0\!\pm\!\omega_k$ maps directly onto phonon energies. This page builds the effect from a single starting point — the <b>polarizability $\alpha$ modulated by a normal coordinate $Q_k$</b> — and follows it through to the angle-resolved selection rules used to fingerprint crystal symmetry (here, the orthorhombic <i>Cmcm</i> rare-earth tritellurides RTe$_3$).</span><span class="i18n-ja">ラマン散乱は物質の振動フィンガープリントを調べる手法です。入射光子が格子振動により非弾性散乱され、<em>周波数シフト</em> $\omega_0\!\pm\!\omega_k$ がフォノンエネルギーに直接対応します。このページでは、一つの出発点 — <b>基準座標 $Q_k$ によって変調される分極率 $\alpha$</b> — から出発し、結晶対称性のフィンガープリントに用いられる角度分解選択則（ここでは斜方晶 <i>Cmcm</i> 希土類三テルル化物 RTe$_3$）まで導きます。</span></p>
     </div>
   </div>
 
   <!-- ═══════ Module 00 — What is polarizability? ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">00 — What is polarizability?</span>
-      <h2>Light displaces the electron cloud</h2>
+      <span class="demo-num"><span class="i18n-en">00 — What is polarizability?</span><span class="i18n-ja">00 — 分極率とは？</span></span>
+      <h2><span class="i18n-en">Light displaces the electron cloud</span><span class="i18n-ja">光が電子雲を変位させる</span></h2>
       <p>
-        An oscillating light field $\mathbf{E}(t)$ displaces the
+        <span class="i18n-en">An oscillating light field $\mathbf{E}(t)$ displaces the
         <b style="color:#38bdf8">negative electron cloud</b> against the
         <b style="color:#ef4444">positive nucleus</b>, inducing a dipole moment
         $\boldsymbol{\mu}=\alpha\,\mathbf{E}$. The proportionality constant — the
         <b>polarizability</b> $\alpha$ — quantifies how easily the cloud deforms.
-        It is the single quantity from which the entire Raman effect follows.
+        It is the single quantity from which the entire Raman effect follows.</span><span class="i18n-ja">振動する光電場 $\mathbf{E}(t)$ が<b style="color:#38bdf8">負の電子雲</b>を<b style="color:#ef4444">正の原子核</b>に対して変位させ、双極子モーメント $\boldsymbol{\mu}=\alpha\,\mathbf{E}$ を誘起します。比例定数である<b>分極率</b> $\alpha$ は、電子雲がどれほど容易に変形するかを定量化します。ラマン効果全体がこの一つの量から導かれます。</span>
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-atom" class="atom-canvas"></canvas>
       <p class="cap" id="atom-cap">
-        A <b>static</b> $\alpha$ gives a dipole oscillating at the drive frequency
+        <span class="i18n-en">A <b>static</b> $\alpha$ gives a dipole oscillating at the drive frequency
         $\omega_0$ — elastic <b>Rayleigh scattering</b>. The Raman effect appears only
-        when $\alpha$ is itself <b>modulated</b> by a lattice vibration.
+        when $\alpha$ is itself <b>modulated</b> by a lattice vibration.</span><span class="i18n-ja"><b>静的な</b> $\alpha$ は駆動周波数 $\omega_0$ で振動する双極子を与えます — 弾性的な<b>レイリー散乱</b>です。ラマン効果は $\alpha$ 自体が格子振動によって<b>変調</b>されるときにのみ現れます。</span>
       </p>
       <div class="physics-note">
-        <b>$\alpha$ is a symmetric second-rank tensor.</b>
+        <span class="i18n-en"><b>$\alpha$ is a symmetric second-rank tensor.</b>
         Each field component induces a dipole in every direction:
         $$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{xy}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{xz}&\alpha_{yz}&\alpha_{zz}\end{pmatrix},\qquad \alpha_{\rho\sigma}=\alpha_{\sigma\rho}.$$
         Because $\alpha$ depends on the nuclear positions, expand it to first order in the
         normal coordinate $Q_k$ (phonon $k$):
         $$\alpha_{\rho\sigma}(Q_k)=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k .$$
         The derivative tensor $R_k=(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ is the
-        <b>Raman tensor</b>. Everything below follows from whether it vanishes.
+        <b>Raman tensor</b>. Everything below follows from whether it vanishes.</span><span class="i18n-ja"><b>$\alpha$ は対称な2階テンソルです。</b>
+        各電場成分はあらゆる方向に双極子を誘起します：
+        $$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{xy}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{xz}&\alpha_{yz}&\alpha_{zz}\end{pmatrix},\qquad \alpha_{\rho\sigma}=\alpha_{\sigma\rho}.$$
+        $\alpha$ は原子核の位置に依存するため、基準座標 $Q_k$（フォノン $k$）について1次まで展開します：
+        $$\alpha_{\rho\sigma}(Q_k)=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k .$$
+        微分テンソル $R_k=(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ が<b>ラマンテンソル</b>です。以下のすべては、これがゼロになるかどうかから導かれます。</span>
       </div>
     </div>
   </section>
@@ -134,18 +141,18 @@
   <!-- ═══════ Module 01 — Vibration → α → signal ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">01 — From molecular vibration to the Raman signal</span>
-      <h2>How a vibration modulates the polarizability</h2>
+      <span class="demo-num"><span class="i18n-en">01 — From molecular vibration to the Raman signal</span><span class="i18n-ja">01 — 分子振動からラマン信号へ</span></span>
+      <h2><span class="i18n-en">How a vibration modulates the polarizability</span><span class="i18n-ja">振動が分極率をどう変調するか</span></h2>
       <p>
-        Pick a normal mode of CO<sub>2</sub>. The molecule vibrates (top-left) and the
+        <span class="i18n-en">Pick a normal mode of CO<sub>2</sub>. The molecule vibrates (top-left) and the
         $\alpha(Q)$ curve (top-right) tracks the polarizability along the vibrational
         coordinate. Only a non-zero <em>slope</em> $\partial\alpha/\partial Q\neq 0$ at
-        equilibrium produces a first-order modulation — and therefore Raman sidebands.
+        equilibrium produces a first-order modulation — and therefore Raman sidebands.</span><span class="i18n-ja">CO<sub>2</sub>の基準モードを選んでください。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が振動座標に沿った分極率を追跡します。平衡位置でゼロでない<em>傾き</em> $\partial\alpha/\partial Q\neq 0$ のみが1次の変調を生み出し、したがってラマンサイドバンドを生じます。</span>
       </p>
 
       <!-- Compact classical derivation (matches the dissertation, Appendix A.1) -->
       <div class="physics-note" style="border-left-color:#6366f1;">
-        <b>The classical effect in four steps.</b>
+        <span class="i18n-en"><b>The classical effect in four steps.</b>
         Drive the molecule with a monochromatic field and let one mode oscillate:
         $$\mathbf{E}(t)=E_0\,\mathbf{e}_i\cos\omega_0 t,\qquad Q_k(t)=Q_{k0}\cos\omega_k t .$$
         Insert the expansion of $\alpha$ into $\boldsymbol\mu=\alpha\mathbf E$ and apply the
@@ -153,7 +160,13 @@
         $$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_0 e_{i\sigma}\cos\omega_0 t}_{\text{Rayleigh } \omega_0}
         +\tfrac12\,(R_k)_{\rho\sigma}E_0 e_{i\sigma}\Big[\underbrace{\cos(\omega_0-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_0+\omega_k)t}_{\text{anti-Stokes}}\Big].$$
         The Stokes/anti-Stokes sidebands carry the prefactor $R_k$ — they exist
-        <b>iff</b> the Raman tensor is non-zero.
+        <b>iff</b> the Raman tensor is non-zero.</span><span class="i18n-ja"><b>古典的効果を4ステップで。</b>
+        単色場で分子を駆動し、1つのモードを振動させます：
+        $$\mathbf{E}(t)=E_0\,\mathbf{e}_i\cos\omega_0 t,\qquad Q_k(t)=Q_{k0}\cos\omega_k t .$$
+        $\alpha$ の展開を $\boldsymbol\mu=\alpha\mathbf E$ に代入し、積和の公式を適用します。誘起双極子は<b>3つの</b>周波数に分離します：
+        $$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_0 e_{i\sigma}\cos\omega_0 t}_{\text{Rayleigh } \omega_0}
+        +\tfrac12\,(R_k)_{\rho\sigma}E_0 e_{i\sigma}\Big[\underbrace{\cos(\omega_0-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_0+\omega_k)t}_{\text{anti-Stokes}}\Big].$$
+        ストークス/反ストークスサイドバンドは前因子 $R_k$ を持ちます — ラマンテンソルがゼロでない<b>場合に限り</b>存在します。</span>
       </div>
     </div>
     <div class="demo-stage">
@@ -169,30 +182,30 @@
       </div>
 
       <div class="btn-row" id="mol-btns" style="margin:14px 0 6px;">
-        <button class="demo-btn active" data-mode="sym">Symmetric stretch</button>
-        <button class="demo-btn" data-mode="asym">Asymmetric stretch</button>
-        <button class="demo-btn" data-mode="bend">Bend</button>
+        <button class="demo-btn active" data-mode="sym"><span class="i18n-en">Symmetric stretch</span><span class="i18n-ja">対称伸縮</span></button>
+        <button class="demo-btn" data-mode="asym"><span class="i18n-en">Asymmetric stretch</span><span class="i18n-ja">非対称伸縮</span></button>
+        <button class="demo-btn" data-mode="bend"><span class="i18n-en">Bend</span><span class="i18n-ja">変角</span></button>
       </div>
 
       <div id="mode-explanation" class="mode-explain"></div>
 
       <!-- Traces: E → α(t) → p(t) -->
       <div class="trace-row">
-        <div class="trace-label"><b>Incident field</b><span class="eq">$E(t) = E_0 \cos(\omega_0 t)$</span></div>
+        <div class="trace-label"><b><span class="i18n-en">Incident field</span><span class="i18n-ja">入射電場</span></b><span class="eq">$E(t) = E_0 \cos(\omega_0 t)$</span></div>
         <canvas id="c-field"></canvas>
       </div>
       <div class="trace-row">
-        <div class="trace-label"><b>Polarizability</b><span class="eq">$\alpha(t) = \alpha_0 + (\partial\alpha/\partial Q)\cdot q(t)$</span></div>
+        <div class="trace-label"><b><span class="i18n-en">Polarizability</span><span class="i18n-ja">分極率</span></b><span class="eq">$\alpha(t) = \alpha_0 + (\partial\alpha/\partial Q)\cdot q(t)$</span></div>
         <canvas id="c-alpha"></canvas>
       </div>
       <div class="trace-row">
-        <div class="trace-label"><b>Induced dipole</b><span class="eq">$p(t) = \alpha(t)\cdot E(t)$</span></div>
+        <div class="trace-label"><b><span class="i18n-en">Induced dipole</span><span class="i18n-ja">誘起双極子</span></b><span class="eq">$p(t) = \alpha(t)\cdot E(t)$</span></div>
         <canvas id="c-dipole"></canvas>
       </div>
 
       <!-- Decomposition (Fig.1c): AM → 3 components -->
       <div class="decomp-section">
-        <div class="decomp-label">Frequency decomposition of p(t)</div>
+        <div class="decomp-label"><span class="i18n-en">Frequency decomposition of p(t)</span><span class="i18n-ja">p(t)の周波数分解</span></div>
         <div class="decomp-traces">
           <div class="decomp-row">
             <span class="decomp-tag" style="color:#16a34a">$\nu_0$ (Rayleigh)</span>
@@ -216,14 +229,14 @@
       </div>
 
       <div class="legend">
-        <span><i style="background:#16a34a"></i> Rayleigh ($\omega_0$)</span>
-        <span><i style="background:#ef4444"></i> Stokes ($\omega_0 - \omega_v$)</span>
-        <span><i style="background:#3b82f6"></i> anti-Stokes ($\omega_0 + \omega_v$)</span>
+        <span><i style="background:#16a34a"></i> <span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span> ($\omega_0$)</span>
+        <span><i style="background:#ef4444"></i> <span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span> ($\omega_0 - \omega_v$)</span>
+        <span><i style="background:#3b82f6"></i> <span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span> ($\omega_0 + \omega_v$)</span>
       </div>
 
       <div class="controls">
         <div class="btn-row">
-          <button class="demo-btn active" id="btn-play">Pause</button>
+          <button class="demo-btn active" id="btn-play"><span class="i18n-en">Pause</span><span class="i18n-ja">一時停止</span></button>
         </div>
       </div>
 
@@ -231,18 +244,21 @@
 
       <!-- Selection rule box -->
       <div class="physics-note" style="margin-top:14px; border-left-color:#16a34a;">
-        <b>Selection rule.</b>
+        <span class="i18n-en"><b>Selection rule.</b>
         A mode is Raman-active iff at least one Raman-tensor component is non-zero:
         $$\exists\,(\rho,\sigma):\ \ (R_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_0\neq 0 .$$
         Which components survive is fixed entirely by the <b>point/space-group symmetry</b>.
         Centrosymmetric systems obey <b>mutual exclusion</b>: the symmetric stretch
         modulates $\alpha$ (Raman-active, IR-inactive); the asymmetric stretch modulates
-        $\boldsymbol\mu$ (IR-active, Raman-inactive).
+        $\boldsymbol\mu$ (IR-active, Raman-inactive).</span><span class="i18n-ja"><b>選択則。</b>
+        あるモードがラマン活性であるのは、ラマンテンソルの少なくとも1つの成分がゼロでない場合に限ります：
+        $$\exists\,(\rho,\sigma):\ \ (R_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_0\neq 0 .$$
+        どの成分が残るかは<b>点群/空間群の対称性</b>によって完全に決まります。中心対称系では<b>相互排除則</b>が成り立ちます：対称伸縮は $\alpha$ を変調し（ラマン活性、赤外不活性）、非対称伸縮は $\boldsymbol\mu$ を変調します（赤外活性、ラマン不活性）。</span>
       </div>
 
       <!-- Scattering intensity box -->
       <div class="physics-note" style="margin-top:14px; border-left-color:#3b82f6;">
-        <b>Scattering intensity.</b>
+        <span class="i18n-en"><b>Scattering intensity.</b>
         Radiating the induced dipole (Maxwell, far field) and squaring gives
         $$I_s \;\propto\; I_i\,\big|\mathbf{e}_s\!\cdot R_k\cdot\mathbf{e}_i\big|^2\,\omega_s^4 .$$
         Three factors: incident intensity $I_i$, the projected Raman tensor
@@ -250,7 +266,10 @@
         and the $\omega_s^4$ scattered-frequency dependence — why shorter-wavelength
         lasers scatter more strongly. Per photon, anti-Stokes ($\omega_0+\omega_k$) is
         favored by $\omega_s^4$, yet Stokes dominates because the $v\!=\!0$ initial state
-        is far more populated (Boltzmann).
+        is far more populated (Boltzmann).</span><span class="i18n-ja"><b>散乱強度。</b>
+        誘起双極子を放射し（マクスウェル方程式、遠方場）、二乗すると
+        $$I_s \;\propto\; I_i\,\big|\mathbf{e}_s\!\cdot R_k\cdot\mathbf{e}_i\big|^2\,\omega_s^4 .$$
+        3つの因子：入射強度 $I_i$、射影ラマンテンソル $|\mathbf e_s\!\cdot R_k\cdot\mathbf e_i|^2$（対称性と偏光則を決定）、散乱周波数依存性 $\omega_s^4$ — 短波長レーザーがより強く散乱する理由です。光子あたりでは反ストークス ($\omega_0+\omega_k$) が $\omega_s^4$ により有利ですが、$v\!=\!0$ の初期状態がはるかに多く占有されている（ボルツマン分布）ため、ストークスが支配的です。</span>
       </div>
     </div>
   </section>
@@ -258,35 +277,38 @@
   <!-- ═══════ Module 02 — Jablonski ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">02 — Quantum picture</span>
-      <h2>Energy-level (Jablonski) diagram</h2>
+      <span class="demo-num"><span class="i18n-en">02 — Quantum picture</span><span class="i18n-ja">02 — 量子論的描像</span></span>
+      <h2><span class="i18n-en">Energy-level (Jablonski) diagram</span><span class="i18n-ja">エネルギー準位（ヤブロンスキー）図</span></h2>
       <p>
-        A photon excites the molecule to a short-lived <em>virtual state</em>, then a
+        <span class="i18n-en">A photon excites the molecule to a short-lived <em>virtual state</em>, then a
         photon is scattered as it relaxes. Where it lands sets the scattered energy:
         same level (<b>Rayleigh</b>), a higher vibrational level (<b>Stokes</b>, red-shifted),
-        or back down from an excited level (<b>anti-Stokes</b>, blue-shifted).
+        or back down from an excited level (<b>anti-Stokes</b>, blue-shifted).</span><span class="i18n-ja">光子が分子を短寿命の<em>仮想状態</em>に励起し、緩和する際に光子が散乱されます。どの準位に落ちるかで散乱エネルギーが決まります：同じ準位（<b>レイリー</b>）、より高い振動準位（<b>ストークス</b>、赤方偏移）、または励起準位から下の準位へ（<b>反ストークス</b>、青方偏移）。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="svg-wrap" id="jab-wrap"></div>
       <div class="controls">
         <div class="btn-row" id="jab-btns">
-          <button class="demo-btn active" data-proc="rayleigh">Rayleigh</button>
-          <button class="demo-btn" data-proc="stokes">Stokes</button>
-          <button class="demo-btn" data-proc="antistokes">anti-Stokes</button>
+          <button class="demo-btn active" data-proc="rayleigh"><span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span></button>
+          <button class="demo-btn" data-proc="stokes"><span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span></button>
+          <button class="demo-btn" data-proc="antistokes"><span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span></button>
         </div>
       </div>
       <p class="jab-cap" id="jab-cap"></p>
 
       <div class="physics-note" style="margin-top:18px; border-left-color:#f59e0b;">
-        <b>Stokes/anti-Stokes ratio and temperature.</b>
+        <span class="i18n-en"><b>Stokes/anti-Stokes ratio and temperature.</b>
         At thermal equilibrium, most molecules sit in the <b>ground vibrational
         state</b> (v = 0). Stokes scattering starts from v = 0 (abundant), while
         anti-Stokes starts from v = 1 (thermally populated). Their intensity ratio
         $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_v / k_B T)$
         directly encodes the sample <b>temperature</b> — a principle widely used
         in non-contact thermometry. At low temperatures, anti-Stokes peaks
-        nearly vanish; at high temperatures, they grow toward the Stokes intensity.
+        nearly vanish; at high temperatures, they grow toward the Stokes intensity.</span><span class="i18n-ja"><b>ストークス/反ストークス比と温度。</b>
+        熱平衡では、ほとんどの分子は<b>基底振動状態</b>（v = 0）にあります。ストークス散乱は v = 0（豊富）から始まり、反ストークスは v = 1（熱的に占有）から始まります。それらの強度比
+        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_v / k_B T)$
+        は試料の<b>温度</b>を直接反映します — 非接触温度測定に広く使われている原理です。低温では反ストークスピークはほぼ消失し、高温ではストークス強度に近づきます。</span>
       </div>
     </div>
   </section>
@@ -294,41 +316,41 @@
   <!-- ═══════ Module 03 — From molecules to crystals ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">03 — From molecules to crystals: angle-resolved Raman</span>
-      <h2>Raman tensors &amp; polarization dependence in RTe$_3$</h2>
+      <span class="demo-num"><span class="i18n-en">03 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">03 — 分子から結晶へ：角度分解ラマン</span></span>
+      <h2><span class="i18n-en">Raman tensors &amp; polarization dependence in RTe$_3$</span><span class="i18n-ja">RTe$_3$ におけるラマンテンソルと偏光依存性</span></h2>
       <p>
-        In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
+        <span class="i18n-en">In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
         irreducible representations of the space group. Each Raman-active phonon carries
         a Raman tensor $R$ of symmetry-fixed form, and rotating the light polarization
         ($\theta$) maps out $|\mathbf e_s\!\cdot R\cdot\mathbf e_i|^2$ — a direct
         fingerprint of mode symmetry. Below, the worked example is the orthorhombic
-        rare-earth tritelluride family RTe$_3$.
+        rare-earth tritelluride family RTe$_3$.</span><span class="i18n-ja">結晶中では、振動は空間群の既約表現でラベル付けされた集団的<b>フォノンモード</b>です。各ラマン活性フォノンは対称性で決まる形のラマンテンソル $R$ を持ち、光の偏光（$\theta$）を回転させると $|\mathbf e_s\!\cdot R\cdot\mathbf e_i|^2$ がマッピングされます — モード対称性の直接的なフィンガープリントです。以下では、斜方晶希土類三テルル化物 RTe$_3$ ファミリーを具体例として扱います。</span>
       </p>
     </div>
     <div class="demo-stage">
 
       <div class="crystal-explain">
         <div class="crystal-concept">
-          <h3>Step 1 — Mode count from symmetry</h3>
+          <h3><span class="i18n-en">Step 1 — Mode count from symmetry</span><span class="i18n-ja">ステップ1 — 対称性からのモード数</span></h3>
           <p>
-            RTe$_3$ crystallizes in space group <i>Cmcm</i> (No. 63) with every ion on a
-            $c$ Wyckoff site. The factor-group analysis gives the zone-center decomposition
+            <span class="i18n-en">RTe$_3$ crystallizes in space group <i>Cmcm</i> (No. 63) with every ion on a
+            $c$ Wyckoff site. The factor-group analysis gives the zone-center decomposition</span><span class="i18n-ja">RTe$_3$ は空間群 <i>Cmcm</i>（No. 63）で結晶化し、すべてのイオンは $c$ ワイコフサイト上にあります。因子群解析によりゾーン中心の分解は</span>
           </p>
           <p class="eq-block">
             $$\Gamma = 4A_g + 4B_{1g} + 4B_{3g} + B_{1u} + B_{2u} + B_{3u}.$$
           </p>
           <p>
-            The three $g$ (gerade) species — $A_g,\ B_{1g},\ B_{3g}$ — are
+            <span class="i18n-en">The three $g$ (gerade) species — $A_g,\ B_{1g},\ B_{3g}$ — are
             <b>Raman-active</b>; the $u$ species are IR / acoustic. No $B_{2g}$ modes
-            exist by symmetry.
+            exist by symmetry.</span><span class="i18n-ja">3つの $g$（偶）種 — $A_g,\ B_{1g},\ B_{3g}$ — が<b>ラマン活性</b>であり、$u$ 種は赤外/音響モードです。対称性により $B_{2g}$ モードは存在しません。</span>
           </p>
         </div>
 
         <div class="crystal-concept">
-          <h3>Step 2 — Raman tensors (orthorhombic $D_{2h}$)</h3>
+          <h3><span class="i18n-en">Step 2 — Raman tensors (orthorhombic $D_{2h}$)</span><span class="i18n-ja">ステップ2 — ラマンテンソル（斜方晶 $D_{2h}$）</span></h3>
           <p>
-            Each species has a symmetry-fixed Raman tensor form ($x\!\parallel\!a$,
-            $y\!\parallel\!b$, $z\!\parallel\!c$):
+            <span class="i18n-en">Each species has a symmetry-fixed Raman tensor form ($x\!\parallel\!a$,
+            $y\!\parallel\!b$, $z\!\parallel\!c$):</span><span class="i18n-ja">各種は対称性で決まるラマンテンソルの形を持ちます（$x\!\parallel\!a$, $y\!\parallel\!b$, $z\!\parallel\!c$）：</span>
           </p>
           <div class="tensor-grid">
             <div class="tensor-card">
@@ -340,7 +362,7 @@
                   <tr><td></td><td></td><td>$c$</td></tr>
                 </table>
               </div>
-              <span class="tensor-polar">diagonal</span>
+              <span class="tensor-polar"><span class="i18n-en">diagonal</span><span class="i18n-ja">対角</span></span>
             </div>
             <div class="tensor-card">
               <span class="tensor-label">$B_{1g}$</span>

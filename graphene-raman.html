@@ -59,6 +59,7 @@
   <script src="analytics.js"></script>
 </head>
 <body>
+  <script src="lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
       <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
@@ -75,37 +76,41 @@
 
   <div class="phead">
     <div class="container">
-      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html">Learn</a><span class="sep">/</span><span>Graphene Raman Spectroscopy</span></div>
+      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html"><span class="i18n-en">Learn</span><span class="i18n-ja">学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Raman Spectroscopy</span><span class="i18n-ja">グラフェンのラマン分光</span></span></div>
       <div class="ptop">
         <span class="no">03</span>
-        <h1>Graphene Raman Spectroscopy</h1>
-        <span class="meta">Interactive guide</span>
+        <h1><span class="i18n-en">Graphene Raman Spectroscopy</span><span class="i18n-ja">グラフェンのラマン分光</span></h1>
+        <span class="meta"><span class="i18n-en">Interactive guide</span><span class="i18n-ja">インタラクティブガイド</span></span>
+        <button class="lang-btn" aria-label="Switch language">日本語</button>
       </div>
-      <p class="pintro">Raman spectroscopy is the go-to tool for characterizing graphene: it identifies the number of layers, quantifies defects, and measures <em>strain and doping</em> — all from a quick, non-destructive optical measurement.</p>
+      <p class="pintro"><span class="i18n-en">Raman spectroscopy is the go-to tool for characterizing graphene: it identifies the number of layers, quantifies defects, and measures <em>strain and doping</em> — all from a quick, non-destructive optical measurement.</span><span class="i18n-ja">ラマン分光法はグラフェンの評価に最も広く使われる手法です。層数の同定、欠陥の定量、そして<em>ひずみとドーピング</em>の測定を、迅速かつ非破壊な光学測定だけで行えます。</span></p>
     </div>
   </div>
 
   <!-- ═══════ Module 00 — Phonon dispersion ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">00 — Phonon dispersion</span>
-      <h2>Six phonon branches from two atoms</h2>
+      <span class="demo-num"><span class="i18n-en">00 — Phonon dispersion</span><span class="i18n-ja">00 — フォノン分散</span></span>
+      <h2><span class="i18n-en">Six phonon branches from two atoms</span><span class="i18n-ja">2つの原子から生まれる6本のフォノンブランチ</span></h2>
       <p>
-        Graphene's unit cell has <b>two carbon atoms</b>, giving rise to
+        <span class="i18n-en">Graphene's unit cell has <b>two carbon atoms</b>, giving rise to
         <b>six phonon branches</b>: three acoustic (A) and three optical (O).
         Each is further classified as in-plane longitudinal (L), in-plane
         transverse (T), or out-of-plane (Z). The Raman-active modes live
         near the $\Gamma$ <b>point</b> (first-order) and the <b>K point</b>
-        (double resonance).
+        (double resonance).</span><span class="i18n-ja">グラフェンの単位胞には<b>2つの炭素原子</b>があり、
+        <b>6本のフォノンブランチ</b>（音響3本(A)と光学3本(O)）が生じます。
+        それぞれは面内縦波(L)、面内横波(T)、面外(Z)に分類されます。ラマン活性モードは
+        $\Gamma$ <b>点</b>（一次過程）および<b>K点</b>（二重共鳴）付近に存在します。</span>
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-phonon" class="gr-canvas-wide"></canvas>
       <p class="cap">
-        Phonon dispersion of graphene along $\Gamma \to M \to K \to \Gamma$. The <b style="color:#ef4444">iTO</b>
+        <span class="i18n-en">Phonon dispersion of graphene along $\Gamma \to M \to K \to \Gamma$. The <b style="color:#ef4444">iTO</b>
         branch near K (~1350 cm<sup>−1</sup>) gives rise to the D and 2D bands.
         The <b style="color:#16a34a">iLO and iTO</b> branches at Γ (~1580 cm<sup>−1</sup>)
-        produce the G band. Hover over the branches to identify them.
+        produce the G band. Hover over the branches to identify them.</span><span class="i18n-ja">$\Gamma \to M \to K \to \Gamma$ に沿ったグラフェンのフォノン分散。K点付近の<b style="color:#ef4444">iTO</b>ブランチ（~1350 cm<sup>−1</sup>）がDバンドと2Dバンドを生み出します。Γ点の<b style="color:#16a34a">iLOとiTO</b>ブランチ（~1580 cm<sup>−1</sup>）がGバンドを生成します。ブランチにカーソルを合わせると名前が表示されます。</span>
       </p>
       <div class="branch-legend">
         <span><i style="background:#ef4444"></i> iTO</span>
@@ -121,45 +126,45 @@
   <!-- ═══════ Module 01 — G band ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">01 — The G band</span>
-      <h2>First-order Raman scattering at ~1580 cm<sup>−1</sup></h2>
+      <span class="demo-num"><span class="i18n-en">01 — The G band</span><span class="i18n-ja">01 — Gバンド</span></span>
+      <h2><span class="i18n-en">First-order Raman scattering at ~1580 cm<sup>−1</sup></span><span class="i18n-ja">~1580 cm<sup>−1</sup> における一次ラマン散乱</span></h2>
       <p>
-        The <b>G band</b> is the only first-order Raman peak in graphene.
+        <span class="i18n-en">The <b>G band</b> is the only first-order Raman peak in graphene.
         It originates from the doubly degenerate $E_{2g}$ phonon
         mode at the Brillouin zone center ($\Gamma$ point), where adjacent carbon
-        atoms vibrate against each other in-plane.
+        atoms vibrate against each other in-plane.</span><span class="i18n-ja"><b>Gバンド</b>はグラフェンにおける唯一の一次ラマンピークです。ブリルアンゾーンの中心（$\Gamma$ 点）における二重縮退した $E_{2g}$ フォノンモードに由来し、隣接する炭素原子が面内で互いに逆方向に振動します。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="top-row">
         <div class="gr-panel">
           <canvas id="c-gmode"></canvas>
-          <p class="panel-label">$E_{2g}$ vibration at $\Gamma$</p>
+          <p class="panel-label"><span class="i18n-en">$E_{2g}$ vibration at $\Gamma$</span><span class="i18n-ja">$\Gamma$ 点の $E_{2g}$ 振動</span></p>
         </div>
         <div class="gr-panel">
           <canvas id="c-gprocess"></canvas>
-          <p class="panel-label">Scattering process</p>
+          <p class="panel-label"><span class="i18n-en">Scattering process</span><span class="i18n-ja">散乱過程</span></p>
         </div>
       </div>
 
       <div class="btn-row" id="gmode-btns" style="margin:14px 0 6px;">
-        <button class="demo-btn active" data-gmode="ilo">iLO mode</button>
-        <button class="demo-btn" data-gmode="ito">iTO mode</button>
+        <button class="demo-btn active" data-gmode="ilo"><span class="i18n-en">iLO mode</span><span class="i18n-ja">iLOモード</span></button>
+        <button class="demo-btn" data-gmode="ito"><span class="i18n-en">iTO mode</span><span class="i18n-ja">iTOモード</span></button>
       </div>
 
       <div class="gr-info">
-        <b>First-order process:</b> an incident photon creates one phonon
+        <span class="i18n-en"><b>First-order process:</b> an incident photon creates one phonon
         at $\Gamma$ ($\mathbf{q} \approx 0$) and is scattered. Because this is a zone-center
         mode, the G band frequency (~1580 cm<sup>−1</sup>) is
         <b>independent of laser wavelength</b>. The G band is present in
         all sp<sup>2</sup> carbon materials — graphene, graphite, carbon
-        nanotubes, and amorphous carbon.
+        nanotubes, and amorphous carbon.</span><span class="i18n-ja"><b>一次過程：</b>入射光子が $\Gamma$ 点（$\mathbf{q} \approx 0$）で1つのフォノンを生成し散乱されます。ゾーン中心モードであるため、Gバンドの振動数（~1580 cm<sup>−1</sup>）は<b>レーザー波長に依存しません</b>。Gバンドはすべてのsp<sup>2</sup>炭素材料（グラフェン、グラファイト、カーボンナノチューブ、アモルファスカーボン）に現れます。</span>
       </div>
 
       <div class="physics-note" style="margin-top:14px;">
-        <b>Why "G"?</b> The G stands for "graphite." This was the first
+        <span class="i18n-en"><b>Why "G"?</b> The G stands for "graphite." This was the first
         Raman peak identified in graphitic materials, and the name has
-        persisted even as the field shifted to graphene.
+        persisted even as the field shifted to graphene.</span><span class="i18n-ja"><b>なぜ「G」？</b> Gは「グラファイト (graphite)」の頭文字です。グラファイト系材料で最初に同定されたラマンピークであり、研究の主流がグラフェンに移った現在もこの名称が使われています。</span>
       </div>
     </div>
   </section>
@@ -167,28 +172,28 @@
   <!-- ═══════ Module 02 — 2D band ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">02 — The 2D band</span>
-      <h2>Double resonance at ~2700 cm<sup>−1</sup></h2>
+      <span class="demo-num"><span class="i18n-en">02 — The 2D band</span><span class="i18n-ja">02 — 2Dバンド</span></span>
+      <h2><span class="i18n-en">Double resonance at ~2700 cm<sup>−1</sup></span><span class="i18n-ja">~2700 cm<sup>−1</sup> における二重共鳴</span></h2>
       <p>
-        The <b>2D band</b> (also called G′) is the most prominent
+        <span class="i18n-en">The <b>2D band</b> (also called G′) is the most prominent
         second-order peak. It involves <b>two iTO phonons near K</b> with
         opposite momenta ($\mathbf{q}$ and $-\mathbf{q}$), produced through a
         <b>double resonance</b> process — making it strongly dependent
-        on laser energy and uniquely sensitive to the number of graphene layers.
+        on laser energy and uniquely sensitive to the number of graphene layers.</span><span class="i18n-ja"><b>2Dバンド</b>（G′とも呼ばれる）は最も顕著な二次ピークです。K点付近の<b>2つのiTOフォノン</b>が逆向きの運動量（$\mathbf{q}$ と $-\mathbf{q}$）を持ち、<b>二重共鳴</b>過程を通じて生成されます。そのためレーザーエネルギーに強く依存し、グラフェンの層数に対して独自の感度を持ちます。</span>
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-dr2d" class="gr-canvas-wide"></canvas>
       <p class="cap">
-        The double resonance process for the 2D band. An electron–hole pair
+        <span class="i18n-en">The double resonance process for the 2D band. An electron–hole pair
         is created near K, the electron is scattered by an iTO phonon to
         K′, then scattered back by a second iTO phonon, and recombines
         emitting a photon. Both phonon scattering events are
-        <b>inter-valley</b> (K → K′ → K).
+        <b>inter-valley</b> (K → K′ → K).</span><span class="i18n-ja">2Dバンドの二重共鳴過程。K点付近で電子–正孔対が生成され、電子がiTOフォノンによりK′に散乱され、さらに2番目のiTOフォノンにより散乱されて戻り、光子を放出して再結合します。両方のフォノン散乱は<b>谷間散乱</b>（K → K′ → K）です。</span>
       </p>
 
       <div class="gr-info">
-        <b>Why is the 2D band so useful?</b>
+        <span class="i18n-en"><b>Why is the 2D band so useful?</b>
         <ul class="gr-list">
           <li><b>Layer counting:</b> In monolayer graphene, the 2D band is a
             single sharp Lorentzian (~24 cm<sup>−1</sup> FWHM) with intensity
@@ -202,15 +207,20 @@
           <li><b>No defects needed:</b> Unlike the D band, momentum is conserved
             by the two phonons ($\mathbf{q} + (-\mathbf{q}) = 0$), so the 2D band appears in
             pristine graphene.</li>
-        </ul>
+        </ul></span><span class="i18n-ja"><b>なぜ2Dバンドは有用なのか？</b>
+        <ul class="gr-list">
+          <li><b>層数の同定：</b>単層グラフェンでは、2Dバンドは鋭い単一ローレンツ関数（半値幅~24 cm<sup>−1</sup>）で、Gバンドより強度が大きくなります。二層では電子バンドの分裂により4成分に分裂します。少数層グラフェンではさらに形状が変化し、2Dバンドの線形が層数の信頼できる指標となります。</li>
+          <li><b>分散性：</b>共鳴フォノン波数ベクトル $\mathbf{q}$ が電子バンド構造に依存するため、2D振動数はレーザーエネルギーに対して~100 cm$^{-1}$/eV シフトします。</li>
+          <li><b>欠陥不要：</b>Dバンドと異なり、2つのフォノンにより運動量が保存される（$\mathbf{q} + (-\mathbf{q}) = 0$）ため、2Dバンドは欠陥のないグラフェンにも現れます。</li>
+        </ul></span>
       </div>
 
       <div class="physics-note" style="margin-top:14px;">
-        <b>Why "2D" and not "G′"?</b> The 2D band involves two phonons
+        <span class="i18n-en"><b>Why "2D" and not "G′"?</b> The 2D band involves two phonons
         of the same type as the D band (iTO near K), hence its frequency
         is roughly twice the D band frequency. Both names are used in the
         literature — "2D" emphasizes the phonon origin, while "G′"
-        avoids confusion with implying defect involvement.
+        avoids confusion with implying defect involvement.</span><span class="i18n-ja"><b>なぜ「2D」であって「G′」ではないのか？</b> 2DバンドはDバンドと同種のフォノン（K点付近のiTO）を2つ含むため、その振動数はDバンドのおよそ2倍になります。文献では両方の名称が使われています — 「2D」はフォノンの起源を強調し、「G′」は欠陥との関連を暗示しない利点があります。</span>
       </div>
     </div>
   </section>
@@ -218,42 +228,42 @@
   <!-- ═══════ Module 03 — D band ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">03 — The D band</span>
-      <h2>Defect-activated double resonance at ~1350 cm<sup>−1</sup></h2>
+      <span class="demo-num"><span class="i18n-en">03 — The D band</span><span class="i18n-ja">03 — Dバンド</span></span>
+      <h2><span class="i18n-en">Defect-activated double resonance at ~1350 cm<sup>−1</sup></span><span class="i18n-ja">~1350 cm<sup>−1</sup> における欠陥活性化二重共鳴</span></h2>
       <p>
-        The <b>D band</b> involves the same iTO phonon near K as the 2D band,
+        <span class="i18n-en">The <b>D band</b> involves the same iTO phonon near K as the 2D band,
         but only <b>one phonon</b> participates — momentum conservation is
         completed by <b>elastic scattering from a defect</b>. This is why
         the D band is absent in pristine graphene and serves as a direct
-        measure of disorder.
+        measure of disorder.</span><span class="i18n-ja"><b>Dバンド</b>は2Dバンドと同じK点付近のiTOフォノンを含みますが、関与するのは<b>1つのフォノン</b>のみです。運動量保存は<b>欠陥による弾性散乱</b>によって完結します。このため、Dバンドは欠陥のないグラフェンには現れず、無秩序度の直接的な指標となります。</span>
       </p>
     </div>
     <div class="demo-stage">
       <canvas id="c-drd" class="gr-canvas-wide"></canvas>
       <p class="cap">
-        The double resonance process for the D band. An electron is excited
+        <span class="i18n-en">The double resonance process for the D band. An electron is excited
         near K, scattered to K′ by an iTO phonon, then <b>elastically
         scattered back</b> by a defect, and recombines. The defect provides
-        the missing momentum — no defect, no D band.
+        the missing momentum — no defect, no D band.</span><span class="i18n-ja">Dバンドの二重共鳴過程。K点付近で励起された電子がiTOフォノンによりK′に散乱され、次に欠陥により<b>弾性的に散乱されて戻り</b>、再結合します。欠陥が不足する運動量を提供します — 欠陥がなければDバンドは現れません。</span>
       </p>
 
       <div class="gr-info">
-        <b>Quantifying defects:</b> The intensity ratio <b>I(D)/I(G)</b>
+        <span class="i18n-en"><b>Quantifying defects:</b> The intensity ratio <b>I(D)/I(G)</b>
         is widely used to quantify defect density. For low defect
         concentrations, I(D)/I(G) increases with defect density. At very
         high defect concentrations, both peaks broaden and the ratio
         decreases — the sp<sup>2</sup> structure itself is breaking down.
         The relationship follows the Tuinstra–Koenig relation:
         $I(D)/I(G) \propto 1/L_a$, where $L_a$ is the
-        average distance between defects (crystallite size).
+        average distance between defects (crystallite size).</span><span class="i18n-ja"><b>欠陥の定量：</b>強度比 <b>I(D)/I(G)</b> は欠陥密度の定量に広く用いられます。欠陥濃度が低い場合、I(D)/I(G) は欠陥密度とともに増加します。非常に高い欠陥濃度では両ピークがブロードになり比は減少します — sp<sup>2</sup> 構造自体が崩壊しているためです。この関係は Tuinstra–Koenig の関係式に従います：$I(D)/I(G) \propto 1/L_a$、ここで $L_a$ は欠陥間の平均距離（結晶子サイズ）です。</span>
       </div>
 
       <div class="physics-note" style="margin-top:14px;">
-        <b>D′ and D+D′ bands.</b> The <b>D′</b> band (~1620 cm<sup>−1</sup>)
+        <span class="i18n-en"><b>D′ and D+D′ bands.</b> The <b>D′</b> band (~1620 cm<sup>−1</sup>)
         is another defect-activated peak, but involves <b>intra-valley</b>
         scattering (within the same K point). The <b>D+D′</b> combination
         band (~2940 cm<sup>−1</sup>) involves one iTO phonon (inter-valley)
-        and one iLO phonon (intra-valley), also requiring defects.
+        and one iLO phonon (intra-valley), also requiring defects.</span><span class="i18n-ja"><b>D′バンドとD+D′バンド。</b> <b>D′</b>バンド（~1620 cm<sup>−1</sup>）も欠陥活性化ピークですが、<b>谷内散乱</b>（同一K点内）を含みます。<b>D+D′</b>結合バンド（~2940 cm<sup>−1</sup>）は1つのiTOフォノン（谷間）と1つのiLOフォノン（谷内）を含み、これも欠陥を必要とします。</span>
       </div>
     </div>
   </section>
@@ -261,11 +271,11 @@
   <!-- ═══════ Module 04 — Practical guide ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">04 — Reading a graphene Raman spectrum</span>
-      <h2>What each peak tells you</h2>
+      <span class="demo-num"><span class="i18n-en">04 — Reading a graphene Raman spectrum</span><span class="i18n-ja">04 — グラフェンのラマンスペクトルを読む</span></span>
+      <h2><span class="i18n-en">What each peak tells you</span><span class="i18n-ja">各ピークが教えてくれること</span></h2>
       <p>
-        A single Raman measurement encodes layer number, crystal quality,
-        strain state, and charge doping. Here is how to extract each.
+        <span class="i18n-en">A single Raman measurement encodes layer number, crystal quality,
+        strain state, and charge doping. Here is how to extract each.</span><span class="i18n-ja">1回のラマン測定で層数、結晶品質、ひずみ状態、キャリアドーピングの情報が得られます。それぞれの読み取り方を以下に示します。</span>
       </p>
     </div>
     <div class="demo-stage">
@@ -273,33 +283,33 @@
 
       <div class="diag-grid">
         <div class="diag-card">
-          <h3>Layer number</h3>
+          <h3><span class="i18n-en">Layer number</span><span class="i18n-ja">層数</span></h3>
           <ul class="gr-list">
-            <li><b>Monolayer:</b> single symmetric 2D peak, $I(2D)/I(G) > 1$</li>
-            <li><b>Bilayer:</b> 2D splits into 4 Lorentzians, $I(2D)/I(G) \sim 1$</li>
-            <li><b>Few-layer:</b> 2D broadens asymmetrically, $I(2D)/I(G) < 1$</li>
-            <li><b>Graphite:</b> 2D has two components ($2D_1$, $2D_2$)</li>
+            <li><span class="i18n-en"><b>Monolayer:</b> single symmetric 2D peak, $I(2D)/I(G) > 1$</span><span class="i18n-ja"><b>単層：</b>対称な単一2Dピーク、$I(2D)/I(G) > 1$</span></li>
+            <li><span class="i18n-en"><b>Bilayer:</b> 2D splits into 4 Lorentzians, $I(2D)/I(G) \sim 1$</span><span class="i18n-ja"><b>二層：</b>2Dが4つのローレンツ関数に分裂、$I(2D)/I(G) \sim 1$</span></li>
+            <li><span class="i18n-en"><b>Few-layer:</b> 2D broadens asymmetrically, $I(2D)/I(G) < 1$</span><span class="i18n-ja"><b>少数層：</b>2Dが非対称にブロード化、$I(2D)/I(G) < 1$</span></li>
+            <li><span class="i18n-en"><b>Graphite:</b> 2D has two components ($2D_1$, $2D_2$)</span><span class="i18n-ja"><b>グラファイト：</b>2Dが2成分（$2D_1$, $2D_2$）を持つ</span></li>
           </ul>
         </div>
 
         <div class="diag-card">
-          <h3>Defects &amp; disorder</h3>
+          <h3><span class="i18n-en">Defects &amp; disorder</span><span class="i18n-ja">欠陥と無秩序</span></h3>
           <ul class="gr-list">
-            <li>$I(D)/I(G) \approx 0$: pristine graphene</li>
-            <li>$I(D)/I(G)$ <b>increases:</b> more point defects or edges</li>
-            <li><b>D′ appears:</b> confirms defect activation</li>
-            <li>$I(D)/I(D')$: distinguishes vacancy (~7), boundary (~3.5), sp$^3$ (~13) defect types</li>
+            <li><span class="i18n-en">$I(D)/I(G) \approx 0$: pristine graphene</span><span class="i18n-ja">$I(D)/I(G) \approx 0$：欠陥のないグラフェン</span></li>
+            <li><span class="i18n-en">$I(D)/I(G)$ <b>increases:</b> more point defects or edges</span><span class="i18n-ja">$I(D)/I(G)$ が<b>増加：</b>点欠陥またはエッジが多い</span></li>
+            <li><span class="i18n-en"><b>D′ appears:</b> confirms defect activation</span><span class="i18n-ja"><b>D′が出現：</b>欠陥活性化を確認</span></li>
+            <li><span class="i18n-en">$I(D)/I(D')$: distinguishes vacancy (~7), boundary (~3.5), sp$^3$ (~13) defect types</span><span class="i18n-ja">$I(D)/I(D')$：空孔(~7)、粒界(~3.5)、sp$^3$(~13)の欠陥タイプを識別</span></li>
           </ul>
         </div>
 
         <div class="diag-card">
-          <h3>Strain</h3>
+          <h3><span class="i18n-en">Strain</span><span class="i18n-ja">ひずみ</span></h3>
           <ul class="gr-list">
-            <li>Both G and 2D peaks <b>shift</b> under strain</li>
-            <li><b>Tensile:</b> red-shift (lower frequency)</li>
-            <li><b>Compressive:</b> blue-shift (higher frequency)</li>
-            <li>G band splits under <b>uniaxial strain</b> ($G^+$ and $G^-$)</li>
-            <li>Slope in $\Delta\omega_G$ vs $\Delta\omega_{2D}$ plot: ~2.2 for strain</li>
+            <li><span class="i18n-en">Both G and 2D peaks <b>shift</b> under strain</span><span class="i18n-ja">ひずみ下でGと2Dの両ピークが<b>シフト</b></span></li>
+            <li><span class="i18n-en"><b>Tensile:</b> red-shift (lower frequency)</span><span class="i18n-ja"><b>引張：</b>レッドシフト（低周波数側）</span></li>
+            <li><span class="i18n-en"><b>Compressive:</b> blue-shift (higher frequency)</span><span class="i18n-ja"><b>圧縮：</b>ブルーシフト（高周波数側）</span></li>
+            <li><span class="i18n-en">G band splits under <b>uniaxial strain</b> ($G^+$ and $G^-$)</span><span class="i18n-ja"><b>一軸ひずみ</b>下でGバンドが分裂（$G^+$ と $G^-$）</span></li>
+            <li><span class="i18n-en">Slope in $\Delta\omega_G$ vs $\Delta\omega_{2D}$ plot: ~2.2 for strain</span><span class="i18n-ja">$\Delta\omega_G$ vs $\Delta\omega_{2D}$ プロットの傾き：ひずみで~2.2</span></li>
           </ul>
         </div>
 

@@ -44,6 +44,7 @@
   <script src="analytics.js"></script>
 </head>
 <body>
+  <script src="lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
       <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
@@ -60,29 +61,31 @@
 
   <div class="phead">
     <div class="container">
-      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html">Learn</a><span class="sep">/</span><span>Graphene Electronic Structure</span></div>
+      <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html">Learn</a><span class="sep">/</span><span class="i18n-en">Graphene Electronic Structure</span><span class="i18n-ja">グラフェン電子構造</span></div>
       <div class="ptop">
         <span class="no">02</span>
-        <h1>Graphene Electronic Structure</h1>
+        <h1><span class="i18n-en">Graphene Electronic Structure</span><span class="i18n-ja">グラフェン電子構造</span></h1>
         <span class="meta">Interactive guide</span>
+        <button class="lang-btn" aria-label="Switch language">日本語</button>
       </div>
-      <p class="pintro">The honeycomb lattice, Brillouin zone, tight-binding band structure — visualizing how <em>Dirac cones</em> emerge at the K points and give graphene its massless charge carriers.</p>
+      <p class="pintro"><span class="i18n-en">The honeycomb lattice, Brillouin zone, tight-binding band structure — visualizing how <em>Dirac cones</em> emerge at the K points and give graphene its massless charge carriers.</span><span class="i18n-ja">ハニカム格子、ブリルアンゾーン、強結合バンド構造 — K点で<em>ディラック錐</em>がどのように現れ、グラフェンに質量ゼロの電荷キャリアを与えるかを可視化します。</span></p>
     </div>
   </div>
 
   <!-- ═══════ Module 00 — Crystal Structure ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">00 — Crystal structure</span>
-      <h2>Honeycomb lattice &amp; Brillouin zone</h2>
+      <span class="demo-num"><span class="i18n-en">00 — Crystal structure</span><span class="i18n-ja">00 — 結晶構造</span></span>
+      <h2><span class="i18n-en">Honeycomb lattice &amp; Brillouin zone</span><span class="i18n-ja">ハニカム格子とブリルアンゾーン</span></h2>
       <p>
-        Graphene's honeycomb is a hexagonal Bravais lattice with a two-atom basis — two
+        <span class="i18n-en">Graphene's honeycomb is a hexagonal Bravais lattice with a two-atom basis — two
         sublattices (<b style="color:#ef4444">A</b> and
         <b style="color:#3b82f6">B</b>). The unit cell contains exactly two
         atoms. In reciprocal space, the first Brillouin zone is a hexagon
         whose corners — the <em>K</em> and <em>K′</em> points — are where
         the Dirac physics emerges.
-        <a href="#" id="open-crystal" style="color:var(--accent);font-weight:600;white-space:nowrap;">Learn the basics →</a>
+        <a href="#" id="open-crystal" style="color:var(--accent);font-weight:600;white-space:nowrap;">Learn the basics →</a></span><span class="i18n-ja">グラフェンのハニカムは、2原子基底を持つ六方ブラベー格子です — 2つの副格子（<b style="color:#ef4444">A</b>と<b style="color:#3b82f6">B</b>）から構成されます。単位胞にはちょうど2つの原子が含まれます。逆格子空間では、第一ブリルアンゾーンは六角形で、その角 — <em>K</em>点と<em>K′</em>点 — でディラック物理が現れます。
+        <a href="#" id="open-crystal-ja" style="color:var(--accent);font-weight:600;white-space:nowrap;">基礎を学ぶ →</a></span>
       </p>
     </div>
     <div class="demo-stage">
@@ -91,10 +94,10 @@
         <div class="gr-panel"><canvas id="c-bz"></canvas></div>
       </div>
       <p class="cap">
-        <b>Left:</b> Real-space honeycomb with lattice vectors
+        <span class="i18n-en"><b>Left:</b> Real-space honeycomb with lattice vectors
         <b>a</b><sub>1</sub>, <b>a</b><sub>2</sub> and the unit cell
         (dashed). <b>Right:</b> First Brillouin zone with high-symmetry
-        points Γ, M, K, K′ and the path Γ→M→K→Γ.
+        points Γ, M, K, K′ and the path Γ→M→K→Γ.</span><span class="i18n-ja"><b>左:</b> 実空間ハニカム格子と格子ベクトル<b>a</b><sub>1</sub>、<b>a</b><sub>2</sub>、および単位胞（破線）。<b>右:</b> 第一ブリルアンゾーンと高対称点 Γ、M、K、K′、および経路 Γ→M→K→Γ。</span>
       </p>
     </div>
   </section>
@@ -102,28 +105,29 @@
   <!-- ═══════ Module 01 — E-k Dispersion ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">01 — Band structure</span>
-      <h2>E-k dispersion along high-symmetry path</h2>
+      <span class="demo-num"><span class="i18n-en">01 — Band structure</span><span class="i18n-ja">01 — バンド構造</span></span>
+      <h2><span class="i18n-en">E-k dispersion along high-symmetry path</span><span class="i18n-ja">高対称経路に沿ったE-k分散</span></h2>
       <p>
-        In the nearest-neighbor tight-binding model, the energy bands are
+        <span class="i18n-en">In the nearest-neighbor tight-binding model, the energy bands are
         E(<b>k</b>) = ±<em>t</em> |f(<b>k</b>)|, where <em>t</em> ≈ 2.7 eV
         is the hopping energy between adjacent carbon p<sub>z</sub> orbitals.
         The conduction (π*) and valence (π) bands touch at the K point with
         <b>zero gap</b> — graphene is a zero-gap semiconductor.
-        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a>
+        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a></span><span class="i18n-ja">最近接強結合モデルでは、エネルギーバンドは E(<b>k</b>) = ±<em>t</em> |f(<b>k</b>)| で表されます。ここで <em>t</em> ≈ 2.7 eV は隣接する炭素 p<sub>z</sub> 軌道間のホッピングエネルギーです。伝導帯（π*）と価電子帯（π）は K 点で接触し、<b>ギャップゼロ</b> — グラフェンはゼロギャップ半導体です。
+        <a href="#" id="open-derivation-ja" style="color:var(--accent);font-weight:600;white-space:nowrap;">完全な導出を見る →</a></span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="gr-bands"><canvas id="c-bands"></canvas></div>
       <div class="controls">
         <div class="control">
-          <label>Hopping energy <em>t</em> <span class="val" id="v-hop">2.70 eV</span></label>
+          <label><span class="i18n-en">Hopping energy</span><span class="i18n-ja">ホッピングエネルギー</span> <em>t</em> <span class="val" id="v-hop">2.70 eV</span></label>
           <input type="range" id="ctrl-hop" min="0.5" max="5" step="0.05" value="2.7">
         </div>
       </div>
       <div class="gr-info" id="band-info">
-        At the <b>K</b> point the bands touch linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|,
-        giving massless Dirac fermions with Fermi velocity v<sub>F</sub> ≈ 10<sup>6</sup> m/s.
+        <span class="i18n-en">At the <b>K</b> point the bands touch linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|,
+        giving massless Dirac fermions with Fermi velocity v<sub>F</sub> ≈ 10<sup>6</sup> m/s.</span><span class="i18n-ja"><b>K</b>点ではバンドが線形に接触します: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|。これにより、フェルミ速度 v<sub>F</sub> ≈ 10<sup>6</sup> m/s の質量ゼロディラックフェルミオンが生じます。</span>
       </div>
     </div>
   </section>
@@ -131,35 +135,35 @@
   <!-- ═══════ Module 02 — 3D Band Structure ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">02 — 3D Dirac cones</span>
-      <h2>Full band structure over the Brillouin zone</h2>
+      <span class="demo-num"><span class="i18n-en">02 — 3D Dirac cones</span><span class="i18n-ja">02 — 3Dディラック錐</span></span>
+      <h2><span class="i18n-en">Full band structure over the Brillouin zone</span><span class="i18n-ja">ブリルアンゾーン全体のバンド構造</span></h2>
       <p>
-        The complete E(k<sub>x</sub>, k<sub>y</sub>) surface reveals the
+        <span class="i18n-en">The complete E(k<sub>x</sub>, k<sub>y</sub>) surface reveals the
         conical band touching points — the <b>Dirac cones</b> — at each
-        K and K′ corner of the hexagonal Brillouin zone. Drag to rotate.
+        K and K′ corner of the hexagonal Brillouin zone. Drag to rotate.</span><span class="i18n-ja">完全な E(k<sub>x</sub>, k<sub>y</sub>) 曲面は、六角形ブリルアンゾーンの各 K および K′ の角で円錐形のバンド接触点 — <b>ディラック錐</b> — を示します。ドラッグで回転できます。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="gr-3d-wrap">
         <canvas id="c-3d"></canvas>
-        <span class="gr-3d-hint">drag to rotate · scroll to zoom</span>
+        <span class="gr-3d-hint"><span class="i18n-en">drag to rotate · scroll to zoom</span><span class="i18n-ja">ドラッグで回転 · スクロールでズーム</span></span>
       </div>
       <div class="controls">
         <div class="control">
-          <label>Hopping energy <em>t</em> <span class="val" id="v-hop3d">2.70 eV</span></label>
+          <label><span class="i18n-en">Hopping energy</span><span class="i18n-ja">ホッピングエネルギー</span> <em>t</em> <span class="val" id="v-hop3d">2.70 eV</span></label>
           <input type="range" id="ctrl-hop3d" min="0.5" max="5" step="0.05" value="2.7">
         </div>
         <div class="btn-row">
-          <button class="demo-btn active" id="btn-rotate">Auto-rotate</button>
-          <button class="demo-btn" id="btn-wire">Wireframe</button>
-          <button class="demo-btn" id="btn-reset">Reset view</button>
+          <button class="demo-btn active" id="btn-rotate"><span class="i18n-en">Auto-rotate</span><span class="i18n-ja">自動回転</span></button>
+          <button class="demo-btn" id="btn-wire"><span class="i18n-en">Wireframe</span><span class="i18n-ja">ワイヤーフレーム</span></button>
+          <button class="demo-btn" id="btn-reset"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
         </div>
       </div>
       <div class="gr-info">
-        The energy surface has six Dirac cones — three at <b>K</b> and three at
+        <span class="i18n-en">The energy surface has six Dirac cones — three at <b>K</b> and three at
         <b>K′</b> — connected by saddle points at <b>M</b>.
         The bandwidth is 6<em>t</em> (from −3<em>t</em> at Γ in the valence
-        band to +3<em>t</em> at Γ in the conduction band).
+        band to +3<em>t</em> at Γ in the conduction band).</span><span class="i18n-ja">エネルギー曲面には6つのディラック錐があります — <b>K</b>に3つ、<b>K′</b>に3つ — <b>M</b>の鞍点で接続されています。バンド幅は 6<em>t</em>（価電子帯の Γ における −3<em>t</em> から伝導帯の Γ における +3<em>t</em> まで）です。</span>
       </div>
     </div>
   </section>
@@ -167,20 +171,20 @@
   <!-- ═══════ Module 03 — Quantum confinement (GNR) ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num">03 — Quantum confinement</span>
-      <h2>From graphene to nanoribbons: discretized bands</h2>
+      <span class="demo-num"><span class="i18n-en">03 — Quantum confinement</span><span class="i18n-ja">03 — 量子閉じ込め</span></span>
+      <h2><span class="i18n-en">From graphene to nanoribbons: discretized bands</span><span class="i18n-ja">グラフェンからナノリボンへ：離散化バンド</span></h2>
       <p>
-        Cut graphene into a narrow <b>nanoribbon</b> and the electrons become
+        <span class="i18n-en">Cut graphene into a narrow <b>nanoribbon</b> and the electrons become
         confined across its width: the transverse momentum is <em>quantized</em>,
         so only a discrete family of parallel <b>cutting lines</b> survives in
         the Brillouin zone. The <em>orientation</em> of those lines is set by the
         <b>edge geometry</b> — <b style="color:#34d399">zigzag</b> (θ&nbsp;=&nbsp;0°) or
         <b style="color:#fbbf24">armchair</b> (θ&nbsp;=&nbsp;30°) — and their spacing by
         the width <em>N</em>. Whether any line passes through a Dirac point
-        decides if the ribbon is metallic.
+        decides if the ribbon is metallic.</span><span class="i18n-ja">グラフェンを細い<b>ナノリボン</b>に切り出すと、電子はその幅方向に閉じ込められます。横方向の運動量は<em>量子化</em>され、ブリルアンゾーン内には平行な<b>カッティングライン</b>の離散的な族のみが残ります。これらの線の<em>方向</em>は<b>エッジの形状</b> — <b style="color:#34d399">ジグザグ</b>（θ&nbsp;=&nbsp;0°）または<b style="color:#fbbf24">アームチェア</b>（θ&nbsp;=&nbsp;30°）— によって決まり、間隔は幅 <em>N</em> によって決まります。いずれかの線がディラック点を通るかどうかが、リボンが金属的かどうかを決定します。</span>
       </p>
       <p>
-        The quantization uses a <b>hard-wall boundary condition</b>: the
+        <span class="i18n-en">The quantization uses a <b>hard-wall boundary condition</b>: the
         wavefunction must vanish at fictitious "missing" carbon sites just
         beyond each physical edge, giving
         <em>k</em><sub>⊥</sub>&nbsp;=&nbsp;<em>n</em>π/(<em>N</em>+1),
@@ -188,20 +192,20 @@
         The denominator <em>N</em>+1 (not <em>N</em>) reflects these two
         extra boundary sites
         [<a href="https://doi.org/10.1088/1468-6996/11/5/054504"
-            style="color:#93c5fd;">Wakabayashi <i>et al.</i> 2010</a>].
+            style="color:#93c5fd;">Wakabayashi <i>et al.</i> 2010</a>].</span><span class="i18n-ja">量子化には<b>剛体壁境界条件</b>を使用します。波動関数は各物理的エッジのすぐ外側にある架空の「欠落」炭素サイトでゼロにならなければなりません。これにより <em>k</em><sub>⊥</sub>&nbsp;=&nbsp;<em>n</em>π/(<em>N</em>+1)、<em>n</em>&nbsp;=&nbsp;1…<em>N</em> となります。分母が <em>N</em>+1（<em>N</em> ではない）なのは、これら2つの追加境界サイトを反映しています [<a href="https://doi.org/10.1088/1468-6996/11/5/054504" style="color:#93c5fd;">Wakabayashi <i>et al.</i> 2010</a>]。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="gnr-controls">
         <div class="ctl-inline">
-          <span class="ctl-label">Edge</span>
+          <span class="ctl-label"><span class="i18n-en">Edge</span><span class="i18n-ja">エッジ</span></span>
           <div class="segmented">
-            <button class="seg active" id="btn-armchair">Armchair <span class="seg-sub">30°</span></button>
-            <button class="seg" id="btn-zigzag">Zigzag <span class="seg-sub">0°</span></button>
+            <button class="seg active" id="btn-armchair"><span class="i18n-en">Armchair</span><span class="i18n-ja">アームチェア</span> <span class="seg-sub">30°</span></button>
+            <button class="seg" id="btn-zigzag"><span class="i18n-en">Zigzag</span><span class="i18n-ja">ジグザグ</span> <span class="seg-sub">0°</span></button>
           </div>
         </div>
         <div class="ctl-inline">
-          <span class="ctl-label">Width&nbsp;<em>N</em></span>
+          <span class="ctl-label"><span class="i18n-en">Width</span><span class="i18n-ja">幅</span>&nbsp;<em>N</em></span>
           <button class="stepper" id="btn-width-dec" aria-label="decrease width">&minus;</button>
           <input type="range" id="ctrl-width" min="3" max="20" step="1" value="7">
           <button class="stepper" id="btn-width-inc" aria-label="increase width">+</button>
@@ -213,7 +217,7 @@
         <div class="gr-panel" id="panel-cell"><canvas id="c-cell-ribbon"></canvas></div>
       </div>
       <p class="cap">
-        <b>Choosing the ribbon unit cell.</b> A nanoribbon is periodic only
+        <span class="i18n-en"><b>Choosing the ribbon unit cell.</b> A nanoribbon is periodic only
         along its <b>axis</b> (arrow <b>T</b>) and cut to a finite width <em>N</em>
         across. A <b style="color:#34d399">zigzag</b> ribbon runs along a zigzag
         chain and repeats every <b>T = a</b>; an
@@ -221,7 +225,7 @@
         and repeats every <b>T = √3 a</b>. The shaded rectangle is one
         translational cell; stacking <em>N</em> of them along the width builds
         the ribbon — which is exactly what quantizes the transverse momentum
-        below.
+        below.</span><span class="i18n-ja"><b>リボン単位胞の選択。</b>ナノリボンはその<b>軸</b>（矢印 <b>T</b>）に沿ってのみ周期的で、幅方向には有限幅 <em>N</em> で切断されます。<b style="color:#34d399">ジグザグ</b>リボンはジグザグ鎖に沿って走り、<b>T = a</b> ごとに繰り返します。<b style="color:#fbbf24">アームチェア</b>リボンはアームチェア鎖に沿って走り、<b>T = √3 a</b> ごとに繰り返します。網掛けの長方形が1つの並進セルです。幅方向に <em>N</em> 個積み重ねるとリボンが構築され、これがまさに以下の横方向運動量を量子化するものです。</span>
       </p>
 
       <div class="top-row">
@@ -229,11 +233,11 @@
         <div class="gr-panel"><canvas id="c-gnr-cut"></canvas></div>
       </div>
       <p class="cap">
-        <b>Left:</b> top-down view of the Brillouin zone with the family of
+        <span class="i18n-en"><b>Left:</b> top-down view of the Brillouin zone with the family of
         cutting lines at the chosen edge orientation. <b>Right:</b> the same
         lines laid over the full tight-binding band surface (drag to rotate,
         scroll to zoom). A line through a Dirac point (corner) is
-        <em>gapless</em>; the nearest one otherwise sets the gap.
+        <em>gapless</em>; the nearest one otherwise sets the gap.</span><span class="i18n-ja"><b>左:</b> 選択したエッジ方向でのカッティングラインの族を含むブリルアンゾーンの上面図。<b>右:</b> 完全な強結合バンド曲面上に重ねた同じ線（ドラッグで回転、スクロールでズーム）。ディラック点（角）を通る線は<em>ギャップレス</em>です。そうでなければ、最も近い線がギャップを決定します。</span>
       </p>
 
       <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
