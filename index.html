@@ -101,9 +101,9 @@
 
     /* ===== HERO ===== */
     .ed-hero { border-bottom: 1px solid var(--rule); }
-    .hero-grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 0; align-items: stretch; }
-    .hero-l { grid-column: 1 / 8; padding: clamp(28px,3.5vw,48px) 0 clamp(28px,3.5vw,48px); padding-right: clamp(24px,3vw,48px); }
-    .hero-r { grid-column: 8 / 13; position: relative;
+    .hero-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 0; align-items: stretch; }
+    .hero-l { padding: clamp(28px,3.5vw,48px) 0 clamp(28px,3.5vw,48px); padding-right: clamp(20px,2.5vw,36px); }
+    .hero-r { position: relative;
       padding: clamp(28px,3.5vw,48px) 0 clamp(28px,3.5vw,48px) clamp(20px,2.5vw,36px);
       display: flex; flex-direction: column; }
     .hero-r::before { content: ""; position: absolute; left: 0; top: clamp(16px,2vw,28px); bottom: clamp(16px,2vw,28px);
@@ -111,9 +111,9 @@
     .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: clamp(12px,1.6vw,20px); }
     .hero-top .nm { font-family: var(--mincho); font-weight: 600; font-size: clamp(14px,1.2vw,16px); letter-spacing: .02em; color: var(--ink); }
     .hero-top .rl { height: 1px; background: var(--rule); flex: 1; }
-    .ed-hero h1 { font-family: var(--mincho); font-weight: 700; font-size: var(--h1); line-height: 1.05; letter-spacing: -.01em; }
+    .ed-hero h1 { font-family: var(--mincho); font-weight: 700; font-size: clamp(32px,4.2vw,52px); line-height: 1.1; letter-spacing: -.01em; }
     .ed-hero h1 .lt { color: var(--ink-3); font-weight: 600; }
-    .hero-lead { margin-top: clamp(10px,1.4vw,18px); max-width: 44ch; font-size: clamp(14px,1.2vw,16px); line-height: 1.6; color: var(--ink-2); }
+    .hero-lead { margin-top: clamp(10px,1.4vw,18px); font-size: clamp(14px,1.2vw,16px); line-height: 1.6; color: var(--ink-2); }
     .hero-lead em { font-style: normal; color: var(--accent); font-weight: 500; }
 
     .plate { flex: 1; display: flex; flex-direction: column; min-height: 260px; }
@@ -131,8 +131,9 @@
 
     @media (max-width: 880px) {
       .hero-grid { grid-template-columns: 1fr; }
-      .hero-l { grid-column: 1; padding-right: 0; }
-      .hero-r { grid-column: 1; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 28px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-l { padding-right: 0; }
+      .hero-r { border-top: 1px solid var(--rule); padding-left: 0; padding-top: 28px; }
       .hero-r::before { display: none; }
       .plate { min-height: 260px; }
     }
