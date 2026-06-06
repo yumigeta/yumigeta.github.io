@@ -238,30 +238,6 @@
       display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .more:hover { border-color: var(--accent); }
 
-    /* ===== SOFTWARE (bordered cells) ===== */
-    .ed-tools { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule-2); }
-    .ed-tool { padding: clamp(26px,3vw,40px); border-left: 1px solid var(--rule); display: flex; flex-direction: column;
-      background: transparent; border-radius: 0; box-shadow: none; }
-    .ed-tool:first-child { border-left: 0; }
-    .ed-tool:hover { transform: none; box-shadow: none; }
-    .ed-tool .th { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
-    .ed-tool .name { font-family: var(--mincho); font-size: clamp(20px,2vw,24px); font-weight: 600; letter-spacing: -.01em; }
-    .ed-tool .badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2);
-      border: 1px solid var(--rule); padding: 4px 9px; white-space: nowrap; background: transparent; border-radius: 0; }
-    .ed-tool p { color: var(--ink-2); font-size: 15.5px; line-height: 1.68; margin-top: 16px; flex: 1; }
-    .ed-tool .stack { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-top: 18px; }
-    .ed-tool .acts { display: flex; flex-wrap: wrap; gap: 0; margin-top: 18px; }
-    .ed-tool .acts a { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
-      padding: 7px 14px; border: 1px solid var(--rule-2); margin: -1px 0 0 -1px; transition: background .18s, color .18s; border-radius: 0; }
-    .ed-tool .acts a:hover { background: var(--ink); color: var(--paper); opacity: 1; }
-    .ed-tool .acts a.primary { background: var(--accent); color: var(--paper); border-color: var(--accent); }
-    .ed-tool .acts a.primary:hover { background: var(--ink); border-color: var(--ink); }
-    @media (max-width: 680px) {
-      .ed-tools { grid-template-columns: 1fr; }
-      .ed-tool { border-left: 0; border-top: 1px solid var(--rule); }
-      .ed-tool:first-child { border-top: 0; }
-    }
-
     /* ===== CV (register) ===== */
     .ed-cv .row { display: grid; grid-template-columns: 160px 1fr auto; gap: clamp(16px,3vw,40px); align-items: baseline;
       padding: clamp(13px,1.5vw,20px) 0; border-top: 1px solid var(--rule); }
@@ -320,9 +296,7 @@
     <nav class="links">
       <a href="#news">News</a>
       <a href="#research">Research</a>
-      <a href="publications.html">Papers</a>
-      <a href="#software">Software</a>
-      <a href="#learn">Learn</a>
+      <a href="#publications">Publications</a>
       <a href="#cv">CV</a>
     </nav>
     <a class="end" href="#contact">Contact</a>
@@ -437,7 +411,7 @@
   <div class="wrap">
     <div class="shx rv">
       <span class="no">03</span>
-      <h2>Selected papers</h2>
+      <h2>Publications</h2>
       <span class="meta">2020 — 2026</span>
     </div>
     <div class="ed-pubs rv">
@@ -451,38 +425,12 @@
   </div>
 </section>
 
-<!-- SOFTWARE & LEARN -->
-<section class="ed-section tint" id="software">
-  <div class="wrap">
-    <div class="shx rv">
-      <span class="no">04</span>
-      <h2>Interactive guides</h2>
-      <span class="meta">Learn</span>
-      <p class="intro">Animated, hands-on explanations of materials science and physics concepts — running right in the browser.</p>
-    </div>
-    <div class="ed-tools rv" id="learn">
-      <div class="ed-tool">
-        <div class="th"><div class="name">Raman Spectroscopy</div><span class="badge">Interactive</span></div>
-        <p>How molecular vibrations modulate polarizability to produce Stokes and anti-Stokes scattering — with synchronized animations.</p>
-        <div class="stack">JavaScript · Canvas</div>
-        <div class="acts"><a class="primary" href="raman.html">Open →</a></div>
-      </div>
-      <div class="ed-tool">
-        <div class="th"><div class="name">Graphene Structure</div><span class="badge">Interactive</span></div>
-        <p>Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
-        <div class="stack">JavaScript · Canvas</div>
-        <div class="acts"><a class="primary" href="graphene.html">Open →</a></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CV -->
 <section class="ed-section" id="cv">
   <div class="wrap">
     <div class="shx rv">
-      <span class="no">05</span>
-      <h2>Background</h2>
+      <span class="no">04</span>
+      <h2>CV</h2>
       <span class="meta">Curriculum Vitae</span>
     </div>
     <div class="ed-cv rv">
@@ -502,7 +450,7 @@
 <section class="ed-section ed-contact" id="contact">
   <div class="wrap">
     <div class="shx rv">
-      <span class="no">06</span>
+      <span class="no">05</span>
       <h2>Contact</h2>
       <span class="meta">Email &amp; profiles</span>
     </div>
