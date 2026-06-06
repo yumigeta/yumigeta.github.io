@@ -723,6 +723,18 @@ input[type=range]::-moz-range-thumb {
   .ed-tools .et .et-go { justify-self: start; }
 }
 
+/* ── Language toggle ── */
+.lang-btn {
+  font-family: var(--gothic, system-ui, sans-serif);
+  font-size: 11px; letter-spacing: .08em;
+  padding: 4px 10px; border: 1px solid var(--rule, rgba(30,25,19,.16));
+  border-radius: 3px; background: transparent; color: var(--ink-2, #636);
+  cursor: pointer; transition: background .15s, color .15s;
+}
+.lang-btn:hover { background: var(--ink, #1e1913); color: var(--paper, #fefefc); }
+[data-lang="ja"] .i18n-en { display: none !important; }
+[data-lang="en"] .i18n-ja { display: none !important; }
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .nav-menu {
