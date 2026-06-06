@@ -219,9 +219,10 @@
 
     /* ===== PUBLICATIONS (citation list) ===== */
     .ed-pubs .pub { display: grid; grid-template-columns: 72px 1fr; gap: clamp(12px,2vw,24px); align-items: baseline;
-      padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s; }
+      padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); transition: background .18s;
+      border-radius: 0; box-shadow: none; }
     .ed-pubs .pub:last-of-type { border-bottom: 1px solid var(--rule); }
-    .ed-pubs .pub:hover { background: var(--paper-tint); }
+    .ed-pubs .pub:hover { background: var(--paper-tint); box-shadow: none; }
     .ed-pubs .pub .yr { font-family: var(--mincho); font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--accent); }
     .ed-pubs .pub .cite { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
     .ed-pubs .pub .cite .authors { color: var(--ink-2); }
