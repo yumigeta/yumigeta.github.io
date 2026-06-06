@@ -248,15 +248,18 @@
       border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .ed-learn .g-link a:hover { border-color: var(--accent); }
 
-    /* ===== CV (register) ===== */
-    .ed-cv .row { display: grid; grid-template-columns: 72px 1fr auto; gap: clamp(12px,2vw,24px); align-items: baseline;
-      padding: clamp(12px,1.4vw,18px) 0; border-top: 1px solid var(--rule); }
-    .ed-cv .row:last-of-type { border-bottom: 1px solid var(--rule); }
+    /* ===== CV (grouped register) ===== */
+    .ed-cv .cv-group { font-family: var(--gothic); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink-3); padding: clamp(16px,2vw,24px) 0 clamp(6px,0.8vw,10px); }
+    .ed-cv .cv-group:first-child { padding-top: 0; }
+    .ed-cv .row { display: grid; grid-template-columns: 72px 1fr; gap: clamp(12px,2vw,24px); align-items: baseline;
+      padding: clamp(10px,1.2vw,14px) 0; border-top: 1px solid var(--rule); }
+    .ed-cv .cv-group + .row { border-top: 1px solid var(--rule-2); }
+    .ed-cv .row:last-child { border-bottom: 1px solid var(--rule); }
     .ed-cv .w { font-family: var(--mincho); font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--accent); align-self: center; }
     .ed-cv .d { font-size: clamp(14px,1.3vw,16px); font-weight: 500; }
     .ed-cv .d .ex { color: var(--ink-2); font-weight: 400; }
-    .ed-cv .kind { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: right; }
-    @media (max-width: 680px) { .ed-cv .row { grid-template-columns: 56px 1fr; gap: 8px; } .ed-cv .kind { display: none; } }
+    @media (max-width: 680px) { .ed-cv .row { grid-template-columns: 56px 1fr; gap: 8px; } }
     @media (max-width: 480px) { .ed-cv .row { grid-template-columns: 1fr; gap: 4px; } }
     .cv-cta { margin-top: clamp(14px,1.6vw,22px); }
     .btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em;
@@ -468,13 +471,18 @@
       <span class="meta">Curriculum Vitae</span>
     </div>
     <div class="ed-cv rv">
-      <div class="row"><div class="w">2024 —</div><div class="d">Postdoctoral Research Associate <span class="ex">· Dept. of Materials Science &amp; Engineering, University of Arizona</span></div><div class="kind">Present</div></div>
-      <div class="row"><div class="w">2023</div><div class="d">Ph.D. in Physics <span class="ex">· Arizona State University</span></div><div class="kind">Degree</div></div>
-      <div class="row"><div class="w">2016</div><div class="d">M.Eng. in Electrical &amp; Electronics Engineering <span class="ex">· Chiba University, Japan</span></div><div class="kind">Degree</div></div>
-      <div class="row"><div class="w">2014</div><div class="d">B.E. in Electrical &amp; Electronics Engineering <span class="ex">· Chiba University, Japan</span></div><div class="kind">Degree</div></div>
-      <div class="row"><div class="w">2026</div><div class="d">Outstanding Postdoctoral Scholar Award <span class="ex">· University of Arizona</span></div><div class="kind">Award</div></div>
-      <div class="row"><div class="w">2026</div><div class="d">Sigma Xi, Full Member <span class="ex">· The Scientific Research Honor Society</span></div><div class="kind">Honor</div></div>
-      <div class="row"><div class="w">2025</div><div class="d">Sursum Fellow <span class="ex">· University of Arizona</span></div><div class="kind">Award</div></div>
+      <div class="cv-group">Appointment</div>
+      <div class="row"><div class="w">2024 —</div><div class="d">Postdoctoral Research Associate <span class="ex">· Dept. of Materials Science &amp; Engineering, University of Arizona</span></div></div>
+
+      <div class="cv-group">Education</div>
+      <div class="row"><div class="w">2023</div><div class="d">Ph.D. in Physics <span class="ex">· Arizona State University</span></div></div>
+      <div class="row"><div class="w">2016</div><div class="d">M.Eng. in Electrical &amp; Electronics Engineering <span class="ex">· Chiba University, Japan</span></div></div>
+      <div class="row"><div class="w">2014</div><div class="d">B.E. in Electrical &amp; Electronics Engineering <span class="ex">· Chiba University, Japan</span></div></div>
+
+      <div class="cv-group">Awards &amp; Honors</div>
+      <div class="row"><div class="w">2026</div><div class="d">Outstanding Postdoctoral Scholar Award <span class="ex">· University of Arizona</span></div></div>
+      <div class="row"><div class="w">2026</div><div class="d">Sigma Xi, Full Member <span class="ex">· The Scientific Research Honor Society</span></div></div>
+      <div class="row"><div class="w">2025</div><div class="d">Sursum Fellow <span class="ex">· University of Arizona</span></div></div>
     </div>
     <div class="cv-cta rv"><a class="btn" href="yumigeta-cv.pdf" target="_blank">Download full CV (PDF) ↓</a></div>
   </div>
