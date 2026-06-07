@@ -282,10 +282,7 @@ function fitCanvas(cv) {
   function setMode(m) {
     mode = m;
     modeEl.innerHTML = MODES[m].badge + ' ' + MODES[m].text;
-    cap.innerHTML = MODES[m].raman
-      ? 'The <b>Stokes</b> and <b>anti-Stokes</b> lines at $\\omega_0\\pm\\omega_{\\mathrm v}$ appear because $\\left(\\partial\\alpha/\\partial Q\\right)_0 \\neq 0$ — their amplitude grows with $Q_0$. Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
-      : 'Because $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$, <b>no Stokes or anti-Stokes lines appear</b> at $\\omega_0\\pm\\omega_{\\mathrm v}$. Only the Rayleigh line remains — this mode is Raman-inactive.';
-    renderMath(modeEl); renderMath(cap);
+    renderMath(modeEl);
     drawSpectrum();
   }
   document.getElementById('mol-btns').addEventListener('click', e => {
