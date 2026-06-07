@@ -247,6 +247,29 @@
     ctx.fillText("K'", tx(kp[0])+7, ty(kp[1])+4);
     ctx.fillStyle = '#a78bfa';
     ctx.fillText('M', tx(HSP.M.kx)+7, ty(HSP.M.ky)-6);
+
+    // Reciprocal-space distances between high-symmetry points.
+    // Internal units use a = 1; convert to Å⁻¹ with the real lattice
+    // constant so the labels read as physical wavevectors.
+    var aPhys = 2.46;                       // graphene lattice constant (Å)
+    function kdist(p1, p2) {
+      var dx = p2.kx - p1.kx, dy = p2.ky - p1.ky;
+      return sqrt(dx*dx + dy*dy) / aPhys;   // Å⁻¹
+    }
+    function distLabel(p1, p2, ox, oy) {
+      var mx = (p1.kx + p2.kx) / 2, my = (p1.ky + p2.ky) / 2;
+      ctx.fillText(kdist(p1, p2).toFixed(2), tx(mx) + ox, ty(my) + oy);
+    }
+    ctx.font = '600 10px "DM Sans", sans-serif';
+    ctx.fillStyle = '#fcd34d';
+    ctx.textAlign = 'center';
+    distLabel(HSP.G, HSP.M, -16, -4);   // Γ–M
+    distLabel(HSP.M, HSP.K,  26, -2);   // M–K
+    distLabel(HSP.K, HSP.G,   0, 16);   // K–Γ
+    ctx.font = '600 8px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(252,211,77,0.7)';
+    ctx.fillText('Å⁻¹', tx((HSP.K.kx)/2), ty(0) + 26);
+    ctx.textAlign = 'start';
   })();
 
   // ================================================================
@@ -255,8 +278,6 @@
   var drawBands;
   (function () {
     var canvas = document.getElementById('c-bands');
-    var hopSlider = document.getElementById('ctrl-hop');
-    var hopVal = document.getElementById('v-hop');
 
     function pathDist(a, b) {
       var dx = b.kx - a.kx, dy = b.ky - a.ky;
@@ -422,17 +443,6 @@
       ctx.fillText('Dirac point', sx(pts[kIdx].s), sy(0) - 10);
     };
 
-    hopSlider.addEventListener('input', function () {
-      tHop = +hopSlider.value;
-      hopVal.textContent = tHop.toFixed(2) + ' eV';
-      drawBands();
-      if (typeof render3D === 'function') {
-        document.getElementById('v-hop3d').textContent = tHop.toFixed(2) + ' eV';
-        document.getElementById('ctrl-hop3d').value = tHop;
-        render3D();
-      }
-    });
-
     drawBands();
   })();
 
@@ -442,10 +452,7 @@
   var render3D;
   (function () {
     var canvas = document.getElementById('c-3d');
-    var hop3dSlider = document.getElementById('ctrl-hop3d');
-    var hop3dVal = document.getElementById('v-hop3d');
     var btnReset = document.getElementById('btn-reset');
-    var btnWire = document.getElementById('btn-wire');
     var btnRotate = document.getElementById('btn-rotate');
 
     var DEF_THETA = 38 * PI/180, DEF_PHI = -32 * PI/180, DEF_ZOOM = 1;
@@ -673,7 +680,7 @@
     var IDLE_N = 96, DRAG_N = 48;   // multiples of 8 → K points stay exact
     var dirty = true, dragging = false;
     function frame() {
-      if (autoRotate && !dragging) { phi += 0.0045; dirty = true; }
+      if (autoRotate && !dragging) { phi += 0.0018; dirty = true; }
       if (dirty) {
         var N = (dragging || autoRotate) ? DRAG_N : IDLE_N;
         draw(getMesh(N));
@@ -726,21 +733,8 @@
     }, {passive:false});
 
     // ── Controls ──
-    hop3dSlider.addEventListener('input', function () {
-      tHop = +hop3dSlider.value;
-      hop3dVal.textContent = tHop.toFixed(2) + ' eV';
-      document.getElementById('v-hop').textContent = tHop.toFixed(2) + ' eV';
-      document.getElementById('ctrl-hop').value = tHop;
-      drawBands();
-      dirty = true;
-    });
     btnReset.addEventListener('click', function () {
       theta = DEF_THETA; phi = DEF_PHI; zoom = DEF_ZOOM; dirty = true;
-    });
-    btnWire.addEventListener('click', function () {
-      showWire = !showWire;
-      btnWire.classList.toggle('active', showWire);
-      dirty = true;
     });
     btnRotate.addEventListener('click', function () {
       autoRotate = !autoRotate;
@@ -1441,11 +1435,12 @@
       var metallic = isZig ? true : (N % 3 === 2);
       var NSAMP = 240;
 
-      // Sample the real ribbon bands across Γ→(X|Z).
+      // Sample the real ribbon bands across the full first 1D Brillouin zone
+      // −k_max … +k_max, with k along the ribbon's long (periodic) axis.
       var ks = [], bands = [], maxE = 0.001, gMin = Infinity;
       for (var i = 0; i <= NSAMP; i++) {
-        var k = kMax*i/NSAMP;
-        var b = isZig ? zgnrE(N, k) : agnrE(N, k);
+        var k = -kMax + 2*kMax*i/NSAMP;
+        var b = isZig ? zgnrE(N, abs(k)) : agnrE(N, abs(k));
         ks.push(k); bands.push(b);
         for (var n = 0; n < N; n++) {
           if (b[n] > maxE) maxE = b[n];
@@ -1456,7 +1451,7 @@
 
       var pad = {l:46, r:16, t:18, b:36};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
-      function sx(k) { return pad.l + k/kMax*pw; }
+      function sx(k) { return pad.l + (k+kMax)/(2*kMax)*pw; }
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
       // grids
@@ -1470,11 +1465,18 @@
       ctx.strokeStyle = 'rgba(255,255,255,0.2)';
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
-      // Dirac projection / edge-state onset marker (zigzag: k = 2π/3).
+      // zone-centre (Γ) marker
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(sx(0), pad.t); ctx.lineTo(sx(0), pad.t+ph); ctx.stroke();
+
+      // Dirac projection / edge-state onset marker (zigzag: k = ±2π/3).
       if (isZig) {
         var kK = 2*PI/3;
         ctx.strokeStyle = 'rgba(52,211,153,0.35)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph);
+        ctx.moveTo(sx(-kK), pad.t); ctx.lineTo(sx(-kK), pad.t+ph);
+        ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = 'rgba(52,211,153,0.85)'; ctx.font = '600 9px "DM Sans", sans-serif';
         ctx.textAlign = 'center';
@@ -1520,16 +1522,29 @@
       }
       ctx.fillStyle = '#d6d3d1'; ctx.fillText('0', pad.l-5, sy(0)+3);
 
-      // high-symmetry points along the 1D path
+      // high-symmetry points across the full first 1D BZ: −Z … Γ … Z
       ctx.font = '600 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
       var yHSP = pad.t + ph + 15;
+      var zb = isZig ? 'Z' : 'X';
       ctx.fillStyle = '#d6d3d1';
+      ctx.fillText('−' + zb, sx(-kMax), yHSP);
       ctx.fillText('Γ', sx(0), yHSP);
-      ctx.fillText(isZig ? 'Z' : 'X', sx(kMax), yHSP);
+      ctx.fillText(zb, sx(kMax), yHSP);
       ctx.fillStyle = '#57534e'; ctx.font = '500 9px "DM Sans", sans-serif';
-      ctx.fillText(isZig ? 'zigzag GNR · Γ→Z  (a = 1, hard-wall edges)'
-                         : 'armchair GNR · Γ→X  (a = √3, hard-wall edges)',
+      ctx.fillText(isZig ? 'zigzag GNR · k∥ along ribbon axis · first BZ −Z→Z  (T = a)'
+                         : 'armchair GNR · k∥ along ribbon axis · first BZ −X→X  (T = √3 a)',
                    pad.l+pw/2, H-4);
+
+      // 1D Brillouin-zone length = 2π/T.  It is fixed by the edge type
+      // (the axial repeat T), NOT by the ribbon width N — increasing N only
+      // adds more subbands, it never rescales the zone.
+      var aPhys = 2.46;                      // graphene lattice constant (Å)
+      var bzLen = (2 * kMax / aPhys);        // full 1D BZ length (Å⁻¹)
+      ctx.textAlign = 'right'; ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.fillStyle = '#a8a29e';
+      ctx.fillText('1D BZ = 2π/T = ' + bzLen.toFixed(2) + ' Å⁻¹', pad.l+pw, pad.t+10);
+      ctx.fillStyle = '#78716c'; ctx.font = '500 8px "DM Sans", sans-serif';
+      ctx.fillText('(set by edge, independent of N)', pad.l+pw, pad.t+21);
 
       ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
       ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
