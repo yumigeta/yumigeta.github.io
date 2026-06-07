@@ -66,7 +66,10 @@
 
 /* Only interactive animations/figures are framed — the section stage,
    not being an animation, carries no card background of its own. */
-.demo-stage { background: transparent; padding: 0; border-radius: 0; }
+.demo-stage { background: transparent; padding: 0; border-radius: 0; max-width: var(--measure); }
+
+/* Keep a comfortable reading column; page margins still match the site width */
+.pintro, .demo-head p { max-width: var(--measure); }
 
 /* ── Decomposition ── */
 .decomp-section {
