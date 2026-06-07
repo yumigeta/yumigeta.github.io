@@ -214,6 +214,14 @@
 }
 
 /* ── Collapsible "reminder" (only those who need it expand it) ── */
+.coming-soon {
+  margin: 18px 0 0; padding: 16px 20px;
+  border: 1px dashed var(--rule-2); border-radius: 10px;
+  background: var(--bg-soft); color: var(--soft);
+  font-size: 0.92rem; line-height: 1.7;
+}
+.coming-soon b { color: var(--ink); letter-spacing: 0.01em; }
+
 .recall {
   margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px;
   background: var(--bg-soft);
