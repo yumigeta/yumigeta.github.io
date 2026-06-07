@@ -764,3 +764,10 @@ input[type=range]::-moz-range-thumb {
   .top-row { grid-template-columns: 1fr; }
   .control { min-width: 100%; }
 }
+
+/* Language toggle sits at the top-right of the page header (breadcrumb row) */
+.phead-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; margin-bottom: clamp(18px,2.5vw,32px);
+}
+.phead-top .crumb { margin-bottom: 0; }
