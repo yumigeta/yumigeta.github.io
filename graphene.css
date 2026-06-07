@@ -146,3 +146,6 @@
   .deriv-panel { width: 100vw; }
   .deriv-panel-inner { padding: 20px 18px 40px; }
 }
+
+/* Header row: title left, language toggle right (no number/meta on sub-pages) */
+.ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }

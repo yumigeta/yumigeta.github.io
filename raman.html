@@ -90,9 +90,7 @@
     <div class="container">
       <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="software.html"><span class="i18n-en">Learn</span><span class="i18n-ja">学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Raman Spectroscopy</span><span class="i18n-ja">ラマン分光法</span></span></div>
       <div class="ptop">
-        <span class="no">01</span>
         <h1><span class="i18n-en">How Raman Spectroscopy Works</span><span class="i18n-ja">ラマン分光法の仕組み</span></h1>
-        <span class="meta"><span class="i18n-en">Interactive guide</span><span class="i18n-ja">インタラクティブガイド</span></span>
         <button class="lang-btn" aria-label="Switch language">日本語</button>
       </div>
       <p class="pintro"><span class="i18n-en">Raman scattering probes the vibrational fingerprint of a material: an incident photon is inelastically scattered by a lattice vibration, and the <em>frequency shift</em> $\omega_0\!\pm\!\omega_k$ maps directly onto phonon energies. This page builds the effect from a single starting point — the <b>polarizability $\alpha$ modulated by a normal coordinate $Q_k$</b> — and follows it through to the angle-resolved selection rules used to fingerprint crystal symmetry (here, the orthorhombic <i>Cmcm</i> rare-earth tritellurides RTe$_3$).</span><span class="i18n-ja">ラマン散乱は物質の振動フィンガープリントを調べる手法です。入射光子が格子振動により非弾性散乱され、<em>周波数シフト</em> $\omega_0\!\pm\!\omega_k$ がフォノンエネルギーに直接対応します。このページでは、一つの出発点 — <b>基準座標 $Q_k$ によって変調される分極率 $\alpha$</b> — から出発し、結晶対称性のフィンガープリントに用いられる角度分解選択則（ここでは斜方晶 <i>Cmcm</i> 希土類三テルル化物 RTe$_3$）まで導きます。</span></p>
@@ -176,6 +174,7 @@
 
         <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
         <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
+        <div class="anim-card">
         <canvas id="c-atom" class="atom-canvas"></canvas>
         <div class="atom-controls">
           <div class="btn-row" id="atom-mode">
@@ -193,6 +192,7 @@
           <span><i style="background:#ef4444"></i><span class="i18n-en">nucleus (+)</span><span class="i18n-ja">原子核 (+)</span></span>
           <span><i style="background:#fcd34d"></i><span class="i18n-en">induced dipole μ</span><span class="i18n-ja">誘起双極子 μ</span></span>
         </div>
+        </div>
         <p class="cap" id="atom-cap">
           <span class="i18n-en">If the polarizability $\alpha$ <b>stays constant in time</b>, the induced dipole simply oscillates at the <b>same frequency as the incident light</b> ($\omega_{\mathrm{i}}$) — this is elastic <b>Rayleigh scattering</b>. The Raman effect appears only when $\alpha$ <b>itself changes in time</b>, i.e. is modulated by a molecular vibration.</span><span class="i18n-ja">分極率 $\alpha$ が<b>時間的に一定</b>であれば、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_{\mathrm{i}}$）で振動するだけで、弾性的な<b>レイリー散乱</b>となる。ラマン効果は $\alpha$ <b>自体が時間変化する</b>（分子振動によって変調される）ときにのみ現れる。</span>
         </p>
@@ -209,13 +209,12 @@
           <div>
             <p><span class="i18n-en">A smooth function can be reconstructed near a point from its value and derivatives there. For one variable about $x=a$:</span><span class="i18n-ja">滑らかな関数は、ある点での値と微分係数からその近くで再現できる。1変数の場合、$x=a$ のまわりでは：</span></p>
             <p class="eq-block">$$f(x)=f(a)+f'(a)\,(x-a)+\frac{1}{2!}f''(a)\,(x-a)^2+\cdots$$</p>
-            <p><span class="i18n-en">For a function of several normal coordinates expanded about equilibrium ($Q_k=0$), the same rule becomes:</span><span class="i18n-ja">複数の基準座標の関数を平衡点（$Q_k=0$）のまわりで展開すると、同じ規則は次のようになる：</span></p>
-            <p class="eq-block">$$f(Q)=f(0)+\sum_k\!\left(\frac{\partial f}{\partial Q_k}\right)_{\!0}\!Q_k+\frac{1}{2!}\sum_{k,l}\!\left(\frac{\partial^2 f}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
-            <p><span class="i18n-en">Putting $f=\alpha_{\rho\sigma}$ and expanding about $Q_k=0$ gives the expansion below.</span><span class="i18n-ja">$f=\alpha_{\rho\sigma}$ とし、$Q_k=0$ のまわりで展開すれば、下の式が得られる。</span></p>
-
-            <p><span class="i18n-en">As an illustration, $\sin x$ is rebuilt term by term — each higher power widens the range where the polynomial hugs the curve:</span><span class="i18n-ja">具体例として $\sin x$ を項ごとに組み立てると、次数を上げるほど多項式が曲線に一致する範囲が広がる：</span></p>
+            <p><span class="i18n-en">For example, $\sin x$ is rebuilt term by term — each higher power widens the range where the polynomial hugs the curve:</span><span class="i18n-ja">たとえば $\sin x$ を項ごとに組み立てると、次数を上げるほど多項式が曲線に一致する範囲が広がる：</span></p>
             <p class="eq-block">$$\sin x=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots$$</p>
             <canvas id="c-taylor-sin" class="taylor-canvas"></canvas>
+            <p><span class="i18n-en">For a function of several normal coordinates expanded about equilibrium ($Q_k=0$), the same rule becomes:</span><span class="i18n-ja">複数の基準座標の関数を平衡点（$Q_k=0$）のまわりで展開すると、同じ規則は次のようになる：</span></p>
+            <p class="eq-block">$$f(Q)=f(0)+\sum_k\!\left(\frac{\partial f}{\partial Q_k}\right)_{\!0}\!Q_k+\frac{1}{2!}\sum_{k,l}\!\left(\frac{\partial^2 f}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
+            <p><span class="i18n-en">Setting $f=\alpha_{\rho\sigma}$ then gives the expansion below.</span><span class="i18n-ja">$f=\alpha_{\rho\sigma}$ とすれば、下の式が得られる。</span></p>
           </div>
         </details>
         <p class="eq-block">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k+\frac12\sum_{k,l}\!\left(\frac{\partial^2\alpha_{\rho\sigma}}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
@@ -225,15 +224,15 @@
         <p class="eq-block">$$R_k=\left(\frac{\partial\alpha}{\partial Q_k}\right)_{\!0}=\begin{pmatrix}\dfrac{\partial\alpha_{xx}}{\partial Q_k}&\dfrac{\partial\alpha_{xy}}{\partial Q_k}&\dfrac{\partial\alpha_{xz}}{\partial Q_k}\\[9pt]\dfrac{\partial\alpha_{yx}}{\partial Q_k}&\dfrac{\partial\alpha_{yy}}{\partial Q_k}&\dfrac{\partial\alpha_{yz}}{\partial Q_k}\\[9pt]\dfrac{\partial\alpha_{zx}}{\partial Q_k}&\dfrac{\partial\alpha_{zy}}{\partial Q_k}&\dfrac{\partial\alpha_{zz}}{\partial Q_k}\end{pmatrix}_{\!0}$$</p>
         <p><span class="i18n-en">It is this derivative tensor that decides whether — and how strongly — the mode scatters light. The nuclei oscillate at the angular frequency $\omega_k$ (the phonon frequency of mode $Q_k$), so</span><span class="i18n-ja">あるモードが光を散乱するか — そしてどれだけ強く散乱するか — を決めるのは、この微係数のテンソルである。原子核は基準座標 $Q_k$ のフォノン周波数に対応する角振動数 $\omega_k$ で周期的に運動するので、その位置は次のように表わされる。</span></p>
         <p class="eq-block" id="eq5">$$Q_k=Q_{k0}\cos\omega_k t \tag{5}$$</p>
-        <p><span class="i18n-en">Substituting <span class="eqref" data-eq="5">(5)</span> into <span class="eqref" data-eq="4">(4)</span> gives the time dependence of $\alpha_{\rho\sigma}$:</span><span class="i18n-ja"><span class="eqref" data-eq="5">式(5)</span>を<span class="eqref" data-eq="4">(4)</span>に代入すると、分極率成分 $\alpha_{\rho\sigma}$ の時間変化を表わす式が得られる。</span></p>
+        <p><span class="i18n-en">Substituting <span class="eqref" data-eq="5">Eq. (5)</span> into <span class="eqref" data-eq="4">Eq. (4)</span> gives the time dependence of $\alpha_{\rho\sigma}$:</span><span class="i18n-ja"><span class="eqref" data-eq="5">式(5)</span>を<span class="eqref" data-eq="4">(4)</span>に代入すると、分極率成分 $\alpha_{\rho\sigma}$ の時間変化を表わす式が得られる。</span></p>
         <p class="eq-block" id="eq6">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t \tag{6}$$</p>
         <p><span class="i18n-en">where $(\alpha_k)_{\rho\sigma}$ is the amplitude of the periodically varying part,</span><span class="i18n-ja">ここで $(\alpha_k)_{\rho\sigma}$ は周期的に変動する部分の振幅で、次式で与えられる。</span></p>
         <p class="eq-block" id="eq7">$$(\alpha_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_{k0} \tag{7}$$</p>
 
         <h3><span class="i18n-en">Induced dipole moment and scattering intensity</span><span class="i18n-ja">誘起双極子モーメントと散乱強度</span></h3>
-        <p><span class="i18n-en">The dipole moment induced by the incident field is $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$. Its $\rho$-component, with the incident field <span class="eqref" data-eq="1">(1)</span> inserted, is</span><span class="i18n-ja">入射光によって誘起される双極子モーメントは $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$ である。その $\rho$ 成分に入射電場<span class="eqref" data-eq="1">(1)</span>を代入すると、</span></p>
+        <p><span class="i18n-en">The dipole moment induced by the incident field is $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$. Its $\rho$-component, with the incident field <span class="eqref" data-eq="1">Eq. (1)</span> inserted, is</span><span class="i18n-ja">入射光によって誘起される双極子モーメントは $\boldsymbol{\mu}=\alpha\,\boldsymbol{E}_{\mathrm{i}}$ である。その $\rho$ 成分に入射電場<span class="eqref" data-eq="1">(1)</span>を代入すると、</span></p>
         <p class="eq-block">$$\mu_\rho=\sum_\sigma\alpha_{\rho\sigma}E_{\mathrm{i}\sigma}=\sum_\sigma\alpha_{\rho\sigma}\,E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t .$$</p>
-        <p><span class="i18n-en">Substituting the time-dependent polarizability <span class="eqref" data-eq="6">(6)</span>, $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$, gives</span><span class="i18n-ja">時間依存の分極率<span class="eqref" data-eq="6">(6)</span> $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$ を代入すると、</span></p>
+        <p><span class="i18n-en">Substituting the time-dependent polarizability <span class="eqref" data-eq="6">Eq. (6)</span>, $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$, gives</span><span class="i18n-ja">時間依存の分極率<span class="eqref" data-eq="6">(6)</span> $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$ を代入すると、</span></p>
         <p class="eq-block">$$\mu_\rho=\sum_\sigma\Big[(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t\Big]E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t .$$</p>
         <p><span class="i18n-en">Expanding into a static (Rayleigh) part and a vibrating part,</span><span class="i18n-ja">静的な（レイリー）項と振動する項に展開すると、</span></p>
         <p class="eq-block">$$\mu_\rho=\sum_\sigma(\alpha_0)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t+\sum_\sigma\sum_k(\alpha_k)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\,\cos\omega_k t\,\cos\omega_{\mathrm{i}} t .$$</p>
@@ -243,7 +242,7 @@
         <p class="eq-block">$$\boldsymbol{E}_{\mathrm{s}}=E_{\mathrm{s}}\,\boldsymbol{e}_{\mathrm{s}},\qquad \boldsymbol{e}_{\mathrm{s}}\ \parallel\ \big(\boldsymbol{\mu}\ \text{projected onto the plane}\perp\boldsymbol{r}\big)$$</p>
         <p><span class="i18n-en">From Maxwell's equations the amplitude $E_{\mathrm{s}}$ at distance $r$ is</span><span class="i18n-ja">マクスウェル方程式より、距離 $r$ における振幅 $E_{\mathrm{s}}$ は次式となる。</span></p>
         <p class="eq-block" id="eq9">$$E_{\mathrm{s}}=\frac{\omega_{\mathrm{s}}^2}{c^2 r}\,(\boldsymbol{e}_{\mathrm{s}}\!\cdot\alpha\cdot\boldsymbol{e}_{\mathrm{i}})\,E_{\mathrm{i}}\cos\!\Big(\omega_{\mathrm{s}} t-\frac{\omega_{\mathrm{s}} r}{c}\Big) \tag{9}$$</p>
-        <p><span class="i18n-en">where $\omega_{\mathrm{s}}$ is the scattered angular frequency and $c$ the speed of light. Each frequency component carries its own tensor; collect it into the <b>scattering tensor</b> $a$ — equal to $\alpha_0$ for the Rayleigh term and to $\alpha_k/2$ for the Raman terms (from <span class="eqref" data-eq="8">eq.&nbsp;8</span>). Squaring the amplitude relates the incident intensity $I_{\mathrm{i}}$ (energy per unit time per unit area) to the angular scattering intensity $I_{\mathrm{s}} r^2$ (energy per unit time per unit solid angle):</span><span class="i18n-ja">ここで $\omega_{\mathrm{s}}$ は散乱光の角振動数、$c$ は光速である。各周波数成分はそれぞれ固有のテンソルを持つので、これを<b>散乱テンソル</b> $a$ にまとめる — レイリー項では $a=\alpha_0$、ラマン項では $a=\alpha_k/2$（<span class="eqref" data-eq="8">式8</span>より）である。振幅を2乗すると、入射平面波の強度 $I_{\mathrm{i}}$（単位時間に単位面積を通る入射光エネルギー）と、散乱球面波の角強度 $I_{\mathrm{s}} r^2$（単位時間に単位立体角を通る散乱光エネルギー）が次のように関係づけられる。</span></p>
+        <p><span class="i18n-en">where $\omega_{\mathrm{s}}$ is the scattered angular frequency and $c$ the speed of light. Each frequency component carries its own tensor; collect it into the <b>scattering tensor</b> $a$ — equal to $\alpha_0$ for the Rayleigh term and to $\alpha_k/2$ for the Raman terms (from <span class="eqref" data-eq="8">Eq. (8)</span>). Squaring the amplitude relates the incident intensity $I_{\mathrm{i}}$ (energy per unit time per unit area) to the angular scattering intensity $I_{\mathrm{s}} r^2$ (energy per unit time per unit solid angle):</span><span class="i18n-ja">ここで $\omega_{\mathrm{s}}$ は散乱光の角振動数、$c$ は光速である。各周波数成分はそれぞれ固有のテンソルを持つので、これを<b>散乱テンソル</b> $a$ にまとめる — レイリー項では $a=\alpha_0$、ラマン項では $a=\alpha_k/2$（<span class="eqref" data-eq="8">式8</span>より）である。振幅を2乗すると、入射平面波の強度 $I_{\mathrm{i}}$（単位時間に単位面積を通る入射光エネルギー）と、散乱球面波の角強度 $I_{\mathrm{s}} r^2$（単位時間に単位立体角を通る散乱光エネルギー）が次のように関係づけられる。</span></p>
         <p class="eq-block" id="eq10">$$I_{\mathrm{s}}\,r^2=\frac{\omega_{\mathrm{s}}^4}{c^4}\,\big|\boldsymbol{e}_{\mathrm{s}}\!\cdot a\cdot\boldsymbol{e}_{\mathrm{i}}\big|^2\,I_{\mathrm{i}} \tag{10}$$</p>
         <p><span class="i18n-en">This is the classical light-scattering intensity: proportional to the incident intensity $I_{\mathrm{i}}$, the square of the scattering tensor $|\boldsymbol{e}_{\mathrm{s}}\!\cdot a\cdot\boldsymbol{e}_{\mathrm{i}}|^2$, and the <b>fourth power</b> of the scattered frequency $\omega_{\mathrm{s}}$ (the $\nu^4$ law). For the Raman terms $a=\alpha_k/2\propto R_k$, so the <b>Raman tensor</b> $R_k$ fixes the symmetry and polarization dependence (&sect;01).</span><span class="i18n-ja">これが古典論によって求めた光散乱の強度を表わす表式である。散乱強度は、入射光の強度 $I_{\mathrm{i}}$、散乱テンソルの2乗 $|\boldsymbol{e}_{\mathrm{s}}\!\cdot a\cdot\boldsymbol{e}_{\mathrm{i}}|^2$、および散乱光の角振動数 $\omega_{\mathrm{s}}$ の<b>4乗</b>（いわゆる $\nu^4$ 則）に比例する。ラマン項では $a=\alpha_k/2\propto R_k$ なので、<b>ラマンテンソル</b> $R_k$ が対称性と偏光依存性を決める（&sect;01）。</span></p>
 
@@ -255,8 +254,9 @@
 
       <!-- CO₂ demo — visual support for the classical theory above -->
       <h3 class="demo-sub"><span class="i18n-en">Visualize it: a CO<sub>2</sub> normal mode</span><span class="i18n-ja">可視化：CO<sub>2</sub> の基準モード</span></h3>
-      <p class="demo-sub-p"><span class="i18n-en">The same chain — vibration → modulated $\alpha$ → three scattered frequencies — for one normal mode of CO<sub>2</sub>. The molecule vibrates (top-left); the $\alpha(Q)$ curve (top-right) tracks the polarizability. A non-zero slope $\partial\alpha/\partial Q\neq 0$ at equilibrium is what produces the first-order modulation, and hence the Raman sidebands of <span class="eqref" data-eq="8">eq.&nbsp;(8)</span>.</span><span class="i18n-ja">同じ流れ — 振動 → 変調された $\alpha$ → 3つの散乱周波数 — を CO<sub>2</sub> の1つの基準モードで可視化する。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が分極率を追う。平衡で傾き $\partial\alpha/\partial Q\neq 0$ がゼロでないことが1次の変調を生み、<span class="eqref" data-eq="8">式(8)</span>のラマンサイドバンドとなる。</span></p>
+      <p class="demo-sub-p"><span class="i18n-en">The same chain — vibration → modulated $\alpha$ → three scattered frequencies — for one normal mode of CO<sub>2</sub>. The molecule vibrates (top-left); the $\alpha(Q)$ curve (top-right) tracks the polarizability. A non-zero slope $\partial\alpha/\partial Q\neq 0$ at equilibrium is what produces the first-order modulation, and hence the Raman sidebands of <span class="eqref" data-eq="8">Eq. (8)</span>.</span><span class="i18n-ja">同じ流れ — 振動 → 変調された $\alpha$ → 3つの散乱周波数 — を CO<sub>2</sub> の1つの基準モードで可視化する。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が分極率を追う。平衡で傾き $\partial\alpha/\partial Q\neq 0$ がゼロでないことが1次の変調を生み、<span class="eqref" data-eq="8">式(8)</span>のラマンサイドバンドとなる。</span></p>
 
+      <div class="anim-card">
       <!-- Top row: molecule + α(Q) plot -->
       <div class="top-row">
         <div class="mol-panel">
@@ -324,6 +324,7 @@
         <div class="btn-row">
           <button class="demo-btn active" id="btn-play"><span class="i18n-en">Pause</span><span class="i18n-ja">一時停止</span></button>
         </div>
+      </div>
       </div>
 
     </div>

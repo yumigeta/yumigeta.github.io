@@ -19,6 +19,8 @@
     var src = document.getElementById('eq' + ref.getAttribute('data-eq'));
     if (!src) return;
     tip.innerHTML = src.innerHTML;
+    // drop the equation-number tag — it would overlap the formula in the narrow tip
+    tip.querySelectorAll('.tag').forEach(function (e) { e.remove(); });
     tip.classList.add('show');
     place(ref);
     cur = ref;
