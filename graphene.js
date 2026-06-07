@@ -27,6 +27,9 @@
     M: {kx:PI/a, ky:PI/(a*sqrt3), label:'M'},
     K: {kx:4*PI/(3*a), ky:0, label:'K'}
   };
+  // Shared colours for the three path segments Γ→M, M→K, K→Γ, so the E-k plot
+  // and the 3-D surface use the same colour for the same segment.
+  var PATHSEG = ['#f472b6', '#34d399', '#60a5fa'];
 
   function dpr(canvas, maxR) {
     var r = window.devicePixelRatio || 1;
@@ -46,7 +49,7 @@
     var canvas = document.getElementById('c-lattice');
     var o = dpr(canvas), ctx = o.ctx, W = o.w, H = o.h;
 
-    var scale = min(W, H) * 0.14;
+    var scale = min(W, H) * 0.22;   // zoomed in to a narrower lattice region
     var cx = W/2, cy = H/2;
 
     var a1 = [1, 0];
@@ -249,27 +252,22 @@
     ctx.fillStyle = '#a78bfa';
     ctx.fillText('M', tx(HSP.M.kx)+7, ty(HSP.M.ky)-6);
 
-    // Reciprocal-space distances between high-symmetry points.
-    // Internal units use a = 1; convert to Å⁻¹ with the real lattice
-    // constant so the labels read as physical wavevectors.
-    var aPhys = 2.46;                       // graphene lattice constant (Å)
-    function kdist(p1, p2) {
-      var dx = p2.kx - p1.kx, dy = p2.ky - p1.ky;
-      return sqrt(dx*dx + dy*dy) / aPhys;   // Å⁻¹
-    }
-    function distLabel(p1, p2, ox, oy) {
+    // Reciprocal-space distances between high-symmetry points, written in terms
+    // of the lattice constant a = |a₁| = |a₂|  (Γ–M = 2π/√3a, M–K = 2π/3a,
+    // K–Γ = 4π/3a).
+    function distLabel(p1, p2, label, ox, oy) {
       var mx = (p1.kx + p2.kx) / 2, my = (p1.ky + p2.ky) / 2;
-      ctx.fillText(kdist(p1, p2).toFixed(2), tx(mx) + ox, ty(my) + oy);
+      ctx.fillText(label, tx(mx) + ox, ty(my) + oy);
     }
     ctx.font = '600 10px "DM Sans", sans-serif';
     ctx.fillStyle = '#fcd34d';
     ctx.textAlign = 'center';
-    distLabel(HSP.G, HSP.M, -16, -4);   // Γ–M
-    distLabel(HSP.M, HSP.K,  26, -2);   // M–K
-    distLabel(HSP.K, HSP.G,   0, 16);   // K–Γ
+    distLabel(HSP.G, HSP.M, '2π/√3a', -20, -4);   // Γ–M
+    distLabel(HSP.M, HSP.K, '2π/3a',   30, -2);   // M–K
+    distLabel(HSP.K, HSP.G, '4π/3a',    0, 16);   // K–Γ
     ctx.font = '600 8px "DM Sans", sans-serif';
-    ctx.fillStyle = 'rgba(252,211,77,0.7)';
-    ctx.fillText('Å⁻¹', tx((HSP.K.kx)/2), ty(0) + 26);
+    ctx.fillStyle = 'rgba(252,211,77,0.75)';
+    ctx.fillText('a = |a₁| = |a₂|', tx((HSP.K.kx)/2), ty(0) + 26);
     ctx.textAlign = 'start';
   })();
 
@@ -400,6 +398,14 @@
       ctx.arc(sx(pts[kIdx].s), sy(0), 5, 0, 2*PI);
       ctx.fillStyle = '#fbbf24';
       ctx.fill();
+
+      // Coloured segment bars along the axis — same colour as the matching
+      // segment of the path drawn on the 3-D surface.
+      var segS = [0, dGM, dGM+dMK, totalLen];
+      for (var sgi = 0; sgi < 3; sgi++) {
+        ctx.fillStyle = PATHSEG[sgi];
+        ctx.fillRect(sx(segS[sgi]), pad.t+ph+2, sx(segS[sgi+1]) - sx(segS[sgi]), 4);
+      }
 
       // Labels
       ctx.font = '600 11px "DM Sans", sans-serif';
@@ -614,21 +620,32 @@
       }
 
       // ── High-symmetry path Γ→M→K→Γ on the surface (links to the E-k plot) ──
+      // Each segment uses its shared colour; the same colours mark the segments
+      // in the E-k plot below.
       var hsPath = [HSP.G, HSP.M, HSP.K, HSP.G];
       for (var band = -1; band <= 1; band += 2) {
-        ctx.strokeStyle = 'rgba(56,189,248,0.95)'; ctx.lineWidth = 2.2;
-        ctx.beginPath();
-        var started = false;
         for (var seg = 0; seg < 3; seg++) {
+          ctx.strokeStyle = PATHSEG[seg]; ctx.lineWidth = 2.4;
+          ctx.beginPath();
           var A = hsPath[seg], Bp = hsPath[seg+1];
           for (var s = 0; s <= 40; s++) {
             var tt = s/40;
             var kx = A.kx + (Bp.kx-A.kx)*tt, ky = A.ky + (Bp.ky-A.ky)*tt;
             var pp = project(kx, ky, band*bandE(kx, ky));
-            if (started) ctx.lineTo(pp.sx, pp.sy); else { ctx.moveTo(pp.sx, pp.sy); started = true; }
+            if (s === 0) ctx.moveTo(pp.sx, pp.sy); else ctx.lineTo(pp.sx, pp.sy);
           }
+          ctx.stroke();
         }
-        ctx.stroke();
+      }
+      // Γ / M / K labels at their k-points (on the E = 0 plane).
+      var hsLab = [HSP.G, HSP.M, HSP.K];
+      ctx.font = '700 13px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+      for (var li = 0; li < 3; li++) {
+        var lp = project(hsLab[li].kx, hsLab[li].ky, 0);
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.beginPath(); ctx.arc(lp.sx, lp.sy, 8, 0, 2*PI); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.fillText(hsLab[li].label, lp.sx, lp.sy + 4);
       }
 
       // ── Dirac-point markers at the six K corners (E = 0) ──
