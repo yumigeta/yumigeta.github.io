@@ -802,47 +802,61 @@
       return true;
     }
 
-    // Minimum band energy along the line { k : k·n = c } inside the first BZ.
-    // Coarse scan + local refine so a line grazing a Dirac point resolves to
-    // ~0 cleanly.  A line is gapless ⇔ this minimum is 0.
-    function lineMinGap(nx, ny, c) {
-      var tx = -ny, ty = nx, bx = c*nx, by = c*ny;
-      var ext = 1.25*BZR, S = 260, best = Infinity, bi = 0, found = false;
-      for (var i = -S; i <= S; i++) {
-        var s = ext*i/S, kx = bx+s*tx, ky = by+s*ty;
-        if (!insideHexRc(kx, ky, BZR)) continue;
-        var e = bandE(kx, ky);
-        if (e < best) { best = e; bi = i; found = true; }
+    // Fold a k-point into the first (hexagonal) Brillouin zone by subtracting
+    // the nearest reciprocal-lattice vector.  Used for umklapp drawing of the
+    // armchair cutting lines, whose true transverse momenta run past the zone.
+    var RB1x = 2*PI, RB1y = -2*PI/sqrt3, RB2x = 0, RB2y = 4*PI/sqrt3;
+    function foldBZ(kx, ky) {
+      var bx = kx, by = ky, bd = kx*kx + ky*ky;
+      for (var i = -3; i <= 3; i++) for (var j = -3; j <= 3; j++) {
+        var gx = i*RB1x + j*RB2x, gy = i*RB1y + j*RB2y;
+        var dx = kx-gx, dy = ky-gy, d = dx*dx + dy*dy;
+        if (d < bd - 1e-9) { bd = d; bx = dx; by = dy; }
       }
-      if (!found) return Infinity;
-      var s0 = ext*(bi-1)/S, s1 = ext*(bi+1)/S;
-      for (var j = 0; j <= 40; j++) {
-        var s = s0 + (s1-s0)*j/40, kx = bx+s*tx, ky = by+s*ty;
-        var e = bandE(kx, ky);
+      return [bx, by];
+    }
+
+    // Minimum band energy of the subband along the line { k : k·n̂ = c }, taken
+    // over ONE ribbon Brillouin zone k∥ ∈ [−kpar, kpar] (kpar = π/T).  This is
+    // the subband's gap; scanning wider would pick up Dirac points from higher
+    // zones that are not part of the first-BZ band.
+    function lineMinGap(nx, ny, c, kpar) {
+      var tx = -ny, ty = nx, bx = c*nx, by = c*ny;
+      var S = 400, best = Infinity, bi = 0;
+      for (var i = -S; i <= S; i++) {
+        var s = kpar*i/S, e = bandE(bx+s*tx, by+s*ty);
+        if (e < best) { best = e; bi = i; }
+      }
+      var s0 = kpar*(bi-1)/S, s1 = kpar*(bi+1)/S;
+      for (var j = 0; j <= 60; j++) {
+        var s = s0 + (s1-s0)*j/60, e = bandE(bx+s*tx, by+s*ty);
         if (e < best) best = e;
       }
       return best;
     }
 
     // Cutting-line family for a GNR with hard-wall (open) edges.
-    // Hard-wall BC: k⊥ = n·π/(N+1), n = 1..N  (no k⊥=0, asymmetric about Γ).
-    // This is the correct BC for a physical ribbon — periodic BC (j·2π/(N+1))
-    // describes a nanotube, not a ribbon, and introduces the spurious k⊥=0 line.
-    // For armchair: the line at n=2(N+1)/3 hits the K corner → metallic iff N=3m+2.
-    // For zigzag:   no hard-wall line reaches a K corner, but the ribbon is still
-    //               metallic via localized edge states (captured in drawSubbands,
-    //               not by the cutting-line picture).
+    // The transverse momentum that enters the band energy is, per mode n:
+    //   armchair: k⊥ = 2nπ/(N+1)   (so E_n = bandE(k⊥, k∥) reproduces the exact
+    //             analytic AGNR bands; the n = 2(N+1)/3 line reaches the K point
+    //             k⊥ = 4π/3 → metallic iff N = 3m+2),
+    //   zigzag:   k⊥ = nπ/(N+1)     (zone-folding approximation; true zigzag
+    //             metallicity comes from edge states handled in drawSubbands).
+    // The armchair lines run past the first zone, so they are drawn with umklapp
+    // folding back into the hexagon.
     function ribbon(theta, N) {
       var A = (30 - theta) * PI/180;     // normal direction of the cutting lines
       var nx = cos(A), ny = sin(A);
+      var isZig = (theta === 0);
+      var qfac = isZig ? 1 : 2;          // transverse-mode prefactor (see above)
+      var kpar = PI / (isZig ? 1 : sqrt3);   // 1-D BZ half-width π/T
       var lines = [];
       for (var n = 1; n <= N; n++) {
-        var c = n * PI / (N + 1);        // hard-wall GNR: k⊥ = nπ/(N+1)
-        var g = lineMinGap(nx, ny, c);
+        var c = qfac * n * PI / (N + 1);
+        var g = lineMinGap(nx, ny, c, kpar);
         lines.push({ c: c, gap: g });
         lines.push({ c: -c, gap: g });
       }
-      var isZig = (theta === 0);
       var minG = Infinity;
       for (var i = 0; i < lines.length; i++) if (lines[i].gap < minG) minG = lines[i].gap;
       var metallic = isZig ? true : (minG < 0.025);
@@ -1079,18 +1093,24 @@
     function drawBZ(p) {
       var o = dpr(bzC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      var sc = min(W, H) * 0.40 / BZR, cx = W/2, cy = H/2;
+      var cx = W/2, cy = H/2;
+      var isZig = (p.theta === 0);
+      var reduced = (zoneScheme === 'reduced');
+      // Some armchair offsets run past the first zone; fit them in reduced view.
+      var maxC = BZR;
+      for (var li = 0; li < p.lines.length; li++)
+        if (abs(p.lines[li].c) > maxC) maxC = abs(p.lines[li].c);
+      var sc = min(W, H) * 0.40 / (reduced ? maxC : BZR);
       function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
 
       ctx.fillStyle = '#a8a29e'; ctx.font = '600 11px "DM Sans", sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText('Cutting lines in the Brillouin zone', 8, 14);
 
-      var Tint = (p.theta === 0) ? 1 : sqrt3;          // axial period (a = 1)
+      var Tint = isZig ? 1 : sqrt3;                    // axial period (a = 1)
       var kpar = PI / Tint;                            // 1-D BZ boundary at ±π/T
       var axdx = -p.ny, axdy = p.nx;                   // axis (k∥) direction
       var trdx = p.nx, trdy = p.ny;                    // transverse (k⊥) direction
-      var reduced = (zoneScheme === 'reduced');
 
       // BZ hexagon (bulk graphene BZ) — faint reference in the reduced scheme.
       ctx.strokeStyle = reduced ? 'rgba(251,191,36,0.22)' : 'rgba(251,191,36,0.55)';
@@ -1104,10 +1124,11 @@
 
       if (reduced) {
         // ── (A) Reduced / folded scheme ──
-        // The ribbon is 1-D: the only zone boundaries are k∥ = ±π/T.  Cutting
-        // lines are clipped to one period |k∥| ≤ π/T, and the bulk Dirac points
-        // are folded into the strip — a folded point sitting on a line ⇒ metal.
-        var ktrMax = PI;                               // transverse mode extent
+        // The ribbon is 1-D: the only zone boundaries are k∥ = ±π/T.  Each line
+        // is drawn at its true transverse momentum over one period |k∥| ≤ π/T,
+        // and the bulk Dirac points are folded along the axis into the strip —
+        // a folded point sitting on a line ⇒ metallic.
+        var ktrMax = maxC;
         ctx.strokeStyle = 'rgba(226,232,240,0.8)'; ctx.lineWidth = 1.3;
         ctx.setLineDash([5,4]);
         for (var sgn = -1; sgn <= 1; sgn += 2) {
@@ -1127,27 +1148,29 @@
         for (var n = 0; n < 6; n++) {
           var ang2 = n*PI/3, kc = BZR*cos(ang2), ks = BZR*sin(ang2);
           var kpa = kc*axdx + ks*axdy, kpe = kc*trdx + ks*trdy;
-          kpa -= 2*kpar*Math.round(kpa/(2*kpar));
-          kpe -= 2*PI*Math.round(kpe/(2*PI));
-          if (abs(kpe) > PI + 1e-6) continue;
+          kpa -= 2*kpar*Math.round(kpa/(2*kpar));      // fold along the axis only
+          if (abs(kpe) > ktrMax + 1e-6) continue;
           var dp = P(kpa*axdx + kpe*trdx, kpa*axdy + kpe*trdy);
           ctx.beginPath(); ctx.arc(dp[0], dp[1], 3, 0, 2*PI); ctx.fill();
         }
       } else {
         // ── (B) Extended scheme ──
-        // Cutting lines drawn right across the bulk BZ; Dirac points at corners.
-        var ext = 1.3*BZR;
+        // Lines drawn across the bulk BZ with umklapp folding (armchair offsets
+        // run past the zone); Dirac points stay at the hexagon corners.
+        var ext = 1.8*BZR, nseg = 420;
         for (var li = 0; li < p.lines.length; li++) {
           var L = p.lines[li];
           ctx.strokeStyle = colorFor(L.ci, p.N); ctx.lineWidth = 1.6;
-          var bx = L.c*trdx, by = L.c*trdy, prev = false;
+          var bx = L.c*trdx, by = L.c*trdy, prevf = null;
           ctx.beginPath();
-          for (var s = -ext; s <= ext; s += ext/90) {
-            var kx = bx+s*axdx, ky = by+s*axdy;
-            if (!insideHexRc(kx, ky, BZR)) { prev = false; continue; }
-            var pp = P(kx, ky);
-            if (prev) ctx.lineTo(pp[0], pp[1]); else ctx.moveTo(pp[0], pp[1]);
-            prev = true;
+          for (var is = 0; is <= nseg; is++) {
+            var s = -ext + 2*ext*is/nseg;
+            var f = foldBZ(bx + s*axdx, by + s*axdy);
+            var pf = P(f[0], f[1]);
+            if (prevf && Math.hypot(f[0]-prevf[0], f[1]-prevf[1]) < 0.5)
+              ctx.lineTo(pf[0], pf[1]);
+            else ctx.moveTo(pf[0], pf[1]);
+            prevf = f;
           }
           ctx.stroke();
         }
@@ -1166,6 +1189,7 @@
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
 
       // annotation per scheme
+      var kperpRule = (isZig ? 'nπ' : '2nπ') + '/(N+1), n = 1…' + p.N;
       if (reduced) {
         ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.8)';
         ctx.lineWidth = 1.2; ctx.beginPath();
@@ -1174,13 +1198,13 @@
         ctx.textAlign = 'left';
         ctx.fillText('reduced zone |k∥| ≤ π/T · Dirac points folded in', 30, H-18);
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('cutting lines k⊥ = nπ/(N+1), n = 1…' + p.N, 8, H-6);
+        ctx.fillText('cutting lines k⊥ = ' + kperpRule, 8, H-6);
       } else {
         ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('extended zone: lines across bulk BZ, Dirac at corners', 8, H-18);
+        ctx.fillText('extended zone: umklapp-folded lines · Dirac at corners', 8, H-18);
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('ribbon 1-D BZ length = 2π/T along the axis', 8, H-6);
+        ctx.fillText('k⊥ = ' + kperpRule, 8, H-6);
       }
 
       // orientation readout
@@ -1631,7 +1655,8 @@
         ? '<b style="color:#6ee7b7">Metallic</b> — a band reaches the Fermi level (zero gap).'
         : '<b style="color:#fbbf24">Semiconducting</b> — the lowest subband opens a gap E<sub>g</sub> ≈ '
           + (2*gapHalf).toFixed(2) + ' eV at Γ.';
-      var bc = ' Hard-wall BC: k<sub>⊥</sub> = nπ/(' + N + '+1), n = 1…' + N +
+      var bc = ' Hard-wall BC: ' + N + ' transverse modes n = 1…' + N +
+               ' (k<sub>⊥</sub> = ' + (isZig ? 'nπ' : '2nπ') + '/(' + N + '+1))' +
                ' — the wavefunction vanishes at missing atom sites beyond each edge.';
       var detail = isZig
         ? ' Zigzag ribbons carry <b style="color:#6ee7b7">edge states</b> — a flat E≈0 band for ' +
