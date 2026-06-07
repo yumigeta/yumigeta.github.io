@@ -215,3 +215,24 @@
   border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
   margin: 8px 0; padding: 12px 8px; overflow-x: auto;
 }
+
+/* ── Collapsible "reminder" (only those who need it expand it) ── */
+.recall {
+  margin: 10px 0; border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px; background: rgba(255,255,255,0.02);
+}
+.recall > summary {
+  cursor: pointer; list-style: none; padding: 9px 12px;
+  font-size: 0.8rem; font-weight: 600; color: #a8a29e;
+  display: flex; align-items: center; gap: 8px; user-select: none;
+}
+.recall > summary::-webkit-details-marker { display: none; }
+.recall > summary::before {
+  content: "\25B8"; color: #78716c; transition: transform .15s ease;
+}
+.recall[open] > summary::before { transform: rotate(90deg); }
+.recall > summary:hover { color: #e7e5e4; }
+.recall > div {
+  padding: 2px 14px 10px; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.recall p { font-size: 0.82rem; color: #d6d3d1; line-height: 1.65; margin: 8px 0; }
