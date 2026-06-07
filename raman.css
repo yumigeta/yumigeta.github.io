@@ -22,20 +22,20 @@
 
 /* ── Module 00 — Atom canvas ── */
 .atom-canvas {
-  width: 100%; height: 260px; display: block;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  width: 100%; height: 300px; display: block;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
 
 /* ── Module 01 — Molecule + α(Q) panels ── */
 .mol-panel canvas, .aq-panel canvas {
   width: 100%; height: 220px; display: block;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
 
 .mode-explain {
-  font-size: 0.82rem; color: #a8a29e; line-height: 1.65;
+  font-size: 0.82rem; color: var(--faint); line-height: 1.65;
   margin-bottom: 14px; min-height: 2.4em;
 }
 .mode-explain .mol-activity {
@@ -49,19 +49,19 @@
 
 .physics-note {
   margin-top: 12px;
-  font-size: 0.84rem; color: #d6d3d1; line-height: 1.7;
+  font-size: 0.84rem; color: var(--soft); line-height: 1.7;
 }
-.physics-note b { color: #fafaf9; }
+.physics-note b { color: var(--ink); }
 
 /* ── Trace rows ── */
 .trace-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
-.trace-label { font-size: 0.78rem; line-height: 1.4; color: #d6d3d1; }
-.trace-label b { color: #fafaf9; }
-.trace-label .eq { display: block; font-size: 0.72rem; color: #a8a29e; margin-top: 2px; }
+.trace-label { font-size: 0.78rem; line-height: 1.4; color: var(--soft); }
+.trace-label b { color: var(--ink); }
+.trace-label .eq { display: block; font-size: 0.72rem; color: var(--faint); margin-top: 2px; }
 .trace-row canvas {
   width: 100%; height: 74px; display: block;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
 
 /* Only interactive animations/figures are framed — the section stage,
@@ -74,37 +74,37 @@
 }
 .decomp-label {
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: #a8a29e; margin-bottom: 10px;
+  text-transform: uppercase; color: var(--faint); margin-bottom: 10px;
 }
 .decomp-traces { display: flex; flex-direction: column; gap: 6px; }
 .decomp-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; align-items: center; }
 .decomp-tag { font-size: 0.74rem; font-weight: 600; }
 .decomp-row canvas {
   width: 100%; height: 42px; display: block;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 6px;
 }
 
 /* ── Spectrum ── */
 .spectrum-wrap { margin-top: 16px; }
 .spectrum-wrap canvas {
   width: 100%; height: 150px; display: block;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
 .spectrum-wrap .cap, .jab-cap {
-  font-size: 0.8rem; color: #a8a29e; margin-top: 10px; line-height: 1.6;
+  font-size: 0.8rem; color: var(--faint); margin-top: 10px; line-height: 1.6;
 }
 
 /* ── Jablonski ── */
 .svg-wrap { width: 100%; }
 .svg-wrap svg {
   width: 100%; height: auto; display: block;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
 
-.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 0.76rem; color: #a8a29e; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 0.76rem; color: var(--faint); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
 
@@ -113,16 +113,16 @@
   display: flex; flex-direction: column; gap: 24px;
 }
 .crystal-concept h3 {
-  font-size: 0.92rem; font-weight: 700; color: #fafaf9;
+  font-size: 0.92rem; font-weight: 700; color: var(--ink);
   margin-bottom: 8px;
 }
 .crystal-concept p {
-  font-size: 0.84rem; color: #d6d3d1; line-height: 1.65;
+  font-size: 0.84rem; color: var(--soft); line-height: 1.65;
   margin-bottom: 8px;
 }
 .eq-block {
   text-align: center; font-size: 1rem; font-weight: 600;
-  color: #e7e5e4; padding: 10px 0; letter-spacing: 0.02em;
+  color: var(--ink); padding: 10px 0; letter-spacing: 0.02em;
 }
 
 .tensor-grid {
@@ -130,50 +130,50 @@
   gap: 12px; margin: 14px 0;
 }
 .tensor-card {
-  border: 1px solid rgba(255,255,255,0.10); border-radius: 8px;
+  border: 1px solid var(--rule); border-radius: 8px;
   padding: 14px; text-align: center;
-  background: rgba(255,255,255,0.03);
+  background: var(--bg-soft);
 }
 .tensor-label {
   display: block; font-size: 0.88rem; font-weight: 700;
-  color: #a78bfa; margin-bottom: 8px;
+  color: var(--accent); margin-bottom: 8px;
 }
 .tensor-matrix table {
   margin: 0 auto; border-collapse: collapse;
 }
 .tensor-matrix td {
   width: 28px; height: 28px; text-align: center;
-  font-size: 0.82rem; color: #e7e5e4; font-style: italic;
+  font-size: 0.82rem; color: var(--ink); font-style: italic;
 }
 .tensor-matrix td:empty::after {
   content: "0"; color: #57534e;
 }
 .tensor-polar {
   display: block; margin-top: 8px;
-  font-size: 0.7rem; color: #a8a29e; font-style: italic;
+  font-size: 0.7rem; color: var(--faint); font-style: italic;
 }
 
 .raman-info-list {
   list-style: none; padding: 0; margin: 8px 0 0;
 }
 .raman-info-list li {
-  font-size: 0.82rem; color: #d6d3d1; line-height: 1.65;
+  font-size: 0.82rem; color: var(--soft); line-height: 1.65;
   padding: 4px 0 4px 18px; position: relative;
 }
 .raman-info-list li::before {
   content: ""; position: absolute; left: 0; top: 12px;
   width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(167,139,250,0.5);
+  background: var(--accent);
 }
-.raman-info-list li b { color: #fafaf9; }
+.raman-info-list li b { color: var(--ink); }
 
 .crystal-concept .ext-link {
-  color: #a78bfa; text-decoration: underline;
-  text-decoration-color: rgba(167,139,250,0.4);
+  color: var(--accent); text-decoration: underline;
+  text-decoration-color: var(--accent);
   text-underline-offset: 2px; font-weight: 500;
 }
 .crystal-concept .ext-link:hover {
-  color: #c4b5fd; text-decoration-color: #c4b5fd;
+  color: var(--soft); text-decoration-color: var(--soft);
 }
 
 /* ── Responsive ── */
@@ -189,25 +189,25 @@
 .ray-svg {
   width: 100%; height: auto; display: block;
   background: #f8fafc;
-  border: 1px solid rgba(255,255,255,0.10); border-radius: 10px;
+  border: 1px solid var(--rule); border-radius: 10px;
 }
 .ray-lab { font-size: 13px; font-weight: 600; font-family: 'Zen Kaku Gothic New', sans-serif; }
 .ray-ax  { font-size: 13px; font-style: italic; font-weight: 700; }
 .ray-fig figcaption {
-  font-size: 0.8rem; color: #a8a29e; line-height: 1.6;
+  font-size: 0.8rem; color: var(--faint); line-height: 1.6;
   margin-top: 10px; padding-left: 2px;
 }
-.ray-fig figcaption b { color: #d6d3d1; }
+.ray-fig figcaption b { color: var(--soft); }
 
 .derivation { display: flex; flex-direction: column; gap: 4px; }
 .derivation h3 {
-  font-size: 0.9rem; font-weight: 700; color: #fafaf9;
+  font-size: 0.9rem; font-weight: 700; color: var(--ink);
   margin: 18px 0 4px; padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid var(--rule);
 }
 .derivation h3:first-child { margin-top: 4px; }
 .derivation p {
-  font-size: 0.84rem; color: #d6d3d1; line-height: 1.7; margin: 4px 0;
+  font-size: 0.84rem; color: var(--soft); line-height: 1.7; margin: 4px 0;
 }
 .derivation .eq-block {
   margin: 8px 0; padding: 4px 0; overflow-x: auto;
@@ -219,19 +219,19 @@
 }
 .recall > summary {
   cursor: pointer; list-style: none; padding: 7px 0;
-  font-size: 0.8rem; font-weight: 600; color: #a8a29e;
+  font-size: 0.8rem; font-weight: 600; color: var(--faint);
   display: flex; align-items: center; gap: 8px; user-select: none;
 }
 .recall > summary::-webkit-details-marker { display: none; }
 .recall > summary::before {
-  content: "\25B8"; color: #78716c; transition: transform .15s ease;
+  content: "\25B8"; color: var(--faint); transition: transform .15s ease;
 }
 .recall[open] > summary::before { transform: rotate(90deg); }
-.recall > summary:hover { color: #e7e5e4; }
+.recall > summary:hover { color: var(--ink); }
 .recall > div {
   padding: 2px 0 8px;
 }
-.recall p { font-size: 0.82rem; color: #d6d3d1; line-height: 1.65; margin: 8px 0; }
+.recall p { font-size: 0.82rem; color: var(--soft); line-height: 1.65; margin: 8px 0; }
 
 /* ── Polarizability demo: α slider, mode toggle, legend ── */
 .atom-controls {
@@ -239,17 +239,17 @@
   gap: 12px 22px; margin: 14px 2px 8px;
 }
 .atom-slider { display: flex; align-items: center; gap: 10px; flex: 1 1 240px; }
-.atom-slider label { font-size: 0.82rem; color: #d6d3d1; white-space: nowrap; }
+.atom-slider label { font-size: 0.82rem; color: var(--soft); white-space: nowrap; }
 .atom-slider input[type="range"] {
   flex: 1 1 auto; min-width: 110px; accent-color: #38bdf8; cursor: pointer;
 }
 .atom-slider output {
-  font-size: 0.8rem; color: #7dd3fc; font-variant-numeric: tabular-nums;
+  font-size: 0.8rem; color: var(--accent); font-variant-numeric: tabular-nums;
   min-width: 80px; text-align: right;
 }
 .atom-legend {
   display: flex; flex-wrap: wrap; gap: 14px;
-  margin: 0 2px 6px; font-size: 0.76rem; color: #a8a29e;
+  margin: 0 2px 6px; font-size: 0.76rem; color: var(--faint);
 }
 .atom-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .atom-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
@@ -259,12 +259,12 @@
   border-bottom: 1px dotted currentColor; cursor: help;
   white-space: nowrap; text-underline-offset: 2px;
 }
-.eqref:hover { color: #7dd3fc; }
+.eqref:hover { color: var(--accent); }
 .eq-tip {
   position: fixed; z-index: 1000; max-width: min(92vw, 560px);
-  background: #1c1917; border: 1px solid rgba(255,255,255,0.18);
+  background: var(--paper); border: 1px solid var(--rule-2);
   border-radius: 8px; padding: 4px 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+  box-shadow: var(--shadow-card-h);
   pointer-events: none; opacity: 0; transition: opacity .12s ease;
   overflow-x: auto;
 }
@@ -273,15 +273,22 @@
 
 /* ── In-section sub-demo heading (e.g. CO2 demo inside the classical theory) ── */
 .demo-sub {
-  font-size: 1rem; font-weight: 700; color: #fafaf9;
+  font-size: 1rem; font-weight: 700; color: var(--ink);
   margin: 28px 0 6px; padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.10);
+  border-bottom: 1px solid var(--rule);
 }
-.demo-sub-p { font-size: 0.86rem; color: #d6d3d1; line-height: 1.7; margin: 6px 0 14px; }
+.demo-sub-p { font-size: 0.86rem; color: var(--soft); line-height: 1.7; margin: 6px 0 14px; }
 
 /* ── Taylor reminder: sin x animation ── */
 .taylor-canvas {
   width: 100%; height: 240px; display: block; margin: 6px 0 4px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
+
+/* Paper page + framed dark "screens" for the interactive animations */
+.demo-stage { color: var(--ink); }
+.atom-canvas, .taylor-canvas,
+.mol-panel canvas, .aq-panel canvas,
+.trace-row canvas, .decomp-row canvas, .spectrum-wrap canvas,
+.ray-svg { box-shadow: var(--shadow-card); }
