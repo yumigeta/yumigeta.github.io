@@ -190,7 +190,6 @@ function fitCanvas(cv) {
   const btn    = document.getElementById('btn-play');
   const cap    = document.getElementById('spec-cap');
   const modeEl = document.getElementById('mode-explanation');
-  const noteEl = document.getElementById('physics-note');
 
   const CARRIER = 16;
   let t0 = 0;
@@ -244,7 +243,6 @@ function fitCanvas(cv) {
   const antFn  = t => Math.cos(TAU * (CARRIER + vib) * t);
   const overFn = t => Math.cos(TAU * (CARRIER + 2 * vib) * t);
 
-  updateNote();
   drawSpectrum();
   btn.addEventListener('click', () => {
     running = !running;
@@ -253,18 +251,9 @@ function fitCanvas(cv) {
     if (running) loop();
   });
 
-  function updateNote() {
-    if (MODES[mode].raman) {
-      noteEl.innerHTML = '<b>Why the slope matters.</b> The fundamental Raman lines at ω₀±ω<sub>v</sub> are set by the <b>first derivative</b> ∂α/∂Q at equilibrium (the tangent in the α–Q plot). Here it is non-zero, so they appear and grow with amplitude Q₀.';
-    } else {
-      noteEl.innerHTML = '<b>Why no Raman line?</b> Because ∂α/∂Q = 0 at equilibrium, the polarizability does not oscillate at the vibrational frequency ω<sub>v</sub>. Even if α changes slightly at large amplitudes, the induced dipole carries <b>no first-order sideband</b> at ω₀±ω<sub>v</sub>. The selection rule is determined by the first derivative — if it is zero, the mode is Raman-inactive.';
-    }
-  }
-
   function setMode(m) {
     mode = m;
     modeEl.innerHTML = MODES[m].badge + ' ' + MODES[m].text;
-    updateNote();
     drawSpectrum();
   }
   document.getElementById('mol-btns').addEventListener('click', e => {
