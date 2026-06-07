@@ -224,17 +224,17 @@ function fitCanvas(cv) {
     sym: {
       raman: true, a0: 0.50, c1: 0.55, c2: 0.06,
       badge: '<span class="mol-activity raman">Raman-active</span>',
-      text: '<b>Symmetric stretch</b> — both bonds breathe together, so ∂α/∂Q ≠ 0.'
+      text: '<b>Symmetric stretch</b> — both bonds breathe together, so the equilibrium slope $\\left(\\partial\\alpha/\\partial Q\\right)_0 \\neq 0$.'
     },
     asym: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Asymmetric stretch</b> — the two α changes cancel, so ∂α/∂Q = 0.'
+      text: '<b>Asymmetric stretch</b> — the two $\\alpha$ changes cancel, so $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
     },
     bend: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Bend</b> — by symmetry ∂α/∂Q = 0 at equilibrium.'
+      text: '<b>Bend</b> — by symmetry $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
     }
   };
   let mode = 'sym';
@@ -274,9 +274,18 @@ function fitCanvas(cv) {
     if (running) loop();
   });
 
+  function renderMath(el) {
+    if (window.renderMathInElement) {
+      try { window.renderMathInElement(el, { delimiters: [{ left: '$', right: '$', display: false }] }); } catch (e) {}
+    }
+  }
   function setMode(m) {
     mode = m;
     modeEl.innerHTML = MODES[m].badge + ' ' + MODES[m].text;
+    cap.innerHTML = MODES[m].raman
+      ? 'The <b>Stokes</b> and <b>anti-Stokes</b> lines at $\\omega_0\\pm\\omega_{\\mathrm v}$ appear because $\\left(\\partial\\alpha/\\partial Q\\right)_0 \\neq 0$ — their amplitude grows with $Q_0$. Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
+      : 'Because $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$, <b>no Stokes or anti-Stokes lines appear</b> at $\\omega_0\\pm\\omega_{\\mathrm v}$. Only the Rayleigh line remains — this mode is Raman-inactive.';
+    renderMath(modeEl); renderMath(cap);
     drawSpectrum();
   }
   document.getElementById('mol-btns').addEventListener('click', e => {
@@ -665,9 +674,6 @@ function fitCanvas(cv) {
     }
     ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
 
-    cap.innerHTML = MODES[mode].raman
-      ? 'The <b>Stokes</b> and <b>anti-Stokes</b> lines at ω₀±ω<sub>v</sub> appear because ∂α/∂Q ≠ 0 — their amplitude grows with Q₀. Classically Stokes ≈ anti-Stokes; Boltzmann statistics make anti-Stokes weaker at room temperature.'
-      : 'Because ∂α/∂Q = 0, <b>no Stokes or anti-Stokes lines appear</b> at ω₀±ω<sub>v</sub>. Only the Rayleigh line remains — this mode is Raman-inactive.';
   }
 
   function loop() {
