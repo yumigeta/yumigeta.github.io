@@ -111,53 +111,6 @@
     </div>
     <div class="demo-stage">
 
-      <!-- Figure 1: classical picture, 90° scattering -->
-      <figure class="ray-fig">
-        <svg viewBox="0 0 680 380" role="img" aria-label="Classical picture of vibrational Raman scattering at 90 degrees" class="ray-svg">
-          <defs>
-            <marker id="arrR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-              <path d="M0,0 L7,3 L0,6 Z" fill="#0f172a"/>
-            </marker>
-          </defs>
-          <!-- incident plane wavefronts (travelling +x) -->
-          <g stroke="#38bdf8" stroke-width="2.5" opacity="0.9">
-            <line x1="70"  y1="170" x2="70"  y2="290"/>
-            <line x1="100" y1="170" x2="100" y2="290"/>
-            <line x1="130" y1="170" x2="130" y2="290"/>
-          </g>
-          <line x1="55" y1="230" x2="270" y2="230" stroke="#0f172a" stroke-width="1.6" marker-end="url(#arrR)"/>
-          <text x="60" y="155" class="ray-lab i18n-en" fill="#0369a1">Incident plane wave&#160;&#160;E&#7522;,&#160;&#969;&#7522;</text>
-          <text x="60" y="155" class="ray-lab i18n-ja" fill="#0369a1">入射平面電磁波&#160;&#160;E&#7522;,&#160;&#969;&#7522;</text>
-          <!-- molecule at origin -->
-          <circle cx="300" cy="230" r="20" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-          <circle cx="300" cy="230" r="4"  fill="#ef4444"/>
-          <text x="300" y="270" class="ray-lab i18n-en" fill="#334155" text-anchor="middle">molecule (induced dipole &#956;)</text>
-          <text x="300" y="270" class="ray-lab i18n-ja" fill="#334155" text-anchor="middle">分子（誘起双極子 &#956;）</text>
-          <!-- scattered spherical wavefronts (semicircles, top) -->
-          <g fill="none" stroke="#16a34a" stroke-width="2.2" opacity="0.85">
-            <path d="M 245 230 A 55 55 0 0 1 355 230"/>
-            <path d="M 215 230 A 85 85 0 0 1 385 230"/>
-            <path d="M 185 230 A 115 115 0 0 1 415 230"/>
-          </g>
-          <line x1="300" y1="208" x2="300" y2="55" stroke="#0f172a" stroke-width="1.6" marker-end="url(#arrR)"/>
-          <text x="312" y="60" class="ray-lab i18n-en" fill="#15803d">Scattered spherical wave&#160;&#160;E&#8347;,&#160;&#969;&#8347;</text>
-          <text x="312" y="60" class="ray-lab i18n-ja" fill="#15803d">散乱球面波&#160;&#160;E&#8347;,&#160;&#969;&#8347;</text>
-          <!-- 90 degree right-angle marker -->
-          <path d="M 326 230 L 326 204 L 300 204" fill="none" stroke="#475569" stroke-width="1.4"/>
-          <text x="335" y="222" class="ray-lab" fill="#475569">90&#176;</text>
-          <!-- space-fixed axes (x right, z up, y out of page) -->
-          <g stroke="#94a3b8" stroke-width="1.4" fill="#64748b">
-            <line x1="560" y1="330" x2="615" y2="330" marker-end="url(#arrR)"/>
-            <line x1="560" y1="330" x2="560" y2="275" marker-end="url(#arrR)"/>
-            <circle cx="560" cy="330" r="3" fill="none" stroke="#94a3b8"/>
-            <circle cx="560" cy="330" r="0.8"/>
-            <text x="620" y="334" class="ray-ax">x</text>
-            <text x="552" y="270" class="ray-ax">z</text>
-            <text x="540" y="346" class="ray-ax">y</text>
-          </g>
-        </svg>
-      </figure>
-
       <!-- Derivation: matches dissertation Appendix A.1 -->
       <div class="derivation">
 
