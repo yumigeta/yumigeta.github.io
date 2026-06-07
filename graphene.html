@@ -94,7 +94,10 @@
         <span class="i18n-en"><b>Left:</b> Real-space honeycomb with lattice vectors
         <b>a</b><sub>1</sub>, <b>a</b><sub>2</sub> and the unit cell
         (dashed). <b>Right:</b> First Brillouin zone with high-symmetry
-        points Γ, M, K, K′ and the path Γ→M→K→Γ.</span><span class="i18n-ja"><b>左:</b> 実空間ハニカム格子と格子ベクトル<b>a</b><sub>1</sub>、<b>a</b><sub>2</sub>、および単位胞（破線）。<b>右:</b> 第一ブリルアンゾーンと高対称点 Γ、M、K、K′、および経路 Γ→M→K→Γ。</span>
+        points Γ, M, K, K′ and the path Γ→M→K→Γ. The labels along the path
+        give the reciprocal-space distances between high-symmetry points
+        (in Å<sup>−1</sup>, for lattice constant <em>a</em> = 2.46 Å):
+        Γ–M = 1.47, M–K = 0.85, K–Γ = 1.70.</span><span class="i18n-ja"><b>左:</b> 実空間ハニカム格子と格子ベクトル<b>a</b><sub>1</sub>、<b>a</b><sub>2</sub>、および単位胞（破線）。<b>右:</b> 第一ブリルアンゾーンと高対称点 Γ、M、K、K′、および経路 Γ→M→K→Γ。経路上のラベルは高対称点間の逆格子空間での距離を示します（単位 Å<sup>−1</sup>、格子定数 <em>a</em> = 2.46 Å のとき）: Γ–M = 1.47、M–K = 0.85、K–Γ = 1.70。</span>
       </p>
     </div>
   </section>
@@ -116,12 +119,6 @@
     </div>
     <div class="demo-stage">
       <div class="gr-bands"><canvas id="c-bands"></canvas></div>
-      <div class="controls">
-        <div class="control">
-          <label><span class="i18n-en">Hopping energy</span><span class="i18n-ja">ホッピングエネルギー</span> <em>t</em> <span class="val" id="v-hop">2.70 eV</span></label>
-          <input type="range" id="ctrl-hop" min="0.5" max="5" step="0.05" value="2.7">
-        </div>
-      </div>
       <div class="gr-info" id="band-info">
         <span class="i18n-en">At the <b>K</b> point the bands touch linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|,
         giving massless Dirac fermions with Fermi velocity v<sub>F</sub> ≈ 10<sup>6</sup> m/s.</span><span class="i18n-ja"><b>K</b>点ではバンドが線形に接触します: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|。これにより、フェルミ速度 v<sub>F</sub> ≈ 10<sup>6</sup> m/s の質量ゼロディラックフェルミオンが生じます。</span>
@@ -146,13 +143,8 @@
         <span class="gr-3d-hint"><span class="i18n-en">drag to rotate · scroll to zoom</span><span class="i18n-ja">ドラッグで回転 · スクロールでズーム</span></span>
       </div>
       <div class="controls">
-        <div class="control">
-          <label><span class="i18n-en">Hopping energy</span><span class="i18n-ja">ホッピングエネルギー</span> <em>t</em> <span class="val" id="v-hop3d">2.70 eV</span></label>
-          <input type="range" id="ctrl-hop3d" min="0.5" max="5" step="0.05" value="2.7">
-        </div>
         <div class="btn-row">
           <button class="demo-btn active" id="btn-rotate"><span class="i18n-en">Auto-rotate</span><span class="i18n-ja">自動回転</span></button>
-          <button class="demo-btn" id="btn-wire"><span class="i18n-en">Wireframe</span><span class="i18n-ja">ワイヤーフレーム</span></button>
           <button class="demo-btn" id="btn-reset"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
         </div>
       </div>
