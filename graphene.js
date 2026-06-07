@@ -637,16 +637,38 @@
           ctx.stroke();
         }
       }
-      // Γ / M / K labels at their k-points (on the E = 0 plane).
-      var hsLab = [HSP.G, HSP.M, HSP.K];
-      ctx.font = '700 13px "DM Sans", sans-serif'; ctx.textAlign = 'center';
-      for (var li = 0; li < 3; li++) {
-        var lp = project(hsLab[li].kx, hsLab[li].ky, 0);
-        ctx.fillStyle = 'rgba(0,0,0,0.55)';
-        ctx.beginPath(); ctx.arc(lp.sx, lp.sy, 8, 0, 2*PI); ctx.fill();
-        ctx.fillStyle = '#fff';
-        ctx.fillText(hsLab[li].label, lp.sx, lp.sy + 4);
-      }
+      // Inset (top-left): top-down hexagonal BZ with the Γ→M→K→Γ path, drawn
+      // with the same segment colours as on the surface — shows the symmetry
+      // points without cluttering the 3-D plot.
+      (function () {
+        var icx = 52, icy = 50, insR = 28, isc = insR / BZR;
+        function ip(kx, ky) { return [icx + kx*isc, icy - ky*isc]; }
+        ctx.fillStyle = 'rgba(16,13,11,0.55)';
+        ctx.beginPath(); ctx.rect(8, 10, 88, 80); ctx.fill();
+        ctx.strokeStyle = 'rgba(251,191,36,0.55)'; ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        for (var hn = 0; hn <= 6; hn++) {
+          var ha = hn*PI/3, hp = ip(BZR*cos(ha), BZR*sin(ha));
+          if (hn === 0) ctx.moveTo(hp[0], hp[1]); else ctx.lineTo(hp[0], hp[1]);
+        }
+        ctx.closePath(); ctx.stroke();
+        var pseq = [HSP.G, HSP.M, HSP.K, HSP.G];
+        ctx.lineWidth = 2;
+        for (var ps = 0; ps < 3; ps++) {
+          ctx.strokeStyle = PATHSEG[ps];
+          var A = ip(pseq[ps].kx, pseq[ps].ky), B = ip(pseq[ps+1].kx, pseq[ps+1].ky);
+          ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
+        }
+        ctx.font = '700 9px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+        var marks = [{p:HSP.G,t:'Γ',c:'#16a34a',dx:-7,dy:3},
+                     {p:HSP.M,t:'M',c:'#a78bfa',dx:9,dy:-4},
+                     {p:HSP.K,t:'K',c:'#ef4444',dx:8,dy:3}];
+        marks.forEach(function (m) {
+          var q = ip(m.p.kx, m.p.ky);
+          ctx.fillStyle = m.c; ctx.beginPath(); ctx.arc(q[0], q[1], 2.5, 0, 2*PI); ctx.fill();
+          ctx.fillStyle = '#e7e5e4'; ctx.fillText(m.t, q[0]+m.dx, q[1]+m.dy);
+        });
+      })();
 
       // ── Dirac-point markers at the six K corners (E = 0) ──
       var frontMost = null;
