@@ -533,11 +533,11 @@ body.reveal-on .rv.in { opacity: 1; transform: none; }
   font-size: clamp(22px,2.8vw,28px); font-weight: 600;
   color: var(--ink); margin: 4px 0 8px; line-height: 1.15; letter-spacing: -.02em;
 }
-.demo-head p { color: var(--soft); font-size: 16px; line-height: 1.55; }
+.demo-head p { color: var(--soft); font-size: 16px; line-height: 1.55; max-width: var(--measure); }
 
 .demo-stage {
   background: var(--stage); border-radius: var(--r);
-  padding: 20px; color: #e7e5e4;
+  padding: 20px; color: #e7e5e4; max-width: var(--measure);
 }
 
 .top-row {
@@ -675,7 +675,7 @@ input[type=range]::-moz-range-thumb {
   text-align: right; line-height: 1.7; padding-bottom: 6px;
 }
 .pintro {
-  margin-top: clamp(16px,2vw,24px); max-width: 62ch;
+  margin-top: clamp(16px,2vw,24px); max-width: var(--measure);
   font-size: clamp(16px,1.5vw,18px); color: var(--soft); line-height: 1.6;
 }
 .pintro em { font-style: normal; color: var(--accent); }
