@@ -283,41 +283,29 @@
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">01 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">01 — 分子から結晶へ：角度分解ラマン</span></span>
-      <h2><span class="i18n-en">Raman tensors &amp; polarization dependence in RTe$_3$</span><span class="i18n-ja">RTe$_3$ におけるラマンテンソルと偏光依存性</span></h2>
+      <h2><span class="i18n-en">Angle-resolved Raman: reading crystal symmetry</span><span class="i18n-ja">角度分解ラマン：結晶対称性を読む</span></h2>
       <p>
         <span class="i18n-en">In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
-        irreducible representations of the space group. Each Raman-active phonon carries
-        a Raman tensor $\boldsymbol{R}$ of symmetry-fixed form, and rotating the light polarization
-        ($\theta$) maps out $|\boldsymbol{e}_{\mathrm{s}}\!\cdot\boldsymbol{R}\cdot\boldsymbol{e}_{\mathrm{i}}|^2$ — a direct
-        fingerprint of mode symmetry. Below, the worked example is the orthorhombic
-        rare-earth tritelluride family RTe$_3$.</span><span class="i18n-ja">結晶中では、振動は空間群の既約表現でラベル付けされた集団的<b>フォノンモード</b>です。各ラマン活性フォノンは対称性で決まる形のラマンテンソル $R$ を持ち、光の偏光（$\theta$）を回転させると $|\boldsymbol{e}_{\mathrm{s}}\!\cdot\boldsymbol{R}\cdot\boldsymbol{e}_{\mathrm{i}}|^2$ がマッピングされます — モード対称性の直接的なフィンガープリントです。以下では、斜方晶希土類三テルル化物 RTe$_3$ ファミリーを具体例として扱います。</span>
+        irreducible representations of the space group, and each Raman-active phonon
+        carries a Raman tensor $\boldsymbol{R}$ of symmetry-fixed form. Rotating the light
+        polarization and recording intensity versus angle — <b>angle-resolved Raman</b> —
+        turns each mode into a polar fingerprint of its symmetry and the crystal's
+        orientation.</span><span class="i18n-ja">結晶中では、振動は空間群の既約表現でラベル付けされた集団的<b>フォノンモード</b>であり、各ラマン活性フォノンは対称性で決まる形のラマンテンソル $\boldsymbol{R}$ を持ちます。光の偏光を回転させて強度の角度依存を測る<b>角度分解ラマン</b>により、各モードはその対称性と結晶方位の極座標フィンガープリントになります。</span>
       </p>
     </div>
     <div class="demo-stage">
 
       <div class="crystal-explain">
         <div class="crystal-concept">
-          <h3><span class="i18n-en">Step 1 — Mode count from symmetry</span><span class="i18n-ja">ステップ1 — 対称性からのモード数</span></h3>
-          <p>
-            <span class="i18n-en">RTe$_3$ crystallizes in space group <i>Cmcm</i> (No. 63) with every ion on a
-            $c$ Wyckoff site. The factor-group analysis gives the zone-center decomposition</span><span class="i18n-ja">RTe$_3$ は空間群 <i>Cmcm</i>（No. 63）で結晶化し、すべてのイオンは $c$ ワイコフサイト上にあります。因子群解析によりゾーン中心の分解は</span>
-          </p>
-          <p class="eq-block">
-            $$\Gamma = 4A_g + 4B_{1g} + 4B_{3g} + B_{1u} + B_{2u} + B_{3u}.$$
-          </p>
-          <p>
-            <span class="i18n-en">The three $g$ (gerade) species — $A_g,\ B_{1g},\ B_{3g}$ — are
-            <b>Raman-active</b>; the $u$ species are IR / acoustic. No $B_{2g}$ modes
-            exist by symmetry.</span><span class="i18n-ja">3つの $g$（偶）種 — $A_g,\ B_{1g},\ B_{3g}$ — が<b>ラマン活性</b>であり、$u$ 種は赤外/音響モードです。対称性により $B_{2g}$ モードは存在しません。</span>
-          </p>
+          <h3><span class="i18n-en">Polarization-dependent intensity</span><span class="i18n-ja">偏光依存の強度</span></h3>
+          <p><span class="i18n-en">For a given mode the scattered intensity is</span><span class="i18n-ja">あるモードの散乱強度は</span></p>
+          <p class="eq-block">$$I\propto\big|\boldsymbol{e}_{\mathrm{s}}\!\cdot\boldsymbol{R}\cdot\boldsymbol{e}_{\mathrm{i}}\big|^2,$$</p>
+          <p><span class="i18n-en">where $\boldsymbol{e}_{\mathrm{i}},\boldsymbol{e}_{\mathrm{s}}$ are the incident/scattered polarizations and $\boldsymbol{R}$ the mode's Raman tensor. Sweeping the polarization angle $\theta$ traces a polar plot $I(\theta)$ whose shape is fixed entirely by the symmetry-allowed form of $\boldsymbol{R}$.</span><span class="i18n-ja">ここで $\boldsymbol{e}_{\mathrm{i}},\boldsymbol{e}_{\mathrm{s}}$ は入射/散乱の偏光、$\boldsymbol{R}$ はそのモードのラマンテンソルです。偏光角 $\theta$ を掃引すると極座標プロット $I(\theta)$ が描かれ、その形は $\boldsymbol{R}$ の対称性で許される形だけで決まります。</span></p>
         </div>
 
         <div class="crystal-concept">
-          <h3><span class="i18n-en">Step 2 — Raman tensors (orthorhombic $D_{2h}$)</span><span class="i18n-ja">ステップ2 — ラマンテンソル（斜方晶 $D_{2h}$）</span></h3>
-          <p>
-            <span class="i18n-en">Each species has a symmetry-fixed Raman tensor form ($x\!\parallel\!a$,
-            $y\!\parallel\!b$, $z\!\parallel\!c$):</span><span class="i18n-ja">各種は対称性で決まるラマンテンソルの形を持ちます（$x\!\parallel\!a$, $y\!\parallel\!b$, $z\!\parallel\!c$）：</span>
-          </p>
+          <h3><span class="i18n-en">Tensor forms are set by symmetry</span><span class="i18n-ja">テンソルの形は対称性で決まる</span></h3>
+          <p><span class="i18n-en">The non-zero components of $\boldsymbol{R}$ — and hence the polar pattern — follow from the crystal's point group. For an orthorhombic ($D_{2h}$) crystal, for instance, the Raman-active species and their tensors are ($x,y,z$ along the crystal axes):</span><span class="i18n-ja">$\boldsymbol{R}$ の非ゼロ成分、ひいては極座標パターンは結晶の点群から決まります。たとえば斜方晶（$D_{2h}$）では、ラマン活性種とそのテンソルは次のとおりです（$x,y,z$ は結晶軸）：</span></p>
           <div class="tensor-grid">
             <div class="tensor-card">
               <span class="tensor-label">$A_g$</span>
@@ -353,41 +341,19 @@
               <span class="tensor-polar">$yz$</span>
             </div>
           </div>
+          <p><span class="i18n-en">In a common back-scattering, parallel-polarization geometry ($\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$, angle $\theta$ in the surface plane) two archetypes emerge:</span><span class="i18n-ja">代表的な後方散乱・平行偏光配置（$\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$、$\theta$ は面内角度）では、2つの典型が現れます：</span></p>
+          <p class="eq-block">$$I_{A}\propto\big(a\cos^2\theta+c\sin^2\theta\big)^2,\qquad I_{B}\propto d^2\sin^2 2\theta.$$</p>
+          <p><span class="i18n-en">A totally-symmetric ($A$) mode gives a smooth two-/four-lobed pattern whose anisotropy reflects $c/a$; an off-diagonal ($B$) mode gives a four-lobed pattern rotated by 45&deg;. From the lobe shape and orientation one reads off (i) the mode's <b>symmetry species</b> and (ii) the <b>crystal orientation</b> — strongly for anisotropic crystals, weakly for in-plane-isotropic ones.</span><span class="i18n-ja">全対称（$A$）モードは滑らかな2葉/4葉パターンを与え、その異方性は $c/a$ を反映します。非対角（$B$）モードは45&deg;回転した4葉パターンを与えます。葉の形と向きから、(i) モードの<b>対称種</b>と (ii) <b>結晶方位</b>が読み取れます — 異方的な結晶では強く、面内等方的な結晶では弱く現れます。</span></p>
         </div>
 
         <div class="crystal-concept">
-          <h3><span class="i18n-en">Step 3 — Geometry of the experiment</span><span class="i18n-ja">ステップ3 — 実験の配置</span></h3>
-          <p>
-            <span class="i18n-en">RTe$_3$ layers lie in the $ac$-plane, bound by van der Waals gaps along $b$.
-            Backscattering therefore propagates along $b$, and both polarization vectors
-            stay in the $ac$-plane. In the <b>parallel configuration</b>
-            ($\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$), with $\theta$ the angle from the $a$-axis,</span><span class="i18n-ja">RTe$_3$ の層は $ac$ 面内にあり、$b$ 方向のファンデルワールスギャップで結合しています。したがって後方散乱は $b$ 方向に伝播し、両方の偏光ベクトルは $ac$ 面内に留まります。<b>平行配置</b>（$\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$）で、$\theta$ を $a$ 軸からの角度とすると、</span>
-          </p>
-          <p class="eq-block">
-            $$\boldsymbol{e}_{\mathrm{i}}=\boldsymbol{e}_{\mathrm{s}}=\begin{pmatrix}\cos\theta\\0\\\sin\theta\end{pmatrix}.$$
-          </p>
-          <p>
-            <span class="i18n-en">Because $\boldsymbol{e}$ has no $y$-component, the off-diagonal $B_{1g}$ and $B_{3g}$
-            tensors give zero — <b>only the $A_g$ mode is observable</b> in this geometry.</span><span class="i18n-ja">$\boldsymbol{e}$ に $y$ 成分がないため、非対角の $B_{1g}$ および $B_{3g}$ テンソルはゼロを与えます — この配置では<b>$A_g$ モードのみが観測可能</b>です。</span>
-          </p>
-        </div>
-
-        <div class="crystal-concept">
-          <h3><span class="i18n-en">Step 4 — Angle dependence of the $A_g$ mode</span><span class="i18n-ja">ステップ4 — $A_g$ モードの角度依存性</span></h3>
-          <p>
-            <span class="i18n-en">Evaluating $I_{\mathrm{s}}^{\parallel}\propto|\boldsymbol{e}_{\mathrm{s}}\!\cdot \boldsymbol{R}_{A_g}\!\cdot\boldsymbol{e}_{\mathrm{i}}|^2$
-            with the diagonal $A_g$ tensor yields</span><span class="i18n-ja">対角 $A_g$ テンソルで $I_{\mathrm{s}}^{\parallel}\propto|\boldsymbol{e}_{\mathrm{s}}\!\cdot \boldsymbol{R}_{A_g}\!\cdot\boldsymbol{e}_{\mathrm{i}}|^2$ を評価すると</span>
-          </p>
-          <p class="eq-block">
-            $$I_{\mathrm{s}}^{\parallel}\propto a^2\cos^4\theta + c^2\sin^4\theta + 2ac\,\cos^2\theta\sin^2\theta\cos\phi,$$
-          </p>
-          <p>
-            <span class="i18n-en">where $\phi$ is the phase difference between the complex Raman-tensor
-            components $a$ and $c$. The polar plot of $I_{\mathrm{s}}^{\parallel}(\theta)$ shows the
-            characteristic <b>two-/four-lobed pattern</b> whose shape fixes the ratio
-            $c/a$ and the phase $\phi$ — the fitting handle used to assign modes and to
-            track the four-fold CDW distortion in RTe$_3$.</span><span class="i18n-ja">ここで $\phi$ は複素ラマンテンソル成分 $a$ と $c$ の位相差です。$I_{\mathrm{s}}^{\parallel}(\theta)$ の極座標プロットは特徴的な<b>2葉/4葉パターン</b>を示し、その形状が比 $c/a$ と位相 $\phi$ を決定します — モードの帰属や RTe$_3$ における4回対称CDW歪みの追跡に用いられるフィッティングパラメータです。</span>
-          </p>
+          <h3><span class="i18n-en">Examples across materials</span><span class="i18n-ja">いくつかの材料での例</span></h3>
+          <ul class="raman-info-list">
+            <li><span class="i18n-en"><b>Black phosphorus</b> (orthorhombic) — strongly anisotropic in-plane; the $A_g$ lobes align with the armchair/zigzag axes, so the polar plot pins down the crystal orientation.</span><span class="i18n-ja"><b>黒リン</b>（斜方晶） — 面内で強い異方性を示し、$A_g$ の葉がアームチェア/ジグザグ軸に揃うため、極座標プロットから結晶方位が決まります。</span></li>
+            <li><span class="i18n-en"><b>2H-MoS<sub>2</sub> and other TMDs</b> (hexagonal) — the $A_1$ mode is nearly isotropic while the $E$ modes vary with $\theta$; the pattern separates mode symmetries (in-plane isotropic, so little orientation info).</span><span class="i18n-ja"><b>2H-MoS<sub>2</sub> など TMD</b>（六方晶） — $A_1$ モードはほぼ等方的で、$E$ モードは $\theta$ に依存します。パターンはモード対称性を区別します（面内等方なので方位情報は乏しい）。</span></li>
+            <li><span class="i18n-en"><b>ReS<sub>2</sub> / ReSe<sub>2</sub></b> (triclinic) — very low symmetry; every mode peaks at its own angle, giving a rich orientation fingerprint.</span><span class="i18n-ja"><b>ReS<sub>2</sub> / ReSe<sub>2</sub></b>（三斜晶） — 非常に低い対称性で、各モードが固有の角度でピークを示し、豊かな方位フィンガープリントになります。</span></li>
+            <li><span class="i18n-en"><b>RTe<sub>3</sub></b> (orthorhombic, <i>Cmcm</i>) — the $A_g$ mode shows a two-/four-lobed pattern whose evolution tracks the four-fold charge-density-wave distortion below $T_{\mathrm{CDW}}$.</span><span class="i18n-ja"><b>RTe<sub>3</sub></b>（斜方晶 <i>Cmcm</i>） — $A_g$ モードは2葉/4葉パターンを示し、その変化が $T_{\mathrm{CDW}}$ 以下の4回対称の電荷密度波歪みを追跡します。</span></li>
+          </ul>
         </div>
 
         <div class="crystal-concept">
@@ -396,8 +362,7 @@
             <span class="i18n-en">A half-wave plate rotates the polarization. <b>Type&nbsp;I</b> sweeps the laser
             polarization while the analyzer angle is fixed; <b>Type&nbsp;II</b> rotates
             laser <em>and</em> signal together at a fixed parallel (or perpendicular)
-            offset. Type&nbsp;II is the parallel-polarization configuration used for the
-            $A_g$ formula above.</span><span class="i18n-ja">半波長板が偏光を回転させます。<b>タイプI</b>はアナライザー角度を固定してレーザー偏光を掃引し、<b>タイプII</b>はレーザー<em>と</em>信号を固定された平行（または垂直）オフセットで一緒に回転させます。タイプIIは上記の $A_g$ の式で使用された平行偏光配置です。</span>
+            offset.</span><span class="i18n-ja">半波長板が偏光を回転させます。<b>タイプI</b>はアナライザー角度を固定してレーザー偏光を掃引し、<b>タイプII</b>はレーザー<em>と</em>信号を固定された平行（または垂直）オフセットで一緒に回転させます。</span>
           </p>
         </div>
 
@@ -417,25 +382,10 @@
             <li><span class="i18n-en"><b>POINT</b> — character tables and irreducible representations for any point group</span><span class="i18n-ja"><b>POINT</b> — 任意の点群の指標表と既約表現</span></li>
           </ul>
           <p>
-            <span class="i18n-en">Enter your space group number (e.g. 63 for Cmcm), and the server returns
+            <span class="i18n-en">Enter your space group number, and the server returns
             all Raman-active mode symmetries and tensor matrices directly — no manual
-            group theory needed.</span><span class="i18n-ja">空間群番号（例：Cmcm の場合 63）を入力すると、サーバーがすべてのラマン活性モードの対称性とテンソル行列を直接返します — 手動の群論は不要です。</span>
+            group theory needed.</span><span class="i18n-ja">空間群番号を入力すると、サーバーがすべてのラマン活性モードの対称性とテンソル行列を直接返します — 手動の群論は不要です。</span>
           </p>
-        </div>
-
-        <div class="crystal-concept">
-          <h3><span class="i18n-en">What Raman spectra tell you</span><span class="i18n-ja">ラマンスペクトルから分かること</span></h3>
-          <p>
-            <span class="i18n-en">Beyond identifying materials, Raman spectra encode a wealth of
-            structural and physical information:</span><span class="i18n-ja">物質の同定にとどまらず、ラマンスペクトルは豊富な構造的・物理的情報を含んでいます：</span>
-          </p>
-          <ul class="raman-info-list">
-            <li><span class="i18n-en"><b>Peak position</b> — phonon frequency, sensitive to composition and bond strength</span><span class="i18n-ja"><b>ピーク位置</b> — フォノン周波数、組成や結合の強さに敏感</span></li>
-            <li><span class="i18n-en"><b>Peak width</b> — crystallinity (broader = more disorder or smaller grains)</span><span class="i18n-ja"><b>ピーク幅</b> — 結晶性（広い＝より無秩序または小さい粒子）</span></li>
-            <li><span class="i18n-en"><b>Peak shift</b> — strain, temperature, or doping changes</span><span class="i18n-ja"><b>ピークシフト</b> — ひずみ、温度、またはドーピングの変化</span></li>
-            <li><span class="i18n-en"><b>Peak intensity</b> — thickness (in thin films/2D materials)</span><span class="i18n-ja"><b>ピーク強度</b> — 膜厚（薄膜/2次元材料の場合）</span></li>
-            <li><span class="i18n-en"><b>Polarization dependence</b> — crystal orientation and mode symmetry</span><span class="i18n-ja"><b>偏光依存性</b> — 結晶方位とモード対称性</span></li>
-          </ul>
         </div>
       </div>
 
