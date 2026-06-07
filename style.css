@@ -524,7 +524,7 @@ body.reveal-on .rv.in { opacity: 1; transform: none; }
 .soft-links a:hover { opacity: .65; }
 
 /* ── Demo modules (Raman, Graphene) ── */
-.demo { max-width: 860px; margin: 0 auto; padding: 48px 28px; }
+.demo { max-width: var(--maxw); margin: 0 auto; padding: 48px var(--gutter); }
 .demo + .demo { border-top: 1px solid var(--line); }
 
 .demo-head { margin-bottom: 24px; }

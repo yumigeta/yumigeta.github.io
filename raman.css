@@ -318,7 +318,6 @@
 .anim-card .spectrum-wrap .cap { color: #a8a29e; }
 
 /* Align the page header with the demo content (same left edge) */
-.phead .container { max-width: 860px; padding: 0 28px; }
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
 .ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
