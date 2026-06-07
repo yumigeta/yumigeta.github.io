@@ -779,6 +779,8 @@
     var btnWInc = document.getElementById('btn-width-inc');
     var btnZoneR = document.getElementById('btn-zone-reduced');
     var btnZoneE = document.getElementById('btn-zone-extended');
+    var btnBZplane = document.getElementById('btn-bz-plane');
+    var showBZplane = true;
     if (!bzC) return;
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
@@ -1372,6 +1374,7 @@
       // GNR first Brillouin-zone boundary: the ribbon zone is 1-D, so its edges
       // are the planes k∥ = ±π/T (perpendicular to the ribbon axis), spanning
       // k⊥ and the full energy range — drawn as translucent sheets, NOT lines.
+      if (showBZplane) {
       var gaxx = -p.ny, gaxy = p.nx, gtrx = p.nx, gtry = p.ny;
       var gkpar = PI / (p.theta === 0 ? 1 : sqrt3);
       for (var sgn = -1; sgn <= 1; sgn += 2) {
@@ -1392,6 +1395,7 @@
         ctx.lineTo(cC.sx, cC.sy); ctx.lineTo(cD.sx, cD.sy); ctx.closePath();
         ctx.fillStyle = 'rgba(251,191,36,0.12)'; ctx.fill();
         ctx.strokeStyle = 'rgba(251,191,36,0.7)'; ctx.lineWidth = 1.2; ctx.stroke();
+      }
       }
 
       for (var n = 0; n < 6; n++) {
@@ -1746,6 +1750,13 @@
         zoneScheme = 'extended';
         btnZoneE.classList.add('active'); btnZoneR.classList.remove('active');
         if (curP) drawBZ(curP);
+      });
+    }
+    if (btnBZplane) {
+      btnBZplane.addEventListener('click', function () {
+        showBZplane = !showBZplane;
+        btnBZplane.classList.toggle('active', showBZplane);
+        cutDirty = true;
       });
     }
     window.addEventListener('resize', function () { cutDirty = true; update(); });
