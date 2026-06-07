@@ -116,10 +116,10 @@ function fitCanvas(cv) {
     muHist.push(cloudShift);
     if (muHist.length > HISTN) muHist.shift();
 
-    // ── background grid (whole canvas) ──
+    // ── background grid (left atom area only; the μ-plot draws its own) ──
     ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.beginPath();
-    for (let gx = (divX % 26); gx <= w; gx += 26) { ctx.moveTo(gx, 0); ctx.lineTo(gx, h); }
-    for (let gy = (cy % 26); gy <= h; gy += 26) { ctx.moveTo(0, gy); ctx.lineTo(w, gy); }
+    for (let gx = (divX % 26); gx <= divX; gx += 26) { ctx.moveTo(gx, 0); ctx.lineTo(gx, h); }
+    for (let gy = (cy % 26); gy <= h; gy += 26) { ctx.moveTo(0, gy); ctx.lineTo(divX, gy); }
     ctx.stroke();
 
     // ── divider ──
