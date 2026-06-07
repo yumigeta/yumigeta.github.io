@@ -103,32 +103,42 @@ function fitCanvas(cv) {
     ctx.beginPath(); ctx.arc(cx, cy + cloudShift, cloudR, 0, TAU); ctx.stroke();
     ctx.setLineDash([]);
 
-    // nucleus (stays mostly fixed)
+    // electron-cloud centre: negative charge (moves with the cloud)
+    const negY = cy + cloudShift;
+    ctx.fillStyle = COL.cloud;
+    ctx.beginPath(); ctx.arc(cx, negY, 11, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 16px DM Sans, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('−', cx, negY - 1);
+
+    // nucleus: positive charge (stays fixed)
     ctx.fillStyle = COL.nucleus;
     ctx.beginPath(); ctx.arc(cx, cy, nucR, 0, TAU); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 14px DM Sans, sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('⊕', cx, cy);
+    ctx.fillText('+', cx, cy);
 
-    // induced dipole arrow μ
-    if (Math.abs(cloudShift) > 3) {
-      const muDir = -cloudShift;                   // μ points from − to +
+    // induced dipole μ : vector from − (cloud centre) to + (nucleus)
+    if (Math.abs(cloudShift) > 6) {
+      const s = Math.sign(cloudShift);
+      const ax = cx + 34;                          // drawn beside the two charges
       ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(cx + 90, cy);
-      ctx.lineTo(cx + 90, cy + muDir * 0.7);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ax, negY); ctx.lineTo(ax, cy); ctx.stroke();
+      // arrowhead at the + (nucleus) end — μ points from − to +
       ctx.fillStyle = '#fde68a';
       ctx.beginPath();
-      const tipY2 = cy + muDir * 0.7;
-      const d2 = muDir > 0 ? 1 : -1;
-      ctx.moveTo(cx + 90 - 5, tipY2 - d2 * 8);
-      ctx.lineTo(cx + 90, tipY2);
-      ctx.lineTo(cx + 90 + 5, tipY2 - d2 * 8);
+      ctx.moveTo(ax - 5, cy + s * 9);
+      ctx.lineTo(ax, cy);
+      ctx.lineTo(ax + 5, cy + s * 9);
       ctx.fill();
-      ctx.fillStyle = '#fde68a'; ctx.font = '12px DM Sans, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('μ = α·E', cx + 100, cy);
+      // faint guides linking each charge to the μ vector
+      ctx.strokeStyle = 'rgba(253,230,138,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(cx, negY); ctx.lineTo(ax, negY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy);   ctx.lineTo(ax, cy);   ctx.stroke();
+      ctx.setLineDash([]);
+      // label
+      ctx.fillStyle = '#fde68a'; ctx.font = 'italic 15px DM Sans, sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText('μ', ax + 9, (negY + cy) / 2);
     }
 
     // labels
