@@ -236,3 +236,24 @@
   padding: 2px 14px 10px; border-top: 1px solid rgba(255,255,255,0.06);
 }
 .recall p { font-size: 0.82rem; color: #d6d3d1; line-height: 1.65; margin: 8px 0; }
+
+/* ── Polarizability demo: α slider, mode toggle, legend ── */
+.atom-controls {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px 22px; margin: 14px 2px 8px;
+}
+.atom-slider { display: flex; align-items: center; gap: 10px; flex: 1 1 240px; }
+.atom-slider label { font-size: 0.82rem; color: #d6d3d1; white-space: nowrap; }
+.atom-slider input[type="range"] {
+  flex: 1 1 auto; min-width: 110px; accent-color: #38bdf8; cursor: pointer;
+}
+.atom-slider output {
+  font-size: 0.8rem; color: #7dd3fc; font-variant-numeric: tabular-nums;
+  min-width: 80px; text-align: right;
+}
+.atom-legend {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin: 0 2px 6px; font-size: 0.76rem; color: #a8a29e;
+}
+.atom-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.atom-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }

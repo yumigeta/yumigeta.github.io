@@ -49,112 +49,120 @@ function fitCanvas(cv) {
   const cv = document.getElementById('c-atom');
   if (!cv) return;
 
-  let t = 0;
-  const OMEGA = 2.5;
+  const FONT = "'Zen Kaku Gothic New', system-ui, sans-serif";
+  const OMEGA   = 2.6;     // incident field   (fast)
+  const OMEGA_V = 0.42;    // lattice vibration (slow)
+  const MOD     = 0.45;    // α modulation depth
+  const AMP     = 17;      // base displacement scale (px)
 
+  // ── controls ───────────────────────────────────────────────
+  const slider   = document.getElementById('ctrl-alpha');
+  const out      = document.getElementById('v-alpha');
+  const modeBtns = document.getElementById('atom-mode');
+  let mode = 'const';                                   // 'const' | 'mod'
+  const baseAlpha = () => slider ? parseFloat(slider.value) : 1.0;
+  function syncOut() { if (out) out.textContent = 'α₀ = ' + baseAlpha().toFixed(2); }
+  if (slider) { slider.addEventListener('input', syncOut); syncOut(); }
+  if (modeBtns) modeBtns.addEventListener('click', e => {
+    const b = e.target.closest('[data-amode]'); if (!b) return;
+    mode = b.dataset.amode;
+    modeBtns.querySelectorAll('.demo-btn').forEach(x => x.classList.toggle('active', x === b));
+  });
+
+  // ── drawing helpers ────────────────────────────────────────
+  function charge(ctx, x, y, r, fill, glyph) {
+    ctx.save();
+    ctx.shadowColor = fill; ctx.shadowBlur = 14;
+    ctx.fillStyle = fill;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+    ctx.restore();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold ' + Math.round(r * 1.25) + 'px ' + FONT;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(glyph, x, y);
+  }
+  function fieldArrow(ctx, x, yb, dir, len, col) {
+    if (len < 2) return;
+    ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
+    const tip = yb + dir * len;
+    ctx.beginPath(); ctx.moveTo(x, yb); ctx.lineTo(x, tip); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x - 4.5, tip - dir * 6.5); ctx.lineTo(x, tip); ctx.lineTo(x + 4.5, tip - dir * 6.5);
+    ctx.closePath(); ctx.fill();
+  }
+
+  let t = 0;
   function frame() {
     const { ctx, w, h } = fitCanvas(cv);
     const cx = w / 2, cy = h / 2;
-    const E = Math.sin(TAU * OMEGA * t);          // normalised E-field: -1..1
-    const cloudShift = E * 36;                     // electron cloud displacement (px)
-    const nucR = 14, cloudR = 56;
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
 
-    // E-field arrows (uniform field, top & bottom)
-    const arrowColor = E > 0 ? '#fbbf24' : '#f87171';
-    ctx.strokeStyle = arrowColor; ctx.lineWidth = 2;
-    ctx.fillStyle = arrowColor;
-    const arrowY = cy + E * 6;
-    for (const xOff of [-140, -70, 0, 70, 140]) {
-      const ax = cx + xOff;
-      const arrLen = 28 * Math.abs(E);
-      if (arrLen < 3) continue;
-      const dy = E > 0 ? -1 : 1;
-      ctx.beginPath();
-      ctx.moveTo(ax, cy + dy * 50);
-      ctx.lineTo(ax, cy + dy * 50 - dy * arrLen);
-      ctx.stroke();
-      // arrowhead
-      ctx.beginPath();
-      const tipY = cy + dy * 50 - dy * arrLen;
-      ctx.moveTo(ax - 4, tipY + dy * 7);
-      ctx.lineTo(ax, tipY);
-      ctx.lineTo(ax + 4, tipY + dy * 7);
-      ctx.fill();
-    }
-
-    // E-field label
-    ctx.fillStyle = '#a8a29e'; ctx.font = '11px DM Sans, sans-serif'; ctx.textAlign = 'right';
-    ctx.fillText('E(t)', cx - 170, cy - 50);
-    const sign = E > 0 ? '↑' : E < 0 ? '↓' : '·';
-    ctx.fillStyle = arrowColor;
-    ctx.fillText(sign, cx - 154, cy - 50);
-
-    // electron cloud (displaced)
-    const grd = ctx.createRadialGradient(cx, cy + cloudShift, 4, cx, cy + cloudShift, cloudR);
-    grd.addColorStop(0, COL.cloudBright);
-    grd.addColorStop(0.6, COL.cloudDim);
-    grd.addColorStop(1, 'rgba(56,189,248,0)');
-    ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.arc(cx, cy + cloudShift, cloudR, 0, TAU); ctx.fill();
-
-    // cloud outline (dashed)
-    ctx.strokeStyle = 'rgba(56,189,248,0.4)'; ctx.lineWidth = 1.5;
-    ctx.setLineDash([5, 4]);
-    ctx.beginPath(); ctx.arc(cx, cy + cloudShift, cloudR, 0, TAU); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // electron-cloud centre: negative charge (moves with the cloud)
+    const E        = Math.sin(TAU * OMEGA * t);                       // field −1..1
+    const aEnv     = mode === 'mod' ? (1 + MOD * Math.sin(TAU * OMEGA_V * t)) : 1;
+    const alphaNow = baseAlpha() * aEnv;                             // α(t)
+    const cloudShift = E * AMP * alphaNow;                            // displacement ∝ α(t)·E(t)
+    const cloudR   = 32 + 20 * Math.min(alphaNow, 1.6) / 1.6;        // polarizability ~ cloud size
+    const nucR = 12, negR = 10;
     const negY = cy + cloudShift;
-    ctx.fillStyle = COL.cloud;
-    ctx.beginPath(); ctx.arc(cx, negY, 11, 0, TAU); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 16px DM Sans, sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('−', cx, negY - 1);
+    const up = E >= 0, dir = up ? -1 : 1, mag = Math.abs(E);
+    const fcol = up ? '#fbbf24' : '#f87171';
 
-    // nucleus: positive charge (stays fixed)
-    ctx.fillStyle = COL.nucleus;
-    ctx.beginPath(); ctx.arc(cx, cy, nucR, 0, TAU); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 14px DM Sans, sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('+', cx, cy);
+    // equilibrium baseline
+    ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(42, cy); ctx.lineTo(w - 42, cy); ctx.stroke(); ctx.setLineDash([]);
 
-    // induced dipole μ : vector from − (cloud centre) to + (nucleus)
-    if (Math.abs(cloudShift) > 6) {
-      const s = Math.sign(cloudShift);
-      const ax = cx + 34;                          // drawn beside the two charges
-      ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 3;
+    // uniform external field (arrows top & bottom)
+    const half = Math.min(155, w / 2 - 34);
+    for (const x of [cx - half, cx - half * 0.55, cx + half * 0.55, cx + half]) {
+      fieldArrow(ctx, x, 30, dir, 20 * mag, fcol);
+      fieldArrow(ctx, x, h - 30, dir, 20 * mag, fcol);
+    }
+    ctx.fillStyle = '#a8a29e'; ctx.font = '12px ' + FONT;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('E(t)', 16, 24);
+
+    // electron cloud (size ∝ α)
+    const grd = ctx.createRadialGradient(cx, negY, 4, cx, negY, cloudR);
+    grd.addColorStop(0,    'rgba(56,189,248,0.44)');
+    grd.addColorStop(0.55, 'rgba(56,189,248,0.16)');
+    grd.addColorStop(1,    'rgba(56,189,248,0)');
+    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(cx, negY, cloudR, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(56,189,248,0.5)'; ctx.lineWidth = 1.25; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.arc(cx, negY, cloudR, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+
+    // charges
+    charge(ctx, cx, negY, negR, COL.cloud,   '−');
+    charge(ctx, cx, cy,   nucR, COL.nucleus, '+');
+
+    // induced dipole μ (just outside the cloud)
+    if (Math.abs(cloudShift) > 4) {
+      const s = Math.sign(cloudShift), ax = cx + cloudR + 16;
+      ctx.strokeStyle = '#fcd34d'; ctx.lineWidth = 3; ctx.lineCap = 'round';
       ctx.beginPath(); ctx.moveTo(ax, negY); ctx.lineTo(ax, cy); ctx.stroke();
-      // arrowhead at the + (nucleus) end — μ points from − to +
-      ctx.fillStyle = '#fde68a';
+      ctx.fillStyle = '#fcd34d';
       ctx.beginPath();
-      ctx.moveTo(ax - 5, cy + s * 9);
-      ctx.lineTo(ax, cy);
-      ctx.lineTo(ax + 5, cy + s * 9);
-      ctx.fill();
-      // faint guides linking each charge to the μ vector
-      ctx.strokeStyle = 'rgba(253,230,138,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.moveTo(ax - 5, cy + s * 9); ctx.lineTo(ax, cy); ctx.lineTo(ax + 5, cy + s * 9);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(252,211,77,0.30)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
       ctx.beginPath(); ctx.moveTo(cx, negY); ctx.lineTo(ax, negY); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx, cy);   ctx.lineTo(ax, cy);   ctx.stroke();
-      ctx.setLineDash([]);
-      // label
-      ctx.fillStyle = '#fde68a'; ctx.font = 'italic 15px DM Sans, sans-serif';
-      ctx.textAlign = 'left'; ctx.fillText('μ', ax + 9, (negY + cy) / 2);
+      ctx.beginPath(); ctx.moveTo(cx, cy);   ctx.lineTo(ax, cy);   ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 15px ' + FONT;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('μ', ax + 10, (negY + cy) / 2);
     }
 
-    // labels
-    ctx.fillStyle = COL.nucleus; ctx.font = '11px DM Sans, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('nucleus (+)', cx, cy + nucR + 16);
-    ctx.fillStyle = COL.cloud;
-    ctx.fillText('electron cloud (−)', cx, cy + cloudShift - cloudR - 8);
+    // α(t) status (top-right)
+    ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic'; ctx.font = '12px ' + FONT;
+    if (mode === 'mod') {
+      ctx.fillStyle = '#7dd3fc';
+      ctx.fillText(lang === 'ja' ? 'α(t) が時間変化' : 'α(t) modulated', w - 16, 24);
+    } else {
+      ctx.fillStyle = '#a8a29e';
+      ctx.fillText(lang === 'ja' ? 'α は一定' : 'α constant', w - 16, 24);
+    }
 
-    // equilibrium line
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
-    ctx.setLineDash([6, 6]);
-    ctx.beginPath(); ctx.moveTo(cx - 100, cy); ctx.lineTo(cx + 80, cy); ctx.stroke();
-    ctx.setLineDash([]);
-
-    t += 0.003;
+    t += 0.0045;
     requestAnimationFrame(frame);
   }
   frame();
