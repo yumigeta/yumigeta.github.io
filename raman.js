@@ -267,7 +267,7 @@ function fitCanvas(cv) {
   const overFn = t => Math.cos(TAU * (CARRIER + 2 * vib) * t);
 
   drawSpectrum();
-  btn.addEventListener('click', () => {
+  if (btn) btn.addEventListener('click', () => {
     running = !running;
     btn.textContent = running ? 'Pause' : 'Play';
     btn.classList.toggle('active', running);
