@@ -583,7 +583,7 @@
         var nx = ay*bz - az*by, ny = az*bx - ax*bz, nz = ax*by - ay*bx;
         var nm = sqrt(nx*nx+ny*ny+nz*nz) || 1;
         var ndl = abs((nx*LL[0]+ny*LL[1]+nz*LL[2]) / nm);
-        var bright = 0.40 + 0.60*ndl;
+        var bright = 0.58 + 0.42*ndl;   // gentler lighting → fewer visible facets
 
         var eAvg = band * (verts[vs[0]].ep+verts[vs[1]].ep+verts[vs[2]].ep+verts[vs[3]].ep)/4;
         draws.push({
@@ -678,12 +678,14 @@
     }
 
     // ── Render loop with dirty flag + adaptive resolution ──
-    var IDLE_N = 144, DRAG_N = 48;   // multiples of 8 → K points stay exact
+    var IDLE_N = 144, ROT_N = 96, DRAG_N = 48;  // multiples of 8 → K points exact
     var dirty = true, dragging = false;
     function frame() {
       if (autoRotate && !dragging) { phi += 0.0018; dirty = true; }
       if (dirty) {
-        var N = (dragging || autoRotate) ? DRAG_N : IDLE_N;
+        // Hand-dragging needs low latency (coarse); auto-rotate can afford a
+        // finer, smoother mesh; a settled view gets the finest.
+        var N = dragging ? DRAG_N : (autoRotate ? ROT_N : IDLE_N);
         draw(getMesh(N));
         dirty = false;
       }
@@ -1320,7 +1322,7 @@
         var nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx;
         var nm=sqrt(nx*nx+ny*ny+nz*nz)||1;
         var ndl=abs((nx*Lx+ny*Ly+nz*Lz)/nm);
-        var bright=0.34+0.66*ndl;
+        var bright=0.58+0.42*ndl;   // gentler lighting → fewer visible facets
         var eAvg=band*(verts[q[0]].ep+verts[q[1]].ep+verts[q[2]].ep+verts[q[3]].ep)/4;
         draws.push({t:0, p:ps,
           depth:(ps[0].depth+ps[1].depth+ps[2].depth+ps[3].depth)/4,
@@ -1368,22 +1370,28 @@
       }
 
       // GNR first Brillouin-zone boundary: the ribbon zone is 1-D, so its edges
-      // are the two lines k∥ = ±π/T (perpendicular to the ribbon axis), drawn at
-      // E = 0 across the surface — NOT graphene's 2-D hexagon.
+      // are the planes k∥ = ±π/T (perpendicular to the ribbon axis), spanning
+      // k⊥ and the full energy range — drawn as translucent sheets, NOT lines.
       var gaxx = -p.ny, gaxy = p.nx, gtrx = p.nx, gtry = p.ny;
       var gkpar = PI / (p.theta === 0 ? 1 : sqrt3);
-      ctx.lineWidth = 1.6; ctx.strokeStyle = 'rgba(251,191,36,0.9)';
       for (var sgn = -1; sgn <= 1; sgn += 2) {
-        var bxg = sgn*gkpar*gaxx, byg = sgn*gkpar*gaxy, prevg = false;
-        ctx.beginPath();
-        for (var sg = -1.35*R_out; sg <= 1.35*R_out; sg += R_out/120) {
-          var kxx = bxg + sg*gtrx, kyy = byg + sg*gtry;
-          if (!insideHexRc(kxx, kyy, R_out)) { prevg = false; continue; }
-          var gpp = proj(kxx, kyy, 0);
-          if (prevg) ctx.lineTo(gpp.sx, gpp.sy); else ctx.moveTo(gpp.sx, gpp.sy);
-          prevg = true;
+        var bxg = sgn*gkpar*gaxx, byg = sgn*gkpar*gaxy;
+        // transverse half-extent of the surface footprint at this k∥
+        var sMax = 0;
+        for (var sg = 0; sg <= 1.4*R_out; sg += R_out/120) {
+          if (insideHexRc(bxg + sg*gtrx, byg + sg*gtry, R_out) &&
+              insideHexRc(bxg - sg*gtrx, byg - sg*gtry, R_out)) sMax = sg;
         }
-        ctx.stroke();
+        if (sMax <= 0) continue;
+        var cA = proj(bxg - sMax*gtrx, byg - sMax*gtry, -eMax);
+        var cB = proj(bxg + sMax*gtrx, byg + sMax*gtry, -eMax);
+        var cC = proj(bxg + sMax*gtrx, byg + sMax*gtry,  eMax);
+        var cD = proj(bxg - sMax*gtrx, byg - sMax*gtry,  eMax);
+        ctx.beginPath();
+        ctx.moveTo(cA.sx, cA.sy); ctx.lineTo(cB.sx, cB.sy);
+        ctx.lineTo(cC.sx, cC.sy); ctx.lineTo(cD.sx, cD.sy); ctx.closePath();
+        ctx.fillStyle = 'rgba(251,191,36,0.12)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(251,191,36,0.7)'; ctx.lineWidth = 1.2; ctx.stroke();
       }
 
       for (var n = 0; n < 6; n++) {
