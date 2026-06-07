@@ -212,6 +212,10 @@
             <p><span class="i18n-en">For a function of several normal coordinates expanded about equilibrium ($Q_k=0$), the same rule becomes:</span><span class="i18n-ja">複数の基準座標の関数を平衡点（$Q_k=0$）のまわりで展開すると、同じ規則は次のようになる：</span></p>
             <p class="eq-block">$$f(Q)=f(0)+\sum_k\!\left(\frac{\partial f}{\partial Q_k}\right)_{\!0}\!Q_k+\frac{1}{2!}\sum_{k,l}\!\left(\frac{\partial^2 f}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
             <p><span class="i18n-en">Putting $f=\alpha_{\rho\sigma}$ and expanding about $Q_k=0$ gives the expansion below.</span><span class="i18n-ja">$f=\alpha_{\rho\sigma}$ とし、$Q_k=0$ のまわりで展開すれば、下の式が得られる。</span></p>
+
+            <p><span class="i18n-en">As an illustration, $\sin x$ is rebuilt term by term — each higher power widens the range where the polynomial hugs the curve:</span><span class="i18n-ja">具体例として $\sin x$ を項ごとに組み立てると、次数を上げるほど多項式が曲線に一致する範囲が広がる：</span></p>
+            <p class="eq-block">$$\sin x=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots$$</p>
+            <canvas id="c-taylor-sin" class="taylor-canvas"></canvas>
           </div>
         </details>
         <p class="eq-block">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k+\frac12\sum_{k,l}\!\left(\frac{\partial^2\alpha_{\rho\sigma}}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>

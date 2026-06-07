@@ -93,6 +93,8 @@ function fitCanvas(cv) {
   }
 
   let t = 0;
+  const muHist = [];            // μ(t) history for the scrolling background trace
+  const HISTN = 300;
   function frame() {
     const { ctx, w, h } = fitCanvas(cv);
     const cx = w / 2, cy = h / 2;
@@ -108,9 +110,29 @@ function fitCanvas(cv) {
     const up = E >= 0, dir = up ? -1 : 1, mag = Math.abs(E);
     const fcol = up ? '#fbbf24' : '#f87171';
 
+    // record μ(t) (∝ cloud displacement) for the scrolling background trace
+    muHist.push(cloudShift);
+    if (muHist.length > HISTN) muHist.shift();
+
     // equilibrium baseline
     ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
     ctx.beginPath(); ctx.moveTo(42, cy); ctx.lineTo(w - 42, cy); ctx.stroke(); ctx.setLineDash([]);
+
+    // μ(t) scrolling trace in the background (newest at the right edge)
+    if (muHist.length > 1) {
+      const n = muHist.length, dx = w / (HISTN - 1);
+      ctx.strokeStyle = 'rgba(252,211,77,0.30)'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const x = w - (n - 1 - i) * dx;
+        const y = cy - muHist[i] * 0.85;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(252,211,77,0.6)'; ctx.font = 'italic 12px ' + FONT;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText('μ(t)', 16, 42);
+    }
 
     // uniform external field (arrows top & bottom)
     const half = Math.min(155, w / 2 - 34);
@@ -757,4 +779,94 @@ function fitCanvas(cv) {
     setProc(b.dataset.proc);
   });
   setProc('rayleigh'); animate();
+})();
+
+
+/* ============================================================
+   Taylor reminder — sin x built term by term, approaching the
+   curve as the polynomial degree increases.
+   ============================================================ */
+(function taylorSin() {
+  const cv = document.getElementById('c-taylor-sin');
+  if (!cv) return;
+  const FONT = "'Zen Kaku Gothic New', system-ui, sans-serif";
+  const X0 = -2 * Math.PI, X1 = 2 * Math.PI;
+  const YR = 2.4;                 // vertical half-range shown
+  const MAXTERMS = 8;            // up to x^15
+
+  // partial sum of sin's Maclaurin series with `terms` terms
+  function partial(x, terms) {
+    let s = 0, term = x;
+    for (let k = 0; k < terms; k++) {
+      s += term;
+      term *= -x * x / ((2 * k + 2) * (2 * k + 3));
+    }
+    return s;
+  }
+
+  let terms = 1, morph = 0, phase = 'grow', hold = 0;
+
+  function frame() {
+    // pause while the <details> panel is collapsed / off-screen
+    if (cv.offsetWidth === 0) { requestAnimationFrame(frame); return; }
+    const { ctx, w, h } = fitCanvas(cv);
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
+    const cx = w / 2, cy = h / 2, pad = 14;
+    const sx = x => (x - X0) / (X1 - X0) * w;
+    const sy = y => cy - (y / YR) * (h / 2 - pad);
+
+    // grid: baseline + verticals at ±π, ±2π
+    ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+    ctx.fillStyle = '#78716c'; ctx.font = '11px ' + FONT; ctx.textAlign = 'center';
+    [[-2*Math.PI,'−2π'],[-Math.PI,'−π'],[Math.PI,'π'],[2*Math.PI,'2π']].forEach(([xv,lb]) => {
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      ctx.beginPath(); ctx.moveTo(sx(xv), 0); ctx.lineTo(sx(xv), h); ctx.stroke();
+      ctx.fillText(lb, sx(xv), cy + 16);
+    });
+
+    function curve(fn, color, lw) {
+      ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
+      const N = Math.max(240, w); let pen = false;
+      for (let i = 0; i <= N; i++) {
+        const x = X0 + (i / N) * (X1 - X0);
+        const y = fn(x);
+        if (Math.abs(y) > YR * 3) { pen = false; continue; }   // break on divergence
+        const px = sx(x), py = sy(y);
+        pen ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+        pen = true;
+      }
+      ctx.stroke();
+    }
+
+    // target sine
+    curve(Math.sin, 'rgba(226,232,240,0.85)', 2);
+    // morphing partial sum  (terms-1) -> terms
+    const approx = x => partial(x, terms - 1) * (1 - morph) + partial(x, terms) * morph;
+    curve(approx, '#fbbf24', 2.6);
+
+    // label
+    const deg = 2 * terms - 1;
+    ctx.fillStyle = '#fcd34d'; ctx.font = '600 13px ' + FONT;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    const txt = lang === 'ja'
+      ? terms + ' 項まで（最高次 x^' + deg + '）'
+      : terms + ' term' + (terms > 1 ? 's' : '') + '  (up to x^' + deg + ')';
+    ctx.fillText(txt, 12, 10);
+    ctx.fillStyle = 'rgba(226,232,240,0.85)'; ctx.font = '12px ' + FONT;
+    ctx.fillText('sin x', 12, 30);
+
+    // advance the animation
+    if (phase === 'grow') {
+      morph += 0.02;
+      if (morph >= 1) { morph = 1; phase = 'hold'; hold = 0; }
+    } else {
+      if (++hold > 45) {
+        terms = terms >= MAXTERMS ? 1 : terms + 1;
+        morph = 0; phase = 'grow';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
 })();
