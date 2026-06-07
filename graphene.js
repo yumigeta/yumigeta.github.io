@@ -28,8 +28,9 @@
     K: {kx:4*PI/(3*a), ky:0, label:'K'}
   };
 
-  function dpr(canvas) {
+  function dpr(canvas, maxR) {
     var r = window.devicePixelRatio || 1;
+    if (maxR && r > maxR) r = maxR;   // cap pixel ratio for heavy 3-D canvases
     var rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * r;
     canvas.height = rect.height * r;
@@ -533,7 +534,7 @@
     }
 
     function draw(mesh) {
-      var o = dpr(canvas), ctx = o.ctx, W = o.w, H = o.h;
+      var o = dpr(canvas, 1.5), ctx = o.ctx, W = o.w, H = o.h;
       var eMax = 3 * tHop;
       var cosT = cos(theta), sinT = sin(theta);
       var cosP = cos(phi), sinP = sin(phi);
@@ -677,7 +678,7 @@
     }
 
     // ── Render loop with dirty flag + adaptive resolution ──
-    var IDLE_N = 192, DRAG_N = 96;   // multiples of 8 → K points stay exact
+    var IDLE_N = 144, DRAG_N = 48;   // multiples of 8 → K points stay exact
     var dirty = true, dragging = false;
     function frame() {
       if (autoRotate && !dragging) { phi += 0.0018; dirty = true; }
@@ -1248,7 +1249,7 @@
 
     // ── 3D band surface (same region as Module 02) + cutting lines ──
     var B1c = [2*PI, -2*PI/sqrt3], B2c = [0, 4*PI/sqrt3], UVc = 4/3;
-    var CMN = 80;
+    var CMN = 80, CMN_DRAG = 40;   // fine when settled · coarse while dragging
     var cutPhi = -32*PI/180, CUT_THETA = 58*PI/180, cutZoom = 1.7;
     var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
@@ -1259,10 +1260,11 @@
       else { var u = -t; r = lerpC(207,37,u); g = lerpC(250,99,u); b = lerpC(254,235,u); }
       return [r,g,b];
     }
-    var coneMesh = null, coneT = null;
-    function buildCone() {
-      if (coneMesh && coneT === tHop) return;
-      var N = CMN, verts = [];
+    var coneMeshes = {};
+    function buildCone(N) {
+      var cm = coneMeshes[N];
+      if (cm && cm.t === tHop) return cm;
+      var verts = [];
       for (var i = 0; i <= N; i++) {
         for (var j = 0; j <= N; j++) {
           var u = -UVc + 2*UVc*i/N, v = -UVc + 2*UVc*j/N;
@@ -1281,15 +1283,17 @@
           }
         }
       }
-      coneMesh = {verts:verts, faces:faces};
-      coneT = tHop;
+      cm = {verts:verts, faces:faces, t:tHop};
+      coneMeshes[N] = cm;
+      return cm;
     }
 
     function drawCone(p) {
-      buildCone();
-      var o = dpr(cutC), ctx = o.ctx, W = o.w, H = o.h;
+      // Coarse mesh while dragging/pinching, fine mesh when settled.
+      var mesh = buildCone(cutDrag ? CMN_DRAG : CMN);
+      var o = dpr(cutC, 1.5), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      var verts = coneMesh.verts, faces = coneMesh.faces;
+      var verts = mesh.verts, faces = mesh.faces;
       var eMax = 3 * tHop;
 
       var cosT = cos(CUT_THETA), sinT = sin(CUT_THETA);
@@ -1424,7 +1428,7 @@
     function endCutPointer(e) {
       delete cutPointers[e.pointerId];
       if (cutActive() < 2) cutPinch = 0;
-      if (cutActive() === 0) { cutDrag = false; cutC.style.cursor = 'grab'; }
+      if (cutActive() === 0) { cutDrag = false; cutC.style.cursor = 'grab'; cutDirty = true; }
     }
     cutC.addEventListener('pointerup', endCutPointer);
     cutC.addEventListener('pointercancel', endCutPointer);
@@ -1666,7 +1670,7 @@
     // ── Render loop (dirty-flag only) ──
     var curP = null, prevT = tHop;
     function cutFrame() {
-      if (tHop !== prevT) { prevT = tHop; coneT = null; cutDirty = true; if (curP) drawSubbands(curP); }
+      if (tHop !== prevT) { prevT = tHop; coneMeshes = {}; cutDirty = true; if (curP) drawSubbands(curP); }
       if (cutDirty && curP) { drawCone(curP); cutDirty = false; }
       requestAnimationFrame(cutFrame);
     }
@@ -1686,8 +1690,7 @@
       drawCells(theta, N);
       drawBZ(curP);
       drawSubbands(curP);
-      coneT = null;
-      cutDirty = true;
+      cutDirty = true;        // surface mesh is ribbon-independent; just redraw
 
       var isZig = (theta === 0);
       var metallic = isZig ? true : (N % 3 === 2);
