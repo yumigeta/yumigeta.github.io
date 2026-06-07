@@ -292,3 +292,31 @@
 .mol-panel canvas, .aq-panel canvas,
 .trace-row canvas, .decomp-row canvas, .spectrum-wrap canvas,
 .ray-svg { box-shadow: var(--shadow-card); }
+
+/* ── Interactive animation card: the canvas AND its controls share one frame ── */
+.anim-card {
+  background: #1b1711; border: 1px solid var(--rule); border-radius: 14px;
+  box-shadow: var(--shadow-card); padding: 18px; margin: 16px 0;
+  color: #e7e5e4;
+}
+/* canvases become inset screens inside the card (the card is the frame) */
+.anim-card canvas {
+  background: #14110b; border: 1px solid rgba(255,255,255,0.08); box-shadow: none;
+}
+/* text reverts to light on the dark card */
+.anim-card .atom-slider label,
+.anim-card .trace-label { color: #d6d3d1; }
+.anim-card .atom-slider output { color: #7dd3fc; }
+.anim-card .trace-label b { color: #fafaf9; }
+.anim-card .trace-label .eq,
+.anim-card .atom-legend,
+.anim-card .legend,
+.anim-card .decomp-label,
+.anim-card .mode-explain,
+.anim-card .spectrum-wrap .cap { color: #a8a29e; }
+
+/* Align the page header with the demo content (same left edge) */
+.phead .container { max-width: 860px; padding: 0 28px; }
+
+/* Header row: title left, language toggle right (no number/meta on sub-pages) */
+.ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }

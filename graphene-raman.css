@@ -138,3 +138,6 @@
   .diag-grid { grid-template-columns: 1fr; }
   .gr-canvas-wide { height: 240px; }
 }
+
+/* Header row: title left, language toggle right (no number/meta on sub-pages) */
+.ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }

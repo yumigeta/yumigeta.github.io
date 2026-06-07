@@ -177,7 +177,7 @@ function fitCanvas(cv) {
     ctx.beginPath();
     for (let i = n - 1; i >= 0; i--) {                 // newest at the left, flowing right
       const x = pX0 + (n - 1 - i) * dx;
-      const y = cy - muHist[i] * muS;
+      const y = cy + muHist[i] * muS;                  // same vertical sense as the electron cloud
       (i === n - 1) ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     ctx.stroke();
