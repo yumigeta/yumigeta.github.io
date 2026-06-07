@@ -779,7 +779,7 @@
     if (!bzC) return;
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
-    var zoneScheme = 'extended';   // BZ figure: 'reduced' (folded) | 'extended'
+    var zoneScheme = 'reduced';   // BZ figure: 'reduced' (folded) | 'extended'
 
     // One stable colour per transverse mode, shared by the cutting-line figure,
     // the 3-D cut, and the band plot so the SAME cutting line is the SAME colour
@@ -1296,15 +1296,6 @@
         return {sx:W/2+x1*vSc, sy:H/2-y2*vSc, depth:z2, x2:x1, y2:y2, z2:z2};
       }
 
-      ctx.lineWidth = 1; ctx.setLineDash([4,3]);
-      ctx.strokeStyle = 'rgba(251,191,36,0.30)';
-      ctx.beginPath();
-      for (var n = 0; n <= 6; n++) {
-        var ang = n*PI/3, pp = proj(BZR*cos(ang), BZR*sin(ang), 0);
-        if (n === 0) ctx.moveTo(pp.sx, pp.sy); else ctx.lineTo(pp.sx, pp.sy);
-      }
-      ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
-
       var draws = [];
 
       for (var fi = 0; fi < faces.length; fi++) {
@@ -1361,6 +1352,16 @@
           ctx.beginPath(); ctx.moveTo(d.p1.sx, d.p1.sy); ctx.lineTo(d.p2.sx, d.p2.sy); ctx.stroke();
         }
       }
+
+      // First Brillouin-zone boundary (hexagon at E = 0), drawn on top of the
+      // translucent surface so it stays visible.
+      ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(251,191,36,0.85)';
+      ctx.beginPath();
+      for (var n = 0; n <= 6; n++) {
+        var ang = n*PI/3, hp = proj(BZR*cos(ang), BZR*sin(ang), 0);
+        if (n === 0) ctx.moveTo(hp.sx, hp.sy); else ctx.lineTo(hp.sx, hp.sy);
+      }
+      ctx.closePath(); ctx.stroke();
 
       for (var n = 0; n < 6; n++) {
         var ang = n*PI/3, dpm = proj(BZR*cos(ang), BZR*sin(ang), 0);
