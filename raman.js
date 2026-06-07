@@ -793,7 +793,7 @@ function fitCanvas(cv) {
   const FONT = "'Zen Kaku Gothic New', system-ui, sans-serif";
   const X0 = -2 * Math.PI, X1 = 2 * Math.PI;
   const YR = 2.4;                 // vertical half-range shown
-  const MAXTERMS = 8;            // up to x^15
+  const MAXTERMS = 6;            // up to x^11
 
   // partial sum of sin's Maclaurin series with `terms` terms
   function partial(x, terms) {
@@ -805,7 +805,20 @@ function fitCanvas(cv) {
     return s;
   }
 
-  let terms = 1, morph = 0, phase = 'grow', hold = 0;
+  const SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+  const sup = n => String(n).split('').map(d => SUP[+d]).join('');
+  function formula(tm) {
+    if (tm <= 0) return 'f(x) = 0';
+    let s = 'f(x) = ';
+    for (let k = 0; k < tm; k++) {
+      const p = 2 * k + 1;
+      const body = (k === 0) ? 'x' : ('x' + sup(p) + '/' + p + '!');
+      s += (k === 0) ? body : ((k % 2 === 0 ? ' + ' : ' − ') + body);
+    }
+    return s;
+  }
+
+  let terms = 0, morph = 0, phase = 'grow', hold = 0;   // start from the 0th-order term
 
   function frame() {
     // pause while the <details> panel is collapsed / off-screen
@@ -846,24 +859,25 @@ function fitCanvas(cv) {
     const approx = x => partial(x, terms - 1) * (1 - morph) + partial(x, terms) * morph;
     curve(approx, '#fbbf24', 2.6);
 
-    // label
-    const deg = 2 * terms - 1;
+    // current partial-sum formula, in f(x) form
     ctx.fillStyle = '#fcd34d'; ctx.font = '600 13px ' + FONT;
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-    const txt = lang === 'ja'
-      ? terms + ' 項まで（最高次 x^' + deg + '）'
-      : terms + ' term' + (terms > 1 ? 's' : '') + '  (up to x^' + deg + ')';
-    ctx.fillText(txt, 12, 10);
+    ctx.fillText(formula(terms), 12, 10);
+    const ord = terms <= 0
+      ? (lang === 'ja' ? '0 次（定数項）' : 'order 0 (constant term)')
+      : (lang === 'ja' ? '最高次 x' + sup(2 * terms - 1) : 'up to x' + sup(2 * terms - 1));
+    ctx.fillStyle = '#a8a29e'; ctx.font = '11px ' + FONT;
+    ctx.fillText(ord, 12, 30);
     ctx.fillStyle = 'rgba(226,232,240,0.85)'; ctx.font = '12px ' + FONT;
-    ctx.fillText('sin x', 12, 30);
+    ctx.textAlign = 'right'; ctx.fillText('sin x', w - 12, 10);
 
     // advance the animation
     if (phase === 'grow') {
       morph += 0.02;
       if (morph >= 1) { morph = 1; phase = 'hold'; hold = 0; }
     } else {
-      if (++hold > 45) {
-        terms = terms >= MAXTERMS ? 1 : terms + 1;
+      if (++hold > 55) {
+        terms = terms >= MAXTERMS ? 0 : terms + 1;
         morph = 0; phase = 'grow';
       }
     }
