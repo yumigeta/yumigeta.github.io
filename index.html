@@ -144,7 +144,12 @@
     }
 
     /* ===== STATEMENT (featured work) ===== */
-    .statement { background: var(--band-deep); color: var(--paper); padding: clamp(28px,3.5vw,48px) 0; border-bottom: 0; position: relative; overflow: hidden; }
+    .statement { background:
+      repeating-linear-gradient(0deg,   transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      repeating-linear-gradient(60deg,  transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      repeating-linear-gradient(120deg, transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      var(--band-deep);
+      color: var(--paper); padding: clamp(28px,3.5vw,48px) 0; border-bottom: 0; position: relative; overflow: hidden; }
     .statement .wrap { position: relative; z-index: 1; }
     .statement .tagq { font-family: var(--gothic); font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
       color: color-mix(in srgb, var(--accent) 78%, #fff); display: flex; align-items: center; gap: 14px; margin-bottom: clamp(14px,1.8vw,22px); }
@@ -272,7 +277,12 @@
     .btn:hover { background-color: var(--accent); }
 
     /* ===== CONTACT (flat ink block) ===== */
-    .ed-contact { background: var(--band-deep); color: var(--paper); border-bottom: 0;
+    .ed-contact { background:
+      repeating-linear-gradient(0deg,   transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      repeating-linear-gradient(60deg,  transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      repeating-linear-gradient(120deg, transparent 0, transparent 18px, rgba(0,0,0,.35) 18px, rgba(0,0,0,.35) 19px),
+      var(--band-deep);
+      color: var(--paper); border-bottom: 0;
       padding-top: clamp(24px,3vw,40px); padding-bottom: clamp(24px,3vw,40px); }
     .ed-contact .shx { margin-bottom: clamp(14px,1.6vw,22px); padding-bottom: clamp(10px,1.2vw,16px); border-bottom-color: rgba(241,236,225,.2); }
     .ed-contact .shx .no { color: transparent; -webkit-text-stroke: 1.4px rgba(241,236,225,.3); }
