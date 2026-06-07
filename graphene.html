@@ -106,35 +106,18 @@
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">01 — Band structure</span><span class="i18n-ja">01 — バンド構造</span></span>
-      <h2><span class="i18n-en">E-k dispersion along high-symmetry path</span><span class="i18n-ja">高対称経路に沿ったE-k分散</span></h2>
+      <h2><span class="i18n-en">Dirac cones and the high-symmetry path</span><span class="i18n-ja">ディラック錐と高対称経路</span></h2>
       <p>
-        <span class="i18n-en">In the nearest-neighbor tight-binding model, the energy bands are
-        E(<b>k</b>) = ±<em>t</em> |f(<b>k</b>)|, where <em>t</em> ≈ 2.7 eV
-        is the hopping energy between adjacent carbon p<sub>z</sub> orbitals.
-        The conduction (π*) and valence (π) bands touch at the K point with
-        <b>zero gap</b> — graphene is a zero-gap semiconductor.
-        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a></span><span class="i18n-ja">最近接強結合モデルでは、エネルギーバンドは E(<b>k</b>) = ±<em>t</em> |f(<b>k</b>)| で表されます。ここで <em>t</em> ≈ 2.7 eV は隣接する炭素 p<sub>z</sub> 軌道間のホッピングエネルギーです。伝導帯（π*）と価電子帯（π）は K 点で接触し、<b>ギャップゼロ</b> — グラフェンはゼロギャップ半導体です。
+        <span class="i18n-en">In the nearest-neighbour tight-binding model the bands are
+        E(<b>k</b>) = ±<em>t</em>&thinsp;|f(<b>k</b>)|, with <em>t</em> ≈ 2.7 eV
+        the hopping between adjacent p<sub>z</sub> orbitals. The full
+        E(k<sub>x</sub>, k<sub>y</sub>) surface (top) has six <b>Dirac cones</b>
+        at the K/K′ corners, where the conduction (π*) and valence (π) bands
+        touch with <b>zero gap</b>. The line plot below is the same surface cut
+        along the high-symmetry path <b>Γ→M→K→Γ</b> — highlighted in blue on the
+        surface.
+        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a></span><span class="i18n-ja">最近接強結合モデルでは、バンドは E(<b>k</b>) = ±<em>t</em>&thinsp;|f(<b>k</b>)| で表されます（<em>t</em> ≈ 2.7 eV は隣接 p<sub>z</sub> 軌道間のホッピング）。完全な E(k<sub>x</sub>, k<sub>y</sub>) 曲面（上）は K/K′ の角に6つの<b>ディラック錐</b>を持ち、そこで伝導帯（π*）と価電子帯（π）が<b>ギャップゼロ</b>で接します。下の線図は、同じ曲面を高対称経路 <b>Γ→M→K→Γ</b> で切った断面です（曲面上に青で強調）。
         <a href="#" id="open-derivation-ja" style="color:var(--accent);font-weight:600;white-space:nowrap;">完全な導出を見る →</a></span>
-      </p>
-    </div>
-    <div class="demo-stage">
-      <div class="gr-bands"><canvas id="c-bands"></canvas></div>
-      <div class="gr-info" id="band-info">
-        <span class="i18n-en">At the <b>K</b> point the bands touch linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|,
-        giving massless Dirac fermions with Fermi velocity v<sub>F</sub> ≈ 10<sup>6</sup> m/s.</span><span class="i18n-ja"><b>K</b>点ではバンドが線形に接触します: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>|。これにより、フェルミ速度 v<sub>F</sub> ≈ 10<sup>6</sup> m/s の質量ゼロディラックフェルミオンが生じます。</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ Module 02 — 3D Band Structure ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — 3D Dirac cones</span><span class="i18n-ja">02 — 3Dディラック錐</span></span>
-      <h2><span class="i18n-en">Full band structure over the Brillouin zone</span><span class="i18n-ja">ブリルアンゾーン全体のバンド構造</span></h2>
-      <p>
-        <span class="i18n-en">The complete E(k<sub>x</sub>, k<sub>y</sub>) surface reveals the
-        conical band touching points — the <b>Dirac cones</b> — at each
-        K and K′ corner of the hexagonal Brillouin zone. Drag to rotate.</span><span class="i18n-ja">完全な E(k<sub>x</sub>, k<sub>y</sub>) 曲面は、六角形ブリルアンゾーンの各 K および K′ の角で円錐形のバンド接触点 — <b>ディラック錐</b> — を示します。ドラッグで回転できます。</span>
       </p>
     </div>
     <div class="demo-stage">
@@ -148,11 +131,12 @@
           <button class="demo-btn" id="btn-reset"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
         </div>
       </div>
-      <div class="gr-info">
-        <span class="i18n-en">The energy surface has six Dirac cones — three at <b>K</b> and three at
-        <b>K′</b> — connected by saddle points at <b>M</b>.
-        The bandwidth is 6<em>t</em> (from −3<em>t</em> at Γ in the valence
-        band to +3<em>t</em> at Γ in the conduction band).</span><span class="i18n-ja">エネルギー曲面には6つのディラック錐があります — <b>K</b>に3つ、<b>K′</b>に3つ — <b>M</b>の鞍点で接続されています。バンド幅は 6<em>t</em>（価電子帯の Γ における −3<em>t</em> から伝導帯の Γ における +3<em>t</em> まで）です。</span>
+      <div class="gr-bands"><canvas id="c-bands"></canvas></div>
+      <div class="gr-info" id="band-info">
+        <span class="i18n-en">Along Γ→M→K→Γ the gap closes only at <b>K</b>, where the bands touch
+        linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>| — massless Dirac fermions
+        with v<sub>F</sub> ≈ 10<sup>6</sup> m/s. The full bandwidth is 6<em>t</em>
+        (−3<em>t</em> to +3<em>t</em> at Γ).</span><span class="i18n-ja">Γ→M→K→Γ に沿ってギャップが閉じるのは <b>K</b> 点だけで、そこでバンドは線形に接します: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>| — フェルミ速度 v<sub>F</sub> ≈ 10<sup>6</sup> m/s の質量ゼロディラックフェルミオン。全バンド幅は 6<em>t</em>（Γ で −3<em>t</em> から +3<em>t</em>）です。</span>
       </div>
     </div>
   </section>
@@ -160,7 +144,7 @@
   <!-- ═══════ Module 03 — Quantum confinement (GNR) ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — Quantum confinement</span><span class="i18n-ja">03 — 量子閉じ込め</span></span>
+      <span class="demo-num"><span class="i18n-en">02 — Quantum confinement</span><span class="i18n-ja">02 — 量子閉じ込め</span></span>
       <h2><span class="i18n-en">From graphene to nanoribbons: discretized bands</span><span class="i18n-ja">グラフェンからナノリボンへ：離散化バンド</span></h2>
       <p>
         <span class="i18n-en">Cut graphene into a narrow <b>nanoribbon</b> and the electrons become

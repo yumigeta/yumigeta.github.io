@@ -613,6 +613,24 @@
         }
       }
 
+      // ── High-symmetry path Γ→M→K→Γ on the surface (links to the E-k plot) ──
+      var hsPath = [HSP.G, HSP.M, HSP.K, HSP.G];
+      for (var band = -1; band <= 1; band += 2) {
+        ctx.strokeStyle = 'rgba(56,189,248,0.95)'; ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        var started = false;
+        for (var seg = 0; seg < 3; seg++) {
+          var A = hsPath[seg], Bp = hsPath[seg+1];
+          for (var s = 0; s <= 40; s++) {
+            var tt = s/40;
+            var kx = A.kx + (Bp.kx-A.kx)*tt, ky = A.ky + (Bp.ky-A.ky)*tt;
+            var pp = project(kx, ky, band*bandE(kx, ky));
+            if (started) ctx.lineTo(pp.sx, pp.sy); else { ctx.moveTo(pp.sx, pp.sy); started = true; }
+          }
+        }
+        ctx.stroke();
+      }
+
       // ── Dirac-point markers at the six K corners (E = 0) ──
       var frontMost = null;
       for (var n = 0; n < 6; n++) {
