@@ -1075,19 +1075,6 @@
       })(a0[0],a0[1],a1[0],a1[1]);
       ctx.font = '700 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(isZig ? 'T = a' : 'T = √3 a', (a0[0]+a1[0])/2, (a0[1]+a1[1])/2 - 8);
-
-      // width marker
-      ctx.fillStyle = active ? accent : '#78716c';
-      ctx.font = '700 11px "DM Sans", sans-serif'; ctx.textAlign = 'left';
-      ctx.fillText('width N = ' + N, 10, H - 10);
-
-      // title
-      ctx.textAlign = 'left'; ctx.fillStyle = active ? '#fafaf9' : '#a8a29e';
-      ctx.font = '700 12px "DM Sans", sans-serif';
-      ctx.fillText((isZig ? 'Zigzag' : 'Armchair') + ' ribbon', 10, 18);
-      ctx.fillStyle = active ? accent : '#78716c';
-      ctx.font = '600 10px "DM Sans", sans-serif';
-      ctx.fillText(isZig ? 'cut ∥ zigzag edge (0°)' : 'cut ∥ armchair edge (30°)', 10, 33);
     }
     function drawCells(theta, N) {
       var type = theta === 0 ? 'zigzag' : 'armchair';
@@ -1110,10 +1097,6 @@
       var viewR = max(2.0*BZR, maxC);
       var sc = min(W, H) * 0.40 / viewR;
       function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
-
-      ctx.fillStyle = '#a8a29e'; ctx.font = '600 11px "DM Sans", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('Cutting lines in the Brillouin zone', 8, 14);
 
       var Tint = isZig ? 1 : sqrt3;                    // axial period (a = 1)
       var kpar = PI / Tint;                            // 1-D BZ boundary at ±π/T
@@ -1142,11 +1125,10 @@
       }
       ctx.closePath(); ctx.stroke();
       // neighbour Γ markers
-      ctx.fillStyle = 'rgba(168,162,158,0.8)'; ctx.font = '600 8px "DM Sans", sans-serif';
+      ctx.fillStyle = 'rgba(168,162,158,0.8)';
       for (var gi = 0; gi < Gn.length; gi++) {
         var gp = P(Gn[gi][0], Gn[gi][1]);
         ctx.beginPath(); ctx.arc(gp[0], gp[1], 2, 0, 2*PI); ctx.fill();
-        ctx.fillText('Γ', gp[0]+4, gp[1]+3);
       }
 
       // Central first BZ hexagon (the ribbon lives here).
@@ -1224,31 +1206,6 @@
       ctx.fillStyle = '#a8a29e'; ctx.fill();
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
-
-      // annotation per scheme
-      var kperpRule = (isZig ? 'nπ' : '2nπ') + '/(N+1), n = 1…' + p.N;
-      if (reduced) {
-        ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.8)';
-        ctx.lineWidth = 1.2; ctx.beginPath();
-        ctx.moveTo(8, H-21); ctx.lineTo(26, H-21); ctx.stroke(); ctx.setLineDash([]);
-        ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('reduced zone |k∥| ≤ π/T · Dirac points folded in', 30, H-18);
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('cutting lines k⊥ = ' + kperpRule, 8, H-6);
-      } else {
-        ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('extended zone: umklapp-folded lines · Dirac at corners', 8, H-18);
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('k⊥ = ' + kperpRule, 8, H-6);
-      }
-
-      // orientation readout
-      var nm = p.theta === 0 ? 'zigzag' : p.theta === 30 ? 'armchair' : 'chiral';
-      ctx.fillStyle = '#d6d3d1'; ctx.font = '600 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText('θ = ' + p.theta + '°  ·  ' + nm, W-8, H-8);
     }
 
     // ── 3D band surface (same region as Module 02) + cutting lines ──
@@ -1403,10 +1360,6 @@
         ctx.beginPath(); ctx.arc(dpm.sx, dpm.sy, 2.5, 0, 2*PI);
         ctx.fillStyle = '#fde68a'; ctx.fill();
       }
-
-      ctx.fillStyle = '#a8a29e'; ctx.font = '600 10px "DM Sans", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('Cutting lines on the band surface', 6, 13);
     }
 
     // ── Pointer interaction (drag-rotate + scroll/pinch zoom) ──
@@ -1658,21 +1611,12 @@
       ctx.fillText('−' + zb, sx(-kMax), yHSP);
       ctx.fillText('Γ', sx(0), yHSP);
       ctx.fillText(zb, sx(kMax), yHSP);
-      ctx.fillStyle = '#57534e'; ctx.font = '500 9px "DM Sans", sans-serif';
-      ctx.fillText(isZig ? 'zigzag GNR · k∥ along ribbon axis · first BZ −Z→Z  (T = a)'
-                         : 'armchair GNR · k∥ along ribbon axis · first BZ −X→X  (T = √3 a)',
-                   pad.l+pw/2, H-4);
 
-      // 1D Brillouin-zone length = 2π/T.  It is fixed by the edge type
-      // (the axial repeat T), NOT by the ribbon width N — increasing N only
-      // adds more subbands, it never rescales the zone.
+      // 1D Brillouin-zone length = 2π/T (Å⁻¹).
       var aPhys = 2.46;                      // graphene lattice constant (Å)
-      var bzLen = (2 * kMax / aPhys);        // full 1D BZ length (Å⁻¹)
       ctx.textAlign = 'right'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.fillStyle = '#a8a29e';
-      ctx.fillText('1D BZ = 2π/T = ' + bzLen.toFixed(2) + ' Å⁻¹', pad.l+pw, pad.t+10);
-      ctx.fillStyle = '#78716c'; ctx.font = '500 8px "DM Sans", sans-serif';
-      ctx.fillText('(set by edge, independent of N)', pad.l+pw, pad.t+21);
+      ctx.fillText('2π/T = ' + (2*kMax/aPhys).toFixed(2) + ' Å⁻¹', pad.l+pw, pad.t+10);
 
       ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
       ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
