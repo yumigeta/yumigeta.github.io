@@ -580,7 +580,7 @@
     }
     function drop(){
       if(rings.length>=4)return;
-      rings.push({x:a+Math.random()*(W-2*a),y:a+Math.random()*(H-2*a),r:0,max:Math.min(W,H)*(0.5+Math.random()*0.35),v:0.45+Math.random()*0.25,amp:4+Math.random()*2.5});
+      rings.push({x:a+Math.random()*(W-2*a),y:a+Math.random()*(H-2*a),r:0,max:Math.min(W,H)*(0.5+Math.random()*0.35),v:0.20+Math.random()*0.12,amp:4+Math.random()*2.5});
     }
     function size(){
       dpr=Math.min(devicePixelRatio||1,2);const rc=cv.getBoundingClientRect();
@@ -601,7 +601,7 @@
     function frame(){
       ctx.clearRect(0,0,W,H);
       for(let i=rings.length-1;i>=0;i--){rings[i].r+=rings[i].v;if(rings[i].r>rings[i].max+30)rings.splice(i,1);}
-      const amp=Math.min(1.6,a*0.10);
+      const amp=Math.min(0.7,a*0.045);
       for(const at of atoms){
         displace(at);
         const jx=Math.cos(at.ph+t*0.06*at.sp)*amp,jy=Math.sin(at.ph2+t*0.07*at.sp)*amp;
