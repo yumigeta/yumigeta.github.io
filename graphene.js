@@ -774,9 +774,12 @@
     var btnA = document.getElementById('btn-armchair');
     var btnWDec = document.getElementById('btn-width-dec');
     var btnWInc = document.getElementById('btn-width-inc');
+    var btnZoneR = document.getElementById('btn-zone-reduced');
+    var btnZoneE = document.getElementById('btn-zone-extended');
     if (!bzC) return;
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
+    var zoneScheme = 'reduced';   // BZ figure: 'reduced' (folded) | 'extended'
 
     // One stable colour per transverse mode, shared by the cutting-line figure,
     // the 3-D cut, and the band plot so the SAME cutting line is the SAME colour
@@ -1083,8 +1086,15 @@
       ctx.textAlign = 'left';
       ctx.fillText('Cutting lines in the Brillouin zone', 8, 14);
 
-      // BZ hexagon (corners = Dirac points)
-      ctx.strokeStyle = 'rgba(251,191,36,0.55)'; ctx.lineWidth = 1.4;
+      var Tint = (p.theta === 0) ? 1 : sqrt3;          // axial period (a = 1)
+      var kpar = PI / Tint;                            // 1-D BZ boundary at ±π/T
+      var axdx = -p.ny, axdy = p.nx;                   // axis (k∥) direction
+      var trdx = p.nx, trdy = p.ny;                    // transverse (k⊥) direction
+      var reduced = (zoneScheme === 'reduced');
+
+      // BZ hexagon (bulk graphene BZ) — faint reference in the reduced scheme.
+      ctx.strokeStyle = reduced ? 'rgba(251,191,36,0.22)' : 'rgba(251,191,36,0.55)';
+      ctx.lineWidth = 1.4;
       ctx.beginPath();
       for (var n = 0; n <= 6; n++) {
         var ang = n*PI/3, pp = P(BZR*cos(ang), BZR*sin(ang));
@@ -1092,74 +1102,86 @@
       }
       ctx.closePath(); ctx.stroke();
 
-      // ── The unit cell's Brillouin zone (1-D) ──
-      // The ribbon is periodic ONLY along the axis (period T); the width is
-      // confinement with no periodicity, hence no reciprocal vector and NO zone
-      // boundary across it.  So the only zone boundaries are the two lines
-      // perpendicular to the axis at k∥ = ±π/T.  They bound the 1-D BZ (length
-      // 2π/T); the strip between them extends freely across k⊥ (no transverse
-      // edge).  Inside one such strip each cutting line spans exactly one
-      // subband.  N never moves these boundaries — it only adds cutting lines.
-      var Tint = (p.theta === 0) ? 1 : sqrt3;          // axial period (a = 1)
-      var kpar = PI / Tint;                            // 1-D BZ boundary at ±π/T
-      var axdx = -p.ny, axdy = p.nx;                   // axis (k∥) direction
-      var trdx = p.nx, trdy = p.ny;                    // transverse (k⊥) direction
-      ctx.strokeStyle = 'rgba(226,232,240,0.75)'; ctx.lineWidth = 1.3;
-      ctx.setLineDash([5,4]);
-      for (var sgn = -1; sgn <= 1; sgn += 2) {
-        var bx = sgn*kpar*axdx, by = sgn*kpar*axdy, prevB = false;
-        ctx.beginPath();
-        for (var s = -1.3*BZR; s <= 1.3*BZR; s += BZR/90) {
-          var kx = bx + s*trdx, ky = by + s*trdy;
-          if (!insideHexRc(kx, ky, BZR)) { prevB = false; continue; }
-          var pb = P(kx, ky);
-          if (prevB) ctx.lineTo(pb[0], pb[1]); else ctx.moveTo(pb[0], pb[1]);
-          prevB = true;
+      if (reduced) {
+        // ── (A) Reduced / folded scheme ──
+        // The ribbon is 1-D: the only zone boundaries are k∥ = ±π/T.  Cutting
+        // lines are clipped to one period |k∥| ≤ π/T, and the bulk Dirac points
+        // are folded into the strip — a folded point sitting on a line ⇒ metal.
+        var ktrMax = PI;                               // transverse mode extent
+        ctx.strokeStyle = 'rgba(226,232,240,0.8)'; ctx.lineWidth = 1.3;
+        ctx.setLineDash([5,4]);
+        for (var sgn = -1; sgn <= 1; sgn += 2) {
+          var b1 = P(sgn*kpar*axdx - ktrMax*trdx, sgn*kpar*axdy - ktrMax*trdy);
+          var b2 = P(sgn*kpar*axdx + ktrMax*trdx, sgn*kpar*axdy + ktrMax*trdy);
+          ctx.beginPath(); ctx.moveTo(b1[0],b1[1]); ctx.lineTo(b2[0],b2[1]); ctx.stroke();
         }
-        ctx.stroke();
-      }
-      ctx.setLineDash([]);
-
-      // cutting lines, clipped to the BZ — one stable colour per mode, no line
-      // singled out for emphasis.
-      var tx = -p.ny, ty = p.nx, ext = 1.3*BZR;
-      for (var li = 0; li < p.lines.length; li++) {
-        var L = p.lines[li];
-        ctx.strokeStyle = colorFor(L.ci, p.N);
-        ctx.lineWidth = 1.6;
-        var bx = L.c*p.nx, by = L.c*p.ny, prev = false;
-        ctx.beginPath();
-        for (var s = -ext; s <= ext; s += ext/90) {
-          var kx = bx+s*tx, ky = by+s*ty;
-          if (!insideHexRc(kx, ky, BZR)) { prev = false; continue; }
-          var pp = P(kx, ky);
-          if (prev) ctx.lineTo(pp[0], pp[1]); else ctx.moveTo(pp[0], pp[1]);
-          prev = true;
+        ctx.setLineDash([]);
+        for (var li = 0; li < p.lines.length; li++) {
+          var L = p.lines[li];
+          ctx.strokeStyle = colorFor(L.ci, p.N); ctx.lineWidth = 1.6;
+          var a1 = P(L.c*trdx - kpar*axdx, L.c*trdy - kpar*axdy);
+          var a2 = P(L.c*trdx + kpar*axdx, L.c*trdy + kpar*axdy);
+          ctx.beginPath(); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(a2[0],a2[1]); ctx.stroke();
         }
-        ctx.stroke();
+        ctx.fillStyle = '#fde68a';
+        for (var n = 0; n < 6; n++) {
+          var ang2 = n*PI/3, kc = BZR*cos(ang2), ks = BZR*sin(ang2);
+          var kpa = kc*axdx + ks*axdy, kpe = kc*trdx + ks*trdy;
+          kpa -= 2*kpar*Math.round(kpa/(2*kpar));
+          kpe -= 2*PI*Math.round(kpe/(2*PI));
+          if (abs(kpe) > PI + 1e-6) continue;
+          var dp = P(kpa*axdx + kpe*trdx, kpa*axdy + kpe*trdy);
+          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3, 0, 2*PI); ctx.fill();
+        }
+      } else {
+        // ── (B) Extended scheme ──
+        // Cutting lines drawn right across the bulk BZ; Dirac points at corners.
+        var ext = 1.3*BZR;
+        for (var li = 0; li < p.lines.length; li++) {
+          var L = p.lines[li];
+          ctx.strokeStyle = colorFor(L.ci, p.N); ctx.lineWidth = 1.6;
+          var bx = L.c*trdx, by = L.c*trdy, prev = false;
+          ctx.beginPath();
+          for (var s = -ext; s <= ext; s += ext/90) {
+            var kx = bx+s*axdx, ky = by+s*axdy;
+            if (!insideHexRc(kx, ky, BZR)) { prev = false; continue; }
+            var pp = P(kx, ky);
+            if (prev) ctx.lineTo(pp[0], pp[1]); else ctx.moveTo(pp[0], pp[1]);
+            prev = true;
+          }
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#fde68a';
+        for (var n = 0; n < 6; n++) {
+          var ang3 = n*PI/3, pc = P(BZR*cos(ang3), BZR*sin(ang3));
+          ctx.beginPath(); ctx.arc(pc[0], pc[1], 3, 0, 2*PI); ctx.fill();
+        }
       }
 
-      // Dirac points + Γ
-      for (var n = 0; n < 6; n++) {
-        var ang = n*PI/3, pp = P(BZR*cos(ang), BZR*sin(ang));
-        ctx.beginPath(); ctx.arc(pp[0], pp[1], 3, 0, 2*PI);
-        ctx.fillStyle = '#fde68a'; ctx.fill();
-      }
+      // Γ
       var g = P(0, 0);
       ctx.beginPath(); ctx.arc(g[0], g[1], 2.2, 0, 2*PI);
       ctx.fillStyle = '#a8a29e'; ctx.fill();
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
 
-      // annotation: 1-D zone-edge legend + the cutting-line rule
-      ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.75)';
-      ctx.lineWidth = 1.2; ctx.beginPath();
-      ctx.moveTo(8, H-21); ctx.lineTo(26, H-21); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('1-D BZ edges at k∥ = ±π/T (no edge across k⊥)', 30, H-18);
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillText('cutting lines k⊥ = nπ/(N+1), n = 1…' + p.N + '  (denser as N↑)', 8, H-6);
+      // annotation per scheme
+      if (reduced) {
+        ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.8)';
+        ctx.lineWidth = 1.2; ctx.beginPath();
+        ctx.moveTo(8, H-21); ctx.lineTo(26, H-21); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('reduced zone |k∥| ≤ π/T · Dirac points folded in', 30, H-18);
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('cutting lines k⊥ = nπ/(N+1), n = 1…' + p.N, 8, H-6);
+      } else {
+        ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('extended zone: lines across bulk BZ, Dirac at corners', 8, H-18);
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('ribbon 1-D BZ length = 2π/T along the axis', 8, H-6);
+      }
 
       // orientation readout
       var nm = p.theta === 0 ? 'zigzag' : p.theta === 30 ? 'armchair' : 'chiral';
@@ -1636,6 +1658,18 @@
     }
     btnWDec.addEventListener('click', function () { stepWidth(-1); });
     btnWInc.addEventListener('click', function () { stepWidth(+1); });
+    if (btnZoneR && btnZoneE) {
+      btnZoneR.addEventListener('click', function () {
+        zoneScheme = 'reduced';
+        btnZoneR.classList.add('active'); btnZoneE.classList.remove('active');
+        if (curP) drawBZ(curP);
+      });
+      btnZoneE.addEventListener('click', function () {
+        zoneScheme = 'extended';
+        btnZoneE.classList.add('active'); btnZoneR.classList.remove('active');
+        if (curP) drawBZ(curP);
+      });
+    }
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     setSliderRange(curTheta === 0);
     update();

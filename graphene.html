@@ -200,6 +200,13 @@
           <button class="stepper" id="btn-width-inc" aria-label="increase width">+</button>
           <span class="ctl-value" id="v-width">7</span>
         </div>
+        <div class="ctl-inline">
+          <span class="ctl-label"><span class="i18n-en">Zone</span><span class="i18n-ja">ゾーン</span></span>
+          <div class="segmented">
+            <button class="seg active" id="btn-zone-reduced"><span class="i18n-en">Reduced</span><span class="i18n-ja">簡約</span></button>
+            <button class="seg" id="btn-zone-extended"><span class="i18n-en">Extended</span><span class="i18n-ja">拡張</span></button>
+          </div>
+        </div>
       </div>
 
       <div class="top-row">
@@ -223,18 +230,18 @@
         <div class="gr-panel"><canvas id="c-gnr-cut"></canvas></div>
       </div>
       <p class="cap">
-        <span class="i18n-en"><b>Left:</b> the fixed bulk-graphene Brillouin zone (hexagon). The ribbon
-        is periodic only along its axis, so its Brillouin zone is <b>1-D</b>: the
-        only zone boundaries are the two dashed lines at
-        <em>k</em><sub>∥</sub> = ±π/<em>T</em> (length 2π/<em>T</em>). The width
-        is confined, not periodic, so there is <b>no boundary across</b>
-        <em>k</em><sub>⊥</sub> — confinement instead picks the discrete cutting
-        lines <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) inside the
-        strip; raising <em>N</em> adds lines, it never moves the boundaries.
+        <span class="i18n-en"><b>Left:</b> the cutting lines drawn two ways (use the <b>Zone</b>
+        toggle). <b>Reduced</b>: the ribbon is 1-D, so the only zone boundaries
+        are the dashed lines at <em>k</em><sub>∥</sub> = ±π/<em>T</em> (length
+        2π/<em>T</em>); cutting lines are clipped to one period and the bulk
+        Dirac points are folded in — a folded point on a line means metallic.
+        <b>Extended</b>: the same lines drawn right across the bulk-graphene
+        hexagon, with the Dirac points at its corners. Either way the width is
+        confined (no <em>k</em><sub>⊥</sub> boundary); raising <em>N</em> only
+        adds cutting lines <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1).
         <b>Right:</b> the same lines on the tight-binding band surface (drag to
         rotate, scroll to zoom). <b>Each cutting line and its subband in the plot
-        below share one colour</b>, so you can trace a line to the band it
-        produces.</span><span class="i18n-ja"><b>左:</b> 固定のバルクグラフェン・ブリルアンゾーン（六角形）。リボンは軸方向にのみ周期的なので、そのブリルアンゾーンは<b>1次元</b>です。ゾーン境界は <em>k</em><sub>∥</sub> = ±π/<em>T</em> の破線2本だけ（長さ 2π/<em>T</em>）。幅方向は閉じ込めで周期がないため <em>k</em><sub>⊥</sub> 方向には<b>境界が存在しません</b>。閉じ込めは代わりにストリップ内の離散的なカッティングライン <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) を選びます。<em>N</em> を増やすと線が増えるだけで、境界は動きません。<b>右:</b> 強結合バンド曲面上に重ねた同じ線（ドラッグで回転、スクロールでズーム）。<b>各カッティングラインと、下のプロットの対応するサブバンドは同じ色</b>で表示されます。</span>
+        below share one colour.</b></span><span class="i18n-ja"><b>左:</b> カッティングラインを2通りで表示できます（<b>ゾーン</b>トグル）。<b>簡約</b>: リボンは1次元なので、ゾーン境界は <em>k</em><sub>∥</sub> = ±π/<em>T</em> の破線だけ（長さ 2π/<em>T</em>）。カッティングラインは1周期に切られ、バルクのディラック点が帯の中に折り返されます（折り返した点が線上にあれば金属的）。<b>拡張</b>: 同じ線をバルクグラフェン六角形全体に描き、ディラック点は角に置きます。いずれの場合も幅方向は閉じ込めで <em>k</em><sub>⊥</sub> 方向に境界はなく、<em>N</em> を増やすとカッティングライン <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) が増えるだけです。<b>右:</b> 強結合バンド曲面上に重ねた同じ線（ドラッグで回転、スクロールでズーム）。<b>各カッティングラインと、下のプロットの対応するサブバンドは同じ色</b>です。</span>
       </p>
 
       <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
