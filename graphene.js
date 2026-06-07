@@ -1363,15 +1363,24 @@
         }
       }
 
-      // First Brillouin-zone boundary (hexagon at E = 0), drawn on top of the
-      // translucent surface so it stays visible.
-      ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(251,191,36,0.85)';
-      ctx.beginPath();
-      for (var n = 0; n <= 6; n++) {
-        var ang = n*PI/3, hp = proj(BZR*cos(ang), BZR*sin(ang), 0);
-        if (n === 0) ctx.moveTo(hp.sx, hp.sy); else ctx.lineTo(hp.sx, hp.sy);
+      // GNR first Brillouin-zone boundary: the ribbon zone is 1-D, so its edges
+      // are the two lines k∥ = ±π/T (perpendicular to the ribbon axis), drawn at
+      // E = 0 across the surface — NOT graphene's 2-D hexagon.
+      var gaxx = -p.ny, gaxy = p.nx, gtrx = p.nx, gtry = p.ny;
+      var gkpar = PI / (p.theta === 0 ? 1 : sqrt3);
+      ctx.lineWidth = 1.6; ctx.strokeStyle = 'rgba(251,191,36,0.9)';
+      for (var sgn = -1; sgn <= 1; sgn += 2) {
+        var bxg = sgn*gkpar*gaxx, byg = sgn*gkpar*gaxy, prevg = false;
+        ctx.beginPath();
+        for (var sg = -1.35*R_out; sg <= 1.35*R_out; sg += R_out/120) {
+          var kxx = bxg + sg*gtrx, kyy = byg + sg*gtry;
+          if (!insideHexRc(kxx, kyy, R_out)) { prevg = false; continue; }
+          var gpp = proj(kxx, kyy, 0);
+          if (prevg) ctx.lineTo(gpp.sx, gpp.sy); else ctx.moveTo(gpp.sx, gpp.sy);
+          prevg = true;
+        }
+        ctx.stroke();
       }
-      ctx.closePath(); ctx.stroke();
 
       for (var n = 0; n < 6; n++) {
         var ang = n*PI/3, dpm = proj(BZR*cos(ang), BZR*sin(ang), 0);
