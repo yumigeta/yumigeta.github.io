@@ -322,3 +322,14 @@
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
 .ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+/* ── CO2 traces shown as a product: E(t) × α(t) = p(t) ── */
+.trace-mult { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.trace-cell { flex: 1 1 0; min-width: 0; }
+.trace-cell .trace-label { margin-bottom: 6px; }
+.trace-cell canvas { width: 100%; height: 96px; display: block; }
+.trace-op { flex: 0 0 auto; font-size: 1.4rem; font-weight: 600; color: #d6d3d1; margin-top: 16px; }
+@media (max-width: 640px) {
+  .trace-mult { flex-direction: column; align-items: stretch; }
+  .trace-op { margin: 0; text-align: center; }
+}
