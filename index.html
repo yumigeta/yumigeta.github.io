@@ -614,7 +614,7 @@
       for(const [A,B] of bonds){const lift=(Math.abs(A.dz)+Math.abs(B.dz))*0.5;if(lift<=1.4)continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);}
       ctx.stroke();
       for(const at of atoms){const m=Math.min(1,Math.abs(at.dz)/9);ctx.fillStyle=`rgba(${inkStr},${0.4+m*0.32})`;ctx.beginPath();ctx.arc(at.x,at.y,1.5+m*1.2,0,6.2832);ctx.fill();}
-      t++;if(t>=nextDrop){drop();nextDrop=t+1200+Math.random()*600;}
+      t++;if(t>=nextDrop){drop();nextDrop=t+800+Math.random()*400;}
       if(!reduce)raf=requestAnimationFrame(frame);
     }
     let visible=true;
