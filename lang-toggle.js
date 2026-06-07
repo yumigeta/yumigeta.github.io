@@ -5,12 +5,12 @@
   document.addEventListener('DOMContentLoaded', function(){
     var btn = document.querySelector('.lang-btn');
     if(!btn) return;
-    btn.textContent = lang === 'en' ? '日本語' : 'English';
+    // The button shows a static "EN / 日本語" segmented label; CSS highlights
+    // the active language from the <html data-lang> attribute.
     btn.addEventListener('click', function(){
       lang = lang === 'en' ? 'ja' : 'en';
       document.documentElement.setAttribute('data-lang', lang);
       localStorage.setItem('lang', lang);
-      btn.textContent = lang === 'en' ? '日本語' : 'English';
     });
   });
 })();
