@@ -102,7 +102,7 @@ function fitCanvas(cv) {
     const aEnv     = mode === 'mod' ? (1 + MOD * Math.sin(TAU * OMEGA_V * t)) : 1;
     const alphaNow = baseAlpha() * aEnv;                             // α(t)
     const cloudShift = E * AMP * alphaNow;                            // displacement ∝ α(t)·E(t)
-    const cloudR   = 32 + 20 * Math.min(alphaNow, 1.6) / 1.6;        // polarizability ~ cloud size
+    const cloudR   = 48;                                            // fixed: alpha sets the displacement, not the cloud size
     const nucR = 12, negR = 10;
     const negY = cy + cloudShift;
     const up = E >= 0, dir = up ? -1 : 1, mag = Math.abs(E);
