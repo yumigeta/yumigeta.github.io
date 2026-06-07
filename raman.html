@@ -177,6 +177,22 @@
         <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
         <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol\mu=\alpha\,\mathbf E_i$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol\mu=\alpha\,\mathbf E_i$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
         <canvas id="c-atom" class="atom-canvas"></canvas>
+        <div class="atom-controls">
+          <div class="btn-row" id="atom-mode">
+            <button class="demo-btn active" data-amode="const"><span class="i18n-en">α constant</span><span class="i18n-ja">α は一定</span></button>
+            <button class="demo-btn" data-amode="mod"><span class="i18n-en">α modulated (vibration)</span><span class="i18n-ja">α が時間変化（振動）</span></button>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-alpha"><span class="i18n-en">Polarizability</span><span class="i18n-ja">分極率</span>&nbsp;$\alpha_0$</label>
+            <input type="range" id="ctrl-alpha" min="0.4" max="1.5" step="0.01" value="1" aria-label="Polarizability alpha">
+            <output id="v-alpha">α₀ = 1.00</output>
+          </div>
+        </div>
+        <div class="atom-legend">
+          <span><i style="background:#38bdf8"></i><span class="i18n-en">electron cloud (−)</span><span class="i18n-ja">電子雲 (−)</span></span>
+          <span><i style="background:#ef4444"></i><span class="i18n-en">nucleus (+)</span><span class="i18n-ja">原子核 (+)</span></span>
+          <span><i style="background:#fcd34d"></i><span class="i18n-en">induced dipole μ</span><span class="i18n-ja">誘起双極子 μ</span></span>
+        </div>
         <p class="cap" id="atom-cap">
           <span class="i18n-en">If the polarizability $\alpha$ <b>stays constant in time</b>, the induced dipole simply oscillates at the <b>same frequency as the incident light</b> ($\omega_i$) — this is elastic <b>Rayleigh scattering</b>. The Raman effect appears only when $\alpha$ <b>itself changes in time</b>, i.e. is modulated by a molecular vibration.</span><span class="i18n-ja">分極率 $\alpha$ が<b>時間的に一定</b>であれば、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_i$）で振動するだけで、弾性的な<b>レイリー散乱</b>となる。ラマン効果は $\alpha$ <b>自体が時間変化する</b>（分子振動によって変調される）ときにのみ現れる。</span>
         </p>
