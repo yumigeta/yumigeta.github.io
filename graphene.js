@@ -778,8 +778,14 @@
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
 
-    var SUB = ['#fbbf24','#fb923c','#f87171','#c084fc','#60a5fa','#34d399',
-               '#f472b6','#a3e635','#22d3ee'];
+    // One stable colour per transverse mode, shared by the cutting-line figure,
+    // the 3-D cut, and the band plot so the SAME cutting line is the SAME colour
+    // everywhere.  Modes are ranked by gap (distance to a Dirac point), so the
+    // hue order is identical across panels regardless of edge type or N.
+    function colorFor(rank, n) {
+      var h = n <= 1 ? 200 : (rank * 300 / (n - 1));
+      return 'hsl(' + h.toFixed(0) + ',72%,62%)';
+    }
 
     var R_out = BZR * 1.62;   // rendered region (matches Module 02)
 
@@ -837,9 +843,15 @@
       var minG = Infinity;
       for (var i = 0; i < lines.length; i++) if (lines[i].gap < minG) minG = lines[i].gap;
       var metallic = isZig ? true : (minG < 0.025);
-      var tol = isZig ? (minG + 0.12) : (metallic ? 0.06 : (minG + 0.02));
-      for (var i = 0; i < lines.length; i++)
-        lines[i].near = lines[i].gap <= tol;
+      // Assign each transverse mode (a ±c pair) a colour index, ranked by gap,
+      // so the cutting line and its subband share one colour across all panels.
+      var modes = [];
+      for (var m = 0; m < N; m++) modes.push({ m: m, gap: lines[2*m].gap });
+      modes.sort(function (a, b) { return a.gap - b.gap; });
+      for (var r = 0; r < modes.length; r++) {
+        lines[2*modes[r].m].ci = r;
+        lines[2*modes[r].m + 1].ci = r;
+      }
       return { theta:theta, N:N, A:A, nx:nx, ny:ny,
                lines:lines, gapE:metallic ? 0 : minG, metallic:metallic };
     }
@@ -1080,23 +1092,39 @@
       }
       ctx.closePath(); ctx.stroke();
 
-      // The ribbon's Brillouin zone is 1-D: the segment k∥ ∈ (−π/T, π/T]
-      // along the axis, length 2π/T, fixed by the edge type T (never by N).
-      // The width is a CONFINED (open-edge) direction — not a periodicity —
-      // so it adds no reciprocal vector and there is NO 2-D "ribbon zone" to
-      // draw.  Confinement only quantises the transverse momentum into the
-      // discrete cutting lines below, sampled on the FIXED bulk graphene
-      // hexagon.  Widening the ribbon (larger N) enlarges the basis, i.e.
-      // adds more, more-closely-spaced cutting lines (= more subbands); it
-      // leaves both the hexagon and the 1-D zone 2π/T unchanged.
+      // ── Reduced ribbon zone (the unit cell's Brillouin zone) ──
+      // The only periodic direction is the axis, period T, so the ribbon's
+      // genuine Brillouin zone is 1-D: k∥ ∈ (−π/T, π/T], length 2π/T (fixed by
+      // the edge type, never by N).  Drawn here as the dashed cell whose
+      // k∥-side IS that 2π/T zone; the transverse side is the fundamental range
+      // of the confined modes.  The cell's size does not change with N — only
+      // the number of cutting lines packed inside it does.
+      var Tint = (p.theta === 0) ? 1 : sqrt3;          // axial period (a = 1)
+      var kpar = PI / Tint;                            // 1-D BZ half-width 2π/T
+      var ktr  = PI;                                   // transverse mode extent
+      var axx = -p.ny, axy = p.nx, trx = p.nx, trry = p.ny;
+      var rc = [
+        [ kpar*axx + ktr*trx,  kpar*axy + ktr*trry],
+        [ kpar*axx - ktr*trx,  kpar*axy - ktr*trry],
+        [-kpar*axx - ktr*trx, -kpar*axy - ktr*trry],
+        [-kpar*axx + ktr*trx, -kpar*axy + ktr*trry]
+      ];
+      ctx.strokeStyle = 'rgba(226,232,240,0.6)';
+      ctx.fillStyle = 'rgba(226,232,240,0.05)';
+      ctx.lineWidth = 1.2; ctx.setLineDash([5,4]); ctx.beginPath();
+      for (var ri = 0; ri < 4; ri++) {
+        var pr = P(rc[ri][0], rc[ri][1]);
+        if (ri === 0) ctx.moveTo(pr[0], pr[1]); else ctx.lineTo(pr[0], pr[1]);
+      }
+      ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
 
-      // cutting lines, clipped to the BZ
+      // cutting lines, clipped to the BZ — one stable colour per mode, no line
+      // singled out for emphasis.
       var tx = -p.ny, ty = p.nx, ext = 1.3*BZR;
       for (var li = 0; li < p.lines.length; li++) {
         var L = p.lines[li];
-        ctx.strokeStyle = L.near ? (p.metallic ? '#34d399' : '#fbbf24')
-                                 : 'rgba(147,197,253,0.55)';
-        ctx.lineWidth = L.near ? 2.2 : 0.8;
+        ctx.strokeStyle = colorFor(L.ci, p.N);
+        ctx.lineWidth = 1.6;
         var bx = L.c*p.nx, by = L.c*p.ny, prev = false;
         ctx.beginPath();
         for (var s = -ext; s <= ext; s += ext/90) {
@@ -1121,12 +1149,15 @@
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
 
-      // annotation: how the cutting lines are set, and the invariant 1-D zone
+      // annotation: reduced-zone legend + the cutting-line rule
+      ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.7)';
+      ctx.lineWidth = 1.2; ctx.beginPath();
+      ctx.moveTo(8, H-21); ctx.lineTo(26, H-21); ctx.stroke(); ctx.setLineDash([]);
       ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText('k⊥ = nπ/(N+1),  n = 1…' + p.N + '   (denser as N↑)', 8, H-18);
+      ctx.fillText('ribbon reduced zone — k∥ side = 2π/T (the 1-D BZ)', 30, H-18);
       ctx.fillStyle = '#94a3b8';
-      ctx.fillText('ribbon BZ stays 1-D: 2π/T along axis (N-independent)', 8, H-6);
+      ctx.fillText('cutting lines k⊥ = nπ/(N+1), n = 1…' + p.N + '  (denser as N↑)', 8, H-6);
 
       // orientation readout
       var nm = p.theta === 0 ? 'zigzag' : p.theta === 30 ? 'armchair' : 'chiral';
@@ -1224,9 +1255,9 @@
       // Cutting lines at constant k·n, traced along the surface in both bands.
       var lines = p.lines, ltx = -p.ny, lty = p.nx, lext = 1.35*R_out, LS = 90;
       for (var li = 0; li < lines.length; li++) {
-        var L = lines[li], isNear = L.near;
-        var col = isNear ? (p.metallic ? '#34d399' : '#fbbf24') : 'rgba(147,197,253,0.7)';
-        var lw = isNear ? 2.6 : 0.8;
+        var L = lines[li];
+        var col = colorFor(L.ci, p.N);
+        var lw = 1.8;
         var bx = L.c*p.nx, by = L.c*p.ny;
         for (var band = -1; band <= 1; band += 2) {
           var prev = null;
@@ -1377,17 +1408,9 @@
       return out;            // N non-negative energies; bands are ±out
     }
 
-    // Armchair GNR: exact hard-wall closed form.  Transverse modes
-    // p_n = nπ/(N+1); E_n = ±t√(1 + 4cos p_n cos(√3k/2) + 4cos²p_n).  k ∈ [0,π/√3].
-    function agnrE(N, k) {
-      var ck = cos(sqrt3 * k / 2), out = new Array(N);
-      for (var n = 1; n <= N; n++) {
-        var cp = cos(n*PI/(N+1));
-        out[n-1] = tHop * sqrt(max(0, 1 + 4*cp*ck + 4*cp*cp));
-      }
-      out.sort(function (a, b) { return a - b; });
-      return out;
-    }
+    // Armchair GNR: exact hard-wall closed form, computed per transverse mode
+    // p_n = nπ/(N+1) inline in drawSubbands so each subband keeps its own
+    // identity (and colour); E_n = ±t√(1 + 4cos p_n cos(√3k/2) + 4cos²p_n).
 
     // Armchair half-gap (min positive band, at k=0); 0 ⇔ metallic (N=3m+2).
     function agnrGap(N) {
@@ -1409,19 +1432,46 @@
       var metallic = isZig ? true : (N % 3 === 2);
       var NSAMP = 240;
 
-      // Sample the real ribbon bands across the full first 1D Brillouin zone
-      // −k_max … +k_max, with k along the ribbon's long (periodic) axis.
-      var ks = [], bands = [], maxE = 0.001, gMin = Infinity;
+      // Sample the ribbon bands across the full first 1D Brillouin zone, but
+      // keep one continuous curve PER transverse mode (not per energy rank), so
+      // each subband can be coloured to match its own cutting line.
+      //  · armchair: mode n ⇒ p_n = nπ/(N+1) is an exact subband (bulk energy
+      //    along cutting line n) — an exact one-to-one match.
+      //  · zigzag: the exact hard-wall bands are used (edge states included);
+      //    curves are ordered low→high so curve i pairs with the i-th cutting
+      //    line by gap rank.
+      var ks = [], curves = [], maxE = 0.001, gMin = Infinity;
+      for (var m = 0; m < N; m++) curves.push(new Array(NSAMP + 1));
       for (var i = 0; i <= NSAMP; i++) {
         var k = -kMax + 2*kMax*i/NSAMP;
-        var b = isZig ? zgnrE(N, abs(k)) : agnrE(N, abs(k));
-        ks.push(k); bands.push(b);
-        for (var n = 0; n < N; n++) {
-          if (b[n] > maxE) maxE = b[n];
-          if (b[n] < gMin) gMin = b[n];
+        ks.push(k);
+        if (isZig) {
+          var b = zgnrE(N, abs(k));               // sorted low→high
+          for (var m = 0; m < N; m++) curves[m][i] = b[m];
+        } else {
+          var ck = cos(sqrt3 * abs(k) / 2);
+          for (var m = 1; m <= N; m++) {
+            var cp = cos(m*PI/(N+1));
+            curves[m-1][i] = tHop * sqrt(max(0, 1 + 4*cp*ck + 4*cp*cp));
+          }
+        }
+        for (var m = 0; m < N; m++) {
+          if (curves[m][i] > maxE) maxE = curves[m][i];
+          if (curves[m][i] < gMin) gMin = curves[m][i];
         }
       }
       maxE *= 1.08;
+
+      // gap (min |E|) per curve → colour rank, matching the cutting-line ranks.
+      var order = [];
+      for (var m = 0; m < N; m++) {
+        var gm = Infinity;
+        for (var i = 0; i <= NSAMP; i++) if (curves[m][i] < gm) gm = curves[m][i];
+        order.push({ m: m, gap: gm });
+      }
+      order.sort(function (a, b) { return a.gap - b.gap; });
+      var colIdx = new Array(N);
+      for (var r = 0; r < N; r++) colIdx[order[r].m] = r;
 
       var pad = {l:46, r:16, t:18, b:36};
       var pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
@@ -1457,15 +1507,13 @@
         ctx.fillText('edge states', (sx(kK)+sx(kMax))/2, pad.t+11);
       }
 
-      // bands: draw highest index first so the edge/gap band sits on top.
-      for (var n = N-1; n >= 0; n--) {
-        var isEdge = (n === 0);
-        var col = isEdge ? (metallic ? '#34d399' : '#fbbf24') : SUB[min(SUB.length-1, n)];
-        ctx.strokeStyle = col; ctx.lineWidth = isEdge ? 2.2 : 1.3;
+      // subbands: each curve coloured to match its own cutting line.
+      for (var m = 0; m < N; m++) {
+        ctx.strokeStyle = colorFor(colIdx[m], N); ctx.lineWidth = 1.6;
         for (var sgn = -1; sgn <= 1; sgn += 2) {
           ctx.beginPath();
           for (var i = 0; i <= NSAMP; i++) {
-            var x = sx(ks[i]), y = sy(sgn*bands[i][n]);
+            var x = sx(ks[i]), y = sy(sgn*curves[m][i]);
             if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
           }
           ctx.stroke();
