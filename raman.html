@@ -169,13 +169,13 @@
 
         <h3><span class="i18n-en">Incident electromagnetic wave</span><span class="i18n-ja">入射電磁波</span></h3>
         <p><span class="i18n-en">The electric-field vector of the incident plane wave is</span><span class="i18n-ja">入射平面電磁波の電場ベクトルは次のように表わす。</span></p>
-        <p class="eq-block">$$\mathbf{E}_i = E_i\,\mathbf{e}_i\cos\omega_i t \tag{1}$$</p>
-        <p><span class="i18n-en">where $E_i$ is the field amplitude, $\mathbf e_i$ the polarization vector, and $\omega_i$ the angular frequency. The vector $\mathbf e_i$ has three components,</span><span class="i18n-ja">ここで $E_i$ は入射光電場の振幅、$\mathbf e_i$ は偏光ベクトル、$\omega_i$ は角振動数である。ベクトル $\mathbf e_i$ は3つの成分を持つ。</span></p>
-        <p class="eq-block">$$\mathbf{e}_i=\begin{pmatrix}e_{ix}\\ e_{iy}\\ e_{iz}\end{pmatrix} \tag{2}$$</p>
+        <p class="eq-block">$$\vec{E}_{\mathrm{i}} = E_{\mathrm{i}}\,\vec{e}_{\mathrm{i}}\cos\omega_{\mathrm{i}} t \tag{1}$$</p>
+        <p><span class="i18n-en">where $E_{\mathrm{i}}$ is the field amplitude, $\vec{e}_{\mathrm{i}}$ the polarization vector, and $\omega_{\mathrm{i}}$ the angular frequency. The vector $\vec{e}_{\mathrm{i}}$ has three components,</span><span class="i18n-ja">ここで $E_{\mathrm{i}}$ は入射光電場の振幅、$\vec{e}_{\mathrm{i}}$ は偏光ベクトル、$\omega_{\mathrm{i}}$ は角振動数である。ベクトル $\vec{e}_{\mathrm{i}}$ は3つの成分を持つ。</span></p>
+        <p class="eq-block">$$\vec{e}_{\mathrm{i}}=\begin{pmatrix}e_{\mathrm{i}x}\\ e_{\mathrm{i}y}\\ e_{\mathrm{i}z}\end{pmatrix} \tag{2}$$</p>
         <p><span class="i18n-en">where $x,y,z$ are the space-fixed Cartesian axes (Fig.&nbsp;1).</span><span class="i18n-ja">ここで $x,y,z$ はそれぞれ空間固定のデカルト座標である（図1）。</span></p>
 
         <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
-        <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol\mu=\alpha\,\mathbf E_i$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol\mu=\alpha\,\mathbf E_i$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
+        <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\vec{\mu}=\alpha\,\vec{E}_{\mathrm{i}}$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\vec{\mu}=\alpha\,\vec{E}_{\mathrm{i}}$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
         <canvas id="c-atom" class="atom-canvas"></canvas>
         <div class="atom-controls">
           <div class="btn-row" id="atom-mode">
@@ -194,7 +194,7 @@
           <span><i style="background:#fcd34d"></i><span class="i18n-en">induced dipole μ</span><span class="i18n-ja">誘起双極子 μ</span></span>
         </div>
         <p class="cap" id="atom-cap">
-          <span class="i18n-en">If the polarizability $\alpha$ <b>stays constant in time</b>, the induced dipole simply oscillates at the <b>same frequency as the incident light</b> ($\omega_i$) — this is elastic <b>Rayleigh scattering</b>. The Raman effect appears only when $\alpha$ <b>itself changes in time</b>, i.e. is modulated by a molecular vibration.</span><span class="i18n-ja">分極率 $\alpha$ が<b>時間的に一定</b>であれば、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_i$）で振動するだけで、弾性的な<b>レイリー散乱</b>となる。ラマン効果は $\alpha$ <b>自体が時間変化する</b>（分子振動によって変調される）ときにのみ現れる。</span>
+          <span class="i18n-en">If the polarizability $\alpha$ <b>stays constant in time</b>, the induced dipole simply oscillates at the <b>same frequency as the incident light</b> ($\omega_{\mathrm{i}}$) — this is elastic <b>Rayleigh scattering</b>. The Raman effect appears only when $\alpha$ <b>itself changes in time</b>, i.e. is modulated by a molecular vibration.</span><span class="i18n-ja">分極率 $\alpha$ が<b>時間的に一定</b>であれば、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_{\mathrm{i}}$）で振動するだけで、弾性的な<b>レイリー散乱</b>となる。ラマン効果は $\alpha$ <b>自体が時間変化する</b>（分子振動によって変調される）ときにのみ現れる。</span>
         </p>
 
         <h3><span class="i18n-en">Molecular polarizability</span><span class="i18n-ja">分子の分極率</span></h3>
@@ -227,21 +227,21 @@
         <p class="eq-block">$$(\alpha_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_{k0} \tag{7}$$</p>
 
         <h3><span class="i18n-en">Induced dipole moment and scattering intensity</span><span class="i18n-ja">誘起双極子モーメントと散乱強度</span></h3>
-        <p><span class="i18n-en">The dipole moment induced by the incident field is $\boldsymbol\mu=\alpha\,\mathbf E_i$. Its $\rho$-component, with the incident field (1) inserted, is</span><span class="i18n-ja">入射光によって誘起される双極子モーメントは $\boldsymbol\mu=\alpha\,\mathbf E_i$ である。その $\rho$ 成分に入射電場(1)を代入すると、</span></p>
-        <p class="eq-block">$$\mu_\rho=\sum_\sigma\alpha_{\rho\sigma}E_{i\sigma}=\sum_\sigma\alpha_{\rho\sigma}\,E_i e_{i\sigma}\cos\omega_i t .$$</p>
+        <p><span class="i18n-en">The dipole moment induced by the incident field is $\vec{\mu}=\alpha\,\vec{E}_{\mathrm{i}}$. Its $\rho$-component, with the incident field (1) inserted, is</span><span class="i18n-ja">入射光によって誘起される双極子モーメントは $\vec{\mu}=\alpha\,\vec{E}_{\mathrm{i}}$ である。その $\rho$ 成分に入射電場(1)を代入すると、</span></p>
+        <p class="eq-block">$$\mu_\rho=\sum_\sigma\alpha_{\rho\sigma}E_{\mathrm{i}\sigma}=\sum_\sigma\alpha_{\rho\sigma}\,E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t .$$</p>
         <p><span class="i18n-en">Substituting the time-dependent polarizability (6), $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$, gives</span><span class="i18n-ja">時間依存の分極率(6) $\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t$ を代入すると、</span></p>
-        <p class="eq-block">$$\mu_\rho=\sum_\sigma\Big[(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t\Big]E_i e_{i\sigma}\cos\omega_i t .$$</p>
+        <p class="eq-block">$$\mu_\rho=\sum_\sigma\Big[(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t\Big]E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t .$$</p>
         <p><span class="i18n-en">Expanding into a static (Rayleigh) part and a vibrating part,</span><span class="i18n-ja">静的な（レイリー）項と振動する項に展開すると、</span></p>
-        <p class="eq-block">$$\mu_\rho=\sum_\sigma(\alpha_0)_{\rho\sigma}E_i e_{i\sigma}\cos\omega_i t+\sum_\sigma\sum_k(\alpha_k)_{\rho\sigma}E_i e_{i\sigma}\,\cos\omega_k t\,\cos\omega_i t .$$</p>
-        <p><span class="i18n-en">The product-to-sum identity $\cos\omega_k t\,\cos\omega_i t=\tfrac12\big[\cos(\omega_i-\omega_k)t+\cos(\omega_i+\omega_k)t\big]$ applied to the second term yields</span><span class="i18n-ja">第2項に積和の公式 $\cos\omega_k t\,\cos\omega_i t=\tfrac12\big[\cos(\omega_i-\omega_k)t+\cos(\omega_i+\omega_k)t\big]$ を用いると、</span></p>
-        <p class="eq-block">$$\mu_\rho=\underbrace{\sum_\sigma(\alpha_0)_{\rho\sigma}E_i e_{i\sigma}\cos\omega_i t}_{\text{Rayleigh}}+\tfrac12\sum_\sigma\sum_k(\alpha_k)_{\rho\sigma}E_i e_{i\sigma}\Big[\underbrace{\cos(\omega_i-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_i+\omega_k)t}_{\text{anti-Stokes}}\Big] \tag{8}$$</p>
-        <p><span class="i18n-en">An oscillating dipole radiates at its own frequency, so the three terms emit at $\omega_i$ (<b>Rayleigh</b>), $\omega_i-\omega_k$ (<b>Stokes</b>), and $\omega_i+\omega_k$ (<b>anti-Stokes</b>). <b>Place the molecule at the origin</b>; the induced dipole $\boldsymbol\mu$ then radiates a <b>spherical (secondary) wave</b>. At a point $\mathbf r$ (distance $r=|\mathbf r|$) we write the scattered field as the product of a scalar amplitude $E_s$ and a unit <b>polarization vector</b> $\mathbf e_s$,</span><span class="i18n-ja">振動する双極子モーメントは自身の周波数で電磁波を放射するので、3つの項はそれぞれ $\omega_i$（<b>レイリー散乱</b>）、$\omega_i-\omega_k$（<b>ストークスラマン散乱</b>）、$\omega_i+\omega_k$（<b>反ストークスラマン散乱</b>）で放射する。<b>分子を原点に置く</b>と、誘起双極子 $\boldsymbol\mu$ は<b>球面（2次）波</b>を放射する。位置 $\mathbf r$（距離 $r=|\mathbf r|$）における散乱波の電場を、スカラーの振幅 $E_s$ と単位<b>偏光ベクトル</b> $\mathbf e_s$ の積として表わす。</span></p>
-        <p class="eq-block">$$\mathbf E_s=E_s\,\mathbf e_s,\qquad \mathbf e_s\ \parallel\ \big(\boldsymbol\mu\ \text{projected onto the plane}\perp\mathbf r\big)$$</p>
-        <p><span class="i18n-en">From Maxwell's equations the amplitude $E_s$ at distance $r$ is</span><span class="i18n-ja">マクスウェル方程式より、距離 $r$ における振幅 $E_s$ は次式となる。</span></p>
-        <p class="eq-block">$$E_s=\frac{\omega_s^2}{c^2 r}\,(\mathbf{e}_s\!\cdot\alpha\cdot\mathbf{e}_i)\,E_i\cos\!\Big(\omega_s t-\frac{\omega_s r}{c}\Big) \tag{9}$$</p>
-        <p><span class="i18n-en">where $\omega_s$ is the scattered angular frequency and $c$ the speed of light. Each frequency component carries its own tensor; collect it into the <b>scattering tensor</b> $a$ — equal to $\alpha_0$ for the Rayleigh term and to $\alpha_k/2$ for the Raman terms (from eq. 8). Squaring the amplitude relates the incident intensity $I_i$ (energy per unit time per unit area) to the angular scattering intensity $I_s r^2$ (energy per unit time per unit solid angle):</span><span class="i18n-ja">ここで $\omega_s$ は散乱光の角振動数、$c$ は光速である。各周波数成分はそれぞれ固有のテンソルを持つので、これを<b>散乱テンソル</b> $a$ にまとめる — レイリー項では $a=\alpha_0$、ラマン項では $a=\alpha_k/2$（式8より）である。振幅を2乗すると、入射平面波の強度 $I_i$（単位時間に単位面積を通る入射光エネルギー）と、散乱球面波の角強度 $I_s r^2$（単位時間に単位立体角を通る散乱光エネルギー）が次のように関係づけられる。</span></p>
-        <p class="eq-block">$$I_s\,r^2=\frac{\omega_s^4}{c^4}\,\big|\mathbf{e}_s\!\cdot a\cdot\mathbf{e}_i\big|^2\,I_i \tag{10}$$</p>
-        <p><span class="i18n-en">This is the classical light-scattering intensity: proportional to the incident intensity $I_i$, the square of the scattering tensor $|\mathbf e_s\!\cdot a\cdot\mathbf e_i|^2$, and the <b>fourth power</b> of the scattered frequency $\omega_s$ (the $\nu^4$ law). For the Raman terms $a=\alpha_k/2\propto R_k$, so the <b>Raman tensor</b> $R_k$ fixes the symmetry and polarization dependence (&sect;03).</span><span class="i18n-ja">これが古典論によって求めた光散乱の強度を表わす表式である。散乱強度は、入射光の強度 $I_i$、散乱テンソルの2乗 $|\mathbf e_s\!\cdot a\cdot\mathbf e_i|^2$、および散乱光の角振動数 $\omega_s$ の<b>4乗</b>（いわゆる $\nu^4$ 則）に比例する。ラマン項では $a=\alpha_k/2\propto R_k$ なので、<b>ラマンテンソル</b> $R_k$ が対称性と偏光依存性を決める（&sect;03）。</span></p>
+        <p class="eq-block">$$\mu_\rho=\sum_\sigma(\alpha_0)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t+\sum_\sigma\sum_k(\alpha_k)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\,\cos\omega_k t\,\cos\omega_{\mathrm{i}} t .$$</p>
+        <p><span class="i18n-en">The product-to-sum identity $\cos\omega_k t\,\cos\omega_{\mathrm{i}} t=\tfrac12\big[\cos(\omega_{\mathrm{i}}-\omega_k)t+\cos(\omega_{\mathrm{i}}+\omega_k)t\big]$ applied to the second term yields</span><span class="i18n-ja">第2項に積和の公式 $\cos\omega_k t\,\cos\omega_{\mathrm{i}} t=\tfrac12\big[\cos(\omega_{\mathrm{i}}-\omega_k)t+\cos(\omega_{\mathrm{i}}+\omega_k)t\big]$ を用いると、</span></p>
+        <p class="eq-block">$$\mu_\rho=\underbrace{\sum_\sigma(\alpha_0)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\cos\omega_{\mathrm{i}} t}_{\text{Rayleigh}}+\tfrac12\sum_\sigma\sum_k(\alpha_k)_{\rho\sigma}E_{\mathrm{i}} e_{\mathrm{i}\sigma}\Big[\underbrace{\cos(\omega_{\mathrm{i}}-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_{\mathrm{i}}+\omega_k)t}_{\text{anti-Stokes}}\Big] \tag{8}$$</p>
+        <p><span class="i18n-en">An oscillating dipole radiates at its own frequency, so the three terms emit at $\omega_{\mathrm{i}}$ (<b>Rayleigh</b>), $\omega_{\mathrm{i}}-\omega_k$ (<b>Stokes</b>), and $\omega_{\mathrm{i}}+\omega_k$ (<b>anti-Stokes</b>). <b>Place the molecule at the origin</b>; the induced dipole $\vec{\mu}$ then radiates a <b>spherical (secondary) wave</b>. At a point $\vec{r}$ (distance $r=|\vec{r}|$) we write the scattered field as the product of a scalar amplitude $E_{\mathrm{s}}$ and a unit <b>polarization vector</b> $\vec{e}_{\mathrm{s}}$,</span><span class="i18n-ja">振動する双極子モーメントは自身の周波数で電磁波を放射するので、3つの項はそれぞれ $\omega_{\mathrm{i}}$（<b>レイリー散乱</b>）、$\omega_{\mathrm{i}}-\omega_k$（<b>ストークスラマン散乱</b>）、$\omega_{\mathrm{i}}+\omega_k$（<b>反ストークスラマン散乱</b>）で放射する。<b>分子を原点に置く</b>と、誘起双極子 $\vec{\mu}$ は<b>球面（2次）波</b>を放射する。位置 $\vec{r}$（距離 $r=|\vec{r}|$）における散乱波の電場を、スカラーの振幅 $E_{\mathrm{s}}$ と単位<b>偏光ベクトル</b> $\vec{e}_{\mathrm{s}}$ の積として表わす。</span></p>
+        <p class="eq-block">$$\vec{E}_{\mathrm{s}}=E_{\mathrm{s}}\,\vec{e}_{\mathrm{s}},\qquad \vec{e}_{\mathrm{s}}\ \parallel\ \big(\vec{\mu}\ \text{projected onto the plane}\perp\vec{r}\big)$$</p>
+        <p><span class="i18n-en">From Maxwell's equations the amplitude $E_{\mathrm{s}}$ at distance $r$ is</span><span class="i18n-ja">マクスウェル方程式より、距離 $r$ における振幅 $E_{\mathrm{s}}$ は次式となる。</span></p>
+        <p class="eq-block">$$E_{\mathrm{s}}=\frac{\omega_{\mathrm{s}}^2}{c^2 r}\,(\vec{e}_{\mathrm{s}}\!\cdot\alpha\cdot\vec{e}_{\mathrm{i}})\,E_{\mathrm{i}}\cos\!\Big(\omega_{\mathrm{s}} t-\frac{\omega_{\mathrm{s}} r}{c}\Big) \tag{9}$$</p>
+        <p><span class="i18n-en">where $\omega_{\mathrm{s}}$ is the scattered angular frequency and $c$ the speed of light. Each frequency component carries its own tensor; collect it into the <b>scattering tensor</b> $a$ — equal to $\alpha_0$ for the Rayleigh term and to $\alpha_k/2$ for the Raman terms (from eq. 8). Squaring the amplitude relates the incident intensity $I_{\mathrm{i}}$ (energy per unit time per unit area) to the angular scattering intensity $I_{\mathrm{s}} r^2$ (energy per unit time per unit solid angle):</span><span class="i18n-ja">ここで $\omega_{\mathrm{s}}$ は散乱光の角振動数、$c$ は光速である。各周波数成分はそれぞれ固有のテンソルを持つので、これを<b>散乱テンソル</b> $a$ にまとめる — レイリー項では $a=\alpha_0$、ラマン項では $a=\alpha_k/2$（式8より）である。振幅を2乗すると、入射平面波の強度 $I_{\mathrm{i}}$（単位時間に単位面積を通る入射光エネルギー）と、散乱球面波の角強度 $I_{\mathrm{s}} r^2$（単位時間に単位立体角を通る散乱光エネルギー）が次のように関係づけられる。</span></p>
+        <p class="eq-block">$$I_{\mathrm{s}}\,r^2=\frac{\omega_{\mathrm{s}}^4}{c^4}\,\big|\vec{e}_{\mathrm{s}}\!\cdot a\cdot\vec{e}_{\mathrm{i}}\big|^2\,I_{\mathrm{i}} \tag{10}$$</p>
+        <p><span class="i18n-en">This is the classical light-scattering intensity: proportional to the incident intensity $I_{\mathrm{i}}$, the square of the scattering tensor $|\vec{e}_{\mathrm{s}}\!\cdot a\cdot\vec{e}_{\mathrm{i}}|^2$, and the <b>fourth power</b> of the scattered frequency $\omega_{\mathrm{s}}$ (the $\nu^4$ law). For the Raman terms $a=\alpha_k/2\propto R_k$, so the <b>Raman tensor</b> $R_k$ fixes the symmetry and polarization dependence (&sect;03).</span><span class="i18n-ja">これが古典論によって求めた光散乱の強度を表わす表式である。散乱強度は、入射光の強度 $I_{\mathrm{i}}$、散乱テンソルの2乗 $|\vec{e}_{\mathrm{s}}\!\cdot a\cdot\vec{e}_{\mathrm{i}}|^2$、および散乱光の角振動数 $\omega_{\mathrm{s}}$ の<b>4乗</b>（いわゆる $\nu^4$ 則）に比例する。ラマン項では $a=\alpha_k/2\propto R_k$ なので、<b>ラマンテンソル</b> $R_k$ が対称性と偏光依存性を決める（&sect;03）。</span></p>
 
         <h3><span class="i18n-en">Selection rule</span><span class="i18n-ja">ラマン散乱の選択則</span></h3>
         <p><span class="i18n-en">For Raman scattering to occur, the Raman tensor must have at least one non-zero component,</span><span class="i18n-ja">ラマン散乱が起こるためには、ラマンテンソルが少なくとも1つの非ゼロ成分を持たなければならない。</span></p>
@@ -307,11 +307,11 @@
             <canvas id="c-dec-ray"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#ef4444">$\nu_0 - \nu_v$ (Stokes)</span>
+            <span class="decomp-tag" style="color:#ef4444">$\nu_0 - \nu_{\mathrm{v}}$ (Stokes)</span>
             <canvas id="c-dec-stokes"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#3b82f6">$\nu_0 + \nu_v$ (anti-Stokes)</span>
+            <span class="decomp-tag" style="color:#3b82f6">$\nu_0 + \nu_{\mathrm{v}}$ (anti-Stokes)</span>
             <canvas id="c-dec-anti"></canvas>
           </div>
         </div>
@@ -325,8 +325,8 @@
 
       <div class="legend">
         <span><i style="background:#16a34a"></i> <span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span> ($\omega_0$)</span>
-        <span><i style="background:#ef4444"></i> <span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span> ($\omega_0 - \omega_v$)</span>
-        <span><i style="background:#3b82f6"></i> <span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span> ($\omega_0 + \omega_v$)</span>
+        <span><i style="background:#ef4444"></i> <span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span> ($\omega_0 - \omega_{\mathrm{v}}$)</span>
+        <span><i style="background:#3b82f6"></i> <span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span> ($\omega_0 + \omega_{\mathrm{v}}$)</span>
       </div>
 
       <div class="controls">
@@ -367,12 +367,12 @@
         At thermal equilibrium, most molecules sit in the <b>ground vibrational
         state</b> (v = 0). Stokes scattering starts from v = 0 (abundant), while
         anti-Stokes starts from v = 1 (thermally populated). Their intensity ratio
-        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_v / k_B T)$
+        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_{\mathrm{v}} / k_{\mathrm{B}} T)$
         directly encodes the sample <b>temperature</b> — a principle widely used
         in non-contact thermometry. At low temperatures, anti-Stokes peaks
         nearly vanish; at high temperatures, they grow toward the Stokes intensity.</span><span class="i18n-ja"><b>ストークス/反ストークス比と温度。</b>
         熱平衡では、ほとんどの分子は<b>基底振動状態</b>（v = 0）にあります。ストークス散乱は v = 0（豊富）から始まり、反ストークスは v = 1（熱的に占有）から始まります。それらの強度比
-        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_v / k_B T)$
+        $I_\text{aS}/I_\text{S} \propto \exp(-\hbar\omega_{\mathrm{v}} / k_{\mathrm{B}} T)$
         は試料の<b>温度</b>を直接反映します — 非接触温度測定に広く使われている原理です。低温では反ストークスピークはほぼ消失し、高温ではストークス強度に近づきます。</span>
       </div>
     </div>
@@ -387,9 +387,9 @@
         <span class="i18n-en">In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
         irreducible representations of the space group. Each Raman-active phonon carries
         a Raman tensor $R$ of symmetry-fixed form, and rotating the light polarization
-        ($\theta$) maps out $|\mathbf e_s\!\cdot R\cdot\mathbf e_i|^2$ — a direct
+        ($\theta$) maps out $|\vec{e}_{\mathrm{s}}\!\cdot R\cdot\vec{e}_{\mathrm{i}}|^2$ — a direct
         fingerprint of mode symmetry. Below, the worked example is the orthorhombic
-        rare-earth tritelluride family RTe$_3$.</span><span class="i18n-ja">結晶中では、振動は空間群の既約表現でラベル付けされた集団的<b>フォノンモード</b>です。各ラマン活性フォノンは対称性で決まる形のラマンテンソル $R$ を持ち、光の偏光（$\theta$）を回転させると $|\mathbf e_s\!\cdot R\cdot\mathbf e_i|^2$ がマッピングされます — モード対称性の直接的なフィンガープリントです。以下では、斜方晶希土類三テルル化物 RTe$_3$ ファミリーを具体例として扱います。</span>
+        rare-earth tritelluride family RTe$_3$.</span><span class="i18n-ja">結晶中では、振動は空間群の既約表現でラベル付けされた集団的<b>フォノンモード</b>です。各ラマン活性フォノンは対称性で決まる形のラマンテンソル $R$ を持ち、光の偏光（$\theta$）を回転させると $|\vec{e}_{\mathrm{s}}\!\cdot R\cdot\vec{e}_{\mathrm{i}}|^2$ がマッピングされます — モード対称性の直接的なフィンガープリントです。以下では、斜方晶希土類三テルル化物 RTe$_3$ ファミリーを具体例として扱います。</span>
       </p>
     </div>
     <div class="demo-stage">
@@ -460,32 +460,32 @@
             <span class="i18n-en">RTe$_3$ layers lie in the $ac$-plane, bound by van der Waals gaps along $b$.
             Backscattering therefore propagates along $b$, and both polarization vectors
             stay in the $ac$-plane. In the <b>parallel configuration</b>
-            ($\mathbf e_i\!\parallel\!\mathbf e_s$), with $\theta$ the angle from the $a$-axis,</span><span class="i18n-ja">RTe$_3$ の層は $ac$ 面内にあり、$b$ 方向のファンデルワールスギャップで結合しています。したがって後方散乱は $b$ 方向に伝播し、両方の偏光ベクトルは $ac$ 面内に留まります。<b>平行配置</b>（$\mathbf e_i\!\parallel\!\mathbf e_s$）で、$\theta$ を $a$ 軸からの角度とすると、</span>
+            ($\vec{e}_{\mathrm{i}}\!\parallel\!\vec{e}_{\mathrm{s}}$), with $\theta$ the angle from the $a$-axis,</span><span class="i18n-ja">RTe$_3$ の層は $ac$ 面内にあり、$b$ 方向のファンデルワールスギャップで結合しています。したがって後方散乱は $b$ 方向に伝播し、両方の偏光ベクトルは $ac$ 面内に留まります。<b>平行配置</b>（$\vec{e}_{\mathrm{i}}\!\parallel\!\vec{e}_{\mathrm{s}}$）で、$\theta$ を $a$ 軸からの角度とすると、</span>
           </p>
           <p class="eq-block">
-            $$\mathbf e_i=\mathbf e_s=\begin{pmatrix}\cos\theta\\0\\\sin\theta\end{pmatrix}.$$
+            $$\vec{e}_{\mathrm{i}}=\vec{e}_{\mathrm{s}}=\begin{pmatrix}\cos\theta\\0\\\sin\theta\end{pmatrix}.$$
           </p>
           <p>
-            <span class="i18n-en">Because $\mathbf e$ has no $y$-component, the off-diagonal $B_{1g}$ and $B_{3g}$
-            tensors give zero — <b>only the $A_g$ mode is observable</b> in this geometry.</span><span class="i18n-ja">$\mathbf e$ に $y$ 成分がないため、非対角の $B_{1g}$ および $B_{3g}$ テンソルはゼロを与えます — この配置では<b>$A_g$ モードのみが観測可能</b>です。</span>
+            <span class="i18n-en">Because $\vec{e}$ has no $y$-component, the off-diagonal $B_{1g}$ and $B_{3g}$
+            tensors give zero — <b>only the $A_g$ mode is observable</b> in this geometry.</span><span class="i18n-ja">$\vec{e}$ に $y$ 成分がないため、非対角の $B_{1g}$ および $B_{3g}$ テンソルはゼロを与えます — この配置では<b>$A_g$ モードのみが観測可能</b>です。</span>
           </p>
         </div>
 
         <div class="crystal-concept">
           <h3><span class="i18n-en">Step 4 — Angle dependence of the $A_g$ mode</span><span class="i18n-ja">ステップ4 — $A_g$ モードの角度依存性</span></h3>
           <p>
-            <span class="i18n-en">Evaluating $I_s^{\parallel}\propto|\mathbf e_s\!\cdot R_{A_g}\!\cdot\mathbf e_i|^2$
-            with the diagonal $A_g$ tensor yields</span><span class="i18n-ja">対角 $A_g$ テンソルで $I_s^{\parallel}\propto|\mathbf e_s\!\cdot R_{A_g}\!\cdot\mathbf e_i|^2$ を評価すると</span>
+            <span class="i18n-en">Evaluating $I_{\mathrm{s}}^{\parallel}\propto|\vec{e}_{\mathrm{s}}\!\cdot R_{A_g}\!\cdot\vec{e}_{\mathrm{i}}|^2$
+            with the diagonal $A_g$ tensor yields</span><span class="i18n-ja">対角 $A_g$ テンソルで $I_{\mathrm{s}}^{\parallel}\propto|\vec{e}_{\mathrm{s}}\!\cdot R_{A_g}\!\cdot\vec{e}_{\mathrm{i}}|^2$ を評価すると</span>
           </p>
           <p class="eq-block">
-            $$I_s^{\parallel}\propto a^2\cos^4\theta + c^2\sin^4\theta + 2ac\,\cos^2\theta\sin^2\theta\cos\phi,$$
+            $$I_{\mathrm{s}}^{\parallel}\propto a^2\cos^4\theta + c^2\sin^4\theta + 2ac\,\cos^2\theta\sin^2\theta\cos\phi,$$
           </p>
           <p>
             <span class="i18n-en">where $\phi$ is the phase difference between the complex Raman-tensor
-            components $a$ and $c$. The polar plot of $I_s^{\parallel}(\theta)$ shows the
+            components $a$ and $c$. The polar plot of $I_{\mathrm{s}}^{\parallel}(\theta)$ shows the
             characteristic <b>two-/four-lobed pattern</b> whose shape fixes the ratio
             $c/a$ and the phase $\phi$ — the fitting handle used to assign modes and to
-            track the four-fold CDW distortion in RTe$_3$.</span><span class="i18n-ja">ここで $\phi$ は複素ラマンテンソル成分 $a$ と $c$ の位相差です。$I_s^{\parallel}(\theta)$ の極座標プロットは特徴的な<b>2葉/4葉パターン</b>を示し、その形状が比 $c/a$ と位相 $\phi$ を決定します — モードの帰属や RTe$_3$ における4回対称CDW歪みの追跡に用いられるフィッティングパラメータです。</span>
+            track the four-fold CDW distortion in RTe$_3$.</span><span class="i18n-ja">ここで $\phi$ は複素ラマンテンソル成分 $a$ と $c$ の位相差です。$I_{\mathrm{s}}^{\parallel}(\theta)$ の極座標プロットは特徴的な<b>2葉/4葉パターン</b>を示し、その形状が比 $c/a$ と位相 $\phi$ を決定します — モードの帰属や RTe$_3$ における4回対称CDW歪みの追跡に用いられるフィッティングパラメータです。</span>
           </p>
         </div>
 
