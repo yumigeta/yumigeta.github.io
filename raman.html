@@ -300,60 +300,31 @@
           <h3><span class="i18n-en">Polarization-dependent intensity</span><span class="i18n-ja">偏光依存の強度</span></h3>
           <p><span class="i18n-en">For a given mode the scattered intensity is</span><span class="i18n-ja">あるモードの散乱強度は</span></p>
           <p class="eq-block">$$I\propto\big|\boldsymbol{e}_{\mathrm{s}}\!\cdot\boldsymbol{R}\cdot\boldsymbol{e}_{\mathrm{i}}\big|^2,$$</p>
-          <p><span class="i18n-en">where $\boldsymbol{e}_{\mathrm{i}},\boldsymbol{e}_{\mathrm{s}}$ are the incident/scattered polarizations and $\boldsymbol{R}$ the mode's Raman tensor. Sweeping the polarization angle $\theta$ traces a polar plot $I(\theta)$ whose shape is fixed entirely by the symmetry-allowed form of $\boldsymbol{R}$.</span><span class="i18n-ja">ここで $\boldsymbol{e}_{\mathrm{i}},\boldsymbol{e}_{\mathrm{s}}$ は入射/散乱の偏光、$\boldsymbol{R}$ はそのモードのラマンテンソルです。偏光角 $\theta$ を掃引すると極座標プロット $I(\theta)$ が描かれ、その形は $\boldsymbol{R}$ の対称性で許される形だけで決まります。</span></p>
+          <p><span class="i18n-en">where $\boldsymbol{R}$ is the mode's Raman tensor. Sweeping the in-plane polarization angle $\theta$ traces a polar plot $I(\theta)$ in two standard configurations: <b>parallel</b> ($\boldsymbol{e}_{\mathrm{s}}\!\parallel\!\boldsymbol{e}_{\mathrm{i}}$, $I_\parallel$) and <b>crossed</b> ($\boldsymbol{e}_{\mathrm{s}}\!\perp\!\boldsymbol{e}_{\mathrm{i}}$, $I_\perp$). The shape is fixed entirely by the symmetry-allowed form of $\boldsymbol{R}$. Three crystals — graphene, silicon, RTe$_3$ — illustrate the mode count, Raman-active modes, tensors, and angle dependence.</span><span class="i18n-ja">ここで $\boldsymbol{R}$ はそのモードのラマンテンソルです。面内偏光角 $\theta$ を掃引すると、2つの標準配置で極座標プロット $I(\theta)$ が得られます：<b>平行</b>（$\boldsymbol{e}_{\mathrm{s}}\!\parallel\!\boldsymbol{e}_{\mathrm{i}}$、$I_\parallel$）と<b>直交</b>（$\boldsymbol{e}_{\mathrm{s}}\!\perp\!\boldsymbol{e}_{\mathrm{i}}$、$I_\perp$）。その形は $\boldsymbol{R}$ の対称性で許される形だけで決まります。graphene・silicon・RTe$_3$ の3結晶で、モード数・ラマン活性モード・テンソル・角度依存性を見ていきます。</span></p>
         </div>
 
         <div class="crystal-concept">
-          <h3><span class="i18n-en">Tensor forms are set by symmetry</span><span class="i18n-ja">テンソルの形は対称性で決まる</span></h3>
-          <p><span class="i18n-en">The non-zero components of $\boldsymbol{R}$ — and hence the polar pattern — follow from the crystal's point group. For an orthorhombic ($D_{2h}$) crystal, for instance, the Raman-active species and their tensors are ($x,y,z$ along the crystal axes):</span><span class="i18n-ja">$\boldsymbol{R}$ の非ゼロ成分、ひいては極座標パターンは結晶の点群から決まります。たとえば斜方晶（$D_{2h}$）では、ラマン活性種とそのテンソルは次のとおりです（$x,y,z$ は結晶軸）：</span></p>
-          <div class="tensor-grid">
-            <div class="tensor-card">
-              <span class="tensor-label">$A_g$</span>
-              <div class="tensor-matrix">
-                <table>
-                  <tr><td>$a$</td><td></td><td></td></tr>
-                  <tr><td></td><td>$b$</td><td></td></tr>
-                  <tr><td></td><td></td><td>$c$</td></tr>
-                </table>
-              </div>
-              <span class="tensor-polar"><span class="i18n-en">diagonal</span><span class="i18n-ja">対角</span></span>
-            </div>
-            <div class="tensor-card">
-              <span class="tensor-label">$B_{1g}$</span>
-              <div class="tensor-matrix">
-                <table>
-                  <tr><td></td><td>$d$</td><td></td></tr>
-                  <tr><td>$d$</td><td></td><td></td></tr>
-                  <tr><td></td><td></td><td></td></tr>
-                </table>
-              </div>
-              <span class="tensor-polar">$xy$</span>
-            </div>
-            <div class="tensor-card">
-              <span class="tensor-label">$B_{3g}$</span>
-              <div class="tensor-matrix">
-                <table>
-                  <tr><td></td><td></td><td></td></tr>
-                  <tr><td></td><td></td><td>$f$</td></tr>
-                  <tr><td></td><td>$f$</td><td></td></tr>
-                </table>
-              </div>
-              <span class="tensor-polar">$yz$</span>
-            </div>
-          </div>
-          <p><span class="i18n-en">In a common back-scattering, parallel-polarization geometry ($\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$, angle $\theta$ in the surface plane) two archetypes emerge:</span><span class="i18n-ja">代表的な後方散乱・平行偏光配置（$\boldsymbol{e}_{\mathrm{i}}\!\parallel\!\boldsymbol{e}_{\mathrm{s}}$、$\theta$ は面内角度）では、2つの典型が現れます：</span></p>
-          <p class="eq-block">$$I_{A}\propto\big(a\cos^2\theta+c\sin^2\theta\big)^2,\qquad I_{B}\propto d^2\sin^2 2\theta.$$</p>
-          <p><span class="i18n-en">A totally-symmetric ($A$) mode gives a smooth two-/four-lobed pattern whose anisotropy reflects $c/a$; an off-diagonal ($B$) mode gives a four-lobed pattern rotated by 45&deg;. From the lobe shape and orientation one reads off (i) the mode's <b>symmetry species</b> and (ii) the <b>crystal orientation</b> — strongly for anisotropic crystals, weakly for in-plane-isotropic ones.</span><span class="i18n-ja">全対称（$A$）モードは滑らかな2葉/4葉パターンを与え、その異方性は $c/a$ を反映します。非対角（$B$）モードは45&deg;回転した4葉パターンを与えます。葉の形と向きから、(i) モードの<b>対称種</b>と (ii) <b>結晶方位</b>が読み取れます — 異方的な結晶では強く、面内等方的な結晶では弱く現れます。</span></p>
+          <h3><span class="i18n-en">Graphene — hexagonal ($D_{6h}$)</span><span class="i18n-ja">グラフェン — 六方晶（$D_{6h}$）</span></h3>
+          <p><span class="i18n-en"><b>Modes:</b> 2 atoms per cell → 6 phonon branches (3 acoustic + 3 optical). <b>Raman-active:</b> the doubly-degenerate in-plane $E_{2g}$ mode — the <b>G band</b>; the out-of-plane $B_{2g}$ is silent.</span><span class="i18n-ja"><b>モード数：</b>単位胞2原子 → 6フォノン枝（音響3＋光学3）。<b>ラマン活性：</b>2重縮退の面内 $E_{2g}$ モード（<b>G バンド</b>）。面外の $B_{2g}$ はサイレント。</span></p>
+          <p><span class="i18n-en"><b>Raman tensors</b> ($E_{2g}$ pair):</span><span class="i18n-ja"><b>ラマンテンソル</b>（$E_{2g}$ ペア）：</span></p>
+          <div class="tensor-grid"><div class="tensor-card"><span class="tensor-label">$E_{2g}^{(1)}$</span><div class="tensor-matrix"><table><tr><td>$d$</td><td></td><td></td></tr><tr><td></td><td>$-d$</td><td></td></tr><tr><td></td><td></td><td></td></tr></table></div></div><div class="tensor-card"><span class="tensor-label">$E_{2g}^{(2)}$</span><div class="tensor-matrix"><table><tr><td></td><td>$d$</td><td></td></tr><tr><td>$d$</td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></div></div></div>
+          <p><span class="i18n-en"><b>Angle dependence:</b> summed over the degenerate pair the G band is <b>isotropic</b> in-plane — $I_\parallel=\text{const}$ and $I_\perp=\text{const}$, independent of $\theta$. A perfect circle in the polar plot (a hallmark of in-plane isotropy).</span><span class="i18n-ja"><b>角度依存性：</b>縮退ペアの和をとると G バンドは面内<b>等方的</b> — $I_\parallel=\text{一定}$、$I_\perp=\text{一定}$ で $\theta$ に依存しません。極座標プロットは真円（面内等方性の特徴）。</span></p>
         </div>
 
         <div class="crystal-concept">
-          <h3><span class="i18n-en">Examples across materials</span><span class="i18n-ja">いくつかの材料での例</span></h3>
-          <ul class="raman-info-list">
-            <li><span class="i18n-en"><b>Black phosphorus</b> (orthorhombic) — strongly anisotropic in-plane; the $A_g$ lobes align with the armchair/zigzag axes, so the polar plot pins down the crystal orientation.</span><span class="i18n-ja"><b>黒リン</b>（斜方晶） — 面内で強い異方性を示し、$A_g$ の葉がアームチェア/ジグザグ軸に揃うため、極座標プロットから結晶方位が決まります。</span></li>
-            <li><span class="i18n-en"><b>2H-MoS<sub>2</sub> and other TMDs</b> (hexagonal) — the $A_1$ mode is nearly isotropic while the $E$ modes vary with $\theta$; the pattern separates mode symmetries (in-plane isotropic, so little orientation info).</span><span class="i18n-ja"><b>2H-MoS<sub>2</sub> など TMD</b>（六方晶） — $A_1$ モードはほぼ等方的で、$E$ モードは $\theta$ に依存します。パターンはモード対称性を区別します（面内等方なので方位情報は乏しい）。</span></li>
-            <li><span class="i18n-en"><b>ReS<sub>2</sub> / ReSe<sub>2</sub></b> (triclinic) — very low symmetry; every mode peaks at its own angle, giving a rich orientation fingerprint.</span><span class="i18n-ja"><b>ReS<sub>2</sub> / ReSe<sub>2</sub></b>（三斜晶） — 非常に低い対称性で、各モードが固有の角度でピークを示し、豊かな方位フィンガープリントになります。</span></li>
-            <li><span class="i18n-en"><b>RTe<sub>3</sub></b> (orthorhombic, <i>Cmcm</i>) — the $A_g$ mode shows a two-/four-lobed pattern whose evolution tracks the four-fold charge-density-wave distortion below $T_{\mathrm{CDW}}$.</span><span class="i18n-ja"><b>RTe<sub>3</sub></b>（斜方晶 <i>Cmcm</i>） — $A_g$ モードは2葉/4葉パターンを示し、その変化が $T_{\mathrm{CDW}}$ 以下の4回対称の電荷密度波歪みを追跡します。</span></li>
-          </ul>
+          <h3><span class="i18n-en">Silicon — cubic diamond ($O_h$)</span><span class="i18n-ja">シリコン — 立方晶ダイヤモンド構造（$O_h$）</span></h3>
+          <p><span class="i18n-en"><b>Modes:</b> 2 atoms per cell → 6 branches. <b>Raman-active:</b> the triply-degenerate zone-center optical phonon $F_{2g}$ (the 520&nbsp;cm$^{-1}$ line) — the only first-order Raman mode.</span><span class="i18n-ja"><b>モード数：</b>単位胞2原子 → 6枝。<b>ラマン活性：</b>3重縮退のゾーン中心光学フォノン $F_{2g}$（520&nbsp;cm$^{-1}$ 線）。1次ラマンで許される唯一のモード。</span></p>
+          <p><span class="i18n-en"><b>Raman tensors</b> ($F_{2g}$ triplet):</span><span class="i18n-ja"><b>ラマンテンソル</b>（$F_{2g}$ 三重項）：</span></p>
+          <div class="tensor-grid"><div class="tensor-card"><span class="tensor-label">$F_{2g}^{(1)}$</span><div class="tensor-matrix"><table><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td>$d$</td></tr><tr><td></td><td>$d$</td><td></td></tr></table></div></div><div class="tensor-card"><span class="tensor-label">$F_{2g}^{(2)}$</span><div class="tensor-matrix"><table><tr><td></td><td></td><td>$d$</td></tr><tr><td></td><td></td><td></td></tr><tr><td>$d$</td><td></td><td></td></tr></table></div></div><div class="tensor-card"><span class="tensor-label">$F_{2g}^{(3)}$</span><div class="tensor-matrix"><table><tr><td></td><td>$d$</td><td></td></tr><tr><td>$d$</td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></div></div></div>
+          <p><span class="i18n-en"><b>Angle dependence:</b> in back-scattering from a (001) face ($\theta$ from [100]), $I_\parallel\propto\sin^2 2\theta$ and $I_\perp\propto\cos^2 2\theta$ — four-lobed patterns offset by 45&deg;.</span><span class="i18n-ja"><b>角度依存性：</b>(001)面からの後方散乱（$\theta$ は [100] から）では $I_\parallel\propto\sin^2 2\theta$、$I_\perp\propto\cos^2 2\theta$ — 互いに45&deg;ずれた4葉パターン。</span></p>
+        </div>
+
+        <div class="crystal-concept">
+          <h3><span class="i18n-en">RTe$_3$ — orthorhombic (<i>Cmcm</i>, $D_{2h}$)</span><span class="i18n-ja">RTe$_3$ — 斜方晶（<i>Cmcm</i>, $D_{2h}$）</span></h3>
+          <p><span class="i18n-en"><b>Modes:</b> $\Gamma = 4A_g + 4B_{1g} + 4B_{3g} + B_{1u} + B_{2u} + B_{3u}$. <b>Raman-active:</b> the gerade species $A_g,\ B_{1g},\ B_{3g}$ ($B_{2g}$ is absent).</span><span class="i18n-ja"><b>モード数：</b>$\Gamma = 4A_g + 4B_{1g} + 4B_{3g} + B_{1u} + B_{2u} + B_{3u}$。<b>ラマン活性：</b>偶種 $A_g,\ B_{1g},\ B_{3g}$（$B_{2g}$ は存在しない）。</span></p>
+          <p><span class="i18n-en"><b>Raman tensors</b> ($x\!\parallel\!a,\ y\!\parallel\!b,\ z\!\parallel\!c$):</span><span class="i18n-ja"><b>ラマンテンソル</b>（$x\!\parallel\!a,\ y\!\parallel\!b,\ z\!\parallel\!c$）：</span></p>
+          <div class="tensor-grid"><div class="tensor-card"><span class="tensor-label">$A_g$</span><div class="tensor-matrix"><table><tr><td>$a$</td><td></td><td></td></tr><tr><td></td><td>$b$</td><td></td></tr><tr><td></td><td></td><td>$c$</td></tr></table></div></div><div class="tensor-card"><span class="tensor-label">$B_{1g}$</span><div class="tensor-matrix"><table><tr><td></td><td>$d$</td><td></td></tr><tr><td>$d$</td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table></div></div><div class="tensor-card"><span class="tensor-label">$B_{3g}$</span><div class="tensor-matrix"><table><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td>$f$</td></tr><tr><td></td><td>$f$</td><td></td></tr></table></div></div></div>
+          <p><span class="i18n-en"><b>Angle dependence:</b> with light in the $ac$-plane ($\theta$ from $a$) only $A_g$ is observed — $I_\parallel\propto(a\cos^2\theta+c\sin^2\theta)^2$ and $I_\perp\propto(a-c)^2\sin^2\theta\cos^2\theta$. The pattern's evolution tracks the four-fold charge-density-wave distortion below $T_{\mathrm{CDW}}$.</span><span class="i18n-ja"><b>角度依存性：</b>光が $ac$ 面内（$\theta$ は $a$ から）では $A_g$ のみ観測され、$I_\parallel\propto(a\cos^2\theta+c\sin^2\theta)^2$、$I_\perp\propto(a-c)^2\sin^2\theta\cos^2\theta$。このパターンの変化が $T_{\mathrm{CDW}}$ 以下の4回対称の電荷密度波歪みを追跡します。</span></p>
         </div>
 
         <div class="crystal-concept">
@@ -377,15 +348,10 @@
             （cryst.ehu.es）がこのための無料で信頼性の高いツールを提供しています：</span>
           </p>
           <ul class="raman-info-list">
-            <li><span class="i18n-en"><b>SAM</b> (Site-symmetry Approach to Modes) — decomposes phonon modes into irreducible representations and labels each as Raman-active, IR-active, or silent</span><span class="i18n-ja"><b>SAM</b>（サイト対称性によるモード解析） — フォノンモードを既約表現に分解し、各モードをラマン活性、赤外活性、またはサイレントとラベル付け</span></li>
-            <li><span class="i18n-en"><b>MODESINF</b> — gives the explicit Raman tensor form for each active mode in a chosen space group</span><span class="i18n-ja"><b>MODESINF</b> — 選択した空間群の各活性モードに対する明示的なラマンテンソルの形を提供</span></li>
+            <li><span class="i18n-en"><b>SAM</b> — decomposes phonon modes into irreducible representations and labels each as Raman-active, IR-active, or silent</span><span class="i18n-ja"><b>SAM</b> — フォノンモードを既約表現に分解し、各モードをラマン活性・赤外活性・サイレントとラベル付け</span></li>
+            <li><span class="i18n-en"><b>MODESINF</b> — gives the explicit Raman tensor form for each active mode in a chosen space group</span><span class="i18n-ja"><b>MODESINF</b> — 選択した空間群の各活性モードの明示的なラマンテンソルの形を提供</span></li>
             <li><span class="i18n-en"><b>POINT</b> — character tables and irreducible representations for any point group</span><span class="i18n-ja"><b>POINT</b> — 任意の点群の指標表と既約表現</span></li>
           </ul>
-          <p>
-            <span class="i18n-en">Enter your space group number, and the server returns
-            all Raman-active mode symmetries and tensor matrices directly — no manual
-            group theory needed.</span><span class="i18n-ja">空間群番号を入力すると、サーバーがすべてのラマン活性モードの対称性とテンソル行列を直接返します — 手動の群論は不要です。</span>
-          </p>
         </div>
       </div>
 
