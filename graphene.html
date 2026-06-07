@@ -111,19 +111,22 @@
         <span class="i18n-en">In the nearest-neighbour tight-binding model the bands are
         E(<b>k</b>) = ±<em>t</em>&thinsp;|f(<b>k</b>)|, with <em>t</em> ≈ 2.7 eV
         the hopping between adjacent p<sub>z</sub> orbitals. The full
-        E(k<sub>x</sub>, k<sub>y</sub>) surface (top) has six <b>Dirac cones</b>
+        E(k<sub>x</sub>, k<sub>y</sub>) surface (right) has six <b>Dirac cones</b>
         at the K/K′ corners, where the conduction (π*) and valence (π) bands
-        touch with <b>zero gap</b>. The line plot below is the same surface cut
+        touch with <b>zero gap</b>. The line plot (left) is the same surface cut
         along the high-symmetry path <b>Γ→M→K→Γ</b> — highlighted in blue on the
         surface.
-        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a></span><span class="i18n-ja">最近接強結合モデルでは、バンドは E(<b>k</b>) = ±<em>t</em>&thinsp;|f(<b>k</b>)| で表されます（<em>t</em> ≈ 2.7 eV は隣接 p<sub>z</sub> 軌道間のホッピング）。完全な E(k<sub>x</sub>, k<sub>y</sub>) 曲面（上）は K/K′ の角に6つの<b>ディラック錐</b>を持ち、そこで伝導帯（π*）と価電子帯（π）が<b>ギャップゼロ</b>で接します。下の線図は、同じ曲面を高対称経路 <b>Γ→M→K→Γ</b> で切った断面です（曲面上に青で強調）。
+        <a href="#" id="open-derivation" style="color:var(--accent);font-weight:600;white-space:nowrap;">See full derivation →</a></span><span class="i18n-ja">最近接強結合モデルでは、バンドは E(<b>k</b>) = ±<em>t</em>&thinsp;|f(<b>k</b>)| で表されます（<em>t</em> ≈ 2.7 eV は隣接 p<sub>z</sub> 軌道間のホッピング）。完全な E(k<sub>x</sub>, k<sub>y</sub>) 曲面（右）は K/K′ の角に6つの<b>ディラック錐</b>を持ち、そこで伝導帯（π*）と価電子帯（π）が<b>ギャップゼロ</b>で接します。左の線図は、同じ曲面を高対称経路 <b>Γ→M→K→Γ</b> で切った断面です（曲面上に青で強調）。
         <a href="#" id="open-derivation-ja" style="color:var(--accent);font-weight:600;white-space:nowrap;">完全な導出を見る →</a></span>
       </p>
     </div>
     <div class="demo-stage">
-      <div class="gr-3d-wrap">
-        <canvas id="c-3d"></canvas>
-        <span class="gr-3d-hint"><span class="i18n-en">drag to rotate · scroll to zoom</span><span class="i18n-ja">ドラッグで回転 · スクロールでズーム</span></span>
+      <div class="top-row">
+        <div class="gr-bands" style="margin:0;"><canvas id="c-bands" style="height:380px;"></canvas></div>
+        <div class="gr-3d-wrap">
+          <canvas id="c-3d" style="height:380px;"></canvas>
+          <span class="gr-3d-hint"><span class="i18n-en">drag to rotate · scroll to zoom</span><span class="i18n-ja">ドラッグで回転 · スクロールでズーム</span></span>
+        </div>
       </div>
       <div class="controls">
         <div class="btn-row">
@@ -131,7 +134,6 @@
           <button class="demo-btn" id="btn-reset"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
         </div>
       </div>
-      <div class="gr-bands"><canvas id="c-bands"></canvas></div>
       <div class="gr-info" id="band-info">
         <span class="i18n-en">Along Γ→M→K→Γ the gap closes only at <b>K</b>, where the bands touch
         linearly: E ≈ ±ℏv<sub>F</sub>|<b>k</b>−<b>K</b>| — massless Dirac fermions
@@ -146,27 +148,6 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">02 — Quantum confinement</span><span class="i18n-ja">02 — 量子閉じ込め</span></span>
       <h2><span class="i18n-en">From graphene to nanoribbons: discretized bands</span><span class="i18n-ja">グラフェンからナノリボンへ：離散化バンド</span></h2>
-      <p>
-        <span class="i18n-en">Cut graphene into a narrow <b>nanoribbon</b> and the electrons become
-        confined across its width: the transverse momentum is <em>quantized</em>,
-        so only a discrete family of parallel <b>cutting lines</b> survives in
-        the Brillouin zone. The <em>orientation</em> of those lines is set by the
-        <b>edge geometry</b> — <b style="color:#34d399">zigzag</b> (θ&nbsp;=&nbsp;0°) or
-        <b style="color:#fbbf24">armchair</b> (θ&nbsp;=&nbsp;30°) — and their spacing by
-        the width <em>N</em>. Whether any line passes through a Dirac point
-        decides if the ribbon is metallic.</span><span class="i18n-ja">グラフェンを細い<b>ナノリボン</b>に切り出すと、電子はその幅方向に閉じ込められます。横方向の運動量は<em>量子化</em>され、ブリルアンゾーン内には平行な<b>カッティングライン</b>の離散的な族のみが残ります。これらの線の<em>方向</em>は<b>エッジの形状</b> — <b style="color:#34d399">ジグザグ</b>（θ&nbsp;=&nbsp;0°）または<b style="color:#fbbf24">アームチェア</b>（θ&nbsp;=&nbsp;30°）— によって決まり、間隔は幅 <em>N</em> によって決まります。いずれかの線がディラック点を通るかどうかが、リボンが金属的かどうかを決定します。</span>
-      </p>
-      <p>
-        <span class="i18n-en">The quantization uses a <b>hard-wall boundary condition</b>: the
-        wavefunction must vanish at fictitious "missing" carbon sites just
-        beyond each physical edge, giving
-        <em>k</em><sub>⊥</sub>&nbsp;=&nbsp;<em>n</em>π/(<em>N</em>+1),
-        <em>n</em>&nbsp;=&nbsp;1…<em>N</em>.
-        The denominator <em>N</em>+1 (not <em>N</em>) reflects these two
-        extra boundary sites
-        [<a href="https://doi.org/10.1088/1468-6996/11/5/054504"
-            style="color:#93c5fd;">Wakabayashi <i>et al.</i> 2010</a>].</span><span class="i18n-ja">量子化には<b>剛体壁境界条件</b>を使用します。波動関数は各物理的エッジのすぐ外側にある架空の「欠落」炭素サイトでゼロにならなければなりません。これにより <em>k</em><sub>⊥</sub>&nbsp;=&nbsp;<em>n</em>π/(<em>N</em>+1)、<em>n</em>&nbsp;=&nbsp;1…<em>N</em> となります。分母が <em>N</em>+1（<em>N</em> ではない）なのは、これら2つの追加境界サイトを反映しています [<a href="https://doi.org/10.1088/1468-6996/11/5/054504" style="color:#93c5fd;">Wakabayashi <i>et al.</i> 2010</a>]。</span>
-      </p>
     </div>
     <div class="demo-stage">
       <div class="gnr-controls">
@@ -190,37 +171,13 @@
         <div class="gr-panel"><canvas id="c-cell-ribbon"></canvas></div>
         <div class="gr-panel"><canvas id="c-gnr-real"></canvas></div>
       </div>
-      <p class="cap">
-        <span class="i18n-en"><b>Left — ribbon unit cell.</b> A nanoribbon is periodic only along
-        its <b>axis</b> (arrow <b>T</b>): zigzag repeats every <b>T = a</b>,
-        armchair every <b>T = √3 a</b>. The width is confined (<em>N</em> rows,
-        open edges), <em>not</em> periodic — so widening adds <b>basis</b> atoms
-        (more subbands), not a lattice period. <b>Right — its Brillouin zone is
-        1-D:</b> the only boundaries are the dashed lines
-        <em>k</em><sub>∥</sub> = ±π/<em>T</em> (length 2π/<em>T</em>). The cutting
-        lines <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) are folded into
-        the strip (a folded Dirac point on a line ⇒ metallic; armchair only when
-        <em>N</em> = 3<em>m</em>+2). Faint hexagons mark the repeated zones around
-        neighbouring Γ points.</span><span class="i18n-ja"><b>左 — リボン単位胞。</b>ナノリボンは<b>軸</b>（矢印 <b>T</b>）方向にのみ周期的です（ジグザグは <b>T = a</b>、アームチェアは <b>T = √3 a</b>）。幅方向は閉じ込め（<em>N</em> 行、開いた端）で<em>周期的ではない</em>ため、幅を広げると<b>基底</b>原子（＝サブバンド）が増えるだけで格子周期は増えません。<b>右 — そのブリルアンゾーンは1次元:</b> 境界は破線 <em>k</em><sub>∥</sub> = ±π/<em>T</em> のみ（長さ 2π/<em>T</em>）。カッティングライン <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) は帯の中に折り返されます（折り返したディラック点が線上なら金属的。アームチェアは <em>N</em> = 3<em>m</em>+2 のときのみ）。薄い六角形は隣接Γ点まわりの繰り返しゾーンです。</span>
-      </p>
-
       <div class="top-row">
-        <div class="gr-panel" style="grid-column:1 / -1;"><canvas id="c-gnr-cut"></canvas></div>
+        <div class="gr-bands" style="margin:0;"><canvas id="c-gnr-bands" style="height:340px;"></canvas></div>
+        <div class="gr-panel"><canvas id="c-gnr-cut" style="height:340px;"></canvas></div>
       </div>
       <div class="btn-row" style="justify-content:flex-end;">
         <button class="demo-btn active" id="btn-bz-plane"><span class="i18n-en">BZ boundary plane</span><span class="i18n-ja">BZ境界面</span></button>
       </div>
-      <p class="cap">
-        <span class="i18n-en">The same cutting lines laid on the tight-binding band surface (drag to
-        rotate, scroll to zoom). <b>Each cutting line and its subband in the plot
-        below share one colour.</b> The translucent planes at
-        <em>k</em><sub>∥</sub> = ±π/<em>T</em> are the ribbon's 1-D zone boundary
-        (toggle with the button).</span><span class="i18n-ja">同じカッティングラインを強結合バンド曲面上に重ねた図（ドラッグで回転、スクロールでズーム）。<b>各カッティングラインと、下のプロットの対応するサブバンドは同じ色</b>です。<em>k</em><sub>∥</sub> = ±π/<em>T</em> の半透明な面はリボンの1次元ゾーン境界です（ボタンで表示切替）。</span>
-      </p>
-
-      <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
-
-      <div class="gr-info" id="gnr-class"></div>
     </div>
   </section>
 

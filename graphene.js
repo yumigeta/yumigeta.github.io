@@ -1683,7 +1683,7 @@
           'invisible to zone-folding).'
         : ' Armchair ribbons are metallic only when <b>N = 3m+2</b>; the gap closes at Γ.';
       var Ndesc = isZig ? N + ' chains' : N;
-      classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + Ndesc + ': ' + tag + bc + detail;
+      if (classDiv) classDiv.innerHTML = '<b>' + nmC + '</b>, θ = ' + theta + '°, N = ' + Ndesc + ': ' + tag + bc + detail;
     }
 
     function setSliderRange(isZig) {
