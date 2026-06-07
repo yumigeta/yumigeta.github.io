@@ -580,7 +580,7 @@
     }
     function drop(){
       if(rings.length>=4)return;
-      rings.push({x:a+Math.random()*(W-2*a),y:a+Math.random()*(H-2*a),r:0,max:Math.min(W,H)*(0.5+Math.random()*0.35),v:0.09+Math.random()*0.05,amp:4+Math.random()*2.5});
+      rings.push({x:a+Math.random()*(W-2*a),y:a+Math.random()*(H-2*a),r:0,max:Math.min(W,H)*(0.5+Math.random()*0.35),v:0.14+Math.random()*0.07,amp:4+Math.random()*2.5});
     }
     function size(){
       dpr=Math.min(devicePixelRatio||1,2);const rc=cv.getBoundingClientRect();
@@ -614,7 +614,7 @@
       for(const [A,B] of bonds){const lift=(Math.abs(A.dz)+Math.abs(B.dz))*0.5;if(lift<=1.4)continue;ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);}
       ctx.stroke();
       for(const at of atoms){const m=Math.min(1,Math.abs(at.dz)/9);ctx.fillStyle=`rgba(${inkStr},${0.4+m*0.32})`;ctx.beginPath();ctx.arc(at.x,at.y,1.5+m*1.2,0,6.2832);ctx.fill();}
-      t++;if(t>=nextDrop){drop();nextDrop=t+600+Math.random()*400;}
+      t++;if(t>=nextDrop){drop();nextDrop=t+1200+Math.random()*600;}
       if(!reduce)raf=requestAnimationFrame(frame);
     }
     let visible=true;
