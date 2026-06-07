@@ -207,14 +207,15 @@
       </div>
       <p class="cap">
         <span class="i18n-en"><b>Choosing the ribbon unit cell.</b> A nanoribbon is periodic only
-        along its <b>axis</b> (arrow <b>T</b>) and cut to a finite width <em>N</em>
-        across. A <b style="color:#34d399">zigzag</b> ribbon runs along a zigzag
-        chain and repeats every <b>T = a</b>; an
-        <b style="color:#fbbf24">armchair</b> ribbon runs along an armchair chain
-        and repeats every <b>T = √3 a</b>. The shaded rectangle is one
-        translational cell; stacking <em>N</em> of them along the width builds
-        the ribbon — which is exactly what quantizes the transverse momentum
-        below.</span><span class="i18n-ja"><b>リボン単位胞の選択。</b>ナノリボンはその<b>軸</b>（矢印 <b>T</b>）に沿ってのみ周期的で、幅方向には有限幅 <em>N</em> で切断されます。<b style="color:#34d399">ジグザグ</b>リボンはジグザグ鎖に沿って走り、<b>T = a</b> ごとに繰り返します。<b style="color:#fbbf24">アームチェア</b>リボンはアームチェア鎖に沿って走り、<b>T = √3 a</b> ごとに繰り返します。網掛けの長方形が1つの並進セルです。幅方向に <em>N</em> 個積み重ねるとリボンが構築され、これがまさに以下の横方向運動量を量子化するものです。</span>
+        along its <b>axis</b> (arrow <b>T</b>): a <b style="color:#34d399">zigzag</b>
+        ribbon repeats every <b>T = a</b>, an <b style="color:#fbbf24">armchair</b>
+        ribbon every <b>T = √3 a</b>. Across the width it is finite
+        (<em>N</em> rows) with open edges — <em>not</em> a periodic direction.
+        So widening the ribbon does <b>not</b> add a lattice period; it enlarges
+        the <b>basis</b> (more atoms per cell → more subbands), and that is what
+        quantizes the transverse momentum below. The only reciprocal vector
+        comes from <b>T</b>, so the Brillouin zone stays the same as <em>N</em>
+        changes.</span><span class="i18n-ja"><b>リボン単位胞の選択。</b>ナノリボンは<b>軸</b>（矢印 <b>T</b>）方向にのみ周期的です（<b style="color:#34d399">ジグザグ</b>は <b>T = a</b>、<b style="color:#fbbf24">アームチェア</b>は <b>T = √3 a</b> ごと）。幅方向は有限（<em>N</em> 行）で端が開いており、<em>周期方向ではありません</em>。したがって幅を広げても格子周期は増えず、<b>基底</b>（単位胞あたりの原子）が増える＝サブバンドが増えるだけで、これが以下の横方向運動量の量子化を与えます。逆格子ベクトルは <b>T</b> からしか生じないので、<em>N</em> を変えてもブリルアンゾーンは変わりません。</span>
       </p>
 
       <div class="top-row">
@@ -222,11 +223,13 @@
         <div class="gr-panel"><canvas id="c-gnr-cut"></canvas></div>
       </div>
       <p class="cap">
-        <span class="i18n-en"><b>Left:</b> top-down view of the Brillouin zone with the family of
-        cutting lines at the chosen edge orientation. <b>Right:</b> the same
+        <span class="i18n-en"><b>Left:</b> the <b>fixed</b> bulk-graphene Brillouin zone (hexagon)
+        sampled by the family of cutting lines <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1).
+        Increasing <em>N</em> packs in more, closer-spaced lines (more subbands)
+        — the zone itself never changes. <b>Right:</b> the same
         lines laid over the full tight-binding band surface (drag to rotate,
         scroll to zoom). A line through a Dirac point (corner) is
-        <em>gapless</em>; the nearest one otherwise sets the gap.</span><span class="i18n-ja"><b>左:</b> 選択したエッジ方向でのカッティングラインの族を含むブリルアンゾーンの上面図。<b>右:</b> 完全な強結合バンド曲面上に重ねた同じ線（ドラッグで回転、スクロールでズーム）。ディラック点（角）を通る線は<em>ギャップレス</em>です。そうでなければ、最も近い線がギャップを決定します。</span>
+        <em>gapless</em>; the nearest one otherwise sets the gap.</span><span class="i18n-ja"><b>左:</b> <b>固定</b>のバルクグラフェン・ブリルアンゾーン（六角形）を、カッティングライン <em>k</em><sub>⊥</sub> = <em>n</em>π/(<em>N</em>+1) の族でサンプリングした上面図。<em>N</em> を増やすと線が増えて密になる（サブバンドが増える）だけで、ゾーン自体は変わりません。<b>右:</b> 完全な強結合バンド曲面上に重ねた同じ線（ドラッグで回転、スクロールでズーム）。ディラック点（角）を通る線は<em>ギャップレス</em>、そうでなければ最も近い線がギャップを決定します。</span>
       </p>
 
       <div class="gr-bands"><canvas id="c-gnr-bands"></canvas></div>
