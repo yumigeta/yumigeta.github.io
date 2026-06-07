@@ -253,7 +253,7 @@
       </div>
 
       <!-- CO₂ demo — visual support for the classical theory above -->
-      <h3 class="demo-sub"><span class="i18n-en">Visualize it: a CO<sub>2</sub> normal mode</span><span class="i18n-ja">可視化：CO<sub>2</sub> の基準モード</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">Example: a CO<sub>2</sub> normal mode</span><span class="i18n-ja">例：CO<sub>2</sub> の基準モード</span></h3>
       <p class="demo-sub-p"><span class="i18n-en">The same chain — vibration → modulated $\alpha$ → three scattered frequencies — for one normal mode of CO<sub>2</sub>. The molecule vibrates (top-left); the $\alpha(Q)$ curve (top-right) tracks the polarizability. A non-zero slope $\partial\alpha/\partial Q\neq 0$ at equilibrium is what produces the first-order modulation, and hence the Raman sidebands of <span class="eqref" data-eq="8">Eq. (8)</span>.</span><span class="i18n-ja">同じ流れ — 振動 → 変調された $\alpha$ → 3つの散乱周波数 — を CO<sub>2</sub> の1つの基準モードで可視化する。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が分極率を追う。平衡で傾き $\partial\alpha/\partial Q\neq 0$ がゼロでないことが1次の変調を生み、<span class="eqref" data-eq="8">式(8)</span>のラマンサイドバンドとなる。</span></p>
 
       <div class="anim-card">
@@ -275,18 +275,22 @@
 
       <div id="mode-explanation" class="mode-explain"></div>
 
-      <!-- Traces: E → α(t) → p(t) -->
-      <div class="trace-row">
-        <div class="trace-label"><b><span class="i18n-en">Incident field</span><span class="i18n-ja">入射電場</span></b><span class="eq">$E(t) = E_0 \cos(\omega_0 t)$</span></div>
-        <canvas id="c-field"></canvas>
-      </div>
-      <div class="trace-row">
-        <div class="trace-label"><b><span class="i18n-en">Polarizability</span><span class="i18n-ja">分極率</span></b><span class="eq">$\alpha(t) = \alpha_0 + (\partial\alpha/\partial Q)\cdot q(t)$</span></div>
-        <canvas id="c-alpha"></canvas>
-      </div>
-      <div class="trace-row">
-        <div class="trace-label"><b><span class="i18n-en">Induced dipole</span><span class="i18n-ja">誘起双極子</span></b><span class="eq">$p(t) = \alpha(t)\cdot E(t)$</span></div>
-        <canvas id="c-dipole"></canvas>
+      <!-- Traces shown as a product: E(t) × α(t) = p(t) -->
+      <div class="trace-mult">
+        <div class="trace-cell">
+          <div class="trace-label"><b><span class="i18n-en">Incident field</span><span class="i18n-ja">入射電場</span></b><span class="eq">$E(t)$</span></div>
+          <canvas id="c-field"></canvas>
+        </div>
+        <span class="trace-op">×</span>
+        <div class="trace-cell">
+          <div class="trace-label"><b><span class="i18n-en">Polarizability</span><span class="i18n-ja">分極率</span></b><span class="eq">$\alpha(t)$</span></div>
+          <canvas id="c-alpha"></canvas>
+        </div>
+        <span class="trace-op">=</span>
+        <div class="trace-cell">
+          <div class="trace-label"><b><span class="i18n-en">Induced dipole</span><span class="i18n-ja">誘起双極子</span></b><span class="eq">$p(t)=\alpha(t)\,E(t)$</span></div>
+          <canvas id="c-dipole"></canvas>
+        </div>
       </div>
 
       <!-- Decomposition (Fig.1c): AM → 3 components -->

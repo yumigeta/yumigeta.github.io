@@ -224,17 +224,17 @@ function fitCanvas(cv) {
     sym: {
       raman: true, a0: 0.50, c1: 0.55, c2: 0.06,
       badge: '<span class="mol-activity raman">Raman-active</span>',
-      text: '<b>Symmetric stretch</b>: both C=O bonds lengthen and shorten together → the electron cloud breathes → <b>α changes linearly with Q</b> (∂α/∂Q ≠ 0). This first-order change modulates the dipole at ω<sub>v</sub>, giving the fundamental Stokes & anti-Stokes lines.'
+      text: '<b>Symmetric stretch</b> — both bonds breathe together, so ∂α/∂Q ≠ 0.'
     },
     asym: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Asymmetric stretch</b>: one bond lengthens as the other shortens, so the two polarizability changes cancel — ∂α/∂Q = 0 at equilibrium. α(Q) is a <em>parabola</em> symmetric about Q = 0: no first-order modulation at ω<sub>v</sub>, so <b>no Raman signal</b>.'
+      text: '<b>Asymmetric stretch</b> — the two α changes cancel, so ∂α/∂Q = 0.'
     },
     bend: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Bend</b>: by symmetry ∂α/∂Q = 0 at equilibrium, so α(Q) is again a parabola — no first-order modulation, hence <b>Raman-inactive</b>.'
+      text: '<b>Bend</b> — by symmetry ∂α/∂Q = 0 at equilibrium.'
     }
   };
   let mode = 'sym';
