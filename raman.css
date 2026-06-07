@@ -184,3 +184,34 @@
   .decomp-row { grid-template-columns: 1fr; gap: 4px; }
   .tensor-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Module 01 — Classical theory: Figure 1 + derivation ── */
+.ray-fig { margin: 4px 0 22px; }
+.ray-svg {
+  width: 100%; height: auto; display: block;
+  background: #f8fafc;
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 10px;
+}
+.ray-lab { font-size: 13px; font-weight: 600; font-family: 'Zen Kaku Gothic New', sans-serif; }
+.ray-ax  { font-size: 13px; font-style: italic; font-weight: 700; }
+.ray-fig figcaption {
+  font-size: 0.8rem; color: #a8a29e; line-height: 1.6;
+  margin-top: 10px; padding-left: 2px;
+}
+.ray-fig figcaption b { color: #d6d3d1; }
+
+.derivation { display: flex; flex-direction: column; gap: 4px; }
+.derivation h3 {
+  font-size: 0.9rem; font-weight: 700; color: #fafaf9;
+  margin: 18px 0 4px; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.derivation h3:first-child { margin-top: 4px; }
+.derivation p {
+  font-size: 0.84rem; color: #d6d3d1; line-height: 1.7; margin: 4px 0;
+}
+.derivation .eq-block {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
+  margin: 8px 0; padding: 12px 8px; overflow-x: auto;
+}
