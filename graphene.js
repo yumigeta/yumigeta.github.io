@@ -677,7 +677,7 @@
     }
 
     // ── Render loop with dirty flag + adaptive resolution ──
-    var IDLE_N = 96, DRAG_N = 48;   // multiples of 8 → K points stay exact
+    var IDLE_N = 192, DRAG_N = 96;   // multiples of 8 → K points stay exact
     var dirty = true, dragging = false;
     function frame() {
       if (autoRotate && !dragging) { phi += 0.0018; dirty = true; }
