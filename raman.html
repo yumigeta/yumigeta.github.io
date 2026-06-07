@@ -99,39 +99,10 @@
     </div>
   </div>
 
-  <!-- ═══════ Module 00 — What is polarizability? ═══════ -->
+  <!-- ═══════ Module 00 — Classical theory ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">00 — What is polarizability?</span><span class="i18n-ja">00 — 分極率とは？</span></span>
-      <h2><span class="i18n-en">Light displaces the electron cloud</span><span class="i18n-ja">光が電子雲を変位させる</span></h2>
-      <p>
-        <span class="i18n-en">An oscillating light field $\mathbf{E}(t)$ displaces the
-        <b style="color:#38bdf8">negative electron cloud</b> against the
-        <b style="color:#ef4444">positive nucleus</b>, inducing a dipole moment
-        $\boldsymbol{\mu}=\alpha\,\mathbf{E}$. The proportionality constant — the
-        <b>polarizability</b> $\alpha$ — quantifies how easily the cloud deforms.
-        It is the single quantity from which the entire Raman effect follows.</span><span class="i18n-ja">振動する光電場 $\mathbf{E}(t)$ が<b style="color:#38bdf8">負の電子雲</b>を<b style="color:#ef4444">正の原子核</b>に対して変位させ、双極子モーメント $\boldsymbol{\mu}=\alpha\,\mathbf{E}$ を誘起します。比例定数である<b>分極率</b> $\alpha$ は、電子雲がどれほど容易に変形するかを定量化します。ラマン効果全体がこの一つの量から導かれます。</span>
-      </p>
-    </div>
-    <div class="demo-stage">
-      <canvas id="c-atom" class="atom-canvas"></canvas>
-      <p class="cap" id="atom-cap">
-        <span class="i18n-en">A <b>static</b> $\alpha$ gives a dipole oscillating at the drive frequency
-        $\omega_0$ — elastic <b>Rayleigh scattering</b>. The Raman effect appears only
-        when $\alpha$ is itself <b>modulated</b> by a lattice vibration.</span><span class="i18n-ja"><b>静的な</b> $\alpha$ は駆動周波数 $\omega_0$ で振動する双極子を与えます — 弾性的な<b>レイリー散乱</b>です。ラマン効果は $\alpha$ 自体が格子振動によって<b>変調</b>されるときにのみ現れます。</span>
-      </p>
-      <div class="physics-note">
-        <span class="i18n-en"><b>$\alpha$ is a symmetric second-rank tensor</b> — each field component induces a
-        dipole in every direction. Its modulation by a lattice vibration is the origin of
-        Raman scattering, derived step by step in the next section.</span><span class="i18n-ja"><b>$\alpha$ は対称な2階テンソルです</b> — 各電場成分はあらゆる方向に双極子を誘起します。格子振動によるその変調がラマン散乱の起源であり、次のセクションで一段階ずつ導出します。</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ Module 01 — Classical theory ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">01 — Classical theory of vibrational Raman scattering</span><span class="i18n-ja">01 — 振動ラマン散乱の古典論</span></span>
+      <span class="demo-num"><span class="i18n-en">00 — Classical theory of vibrational Raman scattering</span><span class="i18n-ja">00 — 振動ラマン散乱の古典論</span></span>
       <h2><span class="i18n-en">From the incident wave to three scattered frequencies</span><span class="i18n-ja">入射波から3つの散乱周波数へ</span></h2>
       <p>
         <span class="i18n-en">In the classical description, the incident light is treated as a
@@ -203,6 +174,13 @@
         <p class="eq-block">$$\mathbf{e}_i=\begin{pmatrix}e_{ix}\\ e_{iy}\\ e_{iz}\end{pmatrix} \tag{2}$$</p>
         <p><span class="i18n-en">where $x,y,z$ are the space-fixed Cartesian axes (Fig.&nbsp;1).</span><span class="i18n-ja">ここで $x,y,z$ はそれぞれ空間固定のデカルト座標である（図1）。</span></p>
 
+        <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
+        <p><span class="i18n-en">This field displaces the <b style="color:#38bdf8">negative electron cloud</b> against the <b style="color:#ef4444">positive nucleus</b>, inducing a dipole moment $\boldsymbol\mu=\alpha\,\mathbf E_i$. The proportionality constant — the <b>polarizability</b> $\alpha$ — measures how easily the cloud deforms; it is the very quantity that molecular vibration modulates below.</span><span class="i18n-ja">この電場は<b style="color:#38bdf8">負の電子雲</b>を<b style="color:#ef4444">正の原子核</b>に対して変位させ、双極子モーメント $\boldsymbol\mu=\alpha\,\mathbf E_i$ を誘起する。比例定数である<b>分極率</b> $\alpha$ は電子雲の変形しやすさを表し、以下で分子振動によって変調される量そのものである。</span></p>
+        <canvas id="c-atom" class="atom-canvas"></canvas>
+        <p class="cap" id="atom-cap">
+          <span class="i18n-en">A <b>static</b> $\alpha$ gives a dipole oscillating at the drive frequency $\omega_i$ — elastic <b>Rayleigh scattering</b>. The Raman effect appears only when $\alpha$ is itself <b>modulated</b> by a lattice vibration.</span><span class="i18n-ja"><b>静的な</b> $\alpha$ は駆動周波数 $\omega_i$ で振動する双極子を与え、弾性的な<b>レイリー散乱</b>となる。ラマン効果は $\alpha$ 自体が格子振動によって<b>変調</b>されるときにのみ現れる。</span>
+        </p>
+
         <h3><span class="i18n-en">Molecular polarizability</span><span class="i18n-ja">分子の分極率</span></h3>
         <p><span class="i18n-en">The molecular polarizability $\alpha$ is a symmetric second-rank tensor with six independent components,</span><span class="i18n-ja">分子の分極率 $\alpha$ は2階の対称テンソルで、6つの独立な成分を持つ。</span></p>
         <p class="eq-block">$$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{yx}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{zx}&\alpha_{zy}&\alpha_{zz}\end{pmatrix} \tag{3}$$</p>
@@ -227,7 +205,7 @@
         <h3><span class="i18n-en">Selection rule</span><span class="i18n-ja">ラマン散乱の選択則</span></h3>
         <p><span class="i18n-en">For Raman scattering to occur, the Raman tensor must have at least one non-zero component,</span><span class="i18n-ja">ラマン散乱が起こるためには、ラマンテンソルが少なくとも1つの非ゼロ成分を持たなければならない。</span></p>
         <p class="eq-block">$$(R_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\neq 0\quad\text{for some }(\rho,\sigma) \tag{11}$$</p>
-        <p><span class="i18n-en">A vibration meeting this condition is <b>Raman-active</b>. Which tensor components survive — and hence the mode activity — is determined by the symmetry of the crystal structure, developed for RTe$_3$ in &sect;04.</span><span class="i18n-ja">この条件を満たす振動は<b>ラマン活性</b>と呼ばれる。どの成分が残るか — すなわちモードの活性 — は結晶構造の対称性によって決まり、RTe$_3$ については&sect;04で扱う。</span></p>
+        <p><span class="i18n-en">A vibration meeting this condition is <b>Raman-active</b>. Which tensor components survive — and hence the mode activity — is determined by the symmetry of the crystal structure, developed for RTe$_3$ in &sect;03.</span><span class="i18n-ja">この条件を満たす振動は<b>ラマン活性</b>と呼ばれる。どの成分が残るか — すなわちモードの活性 — は結晶構造の対称性によって決まり、RTe$_3$ については&sect;03で扱う。</span></p>
       </div>
     </div>
   </section>
@@ -235,7 +213,7 @@
   <!-- ═══════ Module 02 — Vibration → α → signal ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — From molecular vibration to the Raman signal</span><span class="i18n-ja">02 — 分子振動からラマン信号へ</span></span>
+      <span class="demo-num"><span class="i18n-en">01 — From molecular vibration to the Raman signal</span><span class="i18n-ja">01 — 分子振動からラマン信号へ</span></span>
       <h2><span class="i18n-en">How a vibration modulates the polarizability</span><span class="i18n-ja">振動が分極率をどう変調するか</span></h2>
       <p>
         <span class="i18n-en">Pick a normal mode of CO<sub>2</sub>. The molecule vibrates (top-left) and the
@@ -353,7 +331,7 @@
   <!-- ═══════ Module 02 — Jablonski ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — Quantum picture</span><span class="i18n-ja">03 — 量子論的描像</span></span>
+      <span class="demo-num"><span class="i18n-en">02 — Quantum picture</span><span class="i18n-ja">02 — 量子論的描像</span></span>
       <h2><span class="i18n-en">Energy-level (Jablonski) diagram</span><span class="i18n-ja">エネルギー準位（ヤブロンスキー）図</span></h2>
       <p>
         <span class="i18n-en">A photon excites the molecule to a short-lived <em>virtual state</em>, then a
@@ -392,7 +370,7 @@
   <!-- ═══════ Module 03 — From molecules to crystals ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">04 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">04 — 分子から結晶へ：角度分解ラマン</span></span>
+      <span class="demo-num"><span class="i18n-en">03 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">03 — 分子から結晶へ：角度分解ラマン</span></span>
       <h2><span class="i18n-en">Raman tensors &amp; polarization dependence in RTe$_3$</span><span class="i18n-ja">RTe$_3$ におけるラマンテンソルと偏光依存性</span></h2>
       <p>
         <span class="i18n-en">In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
