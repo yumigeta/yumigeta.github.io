@@ -187,6 +187,17 @@
         <p><span class="i18n-en">with $\alpha_{xy}=\alpha_{yx}$, $\alpha_{yz}=\alpha_{zy}$, $\alpha_{zx}=\alpha_{xz}$.</span><span class="i18n-ja">ここで $\alpha_{xy}=\alpha_{yx}$, $\alpha_{yz}=\alpha_{zy}$, $\alpha_{zx}=\alpha_{xz}$ の関係がある。</span></p>
         <p><span class="i18n-en">When the atoms vibrate they do not move independently — the molecule oscillates in a few characteristic collective patterns called <b>normal modes</b>. A single number, the <b>normal coordinate</b> $Q_k$, tells you how far the molecule is displaced along the $k$-th pattern (for example, how much a bond is stretched), with $Q_k=0$ at the equilibrium geometry. As the nuclei move, the electron cloud reshapes with them, so the polarizability changes with the nuclear positions: $\alpha=\alpha(Q_1,Q_2,\dots)$.</span><span class="i18n-ja">原子が振動するとき、各原子がばらばらに動くのではなく、分子は<b>基準振動（基準モード）</b>と呼ばれるいくつかの特徴的な集団運動のパターンで振動する。$k$ 番目のパターンに沿って分子がどれだけ変位しているか（たとえば結合がどれだけ伸びているか）を表す1つの数が<b>基準座標</b> $Q_k$ であり、平衡構造で $Q_k=0$ となる。原子核が動くと電子雲もそれに合わせて形を変えるので、分極率は原子核の位置とともに変化する。すなわち $\alpha=\alpha(Q_1,Q_2,\dots)$ である。</span></p>
         <p><span class="i18n-en">Since the vibrational amplitude is small, expand each component $\alpha_{\rho\sigma}$ as a Taylor series about the equilibrium geometry ($Q_k=0$):</span><span class="i18n-ja">振動の振幅は小さいので、各成分 $\alpha_{\rho\sigma}$ を平衡構造（$Q_k=0$）のまわりでテイラー展開する。</span></p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Reminder: the Taylor (power-series) expansion</span><span class="i18n-ja">復習：テイラー（冪級数）展開</span></summary>
+          <div>
+            <p><span class="i18n-en">A smooth function can be reconstructed near a point from its value and derivatives there. For one variable about $x=a$:</span><span class="i18n-ja">滑らかな関数は、ある点での値と微分係数からその近くで再現できる。1変数の場合、$x=a$ のまわりでは：</span></p>
+            <p class="eq-block">$$f(x)=f(a)+f'(a)\,(x-a)+\frac{1}{2!}f''(a)\,(x-a)^2+\cdots$$</p>
+            <p><span class="i18n-en">For a function of several normal coordinates expanded about equilibrium ($Q_k=0$), the same rule becomes:</span><span class="i18n-ja">複数の基準座標の関数を平衡点（$Q_k=0$）のまわりで展開すると、同じ規則は次のようになる：</span></p>
+            <p class="eq-block">$$f(Q)=f(0)+\sum_k\!\left(\frac{\partial f}{\partial Q_k}\right)_{\!0}\!Q_k+\frac{1}{2!}\sum_{k,l}\!\left(\frac{\partial^2 f}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
+            <p><span class="i18n-en">Putting $f=\alpha_{\rho\sigma}$ and expanding about $Q_k=0$ gives the expansion below.</span><span class="i18n-ja">$f=\alpha_{\rho\sigma}$ とし、$Q_k=0$ のまわりで展開すれば、下の式が得られる。</span></p>
+          </div>
+        </details>
         <p class="eq-block">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k+\frac12\sum_{k,l}\!\left(\frac{\partial^2\alpha_{\rho\sigma}}{\partial Q_k\,\partial Q_l}\right)_{\!0}\!Q_k Q_l+\cdots$$</p>
         <p><span class="i18n-en">For small displacements the quadratic and higher terms are negligible. Keeping only the first-order term gives ($\rho,\sigma$ each denote $x$, $y$, or $z$):</span><span class="i18n-ja">変位が小さいとき、2次以上の項は無視できる。1次の項までを残すと次式が得られる（$\rho,\sigma$ は $x$、$y$、$z$ のいずれか）。</span></p>
         <p class="eq-block">$$\alpha_{\rho\sigma}\simeq(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k \tag{4}$$</p>
