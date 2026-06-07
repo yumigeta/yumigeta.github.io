@@ -84,25 +84,32 @@
     </div>
   </div>
 
-  <!-- ═══════ Module 00 — Phonon dispersion ═══════ -->
+  <!-- ═══════ Overview — Spectrum + Phonon dispersion ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">00 — Phonon dispersion</span><span class="i18n-ja">00 — フォノン分散</span></span>
-      <h2><span class="i18n-en">Six phonon branches from two atoms</span><span class="i18n-ja">2つの原子から生まれる6本のフォノンブランチ</span></h2>
+      <span class="demo-num"><span class="i18n-en">Overview</span><span class="i18n-ja">概観</span></span>
+      <h2><span class="i18n-en">Typical spectrum and phonon dispersion</span><span class="i18n-ja">典型的なスペクトルとフォノン分散</span></h2>
       <p>
-        <span class="i18n-en">Graphene's unit cell has <b>two carbon atoms</b>, giving rise to
-        <b>six phonon branches</b>: three acoustic (A) and three optical (O).
-        Each is further classified as in-plane longitudinal (L), in-plane
-        transverse (T), or out-of-plane (Z). The Raman-active modes live
-        near the $\Gamma$ <b>point</b> (first-order) and the <b>K point</b>
-        (double resonance).</span><span class="i18n-ja">グラフェンの単位胞には<b>2つの炭素原子</b>があり、
-        <b>6本のフォノンブランチ</b>（音響3本(A)と光学3本(O)）が生じます。
-        それぞれは面内縦波(L)、面内横波(T)、面外(Z)に分類されます。ラマン活性モードは
-        $\Gamma$ <b>点</b>（一次過程）および<b>K点</b>（二重共鳴）付近に存在します。</span>
+        <span class="i18n-en">A graphene Raman spectrum shows three characteristic peaks — the
+        <b style="color:#f59e0b">D</b>, <b style="color:#16a34a">G</b>, and
+        <b style="color:#3b82f6">2D</b> bands — each rooted in specific phonon
+        branches of the dispersion below. The sections that follow explain
+        the origin and physical meaning of each band.</span><span class="i18n-ja">グラフェンのラマンスペクトルには3つの特徴的なピーク —
+        <b style="color:#f59e0b">D</b>、<b style="color:#16a34a">G</b>、<b style="color:#3b82f6">2D</b> バンド —
+        が現れます。それぞれが以下のフォノン分散の特定のブランチに由来します。以下のセクションで各バンドの起源と物理的な意味を詳しく解説します。</span>
       </p>
     </div>
     <div class="demo-stage">
-      <canvas id="c-phonon" class="gr-canvas-wide"></canvas>
+      <canvas id="c-overview" class="gr-canvas-wide"></canvas>
+      <p class="cap">
+        <span class="i18n-en">Typical Raman spectrum of graphene. The <b style="color:#f59e0b">D band</b> (~1350 cm<sup>−1</sup>)
+        appears only in defective graphene. The <b style="color:#16a34a">G band</b>
+        (~1580 cm<sup>−1</sup>) is the first-order zone-center peak. The
+        <b style="color:#3b82f6">2D band</b> (~2700 cm<sup>−1</sup>) is a
+        second-order peak present even in pristine graphene.</span><span class="i18n-ja">グラフェンの典型的なラマンスペクトル。<b style="color:#f59e0b">Dバンド</b>（~1350 cm<sup>−1</sup>）は欠陥のあるグラフェンにのみ現れます。<b style="color:#16a34a">Gバンド</b>（~1580 cm<sup>−1</sup>）はゾーン中心の一次ピークです。<b style="color:#3b82f6">2Dバンド</b>（~2700 cm<sup>−1</sup>）は欠陥のないグラフェンにも現れる二次ピークです。</span>
+      </p>
+
+      <canvas id="c-phonon" class="gr-canvas-wide" style="margin-top:20px;"></canvas>
       <p class="cap">
         <span class="i18n-en">Phonon dispersion of graphene along $\Gamma \to M \to K \to \Gamma$. The <b style="color:#ef4444">iTO</b>
         branch near K (~1350 cm<sup>−1</sup>) gives rise to the D and 2D bands.
@@ -276,7 +283,6 @@
       </p>
     </div>
     <div class="demo-stage">
-      <canvas id="c-overview" class="gr-canvas-wide"></canvas>
 
       <div class="diag-grid">
         <div class="diag-card">
