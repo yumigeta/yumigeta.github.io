@@ -48,12 +48,10 @@
 .mode-explain .mol-activity.ir    { background: #422006; color: #fbbf24; }
 
 .physics-note {
-  margin-top: 16px; padding: 12px 14px;
-  border-left: 3px solid #a78bfa;
-  background: rgba(167,139,250,0.08); border-radius: 4px;
-  font-size: 0.8rem; color: #c4b5fd; line-height: 1.6;
+  margin-top: 12px;
+  font-size: 0.84rem; color: #d6d3d1; line-height: 1.7;
 }
-.physics-note b { color: #ddd6fe; }
+.physics-note b { color: #fafaf9; }
 
 /* ── Trace rows ── */
 .trace-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
@@ -211,18 +209,15 @@
   font-size: 0.84rem; color: #d6d3d1; line-height: 1.7; margin: 4px 0;
 }
 .derivation .eq-block {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
-  margin: 8px 0; padding: 12px 8px; overflow-x: auto;
+  margin: 8px 0; padding: 4px 0; overflow-x: auto;
 }
 
 /* ── Collapsible "reminder" (only those who need it expand it) ── */
 .recall {
-  margin: 10px 0; border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 8px; background: rgba(255,255,255,0.02);
+  margin: 12px 0;
 }
 .recall > summary {
-  cursor: pointer; list-style: none; padding: 9px 12px;
+  cursor: pointer; list-style: none; padding: 7px 0;
   font-size: 0.8rem; font-weight: 600; color: #a8a29e;
   display: flex; align-items: center; gap: 8px; user-select: none;
 }
@@ -233,7 +228,7 @@
 .recall[open] > summary::before { transform: rotate(90deg); }
 .recall > summary:hover { color: #e7e5e4; }
 .recall > div {
-  padding: 2px 14px 10px; border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 2px 0 8px;
 }
 .recall p { font-size: 0.82rem; color: #d6d3d1; line-height: 1.65; margin: 8px 0; }
 
@@ -282,3 +277,10 @@
   border-bottom: 1px solid rgba(255,255,255,0.10);
 }
 .demo-sub-p { font-size: 0.86rem; color: #d6d3d1; line-height: 1.7; margin: 6px 0 14px; }
+
+/* ── Taylor reminder: sin x animation ── */
+.taylor-canvas {
+  width: 100%; height: 240px; display: block; margin: 6px 0 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+}
