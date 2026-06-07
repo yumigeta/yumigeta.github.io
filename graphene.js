@@ -779,7 +779,7 @@
     if (!bzC) return;
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
-    var zoneScheme = 'reduced';   // BZ figure: 'reduced' (folded) | 'extended'
+    var zoneScheme = 'extended';   // BZ figure: 'reduced' (folded) | 'extended'
 
     // One stable colour per transverse mode, shared by the cutting-line figure,
     // the 3-D cut, and the band plot so the SAME cutting line is the SAME colour
@@ -1100,7 +1100,9 @@
       var maxC = BZR;
       for (var li = 0; li < p.lines.length; li++)
         if (abs(p.lines[li].c) > maxC) maxC = abs(p.lines[li].c);
-      var sc = min(W, H) * 0.40 / (reduced ? maxC : BZR);
+      // Extended view zooms out to ~2 BZR so neighbouring Γ points and the 2nd
+      // BZ boundary are visible; reduced view fits the (possibly past-zone) c.
+      var sc = min(W, H) * 0.40 / (reduced ? maxC : 2.0*BZR);
       function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
 
       ctx.fillStyle = '#a8a29e'; ctx.font = '600 11px "DM Sans", sans-serif';
@@ -1157,6 +1159,26 @@
         // ── (B) Extended scheme ──
         // Lines drawn across the bulk BZ with umklapp folding (armchair offsets
         // run past the zone); Dirac points stay at the hexagon corners.
+
+        // Neighbouring Γ points (reciprocal lattice) + 2nd BZ boundary.  The 6
+        // nearest reciprocal points are ±b1, ±b2, ±(b1+b2); the hexagon through
+        // them is the 2nd-zone boundary (edges = bisectors of the 2nd-nearest G).
+        var Gn = [[RB1x,RB1y], [-RB1x,-RB1y], [RB2x,RB2y], [-RB2x,-RB2y],
+                  [RB1x+RB2x,RB1y+RB2y], [-(RB1x+RB2x),-(RB1y+RB2y)]];
+        ctx.strokeStyle = 'rgba(251,191,36,0.16)'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var nb = 0; nb <= 6; nb++) {
+          var ab = PI/6 + nb*PI/3, pb = P(sqrt3*BZR*cos(ab), sqrt3*BZR*sin(ab));
+          if (nb === 0) ctx.moveTo(pb[0], pb[1]); else ctx.lineTo(pb[0], pb[1]);
+        }
+        ctx.closePath(); ctx.stroke();
+        ctx.fillStyle = 'rgba(168,162,158,0.75)'; ctx.font = '600 8px "DM Sans", sans-serif';
+        for (var gi = 0; gi < Gn.length; gi++) {
+          var gp = P(Gn[gi][0], Gn[gi][1]);
+          ctx.beginPath(); ctx.arc(gp[0], gp[1], 2, 0, 2*PI); ctx.fill();
+          ctx.fillText('Γ', gp[0]+4, gp[1]+3);
+        }
+
         var ext = 1.8*BZR, nseg = 420;
         for (var li = 0; li < p.lines.length; li++) {
           var L = p.lines[li];
@@ -1216,8 +1238,8 @@
 
     // ── 3D band surface (same region as Module 02) + cutting lines ──
     var B1c = [2*PI, -2*PI/sqrt3], B2c = [0, 4*PI/sqrt3], UVc = 4/3;
-    var CMN = 40;
-    var cutPhi = -32*PI/180, CUT_THETA = 38*PI/180, cutZoom = 1;
+    var CMN = 80;
+    var cutPhi = -32*PI/180, CUT_THETA = 58*PI/180, cutZoom = 1.7;
     var cutDrag = false, cutLastX = 0, cutLastY = 0;
 
     function lerpC(a, b, t) { return a + (b-a)*t; }
@@ -1327,7 +1349,7 @@
         if (d.t === 0) {
           var c = coneCol(d.e, eMax);
           var r = min(255, c[0]*d.bright)|0, g = min(255, c[1]*d.bright)|0, bl = min(255, c[2]*d.bright)|0;
-          ctx.fillStyle = 'rgb('+r+','+g+','+bl+')';
+          ctx.fillStyle = 'rgba('+r+','+g+','+bl+',0.6)';   // semi-transparent surface
           ctx.beginPath();
           ctx.moveTo(d.p[0].sx, d.p[0].sy);
           ctx.lineTo(d.p[1].sx, d.p[1].sy);
