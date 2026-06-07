@@ -1100,9 +1100,10 @@
       var maxC = BZR;
       for (var li = 0; li < p.lines.length; li++)
         if (abs(p.lines[li].c) > maxC) maxC = abs(p.lines[li].c);
-      // Extended view zooms out to ~2 BZR so neighbouring Γ points and the 2nd
-      // BZ boundary are visible; reduced view fits the (possibly past-zone) c.
-      var sc = min(W, H) * 0.40 / (reduced ? maxC : 2.0*BZR);
+      // Zoom out (~2 BZR, or further if armchair offsets run past it) so the
+      // neighbouring Γ points and 2nd-BZ boundary are visible in both schemes.
+      var viewR = max(2.0*BZR, maxC);
+      var sc = min(W, H) * 0.40 / viewR;
       function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
 
       ctx.fillStyle = '#a8a29e'; ctx.font = '600 11px "DM Sans", sans-serif';
@@ -1114,8 +1115,37 @@
       var axdx = -p.ny, axdy = p.nx;                   // axis (k∥) direction
       var trdx = p.nx, trdy = p.ny;                    // transverse (k⊥) direction
 
-      // BZ hexagon (bulk graphene BZ) — faint reference in the reduced scheme.
-      ctx.strokeStyle = reduced ? 'rgba(251,191,36,0.22)' : 'rgba(251,191,36,0.55)';
+      // Repeated-zone context (both schemes): the neighbouring reciprocal-lattice
+      // Γ points, a faint 1st-BZ hexagon centred on each, and the 2nd-BZ boundary.
+      var Gn = [[RB1x,RB1y], [-RB1x,-RB1y], [RB2x,RB2y], [-RB2x,-RB2y],
+                [RB1x+RB2x,RB1y+RB2y], [-(RB1x+RB2x),-(RB1y+RB2y)]];
+      ctx.strokeStyle = 'rgba(251,191,36,0.16)'; ctx.lineWidth = 1;
+      for (var gi = 0; gi < Gn.length; gi++) {
+        ctx.beginPath();
+        for (var nb = 0; nb <= 6; nb++) {
+          var ah = nb*PI/3, hp = P(Gn[gi][0] + BZR*cos(ah), Gn[gi][1] + BZR*sin(ah));
+          if (nb === 0) ctx.moveTo(hp[0], hp[1]); else ctx.lineTo(hp[0], hp[1]);
+        }
+        ctx.closePath(); ctx.stroke();
+      }
+      // 2nd-BZ boundary = hexagon through the 6 nearest Γ (rotated 30°).
+      ctx.strokeStyle = 'rgba(226,232,240,0.18)'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (var nb = 0; nb <= 6; nb++) {
+        var ab = PI/6 + nb*PI/3, pb = P(sqrt3*BZR*cos(ab), sqrt3*BZR*sin(ab));
+        if (nb === 0) ctx.moveTo(pb[0], pb[1]); else ctx.lineTo(pb[0], pb[1]);
+      }
+      ctx.closePath(); ctx.stroke();
+      // neighbour Γ markers
+      ctx.fillStyle = 'rgba(168,162,158,0.8)'; ctx.font = '600 8px "DM Sans", sans-serif';
+      for (var gi = 0; gi < Gn.length; gi++) {
+        var gp = P(Gn[gi][0], Gn[gi][1]);
+        ctx.beginPath(); ctx.arc(gp[0], gp[1], 2, 0, 2*PI); ctx.fill();
+        ctx.fillText('Γ', gp[0]+4, gp[1]+3);
+      }
+
+      // Central first BZ hexagon (the ribbon lives here).
+      ctx.strokeStyle = 'rgba(251,191,36,0.6)';
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       for (var n = 0; n <= 6; n++) {
@@ -1159,26 +1189,6 @@
         // ── (B) Extended scheme ──
         // Lines drawn across the bulk BZ with umklapp folding (armchair offsets
         // run past the zone); Dirac points stay at the hexagon corners.
-
-        // Neighbouring Γ points (reciprocal lattice) + 2nd BZ boundary.  The 6
-        // nearest reciprocal points are ±b1, ±b2, ±(b1+b2); the hexagon through
-        // them is the 2nd-zone boundary (edges = bisectors of the 2nd-nearest G).
-        var Gn = [[RB1x,RB1y], [-RB1x,-RB1y], [RB2x,RB2y], [-RB2x,-RB2y],
-                  [RB1x+RB2x,RB1y+RB2y], [-(RB1x+RB2x),-(RB1y+RB2y)]];
-        ctx.strokeStyle = 'rgba(251,191,36,0.16)'; ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (var nb = 0; nb <= 6; nb++) {
-          var ab = PI/6 + nb*PI/3, pb = P(sqrt3*BZR*cos(ab), sqrt3*BZR*sin(ab));
-          if (nb === 0) ctx.moveTo(pb[0], pb[1]); else ctx.lineTo(pb[0], pb[1]);
-        }
-        ctx.closePath(); ctx.stroke();
-        ctx.fillStyle = 'rgba(168,162,158,0.75)'; ctx.font = '600 8px "DM Sans", sans-serif';
-        for (var gi = 0; gi < Gn.length; gi++) {
-          var gp = P(Gn[gi][0], Gn[gi][1]);
-          ctx.beginPath(); ctx.arc(gp[0], gp[1], 2, 0, 2*PI); ctx.fill();
-          ctx.fillText('Γ', gp[0]+4, gp[1]+3);
-        }
-
         var ext = 1.8*BZR, nseg = 420;
         for (var li = 0; li < p.lines.length; li++) {
           var L = p.lines[li];
