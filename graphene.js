@@ -591,7 +591,7 @@
         var r = min(255, c[0]*d.bright)|0;
         var g = min(255, c[1]*d.bright)|0;
         var bl = min(255, c[2]*d.bright)|0;
-        ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + bl + ')';
+        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + bl + ',0.55)';
         ctx.beginPath();
         ctx.moveTo(pv[0].sx, pv[0].sy);
         ctx.lineTo(pv[1].sx, pv[1].sy);
