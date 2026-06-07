@@ -141,3 +141,6 @@
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
 .ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+/* Align the page header with the .demo content (same left edge as other sub-pages) */
+.phead .container { max-width: 860px; padding: 0 28px; }
