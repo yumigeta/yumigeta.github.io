@@ -1092,31 +1092,33 @@
       }
       ctx.closePath(); ctx.stroke();
 
-      // ── Reduced ribbon zone (the unit cell's Brillouin zone) ──
-      // The only periodic direction is the axis, period T, so the ribbon's
-      // genuine Brillouin zone is 1-D: k∥ ∈ (−π/T, π/T], length 2π/T (fixed by
-      // the edge type, never by N).  Drawn here as the dashed cell whose
-      // k∥-side IS that 2π/T zone; the transverse side is the fundamental range
-      // of the confined modes.  The cell's size does not change with N — only
-      // the number of cutting lines packed inside it does.
+      // ── The unit cell's Brillouin zone (1-D) ──
+      // The ribbon is periodic ONLY along the axis (period T); the width is
+      // confinement with no periodicity, hence no reciprocal vector and NO zone
+      // boundary across it.  So the only zone boundaries are the two lines
+      // perpendicular to the axis at k∥ = ±π/T.  They bound the 1-D BZ (length
+      // 2π/T); the strip between them extends freely across k⊥ (no transverse
+      // edge).  Inside one such strip each cutting line spans exactly one
+      // subband.  N never moves these boundaries — it only adds cutting lines.
       var Tint = (p.theta === 0) ? 1 : sqrt3;          // axial period (a = 1)
-      var kpar = PI / Tint;                            // 1-D BZ half-width 2π/T
-      var ktr  = PI;                                   // transverse mode extent
-      var axx = -p.ny, axy = p.nx, trx = p.nx, trry = p.ny;
-      var rc = [
-        [ kpar*axx + ktr*trx,  kpar*axy + ktr*trry],
-        [ kpar*axx - ktr*trx,  kpar*axy - ktr*trry],
-        [-kpar*axx - ktr*trx, -kpar*axy - ktr*trry],
-        [-kpar*axx + ktr*trx, -kpar*axy + ktr*trry]
-      ];
-      ctx.strokeStyle = 'rgba(226,232,240,0.6)';
-      ctx.fillStyle = 'rgba(226,232,240,0.05)';
-      ctx.lineWidth = 1.2; ctx.setLineDash([5,4]); ctx.beginPath();
-      for (var ri = 0; ri < 4; ri++) {
-        var pr = P(rc[ri][0], rc[ri][1]);
-        if (ri === 0) ctx.moveTo(pr[0], pr[1]); else ctx.lineTo(pr[0], pr[1]);
+      var kpar = PI / Tint;                            // 1-D BZ boundary at ±π/T
+      var axdx = -p.ny, axdy = p.nx;                   // axis (k∥) direction
+      var trdx = p.nx, trdy = p.ny;                    // transverse (k⊥) direction
+      ctx.strokeStyle = 'rgba(226,232,240,0.75)'; ctx.lineWidth = 1.3;
+      ctx.setLineDash([5,4]);
+      for (var sgn = -1; sgn <= 1; sgn += 2) {
+        var bx = sgn*kpar*axdx, by = sgn*kpar*axdy, prevB = false;
+        ctx.beginPath();
+        for (var s = -1.3*BZR; s <= 1.3*BZR; s += BZR/90) {
+          var kx = bx + s*trdx, ky = by + s*trdy;
+          if (!insideHexRc(kx, ky, BZR)) { prevB = false; continue; }
+          var pb = P(kx, ky);
+          if (prevB) ctx.lineTo(pb[0], pb[1]); else ctx.moveTo(pb[0], pb[1]);
+          prevB = true;
+        }
+        ctx.stroke();
       }
-      ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+      ctx.setLineDash([]);
 
       // cutting lines, clipped to the BZ — one stable colour per mode, no line
       // singled out for emphasis.
@@ -1149,13 +1151,13 @@
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
 
-      // annotation: reduced-zone legend + the cutting-line rule
-      ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.7)';
+      // annotation: 1-D zone-edge legend + the cutting-line rule
+      ctx.setLineDash([5,4]); ctx.strokeStyle = 'rgba(226,232,240,0.75)';
       ctx.lineWidth = 1.2; ctx.beginPath();
       ctx.moveTo(8, H-21); ctx.lineTo(26, H-21); ctx.stroke(); ctx.setLineDash([]);
       ctx.fillStyle = '#cbd5e1'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText('ribbon reduced zone — k∥ side = 2π/T (the 1-D BZ)', 30, H-18);
+      ctx.fillText('1-D BZ edges at k∥ = ±π/T (no edge across k⊥)', 30, H-18);
       ctx.fillStyle = '#94a3b8';
       ctx.fillText('cutting lines k⊥ = nπ/(N+1), n = 1…' + p.N + '  (denser as N↑)', 8, H-6);
 
