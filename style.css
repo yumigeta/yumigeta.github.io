@@ -100,7 +100,17 @@ header.site-nav::after {
 }
 .nav .end:hover { color: var(--ink); }
 .nav .end:hover::after { right: 0; }
-@media (max-width: 880px) { .nav .links { display: none; } }
+@media (max-width: 880px) {
+  /* keep the menu reachable: brand + Contact on row 1, links wrap to row 2 */
+  .nav {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    height: auto; padding-top: 10px; padding-bottom: 10px; gap: 6px 16px;
+  }
+  .nav .links {
+    order: 3; width: 100%;
+    flex-wrap: wrap; justify-content: center; gap: 10px 18px;
+  }
+}
 
 /* legacy nav (sub-pages still using old structure) */
 .navbar {
