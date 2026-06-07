@@ -53,7 +53,7 @@ function fitCanvas(cv) {
   const OMEGA   = 2.6;     // incident field   (fast)
   const OMEGA_V = 0.42;    // lattice vibration (slow)
   const MOD     = 0.45;    // α modulation depth
-  const AMP     = 17;      // base displacement scale (px)
+  const AMP     = 22;      // base displacement scale (px)
 
   // ── controls ───────────────────────────────────────────────
   const slider   = document.getElementById('ctrl-alpha');
@@ -93,96 +93,97 @@ function fitCanvas(cv) {
   }
 
   let t = 0;
-  const muHist = [];            // μ(t) history for the scrolling background trace
-  const HISTN = 300;
+  const muHist = [];            // μ(t) history for the scrolling plot
+  const HISTN = 560;            // long time window
   function frame() {
+    if (cv.offsetWidth === 0) { requestAnimationFrame(frame); return; }
     const { ctx, w, h } = fitCanvas(cv);
-    const cx = w / 2, cy = h / 2;
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
+    const cy = h / 2;
+    const divX = Math.round(w * 0.46);              // split: atom (left) | μ-plot (right)
+    const cxL  = divX / 2;
+    const pX0 = divX + 14, pX1 = w - 10, pW = pX1 - pX0;
 
-    const E        = Math.sin(TAU * OMEGA * t);                       // field −1..1
+    const E        = Math.sin(TAU * OMEGA * t);
     const aEnv     = mode === 'mod' ? (1 + MOD * Math.sin(TAU * OMEGA_V * t)) : 1;
     const alphaNow = baseAlpha() * aEnv;                             // α(t)
     const cloudShift = E * AMP * alphaNow;                            // displacement ∝ α(t)·E(t)
-    const cloudR   = 48;                                            // fixed: alpha sets the displacement, not the cloud size
-    const nucR = 12, negR = 10;
+    const cloudR = 54, nucR = 14, negR = 12;
     const negY = cy + cloudShift;
     const up = E >= 0, dir = up ? -1 : 1, mag = Math.abs(E);
     const fcol = up ? '#fbbf24' : '#f87171';
 
-    // record μ(t) (∝ cloud displacement) for the scrolling background trace
     muHist.push(cloudShift);
     if (muHist.length > HISTN) muHist.shift();
 
-    // equilibrium baseline
-    ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
-    ctx.beginPath(); ctx.moveTo(42, cy); ctx.lineTo(w - 42, cy); ctx.stroke(); ctx.setLineDash([]);
+    // ── background grid (whole canvas) ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.beginPath();
+    for (let gx = (divX % 26); gx <= w; gx += 26) { ctx.moveTo(gx, 0); ctx.lineTo(gx, h); }
+    for (let gy = (cy % 26); gy <= h; gy += 26) { ctx.moveTo(0, gy); ctx.lineTo(w, gy); }
+    ctx.stroke();
 
-    // μ(t) scrolling trace in the background (newest at the right edge)
-    if (muHist.length > 1) {
-      const n = muHist.length, dx = w / (HISTN - 1);
-      ctx.strokeStyle = 'rgba(252,211,77,0.30)'; ctx.lineWidth = 2;
-      ctx.beginPath();
-      for (let i = 0; i < n; i++) {
-        const x = w - (n - 1 - i) * dx;
-        const y = cy - muHist[i] * 0.85;
-        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-      }
-      ctx.stroke();
-      ctx.fillStyle = 'rgba(252,211,77,0.6)'; ctx.font = 'italic 12px ' + FONT;
-      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-      ctx.fillText('μ(t)', 16, 42);
+    // ── divider ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(divX, 14); ctx.lineTo(divX, h - 14); ctx.stroke();
+
+    // ════════ LEFT: vibrating atom ════════
+    for (const x of [cxL - 64, cxL - 22, cxL + 22, cxL + 64]) {
+      fieldArrow(ctx, x, 26, dir, 20 * mag, fcol);
+      fieldArrow(ctx, x, h - 26, dir, 20 * mag, fcol);
     }
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(18, cy); ctx.lineTo(divX - 16, cy); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#a8a29e'; ctx.font = '12px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('E(t)', 14, 20);
 
-    // uniform external field (arrows top & bottom)
-    const half = Math.min(155, w / 2 - 34);
-    for (const x of [cx - half, cx - half * 0.55, cx + half * 0.55, cx + half]) {
-      fieldArrow(ctx, x, 30, dir, 20 * mag, fcol);
-      fieldArrow(ctx, x, h - 30, dir, 20 * mag, fcol);
-    }
-    ctx.fillStyle = '#a8a29e'; ctx.font = '12px ' + FONT;
-    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    ctx.fillText('E(t)', 16, 24);
-
-    // electron cloud (size ∝ α)
-    const grd = ctx.createRadialGradient(cx, negY, 4, cx, negY, cloudR);
+    const grd = ctx.createRadialGradient(cxL, negY, 4, cxL, negY, cloudR);
     grd.addColorStop(0,    'rgba(56,189,248,0.44)');
     grd.addColorStop(0.55, 'rgba(56,189,248,0.16)');
     grd.addColorStop(1,    'rgba(56,189,248,0)');
-    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(cx, negY, cloudR, 0, TAU); ctx.fill();
+    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(cxL, negY, cloudR, 0, TAU); ctx.fill();
     ctx.strokeStyle = 'rgba(56,189,248,0.5)'; ctx.lineWidth = 1.25; ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.arc(cx, negY, cloudR, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(cxL, negY, cloudR, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
 
-    // charges
-    charge(ctx, cx, negY, negR, COL.cloud,   '−');
-    charge(ctx, cx, cy,   nucR, COL.nucleus, '+');
+    charge(ctx, cxL, negY, negR, COL.cloud,   '−');
+    charge(ctx, cxL, cy,   nucR, COL.nucleus, '+');
 
-    // induced dipole μ (just outside the cloud)
     if (Math.abs(cloudShift) > 4) {
-      const s = Math.sign(cloudShift), ax = cx + cloudR + 16;
+      const sgn = Math.sign(cloudShift), ax = cxL + cloudR + 16;
       ctx.strokeStyle = '#fcd34d'; ctx.lineWidth = 3; ctx.lineCap = 'round';
       ctx.beginPath(); ctx.moveTo(ax, negY); ctx.lineTo(ax, cy); ctx.stroke();
-      ctx.fillStyle = '#fcd34d';
-      ctx.beginPath();
-      ctx.moveTo(ax - 5, cy + s * 9); ctx.lineTo(ax, cy); ctx.lineTo(ax + 5, cy + s * 9);
+      ctx.fillStyle = '#fcd34d'; ctx.beginPath();
+      ctx.moveTo(ax - 5, cy + sgn * 9); ctx.lineTo(ax, cy); ctx.lineTo(ax + 5, cy + sgn * 9);
       ctx.closePath(); ctx.fill();
-      ctx.strokeStyle = 'rgba(252,211,77,0.30)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
-      ctx.beginPath(); ctx.moveTo(cx, negY); ctx.lineTo(ax, negY); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(cx, cy);   ctx.lineTo(ax, cy);   ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 15px ' + FONT;
-      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      ctx.fillText('μ', ax + 10, (negY + cy) / 2);
+      ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 15px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('μ', ax + 9, (negY + cy) / 2);
     }
 
-    // α(t) status (top-right)
-    ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic'; ctx.font = '12px ' + FONT;
-    if (mode === 'mod') {
-      ctx.fillStyle = '#7dd3fc';
-      ctx.fillText(lang === 'ja' ? 'α(t) が時間変化' : 'α(t) modulated', w - 16, 24);
-    } else {
-      ctx.fillStyle = '#a8a29e';
-      ctx.fillText(lang === 'ja' ? 'α は一定' : 'α constant', w - 16, 24);
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.font = '12px ' + FONT;
+    ctx.fillStyle = mode === 'mod' ? '#7dd3fc' : '#a8a29e';
+    ctx.fillText(mode === 'mod' ? (lang === 'ja' ? 'α(t) 変調' : 'α(t) modulated')
+                                : (lang === 'ja' ? 'α 一定' : 'α constant'), 14, h - 12);
+
+    // ════════ RIGHT: μ(t) plot (flows left → right) ════════
+    const muS = (h / 2 - 26) / (AMP * 2.4);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(pX0, 12, pW, h - 24); ctx.clip();
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.beginPath();
+    for (let gy = (cy % 24); gy <= h; gy += 24) { ctx.moveTo(pX0, gy); ctx.lineTo(pX1, gy); }
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(pX0, cy); ctx.lineTo(pX1, cy); ctx.stroke(); ctx.setLineDash([]);
+    const n = muHist.length, dx = pW / (HISTN - 1);
+    ctx.strokeStyle = '#fcd34d'; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    for (let i = n - 1; i >= 0; i--) {                 // newest at the left, flowing right
+      const x = pX0 + (n - 1 - i) * dx;
+      const y = cy - muHist[i] * muS;
+      (i === n - 1) ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
+    ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 13px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('μ(t)', pX0 + 4, 22);
 
     t += 0.0045;
     requestAnimationFrame(frame);
