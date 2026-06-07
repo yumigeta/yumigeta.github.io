@@ -121,53 +121,129 @@
         when $\alpha$ is itself <b>modulated</b> by a lattice vibration.</span><span class="i18n-ja"><b>静的な</b> $\alpha$ は駆動周波数 $\omega_0$ で振動する双極子を与えます — 弾性的な<b>レイリー散乱</b>です。ラマン効果は $\alpha$ 自体が格子振動によって<b>変調</b>されるときにのみ現れます。</span>
       </p>
       <div class="physics-note">
-        <span class="i18n-en"><b>$\alpha$ is a symmetric second-rank tensor.</b>
-        Each field component induces a dipole in every direction:
-        $$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{xy}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{xz}&\alpha_{yz}&\alpha_{zz}\end{pmatrix},\qquad \alpha_{\rho\sigma}=\alpha_{\sigma\rho}.$$
-        Because $\alpha$ depends on the nuclear positions, expand it to first order in the
-        normal coordinate $Q_k$ (phonon $k$):
-        $$\alpha_{\rho\sigma}(Q_k)=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k .$$
-        The derivative tensor $R_k=(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ is the
-        <b>Raman tensor</b>. Everything below follows from whether it vanishes.</span><span class="i18n-ja"><b>$\alpha$ は対称な2階テンソルです。</b>
-        各電場成分はあらゆる方向に双極子を誘起します：
-        $$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{xy}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{xz}&\alpha_{yz}&\alpha_{zz}\end{pmatrix},\qquad \alpha_{\rho\sigma}=\alpha_{\sigma\rho}.$$
-        $\alpha$ は原子核の位置に依存するため、基準座標 $Q_k$（フォノン $k$）について1次まで展開します：
-        $$\alpha_{\rho\sigma}(Q_k)=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k .$$
-        微分テンソル $R_k=(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ が<b>ラマンテンソル</b>です。以下のすべては、これがゼロになるかどうかから導かれます。</span>
+        <span class="i18n-en"><b>$\alpha$ is a symmetric second-rank tensor</b> — each field component induces a
+        dipole in every direction. Its modulation by a lattice vibration is the origin of
+        Raman scattering, derived step by step in the next section.</span><span class="i18n-ja"><b>$\alpha$ は対称な2階テンソルです</b> — 各電場成分はあらゆる方向に双極子を誘起します。格子振動によるその変調がラマン散乱の起源であり、次のセクションで一段階ずつ導出します。</span>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 01 — Vibration → α → signal ═══════ -->
+  <!-- ═══════ Module 01 — Classical theory ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">01 — From molecular vibration to the Raman signal</span><span class="i18n-ja">01 — 分子振動からラマン信号へ</span></span>
+      <span class="demo-num"><span class="i18n-en">01 — Classical theory of vibrational Raman scattering</span><span class="i18n-ja">01 — 振動ラマン散乱の古典論</span></span>
+      <h2><span class="i18n-en">From the incident wave to three scattered frequencies</span><span class="i18n-ja">入射波から3つの散乱周波数へ</span></h2>
+      <p>
+        <span class="i18n-en">In the classical description, the incident light is treated as a
+        <b>plane electromagnetic wave</b>, and the molecule as a particle whose
+        <b>polarizability is periodically modulated by its normal vibrations</b>. The
+        scattered light is the <b>spherical (secondary) wave</b> radiated by the dipole
+        moment induced in a molecule fixed in space (Fig.&nbsp;1).</span><span class="i18n-ja">振動ラマン散乱の古典論では、入射光を<b>平面電磁波</b>として取り扱い、分子を基準振動によって<b>周期的に変動する分極率</b>を持つ粒子としてモデル化する。散乱光は、空間に固定された分子に誘起された双極子モーメントから射出される<b>球面（2次）波</b>として表される（図1）。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+
+      <!-- Figure 1: classical picture, 90° scattering -->
+      <figure class="ray-fig">
+        <svg viewBox="0 0 680 380" role="img" aria-label="Classical picture of vibrational Raman scattering at 90 degrees" class="ray-svg">
+          <defs>
+            <marker id="arrR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 Z" fill="#0f172a"/>
+            </marker>
+          </defs>
+          <!-- incident plane wavefronts (travelling +x) -->
+          <g stroke="#38bdf8" stroke-width="2.5" opacity="0.9">
+            <line x1="70"  y1="170" x2="70"  y2="290"/>
+            <line x1="100" y1="170" x2="100" y2="290"/>
+            <line x1="130" y1="170" x2="130" y2="290"/>
+          </g>
+          <line x1="55" y1="230" x2="270" y2="230" stroke="#0f172a" stroke-width="1.6" marker-end="url(#arrR)"/>
+          <text x="60" y="155" class="ray-lab i18n-en" fill="#0369a1">Incident plane wave&#160;&#160;E&#7522;,&#160;&#969;&#7522;</text>
+          <text x="60" y="155" class="ray-lab i18n-ja" fill="#0369a1">入射平面電磁波&#160;&#160;E&#7522;,&#160;&#969;&#7522;</text>
+          <!-- molecule at origin -->
+          <circle cx="300" cy="230" r="20" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+          <circle cx="300" cy="230" r="4"  fill="#ef4444"/>
+          <text x="300" y="270" class="ray-lab i18n-en" fill="#334155" text-anchor="middle">molecule (induced dipole &#956;)</text>
+          <text x="300" y="270" class="ray-lab i18n-ja" fill="#334155" text-anchor="middle">分子（誘起双極子 &#956;）</text>
+          <!-- scattered spherical wavefronts (semicircles, top) -->
+          <g fill="none" stroke="#16a34a" stroke-width="2.2" opacity="0.85">
+            <path d="M 245 230 A 55 55 0 0 1 355 230"/>
+            <path d="M 215 230 A 85 85 0 0 1 385 230"/>
+            <path d="M 185 230 A 115 115 0 0 1 415 230"/>
+          </g>
+          <line x1="300" y1="208" x2="300" y2="55" stroke="#0f172a" stroke-width="1.6" marker-end="url(#arrR)"/>
+          <text x="312" y="60" class="ray-lab i18n-en" fill="#15803d">Scattered spherical wave&#160;&#160;E&#8347;,&#160;&#969;&#8347;</text>
+          <text x="312" y="60" class="ray-lab i18n-ja" fill="#15803d">散乱球面波&#160;&#160;E&#8347;,&#160;&#969;&#8347;</text>
+          <!-- 90 degree right-angle marker -->
+          <path d="M 326 230 L 326 204 L 300 204" fill="none" stroke="#475569" stroke-width="1.4"/>
+          <text x="335" y="222" class="ray-lab" fill="#475569">90&#176;</text>
+          <!-- space-fixed axes (x right, z up, y out of page) -->
+          <g stroke="#94a3b8" stroke-width="1.4" fill="#64748b">
+            <line x1="560" y1="330" x2="615" y2="330" marker-end="url(#arrR)"/>
+            <line x1="560" y1="330" x2="560" y2="275" marker-end="url(#arrR)"/>
+            <circle cx="560" cy="330" r="3" fill="none" stroke="#94a3b8"/>
+            <circle cx="560" cy="330" r="0.8"/>
+            <text x="620" y="334" class="ray-ax">x</text>
+            <text x="552" y="270" class="ray-ax">z</text>
+            <text x="540" y="346" class="ray-ax">y</text>
+          </g>
+        </svg>
+        <figcaption>
+          <span class="i18n-en"><b>Figure&nbsp;1.</b> Classical picture of vibrational Raman scattering (shown for 90&deg; scattering). The incident plane wave is modulated by the lattice vibration; the induced dipole re-radiates a spherical wave containing the elastic ($\omega_i$) and frequency-shifted ($\omega_i\pm\omega_k$) components.</span><span class="i18n-ja"><b>図1.</b> 振動ラマン散乱の古典論的取り扱い（90&deg;散乱の場合を例にとる）。入射平面波は格子振動によって変調され、誘起双極子は弾性成分（$\omega_i$）と周波数シフト成分（$\omega_i\pm\omega_k$）を含む球面波を再放射する。</span>
+        </figcaption>
+      </figure>
+
+      <!-- Derivation: matches dissertation Appendix A.1 -->
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Incident electromagnetic wave</span><span class="i18n-ja">入射電磁波</span></h3>
+        <p><span class="i18n-en">The electric-field vector of the incident plane wave is</span><span class="i18n-ja">入射平面電磁波の電場ベクトルは次のように表わす。</span></p>
+        <p class="eq-block">$$\mathbf{E}_i = E_i\,\mathbf{e}_i\cos\omega_i t \tag{1}$$</p>
+        <p><span class="i18n-en">where $E_i$ is the field amplitude, $\mathbf e_i$ the polarization vector, and $\omega_i$ the angular frequency. The vector $\mathbf e_i$ has three components,</span><span class="i18n-ja">ここで $E_i$ は入射光電場の振幅、$\mathbf e_i$ は偏光ベクトル、$\omega_i$ は角振動数である。ベクトル $\mathbf e_i$ は3つの成分を持つ。</span></p>
+        <p class="eq-block">$$\mathbf{e}_i=\begin{pmatrix}e_{ix}\\ e_{iy}\\ e_{iz}\end{pmatrix} \tag{2}$$</p>
+        <p><span class="i18n-en">where $x,y,z$ are the space-fixed Cartesian axes (Fig.&nbsp;1).</span><span class="i18n-ja">ここで $x,y,z$ はそれぞれ空間固定のデカルト座標である（図1）。</span></p>
+
+        <h3><span class="i18n-en">Molecular polarizability</span><span class="i18n-ja">分子の分極率</span></h3>
+        <p><span class="i18n-en">The molecular polarizability $\alpha$ is a symmetric second-rank tensor with six independent components,</span><span class="i18n-ja">分子の分極率 $\alpha$ は2階の対称テンソルで、6つの独立な成分を持つ。</span></p>
+        <p class="eq-block">$$\alpha=\begin{pmatrix}\alpha_{xx}&\alpha_{xy}&\alpha_{xz}\\[2pt]\alpha_{yx}&\alpha_{yy}&\alpha_{yz}\\[2pt]\alpha_{zx}&\alpha_{zy}&\alpha_{zz}\end{pmatrix} \tag{3}$$</p>
+        <p><span class="i18n-en">with $\alpha_{xy}=\alpha_{yx}$, $\alpha_{yz}=\alpha_{zy}$, $\alpha_{zx}=\alpha_{xz}$. Since $\alpha$ depends on the nuclear configuration, it can be written as a function of the normal coordinates $Q_k$, where $Q_k$ is the $k$-th normal coordinate of the molecule. Expanding the component $\alpha_{\rho\sigma}$ as a power series in $Q_k$ and keeping the first-order term gives ($\rho,\sigma$ each denote $x$, $y$, or $z$):</span><span class="i18n-ja">ここで、$\alpha_{xy}=\alpha_{yx}$, $\alpha_{yz}=\alpha_{zy}$, $\alpha_{zx}=\alpha_{xz}$ の関係がある。分極率 $\alpha$ は分子の原子核配置の関数であり、基準座標 $Q_k$ の関数として表わすことができる。ここで $Q_k$ は分子の $k$ 番目の基準座標である。分極率の成分 $\alpha_{\rho\sigma}$ を $Q_k$ の冪級数として展開し、1次の項まで残すと次式が得られる。ここで $\rho$ および $\sigma$ は $x$、$y$、$z$ のいずれかを指すものとする。</span></p>
+        <p class="eq-block">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k\!\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_k \tag{4}$$</p>
+        <p><span class="i18n-en">Here $(\alpha_0)_{\rho\sigma}$ is the polarizability with the nuclei at equilibrium, and $(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ — a component of the <b>Raman tensor</b> $R$ — is the derivative at equilibrium. The nuclei oscillate at the angular frequency $\omega_k$ (the phonon frequency of mode $Q_k$), so</span><span class="i18n-ja">ここで $(\alpha_0)_{\rho\sigma}$ は原子核の平衡位置における分極率、$(\partial\alpha_{\rho\sigma}/\partial Q_k)_0$ は核の平衡位置における分極率成分 $\alpha_{\rho\sigma}$ の $k$ 番目の基準座標による微係数であり、<b>ラマンテンソル</b> $R$ の成分である。原子核は基準座標 $Q_k$ のフォノン周波数に対応する角振動数 $\omega_k$ で周期的に運動するので、その位置は次のように表わされる。</span></p>
+        <p class="eq-block">$$Q_k=Q_{k0}\cos\omega_k t \tag{5}$$</p>
+        <p><span class="i18n-en">Substituting (5) into (4) gives the time dependence of $\alpha_{\rho\sigma}$:</span><span class="i18n-ja">式(5)を(4)に代入すると、分極率成分 $\alpha_{\rho\sigma}$ の時間変化を表わす式が得られる。</span></p>
+        <p class="eq-block">$$\alpha_{\rho\sigma}=(\alpha_0)_{\rho\sigma}+\sum_k(\alpha_k)_{\rho\sigma}\cos\omega_k t \tag{6}$$</p>
+        <p><span class="i18n-en">where $(\alpha_k)_{\rho\sigma}$ is the amplitude of the periodically varying part,</span><span class="i18n-ja">ここで $(\alpha_k)_{\rho\sigma}$ は周期的に変動する部分の振幅で、次式で与えられる。</span></p>
+        <p class="eq-block">$$(\alpha_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\!Q_{k0} \tag{7}$$</p>
+
+        <h3><span class="i18n-en">Induced dipole moment and scattering intensity</span><span class="i18n-ja">誘起双極子モーメントと散乱強度</span></h3>
+        <p><span class="i18n-en">The dipole moment induced by the incident field is $\boldsymbol\mu=\alpha\,\mathbf E_i$. Combining (1) and (6) and applying a product-to-sum identity, it separates into three oscillating terms,</span><span class="i18n-ja">入射光によって誘起される双極子モーメントは $\boldsymbol\mu=\alpha\,\mathbf E_i$ である。式(1)と(6)を組み合わせ、積和の公式を適用すると、双極子モーメントは3つの振動項に分離する。</span></p>
+        <p class="eq-block">$$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_i e_{i\sigma}\cos\omega_i t}_{\text{Rayleigh}}+\tfrac12\sum_k(\alpha_k)_{\rho\sigma}E_i e_{i\sigma}\Big[\underbrace{\cos(\omega_i-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_i+\omega_k)t}_{\text{anti-Stokes}}\Big] \tag{8}$$</p>
+        <p><span class="i18n-en">An oscillating dipole radiates at its own frequency. The three terms therefore emit at $\omega_i$ (<b>Rayleigh</b>), $\omega_i-\omega_k$ (<b>Stokes</b>), and $\omega_i+\omega_k$ (<b>anti-Stokes</b>). From Maxwell's equations the far field at distance $r$ is</span><span class="i18n-ja">振動する双極子モーメントは自身の周波数で電磁波を放射する。したがって3つの項はそれぞれ $\omega_i$（<b>レイリー散乱</b>）、$\omega_i-\omega_k$（<b>ストークスラマン散乱</b>）、$\omega_i+\omega_k$（<b>反ストークスラマン散乱</b>）で放射する。マクスウェル方程式より、距離 $r$ における遠方場は次式となる。</span></p>
+        <p class="eq-block">$$E_s=\frac{\omega_s^2}{c^2 r}\,(\mathbf{e}_s\!\cdot\alpha\cdot\mathbf{e}_i)\,E_i\cos\!\Big(\omega_s t-\frac{\omega_s r}{c}\Big) \tag{9}$$</p>
+        <p><span class="i18n-en">where $\omega_s$ is the scattered angular frequency, $c$ the speed of light, and $\mathbf e_s$ the scattered-light polarization. Squaring gives the scattering intensity</span><span class="i18n-ja">ここで $\omega_s$ は散乱光の角振動数、$c$ は光速、$\mathbf e_s$ は散乱光の偏光ベクトルである。これを2乗すると、散乱光の強度が得られる。</span></p>
+        <p class="eq-block">$$I_s\propto I_i\,\big|\mathbf{e}_s\!\cdot R\cdot\mathbf{e}_i\big|^2\,\omega_s^4 \tag{10}$$</p>
+        <p><span class="i18n-en">The intensity is proportional to the incident intensity $I_i$, the squared Raman-tensor projection, and the fourth power of the scattered frequency $\omega_s$.</span><span class="i18n-ja">散乱強度は、入射光強度 $I_i$、ラマンテンソルの射影の2乗、および散乱周波数 $\omega_s$ の4乗に比例する。</span></p>
+
+        <h3><span class="i18n-en">Selection rule</span><span class="i18n-ja">ラマン散乱の選択則</span></h3>
+        <p><span class="i18n-en">For Raman scattering to occur, the Raman tensor must have at least one non-zero component,</span><span class="i18n-ja">ラマン散乱が起こるためには、ラマンテンソルが少なくとも1つの非ゼロ成分を持たなければならない。</span></p>
+        <p class="eq-block">$$(R_k)_{\rho\sigma}=\left(\frac{\partial\alpha_{\rho\sigma}}{\partial Q_k}\right)_{\!0}\neq 0\quad\text{for some }(\rho,\sigma) \tag{11}$$</p>
+        <p><span class="i18n-en">A vibration meeting this condition is <b>Raman-active</b>. Which tensor components survive — and hence the mode activity — is determined by the symmetry of the crystal structure, developed for RTe$_3$ in &sect;04.</span><span class="i18n-ja">この条件を満たす振動は<b>ラマン活性</b>と呼ばれる。どの成分が残るか — すなわちモードの活性 — は結晶構造の対称性によって決まり、RTe$_3$ については&sect;04で扱う。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Vibration → α → signal ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — From molecular vibration to the Raman signal</span><span class="i18n-ja">02 — 分子振動からラマン信号へ</span></span>
       <h2><span class="i18n-en">How a vibration modulates the polarizability</span><span class="i18n-ja">振動が分極率をどう変調するか</span></h2>
       <p>
         <span class="i18n-en">Pick a normal mode of CO<sub>2</sub>. The molecule vibrates (top-left) and the
         $\alpha(Q)$ curve (top-right) tracks the polarizability along the vibrational
         coordinate. Only a non-zero <em>slope</em> $\partial\alpha/\partial Q\neq 0$ at
-        equilibrium produces a first-order modulation — and therefore Raman sidebands.</span><span class="i18n-ja">CO<sub>2</sub>の基準モードを選んでください。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が振動座標に沿った分極率を追跡します。平衡位置でゼロでない<em>傾き</em> $\partial\alpha/\partial Q\neq 0$ のみが1次の変調を生み出し、したがってラマンサイドバンドを生じます。</span>
+        equilibrium produces a first-order modulation — and therefore Raman sidebands
+        (eq.&nbsp;6&ndash;8 above).</span><span class="i18n-ja">CO<sub>2</sub>の基準モードを選んでください。分子が振動し（左上）、$\alpha(Q)$ 曲線（右上）が振動座標に沿った分極率を追跡します。平衡位置でゼロでない<em>傾き</em> $\partial\alpha/\partial Q\neq 0$ のみが1次の変調を生み出し、したがってラマンサイドバンドを生じます（上式6&ndash;8）。</span>
       </p>
-
-      <!-- Compact classical derivation (matches the dissertation, Appendix A.1) -->
-      <div class="physics-note" style="border-left-color:#6366f1;">
-        <span class="i18n-en"><b>The classical effect in four steps.</b>
-        Drive the molecule with a monochromatic field and let one mode oscillate:
-        $$\mathbf{E}(t)=E_0\,\mathbf{e}_i\cos\omega_0 t,\qquad Q_k(t)=Q_{k0}\cos\omega_k t .$$
-        Insert the expansion of $\alpha$ into $\boldsymbol\mu=\alpha\mathbf E$ and apply the
-        product-to-sum identity. The induced dipole splits into <b>three</b> frequencies:
-        $$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_0 e_{i\sigma}\cos\omega_0 t}_{\text{Rayleigh } \omega_0}
-        +\tfrac12\,(R_k)_{\rho\sigma}E_0 e_{i\sigma}\Big[\underbrace{\cos(\omega_0-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_0+\omega_k)t}_{\text{anti-Stokes}}\Big].$$
-        The Stokes/anti-Stokes sidebands carry the prefactor $R_k$ — they exist
-        <b>iff</b> the Raman tensor is non-zero.</span><span class="i18n-ja"><b>古典的効果を4ステップで。</b>
-        単色場で分子を駆動し、1つのモードを振動させます：
-        $$\mathbf{E}(t)=E_0\,\mathbf{e}_i\cos\omega_0 t,\qquad Q_k(t)=Q_{k0}\cos\omega_k t .$$
-        $\alpha$ の展開を $\boldsymbol\mu=\alpha\mathbf E$ に代入し、積和の公式を適用します。誘起双極子は<b>3つの</b>周波数に分離します：
-        $$\mu_\rho=\underbrace{(\alpha_0)_{\rho\sigma}E_0 e_{i\sigma}\cos\omega_0 t}_{\text{Rayleigh } \omega_0}
-        +\tfrac12\,(R_k)_{\rho\sigma}E_0 e_{i\sigma}\Big[\underbrace{\cos(\omega_0-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_0+\omega_k)t}_{\text{anti-Stokes}}\Big].$$
-        ストークス/反ストークスサイドバンドは前因子 $R_k$ を持ちます — ラマンテンソルがゼロでない<b>場合に限り</b>存在します。</span>
-      </div>
     </div>
     <div class="demo-stage">
 
@@ -277,7 +353,7 @@
   <!-- ═══════ Module 02 — Jablonski ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — Quantum picture</span><span class="i18n-ja">02 — 量子論的描像</span></span>
+      <span class="demo-num"><span class="i18n-en">03 — Quantum picture</span><span class="i18n-ja">03 — 量子論的描像</span></span>
       <h2><span class="i18n-en">Energy-level (Jablonski) diagram</span><span class="i18n-ja">エネルギー準位（ヤブロンスキー）図</span></h2>
       <p>
         <span class="i18n-en">A photon excites the molecule to a short-lived <em>virtual state</em>, then a
@@ -316,7 +392,7 @@
   <!-- ═══════ Module 03 — From molecules to crystals ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">03 — 分子から結晶へ：角度分解ラマン</span></span>
+      <span class="demo-num"><span class="i18n-en">04 — From molecules to crystals: angle-resolved Raman</span><span class="i18n-ja">04 — 分子から結晶へ：角度分解ラマン</span></span>
       <h2><span class="i18n-en">Raman tensors &amp; polarization dependence in RTe$_3$</span><span class="i18n-ja">RTe$_3$ におけるラマンテンソルと偏光依存性</span></h2>
       <p>
         <span class="i18n-en">In a crystal, vibrations are collective <b>phonon modes</b> labelled by the
