@@ -33,10 +33,8 @@ function drawPhonon() {
   const ph = h - pad.t - pad.b;
 
   const maxFreq = 1800;
-  const nPts = 240;
-
-  // high-symmetry points along Γ → K → M → Γ (segment lengths ∝ 1 : 0.5 : √3/2)
   const xK = 0.423, xM = 0.634;
+
   const sym = [
     { x: 0,   label: "Γ" },
     { x: xK,  label: "K" },
@@ -44,69 +42,45 @@ function drawPhonon() {
     { x: 1,   label: "Γ" }
   ];
 
-  // segment helper: returns [index, u∈[0,1]] for path position t
-  function seg(t) {
-    if (t <= xK) return [0, t / xK];
-    if (t <= xM) return [1, (t - xK) / (xM - xK)];
-    return [2, (t - xM) / (1 - xM)];
+  // CSV-digitized data: flat [x0,y0, x1,y1, ...] sampled every 5th point
+  // order: LA, LO, iTA, iTO, oTA(ZA), oTO
+  var rawData = [
+    /* LA */
+    [0,7.9,0.0132,71.8,0.0267,136.6,0.0415,202,0.0569,272.1,0.0711,331.8,0.0856,394.6,0.1007,459.1,0.1164,523.5,0.1324,584.6,0.1483,642.3,0.1651,700.1,0.183,760,0.2029,822.5,0.2236,883.4,0.2455,941.3,0.2694,997.4,0.2933,1046.9,0.3171,1090.9,0.341,1127.7,0.3649,1160.4,0.3887,1191.7,0.4126,1217.5,0.438,1218.4,0.4619,1218.8,0.4857,1237.9,0.5096,1261.3,0.5334,1285.2,0.5573,1306.4,0.5812,1323,0.605,1334.8,0.6288,1339.5,0.6526,1314.6,0.6764,1258.1,0.6994,1198.6,0.7205,1137.9,0.7399,1075.6,0.7573,1017.1,0.7739,959.4,0.7898,903.2,0.8056,845.7,0.8215,786.8,0.8373,725.8,0.8531,663.8,0.869,600.8,0.8848,535.8,0.9006,467.4,0.9162,398.2,0.9318,328.4,0.9461,262.8,0.9603,196.3,0.9734,135.1,0.9872,69.3,1,9.8],
+    /* LO */
+    [0,1582.7,0.0238,1598,0.0476,1610.3,0.0714,1618.9,0.0952,1624,0.119,1624.4,0.1428,1622.1,0.1666,1612.7,0.1904,1595.6,0.2142,1572.2,0.238,1544.2,0.2617,1512.6,0.2855,1477.7,0.3093,1438.5,0.3331,1395.3,0.3584,1346.1,0.3821,1297.9,0.4059,1252.3,0.4297,1236.7,0.4535,1259.2,0.4773,1279.9,0.5011,1298.6,0.525,1315.4,0.5488,1329.4,0.5726,1341,0.5964,1351.3,0.6202,1358,0.644,1377.7,0.6679,1419.8,0.6917,1461.8,0.7155,1499.4,0.7393,1531.5,0.7632,1558.6,0.787,1581.6,0.8108,1600.2,0.8346,1613.4,0.8584,1620,0.8822,1622.3,0.906,1620.9,0.9298,1615.9,0.9536,1605.9,0.9774,1592.7,1,1579.1],
+    /* iTA */
+    [0,4.8,0.0227,74.1,0.0442,137.3,0.0654,199.6,0.0862,260.1,0.108,323,0.1293,382.4,0.1513,444.9,0.1735,506.4,0.1953,564.1,0.2191,624.4,0.2429,682.6,0.2667,738.8,0.2905,793.4,0.3144,845,0.3382,893,0.362,935,0.3857,970.2,0.4095,993.4,0.4333,996.5,0.457,967.3,0.4808,917,0.5037,859.4,0.5266,799.9,0.5503,739.7,0.574,686.7,0.5978,648,0.6215,627.9,0.6453,622.8,0.669,616.6,0.6928,604.7,0.7165,588.7,0.7403,568.2,0.764,543.3,0.7877,511,0.8115,472.6,0.8352,427.8,0.8589,376.9,0.8826,321.9,0.9064,264.4,0.9281,206.9,0.9463,153.2,0.9635,103.4,0.9834,47.2,1,1.9],
+    /* iTO */
+    [0,1582.7,0.0238,1580.1,0.0475,1573.6,0.0713,1563.6,0.0951,1549,0.1188,1530.1,0.1426,1509.8,0.1663,1488.7,0.1901,1469.5,0.2138,1451.9,0.2376,1436.9,0.2614,1421.5,0.2851,1405.9,0.3089,1391.5,0.3326,1378.5,0.3564,1364.1,0.3802,1347.7,0.4039,1321.9,0.4277,1305.5,0.4515,1337.9,0.4753,1362.5,0.499,1381.1,0.5228,1394.8,0.5466,1404.5,0.5704,1410.6,0.5942,1412.5,0.6179,1412.4,0.6417,1412.2,0.6686,1414.8,0.6924,1422.2,0.7162,1431,0.74,1440.2,0.7638,1450.3,0.7875,1462,0.8113,1476.6,0.8351,1494.3,0.8589,1512.8,0.8827,1530.7,0.9065,1547.6,0.9303,1561.2,0.954,1570.3,0.9778,1575.5,1,1575.9],
+    /* oTA (ZA) */
+    [0,-1.2,0.0237,6.7,0.0475,14.5,0.0712,25.6,0.0949,42.6,0.1187,65.6,0.1424,94,0.1662,125.6,0.1899,161,0.2137,199.6,0.2374,239.4,0.2612,280.7,0.285,322,0.3087,362.7,0.3325,401,0.3562,437.1,0.38,471.2,0.4037,502.1,0.4275,519.7,0.4512,498.5,0.4749,482.1,0.4986,471.1,0.5223,464.9,0.5461,462.6,0.5698,462.1,0.5935,460.3,0.6172,460.2,0.641,459.4,0.6647,438.8,0.6884,399.8,0.712,353,0.7357,304.1,0.7594,256.5,0.7831,211.7,0.8068,169.6,0.8305,130.6,0.8542,95.9,0.8779,66.8,0.9016,42.3,0.9253,23.2,0.949,10.9,0.9727,2.3,0.9964,-4.8,1,-5.2],
+    /* oTO */
+    [0,867.9,0.0238,867,0.0475,864.1,0.0713,859.7,0.095,853.5,0.1188,845.7,0.1426,835.3,0.1663,822.1,0.19,806.4,0.2138,787.3,0.2375,764.3,0.2613,738.9,0.285,710.2,0.3088,678.2,0.3325,644,0.3562,609.9,0.38,576.2,0.4037,545,0.4274,530.3,0.4512,552.8,0.475,570.5,0.4988,586,0.5225,597.7,0.5463,607.2,0.5701,613.9,0.5939,618.3,0.6176,621.2,0.6493,628.6,0.6731,650.1,0.6969,682.2,0.7207,713.3,0.7444,742.4,0.7682,767.6,0.792,788.9,0.8166,808.1,0.8404,822.5,0.8641,834.3,0.8879,843.8,0.9117,851.2,0.9354,856.4,0.9592,859.8,0.983,861.9,1,862.8]
+  ];
+
+  // linear interpolation from flat [x0,y0, x1,y1,...] array
+  function interp(data, t) {
+    if (t <= data[0]) return data[1];
+    var n = data.length;
+    if (t >= data[n - 2]) return data[n - 1];
+    var lo = 0, hi = (n / 2) - 1;
+    while (hi - lo > 1) {
+      var mid = (lo + hi) >> 1;
+      if (data[mid * 2] <= t) lo = mid; else hi = mid;
+    }
+    var x0 = data[lo*2], y0 = data[lo*2+1];
+    var x1 = data[hi*2], y1 = data[hi*2+1];
+    return y0 + (y1 - y0) * (t - x0) / (x1 - x0);
   }
-  function smooth(u) { return 0.5 - 0.5 * Math.cos(PI * u); }
 
-  // dispersion curves digitized from the reference figure (Γ → K → M → Γ)
-  function branch(name, fn, color) { return { name, fn, color }; }
-
-  const branches = [
-    // out-of-plane acoustic (ZA): quadratic near Γ
-    branch("oTA (ZA)", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) return 520 * Math.pow(u, 1.5);
-      if (i === 1) return 520 - 60 * u;
-      return 460 * Math.pow(1 - u, 2);
-    }, "#ea580c"),
-
-    // in-plane transverse acoustic
-    branch("iTA", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) return 950 * Math.pow(u, 0.95);
-      if (i === 1) return -693.3 * u * u + 373.3 * u + 950; // peak ~1000
-      return 630 * (1 - u);
-    }, "#16a34a"),
-
-    // out-of-plane optical
-    branch("oTO", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) return 870 - 340 * smooth(u);
-      if (i === 1) return 530 + 100 * smooth(u);
-      return 630 + 240 * smooth(u);
-    }, "#eab308"),
-
-    // longitudinal acoustic
-    branch("LA", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) return 1220 * Math.pow(u, 0.9);
-      if (i === 1) return 1220 + 130 * smooth(u);
-      return 1350 * Math.pow(1 - u, 1.1);
-    }, "#2563eb"),
-
-    // in-plane transverse optical — Kohn-anomaly dip at K (D/2D band)
-    branch("iTO", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) return 1580 - 270 * Math.pow(u, 1.3);
-      if (i === 1) return 1310 + 100 * Math.sqrt(u);
-      return 1410 + 170 * smooth(u);
-    }, "#dc2626"),
-
-    // longitudinal optical — overshoot to ~1620 near Γ, dip at K
-    branch("LO", function(t) {
-      var sg = seg(t), i = sg[0], u = sg[1];
-      if (i === 0) {
-        var dec = 1580 - 340 * Math.pow(u, 1.5);
-        var bump = u < 0.3 ? 60 * Math.sin(PI * u / 0.3) : 0;
-        return dec + bump;
-      }
-      if (i === 1) return 1240 + 160 * Math.sqrt(u);
-      return -453.3 * u * u + 633.3 * u + 1400; // arch up to ~1620
-    }, "#06b6d4")
+  var branchDefs = [
+    { name: "LA",       data: rawData[0], color: "#2563eb" },
+    { name: "LO",       data: rawData[1], color: "#06b6d4" },
+    { name: "iTA",      data: rawData[2], color: "#16a34a" },
+    { name: "iTO",      data: rawData[3], color: "#dc2626" },
+    { name: "oTA (ZA)", data: rawData[4], color: "#ea580c" },
+    { name: "oTO",      data: rawData[5], color: "#eab308" }
   ];
 
   // background
@@ -116,20 +90,16 @@ function drawPhonon() {
   // axes
   ctx.strokeStyle = "#44403c";
   ctx.lineWidth = 1;
-
-  // y-axis
   ctx.beginPath();
   ctx.moveTo(pad.l, pad.t);
   ctx.lineTo(pad.l, h - pad.b);
   ctx.stroke();
-
-  // x-axis
   ctx.beginPath();
   ctx.moveTo(pad.l, h - pad.b);
   ctx.lineTo(w - pad.r, h - pad.b);
   ctx.stroke();
 
-  // y-ticks
+  // y-ticks and gridlines
   ctx.fillStyle = "#a8a29e";
   ctx.font = "11px system-ui, sans-serif";
   ctx.textAlign = "right";
@@ -153,7 +123,7 @@ function drawPhonon() {
   ctx.fillText("Frequency (cm⁻¹)", 0, 0);
   ctx.restore();
 
-  // high-symmetry labels & vertical lines
+  // high-symmetry point labels and dashed vertical lines
   ctx.textAlign = "center";
   ctx.fillStyle = "#d6d3d1";
   ctx.font = "bold 13px system-ui, sans-serif";
@@ -172,32 +142,30 @@ function drawPhonon() {
   });
 
   // highlight zones
-  // Γ point (G band)
   var gx = pad.l;
   ctx.fillStyle = "rgba(22,163,106,0.08)";
   ctx.fillRect(gx - 2, pad.t, 30, ph);
 
-  // K point (D / 2D)
   var kx = pad.l + xK * pw;
   ctx.fillStyle = "rgba(239,68,68,0.08)";
   ctx.fillRect(kx - 15, pad.t, 30, ph);
 
-  // labels for zones
   ctx.font = "10px system-ui, sans-serif";
   ctx.fillStyle = "rgba(22,163,106,0.6)";
   ctx.fillText("G band", gx + 14, pad.t + 14);
   ctx.fillStyle = "rgba(239,68,68,0.6)";
   ctx.fillText("D, 2D", kx, pad.t + 14);
 
-  // draw branches
-  branches.forEach(function(br) {
+  // draw branches using interpolated CSV data
+  var nPts = 300;
+  branchDefs.forEach(function(br) {
     ctx.strokeStyle = br.color;
     ctx.lineWidth = 2;
     ctx.beginPath();
     for (var i = 0; i <= nPts; i++) {
       var t = i / nPts;
       var x = pad.l + t * pw;
-      var freq = br.fn(t);
+      var freq = interp(br.data, t);
       var y = h - pad.b - (freq / maxFreq) * ph;
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
@@ -205,22 +173,22 @@ function drawPhonon() {
     ctx.stroke();
   });
 
-  // in-plot branch labels (positioned at visually distinct points)
+  // in-plot branch labels at visually distinct, non-overlapping positions
   var inLabels = [
-    // [name, t along path, yOffset from curve]
-    { name: "LO",       br: branches[5], t: 0.05,  dy: -13 },
-    { name: "iTO",      br: branches[4], t: 0.12,  dy:  12 },
-    { name: "oTO",      br: branches[2], t: 0.05,  dy: -13 },
-    { name: "LA",       br: branches[3], t: 0.22,  dy: -13 },
-    { name: "iTA",      br: branches[1], t: 0.55,  dy: -13 },
-    { name: "oTA (ZA)", br: branches[0], t: 0.46,  dy:  13 }
+    { name: "LO",       brIdx: 1, t: 0.05,  dy: -13 },
+    { name: "iTO",      brIdx: 3, t: 0.10,  dy:  13 },
+    { name: "oTO",      brIdx: 5, t: 0.05,  dy: -13 },
+    { name: "LA",       brIdx: 0, t: 0.20,  dy: -13 },
+    { name: "iTA",      brIdx: 2, t: 0.42,  dy: -13 },
+    { name: "oTA (ZA)", brIdx: 4, t: 0.38,  dy:  13 }
   ];
   ctx.font = "bold 11px system-ui, sans-serif";
   inLabels.forEach(function(lb) {
+    var br = branchDefs[lb.brIdx];
     var lx = pad.l + lb.t * pw;
-    var freq = lb.br.fn(lb.t);
+    var freq = interp(br.data, lb.t);
     var ly = h - pad.b - (freq / maxFreq) * ph + lb.dy;
-    ctx.fillStyle = lb.br.color;
+    ctx.fillStyle = br.color;
     ctx.textAlign = "left";
     ctx.fillText(lb.name, lx, ly);
   });
