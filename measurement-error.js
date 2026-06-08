@@ -578,9 +578,11 @@
       const seObs = stdev(means);
       $('clt-se-pred').textContent = fmt(sePred, 3);
       $('clt-se-obs').textContent = fmt(seObs, 3);
-      // fixed window (parent spread) so the narrowing toward μ is visible
+      // zoom the window to the distribution of the mean (±4·σ/√n) so the bell
+      // stays well-resolved as n grows; the shrinking axis labels convey the
+      // narrowing. At n=1 this window equals the parent spread.
       drawHistogram(cvM, means, {
-        lo: P.mu - 4 * P.sd, hi: P.mu + 4 * P.sd, bins: 34, color: '#a78bfa',
+        lo: P.mu - 4 * sePred, hi: P.mu + 4 * sePred, bins: 30, color: '#a78bfa',
         normal: { mu: P.mu, sd: sePred }, trueMean: P.mu,
       });
     }
