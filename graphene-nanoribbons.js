@@ -359,8 +359,18 @@
         ctx.globalAlpha = 1;
       }
 
-      // translation-vector arrow T along the axis (through the band centre)
-      var a0 = RS(l0, wmid), a1 = RS(l0+Tper, wmid);
+      // translation-vector arrow T — placed OUTSIDE the ribbon edge
+      // Compute outward screen direction from ribbon centre to upper edge
+      var ribCtrScr  = RS(l0+Tper/2, wmid);
+      var ribEdgeScr = RS(l0+Tper/2, wmax + pad);
+      var outScrDx = ribEdgeScr[0]-ribCtrScr[0], outScrDy = ribEdgeScr[1]-ribCtrScr[1];
+      var outLen = Math.hypot(outScrDx, outScrDy)||1;
+      var oux = outScrDx/outLen, ouy = outScrDy/outLen;
+      // Base position at the ribbon shaded boundary, then shift 10px outward
+      var a0s = RS(l0,       wmax + pad), a1s = RS(l0+Tper, wmax + pad);
+      var a0 = [a0s[0]+oux*10, a0s[1]+ouy*10];
+      var a1 = [a1s[0]+oux*10, a1s[1]+ouy*10];
+      var aMx = (a0[0]+a1[0])/2, aMy = (a0[1]+a1[1])/2;
       ctx.strokeStyle = accent; ctx.fillStyle = accent; ctx.lineWidth = 2.4;
       (function arrow(x0,y0,x1,y1){
         var dx=x1-x0, dy=y1-y0, L=Math.hypot(dx,dy)||1, ux=dx/L, uy=dy/L;
@@ -371,7 +381,7 @@
         ctx.stroke();
       })(a0[0],a0[1],a1[0],a1[1]);
       ctx.font = '700 11px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText(isZig ? 'T = a' : 'T = √3 a', (a0[0]+a1[0])/2, (a0[1]+a1[1])/2 - 8);
+      ctx.fillText(isZig ? 'T = a' : 'T = √3 a', aMx + oux*14, aMy + ouy*14);
     }
     function drawCells(theta, N) {
       var type = theta === 0 ? 'zigzag' : 'armchair';
@@ -537,13 +547,16 @@
           var sax = saxR/saxL, say = sayR/saxL;
           var stx = stxR/stxL, sty = styR/stxL;
 
-          // 1. BZ longitudinal width 2π/T
-          var bwP1 = P(-kpar*axdx, -kpar*axdy);
-          var bwP2 = P( kpar*axdx,  kpar*axdy);
+          // 1. BZ longitudinal width 2π/T — placed OUTSIDE the hexagonal BZ
+          // Offset by BZR (circumradius) + 12 px outward in the -k⊥ direction
+          // so the arrow is always clear of the hexagon regardless of orientation.
+          var bwOff = BZR + 12/sc;
+          var bwP1 = P(-kpar*axdx - bwOff*trdx, -kpar*axdy - bwOff*trdy);
+          var bwP2 = P( kpar*axdx - bwOff*trdx,  kpar*axdy - bwOff*trdy);
           var bwMx = (bwP1[0]+bwP2[0])/2, bwMy = (bwP1[1]+bwP2[1])/2;
           dblArrow(bwP1[0], bwP1[1], bwP2[0], bwP2[1],
                    isZig ? '2π/a' : '2π/√3a',
-                   bwMx - stx*20, bwMy - sty*20);
+                   bwMx - stx*16, bwMy - sty*16);
 
           // 2. Transverse quantization step π/(N+1) or 2π/(N+1)
           var qstep = (isZig ? 1 : 2) * PI / (p.N + 1);
