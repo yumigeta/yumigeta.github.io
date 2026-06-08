@@ -1190,27 +1190,55 @@
           var a2 = P(L.c*trdx + kpar*axdx, L.c*trdy + kpar*axdy);
           ctx.beginPath(); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(a2[0],a2[1]); ctx.stroke();
         }
-        // Folded Dirac points: K (red) vs K' (blue), matching Module 00 convention
+        // Folded Dirac points: K (red) vs K' (blue), matching Module 00 convention.
+        // Points whose true k∥ lay outside the 1-D zone are umklapp-folded into
+        // the strip; we mark those with a dashed connector from their original
+        // location + a hollow ring, so a folded image is obvious at a glance.
         var KD = [], KpD = [];
         for (var n = 0; n < 6; n++) {
           var ang2 = n*PI/3, kc = BZR*cos(ang2), ks = BZR*sin(ang2);
-          var kpa = kc*axdx + ks*axdy, kpe = kc*trdx + ks*trdy;
-          kpa -= 2*kpar*Math.round(kpa/(2*kpar));
+          var kpa0 = kc*axdx + ks*axdy, kpe = kc*trdx + ks*trdy;
+          var m = Math.round(kpa0/(2*kpar));
+          var kpa = kpa0 - 2*kpar*m;                   // folded axial momentum
           if (abs(kpe) > ktrMax + 1e-6) continue;
-          var dp = P(kpa*axdx + kpe*trdx, kpa*axdy + kpe*trdy);
-          if (n % 2 === 0) KD.push(dp); else KpD.push(dp);
+          var dp  = P(kpa*axdx  + kpe*trdx, kpa*axdy  + kpe*trdy);
+          var dp0 = P(kpa0*axdx + kpe*trdx, kpa0*axdy + kpe*trdy);
+          var rec = { dp: dp, dp0: dp0, folded: (m !== 0) };
+          if (n % 2 === 0) KD.push(rec); else KpD.push(rec);
         }
-        ctx.font = '700 9px "DM Sans", sans-serif';
-        ctx.fillStyle = '#ef4444';
-        KD.forEach(function(dp) {
-          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3.5, 0, 2*PI); ctx.fill();
-          ctx.fillText('K', dp[0]+5, dp[1]+3);
-        });
-        ctx.fillStyle = '#60a5fa';
-        KpD.forEach(function(dp) {
-          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3.5, 0, 2*PI); ctx.fill();
-          ctx.fillText("K'", dp[0]+5, dp[1]+3);
-        });
+        function drawDirac(arr, color, label) {
+          arr.forEach(function(r) {
+            if (r.folded) {
+              // dashed connector from the original (pre-fold) location
+              ctx.save();
+              ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+              ctx.strokeStyle = color; ctx.globalAlpha = 0.5;
+              ctx.beginPath(); ctx.moveTo(r.dp0[0], r.dp0[1]); ctx.lineTo(r.dp[0], r.dp[1]); ctx.stroke();
+              ctx.restore();
+              // faint ghost of the original position
+              ctx.save(); ctx.globalAlpha = 0.35;
+              ctx.fillStyle = color;
+              ctx.beginPath(); ctx.arc(r.dp0[0], r.dp0[1], 2.5, 0, 2*PI); ctx.fill();
+              ctx.restore();
+              // folded image: hollow ring + ↩ mark
+              ctx.lineWidth = 1.8; ctx.strokeStyle = color;
+              ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 3.8, 0, 2*PI); ctx.stroke();
+              ctx.fillStyle = '#0c0a09';
+              ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 2.4, 0, 2*PI); ctx.fill();
+              ctx.fillStyle = color;
+              ctx.font = '700 9px "DM Sans", sans-serif';
+              ctx.fillText(label + '↩', r.dp[0]+5, r.dp[1]+3);
+            } else {
+              // genuine in-zone position: solid dot
+              ctx.fillStyle = color;
+              ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 3.5, 0, 2*PI); ctx.fill();
+              ctx.font = '700 9px "DM Sans", sans-serif';
+              ctx.fillText(label, r.dp[0]+5, r.dp[1]+3);
+            }
+          });
+        }
+        drawDirac(KD,  '#ef4444', 'K');
+        drawDirac(KpD, '#60a5fa', "K'");
 
         // ── Dimension annotations ──
         (function () {
@@ -1298,6 +1326,18 @@
       ctx.fillStyle = '#a8a29e'; ctx.fill();
       ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
+
+      // Legend: solid = genuine position · hollow ring = umklapp-folded image
+      if (reduced) {
+        var lx = 10, ly = H - 22;
+        ctx.font = '600 9px "DM Sans", sans-serif'; ctx.textAlign = 'left';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath(); ctx.arc(lx+4, ly, 3.2, 0, 2*PI); ctx.fill();
+        ctx.fillText('original', lx+12, ly+3);
+        ctx.lineWidth = 1.8; ctx.strokeStyle = '#cbd5e1';
+        ctx.beginPath(); ctx.arc(lx+4, ly+13, 3.6, 0, 2*PI); ctx.stroke();
+        ctx.fillStyle = '#cbd5e1'; ctx.fillText('folded ↩', lx+12, ly+16);
+      }
     }
 
     // ── 3D band surface (same region as Module 02) + cutting lines ──
