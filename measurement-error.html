@@ -264,7 +264,11 @@
           <div class="me-stat"><span class="k"><span class="i18n-en">agreement</span><span class="i18n-ja">一致度</span></span><span class="v" id="prop-agree" style="font-size:0.9rem">—</span></div>
         </div>
       </div>
-      <p class="me-cap"><span class="i18n-en">The analytic and Monte-Carlo values agree — two independent routes to the same uncertainty. <b>Quadrature</b> means a small uncertainty contributes almost nothing once a larger one is present, so effort is best spent on the dominant term.</span><span class="i18n-ja">解析式とモンテカルロの値は一致する — 同じ不確かさへの独立な2つの経路だ。<b>二乗和</b>では、大きな不確かさがあると小さなものはほとんど効かないので、支配的な項に労力を割くのが最善である。</span></p>
+      <p class="me-cap"><span class="i18n-en">For near-linear formulas the analytic and Monte-Carlo values agree — two independent routes to the same uncertainty. <b>Quadrature</b> means a small uncertainty contributes almost nothing once a larger one is present, so effort is best spent on the dominant term.</span><span class="i18n-ja">ほぼ線形な式では解析式とモンテカルロの値は一致する — 同じ不確かさへの独立な2つの経路だ。<b>二乗和</b>では、大きな不確かさがあると小さなものはほとんど効かないので、支配的な項に労力を割くのが最善である。</span></p>
+      <div class="me-seealso">
+        <b><span class="i18n-en">Why isn't the histogram always a bell curve?</span><span class="i18n-ja">ヒストグラムが必ずしも釣鐘型にならないのは？</span></b>
+        <span class="i18n-en"> The analytic formula is a <b>first-order (linear) approximation</b>: it replaces $f$ by its tangent over the $\pm\delta$ range and assumes the result is Gaussian. For a <b>nonlinear</b> $f$ — try <code>x*sin(y)</code> — pushing the uncertainties up makes the true (Monte-Carlo) distribution <b>skewed and non-normal</b>, and the green Normal curve no longer fits. The effect is strongest where the slope $\partial f/\partial x_i$ nearly vanishes (e.g. $y$ near $\pi/2$ for $\sin y$), and where $f$ is a product of comparable random factors. Unlike a sum of many terms, a 2-variable $f$ has no reason to be normal (no Central Limit Theorem here). <b>Shrink the $\delta$ sliders</b> and the linear approximation recovers — the histogram tightens back onto the green curve and the agreement rises.</span><span class="i18n-ja"> 解析式は<b>一次（線形）近似</b>で、$\pm\delta$ の範囲で $f$ を接線に置き換え、結果がガウス分布だと仮定している。<b>非線形</b>な $f$（例：<code>x*sin(y)</code>）で不確かさを大きくすると、真の（モンテカルロ）分布は<b>歪んで非正規</b>になり、緑の正規曲線は合わなくなる。効果が最も強いのは、傾き $\partial f/\partial x_i$ がほぼ消える点（$\sin y$ なら $y\approx\pi/2$ 付近）や、同程度の大きさの確率変数どうしの積になっている場合だ。多数の項の和と違い、2変数の $f$ が正規分布になる理由はない（ここでは中心極限定理は効かない）。<b>$\delta$ スライダーを小さくする</b>と線形近似が回復し、ヒストグラムは緑曲線に締まり、一致度も上がる。</span>
+      </div>
     </div>
   </section>
 
