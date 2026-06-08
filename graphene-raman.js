@@ -175,12 +175,12 @@ function drawPhonon() {
 
   // in-plot branch labels — positions chosen so no label overlaps any curve or other label
   var inLabels = [
-    { name: "LA",       brIdx: 0, t: 0.715, dy: +13 }, // K→M descent, 39px clear below
-    { name: "LO",       brIdx: 1, t: 0.190, dy: -13 }, // Γ→K near peak, 29px clear above
-    { name: "iTA",      brIdx: 2, t: 0.520, dy: -13 }, // K→M, 38px clear above
-    { name: "iTO",      brIdx: 3, t: 0.400, dy: -13 }, // Γ→K dip approach, 20px clear above
-    { name: "oTA (ZA)", brIdx: 4, t: 0.200, dy: +13 }, // Γ→K rise, 56px clear below
-    { name: "oTO",      brIdx: 5, t: 0.935, dy: -13 }  // M→Γ, 73px clear above
+    { name: "LA",       brIdx: 0, t: 0.034, dy: -14 },
+    { name: "LO",       brIdx: 1, t: 0.174, dy: -14 },
+    { name: "iTA",      brIdx: 2, t: 0.082, dy: +14 },
+    { name: "iTO",      brIdx: 3, t: 0.038, dy: +14 },
+    { name: "oTA (ZA)", brIdx: 4, t: 0.150, dy: -14 },
+    { name: "oTO",      brIdx: 5, t: 0.030, dy: -14 }
   ];
   ctx.font = "bold 11px system-ui, sans-serif";
   inLabels.forEach(function(lb) {
