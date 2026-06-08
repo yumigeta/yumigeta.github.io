@@ -175,12 +175,12 @@ function drawPhonon() {
 
   // in-plot branch labels — positions chosen so no label overlaps any curve or other label
   var inLabels = [
-    { name: "LO",       brIdx: 1, t: 0.08, dy: -14 }, // above LO peak (1620), iTO 64 cm⁻¹ below
-    { name: "iTO",      brIdx: 3, t: 0.19, dy:  14 }, // below iTO (1471), clearly under LO (1595)
-    { name: "oTO",      brIdx: 5, t: 0.04, dy: -13 }, // above oTO (864), far left, all others low
-    { name: "LA",       brIdx: 0, t: 0.26, dy: -13 }, // above LA (975), above oTO (735) & iTA (722)
-    { name: "iTA",      brIdx: 2, t: 0.17, dy: -13 }, // above iTA (496), between oTO (814) & oTA (136)
-    { name: "oTA (ZA)", brIdx: 4, t: 0.30, dy:  13 }  // below oTA (343), iTA 78 px above
+    { name: "LO",       brIdx: 1, t: 0.75, dy: -13 }, // M→Γ: LO≈1544, iTO≈1523, gap 21 cm⁻¹ → 5px
+    { name: "iTO",      brIdx: 3, t: 0.20, dy: +13 }, // early Γ→K: iTO≈1462, LO 17px above
+    { name: "oTO",      brIdx: 5, t: 0.04, dy: -13 }, // near Γ: oTO≈865, all others far below
+    { name: "LA",       brIdx: 0, t: 0.10, dy: -13 }, // early Γ→K: LA≈456, oTO 55px above
+    { name: "iTA",      brIdx: 2, t: 0.11, dy: +13 }, // early Γ→K: iTA≈329, LA 23px above
+    { name: "oTA (ZA)", brIdx: 4, t: 0.45, dy: +13 }  // mid K→M: oTA≈500, oTO 7px above
   ];
   ctx.font = "bold 11px system-ui, sans-serif";
   inLabels.forEach(function(lb) {
@@ -188,10 +188,6 @@ function drawPhonon() {
     var lx = pad.l + lb.t * pw;
     var freq = interp(br.data, lb.t);
     var ly = h - pad.b - (freq / maxFreq) * ph + lb.dy;
-    var tw = ctx.measureText(lb.name).width;
-    // semi-transparent backing so label is readable over any curve
-    ctx.fillStyle = "rgba(12,10,9,0.72)";
-    ctx.fillRect(lx - 2, ly - 11, tw + 4, 14);
     ctx.fillStyle = br.color;
     ctx.textAlign = "left";
     ctx.fillText(lb.name, lx, ly);
