@@ -20,6 +20,26 @@ function setupCanvas(id) {
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 
+/* ── in-plot phonon label positions ──
+   Absolute placement: fx = fraction of plot width (0..1), freq = cm^-1 (vertical).
+   Draggable in editor mode (open the page with ?labeledit=1). */
+var phononLabels = [
+  { name: "LA",       brIdx: 0, color: "#2563eb", fx: 0.034, freq: 270 },
+  { name: "LO",       brIdx: 1, color: "#06b6d4", fx: 0.174, freq: 1708 },
+  { name: "iTA",      brIdx: 2, color: "#16a34a", fx: 0.082, freq: 147 },
+  { name: "iTO",      brIdx: 3, color: "#dc2626", fx: 0.038, freq: 1475 },
+  { name: "oTA (ZA)", brIdx: 4, color: "#ea580c", fx: 0.150, freq: 205 },
+  { name: "oTO",      brIdx: 5, color: "#eab308", fx: 0.030, freq: 967 }
+];
+try {
+  var _savedLbl = JSON.parse(localStorage.getItem("phononLabelPos") || "null");
+  if (_savedLbl) phononLabels.forEach(function (l) {
+    if (_savedLbl[l.name]) { l.fx = _savedLbl[l.name].fx; l.freq = _savedLbl[l.name].freq; }
+  });
+} catch (e) {}
+var phononLabelRects = [];
+var phononEditMode = false;
+
 /* ═══════════════════════════════════════════════════════════════════
    Module 00 — Phonon dispersion
    ═══════════════════════════════════════════════════════════════════ */
@@ -173,24 +193,22 @@ function drawPhonon() {
     ctx.stroke();
   });
 
-  // in-plot branch labels — positions chosen so no label overlaps any curve or other label
-  var inLabels = [
-    { name: "LA",       brIdx: 0, t: 0.034, dy: -14 },
-    { name: "LO",       brIdx: 1, t: 0.174, dy: -14 },
-    { name: "iTA",      brIdx: 2, t: 0.082, dy: +14 },
-    { name: "iTO",      brIdx: 3, t: 0.038, dy: +14 },
-    { name: "oTA (ZA)", brIdx: 4, t: 0.150, dy: -14 },
-    { name: "oTO",      brIdx: 5, t: 0.030, dy: -14 }
-  ];
+  // in-plot branch labels — absolute placement (draggable in ?labeledit mode)
   ctx.font = "bold 11px system-ui, sans-serif";
-  inLabels.forEach(function(lb) {
-    var br = branchDefs[lb.brIdx];
-    var lx = pad.l + lb.t * pw;
-    var freq = interp(br.data, lb.t);
-    var ly = h - pad.b - (freq / maxFreq) * ph + lb.dy;
-    ctx.fillStyle = br.color;
+  phononLabelRects = [];
+  phononLabels.forEach(function (lb) {
+    var lx = pad.l + lb.fx * pw;
+    var ly = h - pad.b - (lb.freq / maxFreq) * ph;
+    var tw = ctx.measureText(lb.name).width;
+    ctx.fillStyle = lb.color;
     ctx.textAlign = "left";
     ctx.fillText(lb.name, lx, ly);
+    phononLabelRects.push({ lb: lb, x: lx, y: ly - 11, w: tw, h: 14 });
+    if (phononEditMode) {
+      ctx.strokeStyle = "rgba(255,255,255,0.4)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(lx - 3, ly - 12, tw + 6, 16);
+    }
   });
 }
 
@@ -711,9 +729,127 @@ function drawCone(ctx, cx, cy, cw, ch, label) {
 }
 
 
+/* ── drag editor for phonon labels (activated with ?labeledit=1) ── */
+function setupLabelEditor() {
+  if (!/[?&]labeledit/.test(location.search)) return;
+  var canvas = document.getElementById("c-phonon");
+  if (!canvas) return;
+  phononEditMode = true;
+
+  var PAD = { t: 30, r: 30, b: 40, l: 60 };
+  var MAXF = 1800;
+  function geom() {
+    var r = canvas.getBoundingClientRect();
+    return { r: r, w: r.width, h: r.height,
+             pw: r.width - PAD.l - PAD.r, ph: r.height - PAD.t - PAD.b };
+  }
+  function evtXY(e) {
+    var r = canvas.getBoundingClientRect();
+    var t = e.touches && e.touches[0] ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+
+  var drag = null, offX = 0, offY = 0;
+  function pick(x, y) {
+    for (var i = phononLabelRects.length - 1; i >= 0; i--) {
+      var R = phononLabelRects[i];
+      if (x >= R.x - 5 && x <= R.x + R.w + 5 && y >= R.y - 5 && y <= R.y + R.h + 5) return R;
+    }
+    return null;
+  }
+  function down(e) {
+    var p = evtXY(e), R = pick(p.x, p.y);
+    if (!R) return;
+    drag = R.lb;
+    var g = geom();
+    var lx = PAD.l + drag.fx * g.pw;
+    var ly = g.h - PAD.b - (drag.freq / MAXF) * g.ph;
+    offX = p.x - lx; offY = p.y - ly;
+    canvas.style.cursor = "grabbing";
+    e.preventDefault();
+  }
+  function move(e) {
+    if (!drag) {
+      var p0 = evtXY(e);
+      canvas.style.cursor = pick(p0.x, p0.y) ? "grab" : "default";
+      return;
+    }
+    var p = evtXY(e), g = geom();
+    var lx = p.x - offX, ly = p.y - offY;
+    drag.fx   = Math.max(0, Math.min(1, (lx - PAD.l) / g.pw));
+    drag.freq = Math.max(0, Math.min(MAXF, (g.h - PAD.b - ly) / g.ph * MAXF));
+    drawPhonon();
+    e.preventDefault();
+  }
+  function up() {
+    if (!drag) return;
+    drag = null;
+    canvas.style.cursor = "grab";
+    save();
+  }
+  function save() {
+    var o = {};
+    phononLabels.forEach(function (l) { o[l.name] = { fx: +l.fx.toFixed(4), freq: Math.round(l.freq) }; });
+    try { localStorage.setItem("phononLabelPos", JSON.stringify(o)); } catch (e) {}
+  }
+
+  canvas.addEventListener("mousedown", down);
+  window.addEventListener("mousemove", move);
+  window.addEventListener("mouseup", up);
+  canvas.addEventListener("touchstart", down, { passive: false });
+  canvas.addEventListener("touchmove", move, { passive: false });
+  window.addEventListener("touchend", up);
+
+  // toolbar (Copy / Reset)
+  var bar = document.createElement("div");
+  bar.style.cssText = "margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center";
+  var copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy positions";
+  var resetBtn = document.createElement("button");
+  resetBtn.textContent = "Reset";
+  [copyBtn, resetBtn].forEach(function (b) {
+    b.style.cssText = "padding:6px 12px;font-size:0.8rem;border-radius:6px;border:1px solid #57534e;background:#1c1917;color:#e7e5e4;cursor:pointer";
+  });
+  var out = document.createElement("textarea");
+  out.readOnly = true;
+  out.style.cssText = "width:100%;min-height:120px;margin-top:8px;font:12px/1.5 monospace;background:#0c0a09;color:#a8e6a1;border:1px solid #44403c;border-radius:6px;padding:8px;display:none";
+  var hint = document.createElement("span");
+  hint.textContent = "ラベルをドラッグして配置 → Copy で座標を出力";
+  hint.style.cssText = "font-size:0.78rem;color:#a8a29e";
+
+  copyBtn.addEventListener("click", function () {
+    var lines = phononLabels.map(function (l) {
+      return '  { name: "' + l.name + '", brIdx: ' + l.brIdx +
+             ', color: "' + l.color + '", fx: ' + l.fx.toFixed(3) +
+             ', freq: ' + Math.round(l.freq) + ' },';
+    }).join("\n");
+    var text = "var phononLabels = [\n" + lines + "\n];";
+    out.style.display = "block";
+    out.value = text;
+    out.select();
+    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
+    copyBtn.textContent = "Copied!";
+    setTimeout(function () { copyBtn.textContent = "Copy positions"; }, 1200);
+  });
+  resetBtn.addEventListener("click", function () {
+    try { localStorage.removeItem("phononLabelPos"); } catch (e) {}
+    location.reload();
+  });
+
+  bar.appendChild(copyBtn);
+  bar.appendChild(resetBtn);
+  bar.appendChild(hint);
+  var host = canvas.parentNode;
+  host.insertBefore(bar, canvas.nextSibling);
+  host.insertBefore(out, bar.nextSibling);
+
+  drawPhonon();
+}
+
 /* ── init ── */
 function init() {
   drawPhonon();
+  setupLabelEditor();
   drawGMode();
   drawGProcess();
   drawDR2D();
