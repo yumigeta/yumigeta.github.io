@@ -800,7 +800,7 @@ input[type=range]::-moz-range-thumb {
   border: 1px solid var(--rule);
   border-left: 2px solid var(--co-accent);
   border-radius: 3px;
-  font-size: 15.5px; line-height: 1.9; color: var(--ink);
+  font-size: 15.5px; line-height: 1.72; color: var(--ink);
 }
 .callout .co-label {
   display: flex; align-items: center; gap: 10px;
