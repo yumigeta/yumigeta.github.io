@@ -549,7 +549,7 @@
     gen();
   }
 
-  /* ════════════════ Module 03c — Central Limit Theorem ════════════════ */
+  /* ════════════════ Module 03b — Central Limit Theorem ════════════════ */
   function initCLT() {
     const cvP = $('c-clt-parent'); if (!cvP) return;
     const cvM = $('c-clt-means'), sN = $('ctrl-clt-n');
@@ -595,7 +595,7 @@
     update();
   }
 
-  /* ════════════════ Module 03b — Least-squares fit ════════════════ */
+  /* ════════════════ Module 03c — Least-squares fit ════════════════ */
   function initFit() {
     const cv = $('c-fit'); if (!cv) return;
     // data domain in plot units
