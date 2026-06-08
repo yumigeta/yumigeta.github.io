@@ -306,45 +306,50 @@
   /* ════════════════ Module 02 — Error propagation ════════════════ */
   function initPropagation() {
     const varsBox = $('prop-vars'); if (!varsBox) return;
+    const exprInput = $('prop-expr');
 
-    const FORMULAS = {
-      sum: {
-        vars: ['x', 'y'],
-        init: { x: [10, 0.3], y: [4, 0.2] },
-        eval: v => v.x + v.y,
-        partial: { x: () => 1, y: () => 1 },
-      },
-      prodquot: {
-        vars: ['x', 'y', 'z'],
-        init: { x: [10, 0.3], y: [4, 0.2], z: [2, 0.1] },
-        eval: v => v.x * v.y / v.z,
-        partial: { x: v => v.y / v.z, y: v => v.x / v.z, z: v => -v.x * v.y / (v.z * v.z) },
-      },
-      power: {
-        vars: ['x'],
-        init: { x: [5, 0.2] },
-        eval: v => v.x * v.x,
-        partial: { x: v => 2 * v.x },
-      },
-    };
-    let cur = 'sum';
-    const state = {};   // name -> {val, del}
+    // persistent per-variable state (kept across formula changes)
+    const state = { x: { val: 10, del: 0.3 }, y: { val: 4, del: 0.2 }, z: { val: 2, del: 0.1 } };
+    let compiled = null, activeVars = [], shownKey = '';
+
+    /* compile a user expression in x,y,z into a function (^ → **) */
+    function compile(expr) {
+      if (!/^[-+*/^(). ,0-9a-zA-Z]*$/.test(expr)) return null;   // basic allow-list
+      const js = expr.replace(/\^/g, '**');
+      try {
+        const fn = new Function('x', 'y', 'z',
+          'const {sin,cos,tan,asin,acos,atan,exp,log,sqrt,abs,pow,min,max,PI,E}=Math; return (' + js + ');');
+        if (!isFinite(fn(1, 1, 1)) && !isFinite(fn(2, 2, 2))) { /* still allow */ }
+        return fn;
+      } catch (e) { return null; }
+    }
+    /* which of x,y,z appear as standalone variables (not inside sin/exp/…) */
+    function detectVars(expr) {
+      return ['x', 'y', 'z'].filter(v => new RegExp('(?<![a-zA-Z])' + v + '(?![a-zA-Z])').test(expr));
+    }
+    function evalAt(vals) { return compiled(vals.x, vals.y, vals.z); }
+    /* central-difference partial derivative ∂f/∂key at vals */
+    function numPartial(vals, key) {
+      const x0 = vals[key];
+      const hstep = Math.max(1e-6, 1e-4 * Math.abs(x0));
+      const vp = Object.assign({}, vals); vp[key] = x0 + hstep;
+      const vm = Object.assign({}, vals); vm[key] = x0 - hstep;
+      return (evalAt(vp) - evalAt(vm)) / (2 * hstep);
+    }
 
     function buildControls() {
-      const f = FORMULAS[cur];
       varsBox.innerHTML = '';
-      f.vars.forEach(name => {
-        const [val, del] = f.init[name];
-        state[name] = { val, del };
+      activeVars.forEach(name => {
+        const st = state[name];
         const wrap = document.createElement('div');
         wrap.style.cssText = 'flex:1 1 100%;display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center';
         wrap.innerHTML =
           '<div class="me-slider"><label>' + name + ' =</label>' +
-          '<input type="range" min="' + (name === 'z' ? 0.5 : -5) + '" max="20" step="0.1" value="' + val + '" data-k="' + name + '" data-p="val">' +
-          '<output data-o="' + name + '-val">' + val + '</output></div>' +
+          '<input type="range" min="' + (name === 'z' ? 0.5 : -10) + '" max="20" step="0.1" value="' + st.val + '" data-k="' + name + '" data-p="val">' +
+          '<output data-o="' + name + '-val">' + st.val.toFixed(2) + '</output></div>' +
           '<div class="me-slider"><label>δ' + name + ' =</label>' +
-          '<input type="range" min="0" max="3" step="0.02" value="' + del + '" data-k="' + name + '" data-p="del">' +
-          '<output data-o="' + name + '-del">' + del + '</output></div>';
+          '<input type="range" min="0" max="3" step="0.02" value="' + st.del + '" data-k="' + name + '" data-p="del">' +
+          '<output data-o="' + name + '-del">' + st.del.toFixed(2) + '</output></div>';
         varsBox.appendChild(wrap);
       });
       varsBox.querySelectorAll('input').forEach(inp =>
@@ -356,28 +361,108 @@
     }
 
     function recompute() {
-      const f = FORMULAS[cur];
-      const v = {}; f.vars.forEach(n => v[n] = state[n].val);
-      const fval = f.eval(v);
-      // analytic contributions
-      const contrib = f.vars.map(n => {
-        const c = f.partial[n](v) * state[n].del;
+      const expr = exprInput.value.trim();
+      compiled = compile(expr);
+      const vars = compiled ? detectVars(expr) : [];
+      exprInput.style.borderColor = compiled ? '' : 'var(--accent)';
+      if (!compiled || vars.length === 0) {
+        $('prop-result').innerHTML = '<small style="color:#fda4af">' +
+          t('Invalid formula — use x, y, z and the allowed functions.',
+            '式が無効です — x, y, z と許可された関数を使ってください。') + '</small>';
+        ['c-prop-bars', 'c-prop-mc'].forEach(id => { const c = $(id), o = fitCanvas(c); o.ctx.clearRect(0, 0, o.w, o.h); });
+        $('prop-df-a').textContent = '—'; $('prop-df-mc').textContent = '—'; $('prop-agree').textContent = '—';
+        return;
+      }
+      // rebuild sliders only when the variable set changes
+      if (vars.join() !== shownKey) { activeVars = vars; shownKey = vars.join(); buildControls(); }
+
+      const vals = { x: state.x.val, y: state.y.val, z: state.z.val };
+      const fval = evalAt(vals);
+      // analytic contributions via numeric partials
+      const contrib = activeVars.map(n => {
+        const c = numPartial(vals, n) * state[n].del;
         return { name: n, var2: c * c };
       });
       const totVar = contrib.reduce((s, c) => s + c.var2, 0);
-      const df = Math.sqrt(totVar);
-      $('prop-result').innerHTML = 'f = ' + fmt(fval, 4) + ' <small>± ' + fmt(df, 2) + '</small>';
-      $('prop-df-a').textContent = fmt(df, 3);
+      const dfA = Math.sqrt(totVar);
+      $('prop-result').innerHTML = 'f = ' + fmt(fval, 4) + ' <small>± ' + fmt(dfA, 2) + '</small>';
+      $('prop-df-a').textContent = fmt(dfA, 3);
       drawBars(contrib, totVar);
-      // Monte-Carlo
-      const N = 6000, samples = new Array(N);
+
+      // Monte-Carlo: sample the active variables, evaluate f
+      const N = 8000, samples = [];
       for (let i = 0; i < N; i++) {
-        const s = {}; f.vars.forEach(n => s[n] = gaussian(state[n].val, state[n].del));
-        samples[i] = f.eval(s);
+        const s = { x: vals.x, y: vals.y, z: vals.z };
+        activeVars.forEach(n => { s[n] = gaussian(state[n].val, state[n].del); });
+        const fv = evalAt(s);
+        if (isFinite(fv)) samples.push(fv);
       }
+      const mcMean = samples.length ? mean(samples) : fval;
       const mcSd = stdev(samples);
       $('prop-df-mc').textContent = fmt(mcSd, 3);
-      drawHistogram($('c-prop-mc'), samples, { color: '#a78bfa' });
+      // agreement between analytic and MC standard deviations
+      const rel = mcSd > 0 ? Math.abs(dfA - mcSd) / mcSd : 0;
+      $('prop-agree').innerHTML = rel < 0.05
+        ? '<span style="color:#6ee7b7">' + t('match', '一致') + ' (' + (rel * 100).toFixed(1) + '%)</span>'
+        : (rel < 0.2
+          ? '<span style="color:#fbbf24">~ ' + (rel * 100).toFixed(0) + '%</span>'
+          : '<span style="color:#fda4af">' + t('differs', '相違') + ' ' + (rel * 100).toFixed(0) + '%</span>');
+
+      drawComparison($('c-prop-mc'), samples, mcMean, dfA, mcSd);
+    }
+
+    /* MC histogram with the analytic Normal(mu, dfA) curve overlaid, plus
+       ±δf width bars so the two variances can be compared by eye. */
+    function drawComparison(cv, data, mu, sdA, sdMC) {
+      const { ctx, w, h } = fitCanvas(cv);
+      ctx.clearRect(0, 0, w, h);
+      if (!data.length) return;
+      const pad = { l: 8, r: 8, t: 26, b: 18 };
+      const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
+      const S = Math.max(sdA, sdMC, 1e-9);
+      const lo = mu - 4 * S, hi = mu + 4 * S, span = (hi - lo) || 1;
+      const bins = 40;
+      const counts = new Array(bins).fill(0);
+      data.forEach(v => { let k = Math.floor((v - lo) / span * bins); if (k >= 0 && k < bins) counts[k]++; });
+      const maxC = Math.max(...counts) || 1;
+      const X = v => pad.l + (v - lo) / span * plotW;
+      const bw = plotW / bins;
+      // histogram bars
+      ctx.fillStyle = '#a78bfa';
+      counts.forEach((c, i) => {
+        const bh = c / maxC * plotH;
+        ctx.fillRect(pad.l + i * bw + 0.5, pad.t + plotH - bh, bw - 1, bh);
+      });
+      // analytic Normal curve, scaled so its peak matches the histogram height
+      const peakPdf = 1 / (sdA * Math.sqrt(2 * Math.PI));
+      ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2.2; ctx.beginPath();
+      for (let px = 0; px <= plotW; px++) {
+        const xv = lo + px / plotW * span;
+        const g = Math.exp(-0.5 * ((xv - mu) / sdA) ** 2) / (sdA * Math.sqrt(2 * Math.PI));
+        // match areas: expected count per bin = pdf * binWidth * N
+        const expected = g * (span / bins) * data.length;
+        const y = pad.t + plotH - Math.min(1, expected / maxC) * plotH;
+        px === 0 ? ctx.moveTo(pad.l + px, y) : ctx.lineTo(pad.l + px, y);
+      }
+      ctx.stroke();
+      // width bars: analytic (green) above, MC (amber) below
+      function widthBar(yy, half, color, label) {
+        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2;
+        const x1 = X(mu - half), x2 = X(mu + half);
+        ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.stroke();
+        [x1, x2].forEach(xx => { ctx.beginPath(); ctx.moveTo(xx, yy - 3); ctx.lineTo(xx, yy + 3); ctx.stroke(); });
+        ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+        ctx.fillText(label, Math.min(x2 + 5, w - 60), yy + 3);
+      }
+      widthBar(pad.t - 16, sdA, '#34d399', '±δf');
+      widthBar(pad.t - 6, sdMC, '#fbbf24', '±MC');
+      // mean marker
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(X(mu), pad.t); ctx.lineTo(X(mu), pad.t + plotH); ctx.stroke(); ctx.setLineDash([]);
+      // x labels
+      ctx.fillStyle = '#a8a29e'; ctx.font = '10px sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText(fmt(lo, 3), pad.l, h - 5);
+      ctx.textAlign = 'right'; ctx.fillText(fmt(hi, 3), w - pad.r, h - 5);
     }
 
     function drawBars(contrib, totVar) {
@@ -411,11 +496,16 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('#prop-formula .demo-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        cur = btn.dataset.formula;
-        buildControls(); recompute();
+        exprInput.value = btn.dataset.expr;
+        recompute();
       }));
+    exprInput.addEventListener('input', () => {
+      document.querySelectorAll('#prop-formula .demo-btn').forEach(b => b.classList.remove('active'));
+      recompute();
+    });
     window.addEventListener('resize', recompute);
-    buildControls(); recompute();
+    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(recompute, 0));
+    recompute();
   }
 
   /* ════════════════ Module 03a — Sample statistics ════════════════ */

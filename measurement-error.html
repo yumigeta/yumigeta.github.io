@@ -183,10 +183,20 @@
 
       <div class="anim-card">
         <div class="btn-row" id="prop-formula">
-          <button class="demo-btn active" data-formula="sum">$f = x + y$</button>
-          <button class="demo-btn" data-formula="prodquot">$f = xy / z$</button>
-          <button class="demo-btn" data-formula="power">$f = x^2$</button>
+          <button class="demo-btn" data-expr="x + y">f = x + y</button>
+          <button class="demo-btn active" data-expr="x*y/z">f = x·y / z</button>
+          <button class="demo-btn" data-expr="x^2">f = x²</button>
+          <button class="demo-btn" data-expr="sqrt(x^2 + y^2)">f = √(x²+y²)</button>
+          <button class="demo-btn" data-expr="x*sin(y)">f = x·sin(y)</button>
         </div>
+
+        <div class="me-controls" style="margin-top:8px">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="prop-expr"><span class="i18n-en">f(x,y,z) =</span><span class="i18n-ja">f(x,y,z) =</span></label>
+            <input type="text" class="me-field" id="prop-expr" value="x*y/z" spellcheck="false" autocapitalize="off" style="flex:1 1 auto;width:auto;min-width:160px" aria-label="custom formula">
+          </div>
+        </div>
+        <div class="me-cap" id="prop-expr-help" style="margin:2px 2px 0;color:#a8a29e"><span class="i18n-en">Use x, y, z and + − * / ^ , sqrt, sin, cos, exp, log, abs. Variables that appear get a slider below.</span><span class="i18n-ja">x, y, z と + − * / ^ , sqrt, sin, cos, exp, log, abs が使えます。式に現れた変数だけ下にスライダーが出ます。</span></div>
 
         <div class="me-controls" id="prop-vars"><!-- variable sliders injected by JS --></div>
 
@@ -200,13 +210,18 @@
             <canvas id="c-prop-bars" height="170"></canvas>
           </div>
           <div>
-            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Monte-Carlo distribution of f</span><span class="i18n-ja">f のモンテカルロ分布</span></div>
-            <canvas id="c-prop-mc" height="170"></canvas>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Monte-Carlo histogram vs analytic prediction</span><span class="i18n-ja">MCヒストグラム vs 解析式の予測</span></div>
+            <canvas id="c-prop-mc" height="190"></canvas>
           </div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#a78bfa"></i><span class="i18n-en">Monte-Carlo samples of f</span><span class="i18n-ja">f のモンテカルロ標本</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">analytic Normal(f, δf)</span><span class="i18n-ja">解析式の正規分布(f, δf)</span></span>
         </div>
         <div class="me-stats">
           <div class="me-stat"><span class="k"><span class="i18n-en">δf analytic</span><span class="i18n-ja">δf 解析式</span></span><span class="v" id="prop-df-a">—</span></div>
           <div class="me-stat"><span class="k"><span class="i18n-en">δf Monte-Carlo</span><span class="i18n-ja">δf モンテカルロ</span></span><span class="v" id="prop-df-mc">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">agreement</span><span class="i18n-ja">一致度</span></span><span class="v" id="prop-agree" style="font-size:0.9rem">—</span></div>
         </div>
       </div>
       <p class="me-cap"><span class="i18n-en">The analytic and Monte-Carlo values agree — two independent routes to the same uncertainty. <b>Quadrature</b> means a small uncertainty contributes almost nothing once a larger one is present, so effort is best spent on the dominant term.</span><span class="i18n-ja">解析式とモンテカルロの値は一致する — 同じ不確かさへの独立な2つの経路だ。<b>二乗和</b>では、大きな不確かさがあると小さなものはほとんど効かないので、支配的な項に労力を割くのが最善である。</span></p>
