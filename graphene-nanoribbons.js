@@ -195,7 +195,7 @@
       if (!cv) return;
       var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#161310'; ctx.fillRect(0, 0, W, H);
+      /* plate background supplied by CSS (--plate via .pv-light canvas) */
 
       var isZig = (type === 'zigzag');
       var accent = isZig ? '#34d399' : '#fbbf24';
