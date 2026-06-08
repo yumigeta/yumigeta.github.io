@@ -175,12 +175,12 @@ function drawPhonon() {
 
   // in-plot branch labels — positions chosen so no label overlaps any curve or other label
   var inLabels = [
-    { name: "LO",       brIdx: 1, t: 0.75, dy: -13 }, // M→Γ: LO≈1544, iTO≈1523, gap 21 cm⁻¹ → 5px
-    { name: "iTO",      brIdx: 3, t: 0.20, dy: +13 }, // early Γ→K: iTO≈1462, LO 17px above
-    { name: "oTO",      brIdx: 5, t: 0.04, dy: -13 }, // near Γ: oTO≈865, all others far below
-    { name: "LA",       brIdx: 0, t: 0.10, dy: -13 }, // early Γ→K: LA≈456, oTO 55px above
-    { name: "iTA",      brIdx: 2, t: 0.11, dy: +13 }, // early Γ→K: iTA≈329, LA 23px above
-    { name: "oTA (ZA)", brIdx: 4, t: 0.45, dy: +13 }  // mid K→M: oTA≈500, oTO 7px above
+    { name: "LA",       brIdx: 0, t: 0.715, dy: +13 }, // K→M descent, 39px clear below
+    { name: "LO",       brIdx: 1, t: 0.190, dy: -13 }, // Γ→K near peak, 29px clear above
+    { name: "iTA",      brIdx: 2, t: 0.520, dy: -13 }, // K→M, 38px clear above
+    { name: "iTO",      brIdx: 3, t: 0.400, dy: -13 }, // Γ→K dip approach, 20px clear above
+    { name: "oTA (ZA)", brIdx: 4, t: 0.200, dy: +13 }, // Γ→K rise, 56px clear below
+    { name: "oTO",      brIdx: 5, t: 0.935, dy: -13 }  // M→Γ, 73px clear above
   ];
   ctx.font = "bold 11px system-ui, sans-serif";
   inLabels.forEach(function(lb) {
