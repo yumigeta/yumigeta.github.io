@@ -162,7 +162,7 @@
     var canvas = document.getElementById('c-bz');
     var o = dpr(canvas), ctx = o.ctx, W = o.w, H = o.h;
     var cx = W/2, cy = H/2;
-    var scale = min(W, H) * 0.2 / BZR;
+    var scale = min(W, H) * 0.32 / BZR;
 
     function tx(kx) { return cx + kx * scale; }
     function ty(ky) { return cy - ky * scale; }
@@ -354,26 +354,6 @@
       ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
-      // Bands — fill
-      ctx.globalAlpha = 0.15;
-      // Conduction fill
-      ctx.fillStyle = '#ef4444';
-      ctx.beginPath();
-      ctx.moveTo(sx(pts[0].s), sy(0));
-      pts.forEach(function(p) { ctx.lineTo(sx(p.s), sy(p.ep)); });
-      ctx.lineTo(sx(pts[NPTS].s), sy(0));
-      ctx.closePath();
-      ctx.fill();
-      // Valence fill
-      ctx.fillStyle = '#3b82f6';
-      ctx.beginPath();
-      ctx.moveTo(sx(pts[0].s), sy(0));
-      pts.forEach(function(p) { ctx.lineTo(sx(p.s), sy(p.em)); });
-      ctx.lineTo(sx(pts[NPTS].s), sy(0));
-      ctx.closePath();
-      ctx.fill();
-      ctx.globalAlpha = 1;
-
       // Bands — lines
       ctx.lineWidth = 2;
       ctx.strokeStyle = '#ef4444';
@@ -424,14 +404,6 @@
       }
       ctx.fillStyle = '#d6d3d1';
       ctx.fillText('0', pad.l - 6, sy(0) + 3);
-
-      // Band labels
-      ctx.textAlign = 'left';
-      ctx.font = '600 11px "DM Sans", sans-serif';
-      ctx.fillStyle = '#ef4444';
-      ctx.fillText('π* (conduction)', pad.l + 6, sy(eMax * 0.7));
-      ctx.fillStyle = '#3b82f6';
-      ctx.fillText('π (valence)', pad.l + 6, sy(-eMax * 0.7));
 
       // E(eV) axis label
       ctx.save();
@@ -1205,14 +1177,12 @@
         // and the bulk Dirac points are folded along the axis into the strip —
         // a folded point sitting on a line ⇒ metallic.
         var ktrMax = maxC;
-        ctx.strokeStyle = 'rgba(226,232,240,0.8)'; ctx.lineWidth = 1.3;
-        ctx.setLineDash([5,4]);
+        ctx.strokeStyle = 'rgba(239,68,68,0.85)'; ctx.lineWidth = 1.6;
         for (var sgn = -1; sgn <= 1; sgn += 2) {
           var b1 = P(sgn*kpar*axdx - ktrMax*trdx, sgn*kpar*axdy - ktrMax*trdy);
           var b2 = P(sgn*kpar*axdx + ktrMax*trdx, sgn*kpar*axdy + ktrMax*trdy);
           ctx.beginPath(); ctx.moveTo(b1[0],b1[1]); ctx.lineTo(b2[0],b2[1]); ctx.stroke();
         }
-        ctx.setLineDash([]);
         for (var li = 0; li < p.lines.length; li++) {
           var L = p.lines[li];
           ctx.strokeStyle = colorFor(L.ci, p.N); ctx.lineWidth = 1.6;
