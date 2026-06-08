@@ -733,6 +733,20 @@ input[type=range]::-moz-range-thumb {
   .ed-tools .et .et-go { justify-self: start; }
 }
 
+/* ── Coming-soon tool card ── */
+.ed-tools .et-coming-soon {
+  opacity: .55; cursor: default; pointer-events: none;
+  grid-template-columns: 1fr;
+}
+.ed-tools .et-coming-soon:hover { background: none; }
+.et-tag {
+  display: inline-block;
+  font-family: var(--gothic); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--soft); border: 1px solid var(--line);
+  padding: 2px 7px; border-radius: 3px; margin-bottom: 8px;
+}
+
 /* ── Language toggle ── */
 .lang-btn {
   font-family: var(--gothic, system-ui, sans-serif);
