@@ -173,14 +173,14 @@ function drawPhonon() {
     ctx.stroke();
   });
 
-  // in-plot branch labels at visually distinct, non-overlapping positions
+  // in-plot branch labels — positions chosen so no label overlaps any curve or other label
   var inLabels = [
-    { name: "LO",       brIdx: 1, t: 0.05,  dy: -13 },
-    { name: "iTO",      brIdx: 3, t: 0.10,  dy:  13 },
-    { name: "oTO",      brIdx: 5, t: 0.05,  dy: -13 },
-    { name: "LA",       brIdx: 0, t: 0.20,  dy: -13 },
-    { name: "iTA",      brIdx: 2, t: 0.42,  dy: -13 },
-    { name: "oTA (ZA)", brIdx: 4, t: 0.38,  dy:  13 }
+    { name: "LO",       brIdx: 1, t: 0.08, dy: -14 }, // above LO peak (1620), iTO 64 cm⁻¹ below
+    { name: "iTO",      brIdx: 3, t: 0.19, dy:  14 }, // below iTO (1471), clearly under LO (1595)
+    { name: "oTO",      brIdx: 5, t: 0.04, dy: -13 }, // above oTO (864), far left, all others low
+    { name: "LA",       brIdx: 0, t: 0.26, dy: -13 }, // above LA (975), above oTO (735) & iTA (722)
+    { name: "iTA",      brIdx: 2, t: 0.17, dy: -13 }, // above iTA (496), between oTO (814) & oTA (136)
+    { name: "oTA (ZA)", brIdx: 4, t: 0.30, dy:  13 }  // below oTA (343), iTA 78 px above
   ];
   ctx.font = "bold 11px system-ui, sans-serif";
   inLabels.forEach(function(lb) {
@@ -188,6 +188,10 @@ function drawPhonon() {
     var lx = pad.l + lb.t * pw;
     var freq = interp(br.data, lb.t);
     var ly = h - pad.b - (freq / maxFreq) * ph + lb.dy;
+    var tw = ctx.measureText(lb.name).width;
+    // semi-transparent backing so label is readable over any curve
+    ctx.fillStyle = "rgba(12,10,9,0.72)";
+    ctx.fillRect(lx - 2, ly - 11, tw + 4, 14);
     ctx.fillStyle = br.color;
     ctx.textAlign = "left";
     ctx.fillText(lb.name, lx, ly);
