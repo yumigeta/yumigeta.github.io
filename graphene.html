@@ -167,13 +167,21 @@
       </div>
       <div class="top-row">
         <div class="gr-bands" style="margin:0;"><canvas id="c-gnr-bands" style="height:340px;"></canvas></div>
-        <div class="gr-panel"><canvas id="c-gnr-cut" style="height:340px;"></canvas></div>
-      </div>
-      <div class="btn-row" style="justify-content:flex-end;">
-        <button class="demo-btn" id="btn-view-ky">k<sub>x</sub>–E</button>
-        <button class="demo-btn" id="btn-view-kx">k<sub>y</sub>–E</button>
-        <button class="demo-btn" id="btn-view-top">k<sub>x</sub>–k<sub>y</sub></button>
-        <button class="demo-btn active" id="btn-bz-plane"><span class="i18n-en">BZ boundary plane</span><span class="i18n-ja">BZ境界面</span></button>
+        <div class="gr-3d-wrap">
+          <canvas id="c-gnr-cut" style="height:340px;"></canvas>
+          <div class="gr-3d-overlay">
+            <div class="gr-view-group" role="group" aria-label="viewing plane">
+              <span class="gr-view-label"><span class="i18n-en">View</span><span class="i18n-ja">視点</span></span>
+              <button class="gr-view-btn" id="btn-view-ky">k<sub>x</sub>–E</button>
+              <button class="gr-view-btn" id="btn-view-kx">k<sub>y</sub>–E</button>
+              <button class="gr-view-btn" id="btn-view-top">k<sub>x</sub>–k<sub>y</sub></button>
+            </div>
+            <button class="gr-toggle active" id="btn-bz-plane" role="switch" aria-checked="true">
+              <span class="gr-toggle-track"><span class="gr-toggle-thumb"></span></span>
+              <span class="i18n-en">BZ boundary plane</span><span class="i18n-ja">BZ境界面</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>

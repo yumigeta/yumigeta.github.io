@@ -1838,15 +1838,20 @@
     var btnViewKx  = document.getElementById('btn-view-kx');
     var btnViewKy  = document.getElementById('btn-view-ky');
     var btnViewTop = document.getElementById('btn-view-top');
-    if (btnViewKx) btnViewKx.addEventListener('click', function () {
-      cutPhi = PI/2; CUT_THETA = PI/2; cutDirty = true;
-    });
-    if (btnViewKy) btnViewKy.addEventListener('click', function () {
-      cutPhi = 0; CUT_THETA = PI/2; cutDirty = true;
-    });
-    if (btnViewTop) btnViewTop.addEventListener('click', function () {
-      cutPhi = 0; CUT_THETA = 0; cutDirty = true;
-    });
+    var viewBtns = [btnViewKx, btnViewKy, btnViewTop];
+    function setView(active, phi, theta) {
+      viewBtns.forEach(function (b) { if (b) b.classList.toggle('active', b === active); });
+      cutPhi = phi; CUT_THETA = theta; cutDirty = true;
+    }
+    function clearView() {
+      viewBtns.forEach(function (b) { if (b) b.classList.remove('active'); });
+    }
+    if (btnViewKx)  btnViewKx.addEventListener('click',  function () { setView(btnViewKx,  PI/2, PI/2); });
+    if (btnViewKy)  btnViewKy.addEventListener('click',  function () { setView(btnViewKy,  0,    PI/2); });
+    if (btnViewTop) btnViewTop.addEventListener('click', function () { setView(btnViewTop, 0,    0);    });
+    // Free rotation cancels the locked-axis highlight
+    cutC.addEventListener('pointerdown', clearView);
+    cutC.addEventListener('wheel', clearView, { passive: true });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     setSliderRange(curTheta === 0);
     update();
