@@ -140,6 +140,12 @@
 }
 .cap-link:hover { color: #93c5fd; }
 
+/* ── Data attribution note ── */
+.cap.data-source {
+  font-size: 0.72rem; color: #78716c; margin-top: 6px; line-height: 1.5;
+}
+.cap.data-source em { font-style: italic; }
+
 /* ── Overview side-by-side layout ── */
 .overview-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
