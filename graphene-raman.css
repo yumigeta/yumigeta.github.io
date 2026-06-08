@@ -133,6 +133,13 @@
 .ref-list a { color: #a78bfa; text-decoration: none; }
 .ref-list a:hover { text-decoration: underline; }
 
+/* ── Inline caption link (clearly visible / clickable) ── */
+.cap-link {
+  color: #60a5fa; font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.cap-link:hover { color: #93c5fd; }
+
 /* ── Overview side-by-side layout ── */
 .overview-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
