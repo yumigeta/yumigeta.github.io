@@ -1190,15 +1190,27 @@
           var a2 = P(L.c*trdx + kpar*axdx, L.c*trdy + kpar*axdy);
           ctx.beginPath(); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(a2[0],a2[1]); ctx.stroke();
         }
-        ctx.fillStyle = '#fde68a';
+        // Folded Dirac points: K (red) vs K' (blue), matching Module 00 convention
+        var KD = [], KpD = [];
         for (var n = 0; n < 6; n++) {
           var ang2 = n*PI/3, kc = BZR*cos(ang2), ks = BZR*sin(ang2);
           var kpa = kc*axdx + ks*axdy, kpe = kc*trdx + ks*trdy;
-          kpa -= 2*kpar*Math.round(kpa/(2*kpar));      // fold along the axis only
+          kpa -= 2*kpar*Math.round(kpa/(2*kpar));
           if (abs(kpe) > ktrMax + 1e-6) continue;
           var dp = P(kpa*axdx + kpe*trdx, kpa*axdy + kpe*trdy);
-          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3, 0, 2*PI); ctx.fill();
+          if (n % 2 === 0) KD.push(dp); else KpD.push(dp);
         }
+        ctx.font = '700 9px "DM Sans", sans-serif';
+        ctx.fillStyle = '#ef4444';
+        KD.forEach(function(dp) {
+          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3.5, 0, 2*PI); ctx.fill();
+          ctx.fillText('K', dp[0]+5, dp[1]+3);
+        });
+        ctx.fillStyle = '#60a5fa';
+        KpD.forEach(function(dp) {
+          ctx.beginPath(); ctx.arc(dp[0], dp[1], 3.5, 0, 2*PI); ctx.fill();
+          ctx.fillText("K'", dp[0]+5, dp[1]+3);
+        });
       } else {
         // ── (B) Extended scheme ──
         // Lines drawn across the bulk BZ with umklapp folding (armchair offsets
@@ -1220,10 +1232,12 @@
           }
           ctx.stroke();
         }
-        ctx.fillStyle = '#fde68a';
+        ctx.font = '700 9px "DM Sans", sans-serif';
         for (var n = 0; n < 6; n++) {
           var ang3 = n*PI/3, pc = P(BZR*cos(ang3), BZR*sin(ang3));
-          ctx.beginPath(); ctx.arc(pc[0], pc[1], 3, 0, 2*PI); ctx.fill();
+          ctx.fillStyle = (n % 2 === 0) ? '#ef4444' : '#60a5fa';
+          ctx.beginPath(); ctx.arc(pc[0], pc[1], 3.5, 0, 2*PI); ctx.fill();
+          ctx.fillText(n % 2 === 0 ? 'K' : "K'", pc[0]+5, pc[1]+3);
         }
       }
 
