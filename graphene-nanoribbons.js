@@ -370,7 +370,7 @@
         ctx.moveTo(x1,y1); ctx.lineTo(x1-ux*9-uy*5, y1-uy*9+ux*5);
         ctx.stroke();
       })(a0[0],a0[1],a1[0],a1[1]);
-      ctx.font = '700 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+      ctx.font = '700 11px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(isZig ? 'T = a' : 'T = √3 a', (a0[0]+a1[0])/2, (a0[1]+a1[1])/2 - 8);
     }
     function drawCells(theta, N) {
@@ -494,13 +494,13 @@
               ctx.fillStyle = '#0c0a09';
               ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 2.4, 0, 2*PI); ctx.fill();
               ctx.fillStyle = color;
-              ctx.font = '700 9px "DM Sans", sans-serif';
+              ctx.font = '700 9px "Zen Kaku Gothic New", system-ui, sans-serif';
               ctx.fillText(label + '↩', r.dp[0]+5, r.dp[1]+3);
             } else {
               // genuine in-zone position: solid dot
               ctx.fillStyle = color;
               ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 3.5, 0, 2*PI); ctx.fill();
-              ctx.font = '700 9px "DM Sans", sans-serif';
+              ctx.font = '700 9px "Zen Kaku Gothic New", system-ui, sans-serif';
               ctx.fillText(label, r.dp[0]+5, r.dp[1]+3);
             }
           });
@@ -523,7 +523,7 @@
             ctx.moveTo(x2-px,y2-py); ctx.lineTo(x2+px,y2+py);
             ctx.stroke();
             ctx.fillStyle = 'rgba(255,255,255,0.75)';
-            ctx.font = '600 9px "DM Sans", sans-serif';
+            ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(label, lx, ly);
             ctx.restore();
@@ -579,7 +579,7 @@
           }
           ctx.stroke();
         }
-        ctx.font = '700 9px "DM Sans", sans-serif';
+        ctx.font = '700 9px "Zen Kaku Gothic New", system-ui, sans-serif';
         for (var n = 0; n < 6; n++) {
           var ang3 = n*PI/3, pc = P(BZR*cos(ang3), BZR*sin(ang3));
           ctx.fillStyle = (n % 2 === 0) ? '#ef4444' : '#60a5fa';
@@ -592,13 +592,13 @@
       var g = P(0, 0);
       ctx.beginPath(); ctx.arc(g[0], g[1], 2.2, 0, 2*PI);
       ctx.fillStyle = '#a8a29e'; ctx.fill();
-      ctx.fillStyle = '#78716c'; ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.fillStyle = '#78716c'; ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'left'; ctx.fillText('Γ', g[0]+5, g[1]+3);
 
       // Legend: solid = genuine position · hollow ring = umklapp-folded image
       if (reduced) {
         var lx = 10, ly = H - 22;
-        ctx.font = '600 9px "DM Sans", sans-serif'; ctx.textAlign = 'left';
+        ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'left';
         ctx.fillStyle = '#cbd5e1';
         ctx.beginPath(); ctx.arc(lx+4, ly, 3.2, 0, 2*PI); ctx.fill();
         ctx.fillText('original', lx+12, ly+3);
@@ -961,7 +961,7 @@
         ctx.moveTo(sx(-kK), pad.t); ctx.lineTo(sx(-kK), pad.t+ph);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(52,211,153,0.85)'; ctx.font = '600 9px "DM Sans", sans-serif';
+        ctx.fillStyle = 'rgba(52,211,153,0.85)'; ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('edge states', (sx(kK)+sx(kMax))/2, pad.t+11);
       }
@@ -985,17 +985,17 @@
         ctx.beginPath(); ctx.moveTo(pad.l, sy(gMin)); ctx.lineTo(pad.l+pw, sy(gMin));
         ctx.moveTo(pad.l, sy(-gMin)); ctx.lineTo(pad.l+pw, sy(-gMin)); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "DM Sans", sans-serif';
+        ctx.fillStyle = '#fbbf24'; ctx.font = '600 10px "Zen Kaku Gothic New", system-ui, sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText('Eg = ' + (2*gMin).toFixed(2) + ' eV', pad.l+pw-80, sy(0)-4);
       }
 
       // axes labels
       ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
-      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "DM Sans", sans-serif';
+      ctx.fillStyle = '#78716c'; ctx.font = '500 10px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.fillText('E (eV)', 0, 0); ctx.restore();
 
-      ctx.textAlign = 'right'; ctx.font = '500 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'right'; ctx.font = '500 9px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.fillStyle = '#a8a29e';
       for (var e = -maxE; e <= maxE+0.01; e += step) {
         if (abs(e) < step*0.05) continue;
@@ -1004,7 +1004,7 @@
       ctx.fillStyle = '#d6d3d1'; ctx.fillText('0', pad.l-5, sy(0)+3);
 
       // high-symmetry points across the full first 1D BZ: −Z … Γ … Z
-      ctx.font = '600 11px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+      ctx.font = '600 11px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'center';
       var yHSP = pad.t + ph + 15;
       var zb = isZig ? 'Z' : 'X';
       ctx.fillStyle = '#d6d3d1';
@@ -1014,11 +1014,11 @@
 
       // 1D Brillouin-zone length = 2π/T (Å⁻¹).
       var aPhys = 2.46;                      // graphene lattice constant (Å)
-      ctx.textAlign = 'right'; ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.textAlign = 'right'; ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.fillStyle = '#a8a29e';
       ctx.fillText('2π/T = ' + (2*kMax/aPhys).toFixed(2) + ' Å⁻¹', pad.l+pw, pad.t+10);
 
-      ctx.textAlign = 'left'; ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.textAlign = 'left'; ctx.font = '600 10px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
       ctx.fillStyle = '#3b82f6'; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
     }

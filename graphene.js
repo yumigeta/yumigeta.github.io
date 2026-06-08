@@ -119,7 +119,7 @@
     arrow(tx(0), ty(0), tx(a1[0]), ty(a1[1]));
     arrow(tx(0), ty(0), tx(a2[0]), ty(a2[1]));
 
-    ctx.font = '600 12px "DM Sans", sans-serif';
+    ctx.font = '600 12px "Zen Kaku Gothic New", system-ui, sans-serif';
     ctx.fillStyle = '#fbbf24';
     ctx.fillText('a₁', tx(a1[0])+6, ty(a1[1])+4);
     ctx.fillText('a₂', tx(a2[0])-4, ty(a2[1])-8);
@@ -148,7 +148,7 @@
     }
 
     // Labels
-    ctx.font = '700 11px "DM Sans", sans-serif';
+    ctx.font = '700 11px "Zen Kaku Gothic New", system-ui, sans-serif';
     ctx.fillStyle = '#ef4444';
     ctx.fillText('A', 8, 18);
     ctx.fillStyle = '#3b82f6';
@@ -241,7 +241,7 @@
     ctx.beginPath(); ctx.arc(tx(HSP.M.kx), ty(HSP.M.ky), 4, 0, 2*PI); ctx.fill();
 
     // Labels
-    ctx.font = '700 12px "DM Sans", sans-serif';
+    ctx.font = '700 12px "Zen Kaku Gothic New", system-ui, sans-serif';
     ctx.fillStyle = '#16a34a';
     ctx.fillText('Γ', tx(0)-14, ty(0)+4);
     ctx.fillStyle = '#ef4444';
@@ -259,13 +259,13 @@
       var mx = (p1.kx + p2.kx) / 2, my = (p1.ky + p2.ky) / 2;
       ctx.fillText(label, tx(mx) + ox, ty(my) + oy);
     }
-    ctx.font = '600 10px "DM Sans", sans-serif';
+    ctx.font = '600 10px "Zen Kaku Gothic New", system-ui, sans-serif';
     ctx.fillStyle = '#fcd34d';
     ctx.textAlign = 'center';
     distLabel(HSP.G, HSP.M, '2π/√3a', -20, -4);   // Γ–M
     distLabel(HSP.M, HSP.K, '2π/3a',   30, -2);   // M–K
     distLabel(HSP.K, HSP.G, '4π/3a',    0, 16);   // K–Γ
-    ctx.font = '600 8px "DM Sans", sans-serif';
+    ctx.font = '600 8px "Zen Kaku Gothic New", system-ui, sans-serif';
     ctx.fillStyle = 'rgba(252,211,77,0.75)';
     ctx.fillText('a = |a₁| = |a₂|', tx((HSP.K.kx)/2), ty(0) + 26);
     ctx.textAlign = 'start';
@@ -388,7 +388,7 @@
       }
 
       // Labels
-      ctx.font = '600 11px "DM Sans", sans-serif';
+      ctx.font = '600 11px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillStyle = '#a8a29e';
       ticks.forEach(function(tk) {
@@ -397,7 +397,7 @@
 
       // Y-axis labels
       ctx.textAlign = 'right';
-      ctx.font = '500 10px "DM Sans", sans-serif';
+      ctx.font = '500 10px "Zen Kaku Gothic New", system-ui, sans-serif';
       for (var e = -eMax; e <= eMax; e += tHop) {
         if (abs(e) < 0.01) continue;
         ctx.fillText(e.toFixed(1), pad.l - 6, sy(e) + 3);
@@ -410,7 +410,7 @@
       ctx.translate(12, H/2);
       ctx.rotate(-PI/2);
       ctx.textAlign = 'center';
-      ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.font = '600 10px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.fillStyle = '#78716c';
       ctx.fillText('E (eV)', 0, 0);
       ctx.restore();
@@ -418,7 +418,7 @@
       // Dirac label
       ctx.textAlign = 'center';
       ctx.fillStyle = '#fbbf24';
-      ctx.font = '600 10px "DM Sans", sans-serif';
+      ctx.font = '600 10px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.fillText('Dirac point', sx(pts[kIdx].s), sy(0) - 10);
     };
 
@@ -631,7 +631,7 @@
           var A = ip(pseq[ps].kx, pseq[ps].ky), B = ip(pseq[ps+1].kx, pseq[ps+1].ky);
           ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
         }
-        ctx.font = '700 9px "DM Sans", sans-serif'; ctx.textAlign = 'center';
+        ctx.font = '700 9px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'center';
         var marks = [{p:HSP.G,t:'Γ',c:'#16a34a',dx:-7,dy:3},
                      {p:HSP.M,t:'M',c:'#a78bfa',dx:9,dy:-4},
                      {p:HSP.K,t:'K',c:'#ef4444',dx:8,dy:3}];
@@ -655,7 +655,7 @@
       }
       if (frontMost) {
         ctx.fillStyle = '#fde68a';
-        ctx.font = '600 11px "DM Sans", sans-serif';
+        ctx.font = '600 11px "Zen Kaku Gothic New", system-ui, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('Dirac point', frontMost.sx, frontMost.sy + 20);
       }
@@ -680,7 +680,7 @@
         {v:pr(0,0,1), c:'#34d399', t:'E'}
       ];
       ctx.lineWidth = 1.5;
-      ctx.font = '600 9px "DM Sans", sans-serif';
+      ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'center';
       axes.forEach(function(a) {
         ctx.strokeStyle = a.c; ctx.fillStyle = a.c;
@@ -699,7 +699,7 @@
       ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
       ctx.strokeRect(x, y, w, h);
       ctx.fillStyle = '#a8a29e';
-      ctx.font = '500 9px "DM Sans", sans-serif';
+      ctx.font = '500 9px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'right';
       ctx.fillText('+3t', x - 4, y + 8);
       ctx.fillText('0', x - 4, y + h/2 + 3);
