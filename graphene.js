@@ -1730,6 +1730,18 @@
         cutDirty = true;
       });
     }
+    var btnViewKx  = document.getElementById('btn-view-kx');
+    var btnViewKy  = document.getElementById('btn-view-ky');
+    var btnViewTop = document.getElementById('btn-view-top');
+    if (btnViewKx) btnViewKx.addEventListener('click', function () {
+      cutPhi = PI/2; CUT_THETA = PI/2 - 0.02; cutDirty = true;
+    });
+    if (btnViewKy) btnViewKy.addEventListener('click', function () {
+      cutPhi = 0; CUT_THETA = PI/2 - 0.02; cutDirty = true;
+    });
+    if (btnViewTop) btnViewTop.addEventListener('click', function () {
+      cutPhi = 0; CUT_THETA = 0.12; cutDirty = true;
+    });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     setSliderRange(curTheta === 0);
     update();
