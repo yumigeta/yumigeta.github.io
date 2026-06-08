@@ -38,6 +38,8 @@
   pointer-events: none;
 }
 
+.gr-zoomable { position: relative; }
+
 /* ── In-panel 3D controls overlay ── */
 .gr-3d-overlay {
   position: absolute; left: 10px; bottom: 10px; right: 10px;

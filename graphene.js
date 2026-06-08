@@ -814,6 +814,7 @@
 
     var curTheta = 30;   // edge orientation: 0 = zigzag, 30 = armchair
     var zoneScheme = 'reduced';   // BZ figure: 'reduced' (folded) | 'extended'
+    var bzZoom = 1.7;    // BZ top-view zoom (1 = fit neighbours; >1 zooms in)
 
     // One stable colour per transverse mode, shared by the cutting-line figure,
     // the 3-D cut, and the band plot so the SAME cutting line is the SAME colour
@@ -1124,7 +1125,7 @@
       // Zoom out (~2 BZR, or further if armchair offsets run past it) so the
       // neighbouring Γ points and 2nd-BZ boundary are visible in both schemes.
       var viewR = max(2.0*BZR, maxC);
-      var sc = min(W, H) * 0.40 / viewR;
+      var sc = min(W, H) * 0.40 / viewR * bzZoom;
       function P(kx, ky) { return [cx + kx*sc, cy - ky*sc]; }
 
       var Tint = isZig ? 1 : sqrt3;                    // axial period (a = 1)
@@ -1852,6 +1853,14 @@
     // Free rotation cancels the locked-axis highlight
     cutC.addEventListener('pointerdown', clearView);
     cutC.addEventListener('wheel', clearView, { passive: true });
+
+    // BZ top-view: scroll to zoom in/out
+    bzC.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var f = e.deltaY < 0 ? 1.12 : 1/1.12;
+      bzZoom = max(0.6, min(6, bzZoom * f));
+      if (curP) drawBZ(curP);
+    }, { passive: false });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     setSliderRange(curTheta === 0);
     update();
