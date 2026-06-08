@@ -1211,6 +1211,57 @@
           ctx.beginPath(); ctx.arc(dp[0], dp[1], 3.5, 0, 2*PI); ctx.fill();
           ctx.fillText("K'", dp[0]+5, dp[1]+3);
         });
+
+        // ── Dimension annotations ──
+        (function () {
+          function dblArrow(x1, y1, x2, y2, label, lx, ly) {
+            var dx = x2-x1, dy = y2-y1, len = Math.hypot(dx,dy)||1;
+            var px = -dy/len*4, py = dx/len*4;
+            ctx.save();
+            ctx.setLineDash([]);
+            ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+            ctx.moveTo(x1-px,y1-py); ctx.lineTo(x1+px,y1+py);
+            ctx.moveTo(x2-px,y2-py); ctx.lineTo(x2+px,y2+py);
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,0.75)';
+            ctx.font = '600 9px "DM Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, lx, ly);
+            ctx.restore();
+          }
+          // Screen-space unit vectors for k∥ and k⊥ (canvas: y-axis flipped)
+          var p0s = P(0,0);
+          var sasRaw = P(axdx,axdy), stsRaw = P(trdx,trdy);
+          var saxR = sasRaw[0]-p0s[0], sayR = sasRaw[1]-p0s[1];
+          var stxR = stsRaw[0]-p0s[0], styR = stsRaw[1]-p0s[1];
+          var saxL = Math.hypot(saxR,sayR)||1, stxL = Math.hypot(stxR,styR)||1;
+          var sax = saxR/saxL, say = sayR/saxL;
+          var stx = stxR/stxL, sty = styR/stxL;
+
+          // 1. BZ longitudinal width 2π/T
+          var bwP1 = P(-kpar*axdx, -kpar*axdy);
+          var bwP2 = P( kpar*axdx,  kpar*axdy);
+          var bwMx = (bwP1[0]+bwP2[0])/2, bwMy = (bwP1[1]+bwP2[1])/2;
+          dblArrow(bwP1[0], bwP1[1], bwP2[0], bwP2[1],
+                   isZig ? '2π/a' : '2π/√3a',
+                   bwMx - stx*20, bwMy - sty*20);
+
+          // 2. Transverse quantization step π/(N+1) or 2π/(N+1)
+          var qstep = (isZig ? 1 : 2) * PI / (p.N + 1);
+          var cLo = p.N >= 2 ? qstep : 0;
+          var cHi = p.N >= 2 ? 2*qstep : qstep;
+          var qP1 = P(cLo*trdx + kpar*axdx, cLo*trdy + kpar*axdy);
+          var qP2 = P(cHi*trdx + kpar*axdx, cHi*trdy + kpar*axdy);
+          qP1[0] += sax*16; qP1[1] += say*16;
+          qP2[0] += sax*16; qP2[1] += say*16;
+          var qMx = (qP1[0]+qP2[0])/2, qMy = (qP1[1]+qP2[1])/2;
+          dblArrow(qP1[0], qP1[1], qP2[0], qP2[1],
+                   isZig ? 'π/(N+1)' : '2π/(N+1)',
+                   qMx + sax*20, qMy + say*20);
+        })();
       } else {
         // ── (B) Extended scheme ──
         // Lines drawn across the bulk BZ with umklapp folding (armchair offsets
@@ -1748,13 +1799,13 @@
     var btnViewKy  = document.getElementById('btn-view-ky');
     var btnViewTop = document.getElementById('btn-view-top');
     if (btnViewKx) btnViewKx.addEventListener('click', function () {
-      cutPhi = PI/2; CUT_THETA = PI/2 - 0.02; cutDirty = true;
+      cutPhi = PI/2; CUT_THETA = PI/2; cutDirty = true;
     });
     if (btnViewKy) btnViewKy.addEventListener('click', function () {
-      cutPhi = 0; CUT_THETA = PI/2 - 0.02; cutDirty = true;
+      cutPhi = 0; CUT_THETA = PI/2; cutDirty = true;
     });
     if (btnViewTop) btnViewTop.addEventListener('click', function () {
-      cutPhi = 0; CUT_THETA = 0.12; cutDirty = true;
+      cutPhi = 0; CUT_THETA = 0; cutDirty = true;
     });
     window.addEventListener('resize', function () { cutDirty = true; update(); });
     setSliderRange(curTheta === 0);
