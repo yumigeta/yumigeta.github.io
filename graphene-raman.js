@@ -24,12 +24,12 @@ function lerp(a, b, t) { return a + (b - a) * t; }
    Absolute placement: fx = fraction of plot width (0..1), freq = cm^-1 (vertical).
    Draggable in editor mode (open the page with ?labeledit=1). */
 var phononLabels = [
-  { name: "LA",       brIdx: 0, color: "#2563eb", fx: 0.034, freq: 270 },
-  { name: "LO",       brIdx: 1, color: "#06b6d4", fx: 0.174, freq: 1708 },
-  { name: "iTA",      brIdx: 2, color: "#16a34a", fx: 0.082, freq: 147 },
-  { name: "iTO",      brIdx: 3, color: "#dc2626", fx: 0.038, freq: 1475 },
-  { name: "oTA (ZA)", brIdx: 4, color: "#ea580c", fx: 0.150, freq: 205 },
-  { name: "oTO",      brIdx: 5, color: "#eab308", fx: 0.030, freq: 967 }
+  { name: "LA",       brIdx: 0, color: "#2563eb", fx: 0.078, freq: 644 },
+  { name: "LO",       brIdx: 1, color: "#06b6d4", fx: 0.202, freq: 1650 },
+  { name: "iTA",      brIdx: 2, color: "#16a34a", fx: 0.126, freq: 197 },
+  { name: "iTO",      brIdx: 3, color: "#dc2626", fx: 0.116, freq: 1360 },
+  { name: "oTA (ZA)", brIdx: 4, color: "#ea580c", fx: 0.222, freq: 83 },
+  { name: "oTO",      brIdx: 5, color: "#eab308", fx: 0.099, freq: 909 }
 ];
 try {
   var _savedLbl = JSON.parse(localStorage.getItem("phononLabelPos") || "null");
