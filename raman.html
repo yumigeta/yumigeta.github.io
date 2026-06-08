@@ -65,6 +65,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="raman.css">
+  <link rel="stylesheet" href="gnr-variants.css">
   <link rel="stylesheet" href="katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
@@ -109,7 +110,7 @@
         moment induced in a molecule fixed in space.</span><span class="i18n-ja">振動ラマン散乱の古典論では、入射光を<b>平面電磁波</b>として取り扱い、分子を基準振動によって<b>周期的に変動する分極率</b>を持つ粒子としてモデル化する。散乱光は、空間に固定された分子に誘起された双極子モーメントから射出される<b>球面（2次）波</b>として表される。</span>
       </p>
     </div>
-    <div class="demo-stage">
+    <div class="demo-stage pv-light plate-shiro pb-usuzumi">
 
       <!-- Derivation: matches dissertation Appendix A.1 -->
       <div class="derivation">
@@ -122,7 +123,7 @@
         <p><span class="i18n-en">where $x,y,z$ are the space-fixed Cartesian axes.</span><span class="i18n-ja">ここで $x,y,z$ はそれぞれ空間固定のデカルト座標である。</span></p>
 
         <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
-        <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
+        <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#2b7d9e">negative electron cloud</b> relative to the <b style="color:#d23b2c">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#2b7d9e">負の電子雲</b>が<b style="color:#d23b2c">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
         <div class="anim-card">
         <canvas id="c-atom" class="atom-canvas"></canvas>
         <div class="atom-controls">
@@ -137,9 +138,9 @@
           </div>
         </div>
         <div class="atom-legend">
-          <span><i style="background:#38bdf8"></i><span class="i18n-en">electron cloud (−)</span><span class="i18n-ja">電子雲 (−)</span></span>
-          <span><i style="background:#ef4444"></i><span class="i18n-en">nucleus (+)</span><span class="i18n-ja">原子核 (+)</span></span>
-          <span><i style="background:#fcd34d"></i><span class="i18n-en">induced dipole μ</span><span class="i18n-ja">誘起双極子 μ</span></span>
+          <span><i style="background:#2b7d9e"></i><span class="i18n-en">electron cloud (−)</span><span class="i18n-ja">電子雲 (−)</span></span>
+          <span><i style="background:#d23b2c"></i><span class="i18n-en">nucleus (+)</span><span class="i18n-ja">原子核 (+)</span></span>
+          <span><i style="background:#c98a1c"></i><span class="i18n-en">induced dipole μ</span><span class="i18n-ja">誘起双極子 μ</span></span>
         </div>
         </div>
         <p class="cap" id="atom-cap">
@@ -250,15 +251,15 @@
         <div class="decomp-label"><span class="i18n-en">Frequency decomposition of p(t)</span><span class="i18n-ja">p(t)の周波数分解</span></div>
         <div class="decomp-traces">
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#16a34a">$\nu_0$ (Rayleigh)</span>
+            <span class="decomp-tag" style="color:#1f9168">$\nu_0$ (Rayleigh)</span>
             <canvas id="c-dec-ray"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#ef4444">$\nu_0 - \nu_{\mathrm{v}}$ (Stokes)</span>
+            <span class="decomp-tag" style="color:#d23b2c">$\nu_0 - \nu_{\mathrm{v}}$ (Stokes)</span>
             <canvas id="c-dec-stokes"></canvas>
           </div>
           <div class="decomp-row">
-            <span class="decomp-tag" style="color:#3b82f6">$\nu_0 + \nu_{\mathrm{v}}$ (anti-Stokes)</span>
+            <span class="decomp-tag" style="color:#2f63c0">$\nu_0 + \nu_{\mathrm{v}}$ (anti-Stokes)</span>
             <canvas id="c-dec-anti"></canvas>
           </div>
         </div>
@@ -270,9 +271,9 @@
       </div>
 
       <div class="legend">
-        <span><i style="background:#16a34a"></i> <span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span> ($\omega_0$)</span>
-        <span><i style="background:#ef4444"></i> <span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span> ($\omega_0 - \omega_{\mathrm{v}}$)</span>
-        <span><i style="background:#3b82f6"></i> <span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span> ($\omega_0 + \omega_{\mathrm{v}}$)</span>
+        <span><i style="background:#1f9168"></i> <span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span> ($\omega_0$)</span>
+        <span><i style="background:#d23b2c"></i> <span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span> ($\omega_0 - \omega_{\mathrm{v}}$)</span>
+        <span><i style="background:#2f63c0"></i> <span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span> ($\omega_0 + \omega_{\mathrm{v}}$)</span>
       </div>
       </div>
 
@@ -288,7 +289,7 @@
         <span class="i18n-en"><b>Coming soon.</b> A full angle-resolved Raman walkthrough — how the Raman tensor $\boldsymbol{R}$ encodes crystal symmetry, the polar-plot fingerprints, and worked examples (graphene, silicon, RTe$_3$, nanoribbons) — is in preparation and will be added here.</span><span class="i18n-ja"><b>近日公開。</b>角度分解ラマンの本格的な解説 — ラマンテンソル $\boldsymbol{R}$ が結晶対称性をどう符号化するか、極座標フィンガープリント、具体例（グラフェン・シリコン・RTe$_3$・ナノリボン） — は準備中で、今後ここに追加予定です。</span>
       </p>
     </div>
-    <div class="demo-stage">
+    <div class="demo-stage pv-light plate-shiro pb-usuzumi">
 
       <!-- HIDDEN until the angle-resolved walkthrough is finalized; restore by removing this comment wrapper.
       <div class="crystal-explain">

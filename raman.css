@@ -350,3 +350,44 @@
   display: inline-block; width: 11px; height: 11px; border-radius: 2px;
   vertical-align: middle; margin-right: 4px;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   Washi white-plate design (matches the Learn design system).
+   The animation cards are the washi "frames"; the canvases inside are
+   white figure-plates (handled by gnr-variants.css .pv-light canvas).
+   ════════════════════════════════════════════════════════════════ */
+.demo-stage.pv-light .anim-card{
+  background: radial-gradient(130% 140% at 28% 0%,
+    color-mix(in srgb, var(--paper) 97%, #fff), var(--paper) 62%);
+  border: 1px solid var(--rule-2);
+  border-radius: 7px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 0 14px rgba(0,0,0,.13);
+  color: var(--ink);
+}
+/* the card's own dark canvas styling is superseded by .pv-light canvas */
+.demo-stage.pv-light .anim-card canvas{ box-shadow: none; }
+/* text reverts to ink on the now-light card */
+.demo-stage.pv-light .anim-card .atom-slider label,
+.demo-stage.pv-light .anim-card .trace-label,
+.demo-stage.pv-light .trace-op{ color: var(--soft); }
+.demo-stage.pv-light .anim-card .atom-slider output{ color: var(--seal); }
+.demo-stage.pv-light .anim-card .trace-label b{ color: var(--ink); }
+.demo-stage.pv-light .anim-card .trace-label .eq,
+.demo-stage.pv-light .anim-card .atom-legend,
+.demo-stage.pv-light .anim-card .legend,
+.demo-stage.pv-light .anim-card .decomp-label,
+.demo-stage.pv-light .anim-card .mode-explain,
+.demo-stage.pv-light .anim-card .spectrum-wrap .cap{ color: var(--faint); }
+/* mode-selector and play buttons inside a light card */
+.demo-stage.pv-light .anim-card .demo-btn{
+  color: var(--soft);
+  border-color: var(--rule);
+}
+.demo-stage.pv-light .anim-card .demo-btn:hover{
+  color: var(--ink);
+  border-color: var(--accent);
+}
+.demo-stage.pv-light .anim-card .demo-btn.active{
+  color: #fff;
+  border-color: var(--accent);
+}

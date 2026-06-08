@@ -15,18 +15,18 @@
 
 const TAU = Math.PI * 2;
 const COL = {
-  field:     '#fbbf24',
-  vib:       '#38bdf8',
-  dipole:    '#f5f5f4',
-  rayleigh:  '#16a34a',
-  stokes:    '#ef4444',
-  anti:      '#3b82f6',
-  axis:      'rgba(255,255,255,0.25)',
-  now:       'rgba(251,191,36,0.55)',
-  nucleus:   '#ef4444',
-  cloud:     '#38bdf8',
-  cloudDim:  'rgba(56,189,248,0.12)',
-  cloudBright: 'rgba(56,189,248,0.28)'
+  field:     '#c98a1c',
+  vib:       '#2b7d9e',
+  dipole:    '#2a2620',
+  rayleigh:  '#1f9168',
+  stokes:    '#d23b2c',
+  anti:      '#2f63c0',
+  axis:      'rgba(46,40,33,0.25)',
+  now:       'rgba(201,138,28,0.55)',
+  nucleus:   '#d23b2c',
+  cloud:     '#2b7d9e',
+  cloudDim:  'rgba(43,125,158,0.12)',
+  cloudBright: 'rgba(43,125,158,0.28)'
 };
 
 function fitCanvas(cv) {
@@ -72,13 +72,13 @@ function fitCanvas(cv) {
   // ── drawing helpers ────────────────────────────────────────
   function charge(ctx, x, y, r, fill, glyph) {
     ctx.save();
-    ctx.shadowColor = fill; ctx.shadowBlur = 14;
+    ctx.shadowColor = 'rgba(0,0,0,0.22)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 2;
     ctx.fillStyle = fill;
     ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
     ctx.restore();
-    ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+    ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(46,40,33,0.9)';
     ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold ' + Math.round(r * 1.25) + 'px ' + FONT;
+    ctx.fillStyle = '#2a2620'; ctx.font = 'bold ' + Math.round(r * 1.25) + 'px ' + FONT;
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(glyph, x, y);
   }
@@ -111,19 +111,19 @@ function fitCanvas(cv) {
     const cloudR = 54, nucR = 14, negR = 12;
     const negY = cy + cloudShift;
     const up = E >= 0, dir = up ? -1 : 1, mag = Math.abs(E);
-    const fcol = up ? '#fbbf24' : '#f87171';
+    const fcol = up ? '#c98a1c' : '#d23b2c';
 
     muHist.push(cloudShift);
     if (muHist.length > HISTN) muHist.shift();
 
     // ── background grid (left atom area only; the μ-plot draws its own) ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.beginPath();
+    ctx.strokeStyle = 'rgba(46,40,33,0.05)'; ctx.lineWidth = 1; ctx.beginPath();
     for (let gx = (divX % 26); gx <= divX; gx += 26) { ctx.moveTo(gx, 0); ctx.lineTo(gx, h); }
     for (let gy = (cy % 26); gy <= h; gy += 26) { ctx.moveTo(0, gy); ctx.lineTo(divX, gy); }
     ctx.stroke();
 
     // ── divider ──
-    ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(46,40,33,0.16)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(divX, 14); ctx.lineTo(divX, h - 14); ctx.stroke();
 
     // ════════ LEFT: vibrating atom ════════
@@ -131,17 +131,17 @@ function fitCanvas(cv) {
       fieldArrow(ctx, x, 26, dir, 20 * mag, fcol);
       fieldArrow(ctx, x, h - 26, dir, 20 * mag, fcol);
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = 'rgba(46,40,33,0.18)'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
     ctx.beginPath(); ctx.moveTo(18, cy); ctx.lineTo(divX - 16, cy); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle = '#a8a29e'; ctx.font = '12px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#6f675b'; ctx.font = '12px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillText('E(t)', 14, 20);
 
     const grd = ctx.createRadialGradient(cxL, negY, 4, cxL, negY, cloudR);
-    grd.addColorStop(0,    'rgba(56,189,248,0.44)');
-    grd.addColorStop(0.55, 'rgba(56,189,248,0.16)');
-    grd.addColorStop(1,    'rgba(56,189,248,0)');
+    grd.addColorStop(0,    'rgba(43,125,158,0.44)');
+    grd.addColorStop(0.55, 'rgba(43,125,158,0.16)');
+    grd.addColorStop(1,    'rgba(43,125,158,0)');
     ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(cxL, negY, cloudR, 0, TAU); ctx.fill();
-    ctx.strokeStyle = 'rgba(56,189,248,0.5)'; ctx.lineWidth = 1.25; ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(43,125,158,0.5)'; ctx.lineWidth = 1.25; ctx.setLineDash([4, 4]);
     ctx.beginPath(); ctx.arc(cxL, negY, cloudR, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
 
     charge(ctx, cxL, negY, negR, COL.cloud,   '−');
@@ -149,17 +149,17 @@ function fitCanvas(cv) {
 
     if (Math.abs(cloudShift) > 4) {
       const sgn = Math.sign(cloudShift), ax = cxL + cloudR + 16;
-      ctx.strokeStyle = '#fcd34d'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+      ctx.strokeStyle = '#c98a1c'; ctx.lineWidth = 3; ctx.lineCap = 'round';
       ctx.beginPath(); ctx.moveTo(ax, negY); ctx.lineTo(ax, cy); ctx.stroke();
-      ctx.fillStyle = '#fcd34d'; ctx.beginPath();
+      ctx.fillStyle = '#c98a1c'; ctx.beginPath();
       ctx.moveTo(ax - 5, cy + sgn * 9); ctx.lineTo(ax, cy); ctx.lineTo(ax + 5, cy + sgn * 9);
       ctx.closePath(); ctx.fill();
-      ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 15px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#c98a1c'; ctx.font = 'italic 15px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
       ctx.fillText('μ', ax + 9, (negY + cy) / 2);
     }
 
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.font = '12px ' + FONT;
-    ctx.fillStyle = mode === 'mod' ? '#7dd3fc' : '#a8a29e';
+    ctx.fillStyle = mode === 'mod' ? '#2b7d9e' : '#6f675b';
     ctx.fillText(mode === 'mod' ? (lang === 'ja' ? 'α(t) 変調' : 'α(t) modulated')
                                 : (lang === 'ja' ? 'α 一定' : 'α constant'), 14, h - 12);
 
@@ -167,13 +167,13 @@ function fitCanvas(cv) {
     const muS = (h / 2 - 26) / (AMP * 2.4);
     ctx.save();
     ctx.beginPath(); ctx.rect(pX0, 12, pW, h - 24); ctx.clip();
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.beginPath();
+    ctx.strokeStyle = 'rgba(46,40,33,0.06)'; ctx.lineWidth = 1; ctx.beginPath();
     for (let gy = (cy % 24); gy <= h; gy += 24) { ctx.moveTo(pX0, gy); ctx.lineTo(pX1, gy); }
     ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(46,40,33,0.22)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
     ctx.beginPath(); ctx.moveTo(pX0, cy); ctx.lineTo(pX1, cy); ctx.stroke(); ctx.setLineDash([]);
     const n = muHist.length, dx = pW / (HISTN - 1);
-    ctx.strokeStyle = '#fcd34d'; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#c98a1c'; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
     ctx.beginPath();
     for (let i = n - 1; i >= 0; i--) {                 // newest at the left, flowing right
       const x = pX0 + (n - 1 - i) * dx;
@@ -182,7 +182,7 @@ function fitCanvas(cv) {
     }
     ctx.stroke();
     ctx.restore();
-    ctx.fillStyle = '#fcd34d'; ctx.font = 'italic 13px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#c98a1c'; ctx.font = 'italic 13px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillText('μ(t)', pX0 + 4, 22);
 
     t += 0.0045;
@@ -357,7 +357,7 @@ function fitCanvas(cv) {
     for (let i = 0; i < _GW * _GH; i++) {
       const n = Math.min(1, _field[i] / dmax);
       const a = Math.pow(n, 0.9) * 0.9;
-      data[i * 4] = 56; data[i * 4 + 1] = 189; data[i * 4 + 2] = 248;
+      data[i * 4] = 43; data[i * 4 + 1] = 125; data[i * 4 + 2] = 158;
       data[i * 4 + 3] = a * 255;
     }
     _offctx.putImageData(img, 0, 0);
@@ -434,11 +434,11 @@ function fitCanvas(cv) {
 
     const dmax = computeField(w, h, sources);
     drawHeat(ctx, w, h, dmax);
-    drawContour(ctx, w, h, 0.30 * dmax, 'rgba(125,211,252,0.45)', 1);
-    drawContour(ctx, w, h, 0.58 * dmax, 'rgba(186,230,253,0.6)', 1);
+    drawContour(ctx, w, h, 0.30 * dmax, 'rgba(43,125,158,0.45)', 1);
+    drawContour(ctx, w, h, 0.58 * dmax, 'rgba(43,125,158,0.6)', 1);
 
     // bonds
-    ctx.strokeStyle = 'rgba(255,255,255,0.45)'; ctx.lineWidth = 3.5;
+    ctx.strokeStyle = 'rgba(46,40,33,0.45)'; ctx.lineWidth = 3.5;
     ctx.beginPath();
     ctx.moveTo(pos[0][0], pos[0][1]);
     ctx.lineTo(pos[1][0], pos[1][1]);
@@ -447,22 +447,22 @@ function fitCanvas(cv) {
 
     // atoms
     const atoms = [
-      { p: pos[0], r: 14, c: '#ef4444', t: 'O' },
-      { p: pos[1], r: 17, c: '#52525b', t: 'C' },
-      { p: pos[2], r: 14, c: '#ef4444', t: 'O' }
+      { p: pos[0], r: 14, c: '#d23b2c', t: 'O' },
+      { p: pos[1], r: 17, c: '#8c8475', t: 'C' },
+      { p: pos[2], r: 14, c: '#d23b2c', t: 'O' }
     ];
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for (const a of atoms) {
       const g2 = ctx.createRadialGradient(a.p[0]-a.r*0.3, a.p[1]-a.r*0.3, 2, a.p[0], a.p[1], a.r);
-      g2.addColorStop(0, '#ffffff'); g2.addColorStop(0.25, a.c); g2.addColorStop(1, a.c);
+      g2.addColorStop(0, 'rgba(255,255,255,0.52)'); g2.addColorStop(0.38, a.c); g2.addColorStop(1, a.c);
       ctx.fillStyle = g2;
       ctx.beginPath(); ctx.arc(a.p[0], a.p[1], a.r, 0, TAU); ctx.fill();
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 12px DM Sans, sans-serif';
+      ctx.fillStyle = '#2a2620'; ctx.font = 'bold 12px DM Sans, sans-serif';
       ctx.fillText(a.t, a.p[0], a.p[1]);
     }
 
     // label
-    ctx.fillStyle = 'rgba(125,211,252,0.7)'; ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillStyle = 'rgba(43,125,158,0.7)'; ctx.font = '10px DM Sans, sans-serif';
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     ctx.fillText('electron density ρ (schematic)', 8, 8);
   }
@@ -479,7 +479,7 @@ function fitCanvas(cv) {
     ctx.beginPath(); ctx.moveTo(ox, oy + plotH); ctx.lineTo(ox, oy); ctx.stroke();
 
     // axis labels
-    ctx.fillStyle = '#a8a29e'; ctx.font = '12px DM Sans, sans-serif';
+    ctx.fillStyle = '#6f675b'; ctx.font = '12px DM Sans, sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
     ctx.fillText('Q', ox + plotW + 6, oy + plotH + 4);
     ctx.save(); ctx.translate(ox - 14, oy + plotH / 2);
@@ -488,11 +488,11 @@ function fitCanvas(cv) {
 
     // Q=0 tick
     const qx0 = ox + plotW / 2;
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(46,40,33,0.15)'; ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
     ctx.beginPath(); ctx.moveTo(qx0, oy); ctx.lineTo(qx0, oy + plotH); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#78716c'; ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillStyle = '#8c8475'; ctx.font = '10px DM Sans, sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
     ctx.fillText('0', qx0, oy + plotH + 4);
 
@@ -502,7 +502,7 @@ function fitCanvas(cv) {
     const AY = a => oy + plotH - a * plotH;        // map α∈[0,1]  → py
 
     // highlight the swept range [−Q₀, +Q₀] under the curve
-    ctx.fillStyle = 'rgba(56,189,248,0.10)';
+    ctx.fillStyle = 'rgba(43,125,158,0.10)';
     ctx.fillRect(QX(-amp), oy, QX(amp) - QX(-amp), plotH);
 
     // α(Q) curve
@@ -517,7 +517,7 @@ function fitCanvas(cv) {
     ctx.stroke();
 
     // tangent line at Q=0 — its slope IS ∂α/∂Q (flat for inactive modes)
-    ctx.strokeStyle = isSym ? 'rgba(251,191,36,0.7)' : 'rgba(120,113,108,0.7)';
+    ctx.strokeStyle = isSym ? 'rgba(201,138,28,0.7)' : 'rgba(140,132,117,0.7)';
     ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
     ctx.beginPath();
     ctx.moveTo(QX(-1), AY(M.a0 + M.c1 * -1));
@@ -526,7 +526,7 @@ function fitCanvas(cv) {
     ctx.setLineDash([]);
 
     // ∂α/∂Q annotation
-    ctx.fillStyle = isSym ? '#fbbf24' : '#a8a29e';
+    ctx.fillStyle = isSym ? '#c98a1c' : '#6f675b';
     ctx.font = 'bold 12px DM Sans, sans-serif';
     ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
     ctx.fillText(isSym ? '∂α/∂Q ≠ 0 (slope)' : '∂α/∂Q = 0 (flat tangent)', ox + plotW - 4, oy + 18);
@@ -535,11 +535,11 @@ function fitCanvas(cv) {
     const tNow = t0 + 1;
     const Q = Qfn(tNow);
     const dotX = QX(Q), dotY = AY(alphaOfQ(Q));
-    ctx.fillStyle = '#fbbf24';
+    ctx.fillStyle = '#c98a1c';
     ctx.beginPath(); ctx.arc(dotX, dotY, 7, 0, TAU); ctx.fill();
-    ctx.fillStyle = '#1c1917';
+    ctx.fillStyle = '#f1eee5';
     ctx.beginPath(); ctx.arc(dotX, dotY, 4, 0, TAU); ctx.fill();
-    ctx.strokeStyle = 'rgba(251,191,36,0.3)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(201,138,28,0.3)'; ctx.lineWidth = 1;
     ctx.setLineDash([3, 3]);
     ctx.beginPath(); ctx.moveTo(dotX, dotY); ctx.lineTo(ox, dotY); ctx.stroke();
     ctx.setLineDash([]);
@@ -558,10 +558,10 @@ function fitCanvas(cv) {
     // α=0 axis + α₀ baseline
     g.ctx.strokeStyle = COL.axis; g.ctx.lineWidth = 1;
     g.ctx.beginPath(); g.ctx.moveTo(0, aY(0)); g.ctx.lineTo(g.w, aY(0)); g.ctx.stroke();
-    g.ctx.strokeStyle = 'rgba(255,255,255,0.22)'; g.ctx.setLineDash([5, 4]);
+    g.ctx.strokeStyle = 'rgba(46,40,33,0.22)'; g.ctx.setLineDash([5, 4]);
     g.ctx.beginPath(); g.ctx.moveTo(0, aY(MODES[mode].a0)); g.ctx.lineTo(g.w, aY(MODES[mode].a0)); g.ctx.stroke();
     g.ctx.setLineDash([]);
-    g.ctx.fillStyle = 'rgba(255,255,255,0.5)'; g.ctx.font = '10px DM Sans, sans-serif';
+    g.ctx.fillStyle = 'rgba(46,40,33,0.5)'; g.ctx.font = '10px DM Sans, sans-serif';
     g.ctx.textAlign = 'left'; g.ctx.textBaseline = 'bottom';
     g.ctx.fillText('α₀', 4, aY(MODES[mode].a0) - 2);
     // α(t) curve
@@ -576,14 +576,14 @@ function fitCanvas(cv) {
     g.ctx.stroke();
     nowLine(g.ctx, g.w, g.h);
     if (!MODES[mode].raman) {
-      g.ctx.fillStyle = 'rgba(167,139,250,0.95)';
+      g.ctx.fillStyle = 'rgba(47,99,192,0.95)';
       g.ctx.font = '11px DM Sans, sans-serif'; g.ctx.textAlign = 'right'; g.ctx.textBaseline = 'top';
       g.ctx.fillText('no ωᵥ modulation — Raman-inactive', g.w - 6, 4);
     }
 
     // p(t): induced dipole (a real field — oscillates +/−), with modulation envelope
     g = fitCanvas(cDip); axis(g.ctx, g.w, g.h);
-    g.ctx.strokeStyle = 'rgba(56,189,248,0.3)'; g.ctx.lineWidth = 1.5;
+    g.ctx.strokeStyle = 'rgba(43,125,158,0.3)'; g.ctx.lineWidth = 1.5;
     g.ctx.setLineDash([4, 4]);
     for (const s of [1, -1]) {
       g.ctx.beginPath();
@@ -613,7 +613,7 @@ function fitCanvas(cv) {
       ctx.strokeStyle = COL.axis; ctx.lineWidth = 0.5;
       ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
       if (amplitude < 0.004) {
-        ctx.fillStyle = 'rgba(168,162,158,0.5)';
+        ctx.fillStyle = 'rgba(140,132,117,0.5)';
         ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText(amplitude < 1e-6 ? '(zero — forbidden)' : '(negligible)', w/2, h/2);
         return;
@@ -663,13 +663,13 @@ function fitCanvas(cv) {
       ctx.fillStyle = b.c;
       ctx.beginPath(); ctx.arc(b.x, baseY - b.H, 3.5, 0, TAU); ctx.fill();
     }
-    ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#a8a29e';
+    ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#6f675b';
     ctx.fillText('ω₀', cx2, baseY + 14);
     if (fundH >= 1) {
       ctx.fillText('ω₀−ωᵥ', cx2 - off1, baseY + 14);
       ctx.fillText('ω₀+ωᵥ', cx2 + off1, baseY + 14);
     }
-    ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
+    ctx.fillStyle = '#6f675b'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
 
   }
 
@@ -735,15 +735,15 @@ function fitCanvas(cv) {
   mkMarker('mUp', COL.field);
 
   function level(y, x1, x2, dashed, label) {
-    add('line', { x1, y1: y, x2, y2: y, stroke: dashed ? 'rgba(255,255,255,0.4)' : '#e7e5e4',
+    add('line', { x1, y1: y, x2, y2: y, stroke: dashed ? 'rgba(46,40,33,0.4)' : '#2a2620',
       'stroke-width': dashed ? 1.4 : 2.2, 'stroke-dasharray': dashed ? '6 5' : '0' });
-    if (label) add('text', { x: x1 - 8, y: y + 4, fill: '#a8a29e', 'font-size': 12,
+    if (label) add('text', { x: x1 - 8, y: y + 4, fill: '#6f675b', 'font-size': 12,
       'font-family': 'DM Sans, sans-serif', 'text-anchor': 'end' }).textContent = label;
   }
   level(Y.virtual, 70, W - 20, true, 'virtual');
   level(Y.v1, 70, W - 20, false, 'v=1');
   level(Y.v0, 70, W - 20, false, 'v=0');
-  add('text', { x: 70, y: 24, fill: '#78716c', 'font-size': 11, 'font-family': 'DM Sans, sans-serif' })
+  add('text', { x: 70, y: 24, fill: '#8c8475', 'font-size': 11, 'font-family': 'DM Sans, sans-serif' })
     .textContent = 'Energy ↑';
 
   const upArrow   = add('line', { stroke: COL.field, 'stroke-width': 3, 'marker-end': 'url(#mUp)' });
@@ -833,11 +833,11 @@ function fitCanvas(cv) {
     const sy = y => cy - (y / YR) * (h / 2 - pad);
 
     // grid: baseline + verticals at ±π, ±2π
-    ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(46,40,33,0.10)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
-    ctx.fillStyle = '#78716c'; ctx.font = '11px ' + FONT; ctx.textAlign = 'center';
+    ctx.fillStyle = '#8c8475'; ctx.font = '11px ' + FONT; ctx.textAlign = 'center';
     [[-2*Math.PI,'−2π'],[-Math.PI,'−π'],[Math.PI,'π'],[2*Math.PI,'2π']].forEach(([xv,lb]) => {
-      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      ctx.strokeStyle = 'rgba(46,40,33,0.07)';
       ctx.beginPath(); ctx.moveTo(sx(xv), 0); ctx.lineTo(sx(xv), h); ctx.stroke();
       ctx.fillText(lb, sx(xv), cy + 16);
     });
@@ -857,21 +857,21 @@ function fitCanvas(cv) {
     }
 
     // target sine
-    curve(Math.sin, 'rgba(226,232,240,0.85)', 2);
+    curve(Math.sin, 'rgba(46,40,33,0.85)', 2);
     // morphing partial sum  (terms-1) -> terms
     const approx = x => partial(x, terms - 1) * (1 - morph) + partial(x, terms) * morph;
-    curve(approx, '#fbbf24', 2.6);
+    curve(approx, '#c98a1c', 2.6);
 
     // current partial-sum formula, in f(x) form
-    ctx.fillStyle = '#fcd34d'; ctx.font = '600 13px ' + FONT;
+    ctx.fillStyle = '#c98a1c'; ctx.font = '600 13px ' + FONT;
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     ctx.fillText(formula(terms), 12, 10);
     const ord = terms <= 0
       ? (lang === 'ja' ? '0 次（定数項）' : 'order 0 (constant term)')
       : (lang === 'ja' ? '最高次 x' + sup(2 * terms - 1) : 'up to x' + sup(2 * terms - 1));
-    ctx.fillStyle = '#a8a29e'; ctx.font = '11px ' + FONT;
+    ctx.fillStyle = '#6f675b'; ctx.font = '11px ' + FONT;
     ctx.fillText(ord, 12, 30);
-    ctx.fillStyle = 'rgba(226,232,240,0.85)'; ctx.font = '12px ' + FONT;
+    ctx.fillStyle = 'rgba(46,40,33,0.85)'; ctx.font = '12px ' + FONT;
     ctx.textAlign = 'right'; ctx.fillText('sin x', w - 12, 10);
 
     // advance the animation
