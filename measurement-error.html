@@ -164,6 +164,33 @@
         <div class="sf-out" id="sf-out"></div>
       </div>
       <p class="me-cap"><span class="i18n-en">Blue digits are significant; grey digits are placeholders. Rounding is the <em>last</em> step — keep extra guard digits through a multi-step calculation and round only the final answer.</span><span class="i18n-ja">青字が有効数字、グレーが位取りのゼロ。丸めは<em>最後</em>の操作である — 多段階の計算では予備の桁を残しておき、最終結果だけを丸めること。</span></p>
+
+      <div class="me-prose">
+        <h3><span class="i18n-en">Where these rules actually come from</span><span class="i18n-ja">これらのルールの本当の出どころ</span></h3>
+        <p><span class="i18n-en">The two rules above are not arbitrary — they are a quick stand-in for <b>propagating the uncertainty</b>. Writing a value to a certain number of digits is an implicit claim about its uncertainty: <b>12.3</b> means roughly $12.3\pm0.05$ (the last digit is uncertain by about half a unit). So "how many digits may I keep?" is really "how big is the uncertainty of the result?" — and that is fixed by how the input uncertainties propagate.</span><span class="i18n-ja">上の2つのルールは恣意的なものではなく、<b>不確かさの伝播</b>を手早く代用したものだ。ある桁数まで値を書くことは、その不確かさについての暗黙の主張である：<b>12.3</b> はおよそ $12.3\pm0.05$ を意味する（最後の桁が約0.5単位の不確かさを持つ）。つまり「何桁残せるか」とは実は「結果の不確かさはどれくらいか」であり、それは入力の不確かさがどう伝播するかで決まる。</span></p>
+        <p><span class="i18n-en">For independent uncertainties, the general rule (derived in &sect;02) combines them <b>in quadrature</b>. Applied to the basic operations:</span><span class="i18n-ja">独立な不確かさに対しては、一般則（&sect;02 で導出）は<b>二乗和</b>で合成する。基本演算に適用すると：</span></p>
+
+        <details class="recall" open>
+          <summary><span class="i18n-en">Propagation formulas for the basic operations</span><span class="i18n-ja">基本演算の誤差伝播公式</span></summary>
+          <div>
+            <p><span class="i18n-en"><b>Addition / subtraction</b> — the <em>absolute</em> uncertainties add in quadrature:</span><span class="i18n-ja"><b>加算・減算</b> — <em>絶対</em>不確かさが二乗和で合成される：</span></p>
+            <p class="eq-block">$$z=x\pm y\;\Rightarrow\;\delta z=\sqrt{(\delta x)^2+(\delta y)^2}$$</p>
+            <p><span class="i18n-en">The result's absolute error is dominated by the coarsest term — i.e. the one whose last meaningful digit sits in the highest decimal place. Hence: <b>keep the fewest decimal places</b>.</span><span class="i18n-ja">結果の絶対誤差は最も粗い項 — すなわち最後の有効桁が最も高い小数位にある項 — に支配される。ゆえに<b>最小の小数位に合わせる</b>。</span></p>
+
+            <p><span class="i18n-en"><b>Multiplication / division</b> — the <em>relative</em> uncertainties add in quadrature:</span><span class="i18n-ja"><b>乗算・除算</b> — <em>相対</em>不確かさが二乗和で合成される：</span></p>
+            <p class="eq-block">$$z=xy\ \text{or}\ \frac{x}{y}\;\Rightarrow\;\frac{\delta z}{|z|}=\sqrt{\left(\frac{\delta x}{x}\right)^2+\left(\frac{\delta y}{y}\right)^2}$$</p>
+            <p><span class="i18n-en">The relative error is dominated by the factor with the largest relative uncertainty — the one with the <em>fewest significant figures</em>. Hence: <b>keep the fewest significant figures</b>.</span><span class="i18n-ja">相対誤差は相対不確かさが最大の因子 — すなわち<em>有効数字が最も少ない</em>因子 — に支配される。ゆえに<b>最小の有効数字に合わせる</b>。</span></p>
+
+            <p><span class="i18n-en"><b>Powers and roots</b> — the relative uncertainty is multiplied by the exponent:</span><span class="i18n-ja"><b>べき乗・根</b> — 相対不確かさは指数倍される：</span></p>
+            <p class="eq-block">$$z=x^{n}\;\Rightarrow\;\frac{\delta z}{|z|}=|n|\,\frac{\delta x}{|x|}$$</p>
+
+            <p><span class="i18n-en"><b>Scaling, log and exponential</b> — handy special cases:</span><span class="i18n-ja"><b>定数倍・対数・指数</b> — よく使う特殊例：</span></p>
+            <p class="eq-block">$$z=c\,x\Rightarrow\delta z=|c|\,\delta x,\qquad z=\ln x\Rightarrow\delta z=\frac{\delta x}{|x|},\qquad z=e^{x}\Rightarrow\frac{\delta z}{|z|}=\delta x$$</p>
+            <p><span class="i18n-en">All of these are the single general rule $\big(\delta z\big)^2=\sum_i\big(\partial z/\partial x_i\big)^2\,(\delta x_i)^2$ evaluated for each function — the subject of the next module.</span><span class="i18n-ja">これらはすべて、一般則 $\big(\delta z\big)^2=\sum_i\big(\partial z/\partial x_i\big)^2\,(\delta x_i)^2$ を各関数について評価したものにすぎない — それが次のモジュールの主題である。</span></p>
+          </div>
+        </details>
+        <p><span class="i18n-en">So significant-figure rules are just error propagation done in your head. They are convenient but crude — when you need the real uncertainty, compute it directly with the formulas above.</span><span class="i18n-ja">つまり有効数字のルールとは、頭の中でやる誤差伝播にすぎない。便利だが粗い — 本当の不確かさが必要なときは、上の公式で直接計算すること。</span></p>
+      </div>
     </div>
   </section>
 
