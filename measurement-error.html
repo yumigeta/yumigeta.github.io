@@ -265,6 +265,44 @@
         </div>
       </div>
 
+      <div class="me-prose"><h3><span class="i18n-en">3c — The Central Limit Theorem</span><span class="i18n-ja">3c — 中心極限定理</span></h3>
+        <p><span class="i18n-en">Why is the normal distribution everywhere? The <b>Central Limit Theorem</b> says that the <em>mean</em> of $n$ independent measurements becomes normally distributed as $n$ grows — <b>whatever the shape of the parent distribution</b>, normal or not. Its spread is exactly the standard error $\sigma/\sqrt{n}$. This is why a measured average has a Gaussian error bar even when individual readings do not follow a bell curve.</span><span class="i18n-ja">なぜ正規分布はどこにでも現れるのか？ <b>中心極限定理</b>は、$n$ 個の独立な測定の<em>平均</em>が、$n$ が大きくなるにつれて正規分布に近づくと述べる — <b>母集団の形が何であれ</b>（正規でなくても）。その広がりはちょうど標準誤差 $\sigma/\sqrt{n}$ である。個々の測定値が釣鐘型に従わなくても、測定の平均がガウス型の誤差棒を持つのはこのためだ。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution (one draw)</span><span class="i18n-ja">母集団分布（1回の抽出）</span></div>
+            <canvas id="c-clt-parent" height="150"></canvas>
+          </div>
+          <div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Distribution of the sample mean x̄</span><span class="i18n-ja">標本平均 x̄ の分布</span></div>
+            <canvas id="c-clt-means" height="150"></canvas>
+          </div>
+        </div>
+        <div class="btn-row" id="clt-parent" style="margin-top:12px">
+          <button class="demo-btn active" data-parent="uniform"><span class="i18n-en">Uniform</span><span class="i18n-ja">一様</span></button>
+          <button class="demo-btn" data-parent="exponential"><span class="i18n-en">Exponential</span><span class="i18n-ja">指数</span></button>
+          <button class="demo-btn" data-parent="bimodal"><span class="i18n-en">Bimodal (coin)</span><span class="i18n-ja">二峰（コイン）</span></button>
+        </div>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="ctrl-clt-n"><span class="i18n-en">Sample size n</span><span class="i18n-ja">標本サイズ n</span></label>
+            <input type="range" id="ctrl-clt-n" min="1" max="50" step="1" value="1" aria-label="CLT sample size">
+            <output id="v-clt-n">1</output>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Predicted SE σ/√n</span><span class="i18n-ja">予測 SE σ/√n</span></span><span class="v" id="clt-se-pred">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Observed sd of x̄</span><span class="i18n-ja">x̄ の実測標準偏差</span></span><span class="v" id="clt-se-obs">—</span></div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">sample means x̄ (n at a time)</span><span class="i18n-ja">標本平均 x̄（n個ずつ）</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">Normal(μ, σ/√n) prediction</span><span class="i18n-ja">正規分布(μ, σ/√n) の予測</span></span>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">Start at $n=1$: the right panel is just the (non-normal) parent. Slide $n$ up and the distribution of means tightens around $\mu$ and morphs into a bell — the Central Limit Theorem in action.</span><span class="i18n-ja">$n=1$ から始めると、右パネルは（非正規な）母集団そのもの。$n$ を上げると平均の分布は $\mu$ のまわりに締まり、釣鐘型へ変わっていく — これが中心極限定理である。</span></p>
+
       <div class="me-prose"><h3><span class="i18n-en">3b — Least-squares fitting</span><span class="i18n-ja">3b — 最小二乗フィット</span></h3>
         <p><span class="i18n-en">When you measure $y$ against $x$, the best straight line $y=ax+b$ is the one minimising the summed squared residuals. The fit returns not just the slope and intercept but <b>their uncertainties</b> $\delta a,\delta b$ and the coefficient of determination $R^2$. Click on the plot to add your own points, or load a noisy data set.</span><span class="i18n-ja">$y$ を $x$ に対して測定するとき、最良の直線 $y=ax+b$ は残差の二乗和を最小にするものである。フィットは傾きと切片だけでなく<b>それらの不確かさ</b> $\delta a,\delta b$、決定係数 $R^2$ も返す。プロットをクリックして点を加えるか、ノイズを含むデータを読み込んでみよう。</span></p>
       </div>

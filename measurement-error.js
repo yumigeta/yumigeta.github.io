@@ -549,6 +549,52 @@
     gen();
   }
 
+  /* ════════════════ Module 03c — Central Limit Theorem ════════════════ */
+  function initCLT() {
+    const cvP = $('c-clt-parent'); if (!cvP) return;
+    const cvM = $('c-clt-means'), sN = $('ctrl-clt-n');
+
+    const PARENTS = {
+      uniform:     { mu: 0.5, sd: Math.sqrt(1 / 12), lo: 0,    hi: 1,   sample: () => Math.random() },
+      exponential: { mu: 1,   sd: 1,                 lo: 0,    hi: 6,   sample: () => -Math.log(1 - Math.random()) },
+      bimodal:     { mu: 0.5, sd: 0.5,               lo: -0.2, hi: 1.2, sample: () => (Math.random() < 0.5 ? 0 : 1) },
+    };
+    let cur = 'uniform';
+
+    function update() {
+      const P = PARENTS[cur];
+      const n = +sN.value;
+      $('v-clt-n').textContent = n;
+      // parent panel: many raw single draws
+      const raw = Array.from({ length: 4000 }, P.sample);
+      drawHistogram(cvP, raw, { lo: P.lo, hi: P.hi, bins: 30, color: '#7dd3fc', trueMean: P.mu });
+      // means panel: distribution of the mean of n draws
+      const trials = 4000, means = new Array(trials);
+      for (let i = 0; i < trials; i++) {
+        let s = 0; for (let k = 0; k < n; k++) s += P.sample();
+        means[i] = s / n;
+      }
+      const sePred = P.sd / Math.sqrt(n);
+      const seObs = stdev(means);
+      $('clt-se-pred').textContent = fmt(sePred, 3);
+      $('clt-se-obs').textContent = fmt(seObs, 3);
+      // fixed window (parent spread) so the narrowing toward μ is visible
+      drawHistogram(cvM, means, {
+        lo: P.mu - 4 * P.sd, hi: P.mu + 4 * P.sd, bins: 34, color: '#a78bfa',
+        normal: { mu: P.mu, sd: sePred }, trueMean: P.mu,
+      });
+    }
+
+    document.querySelectorAll('#clt-parent .demo-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#clt-parent .demo-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active'); cur = btn.dataset.parent; update();
+      }));
+    sN.addEventListener('input', update);
+    window.addEventListener('resize', update);
+    update();
+  }
+
   /* ════════════════ Module 03b — Least-squares fit ════════════════ */
   function initFit() {
     const cv = $('c-fit'); if (!cv) return;
@@ -649,6 +695,7 @@
     initSigFig();
     initPropagation();
     initStats();
+    initCLT();
     initFit();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
