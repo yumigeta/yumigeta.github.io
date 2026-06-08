@@ -125,11 +125,13 @@
     const maxC = Math.max(...counts) || 1;
     const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
     const bw = plotW / bins;
-    // bars
+    // bars (keep a small gap when wide, but stay visible when bins are fine)
+    const gap = bw > 3 ? 1 : bw * 0.08;
+    const barW = Math.max(0.6, bw - 2 * gap);
     ctx.fillStyle = opts.color || '#38bdf8';
     for (let i = 0; i < bins; i++) {
       const bh = counts[i] / maxC * plotH;
-      ctx.fillRect(pad.l + i * bw + 1, pad.t + plotH - bh, bw - 2, bh);
+      ctx.fillRect(pad.l + i * bw + gap, pad.t + plotH - bh, barW, bh);
     }
     // overlay normal curve
     if (opts.normal) {
@@ -578,11 +580,12 @@
       const seObs = stdev(means);
       $('clt-se-pred').textContent = fmt(sePred, 3);
       $('clt-se-obs').textContent = fmt(seObs, 3);
-      // zoom the window to the distribution of the mean (±4·σ/√n) so the bell
-      // stays well-resolved as n grows; the shrinking axis labels convey the
-      // narrowing. At n=1 this window equals the parent spread.
+      // Keep the x-axis FIXED to the parent spread so the narrowing toward μ is
+      // directly visible, but scale the bin count with n so the (ever-narrower)
+      // cluster of means always keeps plenty of resolved bars.
+      const bins = Math.min(150, Math.max(24, Math.round(24 * Math.sqrt(n))));
       drawHistogram(cvM, means, {
-        lo: P.mu - 4 * sePred, hi: P.mu + 4 * sePred, bins: 30, color: '#a78bfa',
+        lo: P.mu - 4 * P.sd, hi: P.mu + 4 * P.sd, bins: bins, color: '#a78bfa',
         normal: { mu: P.mu, sd: sePred }, trueMean: P.mu,
       });
     }
