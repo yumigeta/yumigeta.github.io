@@ -1,0 +1,129 @@
+/* ── Measurement & error styles ── shared demo styles live in style.css ── */
+
+/* The stage itself is not an animation — only the interactive cards are
+   framed (mirrors the convention used on the Raman page). */
+.demo-stage { background: transparent; padding: 0; border-radius: 0; color: var(--ink); max-width: var(--measure); }
+
+/* Centered equation blocks (KaTeX) — same look as the Raman derivations */
+.eq-block {
+  text-align: center; font-size: 1rem; font-weight: 600;
+  color: var(--ink); padding: 8px 0; margin: 8px 0; letter-spacing: 0.02em;
+  overflow-x: auto;
+}
+
+/* Body prose inside a module */
+.me-prose p { font-size: 0.9rem; color: var(--soft); line-height: 1.75; margin: 10px 0; }
+.me-prose p b { color: var(--ink); }
+.me-prose h3 {
+  font-size: 0.95rem; font-weight: 700; color: var(--ink);
+  margin: 22px 0 4px; padding-bottom: 6px; border-bottom: 1px solid var(--rule);
+}
+
+/* ── Interactive animation card: canvas + its controls share one dark frame ── */
+.anim-card {
+  background: #1b1711; border: 1px solid var(--rule); border-radius: 14px;
+  box-shadow: var(--shadow-card); padding: 18px; margin: 18px 0;
+  color: #e7e5e4;
+}
+.anim-card canvas {
+  width: 100%; display: block; border-radius: 8px;
+  background: #14110b; border: 1px solid rgba(255,255,255,0.08);
+}
+.anim-card .btn-row { margin-bottom: 6px; }
+
+/* ── Sliders / controls inside a card ── */
+.me-controls {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 14px 24px; margin: 14px 2px 4px;
+}
+.me-slider { display: flex; align-items: center; gap: 10px; flex: 1 1 230px; }
+.me-slider label { font-size: 0.82rem; color: #d6d3d1; white-space: nowrap; }
+.me-slider input[type="range"] {
+  flex: 1 1 auto; min-width: 100px; accent-color: var(--accent); cursor: pointer;
+}
+.me-slider output {
+  font-size: 0.8rem; color: #7dd3fc; font-variant-numeric: tabular-nums;
+  min-width: 64px; text-align: right;
+}
+
+/* number / select inputs (sig-fig tool) */
+.me-field {
+  background: #14110b; color: #fafaf9; border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 8px; padding: 8px 10px; font-size: 0.92rem;
+  font-variant-numeric: tabular-nums; width: 9rem;
+}
+.me-field:focus { outline: none; border-color: var(--accent); }
+select.me-field { width: auto; cursor: pointer; }
+
+/* ── Read-out tiles (mean, σ, slope …) ── */
+.me-stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 2px; }
+.me-stat {
+  flex: 1 1 110px; min-width: 100px;
+  background: #14110b; border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 10px; padding: 10px 12px;
+}
+.me-stat .k { display: block; font-size: 0.68rem; letter-spacing: 0.05em;
+  text-transform: uppercase; color: #a8a29e; margin-bottom: 4px; }
+.me-stat .v { font-size: 1.02rem; font-weight: 700; color: #fafaf9;
+  font-variant-numeric: tabular-nums; }
+.me-stat .v small { font-weight: 500; color: #a8a29e; font-size: 0.78rem; }
+
+/* accuracy/precision verdict badge */
+.me-verdict {
+  display: inline-block; font-size: 0.78rem; font-weight: 700;
+  padding: 5px 12px; border-radius: 100px; margin-top: 4px;
+}
+.me-verdict.good { background: #064e3b; color: #6ee7b7; }
+.me-verdict.mid  { background: #422006; color: #fbbf24; }
+.me-verdict.bad  { background: #4c0519; color: #fda4af; }
+
+/* legend row */
+.me-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px;
+  font-size: 0.76rem; color: #a8a29e; }
+.me-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.me-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
+/* caption under a card */
+.me-cap { font-size: 0.82rem; color: var(--faint); margin-top: 10px; line-height: 1.65; }
+.me-cap b { color: var(--soft); }
+
+/* sig-fig output panel */
+.sf-out { font-size: 0.9rem; color: #e7e5e4; line-height: 1.8; margin-top: 4px; }
+.sf-out .digit-sig { color: #7dd3fc; font-weight: 700; }
+.sf-out .digit-pad { color: #78716c; }
+.sf-out .sf-result { font-size: 1.05rem; font-weight: 700; color: #fafaf9; }
+.sf-out .sf-rule { color: #a8a29e; font-size: 0.84rem; }
+
+/* "reminder" collapsible (same affordance as the Raman page) */
+.recall {
+  margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--bg-soft);
+}
+.recall > summary {
+  cursor: pointer; list-style: none; padding: 10px 16px;
+  font-size: 0.8rem; font-weight: 600; color: var(--faint);
+  display: flex; align-items: center; gap: 8px; user-select: none;
+}
+.recall > summary::-webkit-details-marker { display: none; }
+.recall > summary::before { content: "\25B8"; color: var(--faint); transition: transform .15s ease; }
+.recall[open] > summary::before { transform: rotate(90deg); }
+.recall[open] > summary { border-bottom: 1px solid var(--rule); }
+.recall > summary:hover { color: var(--ink); }
+.recall > div { padding: 6px 16px 12px; }
+.recall p { font-size: 0.82rem; color: var(--soft); line-height: 1.65; margin: 8px 0; }
+
+/* cross-link callout to the spectral-noise page */
+.me-seealso {
+  margin: 18px 0 0; padding: 14px 18px;
+  border: 1px dashed var(--rule-2); border-radius: 10px;
+  background: var(--bg-soft); color: var(--soft);
+  font-size: 0.88rem; line-height: 1.7;
+}
+.me-seealso b { color: var(--ink); }
+.me-seealso a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+.ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .me-field { width: 7rem; }
+}
