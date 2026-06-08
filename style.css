@@ -783,59 +783,61 @@ input[type=range]::-moz-range-thumb {
 .lang-btn:hover .l-en, .lang-btn:hover .l-ja, .lang-btn:hover .l-sep { color: var(--paper); }
 
 /* ════════════════════════════════════════════════════════════════
-   Explanatory callouts — intuition / key idea / common misconception
-   A reusable component for clear, EMAN-style step-by-step writing.
-   Label text is supplied in the markup (so it can carry i18n spans).
+   Explanatory callouts — washi-paper editorial style
+   A restrained 和 palette on a washi ground: 藍 (indigo) · 朱 (vermilion)
+   · 弁柄 (red ochre) · 墨 (sumi ink). Mincho label with a small kicker
+   line and a seal-like lozenge marker. Label text comes from the markup
+   (so it can carry i18n spans).
    ════════════════════════════════════════════════════════════════ */
 .callout {
+  --co-accent: var(--ink-2);
   max-width: var(--measure);
-  margin: 22px 0;
-  padding: 15px 18px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--rule-2);
-  border-radius: 12px;
-  background: var(--bg-soft);
-  font-size: 15.5px; line-height: 1.74; color: var(--ink);
+  margin: 28px 0;
+  padding: 18px 24px 18px 22px;
+  background:
+    linear-gradient(color-mix(in srgb, var(--paper-tint) 50%, var(--paper)),
+                    color-mix(in srgb, var(--paper-tint) 50%, var(--paper)));
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--co-accent);
+  border-radius: 3px;
+  font-size: 15.5px; line-height: 1.9; color: var(--ink);
 }
 .callout .co-label {
-  display: block;
-  font-family: var(--gothic);
-  font-size: 12px; font-weight: 700; letter-spacing: .08em;
-  margin-bottom: 5px;
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mincho);
+  font-size: 14.5px; font-weight: 700; letter-spacing: .14em;
+  color: var(--co-accent);
+  margin-bottom: 9px;
+}
+.callout .co-label::before {
+  content: "";
+  flex: none;
+  width: 8px; height: 8px;
+  background: var(--co-accent);
+  transform: rotate(45deg);          /* small lozenge — a quiet seal accent */
+}
+.callout .co-label::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(to right,
+    color-mix(in srgb, var(--co-accent) 45%, transparent), transparent);
 }
 .callout p { margin: 0; color: var(--ink); font-size: inherit; line-height: inherit; }
-.callout p + p { margin-top: 8px; }
-.callout b { color: var(--ink); }
+.callout p + p { margin-top: 9px; }
+.callout b { color: var(--ink); font-weight: 700; }
 
-.callout.intuition {
-  border-left-color: #15803d;
-  background: color-mix(in srgb, #15803d 7%, var(--paper));
-}
-.callout.intuition .co-label { color: #15803d; }
-
-.callout.point {
-  border-left-color: var(--accent);
-  background: var(--accent-soft);
-}
-.callout.point .co-label { color: var(--accent); }
-
-.callout.misconception {
-  border-left-color: #c2660c;
-  background: color-mix(in srgb, #c2660c 8%, var(--paper));
-}
-.callout.misconception .co-label { color: #c2660c; }
-
-.callout.recap {
-  border-left-color: var(--ink-2);
-  background: color-mix(in srgb, var(--ink) 5%, var(--paper));
-}
-.callout.recap .co-label { color: var(--ink-2); }
+.callout.intuition     { --co-accent: #3f5a6b; }   /* 藍鼠 — dusty indigo */
+.callout.point         { --co-accent: var(--seal); }/* 朱 — vermilion */
+.callout.misconception { --co-accent: #9c4a2f; }   /* 弁柄 — red ochre */
+.callout.recap         { --co-accent: #5a5247; }   /* 墨 — warm sumi gray */
 
 /* Small "prerequisite" line that links to a recommended earlier page */
 .prereq {
   max-width: var(--measure);
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-size: 14px; color: var(--soft);
+  font-family: var(--mincho);
 }
-.prereq a { color: var(--accent); font-weight: 600; }
-.prereq a:hover { text-decoration: underline; }
+.prereq a { color: var(--seal); font-weight: 700; }
+.prereq a:hover { text-decoration: underline; text-underline-offset: 3px; }
