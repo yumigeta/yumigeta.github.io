@@ -737,7 +737,7 @@ input[type=range]::-moz-range-thumb {
   line-height: 1.2; letter-spacing: -.01em; margin: 0 0 6px;
 }
 .ed-tools .et p {
-  color: var(--soft); font-size: clamp(14px,1.4vw,15.5px); line-height: 1.6; max-width: 60ch;
+  color: var(--soft); font-size: clamp(14px,1.4vw,15.5px); line-height: 1.6;
 }
 
 /* ── Coming-soon tool card ── */
