@@ -32,62 +32,81 @@ function drawPhonon() {
   const pw = w - pad.l - pad.r;
   const ph = h - pad.t - pad.b;
 
-  const maxFreq = 1620;
-  const nPts = 200;
+  const maxFreq = 1800;
+  const nPts = 240;
 
-  // high-symmetry points: Γ=0, M=0.4, K=0.6667, Γ=1
+  // high-symmetry points along Γ → K → M → Γ (segment lengths ∝ 1 : 0.5 : √3/2)
+  const xK = 0.423, xM = 0.634;
   const sym = [
-    { x: 0,      label: "Γ" },
-    { x: 0.4,    label: "M" },
-    { x: 0.6667, label: "K" },
-    { x: 1,      label: "Γ" }
+    { x: 0,   label: "Γ" },
+    { x: xK,  label: "K" },
+    { x: xM,  label: "M" },
+    { x: 1,   label: "Γ" }
   ];
 
-  // approximate dispersion curves (simplified)
+  // segment helper: returns [index, u∈[0,1]] for path position t
+  function seg(t) {
+    if (t <= xK) return [0, t / xK];
+    if (t <= xM) return [1, (t - xK) / (xM - xK)];
+    return [2, (t - xM) / (1 - xM)];
+  }
+  function smooth(u) { return 0.5 - 0.5 * Math.cos(PI * u); }
+
+  // dispersion curves digitized from the reference figure (Γ → K → M → Γ)
   function branch(name, fn, color) { return { name, fn, color }; }
 
   const branches = [
+    // out-of-plane acoustic (ZA): quadratic near Γ
     branch("oTA (ZA)", function(t) {
-      if (t <= 0.4) return 60 * Math.pow(t / 0.4, 2) * 1.5;
-      if (t <= 0.6667) return lerp(90, 130, (t - 0.4) / 0.2667);
-      return lerp(130, 0, (t - 0.6667) / 0.3333);
-    }, "#78716c"),
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) return 520 * Math.pow(u, 1.5);
+      if (i === 1) return 520 - 60 * u;
+      return 460 * Math.pow(1 - u, 2);
+    }, "#ea580c"),
 
+    // in-plane transverse acoustic
     branch("iTA", function(t) {
-      if (t <= 0.4) return lerp(0, 630, t / 0.4);
-      if (t <= 0.6667) return lerp(630, 550, (t - 0.4) / 0.2667);
-      return lerp(550, 0, (t - 0.6667) / 0.3333);
-    }, "#8b5cf6"),
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) return 950 * Math.pow(u, 0.95);
+      if (i === 1) return -693.3 * u * u + 373.3 * u + 950; // peak ~1000
+      return 630 * (1 - u);
+    }, "#16a34a"),
 
-    branch("iLA", function(t) {
-      if (t <= 0.4) return lerp(0, 1050, t / 0.4);
-      if (t <= 0.6667) return lerp(1050, 1000, (t - 0.4) / 0.2667);
-      return lerp(1000, 0, (t - 0.6667) / 0.3333);
-    }, "#10b981"),
-
+    // out-of-plane optical
     branch("oTO", function(t) {
-      if (t <= 0.4) return lerp(870, 630, t / 0.4);
-      if (t <= 0.6667) return lerp(630, 540, (t - 0.4) / 0.2667);
-      return lerp(540, 870, (t - 0.6667) / 0.3333);
-    }, "#f59e0b"),
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) return 870 - 340 * smooth(u);
+      if (i === 1) return 530 + 100 * smooth(u);
+      return 630 + 240 * smooth(u);
+    }, "#eab308"),
 
+    // longitudinal acoustic
+    branch("LA", function(t) {
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) return 1220 * Math.pow(u, 0.9);
+      if (i === 1) return 1220 + 130 * smooth(u);
+      return 1350 * Math.pow(1 - u, 1.1);
+    }, "#2563eb"),
+
+    // in-plane transverse optical — Kohn-anomaly dip at K (D/2D band)
     branch("iTO", function(t) {
-      if (t <= 0.4) {
-        var u = t / 0.4;
-        return 1580 - 80 * u - 100 * u * u;
-      }
-      if (t <= 0.6667) return lerp(1400, 1250, (t - 0.4) / 0.2667);
-      return lerp(1250, 1580, (t - 0.6667) / 0.3333);
-    }, "#ef4444"),
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) return 1580 - 270 * Math.pow(u, 1.3);
+      if (i === 1) return 1310 + 100 * Math.sqrt(u);
+      return 1410 + 170 * smooth(u);
+    }, "#dc2626"),
 
-    branch("iLO", function(t) {
-      if (t <= 0.4) {
-        var u = t / 0.4;
-        return 1580 - 30 * u + 30 * Math.sin(PI * u);
+    // longitudinal optical — overshoot to ~1620 near Γ, dip at K
+    branch("LO", function(t) {
+      var sg = seg(t), i = sg[0], u = sg[1];
+      if (i === 0) {
+        var dec = 1580 - 340 * Math.pow(u, 1.5);
+        var bump = u < 0.3 ? 60 * Math.sin(PI * u / 0.3) : 0;
+        return dec + bump;
       }
-      if (t <= 0.6667) return lerp(1520, 1250, (t - 0.4) / 0.2667);
-      return lerp(1250, 1580, (t - 0.6667) / 0.3333);
-    }, "#3b82f6")
+      if (i === 1) return 1240 + 160 * Math.sqrt(u);
+      return -453.3 * u * u + 633.3 * u + 1400; // arch up to ~1620
+    }, "#06b6d4")
   ];
 
   // background
@@ -114,7 +133,7 @@ function drawPhonon() {
   ctx.fillStyle = "#a8a29e";
   ctx.font = "11px system-ui, sans-serif";
   ctx.textAlign = "right";
-  for (var yv = 0; yv <= 1600; yv += 400) {
+  for (var yv = 0; yv <= 1800; yv += 200) {
     var yy = h - pad.b - (yv / maxFreq) * ph;
     ctx.fillText(yv, pad.l - 8, yy + 4);
     ctx.strokeStyle = "#33302e";
@@ -159,7 +178,7 @@ function drawPhonon() {
   ctx.fillRect(gx - 2, pad.t, 30, ph);
 
   // K point (D / 2D)
-  var kx = pad.l + 0.6667 * pw;
+  var kx = pad.l + xK * pw;
   ctx.fillStyle = "rgba(239,68,68,0.08)";
   ctx.fillRect(kx - 15, pad.t, 30, ph);
 
