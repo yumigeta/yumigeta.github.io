@@ -15,7 +15,11 @@
   function fitCanvas(cv) {
     const dpr = window.devicePixelRatio || 1;
     const w = cv.clientWidth || cv.parentElement.clientWidth;
-    const h = cv.getAttribute('height') ? +cv.getAttribute('height') : cv.clientHeight;
+    // Read the intended logical height ONCE and cache it. Setting cv.height
+    // (the draw-buffer) overwrites the HTML height attribute, so re-reading it
+    // would make the canvas grow on every redraw.
+    if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height') || cv.clientHeight || 200;
+    const h = +cv.dataset.h;
     cv.style.height = h + 'px';
     cv.width = Math.round(w * dpr);
     cv.height = Math.round(h * dpr);
