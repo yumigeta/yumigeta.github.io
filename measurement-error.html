@@ -200,8 +200,21 @@
 
         <div class="me-controls" id="prop-vars"><!-- variable sliders injected by JS --></div>
 
+        <div class="me-controls">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="ctrl-mc-n"><span class="i18n-en">Monte-Carlo samples</span><span class="i18n-ja">モンテカルロ標本数</span></label>
+            <input type="range" id="ctrl-mc-n" min="100" max="50000" step="100" value="8000" aria-label="Monte-Carlo sample count">
+            <output id="v-mc-n">8000</output>
+          </div>
+        </div>
+
         <div class="me-stats">
           <div class="me-stat" style="flex:1 1 100%"><span class="k"><span class="i18n-en">Result (analytic)</span><span class="i18n-ja">結果（解析式）</span></span><span class="v" id="prop-result">—</span></div>
+        </div>
+
+        <div style="margin-top:6px">
+          <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Inputs: value ± uncertainty</span><span class="i18n-ja">入力：値 ± 不確かさ</span></div>
+          <canvas id="c-prop-inputs" height="120"></canvas>
         </div>
 
         <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px">

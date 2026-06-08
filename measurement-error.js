@@ -320,6 +320,7 @@
   function initPropagation() {
     const varsBox = $('prop-vars'); if (!varsBox) return;
     const exprInput = $('prop-expr');
+    const mcN = $('ctrl-mc-n'), mcOut = $('v-mc-n');
 
     // persistent per-variable state (kept across formula changes)
     const state = { x: { val: 10, del: 0.3 }, y: { val: 4, del: 0.2 }, z: { val: 2, del: 0.1 } };
@@ -400,10 +401,11 @@
       const dfA = Math.sqrt(totVar);
       $('prop-result').innerHTML = 'f = ' + fmt(fval, 4) + ' <small>± ' + fmt(dfA, 2) + '</small>';
       $('prop-df-a').textContent = fmt(dfA, 3);
+      drawInputs(vals);
       drawBars(contrib, totVar);
 
       // Monte-Carlo: sample the active variables, evaluate f
-      const N = 8000, samples = [];
+      const N = mcN ? +mcN.value : 8000, samples = [];
       for (let i = 0; i < N; i++) {
         const s = { x: vals.x, y: vals.y, z: vals.z };
         activeVars.forEach(n => { s[n] = gaussian(state[n].val, state[n].del); });
@@ -478,6 +480,52 @@
       ctx.textAlign = 'right'; ctx.fillText(fmt(hi, 3), w - pad.r, h - 5);
     }
 
+    /* input panel: each active variable as a point at its value with a
+       horizontal ±δ error bar, so the inputs and their spreads are visible. */
+    function drawInputs(vals) {
+      const cv = $('c-prop-inputs');
+      const { ctx, w, h } = fitCanvas(cv);
+      ctx.clearRect(0, 0, w, h);
+      const cols = ['#38bdf8', '#fbbf24', '#f472b6', '#34d399'];
+      const pad = { l: 30, r: 14, t: 12, b: 18 };
+      const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
+      // shared value axis spanning all variables' (value ± δ)
+      let lo = Infinity, hi = -Infinity;
+      activeVars.forEach(n => {
+        lo = Math.min(lo, vals[n] - state[n].del);
+        hi = Math.max(hi, vals[n] + state[n].del);
+      });
+      if (!isFinite(lo) || lo === hi) { lo -= 1; hi += 1; }
+      const m = (hi - lo) * 0.12 || 1; lo -= m; hi += m;
+      const span = hi - lo;
+      const X = v => pad.l + (v - lo) / span * plotW;
+      // axis
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, h - pad.b); ctx.lineTo(w - pad.r, h - pad.b); ctx.stroke();
+      ctx.fillStyle = '#a8a29e'; ctx.font = '10px sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText(fmt(lo, 3), pad.l, h - 5);
+      ctx.textAlign = 'right'; ctx.fillText(fmt(hi, 3), w - pad.r, h - 5);
+      // one row per variable
+      const rowH = plotH / activeVars.length;
+      activeVars.forEach((n, i) => {
+        const y = pad.t + (i + 0.5) * rowH;
+        const v = vals[n], d = state[n].del;
+        const xc = X(v), x1 = X(v - d), x2 = X(v + d);
+        const col = cols[i % cols.length];
+        ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 2;
+        // error bar + caps
+        ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+        [x1, x2].forEach(xx => { ctx.beginPath(); ctx.moveTo(xx, y - 5); ctx.lineTo(xx, y + 5); ctx.stroke(); });
+        // central point
+        ctx.beginPath(); ctx.arc(xc, y, 3.5, 0, 2 * Math.PI); ctx.fill();
+        // variable label (left) and numeric value (right of bar)
+        ctx.font = '12px sans-serif'; ctx.textAlign = 'right';
+        ctx.fillText(n, pad.l - 6, y + 4);
+        ctx.font = '10px sans-serif'; ctx.fillStyle = '#d6d3d1'; ctx.textAlign = 'left';
+        ctx.fillText(fmt(v, 3) + ' ± ' + fmt(d, 2), Math.min(x2 + 7, w - 70), y - 6);
+      });
+    }
+
     function drawBars(contrib, totVar) {
       const cv = $('c-prop-bars');
       const { ctx, w, h } = fitCanvas(cv);
@@ -516,8 +564,13 @@
       document.querySelectorAll('#prop-formula .demo-btn').forEach(b => b.classList.remove('active'));
       recompute();
     });
+    if (mcN) mcN.addEventListener('input', () => {
+      mcOut.textContent = (+mcN.value).toLocaleString();
+      recompute();
+    });
     window.addEventListener('resize', recompute);
     document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(recompute, 0));
+    if (mcN) mcOut.textContent = (+mcN.value).toLocaleString();
     recompute();
   }
 
