@@ -220,8 +220,8 @@
       const mx = mean(shots.map(p => p.x)), my = mean(shots.map(p => p.y));
       const offset = Math.hypot(mx, my);
       const spread = Math.sqrt(mean(shots.map(p => (p.x - mx) ** 2 + (p.y - my) ** 2)));
-      $('st-acc').textContent = fmt(offset, 2);
-      $('st-prec').textContent = fmt(spread, 2);
+      $('st-acc').textContent = fmt(offset, 4);
+      $('st-prec').textContent = fmt(spread, 4);
       const accGood = offset < 0.12, precGood = spread < 0.16;
       let cls, msg;
       if (accGood && precGood) { cls = 'good'; msg = t('Accurate & precise — the ideal measurement.', '正確かつ精密 — 理想的な測定。'); }
