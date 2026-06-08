@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="analytics.js"></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/analytics.js"></script>
   <style>
     :root {
       --paper: #fefefc;
@@ -144,7 +144,7 @@
     }
 
     /* ===== STATEMENT (featured work) ===== */
-    .statement { background: url("kagome.svg") 0 0 repeat, var(--band-deep);
+    .statement { background: url("/assets/img/kagome.svg") 0 0 repeat, var(--band-deep);
       color: var(--paper); padding: clamp(28px,3.5vw,48px) 0; border-bottom: 0; position: relative; overflow: hidden; }
     .statement .wrap { position: relative; z-index: 1; }
     .statement .tagq { font-family: var(--gothic); font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
@@ -273,7 +273,7 @@
     .btn:hover { background-color: var(--accent); }
 
     /* ===== CONTACT (flat ink block) ===== */
-    .ed-contact { background: url("kagome.svg") 0 0 repeat, var(--band-deep);
+    .ed-contact { background: url("/assets/img/kagome.svg") 0 0 repeat, var(--band-deep);
       color: var(--paper); border-bottom: 0;
       padding-top: clamp(24px,3vw,40px); padding-bottom: clamp(24px,3vw,40px); }
     .ed-contact .shx { margin-bottom: clamp(14px,1.6vw,22px); padding-bottom: clamp(10px,1.2vw,16px); border-bottom-color: rgba(241,236,225,.2); }
@@ -313,7 +313,7 @@
 
 <header class="site-nav">
   <div class="nav">
-    <a class="brand" href="#top" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <a class="brand" href="#top" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
     <nav class="links">
       <a href="#news">News</a>
       <a href="#research">Research</a>
@@ -362,8 +362,8 @@
   <div class="wrap">
     <div class="tagq rv">Featured work</div>
     <div class="feat-grid rv">
-      <a class="cover-link" href="cover-acsami-2026-full.jpg" target="_blank" rel="noopener" title="View high-resolution cover">
-        <img src="cover-acsami-2026.jpg" alt="ACS Applied Materials &amp; Interfaces — Front Cover, Vol. 18 (2026)" width="160" height="213">
+      <a class="cover-link" href="/assets/img/cover-acsami-2026-full.jpg" target="_blank" rel="noopener" title="View high-resolution cover">
+        <img src="/assets/img/cover-acsami-2026.jpg" alt="ACS Applied Materials &amp; Interfaces — Front Cover, Vol. 18 (2026)" width="160" height="213">
         <span class="cover-hint">Hi-res ↗</span>
       </a>
       <div class="feat-body">
@@ -439,7 +439,7 @@
       <div class="pub"><div class="yr">2025</div><div class="cite"><span class="authors">Banerjee, R.; Uppala, S.; Yumigeta, K.; et al.</span> <span class="title"><a href="https://doi.org/10.1039/D4NR03715D" target="_blank" rel="noopener">Controllable Synthesis of Environmentally Stable vdW Antiferromagnetic Oxyhalide CrOCl.</a></span> <span class="journal">Nanoscale</span> <span class="vol">2025</span>, <em>17</em>, 5472.</div></div>
       <div class="pub"><div class="yr">2024</div><div class="cite"><span class="authors">Dinh, C.; Yusufoglu, M.; Yumigeta, K.; et al.</span> <span class="title"><a href="https://doi.org/10.1021/acsnano.4c04097" target="_blank" rel="noopener">Atomically Precise Graphene Nanoribbon Transistors with Long-Term Stability and Reliability.</a></span> <span class="journal">ACS Nano</span> <span class="vol">2024</span>, <em>18</em>, 22949.</div></div>
     </div>
-    <div class="after rv"><a class="more" href="publications.html">Full publication list <span>→</span></a></div>
+    <div class="after rv"><a class="more" href="/publications/">Full publication list <span>→</span></a></div>
   </div>
 </section>
 
@@ -454,20 +454,20 @@
       <div class="c">
         <h3>Raman Spectroscopy</h3>
         <p>An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
-        <div class="g-link"><a href="raman.html">Open ›</a></div>
+        <div class="g-link"><a href="/learn/raman/">Open ›</a></div>
       </div>
       <div class="c">
         <h3>Graphene Electronic Structure</h3>
         <p>Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
-        <div class="g-link"><a href="graphene.html">Open ›</a></div>
+        <div class="g-link"><a href="/learn/graphene/">Open ›</a></div>
       </div>
       <div class="c">
         <h3>Graphene Raman Spectroscopy</h3>
         <p>Phonon dispersion, G/2D/D bands, double resonance, and how to read graphene Raman spectra.</p>
-        <div class="g-link"><a href="graphene-raman.html">Open ›</a></div>
+        <div class="g-link"><a href="/learn/graphene-raman/">Open ›</a></div>
       </div>
     </div>
-    <div class="after rv"><a class="more" href="learn.html">All learning resources <span>→</span></a></div>
+    <div class="after rv"><a class="more" href="/learn/">All learning resources <span>→</span></a></div>
   </div>
 </section>
 
@@ -495,7 +495,7 @@
       <div class="row"><div class="w">2025</div><div class="d">Postdoctoral Affairs Travel Award <span class="ex">· University of Arizona</span></div></div>
       <div class="row"><div class="w">2019</div><div class="d">Summer University Graduate Fellowship <span class="ex">· Arizona State University</span></div></div>
     </div>
-    <div class="cv-cta rv"><a class="btn" href="yumigeta-cv.pdf" target="_blank">Download full CV (PDF) ↓</a></div>
+    <div class="cv-cta rv"><a class="btn" href="/assets/docs/yumigeta-cv.pdf" target="_blank">Download full CV (PDF) ↓</a></div>
   </div>
 </section>
 
@@ -523,7 +523,7 @@
   <div class="wrap">
     <div class="foot">
       <span></span>
-      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
       <span class="foot-r">© 2026 Kentaro Yumigeta</span>
     </div>
   </div>

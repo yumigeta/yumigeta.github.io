@@ -6,12 +6,12 @@
   <title>Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide</title>
   <meta name="description" content="How acquisition time and accumulation count shape the signal-to-noise ratio of a spectrum. Shot, dark, and read noise; why SNR scales as the square root of total exposure; when to use a long single acquisition versus many short accumulations; cosmic-ray rejection and saturation.">
   <meta name="keywords" content="signal-to-noise ratio, SNR, Raman spectroscopy noise, acquisition time, accumulation, averaging, shot noise, read noise, dark current, cosmic ray rejection, detector saturation, spectroscopy, CCD, signal averaging">
-  <link rel="canonical" href="https://yumigeta.github.io/spectral-noise.html">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/spectral-noise/">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide">
   <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations — interactive.">
-  <meta property="og:url" content="https://yumigeta.github.io/spectral-noise.html">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/spectral-noise/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Noisy Spectra: Acquisition Time vs Accumulation">
@@ -23,7 +23,7 @@
     "@type": "LearningResource",
     "name": "Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide",
     "description": "An interactive tutorial on the signal-to-noise ratio of spectroscopic measurements: shot, dark and read noise, the square-root-of-time scaling, and the trade-off between long single acquisitions and many short accumulations.",
-    "url": "https://yumigeta.github.io/spectral-noise.html",
+    "url": "https://yumigeta.github.io/learn/spectral-noise/",
     "author": {
       "@type": "Person", "name": "Kentaro Yumigeta", "url": "https://yumigeta.github.io",
       "affiliation": { "@type": "Organization", "name": "University of Arizona" }
@@ -41,36 +41,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="spectral-noise.css">
-  <link rel="stylesheet" href="katex.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/spectral-noise.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="analytics.js"></script>
+  <script src="/assets/js/analytics.js"></script>
 </head>
 <body>
-  <script src="lang-toggle.js"></script>
+  <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
-      <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
       <nav class="links">
-        <a href="index.html#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
-        <a href="index.html#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
-        <a href="index.html#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
-        <a href="index.html#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
-        <a href="index.html#cv">CV</a>
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
       </nav>
-      <a class="end" href="index.html#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
     </div>
   </header>
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="learn.html"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Noisy Spectra &amp; SNR</span><span class="i18n-ja">ノイズとSN比</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Noisy Spectra &amp; SNR</span><span class="i18n-ja">ノイズとSN比</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
         <h1><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">When a spectrum is noisy, you can spend more time on it in two ways: make each exposure <b>longer</b> (acquisition time $t$), or take <b>more</b> exposures and add them up (accumulation count $N$). The total exposure is $T=t\times N$ either way — yet the two choices affect the signal-to-noise ratio differently, and protect you from different problems. This page is a hands-on companion to the <a href="measurement-error.html">measurement-error</a> basics, applying random-error and averaging ideas to real spectroscopy.</span><span class="i18n-ja">スペクトルがノイズだらけのとき、時間をかける方法は2つある：各露光を<b>長く</b>する（取得時間 $t$）か、露光を<b>たくさん</b>とって足し合わせる（積算回数 $N$）か。総露光時間はどちらも $T=t\times N$ で同じだが、この2つの選択はSN比への効き方が異なり、守ってくれる対象も違う。本ページは<a href="measurement-error.html">測定と誤差</a>の基礎の応用編で、偶然誤差と平均化の考え方を実際の分光に当てはめる。</span></p>
+      <p class="pintro"><span class="i18n-en">When a spectrum is noisy, you can spend more time on it in two ways: make each exposure <b>longer</b> (acquisition time $t$), or take <b>more</b> exposures and add them up (accumulation count $N$). The total exposure is $T=t\times N$ either way — yet the two choices affect the signal-to-noise ratio differently, and protect you from different problems. This page is a hands-on companion to the <a href="/learn/measurement-error/">measurement-error</a> basics, applying random-error and averaging ideas to real spectroscopy.</span><span class="i18n-ja">スペクトルがノイズだらけのとき、時間をかける方法は2つある：各露光を<b>長く</b>する（取得時間 $t$）か、露光を<b>たくさん</b>とって足し合わせる（積算回数 $N$）か。総露光時間はどちらも $T=t\times N$ で同じだが、この2つの選択はSN比への効き方が異なり、守ってくれる対象も違う。本ページは<a href="/learn/measurement-error/">測定と誤差</a>の基礎の応用編で、偶然誤差と平均化の考え方を実際の分光に当てはめる。</span></p>
     </div>
   </div>
 
@@ -236,23 +236,23 @@
 
       <div class="me-seealso">
         <b><span class="i18n-en">Foundations.</span><span class="i18n-ja">土台。</span></b>
-        <span class="i18n-en"> The shot-noise statistics, quadrature noise addition, and $1/\sqrt{N}$ averaging used here are developed from scratch on the <a href="measurement-error.html">Measurement, Error &amp; Data Analysis</a> page.</span><span class="i18n-ja"> ここで使ったショットノイズ統計、二乗和でのノイズ合成、$1/\sqrt{N}$ 平均化は、<a href="measurement-error.html">測定・誤差・データ解析の基礎</a>のページで一から解説している。</span>
+        <span class="i18n-en"> The shot-noise statistics, quadrature noise addition, and $1/\sqrt{N}$ averaging used here are developed from scratch on the <a href="/learn/measurement-error/">Measurement, Error &amp; Data Analysis</a> page.</span><span class="i18n-ja"> ここで使ったショットノイズ統計、二乗和でのノイズ合成、$1/\sqrt{N}$ 平均化は、<a href="/learn/measurement-error/">測定・誤差・データ解析の基礎</a>のページで一から解説している。</span>
       </div>
     </div>
   </section>
 
   <div class="backrow">
     <div class="container">
-      <a class="back-home" href="learn.html"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+      <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
     </div>
   </div>
 
   <footer class="site-footer">
     <div class="foot">
       <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
-      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">    </div>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
-  <script src="spectral-noise.js"></script>
+  <script src="/assets/js/spectral-noise.js"></script>
 </body>
 </html>

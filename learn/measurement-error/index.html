@@ -6,13 +6,13 @@
   <title>Measurement, Error &amp; Data Analysis — Interactive Guide</title>
   <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data — with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and least-squares fitting.">
   <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, least squares, statistics, data analysis, experimental physics">
-  <link rel="canonical" href="https://yumigeta.github.io/measurement-error.html">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/measurement-error/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
   <meta property="og:description" content="Types of error, significant figures, error propagation, and statistical analysis of measured data — with hands-on, interactive demos.">
-  <meta property="og:url" content="https://yumigeta.github.io/measurement-error.html">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/measurement-error/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
@@ -27,7 +27,7 @@
     "@type": "LearningResource",
     "name": "Measurement, Error & Data Analysis — Interactive Guide",
     "description": "An interactive tutorial on measurement uncertainty — types of error, significant figures, error propagation, and the statistical analysis of measured data.",
-    "url": "https://yumigeta.github.io/measurement-error.html",
+    "url": "https://yumigeta.github.io/learn/measurement-error/",
     "author": {
       "@type": "Person",
       "name": "Kentaro Yumigeta",
@@ -54,32 +54,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="measurement-error.css">
-  <link rel="stylesheet" href="katex.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/measurement-error.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="analytics.js"></script>
+  <script src="/assets/js/analytics.js"></script>
 </head>
 <body>
-  <script src="lang-toggle.js"></script>
+  <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
-      <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
       <nav class="links">
-        <a href="index.html#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
-        <a href="index.html#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
-        <a href="index.html#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
-        <a href="index.html#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
-        <a href="index.html#cv">CV</a>
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
       </nav>
-      <a class="end" href="index.html#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
     </div>
   </header>
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="learn.html"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Measurement &amp; Error</span><span class="i18n-ja">測定と誤差</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Measurement &amp; Error</span><span class="i18n-ja">測定と誤差</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
         <h1><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h1>
       </div>
@@ -475,23 +475,23 @@
     <div class="demo-stage" style="max-width:var(--measure)">
       <div class="me-seealso">
         <b><span class="i18n-en">Where this leads.</span><span class="i18n-ja">この先へ。</span></b>
-        <span class="i18n-en"> These four ideas underpin every real measurement. A worked application — how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum — builds directly on the random-error and averaging concepts here. <a href="learn.html">See the Learn overview &rsaquo;</a></span><span class="i18n-ja"> この4つの考え方はあらゆる実測の土台である。応用編 — ノイズの多いスペクトルにおいて、取得時間と積算回数をSN比とどうトレードオフするか — は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="learn.html">Learn 一覧へ &rsaquo;</a></span>
+        <span class="i18n-en"> These four ideas underpin every real measurement. A worked application — how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum — builds directly on the random-error and averaging concepts here. <a href="/learn/">See the Learn overview &rsaquo;</a></span><span class="i18n-ja"> この4つの考え方はあらゆる実測の土台である。応用編 — ノイズの多いスペクトルにおいて、取得時間と積算回数をSN比とどうトレードオフするか — は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="/learn/">Learn 一覧へ &rsaquo;</a></span>
       </div>
     </div>
   </section>
 
   <div class="backrow">
     <div class="container">
-      <a class="back-home" href="learn.html"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+      <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
     </div>
   </div>
 
   <footer class="site-footer">
     <div class="foot">
       <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
-      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">    </div>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
-  <script src="measurement-error.js"></script>
+  <script src="/assets/js/measurement-error.js"></script>
 </body>
 </html>
