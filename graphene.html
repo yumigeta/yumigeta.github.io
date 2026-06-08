@@ -137,58 +137,6 @@
     </div>
   </section>
 
-  <!-- ═══════ Module 03 — Quantum confinement (GNR) ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — Quantum confinement</span><span class="i18n-ja">02 — 量子閉じ込め</span></span>
-      <h2><span class="i18n-en">From graphene to nanoribbons: discretized bands</span><span class="i18n-ja">グラフェンからナノリボンへ：離散化バンド</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="gnr-controls">
-        <div class="ctl-inline">
-          <span class="ctl-label"><span class="i18n-en">Edge</span><span class="i18n-ja">エッジ</span></span>
-          <div class="segmented">
-            <button class="seg active" id="btn-armchair"><span class="i18n-en">Armchair</span><span class="i18n-ja">アームチェア</span> <span class="seg-sub">30°</span></button>
-            <button class="seg" id="btn-zigzag"><span class="i18n-en">Zigzag</span><span class="i18n-ja">ジグザグ</span> <span class="seg-sub">0°</span></button>
-          </div>
-        </div>
-        <div class="ctl-inline">
-          <span class="ctl-label"><span class="i18n-en">Width</span><span class="i18n-ja">幅</span>&nbsp;<em>N</em></span>
-          <button class="stepper" id="btn-width-dec" aria-label="decrease width">&minus;</button>
-          <input type="range" id="ctrl-width" min="3" max="20" step="1" value="7">
-          <button class="stepper" id="btn-width-inc" aria-label="increase width">+</button>
-          <span class="ctl-value" id="v-width">7</span>
-        </div>
-      </div>
-
-      <div class="top-row">
-        <div class="gr-panel"><canvas id="c-cell-ribbon"></canvas></div>
-        <div class="gr-panel gr-zoomable">
-          <canvas id="c-gnr-real"></canvas>
-          <span class="gr-3d-hint"><span class="i18n-en">scroll to zoom</span><span class="i18n-ja">スクロールでズーム</span></span>
-        </div>
-      </div>
-      <div class="top-row">
-        <div class="gr-bands" style="margin:0;"><canvas id="c-gnr-bands" style="height:340px;"></canvas></div>
-        <div class="gr-3d-wrap">
-          <canvas id="c-gnr-cut" style="height:340px;"></canvas>
-          <div class="gr-3d-overlay">
-            <div class="gr-view-group" role="group" aria-label="viewing plane">
-              <span class="gr-view-label"><span class="i18n-en">View</span><span class="i18n-ja">視点</span></span>
-              <button class="gr-view-btn" id="btn-view-ky">k<sub>x</sub>–E</button>
-              <button class="gr-view-btn" id="btn-view-kx">k<sub>y</sub>–E</button>
-              <button class="gr-view-btn" id="btn-view-top">k<sub>x</sub>–k<sub>y</sub></button>
-            </div>
-            <button class="gr-toggle active" id="btn-bz-plane" role="switch" aria-checked="true">
-              <span class="gr-toggle-track"><span class="gr-toggle-thumb"></span></span>
-              <span class="i18n-en">BZ boundary plane</span><span class="i18n-ja">BZ境界面</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer class="site-footer">
 
     <div class="foot">

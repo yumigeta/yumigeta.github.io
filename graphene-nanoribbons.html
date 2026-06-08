@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphene Nanoribbons — Quantum Confinement &amp; Edge States</title>
+  <meta name="description" content="Explore graphene nanoribbons interactively: quantum confinement, zone folding, cutting lines in the Brillouin zone, armchair vs zigzag edges, width-dependent band gaps, and zigzag edge states.">
+  <meta name="keywords" content="graphene nanoribbon, GNR, armchair, zigzag, quantum confinement, zone folding, cutting lines, edge states, band gap, width dependence, tight-binding, condensed matter, physics tutorial">
+  <link rel="canonical" href="https://yumigeta.github.io/graphene-nanoribbons.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Graphene Nanoribbons — Quantum Confinement &amp; Edge States">
+  <meta property="og:description" content="Interactive tight-binding nanoribbons: zone-folding cutting lines, armchair vs zigzag edges, width-dependent band gaps, and zigzag edge states.">
+  <meta property="og:url" content="https://yumigeta.github.io/graphene-nanoribbons.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Graphene Nanoribbons — Quantum Confinement &amp; Edge States">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Graphene Nanoribbons — Quantum Confinement & Edge States",
+    "description": "An interactive tutorial on graphene nanoribbons: quantum confinement and zone folding, cutting lines in the Brillouin zone, armchair vs zigzag edges, width-dependent band gaps, and zigzag edge states.",
+    "url": "https://yumigeta.github.io/graphene-nanoribbons.html",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": ["Graphene nanoribbons", "Quantum confinement", "Zone folding", "Cutting lines", "Edge states", "Band gap engineering", "Armchair and zigzag edges"],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="graphene.css">
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <script src="lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="index.html#news">News</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#learn" aria-current="page">Learn</a>
+        <a href="index.html#cv">CV</a>
+      </nav>
+      <a class="end" href="index.html#contact">Contact</a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="learn.html">Learn</a><span class="sep">/</span><span class="i18n-en">Graphene Nanoribbons</span><span class="i18n-ja">グラフェンナノリボン</span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Graphene Nanoribbons</span><span class="i18n-ja">グラフェンナノリボン</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">Cut graphene into a narrow strip and its Dirac cones collapse onto a family of <em>cutting lines</em>. Whether a line passes through a Dirac point — set by the <em>edge orientation</em> and <em>width</em> — decides whether the ribbon is metallic or semiconducting.</span><span class="i18n-ja">グラフェンを細い帯状に切り出すと、ディラック錐は<em>カッティングライン</em>の集合へと折りたたまれます。あるラインがディラック点を通るかどうか — <em>エッジの向き</em>と<em>幅</em>で決まる — が、リボンが金属か半導体かを決定します。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Confinement & cutting lines ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Quantum confinement</span><span class="i18n-ja">00 — 量子閉じ込め</span></span>
+      <h2><span class="i18n-en">From a 2D sheet to a 1D ribbon: cutting lines</span><span class="i18n-ja">2Dシートから1Dリボンへ：カッティングライン</span></h2>
+      <p>
+        <span class="i18n-en">Confining graphene to a strip of width <em>N</em> quantizes the momentum
+        <em>across</em> the ribbon: only a discrete set of transverse modes survives.
+        In the Brillouin zone these appear as parallel <b>cutting lines</b> whose
+        <em>orientation</em> is fixed by the edge (armchair 30° vs zigzag 0°) and
+        whose <em>spacing</em> shrinks as the ribbon widens. Pick an edge and slide
+        the width to watch the ribbon cell and its cutting lines respond.</span><span class="i18n-ja">グラフェンを幅<em>N</em>の帯に閉じ込めると、リボンを<em>横切る</em>方向の運動量が量子化され、離散的な横モードだけが残ります。ブリルアンゾーンではこれが平行な<b>カッティングライン</b>として現れ、その<em>向き</em>はエッジ（アームチェア30°／ジグザグ0°）で決まり、<em>間隔</em>はリボンが広がるほど狭くなります。エッジを選び、幅を変えてリボン胞とカッティングラインの応答を観察してください。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="gnr-controls">
+        <div class="ctl-inline">
+          <span class="ctl-label"><span class="i18n-en">Edge</span><span class="i18n-ja">エッジ</span></span>
+          <div class="segmented">
+            <button class="seg active" id="btn-armchair"><span class="i18n-en">Armchair</span><span class="i18n-ja">アームチェア</span> <span class="seg-sub">30°</span></button>
+            <button class="seg" id="btn-zigzag"><span class="i18n-en">Zigzag</span><span class="i18n-ja">ジグザグ</span> <span class="seg-sub">0°</span></button>
+          </div>
+        </div>
+        <div class="ctl-inline">
+          <span class="ctl-label"><span class="i18n-en">Width</span><span class="i18n-ja">幅</span>&nbsp;<em>N</em></span>
+          <button class="stepper" id="btn-width-dec" aria-label="decrease width">&minus;</button>
+          <input type="range" id="ctrl-width" min="3" max="20" step="1" value="7">
+          <button class="stepper" id="btn-width-inc" aria-label="increase width">+</button>
+          <span class="ctl-value" id="v-width">7</span>
+        </div>
+      </div>
+
+      <div class="top-row">
+        <div class="gr-panel"><canvas id="c-cell-ribbon"></canvas></div>
+        <div class="gr-panel gr-zoomable">
+          <canvas id="c-gnr-real"></canvas>
+          <span class="gr-3d-hint"><span class="i18n-en">scroll to zoom</span><span class="i18n-ja">スクロールでズーム</span></span>
+        </div>
+      </div>
+      <p class="cap">
+        <span class="i18n-en"><b>Left:</b> the real-space ribbon — a strip of honeycomb trimmed to width <em>N</em>,
+        with the 1-D translational unit cell shaded. <b>Right:</b> the Brillouin zone seen from
+        above, with the cutting lines imposed by confinement. A line that crosses a
+        <b style="color:#ef4444">K</b>/<b style="color:#3b82f6">K′</b> point is gapless.</span><span class="i18n-ja"><b>左:</b> 実空間のリボン — 幅<em>N</em>に切り出したハニカムの帯で、1次元並進単位胞を網掛けで示しています。<b>右:</b> 上から見たブリルアンゾーンと、閉じ込めによって課されるカッティングライン。<b style="color:#ef4444">K</b>／<b style="color:#3b82f6">K′</b>点を横切るラインはギャップゼロです。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Subbands & 3D surface ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Subbands</span><span class="i18n-ja">01 — サブバンド</span></span>
+      <h2><span class="i18n-en">Each cutting line becomes a 1D subband</span><span class="i18n-ja">各カッティングラインが1Dサブバンドになる</span></h2>
+      <p>
+        <span class="i18n-en">Slicing the 2-D dispersion along each cutting line produces a one-dimensional
+        <b>subband</b>. The subband closest to a Dirac point sets the gap: if a line
+        hits the Dirac point exactly the ribbon is <b>metallic</b>; otherwise a gap
+        opens. The 3-D surface on the right is the full graphene band — the lines show
+        where the ribbon is allowed to live on it.</span><span class="i18n-ja">2次元分散を各カッティングラインに沿って切ると、1次元の<b>サブバンド</b>が得られます。ディラック点に最も近いサブバンドがギャップを決めます。ラインがディラック点をちょうど通れば<b>金属</b>、そうでなければギャップが開きます。右の3D曲面はグラフェンの全バンドで、ラインはリボンが存在できる場所を示します。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="top-row">
+        <div class="gr-bands" style="margin:0;"><canvas id="c-gnr-bands" style="height:340px;"></canvas></div>
+        <div class="gr-3d-wrap">
+          <canvas id="c-gnr-cut" style="height:340px;"></canvas>
+          <div class="gr-3d-overlay">
+            <div class="gr-view-group" role="group" aria-label="viewing plane">
+              <span class="gr-view-label"><span class="i18n-en">View</span><span class="i18n-ja">視点</span></span>
+              <button class="gr-view-btn" id="btn-view-ky">k<sub>x</sub>–E</button>
+              <button class="gr-view-btn" id="btn-view-kx">k<sub>y</sub>–E</button>
+              <button class="gr-view-btn" id="btn-view-top">k<sub>x</sub>–k<sub>y</sub></button>
+            </div>
+            <button class="gr-toggle active" id="btn-bz-plane" role="switch" aria-checked="true">
+              <span class="gr-toggle-track"><span class="gr-toggle-thumb"></span></span>
+              <span class="i18n-en">BZ boundary plane</span><span class="i18n-ja">BZ境界面</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="gr-info" id="gnr-class"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Width-dependent band gap ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — Band-gap engineering</span><span class="i18n-ja">02 — バンドギャップ工学</span></span>
+      <h2><span class="i18n-en">The gap depends on width — and on edge</span><span class="i18n-ja">ギャップは幅と、そしてエッジに依存する</span></h2>
+      <p>
+        <span class="i18n-en">Unlike bulk graphene, a nanoribbon can have a real band gap — and you can tune it
+        with width. For <b>armchair</b> ribbons the gap falls into three families set by
+        <em>N</em> mod 3: <b>N = 3m+2</b> is (nearly) metallic, while <b>3m</b> and
+        <b>3m+1</b> are semiconducting with a gap that scales roughly as 1/<em>N</em>.
+        <b>Zigzag</b> ribbons are a different story — they are always metallic because of
+        edge states. The chart below is computed from the same cutting-line geometry;
+        the highlighted bar is your current ribbon.</span><span class="i18n-ja">バルクグラフェンと違い、ナノリボンは本物のバンドギャップを持ち得て、幅で調整できます。<b>アームチェア</b>リボンのギャップは<em>N</em> mod 3 で決まる3つの系列に分かれます。<b>N = 3m+2</b> はほぼ金属、<b>3m</b> と <b>3m+1</b> は半導体でギャップはおよそ 1/<em>N</em> で減少します。<b>ジグザグ</b>リボンは別物で、エッジ状態のため常に金属です。下のグラフは同じカッティングライン幾何から計算され、強調されたバーが現在のリボンです。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="gr-bands" style="margin:0;"><canvas id="c-gnr-gap" style="height:300px;"></canvas></div>
+      <p class="cap">
+        <span class="i18n-en">Band gap E<sub>g</sub> versus width <em>N</em>. Switch the edge and move the width
+        slider above; the chart tracks your selection. Bars are coloured by family
+        (<b style="color:#60a5fa">N&nbsp;=&nbsp;3m</b>,
+        <b style="color:#34d399">3m+1</b>,
+        <b style="color:#f472b6">3m+2</b>); zigzag ribbons show as
+        <b style="color:#f59e0b">metallic</b> across the board.</span><span class="i18n-ja">バンドギャップ E<sub>g</sub> と幅 <em>N</em> の関係。上のエッジ切替と幅スライダーを操作すると、グラフが選択に追従します。バーは系列ごとに色分けされています（<b style="color:#60a5fa">N&nbsp;=&nbsp;3m</b>、<b style="color:#34d399">3m+1</b>、<b style="color:#f472b6">3m+2</b>）。ジグザグリボンは全幅で<b style="color:#f59e0b">金属</b>として表示されます。</span>
+      </p>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="learn.html"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶに戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="graphene-nanoribbons.js"></script>
+</body>
+</html>
