@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Measurement, Error &amp; Data Analysis — Interactive Guide</title>
+  <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data — with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and least-squares fitting.">
+  <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, least squares, statistics, data analysis, experimental physics">
+  <link rel="canonical" href="https://yumigeta.github.io/measurement-error.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
+  <meta property="og:description" content="Types of error, significant figures, error propagation, and statistical analysis of measured data — with hands-on, interactive demos.">
+  <meta property="og:url" content="https://yumigeta.github.io/measurement-error.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
+  <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and least-squares fitting — interactive.">
+
+  <!-- Structured data: educational article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Measurement, Error & Data Analysis — Interactive Guide",
+    "description": "An interactive tutorial on measurement uncertainty — types of error, significant figures, error propagation, and the statistical analysis of measured data.",
+    "url": "https://yumigeta.github.io/measurement-error.html",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Types of measurement error",
+      "Systematic and random error",
+      "Accuracy and precision",
+      "Significant figures",
+      "Propagation of uncertainty",
+      "Standard deviation and standard error",
+      "Least-squares fitting"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="measurement-error.css">
+  <link rel="stylesheet" href="katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <script src="lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="index.html#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="index.html#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="index.html#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="index.html#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="index.html#cv">CV</a>
+      </nav>
+      <a class="end" href="index.html#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="learn.html"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Measurement &amp; Error</span><span class="i18n-ja">測定と誤差</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">Every measurement carries an uncertainty. Good science is not about avoiding error — it is about <b>estimating</b>, <b>reporting</b>, and <b>handling</b> it correctly. This page builds the working toolkit of the experimentalist: how errors are <b>classified</b>, how many digits a number is allowed to claim (<b>significant figures</b>), how uncertainties <b>propagate</b> through a calculation, and how repeated measurements are <b>analysed statistically</b>. Each idea comes with a hands-on demo.</span><span class="i18n-ja">あらゆる測定値は不確かさを伴う。良い科学とは誤差を避けることではなく、それを正しく<b>見積もり</b>・<b>報告し</b>・<b>扱う</b>ことである。本ページでは実験者の基本道具をひととおり組み立てる — 誤差の<b>分類</b>、数値が主張してよい桁数（<b>有効数字</b>）、計算を通じた不確かさの<b>伝播</b>、そして繰り返し測定の<b>統計処理</b>。各項目に操作できるデモを添えている。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Types of error ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Types of error</span><span class="i18n-ja">00 — 誤差の種類</span></span>
+      <h2><span class="i18n-en">Systematic vs random — accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差 — 正確さと精密さ</span></h2>
+      <p><span class="i18n-en">Measurement error splits into two fundamentally different kinds. A <b>systematic error</b> shifts every reading the same way (a mis-zeroed scale, an un-subtracted baseline) — it limits <b>accuracy</b>, how close the average sits to the true value. A <b>random error</b> scatters readings unpredictably (electronic noise, counting statistics) — it limits <b>precision</b>, how tightly the readings cluster. Averaging beats down random error but is powerless against a systematic one.</span><span class="i18n-ja">測定誤差は本質的に異なる2種類に分かれる。<b>系統誤差</b>はすべての測定値を同じ向きにずらす（ゼロ点のずれ、引き残したベースラインなど） — これは<b>正確さ（accuracy）</b>、すなわち平均が真値にどれだけ近いかを制限する。<b>偶然誤差</b>は測定値を予測できない形でばらつかせる（電子ノイズ、計数統計など） — これは<b>精密さ（precision）</b>、すなわち測定値がどれだけ密に集まるかを制限する。平均をとれば偶然誤差は小さくできるが、系統誤差には無力である。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">Fire shots at the target below. The <b>systematic offset</b> slides the whole cluster off the bullseye (an accuracy problem); the <b>random spread</b> blows the cluster apart (a precision problem). The verdict updates live.</span><span class="i18n-ja">下の的に向けて射撃してみよう。<b>系統誤差</b>のスライダーは点群全体を中心からずらし（正確さの問題）、<b>偶然誤差</b>のスライダーは点群を広げる（精密さの問題）。判定はリアルタイムで更新される。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-target" height="320" aria-label="Accuracy versus precision target board"></canvas>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="ctrl-sys"><span class="i18n-en">Systematic error</span><span class="i18n-ja">系統誤差</span></label>
+            <input type="range" id="ctrl-sys" min="0" max="1" step="0.01" value="0.1" aria-label="Systematic offset">
+            <output id="v-sys">0.10</output>
+          </div>
+          <div class="me-slider">
+            <label for="ctrl-rand"><span class="i18n-en">Random error&nbsp;σ</span><span class="i18n-ja">偶然誤差&nbsp;σ</span></label>
+            <input type="range" id="ctrl-rand" min="0.01" max="1" step="0.01" value="0.15" aria-label="Random spread">
+            <output id="v-rand">0.15</output>
+          </div>
+          <div class="btn-row">
+            <button class="demo-btn" id="btn-shoot"><span class="i18n-en">Fire 30 shots</span><span class="i18n-ja">30発撃つ</span></button>
+            <button class="demo-btn" id="btn-reset"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Accuracy (offset)</span><span class="i18n-ja">正確さ（ずれ）</span></span><span class="v" id="st-acc">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Precision (spread)</span><span class="i18n-ja">精密さ（ばらつき）</span></span><span class="v" id="st-prec">—</span></div>
+        </div>
+        <div id="target-verdict"></div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">individual shots</span><span class="i18n-ja">各測定（射撃）</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean of shots</span><span class="i18n-ja">測定の平均</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">true value (bullseye)</span><span class="i18n-ja">真値（中心）</span></span>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">Notice: with <b>high systematic / low random</b> error the shots form a tight cluster — <em>precise but inaccurate</em>. No amount of averaging moves that cluster onto the bullseye; only finding and removing the systematic cause does.</span><span class="i18n-ja">注目：<b>系統誤差が大きく偶然誤差が小さい</b>とき、点群は密に集まる — <em>精密だが不正確</em>な状態である。いくら平均をとってもこの点群は中心へ移動しない。系統誤差の原因を見つけて取り除くしかない。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Significant figures ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Significant figures</span><span class="i18n-ja">01 — 有効数字</span></span>
+      <h2><span class="i18n-en">How many digits is a number allowed to claim?</span><span class="i18n-ja">その数値は何桁まで主張してよいか</span></h2>
+      <p><span class="i18n-en">The digits you write down are themselves a statement about precision: <b>3.0 cm</b> and <b>3.000 cm</b> are different claims. <b>Significant figures</b> are the digits that carry real information — all non-zero digits, zeros between them, and trailing zeros after a decimal point; leading zeros are only placeholders. When you combine numbers, the result cannot be more precise than its inputs.</span><span class="i18n-ja">書き留めた桁数そのものが精度の主張である：<b>3.0 cm</b> と <b>3.000 cm</b> は異なる主張だ。<b>有効数字</b>とは実際の情報を担う桁である — すべての非ゼロ数字、その間のゼロ、小数点以下の末尾のゼロが有効で、先頭のゼロは位取りにすぎない。数値を組み合わせるとき、結果は入力以上に精密にはなれない。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en"><b>The two rules.</b> For <b>multiplication / division</b>, the result keeps as many <em>significant figures</em> as the input with the fewest. For <b>addition / subtraction</b>, the result keeps as many <em>decimal places</em> as the input with the fewest. Try it below — enter two measured values and an operation.</span><span class="i18n-ja"><b>2つの規則。</b><b>乗算・除算</b>では、結果は最も<em>有効数字</em>の少ない入力に桁数を合わせる。<b>加算・減算</b>では、結果は最も<em>小数点以下の桁</em>が少ない入力に合わせる。下で試してみよう — 測定値2つと演算を入力する。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <div class="me-controls">
+          <div class="me-slider" style="flex:0 0 auto">
+            <input type="text" class="me-field" id="sf-a" value="12.34" inputmode="decimal" aria-label="First value">
+          </div>
+          <div class="me-slider" style="flex:0 0 auto">
+            <select class="me-field" id="sf-op" aria-label="Operation">
+              <option value="*">×</option>
+              <option value="/">÷</option>
+              <option value="+">+</option>
+              <option value="-">−</option>
+            </select>
+          </div>
+          <div class="me-slider" style="flex:0 0 auto">
+            <input type="text" class="me-field" id="sf-b" value="1.1" inputmode="decimal" aria-label="Second value">
+          </div>
+        </div>
+        <div class="sf-out" id="sf-out"></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">Blue digits are significant; grey digits are placeholders. Rounding is the <em>last</em> step — keep extra guard digits through a multi-step calculation and round only the final answer.</span><span class="i18n-ja">青字が有効数字、グレーが位取りのゼロ。丸めは<em>最後</em>の操作である — 多段階の計算では予備の桁を残しておき、最終結果だけを丸めること。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Propagation of uncertainty ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — Propagation of uncertainty</span><span class="i18n-ja">02 — 誤差の伝播</span></span>
+      <h2><span class="i18n-en">How input uncertainties combine in a result</span><span class="i18n-ja">入力の不確かさが結果でどう合成されるか</span></h2>
+      <p><span class="i18n-en">You rarely measure the quantity you want directly — you compute it from others. If $f$ depends on independent variables $x_i$, each with uncertainty $\delta x_i$, the uncertainty of $f$ adds <b>in quadrature</b>, weighted by how sensitively $f$ responds to each input:</span><span class="i18n-ja">求めたい量を直接測ることはまれで、他の量から計算することが多い。$f$ が互いに独立な変数 $x_i$（それぞれ不確かさ $\delta x_i$）に依存するとき、$f$ の不確かさは、$f$ が各入力にどれだけ敏感に応答するかで重み付けして<b>二乗和</b>で合成される。</span></p>
+      <p class="eq-block">$$\delta f=\sqrt{\sum_i\left(\frac{\partial f}{\partial x_i}\right)^{\!2}\delta x_i^{\,2}}$$</p>
+      <p><span class="i18n-en">This single rule contains the familiar shortcuts: for <b>sums and differences</b> the <em>absolute</em> uncertainties add in quadrature; for <b>products, quotients and powers</b> the <em>relative</em> uncertainties do (a power $x^n$ multiplies the relative uncertainty by $|n|$).</span><span class="i18n-ja">この1つの規則に、よく知られた近道がすべて含まれている：<b>和・差</b>では<em>絶対</em>不確かさが二乗和で、<b>積・商・べき乗</b>では<em>相対</em>不確かさが二乗和で合成される（べき乗 $x^n$ は相対不確かさを $|n|$ 倍する）。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">Pick a formula and set each variable's value and uncertainty. The left bars show each term's <b>share of the total variance</b> — the variable with the tallest bar is where improving precision pays off most. The right panel runs a <b>Monte Carlo</b> check: it draws thousands of random samples of each input and histograms $f$, confirming the formula above.</span><span class="i18n-ja">式を選び、各変数の値と不確かさを設定する。左の棒は各項の<b>全分散に占める割合</b>を示す — 棒が最も高い変数こそ、精度を上げる効果が最も大きい。右のパネルは<b>モンテカルロ</b>検算：各入力を何千回も乱数で振って $f$ をヒストグラム化し、上の式を確認する。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <div class="btn-row" id="prop-formula">
+          <button class="demo-btn active" data-formula="sum">$f = x + y$</button>
+          <button class="demo-btn" data-formula="prodquot">$f = xy / z$</button>
+          <button class="demo-btn" data-formula="power">$f = x^2$</button>
+        </div>
+
+        <div class="me-controls" id="prop-vars"><!-- variable sliders injected by JS --></div>
+
+        <div class="me-stats">
+          <div class="me-stat" style="flex:1 1 100%"><span class="k"><span class="i18n-en">Result (analytic)</span><span class="i18n-ja">結果（解析式）</span></span><span class="v" id="prop-result">—</span></div>
+        </div>
+
+        <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px">
+          <div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Variance share by variable</span><span class="i18n-ja">変数ごとの分散寄与</span></div>
+            <canvas id="c-prop-bars" height="170"></canvas>
+          </div>
+          <div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Monte-Carlo distribution of f</span><span class="i18n-ja">f のモンテカルロ分布</span></div>
+            <canvas id="c-prop-mc" height="170"></canvas>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">δf analytic</span><span class="i18n-ja">δf 解析式</span></span><span class="v" id="prop-df-a">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">δf Monte-Carlo</span><span class="i18n-ja">δf モンテカルロ</span></span><span class="v" id="prop-df-mc">—</span></div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">The analytic and Monte-Carlo values agree — two independent routes to the same uncertainty. <b>Quadrature</b> means a small uncertainty contributes almost nothing once a larger one is present, so effort is best spent on the dominant term.</span><span class="i18n-ja">解析式とモンテカルロの値は一致する — 同じ不確かさへの独立な2つの経路だ。<b>二乗和</b>では、大きな不確かさがあると小さなものはほとんど効かないので、支配的な項に労力を割くのが最善である。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — Statistical analysis ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — Statistical analysis of measurements</span><span class="i18n-ja">03 — 測定値の統計処理</span></span>
+      <h2><span class="i18n-en">From a scatter of readings to a number with an error bar</span><span class="i18n-ja">ばらついた測定値から、誤差棒つきの一個の数値へ</span></h2>
+      <p><span class="i18n-en">Repeat a measurement and the readings scatter around a central value. The <b>mean</b> $\bar{x}$ is the best estimate; the <b>standard deviation</b> $s$ measures the spread of a single reading; the <b>standard error</b> $s/\sqrt{N}$ measures the uncertainty of the <em>mean</em>, and shrinks as you take more data.</span><span class="i18n-ja">測定を繰り返すと、測定値はある中心値のまわりにばらつく。<b>平均</b> $\bar{x}$ が最良推定値であり、<b>標準偏差</b> $s$ は1回の測定のばらつきを、<b>標準誤差</b> $s/\sqrt{N}$ は<em>平均</em>の不確かさを表し、データを増やすほど小さくなる。</span></p>
+      <p class="eq-block">$$\bar{x}=\frac1N\sum_i x_i,\qquad s=\sqrt{\frac{1}{N-1}\sum_i (x_i-\bar{x})^2},\qquad \sigma_{\bar x}=\frac{s}{\sqrt N}$$</p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose"><h3><span class="i18n-en">3a — Sample statistics</span><span class="i18n-ja">3a — 標本統計</span></h3>
+        <p><span class="i18n-en">Draw samples from a normal "parent" distribution. As $N$ grows, the histogram fills out the bell curve, the mean homes in on the true value, and the standard error shrinks like $1/\sqrt N$ — quadrupling the data only halves the error.</span><span class="i18n-ja">正規分布の「母集団」から標本を抽出する。$N$ が増えるとヒストグラムは釣鐘曲線を埋め、平均は真値に近づき、標準誤差は $1/\sqrt N$ で縮む — データを4倍にしても誤差は半分にしかならない。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-hist" height="240" aria-label="Histogram of sampled measurements"></canvas>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="ctrl-n">N =</label>
+            <input type="range" id="ctrl-n" min="5" max="500" step="5" value="40" aria-label="Sample size">
+            <output id="v-n">40</output>
+          </div>
+          <div class="btn-row">
+            <button class="demo-btn" id="btn-gen"><span class="i18n-en">Draw new sample</span><span class="i18n-ja">標本を取り直す</span></button>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Mean x̄</span><span class="i18n-ja">平均 x̄</span></span><span class="v" id="st-mean">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Std dev s</span><span class="i18n-ja">標準偏差 s</span></span><span class="v" id="st-sd">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Std error s/√N</span><span class="i18n-ja">標準誤差 s/√N</span></span><span class="v" id="st-sem">—</span></div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">sampled data</span><span class="i18n-ja">標本データ</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean ± std error</span><span class="i18n-ja">平均 ± 標準誤差</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">parent distribution</span><span class="i18n-ja">母集団分布</span></span>
+        </div>
+      </div>
+
+      <div class="me-prose"><h3><span class="i18n-en">3b — Least-squares fitting</span><span class="i18n-ja">3b — 最小二乗フィット</span></h3>
+        <p><span class="i18n-en">When you measure $y$ against $x$, the best straight line $y=ax+b$ is the one minimising the summed squared residuals. The fit returns not just the slope and intercept but <b>their uncertainties</b> $\delta a,\delta b$ and the coefficient of determination $R^2$. Click on the plot to add your own points, or load a noisy data set.</span><span class="i18n-ja">$y$ を $x$ に対して測定するとき、最良の直線 $y=ax+b$ は残差の二乗和を最小にするものである。フィットは傾きと切片だけでなく<b>それらの不確かさ</b> $\delta a,\delta b$、決定係数 $R^2$ も返す。プロットをクリックして点を加えるか、ノイズを含むデータを読み込んでみよう。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-fit" height="300" aria-label="Least-squares fit scatter plot"></canvas>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="demo-btn" id="btn-fit-demo"><span class="i18n-en">Load sample data</span><span class="i18n-ja">サンプルデータ</span></button>
+          <button class="demo-btn" id="btn-fit-clear"><span class="i18n-en">Clear</span><span class="i18n-ja">クリア</span></button>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Slope a</span><span class="i18n-ja">傾き a</span></span><span class="v" id="st-slope">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Intercept b</span><span class="i18n-ja">切片 b</span></span><span class="v" id="st-int">—</span></div>
+          <div class="me-stat"><span class="k">R²</span><span class="v" id="st-r2">—</span></div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">data points</span><span class="i18n-ja">データ点</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">best-fit line</span><span class="i18n-ja">最小二乗直線</span></span>
+          <span><i style="background:#a8a29e"></i><span class="i18n-en">residuals</span><span class="i18n-ja">残差</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- See also -->
+  <section class="demo">
+    <div class="demo-stage" style="max-width:var(--measure)">
+      <div class="me-seealso">
+        <b><span class="i18n-en">Where this leads.</span><span class="i18n-ja">この先へ。</span></b>
+        <span class="i18n-en"> These four ideas underpin every real measurement. A worked application — how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum — builds directly on the random-error and averaging concepts here. <a href="learn.html">See the Learn overview &rsaquo;</a></span><span class="i18n-ja"> この4つの考え方はあらゆる実測の土台である。応用編 — ノイズの多いスペクトルにおいて、取得時間と積算回数をSN比とどうトレードオフするか — は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="learn.html">Learn 一覧へ &rsaquo;</a></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="learn.html"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="measurement-error.js"></script>
+</body>
+</html>
