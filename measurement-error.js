@@ -146,17 +146,28 @@
       }
       ctx.stroke();
     }
-    // mean ± error markers
+    // true (parent) mean — green dashed line
+    if (opts.trueMean !== undefined) {
+      const tx = pad.l + (opts.trueMean - lo) / span * plotW;
+      ctx.strokeStyle = '#34d399'; ctx.lineWidth = 1.6; ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(tx, pad.t); ctx.lineTo(tx, pad.t + plotH); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#34d399'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('μ = ' + fmt(opts.trueMean, 3), tx, pad.t + 11);
+    }
+    // sample mean ± standard-error markers
     if (opts.markMean) {
       const m = mean(data);
       const mx = pad.l + (m - lo) / span * plotW;
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(mx, pad.t); ctx.lineTo(mx, pad.t + plotH); ctx.stroke();
       if (opts.sem) {
         const ex = opts.sem / span * plotW;
         ctx.fillStyle = 'rgba(251,191,36,0.18)';
         ctx.fillRect(mx - ex, pad.t, 2 * ex, plotH);
       }
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(mx, pad.t); ctx.lineTo(mx, pad.t + plotH); ctx.stroke();
+      ctx.fillStyle = '#fbbf24'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('x̄ = ' + fmt(m, 4), mx, pad.t + plotH + 12 > h ? pad.t + plotH - 4 : pad.t + 24);
     }
     // axis baseline + labels
     ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1;
@@ -529,7 +540,7 @@
       $('st-sem').textContent = fmt(sem, 3);
       drawHistogram(cv, data, {
         lo: MU - 4 * SIGMA, hi: MU + 4 * SIGMA, bins: 24,
-        normal: { mu: MU, sd: SIGMA }, markMean: true, sem: sem,
+        normal: { mu: MU, sd: SIGMA }, markMean: true, sem: sem, trueMean: MU,
       });
     }
     sN.addEventListener('input', () => { vN.textContent = sN.value; gen(); });
