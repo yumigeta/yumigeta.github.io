@@ -204,6 +204,26 @@ function drawPhonon() {
     }
     ctx.stroke();
   });
+
+  // in-plot branch labels (positioned at visually distinct points)
+  var inLabels = [
+    // [name, t along path, yOffset from curve]
+    { name: "LO",       br: branches[5], t: 0.05,  dy: -13 },
+    { name: "iTO",      br: branches[4], t: 0.12,  dy:  12 },
+    { name: "oTO",      br: branches[2], t: 0.05,  dy: -13 },
+    { name: "LA",       br: branches[3], t: 0.22,  dy: -13 },
+    { name: "iTA",      br: branches[1], t: 0.55,  dy: -13 },
+    { name: "oTA (ZA)", br: branches[0], t: 0.46,  dy:  13 }
+  ];
+  ctx.font = "bold 11px system-ui, sans-serif";
+  inLabels.forEach(function(lb) {
+    var lx = pad.l + lb.t * pw;
+    var freq = lb.br.fn(lb.t);
+    var ly = h - pad.b - (freq / maxFreq) * ph + lb.dy;
+    ctx.fillStyle = lb.br.color;
+    ctx.textAlign = "left";
+    ctx.fillText(lb.name, lx, ly);
+  });
 }
 
 

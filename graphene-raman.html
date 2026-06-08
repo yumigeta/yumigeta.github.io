@@ -100,29 +100,26 @@
       </p>
     </div>
     <div class="demo-stage">
-      <canvas id="c-overview" class="gr-canvas-wide"></canvas>
-      <p class="cap">
-        <span class="i18n-en">Typical Raman spectrum of graphene. The <b style="color:#f59e0b">D band</b> (~1350 cm<sup>−1</sup>)
-        appears only in defective graphene. The <b style="color:#16a34a">G band</b>
-        (~1580 cm<sup>−1</sup>) is the first-order zone-center peak. The
-        <b style="color:#3b82f6">2D band</b> (~2700 cm<sup>−1</sup>) is a
-        second-order peak present even in pristine graphene.</span><span class="i18n-ja">グラフェンの典型的なラマンスペクトル。<b style="color:#f59e0b">Dバンド</b>（~1350 cm<sup>−1</sup>）は欠陥のあるグラフェンにのみ現れます。<b style="color:#16a34a">Gバンド</b>（~1580 cm<sup>−1</sup>）はゾーン中心の一次ピークです。<b style="color:#3b82f6">2Dバンド</b>（~2700 cm<sup>−1</sup>）は欠陥のないグラフェンにも現れる二次ピークです。</span>
-      </p>
-
-      <canvas id="c-phonon" class="gr-canvas-wide" style="margin-top:20px;"></canvas>
-      <p class="cap">
-        <span class="i18n-en">Phonon dispersion of graphene along $\Gamma \to K \to M \to \Gamma$. The <b style="color:#dc2626">iTO</b>
-        branch dips at K (~1310 cm<sup>−1</sup>, Kohn anomaly), giving rise to the D and 2D bands.
-        The <b style="color:#dc2626">iTO</b> and <b style="color:#06b6d4">LO</b> branches are
-        degenerate at Γ (~1580 cm<sup>−1</sup>) and produce the G band.</span><span class="i18n-ja">$\Gamma \to K \to M \to \Gamma$ に沿ったグラフェンのフォノン分散。<b style="color:#dc2626">iTO</b>ブランチはK点で落ち込み（~1310 cm<sup>−1</sup>、コーン異常）、Dバンドと2Dバンドを生み出します。<b style="color:#dc2626">iTO</b>と<b style="color:#06b6d4">LO</b>ブランチはΓ点で縮退し（~1580 cm<sup>−1</sup>）、Gバンドを生成します。</span>
-      </p>
-      <div class="branch-legend">
-        <span><i style="background:#06b6d4"></i> LO</span>
-        <span><i style="background:#dc2626"></i> iTO</span>
-        <span><i style="background:#eab308"></i> oTO</span>
-        <span><i style="background:#2563eb"></i> LA</span>
-        <span><i style="background:#16a34a"></i> iTA</span>
-        <span><i style="background:#ea580c"></i> oTA (ZA)</span>
+      <div class="overview-grid">
+        <div class="overview-col">
+          <canvas id="c-overview" class="gr-canvas-wide"></canvas>
+          <p class="cap">
+            <span class="i18n-en">Typical Raman spectrum of graphene. The <b style="color:#f59e0b">D band</b> (~1350 cm<sup>−1</sup>)
+            appears only in defective graphene. The <b style="color:#16a34a">G band</b>
+            (~1580 cm<sup>−1</sup>) is the first-order zone-center peak. The
+            <b style="color:#3b82f6">2D band</b> (~2700 cm<sup>−1</sup>) is a
+            second-order peak present even in pristine graphene.</span><span class="i18n-ja">グラフェンの典型的なラマンスペクトル。<b style="color:#f59e0b">Dバンド</b>（~1350 cm<sup>−1</sup>）は欠陥のあるグラフェンにのみ現れます。<b style="color:#16a34a">Gバンド</b>（~1580 cm<sup>−1</sup>）はゾーン中心の一次ピークです。<b style="color:#3b82f6">2Dバンド</b>（~2700 cm<sup>−1</sup>）は欠陥のないグラフェンにも現れる二次ピークです。</span>
+          </p>
+        </div>
+        <div class="overview-col">
+          <canvas id="c-phonon" class="gr-canvas-wide"></canvas>
+          <p class="cap">
+            <span class="i18n-en">Phonon dispersion of graphene along $\Gamma \to K \to M \to \Gamma$. The <b style="color:#dc2626">iTO</b>
+            branch dips at K (~1310 cm<sup>−1</sup>, Kohn anomaly), giving rise to the D and 2D bands.
+            The <b style="color:#dc2626">iTO</b> and <b style="color:#06b6d4">LO</b> branches are
+            degenerate at Γ (~1580 cm<sup>−1</sup>) and produce the G band.</span><span class="i18n-ja">$\Gamma \to K \to M \to \Gamma$ に沿ったグラフェンのフォノン分散。<b style="color:#dc2626">iTO</b>ブランチはK点で落ち込み（~1310 cm<sup>−1</sup>、コーン異常）、Dバンドと2Dバンドを生み出します。<b style="color:#dc2626">iTO</b>と<b style="color:#06b6d4">LO</b>ブランチはΓ点で縮退し（~1580 cm<sup>−1</sup>）、Gバンドを生成します。</span>
+          </p>
+        </div>
       </div>
     </div>
   </section>

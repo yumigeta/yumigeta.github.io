@@ -133,10 +133,17 @@
 .ref-list a { color: #a78bfa; text-decoration: none; }
 .ref-list a:hover { text-decoration: underline; }
 
+/* ── Overview side-by-side layout ── */
+.overview-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.overview-col { min-width: 0; }
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .diag-grid { grid-template-columns: 1fr; }
   .gr-canvas-wide { height: 240px; }
+  .overview-grid { grid-template-columns: 1fr; }
 }
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
