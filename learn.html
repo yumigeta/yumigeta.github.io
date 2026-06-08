@@ -44,23 +44,23 @@
 <section class="band">
   <div class="container">
 
-    <!-- Ⅰ Spectroscopy -->
-    <div class="ed-cat rv" id="spectroscopy">
+    <!-- Ⅰ Measurement & Data Analysis -->
+    <div class="ed-cat rv" id="measurement">
       <div class="ed-cat-hd">
         <span class="ed-cat-no">Ⅰ</span>
-        <span class="ed-cat-name"><span class="i18n-en">Spectroscopy</span><span class="i18n-ja">分光法</span></span>
+        <span class="ed-cat-name"><span class="i18n-en">Measurement &amp; Data Analysis</span><span class="i18n-ja">測定・データ解析</span></span>
       </div>
       <div class="ed-tools">
-        <a href="raman.html" class="et">
+        <a href="measurement-error.html" class="et">
           <div>
-            <h3><span class="i18n-en">Principles of Raman Scattering</span><span class="i18n-ja">ラマン散乱の原理</span></h3>
-            <p><span class="i18n-en">How molecular vibrations modulate polarizability to produce Stokes and anti-Stokes scattering — with synchronized animations of the vibration, &alpha;(Q), and the resulting spectrum.</span><span class="i18n-ja">分子振動がどのように分極率を変調し、ストークス・反ストークス散乱を生み出すか — 振動、&alpha;(Q)、そして得られるスペクトルを同期アニメーションで示します。</span></p>
+            <h3><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h3>
+            <p><span class="i18n-en">The experimentalist's toolkit — types of error (accuracy vs precision), significant figures, propagation of uncertainty, and the statistical analysis of measured data, with hands-on demos for each.</span><span class="i18n-ja">実験者の基本道具 — 誤差の種類（正確さと精密さ）、有効数字、誤差の伝播、測定値の統計処理を、それぞれ操作できるデモとともに解説します。</span></p>
           </div>
         </a>
-        <a href="graphene-raman.html" class="et">
+        <a href="spectral-noise.html" class="et">
           <div>
-            <h3><span class="i18n-en">Raman Spectroscopy of Graphene</span><span class="i18n-ja">グラフェンのラマン分光</span></h3>
-            <p><span class="i18n-en">Phonon dispersion, G/2D/D bands, and double resonance processes — how to count layers, quantify defects, and measure strain and doping from a single Raman spectrum.</span><span class="i18n-ja">フォノン分散、G/2D/Dバンド、そして二重共鳴過程 — 1枚のラマンスペクトルから層数を数え、欠陥を定量し、ひずみとドーピングを測定する方法。</span></p>
+            <h3><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h3>
+            <p><span class="i18n-en">Shot, dark, and read noise; why signal-to-noise scales as the square root of total exposure; and when to prefer a long single acquisition over many short accumulations — plus cosmic-ray rejection and saturation, with interactive simulators.</span><span class="i18n-ja">ショット・ダーク・読み出しノイズ、SN比が総露光時間の平方根で伸びる理由、そして長時間1回の取得と多数の短時間積算のどちらが適すか — 宇宙線除去や飽和も含め、対話的シミュレータで解説します。</span></p>
           </div>
         </a>
       </div>
@@ -88,10 +88,32 @@
       </div>
     </div>
 
-    <!-- Ⅲ Devices / FET -->
-    <div class="ed-cat rv" id="devices">
+    <!-- Ⅲ Spectroscopy -->
+    <div class="ed-cat rv" id="spectroscopy">
       <div class="ed-cat-hd">
         <span class="ed-cat-no">Ⅲ</span>
+        <span class="ed-cat-name"><span class="i18n-en">Spectroscopy</span><span class="i18n-ja">分光法</span></span>
+      </div>
+      <div class="ed-tools">
+        <a href="raman.html" class="et">
+          <div>
+            <h3><span class="i18n-en">Principles of Raman Scattering</span><span class="i18n-ja">ラマン散乱の原理</span></h3>
+            <p><span class="i18n-en">How molecular vibrations modulate polarizability to produce Stokes and anti-Stokes scattering — with synchronized animations of the vibration, &alpha;(Q), and the resulting spectrum.</span><span class="i18n-ja">分子振動がどのように分極率を変調し、ストークス・反ストークス散乱を生み出すか — 振動、&alpha;(Q)、そして得られるスペクトルを同期アニメーションで示します。</span></p>
+          </div>
+        </a>
+        <a href="graphene-raman.html" class="et">
+          <div>
+            <h3><span class="i18n-en">Raman Spectroscopy of Graphene</span><span class="i18n-ja">グラフェンのラマン分光</span></h3>
+            <p><span class="i18n-en">Phonon dispersion, G/2D/D bands, and double resonance processes — how to count layers, quantify defects, and measure strain and doping from a single Raman spectrum.</span><span class="i18n-ja">フォノン分散、G/2D/Dバンド、そして二重共鳴過程 — 1枚のラマンスペクトルから層数を数え、欠陥を定量し、ひずみとドーピングを測定する方法。</span></p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Ⅳ Devices / FET -->
+    <div class="ed-cat rv" id="devices">
+      <div class="ed-cat-hd">
+        <span class="ed-cat-no">Ⅳ</span>
         <span class="ed-cat-name"><span class="i18n-en">Devices &amp; FET</span><span class="i18n-ja">デバイス・FET</span></span>
       </div>
       <div class="ed-tools">
@@ -109,28 +131,6 @@
             <p><span class="i18n-en">Why metal–semiconductor contacts often fail to follow the Schottky–Mott rule — interface states, metal-induced gap states, and charge neutrality level as the microscopic origins of Fermi level pinning.</span><span class="i18n-ja">金属–半導体接合がショットキー–モット則に従わない理由 — 界面準位、金属誘起ギャップ準位（MIGS）、電荷中性準位を起点に、フェルミピニングの微視的なメカニズムを解説します。</span></p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Ⅳ Measurement & Data Analysis -->
-    <div class="ed-cat rv" id="measurement">
-      <div class="ed-cat-hd">
-        <span class="ed-cat-no">Ⅳ</span>
-        <span class="ed-cat-name"><span class="i18n-en">Measurement &amp; Data Analysis</span><span class="i18n-ja">測定・データ解析</span></span>
-      </div>
-      <div class="ed-tools">
-        <a href="measurement-error.html" class="et">
-          <div>
-            <h3><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h3>
-            <p><span class="i18n-en">The experimentalist's toolkit — types of error (accuracy vs precision), significant figures, propagation of uncertainty, and the statistical analysis of measured data, with hands-on demos for each.</span><span class="i18n-ja">実験者の基本道具 — 誤差の種類（正確さと精密さ）、有効数字、誤差の伝播、測定値の統計処理を、それぞれ操作できるデモとともに解説します。</span></p>
-          </div>
-        </a>
-        <a href="spectral-noise.html" class="et">
-          <div>
-            <h3><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h3>
-            <p><span class="i18n-en">Shot, dark, and read noise; why signal-to-noise scales as the square root of total exposure; and when to prefer a long single acquisition over many short accumulations — plus cosmic-ray rejection and saturation, with interactive simulators.</span><span class="i18n-ja">ショット・ダーク・読み出しノイズ、SN比が総露光時間の平方根で伸びる理由、そして長時間1回の取得と多数の短時間積算のどちらが適すか — 宇宙線除去や飽和も含め、対話的シミュレータで解説します。</span></p>
-          </div>
-        </a>
       </div>
     </div>
 
