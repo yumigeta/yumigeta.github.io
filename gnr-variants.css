@@ -111,8 +111,18 @@
   background-image:var(--plate-img, none) !important;
   background-size:var(--plate-size, auto) !important;
   background-position:center !important;
-  border:1px solid rgba(27,23,17,.18) !important;
+  border:none !important;
 }
+
+/* ── 図版枠 plate border (optional, tweakable) ─────────────────────
+   Default = none (borderless, plate dissolves into the panel ground).
+   A thin keyline can be added in one of several washi-friendly inks. */
+.demo-stage.pb-sumi.pv-light canvas{ border:1px solid rgba(31,27,20,.34) !important; }
+.demo-stage.pb-usuzumi.pv-light canvas{ border:1px solid rgba(31,27,20,.16) !important; }
+.demo-stage.pb-shu.pv-light canvas{ border:1px solid rgba(176,52,40,.55) !important; }
+.demo-stage.pb-kincha.pv-light canvas{ border:1px solid rgba(150,108,40,.55) !important; }
+.demo-stage.pb-ai.pv-light canvas{ border:1px solid rgba(40,66,110,.50) !important; }
+.demo-stage.pb-rikyu.pv-light canvas{ border:1px solid rgba(90,96,72,.50) !important; }
 .demo-stage.pv-light .gr-3d-wrap canvas{
   background-image:radial-gradient(120% 120% at 50% 30%,
     color-mix(in srgb,var(--plate, #322e29) 78%,#fff) 0%,
@@ -120,7 +130,7 @@
     color-mix(in srgb,var(--plate, #322e29) 72%,#000) 100%) !important;
   background-size:auto !important;
 }
-.demo-stage.pv-light .gnr-panel-group{ background:transparent; border:1px solid var(--rule); }
+.demo-stage.pv-light .gnr-panel-group{ background:transparent; border:none; }
 /* control bar → paper */
 .demo-stage.pv-light .gnr-controls{
   background:color-mix(in srgb,var(--paper-tint) 72%, var(--paper));
@@ -141,9 +151,10 @@
 }
 .demo-stage.pv-light .cap{ color:var(--ink-3); }
 .demo-stage.pv-light .cap b{ color:var(--ink); }
-/* classification readout → a slim plate-coloured chip */
+/* classification readout → a slim fixed-dark chip so the green/amber tags
+   stay legible on every plate (dark or washi-light) */
 .demo-stage.pv-light .gr-info{
-  background:var(--plate, #322e29);
+  background:#262019;
   border-left:3px solid var(--accent);
   color:#cdbfa8; border-radius:6px;
 }
@@ -156,14 +167,14 @@
   background:radial-gradient(130% 140% at 28% 0%,
     color-mix(in srgb,var(--paper) 97%,#fff), var(--paper) 62%);
   border:1px solid var(--rule-2); border-radius:6px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 20px 48px -30px rgba(0,0,0,.4);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 0 14px rgba(0,0,0,.13);
 }
 
 /* 2 ── 鳥の子 Torinoko : ivory sheet with a fine inner keyline — formal. */
 .demo-stage.pv-torinoko{
   position:relative; background:#f4efe2;
   border:1px solid var(--rule-2); border-radius:4px;
-  box-shadow:0 18px 44px -30px rgba(0,0,0,.4);
+  box-shadow:0 0 14px rgba(0,0,0,.13);
 }
 .demo-stage.pv-torinoko::before{
   content:"";position:absolute;inset:6px;pointer-events:none;z-index:6;
@@ -174,14 +185,14 @@
 .demo-stage.pv-ginnezu{
   background:#e6e4de; border:1px solid rgba(27,23,17,.18);
   border-top:2px solid var(--ink); border-radius:3px;
-  box-shadow:0 16px 40px -30px rgba(0,0,0,.4);
+  box-shadow:0 0 14px rgba(0,0,0,.13);
 }
 
 /* 4 ── 生成 Kinari : unbleached paper, square corners, vermilion ticks. */
 .demo-stage.pv-kinari{
   position:relative; background:var(--paper-tint);
   border:1px solid var(--rule-2); border-radius:1px;
-  box-shadow:0 16px 40px -28px rgba(0,0,0,.4);
+  box-shadow:0 0 14px rgba(0,0,0,.13);
 }
 .demo-stage.pv-kinari::before{
   content:"";position:absolute;inset:-8px;pointer-events:none;
@@ -200,7 +211,7 @@
 .demo-stage.pv-hyoso{
   position:relative; background:var(--paper);
   border:16px solid var(--paper-tint); border-radius:3px;
-  box-shadow:0 0 0 1px var(--rule-2), 0 20px 50px -32px rgba(0,0,0,.42);
+  box-shadow:0 0 0 1px var(--rule-2), 0 0 14px rgba(0,0,0,.13);
 }
 .demo-stage.pv-hyoso::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:6;
@@ -211,7 +222,7 @@
 .demo-stage.pv-hanada{
   background:color-mix(in srgb,#3f5a6b 7%, var(--paper));
   border:1px solid color-mix(in srgb,#3f5a6b 24%, var(--rule)); border-radius:5px;
-  box-shadow:0 18px 44px -30px rgba(0,0,0,.4);
+  box-shadow:0 0 14px rgba(0,0,0,.13);
 }
 
 
@@ -249,6 +260,45 @@
   --plate-size:cover;
 }
 
+/* ── LIGHT plot fields ──────────────────────────────────────────
+   The figure is now drawn directly with a dark-on-light 和 theme (see
+   graphene-nanoribbons.js · window.__gnrLight), so each washi plate just
+   sets its paper colour as --plate — the 2-D figures sit on real washi
+   tones with hand-picked sumi / 朱 / 藍 lines. The 3-D viewport stays a
+   dark plate (its surface palette is tuned for dark). */
+.demo-stage.plate-kinari .gr-3d-wrap canvas, .demo-stage.plate-torinoko2 .gr-3d-wrap canvas,
+.demo-stage.plate-suna .gr-3d-wrap canvas, .demo-stage.plate-zoge .gr-3d-wrap canvas,
+.demo-stage.plate-shironeri .gr-3d-wrap canvas, .demo-stage.plate-haijiro .gr-3d-wrap canvas,
+.demo-stage.plate-sunakabe .gr-3d-wrap canvas, .demo-stage.plate-sumijiro .gr-3d-wrap canvas,
+.demo-stage.plate-callout .gr-3d-wrap canvas,
+.demo-stage.plate-shiro .gr-3d-wrap canvas, .demo-stage.plate-unohana .gr-3d-wrap canvas{
+  background-image:radial-gradient(120% 120% at 50% 30%, #26211d 0%, #161310 70%, #100d0b 100%) !important;
+  border-color:rgba(255,255,255,.08) !important;
+}
+
+/* 7 ── 生成 Kinari : unbleached warm cream. */
+.demo-stage.plate-kinari{ --plate:#f4eedd; --plate-img:none; }
+/* 8 ── 鳥の子 Torinoko : ivory / eggshell. */
+.demo-stage.plate-torinoko2{ --plate:#f6f1e3; --plate-img:none; }
+/* 9 ── 砂 Suna : light sandy beige. */
+.demo-stage.plate-suna{ --plate:#efe6d3; --plate-img:none; }
+/* 10 ── 象牙 Zōge : soft bright ivory. */
+.demo-stage.plate-zoge{ --plate:#f7f2e6; --plate-img:none; }
+/* 11 ── 白練 Shironeri : warm near-white. */
+.demo-stage.plate-shironeri{ --plate:#faf7f0; --plate-img:none; }
+/* 12 ── 灰白 Haijiro : a soft warm neutral white (matches the washi ground). */
+.demo-stage.plate-haijiro{ --plate:#f1eee5; --plate-img:none; }
+/* 13 ── 砂壁 Sunakabe : warm kraft / sand-wall. */
+.demo-stage.plate-sunakabe{ --plate:#e9e0cf; --plate-img:none; }
+/* 14 ── 墨白 Sumijiro : near-white, editorial. */
+.demo-stage.plate-sumijiro{ --plate:#f8f5ee; --plate-img:none; }
+/* 15 ── 注釈 Callout : the plot field uses the exact callout block tint. */
+.demo-stage.plate-callout{ --plate:color-mix(in srgb, var(--paper-tint) 60%, var(--paper)); --plate-img:none; }
+/* 16 ── 白 Shiro : pure white. */
+.demo-stage.plate-shiro{ --plate:#ffffff; --plate-img:none; }
+/* 17 ── 卯 Unohana : the faintest off-white (near-pure, a hair warm). */
+.demo-stage.plate-unohana{ --plate:#fcfbf8; --plate-img:none; }
+
 
 /* ════════════════════════════════════════════════════════════════
    ④  REFINED 角印 SHAPING + LIGHT-BAR POLISH
@@ -280,7 +330,7 @@
 /* figure plates — softly lifted, like figures pasted onto the sheet */
 .demo-stage.pv-light canvas{
   border-radius:5px !important;
-  box-shadow:0 2px 6px -3px rgba(0,0,0,.3) !important;
+  box-shadow:none !important;
 }
 .demo-stage.pv-light .gr-info{ border-radius:6px; }
 

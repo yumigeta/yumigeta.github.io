@@ -32,6 +32,39 @@
   // and the 3-D surface use the same colour for the same segment.
   var PATHSEG = ['#f472b6', '#34d399', '#60a5fa'];
 
+  // ── Figure theme (dark plate ↔ washi light plate) ──────────────────
+  // Light plates (washi grounds) draw dark-on-light with a hand-picked 和
+  // palette; dark plates keep the original light-on-dark set. window.__gnrLight
+  // is toggled by the Tweaks "Plate" control; redraw is triggered there too.
+  var GNR_DARK = {
+    ink:'#e7e5e4', inkSoft:'#a8a29e', faint:'#78716c',
+    bond:'255,255,255', grid:'255,255,255',
+    gFaint:0.06, gZero:0.20, gMid:0.12, hexLine:'226,232,240', hexLineA:0.18,
+    accentArm:'#fbbf24', accentArmRGB:'251,191,36',
+    accentZig:'#34d399', accentZigRGB:'52,211,153',
+    atomA:'#ef4444', atomB:'#3b82f6', diracKp:'#60a5fa', diracKRGB:'239,68,68',
+    amberRGB:'251,191,36',
+    famA:'#60a5fa', famB:'#34d399', famC:'#f472b6', zigBar:'#f59e0b',
+    cur:'#ffffff', lineL:62, lineS:72
+  };
+  var GNR_LIGHT = {
+    ink:'#2a2620', inkSoft:'#6f675b', faint:'#8c8475',
+    bond:'46,40,33', grid:'46,40,33',
+    gFaint:0.10, gZero:0.34, gMid:0.18, hexLine:'46,40,33', hexLineA:0.20,
+    accentArm:'#c98a1c', accentArmRGB:'201,138,28',
+    accentZig:'#1f9168', accentZigRGB:'31,145,104',
+    atomA:'#d23b2c', atomB:'#2f63c0', diracKp:'#2f63c0', diracKRGB:'210,59,44',
+    amberRGB:'201,138,28',
+    famA:'#2f63c0', famB:'#1f9168', famC:'#c0417a', zigBar:'#cf8a1a',
+    cur:'#2a2620', lineL:46, lineS:78
+  };
+  function pal(){ return window.__gnrLight ? GNR_LIGHT : GNR_DARK; }
+  // dark cutting-line spectrum used by the (always-dark) 3-D viewport
+  function colorForD(rank, n) {
+    var h = n <= 1 ? 200 : (rank * 300 / (n - 1));
+    return 'hsl(' + h.toFixed(0) + ',72%,62%)';
+  }
+
   function dpr(canvas, maxR) {
     var r = window.devicePixelRatio || 1;
     if (maxR && r > maxR) r = maxR;   // cap pixel ratio for heavy 3-D canvases
@@ -89,7 +122,8 @@
     // hue order is identical across panels regardless of edge type or N.
     function colorFor(rank, n) {
       var h = n <= 1 ? 200 : (rank * 300 / (n - 1));
-      return 'hsl(' + h.toFixed(0) + ',72%,62%)';
+      var pp = pal();
+      return 'hsl(' + h.toFixed(0) + ',' + pp.lineS + '%,' + pp.lineL + '%)';
     }
 
     var R_out = BZR * 1.62;   // rendered region (matches Module 02)
@@ -195,11 +229,13 @@
       if (!cv) return;
       var o = dpr(cv), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
-      /* plate background supplied by CSS (--plate via .pv-light canvas) */
+      /* plate background is supplied by CSS (--plate), so the figure follows
+         the Tweaks plate selection; leave the canvas transparent here. */
+      var TH = pal();
 
       var isZig = (type === 'zigzag');
-      var accent = isZig ? '#34d399' : '#fbbf24';
-      var aRGB   = isZig ? '52,211,153' : '251,191,36';
+      var accent = isZig ? TH.accentZig : TH.accentArm;
+      var aRGB   = isZig ? TH.accentZigRGB : TH.accentArmRGB;
       var dim    = active ? 1 : 0.34;
 
       // axis (â, periodic) and width (ŵ, confined) unit vectors — fixed lattice
@@ -263,7 +299,7 @@
           var fa = dim * fade((lc(px,py)+lc(bx,by))/2);
           if (fa <= 0.01) continue;
           var pB = S(bx, by);
-          ctx.globalAlpha = 0.24*fa; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = bw;
+          ctx.globalAlpha = 0.24*fa; ctx.strokeStyle = 'rgb(' + TH.bond + ')'; ctx.lineWidth = bw;
           ctx.beginPath(); ctx.moveTo(pA[0], pA[1]); ctx.lineTo(pB[0], pB[1]); ctx.stroke();
         }
       }
@@ -284,7 +320,7 @@
       var rr = max(1.8, min(sc*0.12, 5));
       for (var n = -RA; n <= RA; n++) for (var m = -RA; m <= RA; m++) {
         var px = n + m*0.5, py = m*sqrt3/2;
-        var subs = [[px, py, '#ef4444'], [px, py + d1y, '#3b82f6']];
+        var subs = [[px, py, TH.atomA], [px, py + d1y, TH.atomB]];
         for (var s = 0; s < 2; s++) {
           var x = subs[s][0], y = subs[s][1];
           if (!vis(x, y)) continue;
@@ -294,7 +330,7 @@
           ctx.globalAlpha = fa;
           ctx.beginPath(); ctx.arc(p[0], p[1], here ? rr+0.6 : rr, 0, 2*PI);
           ctx.fillStyle = subs[s][2]; ctx.fill();
-          if (here) { ctx.lineWidth = 1.3; ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.stroke(); }
+          if (here) { ctx.lineWidth = 1.3; ctx.strokeStyle = 'rgba(' + TH.bond + ',.9)'; ctx.stroke(); }
         }
       }
       ctx.globalAlpha = 1;
@@ -331,7 +367,7 @@
               if (!vis(bx, by)) continue;
               var pE = S(bx, by);
               ctx.globalAlpha = 0.3 * fa;
-              ctx.strokeStyle = '#a8a29e';
+              ctx.strokeStyle = TH.inkSoft;
               ctx.beginPath(); ctx.moveTo(pM[0], pM[1]); ctx.lineTo(pE[0], pE[1]); ctx.stroke();
             }
           }
@@ -349,7 +385,7 @@
             if (fa <= 0.01) continue;
             var p = S(x, y);
             ctx.globalAlpha = 0.55 * fa;
-            ctx.strokeStyle = '#a8a29e';
+            ctx.strokeStyle = TH.inkSoft;
             ctx.beginPath();
             ctx.moveTo(p[0]-xsz, p[1]-xsz); ctx.lineTo(p[0]+xsz, p[1]+xsz);
             ctx.moveTo(p[0]+xsz, p[1]-xsz); ctx.lineTo(p[0]-xsz, p[1]+xsz);
@@ -418,6 +454,7 @@
     function drawBZ(p) {
       var o = dpr(bzC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
+      var TH = pal();
       var cx = W/2, cy = H/2;
       var isZig = (p.theta === 0);
       var reduced = (zoneScheme === 'reduced');
@@ -440,7 +477,7 @@
       // Γ points, a faint 1st-BZ hexagon centred on each, and the 2nd-BZ boundary.
       var Gn = [[RB1x,RB1y], [-RB1x,-RB1y], [RB2x,RB2y], [-RB2x,-RB2y],
                 [RB1x+RB2x,RB1y+RB2y], [-(RB1x+RB2x),-(RB1y+RB2y)]];
-      ctx.strokeStyle = 'rgba(251,191,36,0.16)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + TH.amberRGB + ',0.16)'; ctx.lineWidth = 1;
       for (var gi = 0; gi < Gn.length; gi++) {
         ctx.beginPath();
         for (var nb = 0; nb <= 6; nb++) {
@@ -450,7 +487,7 @@
         ctx.closePath(); ctx.stroke();
       }
       // 2nd-BZ boundary = hexagon through the 6 nearest Γ (rotated 30°).
-      ctx.strokeStyle = 'rgba(226,232,240,0.18)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + TH.hexLine + ',' + TH.hexLineA + ')'; ctx.lineWidth = 1;
       ctx.beginPath();
       for (var nb = 0; nb <= 6; nb++) {
         var ab = PI/6 + nb*PI/3, pb = P(sqrt3*BZR*cos(ab), sqrt3*BZR*sin(ab));
@@ -458,14 +495,14 @@
       }
       ctx.closePath(); ctx.stroke();
       // neighbour Γ markers
-      ctx.fillStyle = 'rgba(168,162,158,0.8)';
+      ctx.fillStyle = 'rgba(' + TH.grid + ',0.55)';
       for (var gi = 0; gi < Gn.length; gi++) {
         var gp = P(Gn[gi][0], Gn[gi][1]);
         ctx.beginPath(); ctx.arc(gp[0], gp[1], 2, 0, 2*PI); ctx.fill();
       }
 
       // Central first BZ hexagon (the ribbon lives here).
-      ctx.strokeStyle = 'rgba(251,191,36,0.6)';
+      ctx.strokeStyle = 'rgba(' + TH.amberRGB + ',0.6)';
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       for (var n = 0; n <= 6; n++) {
@@ -481,7 +518,7 @@
         // and the bulk Dirac points are folded along the axis into the strip —
         // a folded point sitting on a line ⇒ metallic.
         var ktrMax = maxC;
-        ctx.strokeStyle = 'rgba(239,68,68,0.85)'; ctx.lineWidth = 1.6;
+        ctx.strokeStyle = 'rgba(' + TH.diracKRGB + ',0.85)'; ctx.lineWidth = 1.6;
         for (var sgn = -1; sgn <= 1; sgn += 2) {
           var b1 = P(sgn*kpar*axdx - ktrMax*trdx, sgn*kpar*axdy - ktrMax*trdy);
           var b2 = P(sgn*kpar*axdx + ktrMax*trdx, sgn*kpar*axdy + ktrMax*trdy);
@@ -527,8 +564,9 @@
               // folded image: hollow ring
               ctx.lineWidth = 2.2; ctx.strokeStyle = color;
               ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 5, 0, 2*PI); ctx.stroke();
-              ctx.fillStyle = '#0c0a09';
+              ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = '#000';
               ctx.beginPath(); ctx.arc(r.dp[0], r.dp[1], 3, 0, 2*PI); ctx.fill();
+              ctx.restore();
             } else {
               // genuine in-zone position: solid dot
               ctx.fillStyle = color;
@@ -536,8 +574,8 @@
             }
           });
         }
-        drawDirac(KD,  '#ef4444');
-        drawDirac(KpD, '#60a5fa');
+        drawDirac(KD,  TH.atomA);
+        drawDirac(KpD, TH.diracKp);
 
         // ── Dimension annotations ──
         (function () {
@@ -546,14 +584,14 @@
             var px = -dy/len*5, py = dx/len*5;
             ctx.save();
             ctx.setLineDash([]);
-            ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+            ctx.strokeStyle = 'rgba(' + TH.bond + ',0.6)';
             ctx.lineWidth = 1.3;
             ctx.beginPath();
             ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
             ctx.moveTo(x1-px,y1-py); ctx.lineTo(x1+px,y1+py);
             ctx.moveTo(x2-px,y2-py); ctx.lineTo(x2+px,y2+py);
             ctx.stroke();
-            ctx.fillStyle = 'rgba(255,255,255,0.92)';
+            ctx.fillStyle = 'rgba(' + TH.bond + ',0.92)';
             ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif';
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText(label, lx, ly);
@@ -614,7 +652,7 @@
         }
         for (var n = 0; n < 6; n++) {
           var ang3 = n*PI/3, pc = P(BZR*cos(ang3), BZR*sin(ang3));
-          ctx.fillStyle = (n % 2 === 0) ? '#ef4444' : '#60a5fa';
+          ctx.fillStyle = (n % 2 === 0) ? TH.atomA : TH.diracKp;
           ctx.beginPath(); ctx.arc(pc[0], pc[1], 5, 0, 2*PI); ctx.fill();
         }
       }
@@ -622,8 +660,8 @@
       // Γ
       var g = P(0, 0);
       ctx.beginPath(); ctx.arc(g[0], g[1], 3, 0, 2*PI);
-      ctx.fillStyle = '#a8a29e'; ctx.fill();
-      ctx.fillStyle = '#d6d3d1'; ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif';
+      ctx.fillStyle = TH.inkSoft; ctx.fill();
+      ctx.fillStyle = TH.ink; ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
       ctx.fillText('Γ', g[0]+7, g[1]+4);
 
@@ -633,24 +671,25 @@
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
         ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif';
         // Row 1: K (red filled) · K' (blue filled)
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = TH.atomA;
         ctx.beginPath(); ctx.arc(dotX, ly, 5, 0, 2*PI); ctx.fill();
-        ctx.fillStyle = '#e7e5e4'; ctx.fillText('K', dotX + 12, ly);
+        ctx.fillStyle = TH.ink; ctx.fillText('K', dotX + 12, ly);
         var k2 = dotX + 56;
-        ctx.fillStyle = '#60a5fa';
+        ctx.fillStyle = TH.diracKp;
         ctx.beginPath(); ctx.arc(k2, ly, 5, 0, 2*PI); ctx.fill();
-        ctx.fillStyle = '#e7e5e4'; ctx.fillText("K'", k2 + 12, ly);
+        ctx.fillStyle = TH.ink; ctx.fillText("K'", k2 + 12, ly);
         // Row 2: filled = original · ring = folded
         var ly2 = ly + rowH;
-        ctx.fillStyle = '#a8a29e';
+        ctx.fillStyle = TH.inkSoft;
         ctx.beginPath(); ctx.arc(dotX, ly2, 5, 0, 2*PI); ctx.fill();
-        ctx.fillStyle = '#cbd5e1'; ctx.fillText('original', dotX + 12, ly2);
+        ctx.fillStyle = TH.inkSoft; ctx.fillText('original', dotX + 12, ly2);
         var f2 = dotX + 78;
-        ctx.lineWidth = 2.2; ctx.strokeStyle = '#a8a29e';
+        ctx.lineWidth = 2.2; ctx.strokeStyle = TH.inkSoft;
         ctx.beginPath(); ctx.arc(f2, ly2, 5, 0, 2*PI); ctx.stroke();
-        ctx.fillStyle = '#0c0a09';
+        ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = '#000';
         ctx.beginPath(); ctx.arc(f2, ly2, 3, 0, 2*PI); ctx.fill();
-        ctx.fillStyle = '#cbd5e1'; ctx.fillText('folded', f2 + 12, ly2);
+        ctx.restore();
+        ctx.fillStyle = TH.inkSoft; ctx.fillText('folded', f2 + 12, ly2);
       })();
     }
 
@@ -738,7 +777,7 @@
       var lines = p.lines, ltx = -p.ny, lty = p.nx, lext = 1.35*R_out, LS = 90;
       for (var li = 0; li < lines.length; li++) {
         var L = lines[li];
-        var col = colorFor(L.ci, p.N);
+        var col = colorForD(L.ci, p.N);
         var lw = 1.8;
         var bx = L.c*p.nx, by = L.c*p.ny;
         for (var band = -1; band <= 1; band += 2) {
@@ -931,6 +970,7 @@
     function drawSubbands(p) {
       var o = dpr(bandC), ctx = o.ctx, W = o.w, H = o.h;
       ctx.clearRect(0, 0, W, H);
+      var TH = pal();
 
       var isZig = (p.theta === 0), N = p.N;
       var kMax = isZig ? PI : PI/sqrt3;          // Z = π (zig) · X = π/√3 (arm)
@@ -984,30 +1024,30 @@
       function sy(e) { return pad.t + (1-(e+maxE)/(2*maxE))*ph; }
 
       // grids
-      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + TH.grid + ',' + TH.gFaint + ')'; ctx.lineWidth = 1;
       var step = parseFloat((maxE/3).toPrecision(1));
       if (step < 0.1) step = 0.1;
       for (var e = -maxE; e <= maxE+0.01; e += step) {
         if (abs(e) < step*0.05) continue;
         ctx.beginPath(); ctx.moveTo(pad.l, sy(e)); ctx.lineTo(pad.l+pw, sy(e)); ctx.stroke();
       }
-      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.strokeStyle = 'rgba(' + TH.grid + ',' + TH.gZero + ')';
       ctx.beginPath(); ctx.moveTo(pad.l, sy(0)); ctx.lineTo(pad.l+pw, sy(0)); ctx.stroke();
 
       // zone-centre (Γ) marker
-      ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + TH.grid + ',' + TH.gMid + ')'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(sx(0), pad.t); ctx.lineTo(sx(0), pad.t+ph); ctx.stroke();
 
       // Dirac projection / edge-state onset marker (zigzag: k = ±2π/3).
       if (isZig) {
         var kK = 2*PI/3;
-        ctx.strokeStyle = 'rgba(52,211,153,0.35)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(' + TH.accentZigRGB + ',0.35)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(sx(kK), pad.t); ctx.lineTo(sx(kK), pad.t+ph);
         ctx.moveTo(sx(-kK), pad.t); ctx.lineTo(sx(-kK), pad.t+ph);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(52,211,153,0.85)'; ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
+        ctx.fillStyle = 'rgba(' + TH.accentZigRGB + ',0.85)'; ctx.font = '600 9px "Zen Kaku Gothic New", system-ui, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('edge states', (sx(kK)+sx(kMax))/2, pad.t+11);
       }
@@ -1027,33 +1067,33 @@
 
       // gap markers (semiconducting armchair)
       if (!metallic) {
-        ctx.strokeStyle = 'rgba(251,191,36,0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(' + TH.amberRGB + ',0.45)'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(pad.l, sy(gMin)); ctx.lineTo(pad.l+pw, sy(gMin));
         ctx.moveTo(pad.l, sy(-gMin)); ctx.lineTo(pad.l+pw, sy(-gMin)); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = '#fbbf24'; ctx.font = '600 12px "Zen Kaku Gothic New", system-ui, sans-serif';
+        ctx.fillStyle = TH.accentArm; ctx.font = '600 12px "Zen Kaku Gothic New", system-ui, sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText('Eg = ' + (2*gMin).toFixed(2) + ' eV', pad.l+pw-90, sy(0)-4);
       }
 
       // axes labels
       ctx.save(); ctx.translate(12, pad.t+ph/2); ctx.rotate(-PI/2);
-      ctx.fillStyle = '#78716c'; ctx.font = '500 12px "Zen Kaku Gothic New", system-ui, sans-serif';
+      ctx.fillStyle = TH.faint; ctx.font = '500 12px "Zen Kaku Gothic New", system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.fillText('E (eV)', 0, 0); ctx.restore();
 
       ctx.textAlign = 'right'; ctx.font = '500 11px "Zen Kaku Gothic New", system-ui, sans-serif';
-      ctx.fillStyle = '#a8a29e';
+      ctx.fillStyle = TH.inkSoft;
       for (var e = -maxE; e <= maxE+0.01; e += step) {
         if (abs(e) < step*0.05) continue;
         ctx.fillText(e.toFixed(1), pad.l-5, sy(e)+3);
       }
-      ctx.fillStyle = '#d6d3d1'; ctx.fillText('0', pad.l-5, sy(0)+3);
+      ctx.fillStyle = TH.ink; ctx.fillText('0', pad.l-5, sy(0)+3);
 
       // high-symmetry points across the full first 1D BZ: −Z … Γ … Z
       ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif'; ctx.textAlign = 'center';
       var yHSP = pad.t + ph + 16;
       var zb = isZig ? 'Z' : 'X';
-      ctx.fillStyle = '#d6d3d1';
+      ctx.fillStyle = TH.ink;
       ctx.fillText('−' + zb, sx(-kMax), yHSP);
       ctx.fillText('Γ', sx(0), yHSP);
       ctx.fillText(zb, sx(kMax), yHSP);
@@ -1061,12 +1101,12 @@
       // 1D Brillouin-zone length = 2π/T (Å⁻¹).
       var aPhys = 2.46;                      // graphene lattice constant (Å)
       ctx.textAlign = 'right'; ctx.font = '600 11px "Zen Kaku Gothic New", system-ui, sans-serif';
-      ctx.fillStyle = '#a8a29e';
+      ctx.fillStyle = TH.inkSoft;
       ctx.fillText('2π/T = ' + (2*kMax/aPhys).toFixed(2) + ' Å⁻¹', pad.l+pw, pad.t+12);
 
       ctx.textAlign = 'left'; ctx.font = '600 13px "Zen Kaku Gothic New", system-ui, sans-serif';
-      ctx.fillStyle = '#ef4444'; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
-      ctx.fillStyle = '#3b82f6'; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
+      ctx.fillStyle = TH.atomA; ctx.fillText('π*', pad.l+4, sy(maxE*0.7));
+      ctx.fillStyle = TH.atomB; ctx.fillText('π', pad.l+4, sy(-maxE*0.7));
     }
 
     // ── Render loop (dirty-flag only) ──
@@ -1203,6 +1243,7 @@
       if (!gapCV) return;
       var d = dpr(gapCV), ctx = d.ctx, W = d.w, H = d.h;
       ctx.clearRect(0, 0, W, H);
+      var TH = pal();
       var Nmin = +wSlider.min, Nmax = +wSlider.max, curN = +wSlider.value;
       var theta = curTheta;
       var gaps = [], gmax = 0.001;
@@ -1221,51 +1262,53 @@
       var yticks = 4;
       for (var t = 0; t <= yticks; t++) {
         var yy = y0 - plotH * t / yticks;
-        ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(' + TH.grid + ',' + TH.gFaint + ')'; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(x0 + plotW, yy); ctx.stroke();
-        ctx.fillStyle = 'rgba(255,255,255,.55)';
+        ctx.fillStyle = 'rgba(' + TH.grid + ',0.55)';
         ctx.fillText((gmax * t / yticks).toFixed(1), x0 - 8, yy);
       }
-      ctx.strokeStyle = 'rgba(255,255,255,.25)';
+      ctx.strokeStyle = 'rgba(' + TH.grid + ',0.3)';
       ctx.beginPath(); ctx.moveTo(x0, padT); ctx.lineTo(x0, y0); ctx.lineTo(x0 + plotW, y0); ctx.stroke();
       // y-axis title
       ctx.save();
       ctx.translate(15, padT + plotH / 2); ctx.rotate(-PI / 2);
-      ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,255,255,.7)';
+      ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(' + TH.grid + ',0.7)';
       ctx.fillText('E_g  (eV)', 0, 0);
       ctx.restore();
       // bars
       var nN = gaps.length, bw = plotW / nN;
-      var fam = ['#60a5fa', '#34d399', '#f472b6'];   // n%3 = 0, 1, 2
+      var fam = [TH.famA, TH.famB, TH.famC];   // n%3 = 0, 1, 2
       ctx.textBaseline = 'top';
       for (var i = 0; i < nN; i++) {
         var n2 = Nmin + i, g2 = gaps[i];
         var bx = x0 + i * bw + bw * 0.18, bwd = bw * 0.64;
         var bh = plotH * (g2 / gmax);
-        var col = (theta === 0) ? '#f59e0b' : fam[n2 % 3];
+        var col = (theta === 0) ? TH.zigBar : fam[n2 % 3];
         var isCur = (n2 === curN);
         ctx.globalAlpha = isCur ? 1 : 0.8;
         ctx.fillStyle = col;
         ctx.fillRect(bx, y0 - bh, bwd, bh);
         ctx.globalAlpha = 1;
         if (isCur) {
-          ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+          ctx.strokeStyle = TH.cur; ctx.lineWidth = 2;
           ctx.strokeRect(bx, y0 - bh, bwd, bh);
-          ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+          ctx.fillStyle = TH.cur; ctx.textAlign = 'center';
           ctx.fillText(g2 < 0.02 ? '0' : g2.toFixed(2), bx + bwd / 2, y0 - bh - 14);
         }
         if (n2 % 2 === 1 || isCur) {
-          ctx.fillStyle = isCur ? '#fff' : 'rgba(255,255,255,.5)';
+          ctx.fillStyle = isCur ? TH.cur : 'rgba(' + TH.grid + ',0.5)';
           ctx.textAlign = 'center';
           ctx.fillText(n2, bx + bwd / 2, y0 + 6);
         }
       }
-      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(' + TH.grid + ',0.7)'; ctx.textAlign = 'center';
       ctx.fillText('ribbon width  N', x0 + plotW / 2, y0 + 20);
     }
     var _gnrUpdate = update;
     update = function () { _gnrUpdate(); drawGapChart(); };
     window.addEventListener('resize', drawGapChart);
+    // Tweaks "Plate" control flips window.__gnrLight then calls this to recolour.
+    window.__gnrRedraw = function () { update(); };
 
     setSliderRange(curTheta === 0);
     update();
