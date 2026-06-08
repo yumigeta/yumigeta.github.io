@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide</title>
+  <meta name="description" content="How acquisition time and accumulation count shape the signal-to-noise ratio of a spectrum. Shot, dark, and read noise; why SNR scales as the square root of total exposure; when to use a long single acquisition versus many short accumulations; cosmic-ray rejection and saturation.">
+  <meta name="keywords" content="signal-to-noise ratio, SNR, Raman spectroscopy noise, acquisition time, accumulation, averaging, shot noise, read noise, dark current, cosmic ray rejection, detector saturation, spectroscopy, CCD, signal averaging">
+  <link rel="canonical" href="https://yumigeta.github.io/spectral-noise.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide">
+  <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations — interactive.">
+  <meta property="og:url" content="https://yumigeta.github.io/spectral-noise.html">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Noisy Spectra: Acquisition Time vs Accumulation">
+  <meta name="twitter:description" content="How acquisition time and accumulation count trade off against signal-to-noise ratio.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide",
+    "description": "An interactive tutorial on the signal-to-noise ratio of spectroscopic measurements: shot, dark and read noise, the square-root-of-time scaling, and the trade-off between long single acquisitions and many short accumulations.",
+    "url": "https://yumigeta.github.io/spectral-noise.html",
+    "author": {
+      "@type": "Person", "name": "Kentaro Yumigeta", "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Signal-to-noise ratio", "Shot noise", "Read noise", "Dark current",
+      "Acquisition time vs accumulation", "Signal averaging", "Cosmic-ray rejection", "Detector saturation"
+    ],
+    "inLanguage": "en", "isAccessibleForFree": true, "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="spectral-noise.css">
+  <link rel="stylesheet" href="katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <script src="lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="index.html#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="index.html#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="index.html#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="index.html#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="index.html#cv">CV</a>
+      </nav>
+      <a class="end" href="index.html#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="learn.html"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Noisy Spectra &amp; SNR</span><span class="i18n-ja">ノイズとSN比</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">When a spectrum is noisy, you can spend more time on it in two ways: make each exposure <b>longer</b> (acquisition time $t$), or take <b>more</b> exposures and add them up (accumulation count $N$). The total exposure is $T=t\times N$ either way — yet the two choices affect the signal-to-noise ratio differently, and protect you from different problems. This page is a hands-on companion to the <a href="measurement-error.html">measurement-error</a> basics, applying random-error and averaging ideas to real spectroscopy.</span><span class="i18n-ja">スペクトルがノイズだらけのとき、時間をかける方法は2つある：各露光を<b>長く</b>する（取得時間 $t$）か、露光を<b>たくさん</b>とって足し合わせる（積算回数 $N$）か。総露光時間はどちらも $T=t\times N$ で同じだが、この2つの選択はSN比への効き方が異なり、守ってくれる対象も違う。本ページは<a href="measurement-error.html">測定と誤差</a>の基礎の応用編で、偶然誤差と平均化の考え方を実際の分光に当てはめる。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Noise sources ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Where the noise comes from</span><span class="i18n-ja">00 — ノイズはどこから来るか</span></span>
+      <h2><span class="i18n-en">Three noise sources, and the √-of-time rule</span><span class="i18n-ja">3つのノイズ源と「時間の平方根」則</span></h2>
+      <p><span class="i18n-en">A detected spectrum carries three main noises. <b>Shot noise</b> is the Poisson statistics of counting photons — its variance equals the signal, so it grows as $\sqrt{\text{counts}}$. <b>Dark noise</b> is the shot noise of thermally generated charge, accumulating with time. <b>Read noise</b> is added <em>once per readout</em> by the detector electronics, independent of how long you exposed.</span><span class="i18n-ja">検出されたスペクトルには主に3つのノイズが乗る。<b>ショットノイズ</b>は光子計数のポアソン統計で、その分散は信号に等しく $\sqrt{\text{カウント}}$ で増える。<b>ダークノイズ</b>は熱的に生じた電荷のショットノイズで、時間とともに蓄積する。<b>読み出しノイズ</b>は検出器の電子回路が<em>読み出し1回ごと</em>に加えるもので、露光時間にはよらない。</span></p>
+      <p class="eq-block">$$\mathrm{SNR}=\frac{S}{\sqrt{\underbrace{S}_{\text{shot}}+\underbrace{D}_{\text{dark}}+\underbrace{N\,\sigma_{\mathrm{read}}^2}_{\text{read}}}}$$</p>
+      <p><span class="i18n-en">where the signal $S$ and dark counts $D$ both scale with total time $T=tN$, while the read term scales with the <b>number of readouts</b> $N$. If shot noise dominates, $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$ — quadrupling the exposure only doubles the SNR. This is the same $1/\sqrt{N}$ averaging law from the statistics page, seen from the signal side.</span><span class="i18n-ja">ここで信号 $S$ とダークカウント $D$ はともに総時間 $T=tN$ に比例し、読み出し項は<b>読み出し回数</b> $N$ に比例する。ショットノイズが支配的なら $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$ — 露光を4倍にしてもSN比は2倍にしかならない。これは統計処理ページの $1/\sqrt{N}$ 平均化則を、信号の側から見たものである。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">Build a spectrum below. Adjust the per-frame acquisition time $t$, the accumulation count $N$, the source <b>brightness</b>, and the detector <b>read noise</b>, and watch the noisy trace, the SNR, and which noise source dominates.</span><span class="i18n-ja">下でスペクトルを作ってみよう。1フレームの取得時間 $t$、積算回数 $N$、光源の<b>明るさ</b>、検出器の<b>読み出しノイズ</b>を調整し、ノイズの乗ったスペクトル・SN比・支配的なノイズ源がどう変わるか見てみよう。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-spec" height="240" aria-label="Simulated noisy spectrum"></canvas>
+        <div class="me-controls">
+          <div class="me-slider"><label><span class="i18n-en">Acq. time t</span><span class="i18n-ja">取得時間 t</span></label>
+            <input type="range" id="ctrl-t" min="0.2" max="10" step="0.2" value="2"><output id="v-t">2.0 s</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>
+            <input type="range" id="ctrl-acc" min="1" max="64" step="1" value="4"><output id="v-acc">4</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Brightness</span><span class="i18n-ja">明るさ</span></label>
+            <input type="range" id="ctrl-bright" min="1" max="200" step="1" value="40"><output id="v-bright">40</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Read noise</span><span class="i18n-ja">読み出しノイズ</span></label>
+            <input type="range" id="ctrl-read" min="0" max="30" step="1" value="8"><output id="v-read">8</output></div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Total time T = tN</span><span class="i18n-ja">総時間 T = tN</span></span><span class="v" id="st-T">—</span></div>
+          <div class="me-stat"><span class="k">SNR</span><span class="v" id="st-snr">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Dominant noise</span><span class="i18n-ja">支配的ノイズ</span></span><span class="v" id="st-dom" style="font-size:0.86rem">—</span></div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">measured spectrum</span><span class="i18n-ja">測定スペクトル</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">true (noise-free) signal</span><span class="i18n-ja">真の（無ノイズ）信号</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — t vs N trade-off ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Long acquisition vs many accumulations</span><span class="i18n-ja">01 — 長時間取得 vs 多数積算</span></span>
+      <h2><span class="i18n-en">Same total time, different noise — which wins?</span><span class="i18n-ja">同じ総時間、違うノイズ — どちらが勝つ？</span></h2>
+      <p><span class="i18n-en">Here is the crux. Fix the <b>total</b> exposure $T$ and split it differently: one long acquisition ($N=1$, $t=T$) versus many short ones ($N$ large, $t=T/N$). The signal $S\propto T$ is identical; so is the shot and dark noise. The <em>only</em> difference is the read term, which grows with $N$. So at fixed $T$:</span><span class="i18n-ja">ここが核心だ。<b>総</b>露光時間 $T$ を固定し、その分け方を変える：1回の長時間取得（$N=1$, $t=T$）と、多数の短時間取得（$N$ 大, $t=T/N$）。信号 $S\propto T$ は同一で、ショット・ダークノイズも同じ。<em>唯一</em>違うのは $N$ とともに増える読み出し項である。したがって総時間 $T$ 固定のもとでは：</span></p>
+      <p class="eq-block">$$\mathrm{SNR}(N)=\frac{S}{\sqrt{S+D+N\,\sigma_{\mathrm{read}}^2}}\;,\qquad S,D\ \text{fixed}$$</p>
+      <p><span class="i18n-en"><b>If shot-noise-limited</b> (bright signal, $S\gg N\sigma_{\mathrm{read}}^2$): the curve is flat — the split barely matters, so accumulate freely for the other benefits below. <b>If read-noise-limited</b> (faint signal): SNR <em>falls</em> as $N$ rises, so use the <b>longest acquisition you can</b> and the fewest accumulations.</span><span class="i18n-ja"><b>ショットノイズ律速</b>（明るい信号、$S\gg N\sigma_{\mathrm{read}}^2$）なら曲線は平坦 — 分け方はほとんど効かないので、下記の他の利点のために積算を活用してよい。<b>読み出しノイズ律速</b>（微弱信号）なら $N$ を増やすほどSN比は<em>下がる</em>ので、<b>可能なかぎり長い取得時間</b>と最小の積算回数にする。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="anim-card">
+        <div class="me-controls">
+          <div class="me-slider"><label><span class="i18n-en">Total time T</span><span class="i18n-ja">総時間 T</span></label>
+            <input type="range" id="ctrl-T2" min="8" max="120" step="4" value="32"><output id="v-T2">32 s</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>
+            <input type="range" id="ctrl-N2" min="1" max="64" step="1" value="16"><output id="v-N2">16</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Brightness</span><span class="i18n-ja">明るさ</span></label>
+            <input type="range" id="ctrl-bright2" min="1" max="200" step="1" value="25"><output id="v-bright2">25</output></div>
+          <div class="me-slider"><label><span class="i18n-en">Read noise</span><span class="i18n-ja">読み出しノイズ</span></label>
+            <input type="range" id="ctrl-read2" min="0" max="30" step="1" value="10"><output id="v-read2">10</output></div>
+        </div>
+
+        <div style="margin-top:8px">
+          <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">SNR vs accumulation count N, at fixed total time T</span><span class="i18n-ja">総時間 T 固定での、SN比 と 積算回数 N の関係</span></div>
+          <canvas id="c-snr-curve" height="180"></canvas>
+        </div>
+
+        <div class="spec-duo">
+          <div>
+            <p class="panel-label"><b><span class="i18n-en">One long acquisition</span><span class="i18n-ja">1回の長時間取得</span></b> — N=1, t=T</p>
+            <canvas id="c-spec-long" height="150"></canvas>
+          </div>
+          <div>
+            <p class="panel-label"><b><span class="i18n-en">Many short accumulations</span><span class="i18n-ja">多数の短時間積算</span></b> — <span id="lbl-many">N, t=T/N</span></p>
+            <canvas id="c-spec-many" height="150"></canvas>
+          </div>
+        </div>
+
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">SNR — long (N=1)</span><span class="i18n-ja">SN比 — 長時間 (N=1)</span></span><span class="v" id="st-snr-long">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">SNR — many (N)</span><span class="i18n-ja">SN比 — 多数積算 (N)</span></span><span class="v" id="st-snr-many">—</span></div>
+        </div>
+        <div id="trade-verdict"></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">Drag <b>Brightness</b> low and you enter the read-noise-limited regime — the left panel (one long shot) visibly beats the right. Turn brightness up and both panels look the same: the split stopped mattering.</span><span class="i18n-ja"><b>明るさ</b>を下げると読み出しノイズ律速の領域に入り、左パネル（1回の長時間取得）が明らかに勝つ。明るさを上げると両パネルは同じに見える：分け方が効かなくなる。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Why accumulate at all ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — So why ever accumulate?</span><span class="i18n-ja">02 — では、なぜ積算するのか</span></span>
+      <h2><span class="i18n-en">Cosmic-ray rejection and saturation headroom</span><span class="i18n-ja">宇宙線の除去と飽和のマージン</span></h2>
+      <p><span class="i18n-en">If a single long acquisition gives the best SNR, why split at all? Because accumulation buys two things a single exposure cannot. First, <b>saturation headroom</b>: a bright peak that would overflow the detector well in one long shot stays on-scale in shorter frames. Second, <b>cosmic-ray rejection</b>: a stray spike lands on one frame only, so comparing many frames (taking the median, not the sum) removes it — impossible from a single exposure.</span><span class="i18n-ja">1回の長時間取得が最良のSN比を与えるなら、なぜ分けるのか？ 積算は単一露光では得られない2つを与えてくれるからだ。第一に<b>飽和のマージン</b>：1回の長時間取得では検出器のウェルを溢れさせる強いピークも、短いフレームならスケール内に収まる。第二に<b>宇宙線の除去</b>：突発スパイクは1フレームにしか乗らないので、多数フレームを比較して（和ではなく中央値をとって）除去できる — 単一露光では不可能だ。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">The same spectrum is acquired as $N$ frames; random cosmic-ray spikes hit individual frames. <b>Summing</b> keeps every spike; <b>median rejection</b> across frames removes them while preserving the real signal. Toggle the method and re-roll the spikes.</span><span class="i18n-ja">同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームに当たる。<b>単純加算</b>はすべてのスパイクを残すが、フレーム間の<b>中央値除去</b>は本物の信号を保ったままスパイクを取り除く。手法を切り替え、スパイクを振り直してみよう。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-spike" height="240" aria-label="Cosmic-ray spike rejection demo"></canvas>
+        <div class="me-controls">
+          <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>
+            <input type="range" id="ctrl-spk-n" min="2" max="32" step="1" value="8"><output id="v-spk-n">8</output></div>
+          <div class="btn-row" id="spk-mode">
+            <button class="demo-btn active" data-mode="sum"><span class="i18n-en">Sum (no rejection)</span><span class="i18n-ja">単純加算</span></button>
+            <button class="demo-btn" data-mode="median"><span class="i18n-en">Median rejection</span><span class="i18n-ja">中央値除去</span></button>
+          </div>
+          <div class="btn-row">
+            <button class="demo-btn" id="btn-spk-roll"><span class="i18n-en">Re-roll spikes</span><span class="i18n-ja">スパイク再生成</span></button>
+          </div>
+        </div>
+        <div id="spk-verdict"></div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">processed spectrum</span><span class="i18n-ja">処理後スペクトル</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">true signal</span><span class="i18n-ja">真の信号</span></span>
+          <span><i style="background:#fda4af"></i><span class="i18n-en">cosmic-ray spikes</span><span class="i18n-ja">宇宙線スパイク</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Decision guide ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">Summary</span><span class="i18n-ja">まとめ</span></span>
+      <h2><span class="i18n-en">A practical decision guide</span><span class="i18n-ja">実践的な選び方</span></h2>
+    </div>
+    <div class="demo-stage">
+      <table class="decide-table">
+        <thead><tr>
+          <th><span class="i18n-en">Situation</span><span class="i18n-ja">状況</span></th>
+          <th><span class="i18n-en">Best choice</span><span class="i18n-ja">最適な選択</span></th>
+          <th><span class="i18n-en">Why</span><span class="i18n-ja">理由</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><b><span class="i18n-en">Faint signal (read-noise-limited)</span><span class="i18n-ja">微弱信号（読み出しノイズ律速）</span></b></td>
+            <td><span class="i18n-en">Long acquisition time, few accumulations</span><span class="i18n-ja">長い取得時間・少ない積算</span></td>
+            <td><span class="i18n-en">Fewer readouts → less accumulated read noise; lifts the signal above the read floor.</span><span class="i18n-ja">読み出し回数が減り、読み出しノイズの蓄積が小さい。信号を読み出しノイズの床より上に持ち上げる。</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="i18n-en">Bright signal (shot-noise-limited)</span><span class="i18n-ja">明るい信号（ショットノイズ律速）</span></b></td>
+            <td><span class="i18n-en">Either — split for safety</span><span class="i18n-ja">どちらでも可 — 安全のため分割</span></td>
+            <td><span class="i18n-en">SNR ∝ √T regardless of split, so accumulate to gain spike rejection and saturation headroom for free.</span><span class="i18n-ja">分け方によらず SNR ∝ √T なので、積算してスパイク除去と飽和マージンをタダで得る。</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="i18n-en">Very strong peaks / saturation risk</span><span class="i18n-ja">非常に強いピーク・飽和の危険</span></b></td>
+            <td><span class="i18n-en">Short t, many accumulations</span><span class="i18n-ja">短い t・多数の積算</span></td>
+            <td><span class="i18n-en">Keeps each frame below the detector full-well; sum afterwards.</span><span class="i18n-ja">各フレームを検出器のフルウェル以下に保ち、後で加算する。</span></td>
+          </tr>
+          <tr>
+            <td><b><span class="i18n-en">Cosmic rays / unstable sample</span><span class="i18n-ja">宇宙線・不安定な試料</span></b></td>
+            <td><span class="i18n-en">Multiple accumulations + median rejection</span><span class="i18n-ja">複数積算 ＋ 中央値除去</span></td>
+            <td><span class="i18n-en">Spikes and transient drift appear in single frames and can be filtered out.</span><span class="i18n-ja">スパイクや一過性のドリフトは単一フレームに現れるので除去できる。</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="me-cap"><span class="i18n-en">Rule of thumb: <b>make each acquisition as long as saturation allows, then reach the total time you need with accumulations.</b> You get near-optimal SNR and keep spike rejection in your pocket.</span><span class="i18n-ja">経験則：<b>飽和しない範囲で各取得をできるだけ長くし、足りない総時間を積算で稼ぐ。</b>ほぼ最適なSN比が得られ、スパイク除去の手段も手元に残る。</span></p>
+
+      <div class="me-seealso">
+        <b><span class="i18n-en">Foundations.</span><span class="i18n-ja">土台。</span></b>
+        <span class="i18n-en"> The shot-noise statistics, quadrature noise addition, and $1/\sqrt{N}$ averaging used here are developed from scratch on the <a href="measurement-error.html">Measurement, Error &amp; Data Analysis</a> page.</span><span class="i18n-ja"> ここで使ったショットノイズ統計、二乗和でのノイズ合成、$1/\sqrt{N}$ 平均化は、<a href="measurement-error.html">測定・誤差・データ解析の基礎</a>のページで一から解説している。</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="learn.html"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="spectral-noise.js"></script>
+</body>
+</html>
