@@ -275,48 +275,21 @@
   <!-- ═══════ Module 03 — Statistical analysis ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — Statistical analysis of measurements</span><span class="i18n-ja">03 — 測定値の統計処理</span></span>
-      <h2><span class="i18n-en">From a scatter of readings to a number with an error bar</span><span class="i18n-ja">ばらついた測定値から、誤差棒つきの一個の数値へ</span></h2>
-      <p><span class="i18n-en">Repeat a measurement and the readings scatter around a central value. The <b>mean</b> $\bar{x}$ is the best estimate; the <b>standard deviation</b> $s$ measures the spread of a single reading; the <b>standard error</b> $s/\sqrt{N}$ measures the uncertainty of the <em>mean</em>, and shrinks as you take more data.</span><span class="i18n-ja">測定を繰り返すと、測定値はある中心値のまわりにばらつく。<b>平均</b> $\bar{x}$ が最良推定値であり、<b>標準偏差</b> $s$ は1回の測定のばらつきを、<b>標準誤差</b> $s/\sqrt{N}$ は<em>平均</em>の不確かさを表し、データを増やすほど小さくなる。</span></p>
-      <p class="eq-block">$$\bar{x}=\frac1N\sum_i x_i,\qquad s=\sqrt{\frac{1}{N-1}\sum_i (x_i-\bar{x})^2},\qquad \sigma_{\bar x}=\frac{s}{\sqrt N}$$</p>
+      <span class="demo-num"><span class="i18n-en">03 — Statistical processing of measurements</span><span class="i18n-ja">03 — 測定値の統計処理</span></span>
+      <h2><span class="i18n-en">Does averaging really reduce the error?</span><span class="i18n-ja">平均を取れば誤差は減るのか？</span></h2>
+      <p><span class="i18n-en">A random error scatters readings around the <b>true value</b>. Take many measurements and average them, and you expect to land close to that true value — but <em>how close</em>, and how should the confidence be reported? That is the whole question of this module. (Strictly we never observe the true value itself — only error-laden readings — and for some phenomena, such as quantum measurements, no single true value even exists. We will nonetheless keep the intuitive picture that a true value is out there.)</span><span class="i18n-ja">偶然誤差は測定値を<b>真の値</b>のまわりにばらつかせる。何度も測って平均すれば真の値に近づくはずだが — <em>どれくらい</em>近いのか、そして確からしさをどう表現すればよいのか。これが本モジュールの主題である。（厳密には我々は真の値そのものを観測できず、誤差を含む測定値しか得られない。量子測定のように、そもそも単一の真の値が存在しない対象もある。ここでは「真の値が存在する」という素朴な描像のまま進める。）</span></p>
     </div>
     <div class="demo-stage">
-      <div class="me-prose"><h3><span class="i18n-en">3a — Sample statistics</span><span class="i18n-ja">3a — 標本統計</span></h3>
-        <p><span class="i18n-en">Draw samples from a normal "parent" distribution. As $N$ grows, the histogram fills out the bell curve, the mean homes in on the true value, and the standard error shrinks like $1/\sqrt N$ — quadrupling the data only halves the error.</span><span class="i18n-ja">正規分布の「母集団」から標本を抽出する。$N$ が増えるとヒストグラムは釣鐘曲線を埋め、平均は真値に近づき、標準誤差は $1/\sqrt N$ で縮む — データを4倍にしても誤差は半分にしかならない。</span></p>
-      </div>
-
-      <div class="anim-card">
-        <canvas id="c-hist" height="240" aria-label="Histogram of sampled measurements"></canvas>
-        <div class="me-controls">
-          <div class="me-slider">
-            <label for="ctrl-n">N =</label>
-            <input type="range" id="ctrl-n" min="5" max="500" step="5" value="40" aria-label="Sample size">
-            <output id="v-n">40</output>
-          </div>
-          <div class="btn-row">
-            <button class="demo-btn" id="btn-gen"><span class="i18n-en">Draw new sample</span><span class="i18n-ja">標本を取り直す</span></button>
-          </div>
-        </div>
-        <div class="me-stats">
-          <div class="me-stat"><span class="k"><span class="i18n-en">Mean x̄</span><span class="i18n-ja">平均 x̄</span></span><span class="v" id="st-mean">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">Std dev s</span><span class="i18n-ja">標準偏差 s</span></span><span class="v" id="st-sd">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">Std error s/√N</span><span class="i18n-ja">標準誤差 s/√N</span></span><span class="v" id="st-sem">—</span></div>
-        </div>
-        <div class="me-legend">
-          <span><i style="background:#7dd3fc"></i><span class="i18n-en">sampled data</span><span class="i18n-ja">標本データ</span></span>
-          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean ± std error</span><span class="i18n-ja">平均 ± 標準誤差</span></span>
-          <span><i style="background:#34d399"></i><span class="i18n-en">parent distribution &amp; true mean μ</span><span class="i18n-ja">母集団分布・真の平均 μ</span></span>
-        </div>
-      </div>
-
-      <div class="me-prose"><h3><span class="i18n-en">3b — The Central Limit Theorem (why the standard error works)</span><span class="i18n-ja">3b — 中心極限定理（標準誤差が成り立つ理由）</span></h3>
-        <p><span class="i18n-en">Section 3a stated that the mean has an uncertainty of $\sigma/\sqrt{N}$ — but <em>why</em> that value, and why do we draw it as a Gaussian error bar? The answer is the <b>Central Limit Theorem</b>: the <em>mean</em> of $n$ independent measurements becomes normally distributed as $n$ grows, <b>whatever the shape of the parent distribution</b>, normal or not. The standard deviation of that bell — the spread of the mean itself — is exactly the standard error $\sigma/\sqrt{n}$. So the CLT is the foundation underneath 3a: it is the reason a measured average has a Gaussian error bar even when the individual readings do not.</span><span class="i18n-ja">3a では平均の不確かさが $\sigma/\sqrt{N}$ だと述べた — しかし<em>なぜ</em>その値で、なぜそれをガウス型の誤差棒として描くのか？ その答えが<b>中心極限定理</b>である：$n$ 個の独立な測定の<em>平均</em>は、<b>母集団の形が何であれ</b>（正規でなくても）$n$ が大きくなるにつれて正規分布に近づく。その釣鐘の標準偏差 — 平均自身の広がり — がちょうど標準誤差 $\sigma/\sqrt{n}$ である。つまり CLT は 3a を支える土台であり、個々の測定値が釣鐘型に従わなくても測定の平均がガウス型の誤差棒を持つ理由そのものだ。</span></p>
+      <div class="me-prose"><h3><span class="i18n-en">3a — Averaging and the Central Limit Theorem</span><span class="i18n-ja">3a — 平均と中心極限定理</span></h3>
+        <p><span class="i18n-en">Measure one object many times and the readings form a distribution — and its shape depends on the experiment (it need not be a bell). Now do something remarkable: take $n$ measurements, average them, and repeat that whole procedure over and over, collecting many <em>averages</em>. Histogram those averages and — <b>whatever the shape of the original distribution</b> — they pile up into a <b>Gaussian</b>. This is the <b>Central Limit Theorem</b>, and the peak of that Gaussian sits at the true value.</span><span class="i18n-ja">一つの対象を何度も測ると、測定値はある分布をつくる — その形は実験によって異なる（釣鐘型とは限らない）。ここで驚くべきことが起きる：$n$ 回測って平均をとり、その手続きを何度も繰り返して<em>平均値</em>を多数集める。その平均値をヒストグラムにすると — <b>元の分布の形が何であれ</b> — <b>ガウス分布</b>に積み上がる。これが<b>中心極限定理</b>であり、そのガウス分布のピークは真の値に一致する。</span></p>
+        <p class="eq-block">$$g(x)=\frac{1}{\sqrt{2\pi}\,\sigma}\,\exp\!\left[-\frac{(x-\mu)^2}{2\sigma^2}\right]$$</p>
+        <p><span class="i18n-en">Because the Gaussian is so well understood, it lets us estimate how large $n$ must be to land within a given range of the true value, with a given probability. Try it: pick a decidedly non-normal parent and watch the distribution of the mean turn into a bell as $n$ grows.</span><span class="i18n-ja">ガウス分布はよく調べられているので、真の値の所定の範囲内に所定の確率で収めるには $n$ をどれだけ大きくすればよいか、を見積もれる。試してみよう：あえて非正規な母集団を選び、$n$ を増やすと平均の分布が釣鐘型に変わっていく様子を見てほしい。</span></p>
       </div>
 
       <div class="anim-card">
         <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div>
-            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution (one draw)</span><span class="i18n-ja">母集団分布（1回の抽出）</span></div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution f(x) (one draw)</span><span class="i18n-ja">母分布 f(x)（1回の抽出）</span></div>
             <canvas id="c-clt-parent" height="150"></canvas>
           </div>
           <div>
@@ -347,7 +320,83 @@
       </div>
       <p class="me-cap"><span class="i18n-en">Start at $n=1$: the right panel is just the (non-normal) parent. Slide $n$ up and the distribution of means tightens around $\mu$ and morphs into a bell — the Central Limit Theorem in action.</span><span class="i18n-ja">$n=1$ から始めると、右パネルは（非正規な）母集団そのもの。$n$ を上げると平均の分布は $\mu$ のまわりに締まり、釣鐘型へ変わっていく — これが中心極限定理である。</span></p>
 
-      <div class="me-prose"><h3><span class="i18n-en">3c — Least-squares fitting</span><span class="i18n-ja">3c — 最小二乗フィット</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3b — Expectation and variance</span><span class="i18n-ja">3b — 期待値と分散</span></h3>
+        <p><span class="i18n-en">Call the (unknowable) parent distribution of readings $f(x)$ — the probability of getting a reading near $x$, normalised so that $\int f(x)\,dx = 1$. Its <b>expectation value</b> $E$ is the average over infinitely many measurements, and its <b>variance</b> $V$ measures how widely the readings spread around $E$:</span><span class="i18n-ja">測定値の（知り得ない）母分布を $f(x)$ とする — $x$ 付近の測定値が得られる確率で、$\int f(x)\,dx = 1$ に規格化しておく。その<b>期待値</b> $E$ は無限回測定の平均、<b>分散</b> $V$ は測定値が $E$ のまわりにどれだけ広がるかを表す：</span></p>
+        <p class="eq-block">$$E=\int x\,f(x)\,dx,\qquad V=\int (x-E)^2\,f(x)\,dx$$</p>
+        <p><span class="i18n-en">For a finite set of $k$ readings $x_1,\dots,x_k$ with average $\bar{x}$, these become the familiar sums:</span><span class="i18n-ja">$k$ 個の有限の測定値 $x_1,\dots,x_k$（平均 $\bar{x}$）に対しては、おなじみの和になる：</span></p>
+        <p class="eq-block">$$\bar{x}=\frac1k\sum_i x_i,\qquad V=\frac1k\sum_i (x_i-\bar{x})^2$$</p>
+        <p><span class="i18n-en">Why <em>square</em> the deviations? Because each reading lies above or below the mean, so adding the raw deviations gives exactly zero. Squaring makes every term positive (and penalises big misses); it is also easier to handle algebraically than the absolute value. A smaller variance means a more precise measurement. The demo below draws $N$ readings from a parent and reports the sample estimates of $E$ (the mean) and the spread.</span><span class="i18n-ja">なぜ偏差を<em>2乗</em>するのか？ 各測定値は平均より上にも下にもずれるので、そのまま足すと合計はちょうど0になる。2乗すれば各項が正になり（大きな外れを強く効かせ）、絶対値より代数的に扱いやすい。分散が小さいほど精密な測定である。下のデモは母集団から $N$ 個の測定値を引き、$E$（平均）とばらつきの標本推定を表示する。</span></p>
+      </div>
+
+      <div class="anim-card">
+        <canvas id="c-hist" height="240" aria-label="Histogram of sampled measurements"></canvas>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="ctrl-n">N =</label>
+            <input type="range" id="ctrl-n" min="5" max="500" step="5" value="40" aria-label="Sample size">
+            <output id="v-n">40</output>
+          </div>
+          <div class="btn-row">
+            <button class="demo-btn" id="btn-gen"><span class="i18n-en">Draw new sample</span><span class="i18n-ja">標本を取り直す</span></button>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Mean x̄</span><span class="i18n-ja">平均 x̄</span></span><span class="v" id="st-mean">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Std dev s</span><span class="i18n-ja">標準偏差 s</span></span><span class="v" id="st-sd">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Std error s/√N</span><span class="i18n-ja">標準誤差 s/√N</span></span><span class="v" id="st-sem">—</span></div>
+        </div>
+        <div class="me-legend">
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">sampled data</span><span class="i18n-ja">標本データ</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean ± std error</span><span class="i18n-ja">平均 ± 標準誤差</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">parent distribution &amp; true mean μ</span><span class="i18n-ja">母集団分布・真の平均 μ</span></span>
+        </div>
+      </div>
+
+      <div class="me-prose"><h3><span class="i18n-en">3c — Unbiased variance and the standard error of the mean</span><span class="i18n-ja">3c — 不偏分散と平均値の標準誤差</span></h3>
+        <p><span class="i18n-en">From just $n$ readings, how well can we estimate the parent variance $V$? The honest estimate divides not by $n$ but by $n-1$ — the <b>unbiased variance</b> $W$. (The difference matters when $n$ is small; for large $n$ it is negligible.) Its expectation over many repeats equals $V$.</span><span class="i18n-ja">たった $n$ 個の測定から母分散 $V$ をどれだけ推定できるか。正しい推定は $n$ ではなく $n-1$ で割る — <b>不偏分散</b> $W$ である。（$n$ が小さいとき違いが効く。$n$ が大きければ無視できる。）これを何度も繰り返したときの期待値が $V$ に等しくなる。</span></p>
+        <p class="eq-block">$$W=\frac{1}{n-1}\sum_i (x_i-\bar{x})^2$$</p>
+        <p><span class="i18n-en">Now the key step. Divide $W$ once more by $n$: the result is the variance of the <b>mean</b> $\bar{x}$ itself — exactly the spread of the Gaussian from 3a. Its square root is the <b>standard error</b> $\sigma$, the uncertainty we attach to the average:</span><span class="i18n-ja">ここが要だ。$W$ をさらに $n$ で割ると、それは<b>平均値</b> $\bar{x}$ 自身の分散 — まさに 3a のガウス分布の広がり — になる。その平方根が<b>標準誤差</b> $\sigma$ であり、平均につける不確かさである：</span></p>
+        <p class="eq-block">$$\sigma=\sqrt{\frac{W}{n}}=\sqrt{\frac{1}{n(n-1)}\sum_i (x_i-\bar{x})^2}\;=\;\frac{s}{\sqrt{n}}$$</p>
+        <p><span class="i18n-en">Because the mean follows a Gaussian, the standard $\sigma$ probabilities apply: the true value lies within $\bar{x}\pm\sigma$ with probability <b>68.27 %</b>, within $\bar{x}\pm2\sigma$ with <b>95.45 %</b>, and within $\bar{x}\pm3\sigma$ with <b>99.73 %</b>. The amber band in the demo above is exactly this $\pm\sigma$ interval, and it narrows as $1/\sqrt{n}$.</span><span class="i18n-ja">平均はガウス分布に従うので、標準的な $\sigma$ の確率が使える：真の値が $\bar{x}\pm\sigma$ に入る確率は <b>68.27 %</b>、$\bar{x}\pm2\sigma$ では <b>95.45 %</b>、$\bar{x}\pm3\sigma$ では <b>99.73 %</b> になる。上のデモの橙の帯がまさにこの $\pm\sigma$ 区間で、$1/\sqrt{n}$ で狭まっていく。</span></p>
+      </div>
+
+      <div class="me-prose"><h3><span class="i18n-en">3d — Reporting conventions</span><span class="i18n-ja">3d — さまざまな運用</span></h3>
+        <p><span class="i18n-en">With $\bar{x}$ and $\sigma$ in hand, a result is usually written</span><span class="i18n-ja">$\bar{x}$ と $\sigma$ が求まれば、結果は普通こう書く：</span></p>
+        <p class="eq-block">$$\text{result}=\bar{x}\pm\sigma$$</p>
+        <p><span class="i18n-en">Conventionally $\sigma$ is rounded to two significant figures and $\bar{x}$ is quoted down to $\sigma$'s last digit (this is where the significant-figure rules of &sect;01 come from). Some fields instead quote the <b>expanded uncertainty</b> $k\sigma$ — most often $2\sigma$, giving ~95 % coverage — where $k$ is the <b>coverage factor</b>; this is the modern "uncertainty analysis" standard.</span><span class="i18n-ja">慣例として $\sigma$ は有効数字2桁に四捨五入し、$\bar{x}$ は $\sigma$ の最終桁まで示す（&sect;01 の有効数字ルールはここに由来する）。分野によっては<b>拡張不確かさ</b> $k\sigma$ — 多くは $2\sigma$ で約95%被覆 — を示す。$k$ を<b>包含係数</b>と呼ぶ。これが近年の「不確かさ解析」の標準的作法である。</span></p>
+        <p><span class="i18n-en">A different quantity is $\sigma' = \sqrt{W}$ (not divided by $n$). This estimates the spread of the <b>measurand itself</b> — how much an individual reading varies — rather than the uncertainty of the mean. It is the right thing to report when the true value is not the point: the variability is the result, as in quantum measurements, industrial quality control, or survey sampling. There, the parent distribution need not be Gaussian, so the neat 68/95 percentages do not directly apply.</span><span class="i18n-ja">これとは別の量が $\sigma' = \sqrt{W}$（$n$ で割らない）である。これは平均の不確かさではなく、<b>測定対象そのもの</b>のばらつき — 個々の測定値がどれだけ変動するか — を推定する。真の値が主眼でないときに報告すべき量で、量子測定、工業の品質管理、アンケート標本のように「ばらつきこそが結果」の場合に使う。そこでは母集団がガウスとは限らないので、68/95 の割合はそのままは当てはまらない。</span></p>
+        <p><span class="i18n-en">Conventions vary by field — some divide by $n$ rather than $n-1$, some scale $\sigma$ differently — so always state which definition you used.</span><span class="i18n-ja">作法は分野によって異なり（$n-1$ ではなく $n$ で割る、$\sigma$ を何倍するか等）、どの定義で計算したかを必ず明記することが大切である。</span></p>
+      </div>
+
+      <div class="me-prose"><h3><span class="i18n-en">3e — Statistics is not all-powerful</span><span class="i18n-ja">3e — 統計は万能ではない</span></h3>
+        <p><span class="i18n-en">Averaging beats down <em>random</em> error, but not without limit. Reading a millimetre ruler you might estimate to ~0.1 mm by eye; averaging 10,000 readings will <em>not</em> get you to microns. This is not (only) about systematic error — even with none, the <b>reading resolution</b> itself sets a floor that averaging cannot cross. Always ask what causes the scatter and whether statistics can actually help. And recall the cost: because $\sigma\propto1/\sqrt{n}$, <b>halving the error needs four times as many measurements</b>.</span><span class="i18n-ja">平均は<em>偶然</em>誤差を減らすが、無限にではない。ミリ目盛りの定規を目分量で0.1 mmまで読めても、1万回平均してもミクロンには届かない。これは（単に）系統誤差の話ではない — 系統誤差がなくても、<b>読み取り分解能</b>そのものが、平均では越えられない下限を与える。ばらつきの原因が何で、統計が本当に効くのかを常に問うべきだ。そして代償も忘れずに：$\sigma\propto1/\sqrt{n}$ なので、<b>誤差を半分にするには測定回数を4倍</b>にしなければならない。</span></p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Terminology map — the same idea has many names</span><span class="i18n-ja">用語の対応表 — 同じ概念に色々な呼び名</span></summary>
+          <div>
+            <p><span class="i18n-en">Statistics terminology is notoriously inconsistent between fields (physics, quality control, surveys). For reference:</span><span class="i18n-ja">統計の用語は分野（物理・品質管理・調査）によってバラバラなことで有名だ。参考までに：</span></p>
+            <table class="me-table">
+              <thead><tr>
+                <th><span class="i18n-en">Here</span><span class="i18n-ja">本ページ</span></th>
+                <th><span class="i18n-en">Meaning</span><span class="i18n-ja">意味</span></th>
+                <th><span class="i18n-en">Other common names</span><span class="i18n-ja">他の呼び方</span></th>
+              </tr></thead>
+              <tbody>
+                <tr><td>$f(x)$</td><td><span class="i18n-en">parent distribution of readings</span><span class="i18n-ja">実験値の分布</span></td><td><span class="i18n-en">population distribution</span><span class="i18n-ja">母分布</span></td></tr>
+                <tr><td>$E$</td><td><span class="i18n-en">expectation value</span><span class="i18n-ja">期待値</span></td><td><span class="i18n-en">population mean, μ</span><span class="i18n-ja">母平均・平均値・μ</span></td></tr>
+                <tr><td>$V$</td><td><span class="i18n-en">variance of $f(x)$</span><span class="i18n-ja">分散</span></td><td><span class="i18n-en">population variance, σ²</span><span class="i18n-ja">母分散・σ²</span></td></tr>
+                <tr><td>$\bar{x}$</td><td><span class="i18n-en">average of $n$ readings</span><span class="i18n-ja">平均値</span></td><td><span class="i18n-en">sample mean, m</span><span class="i18n-ja">標本平均・m</span></td></tr>
+                <tr><td>$W$</td><td><span class="i18n-en">$\frac{1}{n-1}\sum(x_i-\bar x)^2$</span><span class="i18n-ja">不偏分散</span></td><td><span class="i18n-en">sample (unbiased) variance</span><span class="i18n-ja">標本不偏分散</span></td></tr>
+                <tr><td>$\sigma=\sqrt{W/n}$</td><td><span class="i18n-en">standard error of the mean</span><span class="i18n-ja">平均値の標準偏差</span></td><td><span class="i18n-en">standard error, σ<sub>m</sub>, root-mean-square error of the mean</span><span class="i18n-ja">標準誤差・σ<sub>m</sub>・平均値の平均2乗誤差</span></td></tr>
+                <tr><td>$\sigma'=\sqrt{W}$</td><td><span class="i18n-en">spread of the measurand</span><span class="i18n-ja">測定対象のばらつき</span></td><td><span class="i18n-en">estimated standard deviation, SD, $\hat{\sigma}$</span><span class="i18n-ja">推定標準偏差・SD・$\hat{\sigma}$</span></td></tr>
+              </tbody>
+            </table>
+            <p><span class="i18n-en">The split largely reflects whether your field cares about a "true value" (physics) or about characterising a finite population (quality control, surveys), and whether it divides by $n$ or $n-1$.</span><span class="i18n-ja">この違いの多くは、その分野が「真の値」を追うか（物理）、有限の母集団を特徴づけるか（品質管理・調査）、そして $n$ で割るか $n-1$ で割るかの差を反映している。</span></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="me-prose"><h3><span class="i18n-en">3f — Extension: least-squares fitting</span><span class="i18n-ja">3f — 発展：最小二乗フィット</span></h3>
         <p><span class="i18n-en">Suppose your data points seem to fall along a straight line, but scattered by noise. Which line is <b>best</b>? Pick any candidate line $y=ax+b$. For each measured point, the line predicts a value $a x_i + b$, and the <b>residual</b> $r_i = y_i - (a x_i + b)$ is the vertical gap between the point and the line — how badly the line misses that point. A good line makes all the gaps small at once.</span><span class="i18n-ja">データ点がほぼ直線上に並んでいるが、ノイズで散らばっているとしよう。どの直線が<b>最良</b>だろうか？ 候補の直線 $y=ax+b$ を1本選ぶ。各測定点について直線は値 $a x_i + b$ を予測し、<b>残差</b> $r_i = y_i - (a x_i + b)$ は点と直線の縦方向のずれ — その点をどれだけ外しているか — を表す。良い直線はすべてのずれを同時に小さくする。</span></p>
         <p><span class="i18n-en">We can't just add the residuals — positive and negative gaps would cancel, making a terrible line look perfect. Instead we <b>square</b> each gap (always positive, and big misses count extra) and add them up. The <b>least-squares</b> line is the single $(a,b)$ that makes this total, $\sum_i r_i^2$, as small as possible. In the demo the grey stems <em>are</em> these residuals — the fit settles where their squared lengths add to the minimum.</span><span class="i18n-ja">残差をそのまま足すことはできない — 正と負のずれが打ち消し合い、ひどい直線が完璧に見えてしまう。そこで各ずれを<b>二乗</b>し（常に正で、大きな外れほど強く効く）、それらを合計する。<b>最小二乗</b>直線とは、この合計 $\sum_i r_i^2$ を最小にする唯一の $(a,b)$ である。デモの灰色の縦線が<em>まさに</em>この残差で、二乗した長さの合計が最小になる位置に直線が落ち着く。</span></p>
 

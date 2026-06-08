@@ -112,6 +112,13 @@ select.me-field { width: auto; cursor: pointer; }
 .recall > div { padding: 6px 16px 12px; }
 .recall p { font-size: 0.82rem; color: var(--soft); line-height: 1.65; margin: 8px 0; }
 
+/* terminology / reference table */
+.me-table { width: 100%; border-collapse: collapse; margin: 6px 0 2px; font-size: 0.82rem; }
+.me-table th, .me-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.me-table th { color: var(--ink); font-weight: 700; background: var(--bg-soft); }
+.me-table td { color: var(--soft); line-height: 1.5; }
+.me-table td:first-child, .me-table th:first-child { white-space: nowrap; color: var(--ink); }
+
 /* cross-link callout to the spectral-noise page */
 .me-seealso {
   margin: 18px 0 0; padding: 14px 18px;
