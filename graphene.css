@@ -40,6 +40,19 @@
 
 .gr-zoomable { position: relative; }
 
+/* ── GNR: ribbon + BZ + bands + 3D grouped as one module ── */
+.gnr-panel-group {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 12px; border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.gnr-panel-group .top-row { margin-bottom: 0; }
+/* Row 1: slim ribbon strip on the left, large Brillouin zone on the right */
+.gnr-toprow { grid-template-columns: minmax(120px, 0.42fr) 1fr; }
+.gnr-ribbon canvas { height: 400px; }
+.gnr-bz canvas { height: 400px; }
+
 /* ── In-panel 3D controls overlay ── */
 .gr-3d-overlay {
   position: absolute; left: 10px; bottom: 10px; right: 10px;

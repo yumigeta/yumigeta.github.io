@@ -1,7 +1,8 @@
 (function () {
   'use strict';
   var PI = Math.PI, sqrt3 = Math.sqrt(3), cos = Math.cos, sin = Math.sin,
-      abs = Math.abs, sqrt = Math.sqrt, max = Math.max, min = Math.min;
+      abs = Math.abs, sqrt = Math.sqrt, max = Math.max, min = Math.min,
+      atan2 = Math.atan2;
 
   var a = 1;
   var tHop = 2.7;
@@ -1046,6 +1047,7 @@
       drawBZ(curP);
       drawSubbands(curP);
       cutDirty = true;        // surface mesh is ribbon-independent; just redraw
+      if (lockedView) applyView(lockedView);   // keep axis-locked view aligned
 
       var isZig = (theta === 0);
       var metallic = isZig ? true : (N % 3 === 2);
@@ -1102,20 +1104,34 @@
         cutDirty = true;
       });
     }
-    var btnViewKx  = document.getElementById('btn-view-kx');
-    var btnViewKy  = document.getElementById('btn-view-ky');
-    var btnViewTop = document.getElementById('btn-view-top');
-    var viewBtns = [btnViewKx, btnViewKy, btnViewTop];
-    function setView(active, phi, theta) {
+    var btnViewPar  = document.getElementById('btn-view-par');
+    var btnViewPerp = document.getElementById('btn-view-perp');
+    var btnViewTop  = document.getElementById('btn-view-top');
+    var viewBtns = [btnViewPar, btnViewPerp, btnViewTop];
+    var lockedView = null;   // 'par' | 'perp' | 'top' | null — re-applied per ribbon
+    // Screen-horizontal axis in k-space is (cosP, −sinP); pick φ so that axis is
+    // the ribbon longitudinal (k∥) or width (k⊥) direction of the current ribbon.
+    function applyView(mode) {
+      if (!curP) return;
+      var axdx = -curP.ny, axdy = curP.nx;     // k∥ (along ribbon axis)
+      var trdx =  curP.nx, trdy = curP.ny;     // k⊥ (ribbon width)
+      if (mode === 'par')       { cutPhi = atan2(-axdy, axdx); CUT_THETA = PI/2; }
+      else if (mode === 'perp') { cutPhi = atan2(-trdy, trdx); CUT_THETA = PI/2; }
+      else if (mode === 'top')  { cutPhi = atan2(-axdy, axdx); CUT_THETA = 0;    }
+      cutDirty = true;
+    }
+    function setView(active, mode) {
+      lockedView = mode;
       viewBtns.forEach(function (b) { if (b) b.classList.toggle('active', b === active); });
-      cutPhi = phi; CUT_THETA = theta; cutDirty = true;
+      applyView(mode);
     }
     function clearView() {
+      lockedView = null;
       viewBtns.forEach(function (b) { if (b) b.classList.remove('active'); });
     }
-    if (btnViewKx)  btnViewKx.addEventListener('click',  function () { setView(btnViewKx,  PI/2, PI/2); });
-    if (btnViewKy)  btnViewKy.addEventListener('click',  function () { setView(btnViewKy,  0,    PI/2); });
-    if (btnViewTop) btnViewTop.addEventListener('click', function () { setView(btnViewTop, 0,    0);    });
+    if (btnViewPar)  btnViewPar.addEventListener('click',  function () { setView(btnViewPar,  'par');  });
+    if (btnViewPerp) btnViewPerp.addEventListener('click', function () { setView(btnViewPerp, 'perp'); });
+    if (btnViewTop)  btnViewTop.addEventListener('click',  function () { setView(btnViewTop,  'top');  });
     // Free rotation cancels the locked-axis highlight
     cutC.addEventListener('pointerdown', clearView);
     cutC.addEventListener('wheel', clearView, { passive: true });
