@@ -721,8 +721,7 @@ input[type=range]::-moz-range-thumb {
   border-top: none;
 }
 .ed-tools .et {
-  display: grid; grid-template-columns: auto 1fr auto;
-  gap: clamp(16px,3vw,40px); align-items: baseline;
+  display: block;
   padding: clamp(20px,2.6vw,32px) 0;
   border-bottom: 1px solid var(--line);
   text-decoration: none; color: inherit;
@@ -739,17 +738,6 @@ input[type=range]::-moz-range-thumb {
 }
 .ed-tools .et p {
   color: var(--soft); font-size: clamp(14px,1.4vw,15.5px); line-height: 1.6; max-width: 60ch;
-}
-.ed-tools .et .et-go {
-  font-family: var(--gothic); font-size: 12px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--accent); white-space: nowrap;
-  align-self: center; transition: opacity .2s;
-}
-.ed-tools .et:hover .et-go { opacity: .65; }
-@media (max-width: 680px) {
-  .ed-tools .et { grid-template-columns: 1fr; gap: 8px; }
-  .ed-tools .et .et-no { display: none; }
-  .ed-tools .et .et-go { justify-self: start; }
 }
 
 /* ── Coming-soon tool card ── */
