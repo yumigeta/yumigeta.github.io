@@ -781,3 +781,61 @@ input[type=range]::-moz-range-thumb {
 [data-lang="ja"] .lang-btn .l-ja { color: var(--ink); font-weight: 700; }
 [data-lang="ja"] .lang-btn .l-en { color: var(--faint); }
 .lang-btn:hover .l-en, .lang-btn:hover .l-ja, .lang-btn:hover .l-sep { color: var(--paper); }
+
+/* ════════════════════════════════════════════════════════════════
+   Explanatory callouts — intuition / key idea / common misconception
+   A reusable component for clear, EMAN-style step-by-step writing.
+   Label text is supplied in the markup (so it can carry i18n spans).
+   ════════════════════════════════════════════════════════════════ */
+.callout {
+  max-width: var(--measure);
+  margin: 22px 0;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--rule-2);
+  border-radius: 12px;
+  background: var(--bg-soft);
+  font-size: 15.5px; line-height: 1.74; color: var(--ink);
+}
+.callout .co-label {
+  display: block;
+  font-family: var(--gothic);
+  font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  margin-bottom: 5px;
+}
+.callout p { margin: 0; color: var(--ink); font-size: inherit; line-height: inherit; }
+.callout p + p { margin-top: 8px; }
+.callout b { color: var(--ink); }
+
+.callout.intuition {
+  border-left-color: #15803d;
+  background: color-mix(in srgb, #15803d 7%, var(--paper));
+}
+.callout.intuition .co-label { color: #15803d; }
+
+.callout.point {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+.callout.point .co-label { color: var(--accent); }
+
+.callout.misconception {
+  border-left-color: #c2660c;
+  background: color-mix(in srgb, #c2660c 8%, var(--paper));
+}
+.callout.misconception .co-label { color: #c2660c; }
+
+.callout.recap {
+  border-left-color: var(--ink-2);
+  background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+}
+.callout.recap .co-label { color: var(--ink-2); }
+
+/* Small "prerequisite" line that links to a recommended earlier page */
+.prereq {
+  max-width: var(--measure);
+  margin: 0 0 8px;
+  font-size: 14px; color: var(--soft);
+}
+.prereq a { color: var(--accent); font-weight: 600; }
+.prereq a:hover { text-decoration: underline; }
