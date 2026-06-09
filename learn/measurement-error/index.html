@@ -56,6 +56,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/measurement-error.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
@@ -293,9 +294,9 @@
         </div>
       </div>
       <p class="me-cap"><span class="i18n-en">For near-linear formulas the analytic and Monte-Carlo values agree — two independent routes to the same uncertainty. <b>Quadrature</b> means a small uncertainty contributes almost nothing once a larger one is present, so effort is best spent on the dominant term.</span><span class="i18n-ja">ほぼ線形な式では解析式とモンテカルロの値は一致する — 同じ不確かさへの独立な2つの経路だ。<b>二乗和</b>では、大きな不確かさがあると小さなものはほとんど効かないので、支配的な項に労力を割くのが最善である。</span></p>
-      <div class="me-seealso">
-        <b><span class="i18n-en">Why isn't the histogram always a bell curve?</span><span class="i18n-ja">ヒストグラムが必ずしも釣鐘型にならないのは？</span></b>
-        <span class="i18n-en"> The analytic formula is a <b>first-order (linear) approximation</b>: it replaces $f$ by its tangent over the $\pm\delta$ range and assumes the result is Gaussian. For a <b>nonlinear</b> $f$ — try <code>x*sin(y)</code> — pushing the uncertainties up makes the true (Monte-Carlo) distribution <b>skewed and non-normal</b>, and the green Normal curve no longer fits. The effect is strongest where the slope $\partial f/\partial x_i$ nearly vanishes (e.g. $y$ near $\pi/2$ for $\sin y$), and where $f$ is a product of comparable random factors. Unlike a sum of many terms, a 2-variable $f$ has no reason to be normal (no Central Limit Theorem here). <b>Shrink the $\delta$ sliders</b> and the linear approximation recovers — the histogram tightens back onto the green curve and the agreement rises.</span><span class="i18n-ja"> 解析式は<b>一次（線形）近似</b>で、$\pm\delta$ の範囲で $f$ を接線に置き換え、結果がガウス分布だと仮定している。<b>非線形</b>な $f$（例：<code>x*sin(y)</code>）で不確かさを大きくすると、真の（モンテカルロ）分布は<b>歪んで非正規</b>になり、緑の正規曲線は合わなくなる。効果が最も強いのは、傾き $\partial f/\partial x_i$ がほぼ消える点（$\sin y$ なら $y\approx\pi/2$ 付近）や、同程度の大きさの確率変数どうしの積になっている場合だ。多数の項の和と違い、2変数の $f$ が正規分布になる理由はない（ここでは中心極限定理は効かない）。<b>$\delta$ スライダーを小さくする</b>と線形近似が回復し、ヒストグラムは緑曲線に締まり、一致度も上がる。</span>
+      <div class="callout misconception cv-daikake">
+        <span class="co-label"><span class="i18n-en">Why isn't the histogram always a bell curve?</span><span class="i18n-ja">ヒストグラムが必ずしも釣鐘型にならないのは？</span></span>
+        <p><span class="i18n-en">The analytic formula is a <b>first-order (linear) approximation</b>: it replaces $f$ by its tangent over the $\pm\delta$ range and assumes the result is Gaussian. For a <b>nonlinear</b> $f$ — try <code>x*sin(y)</code> — pushing the uncertainties up makes the true (Monte-Carlo) distribution <b>skewed and non-normal</b>, and the green Normal curve no longer fits. The effect is strongest where the slope $\partial f/\partial x_i$ nearly vanishes (e.g. $y$ near $\pi/2$ for $\sin y$), and where $f$ is a product of comparable random factors. Unlike a sum of many terms, a 2-variable $f$ has no reason to be normal (no Central Limit Theorem here). <b>Shrink the $\delta$ sliders</b> and the linear approximation recovers — the histogram tightens back onto the green curve and the agreement rises.</span><span class="i18n-ja">解析式は<b>一次（線形）近似</b>で、$\pm\delta$ の範囲で $f$ を接線に置き換え、結果がガウス分布だと仮定している。<b>非線形</b>な $f$（例：<code>x*sin(y)</code>）で不確かさを大きくすると、真の（モンテカルロ）分布は<b>歪んで非正規</b>になり、緑の正規曲線は合わなくなる。効果が最も強いのは、傾き $\partial f/\partial x_i$ がほぼ消える点（$\sin y$ なら $y\approx\pi/2$ 付近）や、同程度の大きさの確率変数どうしの積になっている場合だ。多数の項の和と違い、2変数の $f$ が正規分布になる理由はない（ここでは中心極限定理は効かない）。<b>$\delta$ スライダーを小さくする</b>と線形近似が回復し、ヒストグラムは緑曲線に締まり、一致度も上がる。</span></p>
       </div>
 
       <div class="me-prose">
@@ -319,9 +320,9 @@
         <p class="eq-block">$$\frac{\delta\varepsilon}{\varepsilon}=\sqrt{\left(\frac{0.000008}{0.172807}\right)^{\!2}+\left(\frac{0.1}{1.0}\right)^{\!2}+\left(\frac{0.3}{13.7}\right)^{\!2}}\approx0.102\;\Rightarrow\;\varepsilon=0.013\pm0.001$$</p>
         <p><span class="i18n-en">The $\pm0.1$ cm path length dominates entirely (a 10 % relative error), so a better cuvette — not a better spectrophotometer — is what would improve the result. Load the <b>ε = A/(l·c)</b> preset above (with $x=A$, $y=l$, $z=c$) and the variance-share bars show exactly this.</span><span class="i18n-ja">$\pm0.1$ cm の光路長が完全に支配し（相対誤差10%）、結果を改善するのは分光光度計ではなく良いセル（キュベット）だと分かる。上の <b>ε = A/(l·c)</b> プリセット（$x=A$, $y=l$, $z=c$）を読み込むと、分散寄与の棒がまさにこれを示す。</span></p>
 
-        <div class="me-seealso">
-          <b><span class="i18n-en">Cautions.</span><span class="i18n-ja">注意点。</span></b>
-          <span class="i18n-en"> Propagation assumes each <b>relative uncertainty is small</b> (the linear approximation — see the histogram note above). If you can get the uncertainty <b>directly</b>, by repeating the whole experiment and watching the scatter, prefer that to propagating (&sect;03). And remember: a calculation <b>never reduces</b> uncertainty — only better measurements do. In complex cases the estimate can also go wrong through unsuspected <b>covariances</b>, a mis-specified model, or arithmetic slips.</span><span class="i18n-ja"> 伝播は各<b>相対誤差が小さい</b>ことを前提とする（線形近似 — 上のヒストグラム注記を参照）。実験全体を繰り返してばらつきから<b>直接</b>不確かさを得られるなら、伝播よりそちらを優先する（&sect;03）。そして忘れてはいけない：計算で不確かさは<b>決して減らない</b> — 減らせるのはより良い測定だけだ。複雑な場合には、見落とした<b>共分散</b>、モデルの誤設定、計算ミスによって見積もりが狂うこともある。</span>
+        <div class="callout misconception cv-daikake">
+          <span class="co-label"><span class="i18n-en">Cautions</span><span class="i18n-ja">注意点</span></span>
+          <p><span class="i18n-en">Propagation assumes each <b>relative uncertainty is small</b> (the linear approximation — see the histogram note above). If you can get the uncertainty <b>directly</b>, by repeating the whole experiment and watching the scatter, prefer that to propagating (&sect;03). And remember: a calculation <b>never reduces</b> uncertainty — only better measurements do. In complex cases the estimate can also go wrong through unsuspected <b>covariances</b>, a mis-specified model, or arithmetic slips.</span><span class="i18n-ja">伝播は各<b>相対誤差が小さい</b>ことを前提とする（線形近似 — 上のヒストグラム注記を参照）。実験全体を繰り返してばらつきから<b>直接</b>不確かさを得られるなら、伝播よりそちらを優先する（&sect;03）。そして忘れてはいけない：計算で不確かさは<b>決して減らない</b> — 減らせるのはより良い測定だけだ。複雑な場合には、見落とした<b>共分散</b>、モデルの誤設定、計算ミスによって見積もりが狂うこともある。</span></p>
         </div>
       </div>
     </div>
@@ -493,9 +494,9 @@
   <!-- See also -->
   <section class="demo">
     <div class="demo-stage" style="max-width:var(--measure)">
-      <div class="me-seealso">
-        <b><span class="i18n-en">Where this leads.</span><span class="i18n-ja">この先へ。</span></b>
-        <span class="i18n-en"> These four ideas underpin every real measurement. A worked application — how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum — builds directly on the random-error and averaging concepts here. <a href="/learn/">See the Learn overview &rsaquo;</a></span><span class="i18n-ja"> この4つの考え方はあらゆる実測の土台である。応用編 — ノイズの多いスペクトルにおいて、取得時間と積算回数をSN比とどうトレードオフするか — は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="/learn/">Learn 一覧へ &rsaquo;</a></span>
+      <div class="callout recap cv-daikake">
+        <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
+        <p><span class="i18n-en">These four ideas underpin every real measurement. A worked application — how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum — builds directly on the random-error and averaging concepts here. <a href="/learn/">See the Learn overview &rsaquo;</a></span><span class="i18n-ja">この4つの考え方はあらゆる実測の土台である。応用編 — ノイズの多いスペクトルにおいて、取得時間と積算回数をSN比とどうトレードオフするか — は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="/learn/">Learn 一覧へ &rsaquo;</a></span></p>
       </div>
     </div>
   </section>
