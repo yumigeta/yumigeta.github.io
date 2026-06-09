@@ -523,3 +523,48 @@
 .pv-bunchin:not(.pv-light) .comparison-table table,
 .pv-bunchin:not(.pv-light) .comparison-table td{ color:var(--ink-2); }
 .pv-bunchin:not(.pv-light) .comparison-table th{ color:var(--ink); border-bottom-color:var(--rule-2); }
+
+
+/* ── controls on the 半紙 sheet: the same 角印 (soft-square) treatment the
+   GNR panel uses — a visible sumi track + a vermilion soft-square thumb,
+   and crafted soft-square buttons. Overrides the dark-theme defaults whose
+   translucent-white tracks vanished on paper. ──────────────────────────── */
+
+/* range sliders (raman / measurement-error / spectral-noise) */
+.pv-bunchin:not(.pv-light) input[type=range]{
+  -webkit-appearance:none; appearance:none;
+  height:5px; border-radius:2px; background:rgba(27,23,17,.20);
+  cursor:pointer;
+}
+.pv-bunchin:not(.pv-light) input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:15px; height:15px; border-radius:4px; background:var(--accent); border:none;
+  box-shadow:0 1px 3px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.32);
+}
+.pv-bunchin:not(.pv-light) input[type=range]::-moz-range-thumb{
+  width:15px; height:15px; border-radius:4px; background:var(--accent); border:none;
+  box-shadow:0 1px 3px rgba(0,0,0,.28);
+}
+
+/* push-buttons → crafted soft-square, sumi-on-paper, vermilion when active */
+.pv-bunchin:not(.pv-light) .demo-btn{
+  border-radius:7px;
+  color:var(--ink-2); border:1px solid var(--rule);
+  background:rgba(31,27,20,.03);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+}
+.pv-bunchin:not(.pv-light) .demo-btn:hover{
+  color:var(--ink); border-color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.pv-bunchin:not(.pv-light) .demo-btn.active{
+  background:var(--accent); color:#fff; border-color:var(--accent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 1px 3px rgba(0,0,0,.22);
+}
+
+/* number / select fields (sig-fig tool) → light field on the sheet */
+.pv-bunchin:not(.pv-light) .me-field{
+  background:color-mix(in srgb, var(--paper-tint) 70%, var(--paper));
+  color:var(--ink); border:1px solid var(--rule-2); border-radius:7px;
+}
+.pv-bunchin:not(.pv-light) .me-field:focus{ border-color:var(--accent); }
