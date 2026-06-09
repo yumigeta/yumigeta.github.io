@@ -100,7 +100,7 @@
         <p><span class="i18n-en">Fire shots at the target below. The <b>systematic offset</b> slides the whole cluster off the bullseye (an accuracy problem); the <b>random spread</b> blows the cluster apart (a precision problem). The verdict updates live.</span><span class="i18n-ja">下の的に向けて射撃してみよう。<b>系統誤差</b>のスライダーは点群全体を中心からずらし（正確さの問題）、<b>偶然誤差</b>のスライダーは点群を広げる（精密さの問題）。判定はリアルタイムで更新される。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-target" height="320" aria-label="Accuracy versus precision target board"></canvas>
         <div class="me-controls">
           <div class="me-slider">
@@ -153,7 +153,7 @@
         <p><span class="i18n-en"><b>Addition / subtraction:</b> line the numbers up by place value; the answer can only be trusted down to the <em>highest</em> last-trustworthy place among the inputs, so keep the <b>fewest decimal places</b>. <b>Multiplication / division:</b> place value is irrelevant — only the <em>count</em> of significant figures matters, so the answer keeps the <b>fewest significant figures</b>. In all cases, round just <em>once, at the end</em>. Try it:</span><span class="i18n-ja"><b>加算・減算：</b>位を揃えて並べる。結果は入力のうち最後の信頼桁が<em>最も高い位</em>までしか信用できないので、<b>最小の小数位</b>に合わせる。<b>乗算・除算：</b>位は関係なく、有効数字の<em>桁数</em>だけが効くので、結果は<b>最小の有効数字</b>に合わせる。いずれも丸めは<em>最後に1回だけ</em>。試してみよう：</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <div class="me-controls">
           <div class="me-slider" style="flex:0 0 auto">
             <input type="text" class="me-field" id="sf-a" value="12.34" inputmode="decimal" aria-label="First value">
@@ -216,7 +216,7 @@
         <p><span class="i18n-en">Pick a formula and set each variable's value and uncertainty. The left bars show each term's <b>share of the total variance</b> — the variable with the tallest bar is where improving precision pays off most. The right panel runs a <b>Monte Carlo</b> check: it draws thousands of random samples of each input and histograms $f$, confirming the formula above.</span><span class="i18n-ja">式を選び、各変数の値と不確かさを設定する。左の棒は各項の<b>全分散に占める割合</b>を示す — 棒が最も高い変数こそ、精度を上げる効果が最も大きい。右のパネルは<b>モンテカルロ</b>検算：各入力を何千回も乱数で振って $f$ をヒストグラム化し、上の式を確認する。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <div class="btn-row" id="prop-formula">
           <button class="demo-btn" data-expr="x + y">f = x + y</button>
           <button class="demo-btn active" data-expr="x*y/z">f = x·y / z</button>
@@ -340,7 +340,7 @@
         <p><span class="i18n-en">Because the Gaussian is so well understood, it lets us estimate how large $n$ must be to land within a given range of the true value, with a given probability. Try it: pick a decidedly non-normal parent and watch the distribution of the mean turn into a bell as $n$ grows.</span><span class="i18n-ja">ガウス分布はよく調べられているので、真の値の所定の範囲内に所定の確率で収めるには $n$ をどれだけ大きくすればよいか、を見積もれる。試してみよう：あえて非正規な母集団を選び、$n$ を増やすと平均の分布が釣鐘型に変わっていく様子を見てほしい。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div>
             <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution f(x) (one draw)</span><span class="i18n-ja">母分布 f(x)（1回の抽出）</span></div>
@@ -382,7 +382,7 @@
         <p><span class="i18n-en">Why <em>square</em> the deviations? Because each reading lies above or below the mean, so adding the raw deviations gives exactly zero. Squaring makes every term positive (and penalises big misses); it is also easier to handle algebraically than the absolute value. A smaller variance means a more precise measurement. The demo below draws $N$ readings from a parent and reports the sample estimates of $E$ (the mean) and the spread.</span><span class="i18n-ja">なぜ偏差を<em>2乗</em>するのか？ 各測定値は平均より上にも下にもずれるので、そのまま足すと合計はちょうど0になる。2乗すれば各項が正になり（大きな外れを強く効かせ）、絶対値より代数的に扱いやすい。分散が小さいほど精密な測定である。下のデモは母集団から $N$ 個の測定値を引き、$E$（平均）とばらつきの標本推定を表示する。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-hist" height="240" aria-label="Histogram of sampled measurements"></canvas>
         <div class="me-controls">
           <div class="me-slider">
@@ -469,7 +469,7 @@
         <p><span class="i18n-en"><b>What the numbers mean.</b> The <b>slope</b> $a$ is how much $y$ changes per unit of $x$ (often the physical quantity you want); the <b>intercept</b> $b$ is $y$ at $x=0$. Because the data are noisy, $a$ and $b$ are themselves uncertain — the fit also reports their error bars $\delta a,\delta b$. The <b>$R^2$</b> value (0 to 1) is the fraction of the variation in $y$ that the line explains: $R^2=1$ is a perfect straight-line fit, while $R^2\approx 0$ means the line is no better than a flat average. Add scattered points in the demo and watch $R^2$ drop and the error bars widen.</span><span class="i18n-ja"><b>数値の意味。</b><b>傾き</b> $a$ は $x$ が1増えるごとの $y$ の変化（多くの場合これが求めたい物理量）、<b>切片</b> $b$ は $x=0$ での $y$。データにノイズがあるため $a$ と $b$ 自体も不確かで、フィットはその誤差棒 $\delta a,\delta b$ も返す。<b>$R^2$</b>（0〜1）は、直線が $y$ のばらつきのうちどれだけを説明できるかの割合：$R^2=1$ は完全な直線フィット、$R^2\approx 0$ は平らな平均と大差ないことを意味する。デモで点を散らして加え、$R^2$ が下がり誤差棒が広がる様子を見てみよう。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-fit" height="300" aria-label="Least-squares fit scatter plot"></canvas>
         <div class="btn-row" style="margin-top:12px">
           <button class="demo-btn" id="btn-fit-demo"><span class="i18n-en">Load sample data</span><span class="i18n-ja">サンプルデータ</span></button>

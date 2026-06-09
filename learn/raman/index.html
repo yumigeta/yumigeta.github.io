@@ -65,6 +65,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
@@ -123,7 +124,7 @@
 
         <h3><span class="i18n-en">Polarizability and the induced dipole</span><span class="i18n-ja">分極率と誘起双極子</span></h3>
         <p><span class="i18n-en">When an electric field is applied to a molecule, it displaces the <b style="color:#38bdf8">negative electron cloud</b> relative to the <b style="color:#ef4444">positive nuclei</b>, separating their centres of charge and inducing a dipole moment proportional to the field, $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant is the <b>polarizability</b> $\alpha$, which measures how easily the electron cloud deforms in response to the field.</span><span class="i18n-ja">分子に電場が加わると、<b style="color:#38bdf8">負の電子雲</b>が<b style="color:#ef4444">正の原子核</b>に対して変位し、電荷の中心がずれて、電場に比例した双極子モーメント $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$ が誘起される。この比例定数が<b>分極率</b> $\alpha$ であり、電場に応じて電子雲がどれだけ容易に変形するかを表す。</span></p>
-        <div class="anim-card">
+        <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-atom" class="atom-canvas"></canvas>
         <div class="atom-controls">
           <div class="btn-row" id="atom-mode">
@@ -208,7 +209,7 @@
       <!-- CO₂ demo — visual support for the classical theory above -->
       <h3 class="demo-sub"><span class="i18n-en">Example: a CO<sub>2</sub> normal mode</span><span class="i18n-ja">例：CO<sub>2</sub> の基準モード</span></h3>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
       <!-- Top row: molecule + α(Q) plot -->
       <div class="top-row">
         <div class="mol-panel">

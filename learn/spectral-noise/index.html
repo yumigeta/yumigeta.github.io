@@ -89,7 +89,7 @@
         <p><span class="i18n-en">Build a spectrum below. Adjust the per-frame acquisition time $t$, the accumulation count $N$, the source <b>brightness</b>, and the detector <b>read noise</b>, and watch the noisy trace, the SNR, and which noise source dominates.</span><span class="i18n-ja">下でスペクトルを作ってみよう。1フレームの取得時間 $t$、積算回数 $N$、光源の<b>明るさ</b>、検出器の<b>読み出しノイズ</b>を調整し、ノイズの乗ったスペクトル・SN比・支配的なノイズ源がどう変わるか見てみよう。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-spec" height="240" aria-label="Simulated noisy spectrum"></canvas>
         <div class="me-controls">
           <div class="me-slider"><label><span class="i18n-en">Acq. time t</span><span class="i18n-ja">取得時間 t</span></label>
@@ -124,7 +124,7 @@
       <p><span class="i18n-en"><b>If shot-noise-limited</b> (bright signal, $S\gg N\sigma_{\mathrm{read}}^2$): the curve is flat — the split barely matters, so accumulate freely for the other benefits below. <b>If read-noise-limited</b> (faint signal): SNR <em>falls</em> as $N$ rises, so use the <b>longest acquisition you can</b> and the fewest accumulations.</span><span class="i18n-ja"><b>ショットノイズ律速</b>（明るい信号、$S\gg N\sigma_{\mathrm{read}}^2$）なら曲線は平坦 — 分け方はほとんど効かないので、下記の他の利点のために積算を活用してよい。<b>読み出しノイズ律速</b>（微弱信号）なら $N$ を増やすほどSN比は<em>下がる</em>ので、<b>可能なかぎり長い取得時間</b>と最小の積算回数にする。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <div class="me-controls">
           <div class="me-slider"><label><span class="i18n-en">Total time T</span><span class="i18n-ja">総時間 T</span></label>
             <input type="range" id="ctrl-T2" min="8" max="120" step="4" value="32"><output id="v-T2">32 s</output></div>
@@ -174,7 +174,7 @@
         <p><span class="i18n-en">The same spectrum is acquired as $N$ frames; random cosmic-ray spikes hit individual frames. <b>Summing</b> keeps every spike; <b>median rejection</b> across frames removes them while preserving the real signal. Toggle the method and re-roll the spikes.</span><span class="i18n-ja">同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームに当たる。<b>単純加算</b>はすべてのスパイクを残すが、フレーム間の<b>中央値除去</b>は本物の信号を保ったままスパイクを取り除く。手法を切り替え、スパイクを振り直してみよう。</span></p>
       </div>
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-spike" height="240" aria-label="Cosmic-ray spike rejection demo"></canvas>
         <div class="me-controls">
           <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>

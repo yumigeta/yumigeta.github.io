@@ -130,7 +130,7 @@
     color-mix(in srgb,var(--plate, #322e29) 72%,#000) 100%) !important;
   background-size:auto !important;
 }
-.demo-stage.pv-light .gnr-panel-group{ background:transparent; border:none; }
+.demo-stage.pv-light .gnr-panel-group{ background:transparent; border:none; padding:0; }
 /* control bar → paper */
 .demo-stage.pv-light .gnr-controls{
   background:color-mix(in srgb,var(--paper-tint) 72%, var(--paper));
@@ -151,13 +151,9 @@
 }
 .demo-stage.pv-light .cap{ color:var(--ink-3); }
 .demo-stage.pv-light .cap b{ color:var(--ink); }
-/* classification readout → a slim fixed-dark chip so the green/amber tags
-   stay legible on every plate (dark or washi-light) */
-.demo-stage.pv-light .gr-info{
-  background:#262019;
-  border-left:3px solid var(--accent);
-  color:#cdbfa8; border-radius:6px;
-}
+/* classification readout — hidden in the washi panels per design (the dark
+   chip clashed with the sheet; the caption already explains the flip) */
+.demo-stage.pv-light .gr-info{ display:none; }
 .demo-stage.pv-light .gr-info b{ color:#efe7d8; }
 
 /* ── grounds ──────────────────────────────────────────────────── */
@@ -224,6 +220,76 @@
   border:1px solid color-mix(in srgb,#3f5a6b 24%, var(--rule)); border-radius:5px;
   box-shadow:0 0 14px rgba(0,0,0,.13);
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   ②b 習字 SHŪJI FAMILY · 下敷き(felt) + 半紙(paper) + 文鎮(bunchin)
+   A calligraphy desk. Robust 3-layer build that always paints:
+     ·  background  → the hanshi sheet (半紙)  ← element background
+     ·  border 16px → the wool under-mat (下敷き)  ← felt frame
+     ·  ::after / ::before (z-6, pointer-events:none) → the paperweight(s)
+        / printed rule / seal, resting on the sheet's top margin.
+   The real content sits straight on the sheet (no z-index gymnastics);
+   the felt border holds it like a mat, the bunchin lies across the top.
+   ════════════════════════════════════════════════════════════════ */
+
+.demo-stage.pv-bunchin, .demo-stage.pv-rochiku, .demo-stage.pv-sochin,
+.demo-stage.pv-tatechin, .demo-stage.pv-keihanshi, .demo-stage.pv-rakkan{
+  position:relative;
+  padding:34px 18px 20px;
+  background-color:#fbf8f0;                         /* hanshi sheet */
+  border:16px solid var(--mat, #585b50);            /* felt under-mat (tweakable) */
+  border-radius:4px;
+  box-shadow:0 0 18px rgba(0,0,0,.14),
+             inset 0 0 0 1px rgba(31,27,20,.14),     /* sheet rests on felt */
+             inset 0 2px 8px rgba(31,27,20,.05);
+}
+/* injected real elements (see applyTweaks): the hanshi printed frame / seal.
+   (the paperweight bar has been removed per request.) `.shuji-deco` holds them */
+.shuji-deco{ position:absolute; inset:0; z-index:6; pointer-events:none; }
+.sj-frame{
+  position:absolute; inset:8px; border:1px solid rgba(31,27,20,.18); border-radius:2px;
+}
+.sj-seal{
+  position:absolute; right:18px; bottom:18px; width:22px; height:22px;
+  background:var(--seal); border-radius:2px; opacity:.92;
+  box-shadow:0 1px 2px rgba(31,27,20,.35), inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+/* ── felt frame variants (paper / extras differ; colour follows --mat) ── */
+/* A · 文鎮 Bunchin — plain sheet + faint printed frame */
+.demo-stage.pv-bunchin{ background-color:#fbf8f0; }
+/* B · 老竹 Rōchiku — a hair warmer sheet */
+.demo-stage.pv-rochiku{ background-color:#fcfaf3; }
+/* C · 双鎮 Sōchin — plain sheet */
+.demo-stage.pv-sochin{ background-color:#fbf8f0; }
+/* D · 縦鎮 Tatechin — plain sheet */
+.demo-stage.pv-tatechin{ background-color:#fbf8f0; }
+/* E · 罫半紙 Keihanshi — sheet with a faint printed centre rule + frame */
+.demo-stage.pv-keihanshi{
+  background-color:#fbf8f0;
+  background-image:linear-gradient(rgba(31,27,20,.16),rgba(31,27,20,.16));
+  background-repeat:no-repeat; background-position:50% 0; background-size:1px 100%;
+}
+/* F · 落款 Rakkan — sheet + a small vermilion seal, lower-right */
+.demo-stage.pv-rakkan{ background-color:#fbf8f0; }
+
+/* ── 下敷き色 · mat colours (calm, theme-matching washi/sumi tones) ── */
+.demo-stage.mat-sumi{      --mat:#3b352e; }   /* 墨    soft charcoal      */
+.demo-stage.mat-keshizumi{ --mat:#2e2a25; }   /* 消炭  warm near-black    */
+.demo-stage.mat-rikyu{     --mat:#585b50; }   /* 利休鼠 green-grey         */
+.demo-stage.mat-ainezu{    --mat:#515b61; }   /* 藍鼠  blue-grey          */
+.demo-stage.mat-hatoba{    --mat:#595460; }   /* 鳩羽鼠 purple-grey        */
+.demo-stage.mat-konnezu{   --mat:#3c4350; }   /* 紺鼠  deep indigo-grey   */
+.demo-stage.mat-kurumi{    --mat:#5b4d3e; }   /* 胡桃  walnut brown       */
+.demo-stage.mat-kobicha{   --mat:#54492f; }   /* 媚茶  olive brown        */
+.demo-stage.mat-rikyucha{  --mat:#4e4a39; }   /* 利休茶 muted tea-olive    */
+.demo-stage.mat-nibi{      --mat:#4a4640; }   /* 鈍色  neutral warm grey  */
+/* ── 薄墨系 lighter, washed sumi greys ── */
+.demo-stage.mat-chuzumi{   --mat:#565049; }   /* 中墨  mid sumi           */
+.demo-stage.mat-usuzumi{   --mat:#6b655b; }   /* 薄墨  diluted sumi       */
+.demo-stage.mat-sunezu{    --mat:#7c766b; }   /* 素鼠  plain warm grey    */
+.demo-stage.mat-hai{       --mat:#8b8378; }   /* 灰    soft ash           */
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -356,3 +422,104 @@
 .demo-stage.pv-kinari, .demo-stage.pv-hyoso, .demo-stage.pv-hanada{
   border-radius:7px;
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   ⑤  習字額装の全ページ展開 · the felt panel frame, site-wide
+   ────────────────────────────────────────────────────────────────
+   The 文鎮 Bunchin frame (墨フェルト下敷き + 半紙) is rolled out beyond
+   the GNR page to every Learn module panel. The GNR page keeps its light
+   figure plates (it draws dark-on-light via pv-light + plate-shiro); the
+   other pages render their figures light-on-dark, so there the figure
+   plates stay dark (図版地) while the surrounding controls & captions
+   invert to sumi ink on the 半紙 sheet.
+   Scope marker: `.pv-bunchin:not(.pv-light)` = the non-GNR pages.
+   ════════════════════════════════════════════════════════════════ */
+
+/* mat (下敷き) colour must resolve on .anim-card too — the bundle defines it
+   only for .demo-stage. Element-agnostic so the felt colour follows the class. */
+.mat-sunezu{ --mat:#7c766b; }
+
+/* the interactive card on Raman / Measurement-error / Spectral-noise
+   (.anim-card) wears the same felt frame that .demo-stage does elsewhere */
+.anim-card.pv-bunchin{
+  position:relative;
+  padding:22px 18px 18px;
+  background-color:#fbf8f0;                         /* 半紙 sheet */
+  border:16px solid var(--mat, #7c766b);            /* 下敷き felt under-mat */
+  border-radius:4px;
+  box-shadow:0 0 18px rgba(0,0,0,.14),
+             inset 0 0 0 1px rgba(31,27,20,.14),
+             inset 0 2px 8px rgba(31,27,20,.05);
+}
+
+/* ── inner inversion: sumi ink reads on the 半紙 sheet ──────────── */
+.pv-bunchin:not(.pv-light){ color:var(--ink); }
+
+/* figures that leaned on the old dark card (translucent canvas grounds)
+   now need a solid 図版地 so the light-on-dark drawing still reads */
+.pv-bunchin:not(.pv-light) .gr-panel canvas,
+.pv-bunchin:not(.pv-light) .gr-bands canvas,
+.pv-bunchin:not(.pv-light) .gr-canvas-wide{
+  background:#322e29 !important;
+  border:1px solid rgba(31,27,20,.18) !important;
+}
+
+/* captions, labels & legends → muted ink */
+.pv-bunchin:not(.pv-light) .cap,
+.pv-bunchin:not(.pv-light) .me-cap,
+.pv-bunchin:not(.pv-light) .panel-label,
+.pv-bunchin:not(.pv-light) .me-legend,
+.pv-bunchin:not(.pv-light) .branch-legend,
+.pv-bunchin:not(.pv-light) .legend,
+.pv-bunchin:not(.pv-light) .atom-legend,
+.pv-bunchin:not(.pv-light) .decomp-label,
+.pv-bunchin:not(.pv-light) .mode-explain,
+.pv-bunchin:not(.pv-light) .trace-label .eq{ color:var(--ink-3); }
+.pv-bunchin:not(.pv-light) .cap b,
+.pv-bunchin:not(.pv-light) .me-cap b,
+.pv-bunchin:not(.pv-light) .trace-label b,
+.pv-bunchin:not(.pv-light) .panel-label b{ color:var(--ink); }
+
+/* slider / control labels & read-outs sitting directly on the sheet */
+.pv-bunchin:not(.pv-light) .me-slider label,
+.pv-bunchin:not(.pv-light) .atom-slider label,
+.pv-bunchin:not(.pv-light) .trace-label{ color:var(--ink-2); }
+.pv-bunchin:not(.pv-light) .me-slider output,
+.pv-bunchin:not(.pv-light) .atom-slider output{ color:var(--accent); }
+.pv-bunchin:not(.pv-light) .trace-op{ color:var(--ink-2); }
+
+/* push-buttons (graphene's Auto-rotate / Reset, etc.) */
+.pv-bunchin:not(.pv-light) .demo-btn{
+  color:var(--ink-2); border:1px solid var(--rule);
+  background:rgba(31,27,20,.03);
+}
+.pv-bunchin:not(.pv-light) .demo-btn:hover{ color:var(--ink); border-color:var(--accent); }
+.pv-bunchin:not(.pv-light) .demo-btn.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* sig-fig output panel (measurement-error) sits on the sheet */
+.pv-bunchin:not(.pv-light) .sf-out{ color:var(--ink); }
+.pv-bunchin:not(.pv-light) .sf-out .sf-result{ color:var(--ink); }
+.pv-bunchin:not(.pv-light) .sf-out .sf-rule{ color:var(--ink-3); }
+.pv-bunchin:not(.pv-light) .sf-out .digit-sig{ color:var(--accent); }
+
+/* info boxes that used translucent grounds → keep the tint, darken the ink */
+.pv-bunchin:not(.pv-light) .gr-info{ color:#274a73; }
+.pv-bunchin:not(.pv-light) .gr-info b{ color:#16335a; }
+.pv-bunchin:not(.pv-light) .physics-note{ color:#5b4aa0; }
+.pv-bunchin:not(.pv-light) .physics-note b{ color:#3f2f86; }
+.pv-bunchin:not(.pv-light) .gr-list li{ color:var(--ink-2); }
+
+/* diagnostics cards (graphene-raman) used a translucent ground */
+.pv-bunchin:not(.pv-light) .diag-card{
+  background:color-mix(in srgb, var(--paper-tint) 60%, var(--paper));
+  border:1px solid var(--rule);
+}
+.pv-bunchin:not(.pv-light) .diag-card h3{ color:var(--ink); }
+.pv-bunchin:not(.pv-light) .diag-card .gr-list li{ color:var(--ink-2); }
+
+/* equation block & comparison table inside a framed panel */
+.pv-bunchin:not(.pv-light) .eq-block{ color:var(--ink); }
+.pv-bunchin:not(.pv-light) .comparison-table table,
+.pv-bunchin:not(.pv-light) .comparison-table td{ color:var(--ink-2); }
+.pv-bunchin:not(.pv-light) .comparison-table th{ color:var(--ink); border-bottom-color:var(--rule-2); }
