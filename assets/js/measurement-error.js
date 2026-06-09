@@ -220,7 +220,8 @@
       for (let i = 0; i < n; i++) {
         shots.push({ x: gaussian(ox, rnd * 0.34), y: gaussian(oy, rnd * 0.34) });
       }
-      if (shots.length > 240) shots = shots.slice(-240);
+      // keep a generous safety cap so shots persist until the user resets
+      if (shots.length > 3000) shots = shots.slice(-3000);
       update();
     }
 
