@@ -212,8 +212,8 @@
           <span class="i18n-ja">残念ながら、我々にとって都合の悪いことになっている。どんな物質を、どんな温度で放置しても、原子は必ず下の段のほうに多くいるのだ。ボルツマン分布によれば $N_2/N_1 = e^{-h\nu_{21}/k_BT}$ であって、どれだけ熱しようがこれは1より小さい。無限大の温度でようやく1に近づくが、それでも引き分けであって勝ちではない。これは驚くにはあたらないだろう。エネルギーは低いほうへ流れたがるものであって、高い棚のほうが混んでいる状態というのは、滝の上に水が自分から積み上がるくらい不自然なのだ。そして下が混んでいる限り、通り抜ける光のビームはクローン職人よりも飲み込み屋に多く出会うことになり、入ったときより痩せて出てくる。世の中のあらゆる物質は、この意味で霧なのである。</span>
         </p>
         <p>
-          <span class="i18n-en">So our goal is now sharply defined: create the unnatural state $N_2 > N_1$. It has a name — <b>population inversion</b> — and the act of forcibly shoving atoms upstairs is called <b>pumping</b>. The question is how.</span>
-          <span class="i18n-ja">これで目標がはっきり定まった。$N_2 > N_1$ という不自然な状態を作ること。これには<b>粒子数反転</b>という名前がついている。そして原子を無理やり2階へ押し上げる行為を<b>励起（ポンピング）</b>と呼ぶ。問題は、どうやって、である。</span>
+          <span class="i18n-en">So our goal is now sharply defined: create the unnatural state $N_2 > N_1$. It is convenient to measure it with a single number — the difference $\Delta N \equiv N_2 - N_1$, called the <b>population inversion</b>. Ordinary matter has $\Delta N < 0$ (more atoms below), and in the next section we will see that a beam is amplified only when $\Delta N > 0$. So this is the target the whole device must hit: <b>drive $\Delta N$ from negative to positive.</b> The act of forcibly shoving atoms upstairs is called <b>pumping</b>. The question is how — and whether brute force is enough.</span>
+          <span class="i18n-ja">これで目標がはっきり定まった。$N_2 > N_1$ という不自然な状態を作ること。これは1つの数で測ると便利で、2つの段の差 $\Delta N \equiv N_2 - N_1$ を<b>粒子数反転（反転数）</b>と呼ぶ。ふつうの物質は $\Delta N < 0$（下のほうが多い）であり、次の節で見るように、光が増幅されるのは $\Delta N > 0$ のときだけだ。つまり装置全体が狙うべき的はこれである——<b>$\Delta N$ を負から正へ反転させること。</b>原子を無理やり2階へ押し上げる行為を<b>励起（ポンピング）</b>と呼ぶ。問題は、どうやって——そして力ずくで足りるのか、である。</span>
         </p>
 
         <h3><span class="i18n-en">The obvious plan, and why it fails</span><span class="i18n-ja">誰でも思いつく作戦と、それが失敗する理由</span></h3>
@@ -227,13 +227,13 @@
         </p>
         <p class="eq-block">$$\underbrace{W_p N_1}_{\text{pump up}} = \underbrace{W_p N_2}_{\text{stim. back down}} + \underbrace{A_{21} N_2}_{\text{spontaneous}}$$</p>
         <p>
-          <span class="i18n-en">Substituting $N_1 = N_{\text{tot}} - N_2$ and solving gives $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$, and therefore:</span>
-          <span class="i18n-ja">$N_1 = N_{\text{tot}} - N_2$ を代入して解くと $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$、よって：</span>
+          <span class="i18n-en">Substituting $N_1 = N_{\text{tot}} - N_2$ and solving gives $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$. Now build the one quantity we actually care about — the inversion $\Delta N = N_2 - N_1$ — and divide by the total to get a clean fraction between $-1$ and $+1$:</span>
+          <span class="i18n-ja">$N_1 = N_{\text{tot}} - N_2$ を代入して解くと $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$ となる。ここで、我々が本当に知りたい量——反転数 $\Delta N = N_2 - N_1$——を組み立て、全体数で割って $-1$ から $+1$ までのすっきりした割合にしてみよう：</span>
         </p>
         <p class="eq-block">$$\frac{N_2 - N_1}{N_{\text{tot}}} = \frac{-A_{21}}{2W_p + A_{21}} \tag{5}$$</p>
         <p>
-          <span class="i18n-en">The numerator is $-A_{21}$, a negative constant. No matter how large $W_p$ grows, the right-hand side crawls toward zero from below — it can never become positive. With infinite pump power, the best outcome is a 50-50 tie ($\Delta N = 0$), where the material goes transparent. Not "hard to invert." Impossible. The reason is right there in the equation: the same $W_p$ that pumps atoms up also drives them back down via stimulated emission (the "traitor" term $W_p N_2$). Push harder and you push back just as hard.</span>
-          <span class="i18n-ja">分子は $-A_{21}$ という負の定数だ。$W_p$ をいくら大きくしても、右辺は下からゼロに近づくだけで、決して正にはならない。無限のポンプパワーをもってしても最善は引き分け（$\Delta N = 0$）であり、そこで物質は透明になる。吸収もしなければ増幅もしない。「反転させるのが難しい」のではない。不可能なのだ。理由は式の中にある。原子を上へ押し上げる $W_p$ と、誘導放出で下へ叩き落とす $W_p N_2$（「裏切り者」の項）は、まったく同じ係数でつながっている。強く押せば、同じ力で押し返されるのである。</span>
+          <span class="i18n-en">Now apply our test. A laser needs the left-hand side positive ($\Delta N > 0$). But look at the right-hand side: its numerator is $-A_{21}$, a negative constant, and its denominator is always positive — so the fraction is negative for <em>every</em> pump strength $W_p$. As $W_p$ grows it only crawls toward zero from below; it never reaches zero, let alone crosses it. With infinite pump power the best you can buy is a 50-50 tie ($\Delta N = 0$), where the material is merely transparent — still no amplification. So two levels don't make inversion hard; they make it flatly <em>impossible</em>. And the reason is sitting right in the equation: the same $W_p$ that pumps atoms up also knocks them back down by stimulated emission (the "traitor" term $W_p N_2$). Push harder, get pushed back exactly as hard.</span>
+          <span class="i18n-ja">さて、さきほどの判定基準を当てはめよう。レーザーには左辺が正（$\Delta N > 0$）であることが要る。ところが右辺を見てほしい。分子は $-A_{21}$ という負の定数、分母は常に正——だから分数全体は、<em>どんな</em>ポンプの強さ $W_p$ でも負のままだ。$W_p$ を大きくしても、下からゼロににじり寄るだけで、ゼロに到達することすら、ましてや越えることなど決してない。無限のポンプパワーで買えるのは、せいぜい五分五分の引き分け（$\Delta N = 0$）、物質がただ透明になる状態だけ——それでも増幅はしない。つまり2準位では、反転は「難しい」のではなく、きっぱり<em>不可能</em>なのだ。理由は式の中に座っている。原子を上へ押し上げる $W_p$ と、誘導放出で下へ叩き落とす $W_p N_2$（「裏切り者」の項）が、まったく同じ係数で結ばれているのである。強く押せば、同じ力で押し返される。</span>
         </p>
 
         <h3><span class="i18n-en">The trick: go around, not through</span><span class="i18n-ja">正面突破ではなく、搦め手から</span></h3>
