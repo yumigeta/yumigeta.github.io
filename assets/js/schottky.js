@@ -391,6 +391,95 @@
     }
   }
 
+  // ════════ Module 04 — C^-2 vs V plot ════════
+  var cvCanvas = document.getElementById('c-cv');
+  var logNd = 16;     // log10(N_d / cm^-3)
+  var vbi = 0.45;     // built-in potential (V)
+  var EPS_S = 11.7 * 8.854e-12;  // permittivity of Si (F/m)
+  var QE = 1.602e-19;
+
+  function deplW(V, nd_cm3, phibi) {
+    // depletion width (m); N_d given in cm^-3
+    var nd = nd_cm3 * 1e6;
+    return Math.sqrt(2 * EPS_S * Math.max(phibi - V, 1e-6) / (QE * nd));
+  }
+
+  function drawCV() {
+    var s = setupCanvas(cvCanvas);
+    if (!s) return;
+    var ctx = s.ctx, w = s.w, h = s.h;
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = '12px ' + FONT;
+
+    var pad = { l: 64, r: 16, t: 18, b: 38 };
+    var v0 = -3, v1 = 1.0;
+    function X(v) { return pad.l + (v - v0) / (v1 - v0) * (w - pad.l - pad.r); }
+
+    var nd = Math.pow(10, logNd);
+    // 1/C^2 in cm^4/F^2, with C per cm^2
+    function invC2(V) {
+      var Wm = deplW(V, nd, vbi);
+      var C_cm2 = (EPS_S / Wm) / 1e4;   // F/cm^2
+      return V < vbi ? 1 / (C_cm2 * C_cm2) : 0;
+    }
+    var yMax = invC2(v0) * 1.08;
+    function Y(y) { return h - pad.b - y / yMax * (h - pad.t - pad.b); }
+
+    // grid + axes
+    ctx.strokeStyle = COL.grid; ctx.lineWidth = 1;
+    var v, i;
+    for (v = -3; v <= 1.01; v += 1) {
+      ctx.beginPath(); ctx.moveTo(X(v), pad.t); ctx.lineTo(X(v), h - pad.b); ctx.stroke();
+      ctx.fillStyle = COL.faint; ctx.textAlign = 'center';
+      ctx.fillText(v.toFixed(0), X(v), h - pad.b + 16);
+    }
+    var exp10 = Math.floor(Math.log10(yMax));
+    var unit = Math.pow(10, exp10);
+    for (i = 1; i * unit < yMax; i++) {
+      ctx.strokeStyle = COL.grid;
+      ctx.beginPath(); ctx.moveTo(pad.l, Y(i * unit)); ctx.lineTo(w - pad.r, Y(i * unit)); ctx.stroke();
+      ctx.fillStyle = COL.faint; ctx.textAlign = 'right';
+      ctx.fillText(String(i), pad.l - 7, Y(i * unit) + 4);
+    }
+    ctx.strokeStyle = COL.faint;
+    ctx.beginPath(); ctx.moveTo(pad.l, h - pad.b); ctx.lineTo(w - pad.r, h - pad.b); ctx.stroke();
+    ctx.fillStyle = COL.text; ctx.textAlign = 'center';
+    ctx.fillText('V (V)', (pad.l + w - pad.r) / 2, h - 6);
+    ctx.save();
+    ctx.translate(13, (pad.t + h - pad.b) / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText('C⁻² (10' + sup(exp10) + ' cm⁴/F²)', 0, 0);
+    ctx.restore();
+
+    // the straight line of Eq. (13)
+    ctx.strokeStyle = COL.fermi; ctx.lineWidth = 2.4;
+    ctx.beginPath();
+    ctx.moveTo(X(v0), Y(invC2(v0)));
+    ctx.lineTo(X(Math.min(vbi, v1)), Y(invC2(Math.min(vbi, v1))));
+    if (vbi < v1) ctx.lineTo(X(v1), Y(0));
+    ctx.stroke();
+
+    // intercept marker at V = phi_bi
+    if (vbi <= v1) {
+      ctx.fillStyle = COL.cb;
+      ctx.beginPath(); ctx.arc(X(vbi), Y(0), 5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#14110b'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = COL.cb; ctx.textAlign = 'center';
+      ctx.fillText('φbi = ' + vbi.toFixed(2) + ' V', X(vbi), Y(0) - 12);
+    }
+
+    // slope annotation along the line
+    ctx.fillStyle = COL.text; ctx.textAlign = 'left';
+    ctx.fillText('slope ∝ 1/Nd', X(-2.4), Y(invC2(-2.4)) - 12);
+
+    // zero-bias read-outs
+    var W0 = deplW(0, nd, vbi);
+    var C0 = (EPS_S / W0) / 1e4 * 1e9;   // nF/cm^2
+    ctx.textAlign = 'left'; ctx.font = '13px ' + FONT;
+    ctx.fillStyle = COL.text;
+    ctx.fillText('W(0) = ' + (W0 * 1e9).toFixed(0) + ' nm', pad.l + 12, pad.t + 16);
+    ctx.fillText('C(0) = ' + C0.toFixed(0) + ' nF/cm²', pad.l + 12, pad.t + 34);
+  }
+
   function sup(n) {
     var map = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
     return String(n).split('').map(function (c) { return map[c] || c; }).join('');
@@ -454,7 +543,22 @@
     drawIV();
   });
 
-  function drawAll() { drawBand(); drawPin(); drawIV(); }
+  var elNd = document.getElementById('ctrl-nd');
+  elNd.addEventListener('input', function () {
+    logNd = parseFloat(elNd.value);
+    var mant = Math.pow(10, logNd - Math.floor(logNd));
+    document.getElementById('v-nd').textContent =
+      (mant >= 1.05 ? mant.toFixed(1) + '×' : '') + '10' + sup(Math.floor(logNd)) + ' cm⁻³';
+    drawCV();
+  });
+  var elVbi = document.getElementById('ctrl-vbi');
+  elVbi.addEventListener('input', function () {
+    vbi = parseFloat(elVbi.value);
+    document.getElementById('v-vbi').textContent = vbi.toFixed(2) + ' V';
+    drawCV();
+  });
+
+  function drawAll() { drawBand(); drawPin(); drawIV(); drawCV(); }
   window.addEventListener('resize', drawAll);
   drawAll();
 })();
