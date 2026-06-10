@@ -697,9 +697,62 @@ input[type=range]::-moz-range-thumb {
   .ptop .meta { text-align: left; }
 }
 
+/* ── Category index / 目次 (Learn) ── */
+.ed-index {
+  border-bottom: 1px solid var(--line);
+  padding: clamp(20px, 2.6vw, 30px) 0;
+  background: var(--bg-soft);
+}
+.ed-index-lab {
+  font-family: var(--gothic); font-size: 11px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--faint);
+  margin-bottom: 12px;
+}
+.ed-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 1px;
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--rule);
+}
+.ed-ix {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  padding: 15px 16px;
+  background: var(--paper);
+  transition: background .18s ease, transform .18s ease;
+}
+.ed-ix:hover { background: var(--accent-soft); }
+.ed-ix-no {
+  font-family: var(--mincho); font-size: 22px; font-weight: 700;
+  color: var(--accent); line-height: 1; flex-shrink: 0; letter-spacing: -.02em;
+}
+.ed-ix-name {
+  font-family: var(--gothic); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .04em; line-height: 1.4; color: var(--ink);
+}
+.ed-ix-soon { }
+.ed-ix-soon .ed-ix-no { color: var(--ink-3); }
+.ed-ix-soon .ed-ix-name { color: var(--soft); }
+.ed-ix-tag {
+  position: absolute; top: 8px; right: 10px;
+  font-family: var(--gothic); font-size: 9px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--faint);
+}
+
+@media (max-width: 560px) {
+  .ed-index-grid { grid-template-columns: 1fr 1fr; }
+  .ed-ix { padding: 13px 13px; gap: 10px; }
+  .ed-ix-no { font-size: 19px; }
+  .ed-ix-name { font-size: 10.5px; }
+}
+
 /* ── Category grouping (Learn) ── */
 .ed-cat {
   margin-bottom: clamp(36px, 5vw, 60px);
+  scroll-margin-top: 76px;
 }
 .ed-cat-hd {
   display: flex; align-items: baseline; gap: 14px;
