@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How Lasers Work — Interactive Guide</title>
-  <meta name="description" content="A friendly, intuition-first guide to how lasers work, with interactive animations. We build up from everyday questions — what is light made of? why does a laser beam stay so tight? — to stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold.">
+  <meta name="description" content="A personal, essay-style walk through laser physics. Why doesn't a laser beam spread out? Starting from that single question, we discover stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold — with animations to play with along the way.">
   <meta name="keywords" content="laser, stimulated emission, population inversion, optical gain, Fabry-Perot cavity, threshold condition, Einstein coefficients, three-level laser, four-level laser, rate equations, laser physics tutorial, interactive physics, beginner">
   <link rel="canonical" href="https://yumigeta.github.io/learn/laser/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="How Lasers Work — Interactive Guide">
-  <meta property="og:description" content="An intuition-first, beginner-friendly tour of laser physics: stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold — with animations you can play with.">
+  <meta property="og:description" content="An essay-style, beginner-friendly walk through laser physics: stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold — with animations you can play with.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/laser/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Lasers Work — Interactive Guide">
-  <meta name="twitter:description" content="A friendly, step-by-step guide: what makes laser light special → stimulated emission → population inversion → mirror cavity → threshold.">
+  <meta name="twitter:description" content="Why doesn't a laser beam spread out? An essay-style walk from that one question all the way to the lasing threshold.">
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -26,7 +26,7 @@
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": "How Lasers Work — Interactive Guide",
-    "description": "A beginner-friendly, intuition-first interactive tutorial explaining how lasers work — starting from what makes laser light special, then stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold.",
+    "description": "A beginner-friendly, essay-style interactive tutorial explaining how lasers work — starting from why a laser beam stays so tight, then stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold.",
     "url": "https://yumigeta.github.io/learn/laser/",
     "author": {
       "@type": "Person",
@@ -97,8 +97,8 @@
         <h1><span class="i18n-en">How Lasers Work</span><span class="i18n-ja">レーザーの動作原理</span></h1>
       </div>
       <p class="pintro">
-        <span class="i18n-en">Shine a flashlight at a wall and you get a soft, spreading blob of light. Point a laser and you get a razor-sharp dot that barely widens even across a room. Why are they so different? The short answer is that an ordinary lamp throws out light waves every which way — different colors, different directions, all out of step — while a laser persuades a huge number of light particles to march in perfect lockstep: same color, same direction, same rhythm. Physicists call this <b>coherent, collimated, monochromatic light</b>. On this page we'll build a laser from scratch, one idea at a time. We start with the single quantum trick that makes it all possible — <em>stimulated emission</em> — then add the pieces needed to turn that trick into a working device: a way to amplify light, and a pair of mirrors to feed the light back through the amplifier again and again. No prior laser knowledge needed; just curiosity.</span>
-        <span class="i18n-ja">懐中電灯を壁に当てると、ぼんやり広がった光のかたまりができます。一方、レーザーポインターを当てると、部屋の端まで届いてもほとんど広がらない、針のように鋭い点ができます。この違いはどこから来るのでしょう？ ひとことで言うと、ふつうのランプは色も向きもバラバラで、タイミングもそろわない光の波をあちこちに投げ出しているだけなのに対し、レーザーは膨大な数の「光の粒」を完璧に隊列を組ませて行進させているのです——同じ色、同じ向き、同じリズムで。物理ではこれを<b>コヒーレントで・まっすぐ進み・単一の色をもつ光</b>と呼びます。このページでは、レーザーを一歩ずつ、ゼロから組み立てていきます。出発点は、すべてを可能にするたった一つの量子力学の仕掛け——<em>誘導放出</em>です。そこに「光を増幅するしくみ」と「光を増幅器に何度も通すための2枚の鏡」を順番に足していけば、レーザーが完成します。予備知識はいりません。必要なのは「なぜ？」と思う気持ちだけです。</span>
+        <span class="i18n-en">Why doesn't a laser beam spread out? A flashlight beam falls apart within a few meters, yet we bounce laser light off the Moon and detect it coming back. For a long time I accepted this as "just what lasers do," but once you ask the question seriously, it leads somewhere deep. The answer cannot be found anywhere in 19th-century optics; you have to go down to what individual atoms do with light. The good news is that the whole story rests on a single trick — an atom can be provoked into emitting a perfect copy of a passing photon — and everything else is honest, almost mundane engineering built around that trick. In this article I want to walk through the whole chain of reasoning in order, without skipping the parts that textbooks tend to wave away. Equations will appear, but every one of them says something you will already believe by the time you reach it.</span>
+        <span class="i18n-ja">レーザーの光はなぜ広がらないのだろうか。懐中電灯の光は数メートルも進めばぼやけて散ってしまうのに、レーザーは月に向けて撃って、反射して戻ってきた光を検出することさえできる。私は長いことこれを「レーザーとはそういうものだ」と思って受け流していたのだが、真面目に考え始めるとこの疑問はかなり深いところまで通じている。答えは19世紀までの光学のどこを探しても見つからない。原子1個が光と何をしているか、というところまで降りていく必要があるのだ。ただ、安心してほしいことがある。話の核心はたった一つの仕掛け——原子をうまくつつくと、通りかかった光子の完全なコピーを吐き出させることができる——だけであって、残りは全部、その仕掛けを活かすための正直な、ほとんど泥臭いと言っていい工夫なのである。この記事では、教科書がさらりと流してしまいがちな部分を飛ばさずに、この理屈の鎖を順番にたどってみたい。式は出てくるが、どの式も、そこにたどり着く頃には読者がすでに納得していることしか言っていないはずだ。</span>
       </p>
     </div>
   </div>
@@ -106,67 +106,75 @@
   <!-- ═══════ Module 00 — Three radiative processes ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">00 — Light meets matter</span><span class="i18n-ja">00 — 光と物質の出会い</span></span>
-      <h2><span class="i18n-en">An atom can only do three things with light</span><span class="i18n-ja">原子が光に対してできることは3つだけ</span></h2>
+      <span class="demo-num"><span class="i18n-en">00</span><span class="i18n-ja">00</span></span>
+      <h2><span class="i18n-en">An atom has only three moves</span><span class="i18n-ja">原子にできることは3つしかない</span></h2>
       <p>
-        <span class="i18n-en">Before we can build a laser we need to know how a single atom talks to light. Picture an atom as having a set of "shelves" where its electron can sit — these are the allowed energy levels. The electron can't hover between shelves; it can only jump from one to another, and each jump is paid for with exactly one lump of light, a <em>photon</em>, whose energy matches the gap. Let's keep it as simple as possible: just two shelves, a lower one $|1\rangle$ (energy $E_1$) and an upper one $|2\rangle$ (energy $E_2 = E_1 + h\nu_{21}$). Surround the atom with light, and in 1917 Einstein realised something beautiful: there are only <b>three</b> things that can possibly happen. That's it — three. Everything a laser does is built out of these three moves.</span>
-        <span class="i18n-ja">レーザーを組み立てる前に、1個の原子が光とどうやりとりするのかを知っておきましょう。原子は、電子が座れる「棚」をいくつも持っていると思ってください。これが「とびとびのエネルギー準位」です。電子は棚と棚の間に宙ぶらりんでいることはできず、ある棚から別の棚へ「ジャンプ」することしかできません。そしてそのジャンプの代金は、ちょうど段差ぶんのエネルギーを持つ光の粒——<em>光子</em>——1個で支払われます。話を一番シンプルにして、棚は2枚だけにしましょう。下の棚 $|1\rangle$（エネルギー $E_1$）と、上の棚 $|2\rangle$（エネルギー $E_2 = E_1 + h\nu_{21}$）です。この原子を光で包んだとき、アインシュタインは1917年に美しいことに気づきました——起こりうることは<b>たった3つ</b>しかない、と。本当に3つだけ。レーザーがやることは、すべてこの3つの動きの組み合わせでできています。</span>
+        <span class="i18n-en">Let me give away the punchline of this section right at the start: when an atom and light interact, only three things can ever happen. Not "roughly three" — exactly three. Einstein worked this out in 1917, before quantum mechanics was even finished, and the argument is so clean that I want to show it properly.</span>
+        <span class="i18n-ja">この節の結論を先に言ってしまおう。原子と光が関わり合うとき、起こりうることは3つしかない。「だいたい3つ」ではなく、きっかり3つである。アインシュタインが1917年——量子力学がまだ完成すらしていない時期だ——にこれを見抜いたのだが、その議論があまりに鮮やかなので、ぜひきちんと紹介したいのだ。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
-
-        <h3><span class="i18n-en">① Absorption — the atom swallows a photon ($B_{12}$)</span><span class="i18n-ja">① 吸収 — 原子が光子を飲み込む（$B_{12}$）</span></h3>
         <p>
-          <span class="i18n-en">An atom sitting on the lower shelf $|1\rangle$ catches a passing photon, swallows its energy $h\nu_{21}$, and uses it to jump up to $|2\rangle$. This is just like a solar cell soaking up sunlight. How often does it happen? It must be more frequent when there are more atoms waiting on the lower shelf (more $N_1$), and when more photons are flying around to be caught (bigger radiation density $\rho(\nu_{21})$). So the rate is simply the product:</span>
-          <span class="i18n-ja">下の棚 $|1\rangle$ にいる原子が、通りかかった光子を捕まえてエネルギー $h\nu_{21}$ を飲み込み、それを使って上の棚 $|2\rangle$ へジャンプします。太陽電池が日光を吸い込むのと同じイメージです。では、これはどれくらいの頻度で起きるでしょう？ 下の棚で待っている原子が多いほど（$N_1$ が大きいほど）、また飛び交っている光子が多いほど（輻射密度 $\rho(\nu_{21})$ が大きいほど）頻繁に起きるはずです。つまり速度は、この2つの積で書けます：</span>
+          <span class="i18n-en">First, the setup. An atom cannot hold just any amount of energy; its energy comes in discrete steps, like rungs on a ladder. Why that is so is a story for another article — here let us simply accept it and take the smallest possible cast of characters: one lower rung $|1\rangle$ with energy $E_1$, one upper rung $|2\rangle$ with energy $E_2$, and light whose photons each carry exactly the gap, $h\nu_{21} = E_2 - E_1$. Light of any other color simply ignores this atom, so we won't bother with it. Now, what can happen?</span>
+          <span class="i18n-ja">まず舞台設定をしよう。原子は好きな量のエネルギーを持てるわけではなく、はしごの段のように、とびとびの値しか許されていない。なぜそうなのかはそれ自体が別の記事になる話なので、ここでは認めてしまって、登場人物を最小限にしぼろう。エネルギー $E_1$ の下の段 $|1\rangle$、エネルギー $E_2$ の上の段 $|2\rangle$、そして段差ぶんのエネルギー $h\nu_{21} = E_2 - E_1$ をちょうど持った光子からなる光。それ以外の色の光はこの原子に見向きもされないので、考えなくていい。さて、何が起こりうるだろうか。</span>
+        </p>
+
+        <h3><span class="i18n-en">First move: absorption</span><span class="i18n-ja">1つ目：吸収</span></h3>
+        <p>
+          <span class="i18n-en">The most obvious one. An atom sitting on the lower rung swallows a photon and uses the energy to hop up. The photon is gone. How often does this happen per second? Think about what it needs: an atom waiting below, and a photon passing by. Double the number of waiting atoms $N_1$ and it should happen twice as often; double the amount of light around — written as the energy density $\rho(\nu_{21})$ — and likewise. So without solving anything we can write down the form of the answer:</span>
+          <span class="i18n-ja">いちばん当たり前のやつだ。下の段にいる原子が光子を1個飲み込み、そのエネルギーで上の段に飛び上がる。光子は消える。これは1秒あたりどれくらいの頻度で起きるだろうか。必要なものを考えてみればいい。下で待っている原子と、そばを通る光子だ。待っている原子の数 $N_1$ が2倍になれば頻度も2倍になるはずだし、まわりの光の量——エネルギー密度 $\rho(\nu_{21})$ と書く——が2倍になっても同じことだ。つまり、何も計算しなくても答えの形だけは書けてしまう：</span>
         </p>
         <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{abs}} = B_{12}\,\rho(\nu_{21})\,N_1 \tag{1}$$</p>
         <p>
-          <span class="i18n-en">The constant $B_{12}$ just measures how eager this particular atom is to absorb. The upshot: absorption <em>removes</em> photons from the beam.</span>
-          <span class="i18n-ja">比例定数 $B_{12}$ は、この原子がどれだけ熱心に吸収したがるかを表すだけの数です。要点は、吸収は光のビームから光子を<em>取り去る</em>ということです。</span>
+          <span class="i18n-en">The constant $B_{12}$ is just there to absorb everything we don't know — how "eager" this particular atom is. Don't let constants like this intimidate you; they are confessions of ignorance, not displays of knowledge.</span>
+          <span class="i18n-ja">定数 $B_{12}$ は、我々がまだ知らないこと——この原子がどれくらい吸収を「したがる」か——を全部押し込んだ入れ物にすぎない。こういう定数に威圧される必要はまったくない。これは知識の誇示ではなく、無知の告白なのである。</span>
         </p>
 
-        <h3><span class="i18n-en">② Spontaneous emission — the atom falls on its own ($A_{21}$)</span><span class="i18n-ja">② 自然放出 — 原子がひとりでに落ちる（$A_{21}$）</span></h3>
+        <h3><span class="i18n-en">Second move: spontaneous emission</span><span class="i18n-ja">2つ目：自然放出</span></h3>
         <p>
-          <span class="i18n-en">An atom perched on the upper shelf is like a ball balanced at the top of a hill: sooner or later it tumbles down on its own. When it falls back to $|1\rangle$ it coughs out a photon — but in a <b>completely random direction, at a random moment, with random timing of its wave</b>. Nothing on the outside triggered it, so the rate doesn't care about the surrounding light at all; it depends only on how many atoms are up there ($N_2$):</span>
-          <span class="i18n-ja">上の棚に乗っている原子は、丘のてっぺんでギリギリ止まっているボールのようなものです。遅かれ早かれ、ひとりでに転がり落ちます。$|1\rangle$ に落ちるとき原子は光子を1個吐き出しますが、それは<b>まったくランダムな向き・ランダムな瞬間・波のタイミングもバラバラ</b>です。外から何かきっかけがあったわけではないので、この速度は周りの光にはまったく依存せず、上にいる原子の数 $N_2$ だけで決まります：</span>
+          <span class="i18n-en">An atom on the upper rung will not stay there forever. Sooner or later — even in complete darkness, with nothing touching it — it drops back down and spits out a photon. The direction is random. The timing is random. The phase of the wave is random. Since nothing external triggers it, the rate can't depend on the surrounding light; it only depends on how many atoms are up there:</span>
+          <span class="i18n-ja">上の段にいる原子は、いつまでもそこにいてはくれない。遅かれ早かれ——完全な暗闇の中で、誰も何も触れていなくても——勝手に下へ落ちて、光子を1個吐き出す。方向はランダム。タイミングもランダム。波の位相もランダムだ。外から何のきっかけもないのだから、この頻度はまわりの光に依存しようがない。上にいる原子の数だけで決まる：</span>
         </p>
         <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{sp}} = -A_{21}\,N_2 \tag{2}$$</p>
         <p>
-          <span class="i18n-en">The atom hangs on for a typical time $\tau_{\text{sp}} = 1/A_{21}$ before it falls — this is the "lifetime" of the excited state. Spontaneous photons are exactly the glow you see from a neon sign or a firefly. They carry the right energy, but because each one points a different way and is out of step with the others, they are <em>incoherent</em>: this is ordinary light, not laser light. Remember this process — it's the troublemaker the laser has to overcome.</span>
-          <span class="i18n-ja">原子は落ちるまで、平均して $\tau_{\text{sp}} = 1/A_{21}$ という時間だけ上にとどまります。これが励起状態の「寿命」です。自然放出の光子は、ネオンサインやホタルが放つ光そのものです。エネルギーは正しいのですが、一つひとつが別々の向きを向き、互いにタイミングもそろっていないので<em>非コヒーレント</em>——つまりふつうの光であって、レーザー光ではありません。この過程はぜひ覚えておいてください。レーザーが乗り越えなければならない「やっかいもの」です。</span>
+          <span class="i18n-en">The atom survives on the upper rung for about $\tau_{\text{sp}} = 1/A_{21}$ on average. And here is a point worth pausing on: this random glow is what almost every light source around you is. A neon sign, a candle flame, a firefly — all of it is spontaneous emission, photons flying off in every direction with no relation to one another. Now you can already see, in outline, why a flashlight beam spreads: it was never one beam to begin with. It is a crowd of unrelated photons that happened to leave through the same opening. Keep this process in mind as the villain of the story. The entire art of the laser is the art of beating it.</span>
+          <span class="i18n-ja">原子は上の段に、平均して $\tau_{\text{sp}} = 1/A_{21}$ くらいの時間だけ留まる。そしてここで少し立ち止まる価値がある。このランダムな光こそ、身のまわりのほぼすべての光源の正体なのだ。ネオンサインも、ろうそくの炎も、ホタルも、全部自然放出である。互いに何の関係もない光子が、てんでバラバラの方向に飛んでいるだけだ。ここまでくれば、懐中電灯の光が広がる理由の輪郭はもう見えているだろう。あれは最初から「1本のビーム」ではなかったのだ。たまたま同じ開口部から出てきただけの、赤の他人の光子の群れなのである。この過程を、物語の悪役として覚えておいてほしい。レーザーの技術とは、つまるところこいつに勝つための技術なのだ。</span>
         </p>
 
-        <h3><span class="i18n-en">③ Stimulated emission — one photon makes a twin ($B_{21}$)</span><span class="i18n-ja">③ 誘導放出 — 1個の光子が双子をつくる（$B_{21}$）</span></h3>
+        <h3><span class="i18n-en">Third move: stimulated emission</span><span class="i18n-ja">3つ目：誘導放出</span></h3>
         <p>
-          <span class="i18n-en">Here is the magic ingredient — the whole reason lasers exist. Suppose an atom is already up on the shelf, and a photon of just the right energy $h\nu_{21}$ flies past. Instead of being absorbed (the shelf is already occupied), the passing photon <em>nudges</em> the atom into falling — and the emitted photon comes out as a perfect <b>clone of the one that triggered it</b>: same color, same direction, same phase, same polarization. One photon goes in, two identical photons come out. Like the first absorption, this gets faster with more excited atoms <em>and</em> with more light around:</span>
-          <span class="i18n-ja">さて、いよいよ魔法の材料——レーザーが存在する理由そのものです。原子がすでに上の棚にいるとき、ちょうどよいエネルギー $h\nu_{21}$ を持った光子が通りかかったとします。棚はもうふさがっているので吸収はできません。そのかわり、通りかかった光子が原子を<em>つついて</em>落とし、放出される光子は、きっかけになった光子の<b>完璧なコピー（双子）</b>として出てきます——同じ色、同じ向き、同じ位相、同じ偏光。光子1個が入って、まったく同じ光子2個が出てくるのです。吸収と同じで、励起原子が多いほど、また周りの光が多いほど速くなります：</span>
+          <span class="i18n-en">If the story ended with those two, there would be no lasers, and honestly the two of them feel complete — absorption going up, spontaneous decay coming down. What else could there possibly be? This is where Einstein noticed something odd. He tried to balance the books for atoms sitting in thermal radiation, using only those two processes, and the books refused to balance — the numbers contradicted the blackbody radiation formula, which was experimentally beyond doubt. The only way out was to postulate a third process: an atom already on the upper rung, when a photon of the right energy passes by, can be <em>induced</em> to drop down, and — this is the astonishing part — the photon it emits is a perfect clone of the one that passed by. Same color, same direction, same phase, same polarization. One photon arrives, two identical photons leave. Since it needs an excited atom and a passing photon, the rate has the same shape as absorption:</span>
+          <span class="i18n-ja">もし話がこの2つで終わりなら、レーザーは存在しない。そして正直なところ、この2つで話は完結しているように見える。吸収で上がり、自然放出で下りる。これ以外に何があり得るというのか。ここでアインシュタインは妙なことに気づいたのだ。熱放射の中に置かれた原子について、この2つの過程だけで帳簿を合わせようとしたところ、どうしても合わない。実験的に疑いようのなかった黒体放射の式と矛盾してしまうのである。逃げ道はただ一つ、第3の過程を仮定することだった。すなわち、すでに上の段にいる原子のそばをちょうどよいエネルギーの光子が通りかかると、原子は<em>誘われて</em>下へ落ちることがある。そして——ここが驚くべきところなのだが——そのとき放出される光子は、通りかかった光子の完全なクローンなのだ。同じ色、同じ方向、同じ位相、同じ偏光。光子が1個やってきて、同一の光子が2個出ていく。励起された原子と通りかかる光子の両方が必要なのだから、頻度の式は吸収と同じ形になる：</span>
         </p>
         <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{st}} = -B_{21}\,\rho(\nu_{21})\,N_2 \tag{3}$$</p>
         <p>
-          <span class="i18n-en">Do you see why this is the engine? One photon becomes two, those two can each make another, and so on — a chance for a light avalanche where every photon is a copy of the last. Einstein also proved that for our simple two-shelf atom $B_{12} = B_{21} \equiv B$: the very same atom absorbs and clones with equal enthusiasm. So which one wins — absorption (losing photons) or stimulated emission (cloning photons)? It comes down to a single question: are there more atoms on the lower shelf or the upper shelf? That question is the heart of the next module.</span>
-          <span class="i18n-ja">これがなぜ「エンジン」なのか分かりますか？ 光子1個が2個になり、その2個がそれぞれもう1個ずつ作り、…と続けば、どの光子も直前の光子のコピーである「光の雪崩」が起こりうるのです。アインシュタインはさらに、この単純な2段棚の原子では $B_{12} = B_{21} \equiv B$ であることを証明しました。まったく同じ原子が、吸収もクローン作りも同じ熱意で行うということです。では、吸収（光子を失う）と誘導放出（光子を増やす）のどちらが勝つのでしょう？ 答えはたった一つの問いに帰着します——下の棚と上の棚、どちらに原子が多いか？ この問いこそ次の章の核心です。</span>
+          <span class="i18n-en">Stop and savor this for a moment. One photon becomes two identical photons. Those two can each make another. Four, eight, sixteen... all exact copies of the original. This is the avalanche we will spend the rest of the article trying to set off. The word LASER is an acronym — Light Amplification by Stimulated Emission of Radiation — and now you know what the middle of it means.</span>
+          <span class="i18n-ja">ここはちょっと立ち止まって味わってほしい。1個の光子が、同一の光子2個になる。その2個がそれぞれもう1個ずつ作る。4個、8個、16個……すべてが最初の1個の正確なコピーだ。この雪崩を起こすことこそ、この記事の残り全部をかけて目指すゴールである。LASERという単語は Light Amplification by Stimulated Emission of Radiation（誘導放出による光の増幅）の頭文字なのだが、その真ん中の部分の意味が、いま分かったわけだ。</span>
+        </p>
+        <p>
+          <span class="i18n-en">One more gift from Einstein's bookkeeping: it forces $B_{12} = B_{21}$. The same atom absorbs and clones with exactly equal eagerness. So whether a beam of light shrinks or grows when it passes through a bunch of these atoms comes down to a single question — are there more atoms on the bottom rung, or on the top? Hold that question; it is the whole of the next section.</span>
+          <span class="i18n-ja">アインシュタインの帳簿合わせは、もう一つ贈り物をくれる。$B_{12} = B_{21}$ でなければならない、というのだ。同じ原子は、まったく同じ熱心さで吸収もクローン作りもする。だとすれば、光のビームがこの原子の集団を通り抜けたとき痩せるのか太るのかは、たった一つの問いに帰着する——下の段と上の段、どちらに原子が多いか？　この問いを持ったまま次の節へ進もう。次の節はまるごとこの問いの話である。</span>
         </p>
 
         <details class="recall">
-          <summary><span class="i18n-en">A little deeper: how A and B are related</span><span class="i18n-ja">もう一歩踏み込む：AとBの関係</span></summary>
+          <summary><span class="i18n-en">A side note: how strict the bookkeeping really is</span><span class="i18n-ja">余談：帳簿合わせの正体</span></summary>
           <div>
             <p>
-              <span class="i18n-en">Here's a slick argument Einstein used. Leave the atoms alone in a warm box until everything settles into thermal equilibrium. Two facts then hold: the shelves fill according to the Boltzmann rule $N_2/N_1 = e^{-h\nu_{21}/k_BT}$, and the light in the box is the famous blackbody (Planck) spectrum $\rho(\nu) = 8\pi h\nu^3/c^3 \cdot 1/(e^{h\nu/k_BT}-1)$. In equilibrium nothing changes on average, so the three processes must exactly balance: $dN_2/dt = 0$. Demand that the two known formulas agree, and out pops a rigid link between spontaneous and stimulated emission:</span>
-              <span class="i18n-ja">アインシュタインが使った鮮やかな論法を紹介します。原子を暖かい箱に入れ、すべてが熱平衡に落ち着くまで放っておきます。すると2つの事実が成り立ちます。棚の埋まり方はボルツマンの法則 $N_2/N_1 = e^{-h\nu_{21}/k_BT}$ に従い、箱の中の光は有名な黒体（プランク）スペクトル $\rho(\nu) = 8\pi h\nu^3/c^3 \cdot 1/(e^{h\nu/k_BT}-1)$ になります。平衡では平均して何も変化しないので、3つの過程はぴったり釣り合っていなければなりません：$dN_2/dt = 0$。この2つの既知の式が一致するよう要求すると、自然放出と誘導放出を結ぶ動かしがたい関係が現れます：</span>
+              <span class="i18n-en">For the reader who wants to see the books actually balanced: put the atoms in a warm box and wait. Two facts are then known independently. The rungs fill according to Boltzmann, $N_2/N_1 = e^{-h\nu_{21}/k_BT}$, and the light in the box follows Planck's blackbody formula, $\rho(\nu) = \frac{8\pi h\nu^3}{c^3}\frac{1}{e^{h\nu/k_BT}-1}$. In equilibrium the up-traffic must equal the down-traffic: $B_{12}\rho N_1 = A_{21}N_2 + B_{21}\rho N_2$. Try to satisfy this at every temperature without the $B_{21}$ term and you will find it simply cannot be done — that was Einstein's contradiction. With it, everything clicks, and as a bonus the constants get locked together:</span>
+              <span class="i18n-ja">帳簿が実際に合うところを見たい読者のために書いておく。原子を暖かい箱に入れて放置する。すると、互いに独立な事実が2つ分かっている。段の埋まり方はボルツマン分布 $N_2/N_1 = e^{-h\nu_{21}/k_BT}$ に従い、箱の中の光はプランクの黒体放射の式 $\rho(\nu) = \frac{8\pi h\nu^3}{c^3}\frac{1}{e^{h\nu/k_BT}-1}$ に従う。平衡では上りの交通量と下りの交通量が等しいはずだ：$B_{12}\rho N_1 = A_{21}N_2 + B_{21}\rho N_2$。$B_{21}$ の項を抜きにしてこれをあらゆる温度で成り立たせようとしてみてほしい。どうやっても無理なのである。これがアインシュタインのぶつかった矛盾だった。$B_{21}$ を入れるとすべてがかみ合い、おまけに定数同士の関係まで決まってしまう：</span>
             </p>
             <p class="eq-block">$$A_{21} = \frac{8\pi h\nu^3}{c^3}\,B_{21} \tag{4}$$</p>
             <p>
-              <span class="i18n-en">Notice the $\nu^3$. At visible-light frequencies, spontaneous emission (our troublemaker) is enormously faster than stimulated emission in ordinary light. In plain terms: atoms much prefer to fall on their own and spit out random photons. To make the orderly cloning win out instead, we'll have to <em>force</em> a lot of atoms onto the upper shelf and pile up enough light to trigger them. That "forcing" is called pumping — coming up next.</span>
-              <span class="i18n-ja">$\nu^3$ に注目してください。可視光の周波数では、ふつうの光の中での自然放出（例のやっかいもの）は誘導放出よりも桁違いに速いのです。平たく言えば、原子は放っておくと勝手に落ちてバラバラの光子を吐き出したがる、ということ。秩序あるクローン作りのほうを勝たせるには、たくさんの原子を<em>無理やり</em>上の棚に押し上げ、それらを引き金にできるだけの光をためなければなりません。この「無理やり」を励起（ポンピング）と呼びます——次章のテーマです。</span>
+              <span class="i18n-en">Note the $\nu^3$ on the right. At optical frequencies this factor is enormous: left to themselves, atoms overwhelmingly prefer the random spontaneous route over the orderly cloning route. Nature, in other words, is rooting for the villain. Making the cloning win anyway is exactly the engineering problem the rest of this page solves.</span>
+              <span class="i18n-ja">右辺の $\nu^3$ に注目してほしい。可視光の周波数ではこの因子は莫大で、放っておけば原子は、秩序あるクローン作りよりもランダムな自然放出のほうを圧倒的に好む。つまり自然は悪役の側を応援しているのだ。それでもクローン作りに勝たせる——それこそが、このページの残りで解く工学の問題である。</span>
             </p>
           </div>
         </details>
       </div>
 
       <!-- Interactive: animated energy-level diagram -->
-      <h3 class="demo-sub"><span class="i18n-en">Play with it: the three processes</span><span class="i18n-ja">触ってみよう：3つの過程</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">See it move: the three processes</span><span class="i18n-ja">動かして確かめる：3つの過程</span></h3>
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-transition" class="laser-canvas"></canvas>
         <div class="transition-controls">
@@ -180,8 +188,8 @@
           <span><i style="background:#a855f7"></i><span class="i18n-en">spontaneous photon (random)</span><span class="i18n-ja">自然放出光子（ランダム）</span></span>
         </div>
         <p class="cap" id="transition-cap">
-          <span class="i18n-en"><b>Absorption:</b> a photon is swallowed and the electron climbs to the upper shelf. The more atoms waiting below and the more light around, the faster it goes — rate $\propto N_1\,\rho(\nu)$.</span>
-          <span class="i18n-ja"><b>吸収：</b>光子が飲み込まれ、電子が上の棚へ登ります。下で待つ原子が多いほど、周りの光が多いほど速い——速度 $\propto N_1\,\rho(\nu)$。</span>
+          <span class="i18n-en"><b>Absorption:</b> a photon is swallowed and the atom hops to the upper rung. Rate $\propto N_1\,\rho(\nu)$.</span>
+          <span class="i18n-ja"><b>吸収：</b>光子が飲み込まれ、原子が上の段へ飛び上がる。頻度 $\propto N_1\,\rho(\nu)$。</span>
         </p>
       </div>
     </div>
@@ -190,28 +198,47 @@
   <!-- ═══════ Module 01 — Population inversion ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">01 — Population inversion</span><span class="i18n-ja">01 — 粒子数反転</span></span>
-      <h2><span class="i18n-en">Turning the crowd upside-down</span><span class="i18n-ja">群衆を逆さまにする</span></h2>
+      <span class="demo-num"><span class="i18n-en">01</span><span class="i18n-ja">01</span></span>
+      <h2><span class="i18n-en">Nature refuses to cooperate</span><span class="i18n-ja">自然はあまのじゃくである</span></h2>
       <p>
-        <span class="i18n-en">We just learned that whether light gets amplified or absorbed depends on one thing: which shelf holds more atoms. Here's the catch. In normal conditions, nature always keeps <em>more</em> atoms on the lower shelf — just like marbles always settle to the bottom of a bowl. The Boltzmann rule says $N_2/N_1 = e^{-h\nu_{21}/k_BT} < 1$ for any temperature above absolute zero. With more atoms below, absorption beats cloning, and the material simply <em>dims</em> any light passing through. To make light <em>grow</em> instead, we have to do something unnatural: get more atoms onto the <em>upper</em> shelf, $N_2 > N_1$. This flipped, top-heavy situation has a name — <b>population inversion</b> — and achieving it is the central challenge of building a laser.</span>
-        <span class="i18n-ja">前章で、光が増幅されるか吸収されるかは「どちらの棚に原子が多いか」というたった一つのことで決まる、と学びました。ところが、ここに落とし穴があります。ふつうの状態では、自然は必ず下の棚のほうに原子を<em>多く</em>置くのです——ボウルの中のビー玉が必ず底にたまるのと同じように。ボルツマンの法則によれば、絶対零度より上のどんな温度でも $N_2/N_1 = e^{-h\nu_{21}/k_BT} < 1$。下に原子が多ければ吸収がクローン作りに勝ち、その物質は通り抜ける光をただ<em>暗くする</em>だけです。逆に光を<em>増やす</em>には、自然に逆らうことをしなければなりません——<em>上</em>の棚により多くの原子を乗せる、つまり $N_2 > N_1$ にするのです。この、上が重くなったひっくり返った状態には名前があります——<b>粒子数反転</b>。これを実現することこそ、レーザー作りの中心的な課題です。</span>
+        <span class="i18n-en">We left off with a question: are there more atoms on the bottom rung or the top? If the top wins, cloning beats swallowing and light gets amplified. So, how do things stand normally?</span>
+        <span class="i18n-ja">前の節の最後に問いを残しておいた。下の段と上の段、どちらに原子が多いか？　上が勝てばクローン作りが飲み込みに勝ち、光は増幅される。では、ふつうの状態ではどうなっているのだろうか。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
-        <h3><span class="i18n-en">Why two shelves alone can never work</span><span class="i18n-ja">2段の棚だけでは絶対にうまくいかない理由</span></h3>
         <p>
-          <span class="i18n-en">A natural first idea: just shine a really bright pump light on our two-shelf atom to kick atoms upward, and keep pushing until the top is fuller than the bottom. Sounds reasonable — but it's doomed, and it's worth seeing why. The trouble is that the very same light doing the pumping <em>also</em> triggers stimulated emission, knocking atoms back down. The harder you pump up, the harder it knocks down. Writing this balance out in steady state (pump rate $W_p$ in s⁻¹ pushing atoms from $|1\rangle$ to $|2\rangle$) gives:</span>
-          <span class="i18n-ja">まず自然に思いつくのは、2段棚の原子にうんと明るいポンプ光を当てて原子を上へ蹴り上げ、上が下より混むまで押し続ける、という作戦です。もっともらしく聞こえますが、これは必ず失敗します。その理由を見ておく価値があります。問題は、ポンプをしている当の光が<em>同時に</em>誘導放出も引き起こし、原子を下へ叩き落としてしまうことです。強く押し上げるほど、強く叩き落とされる。これを定常状態で釣り合いとして書くと（$|1\rangle$ から $|2\rangle$ へ原子を押し上げるポンプ速度を $W_p$〔s⁻¹〕とします）：</span>
+          <span class="i18n-en">Badly for us, I'm afraid. In any material left alone at any temperature, the lower rung always holds more atoms. The Boltzmann distribution says $N_2/N_1 = e^{-h\nu_{21}/k_BT}$, which is less than 1 no matter how hot you make things — equality is approached only at infinite temperature, and even then it's a tie, not a win. This should not surprise you. Energy likes to flow downhill; a state where the high-energy shelf is more crowded than the low-energy one is about as natural as water piling itself up at the top of a waterfall. And as long as the bottom is more crowded, a beam of light passing through meets more swallowers than cloners, and comes out the far side weaker than it went in. Every ordinary material in the world is, in this sense, fog.</span>
+          <span class="i18n-ja">残念ながら、我々にとって都合の悪いことになっている。どんな物質を、どんな温度で放置しても、原子は必ず下の段のほうに多くいるのだ。ボルツマン分布によれば $N_2/N_1 = e^{-h\nu_{21}/k_BT}$ であって、どれだけ熱しようがこれは1より小さい。無限大の温度でようやく1に近づくが、それでも引き分けであって勝ちではない。これは驚くにはあたらないだろう。エネルギーは低いほうへ流れたがるものであって、高い棚のほうが混んでいる状態というのは、滝の上に水が自分から積み上がるくらい不自然なのだ。そして下が混んでいる限り、通り抜ける光のビームはクローン職人よりも飲み込み屋に多く出会うことになり、入ったときより痩せて出てくる。世の中のあらゆる物質は、この意味で霧なのである。</span>
+        </p>
+        <p>
+          <span class="i18n-en">So our goal is now sharply defined: create the unnatural state $N_2 > N_1$. It has a name — <b>population inversion</b> — and the act of forcibly shoving atoms upstairs is called <b>pumping</b>. The question is how.</span>
+          <span class="i18n-ja">これで目標がはっきり定まった。$N_2 > N_1$ という不自然な状態を作ること。これには<b>粒子数反転</b>という名前がついている。そして原子を無理やり2階へ押し上げる行為を<b>励起（ポンピング）</b>と呼ぶ。問題は、どうやって、である。</span>
+        </p>
+
+        <h3><span class="i18n-en">The obvious plan, and why it fails</span><span class="i18n-ja">誰でも思いつく作戦と、それが失敗する理由</span></h3>
+        <p>
+          <span class="i18n-en">The first plan anyone thinks of: blast the atoms with intense light at exactly $\nu_{21}$ and pump them up by brute-force absorption. Push hard enough and surely the top fills past the bottom? I want you to actually suspect the flaw before reading on, because we already met it. The pump light cannot tell which rung an atom is on. When it hits a bottom atom, it pumps it up — but when it hits a top atom, it <em>stimulates it back down</em>. Our magic cloning process turns traitor here. The harder you pump, the harder it pushes back. Let's see exactly how badly we lose. Write the balance in steady state, with $W_p$ the per-atom pumping rate:</span>
+          <span class="i18n-ja">誰もが最初に思いつく作戦はこうだ。$\nu_{21}$ ぴったりの強烈な光を当てて、吸収の力ずくで原子を押し上げる。十分強く押せば、いつかは上が下を追い越すのではないか？　読み進める前に、どこに穴があるか自分で疑ってみてほしい。実は、その穴に我々はもう出会っているのだ。ポンプ光には、原子がどちらの段にいるかを見分けることができない。下の段の原子に当たれば押し上げてくれるが、上の段の原子に当たれば<em>誘導放出で叩き落としてしまう</em>のである。我々の魔法のクローン過程が、ここでは裏切り者として働くのだ。強く押せば押すほど、強く押し返される。どれくらい完敗なのか、きちんと見ておこう。1原子あたりのポンプ速度を $W_p$ として、定常状態の釣り合いを書くと：</span>
         </p>
         <p class="eq-block">$$\frac{N_2 - N_1}{N_{\text{tot}}} = \frac{W_p - A_{21}}{W_p + A_{21}} \tag{5}$$</p>
         <p>
-          <span class="i18n-en">Crank the pump as high as you like ($W_p \to \infty$) and the right side creeps up toward zero but <em>never crosses it</em>. The best a two-shelf system can do is reach a tie ($N_2 = N_1$), where the material turns transparent — it neither absorbs nor amplifies. So two shelves are a dead end. The fix is to add more shelves. In a <b>four-level scheme</b>, the lower laser shelf is drained almost instantly (atoms relax away via $|3\rangle \to |1\rangle$), so it stays nearly empty. Then even a gentle pump easily makes the upper shelf fuller than the (empty) lower one: $N_2 > N_3 \approx 0$. Inversion becomes the natural state of affairs rather than an uphill battle. Play with the slider below to feel the difference between two, three, and four shelves.</span>
-          <span class="i18n-ja">ポンプをどれだけ強くしても（$W_p \to \infty$）、右辺はゼロに向かってじわじわ近づくだけで、<em>決してゼロを越えません</em>。2段棚にできる精一杯は引き分け（$N_2 = N_1$）で、そこでは物質は透明になり、吸収も増幅もしなくなります。つまり2段棚は行き止まり。解決策は棚を増やすことです。<b>4準位方式</b>では、下のレーザー棚が（$|3\rangle \to |1\rangle$ という緩和で）ほぼ瞬時に空にされ続けるので、いつもほぼ空のままです。すると、おだやかなポンプでも、上の棚を（空の）下の棚より簡単に混ませることができます：$N_2 > N_3 \approx 0$。反転が、坂を登るような苦労ではなく、むしろ自然な状態になるのです。下のスライダーを動かして、2段・3段・4段の棚の違いを体感してみてください。</span>
+          <span class="i18n-en">Look at the right-hand side as $W_p$ grows. At $W_p = A_{21}$ it is zero. Push $W_p$ toward infinity and it crawls toward... zero from below, never crossing. With infinite pumping power, the best a two-level system achieves is a perfect 50-50 tie, where the material is transparent — it neither absorbs nor amplifies. Not "hard to invert." Impossible. I remember finding this result almost insulting the first time I saw it.</span>
+          <span class="i18n-ja">$W_p$ を大きくしながら右辺を眺めてほしい。$W_p = A_{21}$ でゼロ。$W_p$ を無限大に飛ばしても……下からゼロににじり寄るだけで、決して越えない。無限のポンプパワーをもってしても、2準位系にできる最善は完全な五分五分の引き分けであり、そこで物質は透明になる。吸収もしなければ増幅もしない。「反転させるのが難しい」のではない。不可能なのだ。私は初めてこの結果を見たとき、ほとんど侮辱されたような気分になったのを覚えている。</span>
+        </p>
+
+        <h3><span class="i18n-en">The trick: go around, not through</span><span class="i18n-ja">正面突破ではなく、搦め手から</span></h3>
+        <p>
+          <span class="i18n-en">The escape is delightfully sneaky: stop fighting on one battlefield. Use <em>more rungs</em>. In a three-level scheme you pump atoms not to the upper laser rung but to a rung <em>above</em> it, from which they tumble down quickly to the upper laser rung and pile up there. The pump light, tuned to a different gap, can no longer stimulate the laser transition downward — the traitor has been locked out of the room. Even better is the four-level scheme: arrange things so the <em>lower</em> laser rung is itself an unstable perch that atoms vacate almost instantly, draining onward to the ground. Then the lower laser rung is always nearly empty — and beating an empty rung takes almost nothing. Even gentle pumping gives $N_2 > N_{\text{lower}} \approx 0$. Inversion stops being a heroic struggle and becomes the default state of the device. This is why most practical lasers are four-level (or effectively so).</span>
+          <span class="i18n-ja">脱出路は、じつに小気味よいほどの搦め手である。同じ戦場で戦うのをやめればいい。<em>段の数を増やす</em>のだ。3準位方式では、原子を上のレーザー段にではなく、その<em>さらに上</em>の段へ向けてポンプする。そこに上がった原子はすぐに上のレーザー段へ転がり落ちて、そこに溜まっていく。ポンプ光は別の段差に合わせてあるから、もはやレーザー遷移を叩き落とすことができない。裏切り者を部屋から締め出したわけだ。さらにうまいのが4準位方式である。<em>下の</em>レーザー段のほうを、原子がほとんど一瞬しか留まれない不安定な足場にしておいて、そこからさらに基底状態へ流れ落ちるように仕組むのだ。すると下のレーザー段は常にほぼ空っぽになる。空っぽの相手に勝つのは造作もない。おだやかなポンプでも $N_2 > N_{\text{下}} \approx 0$ が成り立ってしまう。反転は英雄的な奮闘ではなく、装置の平常運転になるのである。実用レーザーの大半が4準位（または実質的に4準位）なのはこのためだ。</span>
+        </p>
+        <p>
+          <span class="i18n-en">Below you can fight the losing two-level battle yourself, then switch schemes and feel the difference. Watch the bar for $\Delta N = N_2 - N_1$: in the two-level case, see how it saturates short of zero no matter what you do.</span>
+          <span class="i18n-ja">下のデモで、まずは負け戦と分かっている2準位の戦いを自分で戦ってみてほしい。それから方式を切り替えて、違いを体感してほしい。$\Delta N = N_2 - N_1$ のバーに注目だ。2準位では、何をどうやってもゼロの手前で頭打ちになるのが見えるはずである。</span>
         </p>
       </div>
 
-      <h3 class="demo-sub"><span class="i18n-en">Play with it: pumping schemes and the crowd</span><span class="i18n-ja">触ってみよう：励起方式と原子の群衆</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">See it move: pumping schemes</span><span class="i18n-ja">動かして確かめる：励起方式の比較</span></h3>
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-population" class="laser-canvas"></canvas>
         <div class="pop-controls">
@@ -227,8 +254,8 @@
           </div>
         </div>
         <p class="cap" id="pop-cap">
-          <span class="i18n-en">In a <b>2-level</b> system the top can never become fuller than the bottom: the inversion $\Delta N = N_2 - N_1$ stays negative no matter how hard you pump. Switch to 3 or 4 levels and watch it flip positive.</span>
-          <span class="i18n-ja"><b>2準位</b>系では、上が下より混むことは決してありません：どれだけ強くポンプしても、反転数 $\Delta N = N_2 - N_1$ は負のまま。3準位・4準位に切り替えると、正にひっくり返るのが見られます。</span>
+          <span class="i18n-en">In a <b>2-level</b> system, $\Delta N = N_2 - N_1$ creeps toward zero but never turns positive, no matter how hard you pump.</span>
+          <span class="i18n-ja"><b>2準位</b>系では、どれだけ強くポンプしても $\Delta N = N_2 - N_1$ はゼロににじり寄るだけで、決して正にならない。</span>
         </p>
       </div>
     </div>
@@ -237,34 +264,38 @@
   <!-- ═══════ Module 02 — Optical gain ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — Optical gain</span><span class="i18n-ja">02 — 光学利得</span></span>
-      <h2><span class="i18n-en">The light avalanche</span><span class="i18n-ja">光の雪崩</span></h2>
+      <span class="demo-num"><span class="i18n-en">02</span><span class="i18n-ja">02</span></span>
+      <h2><span class="i18n-en">The avalanche, made quantitative</span><span class="i18n-ja">雪崩を式にする</span></h2>
       <p>
-        <span class="i18n-en">Now that we've flipped the crowd ($N_2 > N_1$), cloning beats swallowing, and a beam passing through gets <em>stronger</em>. Let's see how strong. Follow a beam moving along the $z$ direction. In every thin slice it crosses, a fixed <em>fraction</em> of its photons get cloned. But a stronger beam has more photons to clone, so it grows faster — the more you have, the more you make. Anything that grows in proportion to its own size grows <em>exponentially</em>, like compound interest or a rumour spreading. That's exactly what happens here:</span>
-        <span class="i18n-ja">群衆をひっくり返した（$N_2 > N_1$）今、クローン作りが飲み込みに勝ち、通り抜けるビームは<em>強く</em>なります。どれくらい強くなるか見てみましょう。$z$ 方向に進むビームを追いかけます。ビームが横切る薄い一切れごとに、その中の光子の決まった<em>割合</em>がクローンされます。ところが、強いビームほどクローンできる光子をたくさん持っているので、より速く成長します——多く持っているほど、多く作れる。自分自身の大きさに比例して増えるものは<em>指数関数的</em>に増えます。複利計算や、うわさが広まる様子と同じです。ここで起きるのもまさにそれです：</span>
+        <span class="i18n-en">Suppose we have won the battle of the last section: our material is inverted, $N_2 > N_1$. Send a beam of light through it. What exactly happens?</span>
+        <span class="i18n-ja">前の節の戦いに勝ったとしよう。物質は反転していて $N_2 > N_1$ である。そこに光のビームを通す。正確には何が起こるのだろうか。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
+        <p>
+          <span class="i18n-en">Follow the beam as it crosses a thin slice of the material. In that slice, some photons get swallowed (proportional to $N_1$) and some get cloned (proportional to $N_2$); since $N_2$ wins, the beam exits the slice slightly stronger — stronger by an amount proportional to how strong it already was. Pause on that phrase, because it is the signature of something special: a quantity whose growth rate is proportional to itself grows <em>exponentially</em>. It is the mathematics of compound interest and of rumors — the more you have, the faster you get more. Carried over distance $z$:</span>
+          <span class="i18n-ja">物質の薄い一切れを横切るビームを追いかけてみよう。その一切れの中で、いくらかの光子は飲み込まれ（$N_1$ に比例）、いくらかの光子はクローンされる（$N_2$ に比例）。$N_2$ が勝っているのだから、ビームは一切れを出るときにわずかに太っている——しかも、太る量はそのときのビームの強さに比例する。この言い回しで立ち止まってほしい。これは特別な何かの合図だからだ。増える速さが自分自身に比例する量は、<em>指数関数的</em>に増える。複利の計算や、うわさの広まり方と同じ数学である。持っているほど、増えるのが速い。距離 $z$ にわたって積み上げると：</span>
+        </p>
         <p class="eq-block">$$I(z) = I_0\,e^{g z} \tag{6}$$</p>
         <p>
-          <span class="i18n-en">Here $I_0$ is the intensity going in, $I(z)$ is the intensity after travelling a distance $z$, and $g$ (units of m⁻¹) is the <b>gain coefficient</b> — basically "how strongly does this material amplify per meter." What sets $g$? Two intuitive things: how lopsided we managed to make the crowd, $\Delta N = N_2 - N_1$, and how good each atom is at the cloning trick, captured by the <em>cross-section</em> $\sigma_{21}$ (think of it as the effective "target size" each atom presents to a passing photon, in m²):</span>
-          <span class="i18n-ja">ここで $I_0$ は入っていくときの強度、$I(z)$ は距離 $z$ だけ進んだあとの強度、$g$〔単位は m⁻¹〕は<b>利得係数</b>——要するに「この物質は1メートルあたりどれくらい強く増幅するか」です。$g$ は何で決まるのでしょう？ 直感的に2つ。どれだけ群衆をかたよらせられたか $\Delta N = N_2 - N_1$ と、各原子がクローンの技をどれだけ得意とするか、です。後者は<em>断面積</em> $\sigma_{21}$ で表します（通りかかる光子に対して各原子が見せる、実効的な「的の大きさ」〔m²〕だと思ってください）：</span>
+          <span class="i18n-en">where $g$, the <b>gain coefficient</b>, packages the two ingredients we would guess: how inverted the material is, and how big a "target" each atom presents to a passing photon — a quantity with units of area called the cross-section $\sigma_{21}$:</span>
+          <span class="i18n-ja">ここで<b>利得係数</b> $g$ には、誰でも見当のつく2つの材料が詰まっている。物質がどれだけ反転しているか、そして原子1個が通りかかる光子に対してどれだけ大きな「的」になるか——断面積 $\sigma_{21}$ と呼ばれる、面積の次元を持つ量だ：</span>
         </p>
         <p class="eq-block">$$g = \sigma_{21}\,\Delta N \tag{7}$$</p>
         <p>
-          <span class="i18n-en">The sign tells the whole story. If the crowd is inverted, $\Delta N > 0$, then $g > 0$ and the beam grows — amplification. If it's normal, $\Delta N < 0$, then $g < 0$ and equation (6) describes ordinary fading — that's just Beer's law of absorption, which you've met if you've ever seen light dim through tinted glass. Same equation, opposite sign. Inversion is literally "absorption run backwards."</span>
-          <span class="i18n-ja">符号がすべてを物語ります。群衆が反転していれば $\Delta N > 0$ なので $g > 0$、ビームは成長します——増幅です。ふつうの状態なら $\Delta N < 0$ で $g < 0$、式 (6) はただの減衰を表します——これは色つきガラスを透かすと光が弱まる、おなじみのビールの吸収の法則そのもの。同じ式で符号が逆なだけ。反転とは文字どおり「吸収を逆回しにしたもの」なのです。</span>
+          <span class="i18n-en">Now here is something I find genuinely pleasing. Equation (6) is not new. Flip the sign of $\Delta N$ — un-invert the material, back to its natural state — and $g$ goes negative, and (6) becomes the familiar exponential dimming of light in tinted glass or murky water, known since the 18th century as Beer's law. Absorption and laser amplification are the same equation wearing different signs. An inverted medium is, quite literally, absorption running backwards. When a formula you derived for something exotic turns out to contain an old familiar law as a special case, it is usually a sign you are on solid ground.</span>
+          <span class="i18n-ja">さて、ここに私が心底気持ちいいと思っていることがある。式 (6) は新しい式ではないのだ。$\Delta N$ の符号をひっくり返してみてほしい——反転をやめて、物質を自然な状態に戻すのだ——すると $g$ は負になり、(6) は色ガラスや濁った水の中で光が指数関数的に減衰していく、18世紀から知られたビールの法則そのものになる。吸収とレーザー増幅は、符号を着替えただけの同じ式なのである。反転した媒質とは、文字どおり、吸収の逆回しなのだ。風変わりな現象のために導いた式が、昔なじみの法則を特別な場合として含んでいると分かったとき、それはたいてい、足場が確かだという証拠である。</span>
         </p>
 
-        <h3><span class="i18n-en">Why the gain has a "color range"</span><span class="i18n-ja">利得に「色の幅」がある理由</span></h3>
+        <h3><span class="i18n-en">A confession about color</span><span class="i18n-ja">色について白状しておく</span></h3>
         <p>
-          <span class="i18n-en">You might expect the atom to amplify only one razor-thin color exactly at $\nu_{21}$. In reality the gain $g(\nu)$ is smeared into a little hill spanning a range of frequencies, and it helps to know why. Two causes: in <b>homogeneous broadening</b> every atom is identical but each emission gets slightly blurred in frequency (by collisions, lattice vibrations, the finite lifetime) — this gives a bell-shaped Lorentzian. In <b>inhomogeneous broadening</b> the atoms aren't identical: some are moving toward you and Doppler-shift bluer, others sit in slightly different surroundings — so different atoms favor slightly different colors, smearing the hill into a Gaussian. The total width of this hill, the <b>gain bandwidth</b> $\Delta\nu_g$, matters because it sets how many of the cavity's allowed colors (next module) can be amplified at once.</span>
-          <span class="i18n-ja">原子は $\nu_{21}$ ちょうどの、針のように細い1色だけを増幅すると思うかもしれません。ところが実際の利得 $g(\nu)$ は、ある周波数の幅にわたる小さな山にぼやけて広がっています。その理由を知っておくと役立ちます。原因は2つ。<b>均一広がり</b>では、すべての原子は同一なのですが、各放出が周波数的にわずかにぼやけます（衝突、格子振動、有限の寿命のせいで）——これは釣鐘型のローレンツ型になります。<b>不均一広がり</b>では、原子が同一ではありません。こちらに向かってくる原子はドップラー効果で青くずれ、別の原子は少し違う環境にいる——つまり原子ごとに少しずつ好む色が違い、山はガウス型ににじみます。この山の全体の幅が<b>利得帯域幅</b> $\Delta\nu_g$ で、これが重要なのは、共振器の許す色（次章）のうち何色を同時に増幅できるかを決めるからです。</span>
+          <span class="i18n-en">I have been speaking as if the atom responds to exactly one frequency, $\nu_{21}$, like an infinitely sharp spike. That was a simplification, and before it causes trouble I should confess. The real gain $g(\nu)$ is a smooth little hill spread over a range of frequencies, for two kinds of reasons. First, each atom's emission is intrinsically blurred — collisions and vibrations of the surroundings keep interrupting it, and a wave that doesn't oscillate forever cannot have a perfectly sharp frequency (homogeneous broadening). Second, the atoms are not all in identical circumstances — in a gas, some move toward you and some away, Doppler-shifting their colors apart; in a crystal, each sits in slightly different local strain (inhomogeneous broadening). The width of the hill, the gain bandwidth $\Delta\nu_g$, will matter in the next section, so keep it in a corner of your mind. In the demo below, the left panel shows this hill; drag $\Delta N$ down through zero and watch the amplifying hill flip into an absorbing valley — equation (7) in action.</span>
+          <span class="i18n-ja">ここまで私は、原子がぴったり $\nu_{21}$ という1つの周波数だけに、無限に鋭いトゲのように反応するかのように話してきた。これは単純化であって、あとで困る前に白状しておきたい。本物の利得 $g(\nu)$ は、ある周波数の幅に広がった、なだらかな小さい山である。理由は2系統ある。第一に、個々の原子の放出はそもそもぼやけている。まわりの衝突や振動にしょっちゅう邪魔をされるし、永遠に振動し続けない波は完全に鋭い周波数を持てないのだ（均一広がり）。第二に、原子たちは全員が同じ境遇にいるわけではない。気体ならこちらへ向かう原子と遠ざかる原子がいてドップラー効果で色がずれるし、結晶なら一つ一つが微妙に違う局所ひずみの中に座っている（不均一広がり）。この山の幅——利得帯域幅 $\Delta\nu_g$——は次の節で効いてくるので、頭の片隅に置いておいてほしい。下のデモでは左のパネルがこの山だ。$\Delta N$ をゼロを越えて下までドラッグすると、増幅の山が吸収の谷にひっくり返るのが見える。式 (7) が動いているところである。</span>
         </p>
       </div>
 
-      <h3 class="demo-sub"><span class="i18n-en">Play with it: the gain hill and the growing beam</span><span class="i18n-ja">触ってみよう：利得の山と成長するビーム</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">See it move: the gain hill and the growing beam</span><span class="i18n-ja">動かして確かめる：利得の山と太っていくビーム</span></h3>
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-gain" class="laser-canvas"></canvas>
         <div class="gain-controls">
@@ -280,8 +311,8 @@
           </div>
         </div>
         <p class="cap" id="gain-cap">
-          <span class="i18n-en"><b>Left:</b> the gain hill $g(\nu)$ — how much each color is amplified. <b>Right:</b> the beam growing as $I(z)/I_0 = e^{gz}$ through the material. Drag $\Delta N$ negative and the "amplifier" turns back into an absorber.</span>
-          <span class="i18n-ja"><b>左：</b>利得の山 $g(\nu)$——各色がどれだけ増幅されるか。<b>右：</b>媒質を通ってビームが $I(z)/I_0 = e^{gz}$ で成長する様子。$\Delta N$ を負までドラッグすると、「増幅器」がふたたび吸収体に戻ります。</span>
+          <span class="i18n-en"><b>Left:</b> the gain hill $g(\nu)$. <b>Right:</b> the beam growing as $I(z)/I_0 = e^{gz}$. Negative $\Delta N$ turns the amplifier back into an absorber.</span>
+          <span class="i18n-ja"><b>左：</b>利得の山 $g(\nu)$。<b>右：</b>$I(z)/I_0 = e^{gz}$ で太っていくビーム。$\Delta N$ を負にすると、増幅器はただの吸収体に戻る。</span>
         </p>
       </div>
     </div>
@@ -290,44 +321,53 @@
   <!-- ═══════ Module 03 — Optical resonator ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — The mirror cavity</span><span class="i18n-ja">03 — 鏡の共振器</span></span>
-      <h2><span class="i18n-en">Recycling the light: two mirrors</span><span class="i18n-ja">光をリサイクルする：2枚の鏡</span></h2>
+      <span class="demo-num"><span class="i18n-en">03</span><span class="i18n-ja">03</span></span>
+      <h2><span class="i18n-en">Two mirrors</span><span class="i18n-ja">鏡を2枚置くだけ</span></h2>
       <p>
-        <span class="i18n-en">A single trip through the gain medium amplifies the beam, but usually not by much — the avalanche barely gets going before the light runs out the far side and is gone. The fix is wonderfully simple: put a <em>mirror</em> at each end so the light bounces back and forth, passing through the amplifier again and again, building up a little more each round. That's a feedback loop, and it's what turns a one-shot amplifier into a self-sustaining <em>oscillator</em>. The simplest version is the <b>Fabry–Pérot cavity</b>: two parallel mirrors a distance $L$ apart with the gain medium sandwiched between them. Almost every laser, from a pocket pointer to a research giant, is some descendant of this idea.</span>
-        <span class="i18n-ja">利得媒質を1回通れば、ビームは増幅されます。でもふつう、たいして増えません——雪崩が始まりかけたところで光は向こう端から出ていってしまい、それっきりです。解決策は驚くほど単純。両端に<em>鏡</em>を置いて、光を行ったり来たり跳ね返らせ、増幅器を何度も通すのです。1往復ごとに少しずつ積み上がっていきます。これがフィードバックのループであり、1回きりの増幅器を、自分で発振し続ける<em>発振器</em>へと変えるしくみです。一番シンプルな形が<b>ファブリ・ペロー共振器</b>です——距離 $L$ をおいて平行に向かい合う2枚の鏡で、利得媒質をはさんだもの。ポケットのレーザーポインターから巨大な研究装置まで、ほとんどすべてのレーザーはこのアイデアの子孫です。</span>
+        <span class="i18n-en">We now own a light amplifier. Is that a laser? Not yet — and it is worth being honest about why not, because the gap between "amplifier" and "laser" is where the last pieces of insight live.</span>
+        <span class="i18n-ja">これで我々は光の増幅器を手に入れた。それはもうレーザーだろうか。まだなのだ。なぜまだなのかを正直に考えておく価値がある。「増幅器」と「レーザー」の隙間にこそ、残りの洞察が全部詰まっているからである。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
-        <h3><span class="i18n-en">The mirrors pick out special colors</span><span class="i18n-ja">鏡が特別な色を選び出す</span></h3>
         <p>
-          <span class="i18n-en">Bouncing light between two mirrors is like plucking a guitar string fixed at both ends: only certain wavelengths "fit." A wave survives the round trip only if it comes back in step with itself, which means a whole number of half-wavelengths has to fit exactly between the mirrors:</span>
-          <span class="i18n-ja">2枚の鏡の間で光を跳ね返らせるのは、両端を固定したギターの弦をはじくのに似ています——「ぴったり収まる」波長だけが残るのです。波が往復を生き延びられるのは、戻ってきたときに自分自身とタイミングがそろっている場合だけ。それはつまり、整数個の半波長が鏡の間にちょうど収まる、ということです：</span>
+          <span class="i18n-en">Two problems. First, a realistic single pass through the material doesn't amplify much — the avalanche barely begins before the light exits the far side, and it's over. Second, and more fundamentally: amplifying <em>what</em>? With no input beam, all our amplifier has to chew on is its own spontaneous emission — the random-direction, random-phase glow of the villain from section 00. Amplified noise is still noise. We would have built an expensive, slightly strange lamp.</span>
+          <span class="i18n-ja">問題は2つある。第一に、現実的な物質を1回通るだけでは、大した増幅にならない。雪崩が始まりかけたところで光は向こう端から出ていってしまい、それで終わりだ。第二に、こちらのほうが根が深いのだが——いったい<em>何を</em>増幅するのか？　入力ビームがなければ、我々の増幅器が噛めるのは自分自身の自然放出だけである。00節の悪役、あの方向も位相もランダムな光だ。雑音を増幅しても雑音である。我々は高価で少々風変わりなランプを作っただけ、ということになってしまう。</span>
+        </p>
+        <p>
+          <span class="i18n-en">Both problems dissolve at once with one absurdly simple addition: put a mirror at each end. Now light bounces back and forth, passing through the amplifier hundreds or thousands of times — problem one gone. And problem two solves itself with a elegance that I think deserves a slow look. Consider the fate of individual spontaneous photons inside the mirrored device. One is emitted at some random angle — it wanders out the side and is lost. Another, ever so slightly off-axis — it survives a few bounces, walks off the mirror edge, gone. But the rare photon emitted <em>exactly along the mirror axis</em> is trapped. It bounces forever, passing through the gain again and again, cloning itself into an ever-growing family of identical copies. The mirrors are a survival filter: out of the random spray of spontaneous emission, only one direction survives and multiplies. Nobody aims the laser beam. It is <em>selected</em>. That, finally, is the answer to the question at the top of this page — the beam doesn't spread because anything that would spread has already been thrown away.</span>
+          <span class="i18n-ja">この2つの問題が、ばかばかしいほど単純な一手で同時に消えてなくなる。両端に鏡を1枚ずつ置くのだ。光は行ったり来たり跳ね返り、増幅器を何百回、何千回と通る。第一の問題はこれで消えた。そして第二の問題は、じっくり眺める価値のあるエレガントさで勝手に解決する。鏡付きの装置の中で、自然放出された光子たち一つ一つの運命を考えてみよう。ある光子はあさっての角度に放出された——横から出ていって、それきりだ。別の光子は軸からほんのわずかにずれていた——数回の往復は生き延びるが、やがて鏡の縁から歩み出て、消える。ところが、ごくまれに<em>鏡の軸にぴったり沿って</em>放出された光子は、閉じ込められる。永遠に往復しながら利得を何度も通り、自分の同一コピーをねずみ算式に増やしていくのだ。鏡は生存フィルターなのである。自然放出のランダムなしぶきの中から、ただ一つの方向だけが生き残り、増殖する。レーザービームは誰かが狙いを定めたものではない。<em>選別された</em>ものなのだ。これが、このページの冒頭の疑問へのついに見つかった答えである——ビームが広がらないのは、広がるはずだったものがすべて、すでに捨てられているからなのだ。</span>
+        </p>
+
+        <h3><span class="i18n-en">The mirrors are also picky about color</span><span class="i18n-ja">鏡は色にもうるさい</span></h3>
+        <p>
+          <span class="i18n-en">The mirrors filter one more thing, as a bonus. Bouncing back and forth, each wave overlaps with itself, and waves that return out of step with themselves cancel themselves out within a few round trips. The survivors are exactly those for which a whole number of half-wavelengths fits between the mirrors — the same condition as a guitar string fixed at both ends:</span>
+          <span class="i18n-ja">鏡はおまけにもう一つのものを選別する。行き来する波は自分自身と重なり合うので、戻ってきたときに自分とタイミングのずれている波は、数往復のうちに自分で自分を打ち消してしまうのだ。生き残るのは、半波長の整数倍が鏡の間にぴったり収まる波だけ。両端を固定したギターの弦と同じ条件である：</span>
         </p>
         <p class="eq-block">$$L = m\,\frac{\lambda_m}{2} = m\,\frac{c}{2n\nu_m},\quad m = 1, 2, 3, \ldots \tag{8}$$</p>
         <p>
-          <span class="i18n-en">($n$ is the refractive index of the stuff between the mirrors.) These surviving colors are the cavity's <b>modes</b>, and they come evenly spaced in frequency. The gap between neighbours is the <b>free spectral range</b> $\Delta\nu_{\text{FSR}} = c/(2nL)$. For a 10 cm cavity that's about $1.5$ GHz — and since the gain hill from the last module is usually much wider than that, several of these modes can be amplified together. (Getting a laser down to a single, pure color is then a separate engineering battle.)</span>
-          <span class="i18n-ja">（$n$ は鏡の間の物質の屈折率です。）この生き残った色たちが共振器の<b>モード</b>で、周波数の上で等間隔に並びます。隣り合うモードの間隔が<b>自由スペクトル領域</b> $\Delta\nu_{\text{FSR}} = c/(2nL)$ です。10 cm の共振器なら約 $1.5$ GHz——前章の利得の山はたいていこれよりずっと幅広いので、これらのモードのいくつかが同時に増幅されえます。（レーザーを単一の純粋な1色まで絞り込むのは、そこからまた別の工学的な戦いになります。）</span>
+          <span class="i18n-en">($n$ is the refractive index between the mirrors.) The allowed colors — the cavity <b>modes</b> — form an evenly spaced comb with spacing $\Delta\nu_{\text{FSR}} = c/(2nL)$, about 1.5 GHz for a 10 cm cavity. Recall the gain hill from last section: it is typically much wider than 1.5 GHz, so several comb teeth fit under the hill and can lase together. This is why making a truly single-color laser takes extra effort, and also why laser light is so spectacularly pure: only colors that both sit on the comb <em>and</em> get amplified survive.</span>
+          <span class="i18n-ja">（$n$ は鏡の間の屈折率。）許される色——共振器の<b>モード</b>——は、間隔 $\Delta\nu_{\text{FSR}} = c/(2nL)$ で等間隔に並ぶ櫛（くし）になる。10 cm の共振器なら 1.5 GHz ほどだ。前の節の利得の山を思い出してほしい。山の幅はたいてい 1.5 GHz よりずっと広いので、山の下に櫛の歯が何本か入り、それらが一緒に発振しうる。本当に1色だけのレーザーを作るのに追加の工夫が要るのはこのためだ。そして同時に、レーザー光があれほど見事に純粋な色をしているのもこのためである。櫛の歯に乗っていて、<em>かつ</em>増幅される色だけが生き残るのだから。</span>
         </p>
 
-        <h3><span class="i18n-en">The break-even rule for one round trip</span><span class="i18n-ja">1往復の損益分岐ルール</span></h3>
+        <h3><span class="i18n-en">Balancing the books for one round trip</span><span class="i18n-ja">1往復の収支決算</span></h3>
         <p>
-          <span class="i18n-en">Now the key bookkeeping question: does the light grow or fade over one complete round trip? On a single loop the beam passes through the gain medium twice (length $L_g$ each way, so $2L_g$ total), bounces off both mirrors (which reflect fractions $R_1$ and $R_2$ — never a perfect 100%), and loses a bit more to scattering and other junk at a rate $\alpha_i$ per unit length. Multiply all the gains and losses together and the beam comes back scaled by:</span>
-          <span class="i18n-ja">さて、肝心の帳簿づけです。1往復まるごとで、光は成長するのか、それとも弱るのか？ 1ループで、ビームは利得媒質を2回通り（片道 $L_g$、往復で $2L_g$）、両方の鏡で跳ね返り（鏡は割合 $R_1$, $R_2$ だけ反射します——決して完璧な100%ではありません）、さらに散乱などのゴミで単位長あたり $\alpha_i$ の割合だけ少し失います。すべての利得と損失を掛け合わせると、ビームは次の係数だけ拡大・縮小されて戻ってきます：</span>
+          <span class="i18n-en">One piece of honest accounting and this section is done. The avalanche grows only if light gains more in one full round trip than it loses. What are the losses? The mirrors are not perfect — they reflect fractions $R_1$ and $R_2$ of the light, and indeed one of them ($R_2$, the "output coupler") is made imperfect <em>on purpose</em>, because the light that leaks through it is the laser beam we are building this whole machine to obtain. On top of that, scattering and other junk eats a fraction $\alpha_i$ per unit length. In one round trip the light crosses the gain medium (length $L_g$) twice and hits each mirror once, so it comes back multiplied by</span>
+          <span class="i18n-ja">正直な会計をひとつ済ませれば、この節は終わりである。雪崩が育つのは、1往復まるごとで光が失う以上に稼ぐ場合だけだ。失うものは何か。鏡は完璧ではなく、光の割合 $R_1$, $R_2$ しか反射しない。しかも片方（出力カプラと呼ばれる $R_2$ のほう）は、<em>わざと</em>不完全に作ってある。そこから漏れ出る光こそが、我々がこの機械一式をこしらえてまで手に入れたいレーザービームだからだ。さらに、散乱などの雑多な損失が単位長あたり割合 $\alpha_i$ だけ食っていく。1往復で光は利得媒質（長さ $L_g$）を2回横切り、各鏡で1回ずつ跳ね返るので、戻ってきたときには次の倍率がかかっている：</span>
         </p>
         <p class="eq-block">$$G_{\text{rt}} = R_1\,R_2\,e^{(g - \alpha_i)\,2L_g} \tag{9}$$</p>
         <p>
-          <span class="i18n-en">The rule could not be simpler. If $G_{\text{rt}} \geq 1$ the beam comes back at least as strong as it left, so each loop it holds or grows — the laser sustains itself. If $G_{\text{rt}} < 1$ it dies away. The break-even point, $G_{\text{rt}} = 1$, tells us the minimum gain the medium must supply just to cover the losses — the <b>threshold gain</b>:</span>
-          <span class="i18n-ja">ルールはこれ以上ないほど単純です。$G_{\text{rt}} \geq 1$ なら、ビームは出ていったときと同じか、それより強くなって戻ってきます。だから1ループごとに維持または成長し——レーザーは自分自身を保ち続けます。$G_{\text{rt}} < 1$ なら消えていきます。損益分岐点 $G_{\text{rt}} = 1$ は、損失をちょうど埋め合わせるために媒質が最低限供給しなければならない利得を教えてくれます——<b>閾値利得</b>です：</span>
+          <span class="i18n-en">If $G_{\text{rt}} \geq 1$, each lap the light holds its own or grows: the avalanche is self-sustaining. If $G_{\text{rt}} < 1$, it fizzles. Setting $G_{\text{rt}} = 1$ and solving for $g$ gives the minimum gain the medium must supply — the <b>threshold gain</b>:</span>
+          <span class="i18n-ja">$G_{\text{rt}} \geq 1$ なら、光は1周ごとに現状維持か成長で、雪崩は自立する。$G_{\text{rt}} < 1$ なら立ち消えだ。$G_{\text{rt}} = 1$ と置いて $g$ について解けば、媒質が最低限稼がねばならない利得——<b>閾値利得</b>が出る：</span>
         </p>
         <p class="eq-block">$$g_{\text{th}} = \alpha_i + \frac{1}{2L_g}\ln\!\frac{1}{R_1 R_2} \tag{10}$$</p>
         <p>
-          <span class="i18n-en">The second term is the price of doing business: to get a usable beam <em>out</em>, one mirror has to be slightly leaky on purpose (the "output coupler"), and every photon that leaks out to become your laser beam is a photon that left the loop. So there's a trade-off baked right in. A very reflective output mirror leaks little, keeps losses low, and makes the laser easy to start — but lets out only a feeble beam. A leakier mirror gives a brighter beam but is harder to get lasing. The sweet spot in the middle is something laser designers tune for every device. Use the sliders below to hunt for it yourself.</span>
-          <span class="i18n-ja">第2項は「商売の必要経費」です。使えるビームを<em>外に取り出す</em>には、片方の鏡をわざと少しだけ漏れやすくしておかなければなりません（「出力カプラ」）。そして、漏れ出てあなたのレーザービームになる光子は、すべてループから抜けた光子です。だから、はじめからトレードオフが組み込まれています。とても反射率の高い出力鏡はほとんど漏らさず、損失を小さく保ち、レーザーを起動しやすくします——が、出てくるビームはか細い。漏れやすい鏡は明るいビームを出しますが、発振させるのは難しくなります。その中間のちょうどいい点を、レーザー設計者は装置ごとに調整します。下のスライダーで、自分で探してみてください。</span>
+          <span class="i18n-en">Read it in words: the gain must pay for the junk losses, plus pay for what escapes through the mirrors. And notice the dilemma hiding in $R_2$. Make the output mirror nearly perfect and the laser starts easily — but then hardly any beam comes out. Make it leaky and you get a generous beam — but the laser may struggle to start at all. Every laser design haggles over this trade-off. In the demo below, see if you can find settings where the bouncing light just barely sustains itself.</span>
+          <span class="i18n-ja">言葉で読み下すとこうだ。利得は、雑多な損失の分を払い、さらに鏡から逃げていく分も払わなければならない。そして $R_2$ に潜むジレンマに気づいてほしい。出力鏡をほぼ完璧にすればレーザーは楽に立ち上がる——が、ビームはほとんど出てこない。漏れやすくすれば気前のいいビームが得られる——が、今度はそもそも発振してくれないかもしれない。あらゆるレーザー設計はこのトレードオフと値段交渉をしている。下のデモで、往復する光がぎりぎり自分を維持できる設定を探してみてほしい。</span>
         </p>
       </div>
 
-      <h3 class="demo-sub"><span class="i18n-en">Play with it: light bouncing in the cavity</span><span class="i18n-ja">触ってみよう：共振器の中で跳ね返る光</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">See it move: light bouncing between the mirrors</span><span class="i18n-ja">動かして確かめる：鏡の間を往復する光</span></h3>
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-cavity" class="laser-canvas"></canvas>
         <div class="cavity-controls">
@@ -343,8 +383,8 @@
           </div>
         </div>
         <p class="cap" id="cavity-cap">
-          <span class="i18n-en">The beam (yellow) bounces between the perfect back mirror (left, $R_1 = 1$) and the slightly leaky output coupler (right). Its width shows the intensity. When round-trip gain beats round-trip loss, it grows a little every lap until the laser is running.</span>
-          <span class="i18n-ja">ビーム（黄）は、完全な裏鏡（左、$R_1 = 1$）と、少しだけ漏れる出力カプラ（右）の間を跳ね返ります。幅が強度を表します。往復の利得が往復の損失に勝つと、1周ごとに少しずつ成長し、やがてレーザーが動き出します。</span>
+          <span class="i18n-en">The beam (yellow) bounces between the perfect back mirror (left, $R_1 = 1$) and the deliberately leaky output coupler (right). Width shows intensity. When round-trip gain beats round-trip loss, it grows every lap.</span>
+          <span class="i18n-ja">ビーム（黄）は完璧な裏鏡（左、$R_1 = 1$）と、わざと漏らしてある出力カプラ（右）の間を往復する。幅が強度を表す。往復の利得が往復の損失に勝てば、1周ごとに育っていく。</span>
         </p>
       </div>
     </div>
@@ -353,38 +393,47 @@
   <!-- ═══════ Module 04 — Threshold condition ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">04 — Switching on</span><span class="i18n-ja">04 — スイッチが入る瞬間</span></span>
-      <h2><span class="i18n-en">The threshold: where a lamp becomes a laser</span><span class="i18n-ja">閾値：ランプがレーザーになる境目</span></h2>
+      <span class="demo-num"><span class="i18n-en">04</span><span class="i18n-ja">04</span></span>
+      <h2><span class="i18n-en">The moment it becomes a laser</span><span class="i18n-ja">レーザーが目を覚ます瞬間</span></h2>
       <p>
-        <span class="i18n-en">We now have all the pieces. Start pumping gently and slowly turn it up. At first nothing dramatic happens: the gain can't yet cover the round-trip losses, so the avalanche never catches, and all you see is the dim, random glow of spontaneous emission (the troublemaker from module 00, here called amplified spontaneous emission, ASE). Then you hit a special pump level — the <b>threshold</b> — where round-trip gain finally equals round-trip loss. Cross it, and the device snaps to life: the coherent beam suddenly switches on and brightens fast. Plot output brightness against pump power and you get a flat stretch followed by a sharp upward bend — the famous laser <em>knee</em>. That kink is the literal moment a glowing lamp becomes a laser.</span>
-        <span class="i18n-ja">これで部品はすべてそろいました。おだやかにポンプを始め、ゆっくり強めていきます。最初はドラマチックなことは何も起きません。利得はまだ往復の損失を埋められず、雪崩は始まらず、見えるのは自然放出のぼんやりしたランダムな光だけ（00章のやっかいもの。ここでは増幅自然放出、ASEと呼びます）。やがて特別なポンプの強さ——<b>閾値</b>——に達します。ここで往復の利得がついに往復の損失と等しくなります。これを越えると、装置は一気に命を得ます。コヒーレントなビームが突然スイッチオンになり、ぐんぐん明るくなるのです。出力の明るさをポンプの強さに対してグラフにすると、平らな区間のあとに急に立ち上がる折れ曲がり——有名なレーザーの<em>膝</em>が現れます。この折れ目こそ、光るランプがレーザーになる、まさにその瞬間です。</span>
+        <span class="i18n-en">All the parts are on the table. Let us assemble them, turn the pump knob up from zero, and watch closely what happens. There is a genuine surprise waiting at the end of this section — one that the equations hand us for free.</span>
+        <span class="i18n-ja">部品はすべて出そろった。組み立てて、ポンプのつまみをゼロからゆっくり上げながら、何が起きるかをじっくり観察しよう。この節の最後には正真正銘のサプライズが待っている。式がただで手渡してくれるサプライズである。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
-        <h3><span class="i18n-en">Following the photons and the atoms together</span><span class="i18n-ja">光子と原子を一緒に追いかける</span></h3>
         <p>
-          <span class="i18n-en">To see the knee appear, we track two things at once and ask them to settle into a steady state. Let $\Delta N$ be the inversion (how lopsided the crowd is) and $\phi$ the photon density (how much laser light is rattling around inside). For a four-level laser, the inversion is fed by pumping at rate $R_p$, drained by atoms decaying on their own (lifetime $\tau$), and drained again by stimulated emission (faster when there's more light $\phi$):</span>
-          <span class="i18n-ja">膝が現れる様子を見るために、2つのものを同時に追いかけ、定常状態に落ち着くよう求めます。$\Delta N$ を反転数（群衆のかたより具合）、$\phi$ を光子密度（内部を飛び交っているレーザー光の量）とします。4準位レーザーでは、反転数はポンプ（速度 $R_p$）で供給され、原子が勝手に落ちること（寿命 $\tau$）で減り、さらに誘導放出（光 $\phi$ が多いほど速い）でも減ります：</span>
+          <span class="i18n-en">At low pump, the inversion is small, the gain sits below the threshold value of equation (10), and the round-trip books don't balance. The avalanche can't catch. All that comes out is faint, incoherent spontaneous glow (the jargon for it is ASE, amplified spontaneous emission). Our device is a dim lamp. Turn the knob... still a lamp, slightly brighter. Then, at one particular pump level — the moment the gain touches $g_{\text{th}}$ — the device wakes up. The output snaps onto a steep straight line, and the light is suddenly the real thing: one direction, one phase, one color. Plotted as output power versus pump, the curve shows a sharp bend that laser people call the <b>knee</b>: the flat lamp-regime on the left, the steep laser-regime on the right, and the kink between them is the threshold itself. It looks less like a dimmer warming up and more like a switch being thrown — a sudden change of character of the kind physicists call a phase transition.</span>
+          <span class="i18n-ja">ポンプが弱いうちは、反転は小さく、利得は式 (10) の閾値に届かず、往復の帳簿は赤字である。雪崩は点火しない。出てくるのは、かすかでバラバラな自然放出の光だけだ（業界用語ではASE、増幅自然放出という）。我々の装置は薄暗いランプである。つまみを回す……まだランプだ。少し明るくなっただけ。ところが、ある特定のポンプの強さ——利得がちょうど $g_{\text{th}}$ に触れた瞬間——に、装置は目を覚ます。出力は急勾配の直線に乗り移り、光は突然、本物になる。1つの方向、1つの位相、1つの色。出力パワーをポンプに対してグラフに描くと、レーザー屋が<b>膝（ニー）</b>と呼ぶ鋭い折れ曲がりが現れる。左側の平坦なランプ領域、右側の急峻なレーザー領域、その間の折れ目が閾値そのものだ。これは調光器がじわじわ明るくなる様子というより、スイッチがバチンと入る様子である。物理屋が相転移と呼ぶ類いの、性格の急変なのだ。</span>
+        </p>
+
+        <h3><span class="i18n-en">Watching the atoms and the photons at once</span><span class="i18n-ja">原子と光子を同時に見張る</span></h3>
+        <p>
+          <span class="i18n-en">To understand the knee, track two populations at once: the inversion $\Delta N$ and the density of trapped laser photons $\phi$. Each has income and expenses. For the inversion (in a four-level laser): pumping pays in at rate $R_p$; spontaneous decay drains it with lifetime $\tau$; and stimulated emission drains it faster the more photons are around. In steady state, income equals expenses:</span>
+          <span class="i18n-ja">膝を理解するには、2つの個体数を同時に見張ればいい。反転数 $\Delta N$ と、閉じ込められたレーザー光子の密度 $\phi$ である。それぞれに収入と支出がある。反転数のほう（4準位レーザーの場合）：ポンプが速度 $R_p$ で入金し、自然放出が寿命 $\tau$ で流出させ、誘導放出が——光子が多いほど速く——食いつぶす。定常状態では収支がつり合う：</span>
         </p>
         <p class="eq-block">$$\frac{d\Delta N}{dt} = R_p - \frac{\Delta N}{\tau} - \sigma_{21}\,v_g\,\Delta N\,\phi = 0 \tag{11}$$</p>
         <p>
-          <span class="i18n-en">And the light itself grows from stimulated emission but leaks out of the cavity at a rate set by the photon lifetime $\tau_c$ (the average time a photon survives before escaping or being lost):</span>
-          <span class="i18n-ja">そして光そのものは、誘導放出で成長しますが、光子寿命 $\tau_c$（光子が逃げたり失われたりするまで生き延びる平均時間）で決まる速さで共振器から漏れ出ます：</span>
+          <span class="i18n-en">For the photons: stimulated emission pays in, and leakage out of the cavity (through the mirrors and into the junk losses) drains them, with an average photon surviving a time $\tau_c$:</span>
+          <span class="i18n-ja">光子のほう：誘導放出が入金し、共振器からの漏れ（鏡から、そして雑多な損失へ）が流出させる。光子1個の平均余命を $\tau_c$ とすると：</span>
         </p>
         <p class="eq-block">$$\frac{d\phi}{dt} = \frac{\sigma_{21}\,v_g\,\Delta N\,\phi}{\mathcal{V}} - \frac{\phi}{\tau_c} = 0 \tag{12}$$</p>
         <p>
-          <span class="i18n-en">Equation (12) hides a beautiful surprise. Above threshold, when real laser light is present ($\phi \neq 0$), you can divide it out — and what's left fixes the inversion at one exact value, $\Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$, no matter how hard you keep pumping. The inversion <em>clamps</em>: it climbs as you raise the pump, then freezes the instant lasing starts. Where does the extra pump energy go after that? Straight into new photons. So every bit of pumping beyond threshold is converted into output light, giving the clean straight line above the knee:</span>
-          <span class="i18n-ja">式 (12) には美しい驚きが隠れています。閾値を越え、本物のレーザー光があるとき（$\phi \neq 0$）、$\phi$ で割ることができます——すると残った式が反転数をたった一つの値 $\Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$ に固定してしまうのです。どれだけポンプを強め続けても、です。反転数は<em>クランプ（頭打ち）</em>します。ポンプを上げるにつれて登っていき、発振が始まった瞬間に凍りつくのです。ではその後、余分なポンプのエネルギーはどこへ行くのでしょう？ まっすぐ新しい光子に変わります。だから閾値を越えたぶんのポンプはすべて出力光に変換され、膝の上のきれいな直線になります：</span>
+          <span class="i18n-en">Now the surprise I promised. Look at equation (12) when the laser is actually running, $\phi \neq 0$. Then you may divide the whole equation by $\phi$ — and what remains contains no $\phi$ at all. It fixes the inversion to one rigid value: $\Delta N = \Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$. Read that again, because it is strange: <em>above threshold, pumping harder does not increase the inversion.</em> It is nailed in place. The phenomenon is called <b>gain clamping</b>, and the mechanism is a self-regulating negative feedback. Suppose the inversion tried to creep above $\Delta N_{\text{th}}$ — then round-trip gain would exceed loss, photons would multiply, and the swollen photon population would burn the inversion right back down. Any excess corrects itself. The photon avalanche acts as its own thermostat.</span>
+          <span class="i18n-ja">さて、約束したサプライズである。レーザーが実際に動いているとき、つまり $\phi \neq 0$ のときの式 (12) を見てほしい。このとき式全体を $\phi$ で割ってよい——すると、残った式の中に $\phi$ はもうどこにもいない。そして残った式は、反転数をたった一つの値 $\Delta N = \Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$ に固定してしまうのだ。もう一度読み返してほしい。奇妙な話なのだ。<em>閾値より上では、ポンプを強くしても反転数は増えない。</em>釘で打ち付けられたように動かない。この現象は<b>利得クランプ</b>と呼ばれ、その仕掛けは自己調節の負帰還である。仮に反転数が $\Delta N_{\text{th}}$ より上にはい出ようとしたとしよう——すると往復利得が損失を上回り、光子が増殖し、膨れ上がった光子の群れが反転数をたちまち食い下げて元に戻してしまう。出すぎた分は自分で引っ込むのだ。光子の雪崩が、自分自身のサーモスタットとして働いているのである。</span>
+        </p>
+        <p>
+          <span class="i18n-en">And this immediately explains the knee. Above threshold the inversion is frozen, so the pump energy arriving beyond what maintains it has exactly one place to go: into new photons. Every additional watt of pumping becomes beam. Hence the clean straight line:</span>
+          <span class="i18n-ja">そしてこれが、膝の正体を即座に説明してくれる。閾値より上では反転数が凍結されているのだから、その維持分を超えて流れ込むポンプのエネルギーには、行き先がただ一つしかない。新しい光子になることだ。追加のポンプは1ワット残らずビームになる。だからあのきれいな直線が現れるのである：</span>
         </p>
         <p class="eq-block">$$P_{\text{out}} \propto \eta_d\,(R_p - R_{p,\text{th}}) \tag{13}$$</p>
         <p>
-          <span class="i18n-en">The slope of that line, $\eta_d$, is the <b>slope efficiency</b> — how efficiently extra pump turns into extra beam. Just two numbers, the threshold $R_{p,\text{th}}$ (where it switches on) and the slope $\eta_d$ (how fast it brightens), tell you everything about a continuous laser's brightness-versus-pump behaviour. Drag the sliders below and watch the operating point ride up the knee.</span>
-          <span class="i18n-ja">その直線の傾き $\eta_d$ が<b>スロープ効率</b>——余分なポンプがどれだけ効率よく余分なビームに変わるか、です。たった2つの数字、閾値 $R_{p,\text{th}}$（どこでスイッチが入るか）と傾き $\eta_d$（どれだけ速く明るくなるか）で、連続発振レーザーの「明るさ対ポンプ」のふるまいがすべて分かります。下のスライダーをドラッグして、動作点が膝を登っていく様子を見てみてください。</span>
+          <span class="i18n-en">The slope $\eta_d$ is called the slope efficiency. Two numbers — where the knee sits, and how steep the line is — characterize a working laser completely. When an experimentalist tests a new laser, the first plot they make is exactly this curve, and now you can read it like an insider: knee too far right, the cavity is too lossy; slope too shallow, the output coupling is mismatched. Try being that experimentalist in the demo below.</span>
+          <span class="i18n-ja">傾き $\eta_d$ はスロープ効率と呼ばれる。膝がどこにあるか、直線がどれだけ急か——たった2つの数字で、動いているレーザーは完全に特徴づけられる。実験屋が新しいレーザーを試すとき真っ先に描くのがまさにこの曲線で、いまや読者はそれを内輪の人間として読めるはずだ。膝が右すぎれば共振器の損失が大きすぎる。傾きが寝ていれば出力結合が合っていない。下のデモで、その実験屋になってみてほしい。</span>
         </p>
       </div>
 
-      <h3 class="demo-sub"><span class="i18n-en">Play with it: the laser knee (P–I curve)</span><span class="i18n-ja">触ってみよう：レーザーの膝（P–Iカーブ）</span></h3>
+      <h3 class="demo-sub"><span class="i18n-en">See it move: the knee (P–I curve)</span><span class="i18n-ja">動かして確かめる：膝（P–Iカーブ）</span></h3>
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-threshold" class="laser-canvas"></canvas>
         <div class="threshold-controls">
@@ -400,20 +449,24 @@
           </div>
         </div>
         <p class="cap" id="threshold-cap">
-          <span class="i18n-en">The red dot is where the laser is running right now. Left of the dashed line (below threshold): only the dim random glow of ASE. Right of it: the coherent beam switches on and brightens in a straight line. Notice how raising the cavity loss pushes the whole knee to the right — losses make the laser harder to start.</span>
-          <span class="i18n-ja">赤い点が、いまレーザーが動いている場所です。破線より左（閾値以下）：ASEのぼんやりしたランダムな光だけ。右側：コヒーレントなビームがスイッチオンになり、まっすぐな直線で明るくなります。共振器損失を上げると膝全体が右へ押しやられることに注目——損失が大きいほどレーザーは起動しにくくなります。</span>
+          <span class="i18n-en">The red dot is the current operating point. Left of the dashed line: dim ASE only. Right of it: the coherent beam switches on and climbs a straight line. Raising the cavity loss shoves the whole knee to the right.</span>
+          <span class="i18n-ja">赤い点が現在の動作点。破線より左：かすかなASEのみ。右：コヒーレントなビームが点火し、直線を登っていく。共振器損失を上げると、膝ごと右へ押しやられる。</span>
         </p>
       </div>
 
       <!-- Final summary -->
       <div class="laser-summary">
-        <div class="sum-title"><span class="i18n-en">Every laser needs these four things</span><span class="i18n-ja">どんなレーザーにも必要な4つのもの</span></div>
+        <div class="sum-title"><span class="i18n-en">Looking back at the whole road</span><span class="i18n-ja">来た道を振り返る</span></div>
         <ol>
-          <li><span class="i18n-en"><b>Gain medium</b> — the material that does the photon-cloning once its crowd is inverted (a gas, a crystal, a semiconductor chip, …)</span><span class="i18n-ja"><b>利得媒質</b> — 群衆を反転させると光子のクローン作りをしてくれる材料（気体、結晶、半導体チップ…）</span></li>
-          <li><span class="i18n-en"><b>Pump source</b> — supplies the energy that flips the crowd upside-down (a flashlamp, a diode, an electric discharge, …)</span><span class="i18n-ja"><b>ポンプ光源</b> — 群衆をひっくり返すエネルギーを供給するもの（フラッシュランプ、ダイオード、放電…）</span></li>
-          <li><span class="i18n-en"><b>Mirror cavity</b> — recycles the light back through the medium so the avalanche can build (Fabry–Pérot, ring cavity, …)</span><span class="i18n-ja"><b>鏡の共振器</b> — 光を媒質に通し直して雪崩を育てる帰還のしくみ（ファブリ・ペロー、リング共振器…）</span></li>
-          <li><span class="i18n-en"><b>Output coupler</b> — a deliberately leaky mirror that lets a useful fraction of the light escape as your beam (a partial mirror, a grating, …)</span><span class="i18n-ja"><b>出力カプラ</b> — わざと少し漏れるようにした鏡で、光の有用な一部をあなたのビームとして外に逃がす（部分透過ミラー、回折格子…）</span></li>
+          <li><span class="i18n-en"><b>Gain medium</b> — atoms (gas, crystal, semiconductor...) whose cloning trick, stimulated emission, does the amplifying — once we beat Boltzmann with a population inversion.</span><span class="i18n-ja"><b>利得媒質</b> — クローンの技・誘導放出で増幅を担う原子たち（気体、結晶、半導体…）。ただしボルツマンに勝って粒子数反転を作ってやることが条件。</span></li>
+          <li><span class="i18n-en"><b>Pump</b> — the energy source that maintains the inversion, routed through 3 or 4 levels because the head-on 2-level assault provably fails.</span><span class="i18n-ja"><b>ポンプ</b> — 反転を維持するエネルギー源。2準位の正面突破は証明付きで失敗するので、3準位か4準位の搦め手を通す。</span></li>
+          <li><span class="i18n-en"><b>Two mirrors</b> — the survival filter that recycles light through the gain and selects the one direction and the few colors allowed to multiply.</span><span class="i18n-ja"><b>2枚の鏡</b> — 光を利得に通し直しながら、増殖を許される唯一の方向とわずかな色を選別する生存フィルター。</span></li>
+          <li><span class="i18n-en"><b>Output coupler</b> — the deliberately leaky mirror through which the beam escapes; above threshold, gain clamping guarantees that extra pump turns into beam at a fixed rate.</span><span class="i18n-ja"><b>出力カプラ</b> — わざと漏らしてある鏡で、ここからビームが抜け出てくる。閾値の上では利得クランプのおかげで、追加のポンプは決まった割合でビームに変わる。</span></li>
         </ol>
+        <p>
+          <span class="i18n-en">And the question we started with — why doesn't the beam spread? — turned out to have a satisfying answer: every photon in the beam is a clone of clones of one photon that happened to fly straight, and everything that would have spread was filtered out and discarded long before it could leave the device. I find it hard not to smile at how much machinery hides behind a cat toy.</span>
+          <span class="i18n-ja">そして出発点の疑問——なぜビームは広がらないのか？——には、納得のいく答えがついた。ビームの中のすべての光子は、たまたままっすぐ飛んだ1個の光子の、クローンのそのまたクローンであり、広がるはずだったものは装置を出るずっと前に選別され、捨てられていたのだ。猫じゃらしの裏側にこれだけの仕掛けが隠れていたのかと思うと、私はちょっと笑ってしまうのである。</span>
+        </p>
       </div>
     </div>
   </section>
