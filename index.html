@@ -247,12 +247,8 @@
       display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .more:hover { border-color: var(--accent); }
 
-    /* ===== LEARN (ruled columns, same as Research) ===== */
-    .ed-learn.cols { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-    .ed-learn .g-link { margin-top: 12px; }
-    .ed-learn .g-link a { font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
-      border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
-    .ed-learn .g-link a:hover { border-color: var(--accent); }
+    /* ===== LEARN ===== */
+    .learn-intro p { font-size: clamp(15px,1.45vw,17px); line-height: 1.65; color: var(--ink-2); max-width: 62ch; margin-bottom: clamp(12px,1.4vw,18px); }
 
     /* ===== CV (grouped register) ===== */
     .ed-cv .cv-group { font-family: var(--gothic); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
@@ -450,29 +446,10 @@
       <span class="no">04</span>
       <h2>Learn the Basics</h2>
     </div>
-    <div class="cols ed-learn rv">
-      <div class="c">
-        <h3>Raman Spectroscopy</h3>
-        <p>An interactive, animated guide to Raman scattering — from molecular vibrations to Stokes/anti-Stokes spectra.</p>
-        <div class="g-link"><a href="/learn/raman/">Open ›</a></div>
-      </div>
-      <div class="c">
-        <h3>Graphene Electronic Structure</h3>
-        <p>Explore graphene's lattice, Brillouin zone, tight-binding bands, Dirac cones, and nanoribbon edge states.</p>
-        <div class="g-link"><a href="/learn/graphene/">Open ›</a></div>
-      </div>
-      <div class="c">
-        <h3>Graphene Raman Spectroscopy</h3>
-        <p>Phonon dispersion, G/2D/D bands, double resonance, and how to read graphene Raman spectra.</p>
-        <div class="g-link"><a href="/learn/graphene-raman/">Open ›</a></div>
-      </div>
-      <div class="c">
-        <h3>How Lasers Work</h3>
-        <p>Stimulated emission, population inversion, optical gain, Fabry–Pérot cavity, and the threshold condition — with interactive simulations.</p>
-        <div class="g-link"><a href="/learn/laser/">Open ›</a></div>
-      </div>
+    <div class="rv learn-intro">
+      <p><span class="i18n-en">Browser-based interactive demos and research software — built for teaching, visualization, and open science. Topics range from measurement &amp; data analysis and electronic structure to spectroscopy, photonics, and devices.</span><span class="i18n-ja">ブラウザ上で動く教育デモと研究用ソフトウェア — 教育・可視化・オープンサイエンスのために作られています。測定・データ解析、電子構造から分光法、フォトニクス、デバイスまで幅広く扱っています。</span></p>
+      <div class="after"><a class="more" href="/learn/"><span class="i18n-en">Browse all modules →</span><span class="i18n-ja">モジュール一覧を見る →</span></a></div>
     </div>
-    <div class="after rv"><a class="more" href="/learn/">All learning resources <span>→</span></a></div>
   </div>
 </section>
 
