@@ -61,6 +61,7 @@
   const PROFILE = Array.from({ length: NPIX }, (_, i) => profile(i));
   const PEAK_IDX = PROFILE.indexOf(Math.max(...PROFILE));
   const BASE_LEVEL = 0.06;
+  const FULL_WELL = 300;   // per-frame detector well capacity (counts); clips bright peaks
 
   /* draw a spectrum trace (measured) with optional true overlay & spikes */
   function drawSpectrum(cv, measured, trueSig, opts) {
@@ -81,6 +82,17 @@
       for (let i = 0; i < NPIX; i++) (i ? ctx.lineTo(X(i), Y(trueSig[i])) : ctx.moveTo(X(i), Y(trueSig[i])));
       ctx.stroke();
     }
+    // saturation ceiling line
+    if (opts.satLine != null && opts.satLine < max) {
+      const satY = Y(opts.satLine);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(251,113,133,0.85)'; ctx.lineWidth = 1.2; ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(pad.l, satY); ctx.lineTo(w - pad.r, satY); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(251,113,133,0.9)'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText('SAT', w - pad.r, satY - 3);
+      ctx.restore();
+    }
     // spikes (optional overlay markers)
     if (opts.spikes) {
       ctx.strokeStyle = 'rgba(253,164,175,0.5)'; ctx.lineWidth = 1;
@@ -95,14 +107,17 @@
   /* Simulate one accumulated, summed spectrum.
      rate_i (counts/sec) = brightness * profile_i ; returns summed counts array.
      Also returns analytic SNR at the strongest peak. */
-  function simulate(bright, t_acq, N, readNoise, darkRate) {
+  function simulate(bright, t_acq, N, readNoise, darkRate, fullWell) {
     darkRate = darkRate || 0.4;
+    if (fullWell == null) fullWell = Infinity;
+    let saturated = false;
     const summed = new Float64Array(NPIX);
     for (let n = 0; n < N; n++) {
       for (let i = 0; i < NPIX; i++) {
         const lam = bright * PROFILE[i] * t_acq + darkRate * t_acq;
         let c = poisson(lam);
         c += gaussianRand(0, readNoise);              // read noise, once per frame
+        if (c > fullWell) { c = fullWell; saturated = true; }
         summed[i] += c;
       }
     }
@@ -111,7 +126,7 @@
     const totalPeak = bright * PROFILE[PEAK_IDX] * t_acq * N;
     const noiseVar = totalPeak + darkRate * t_acq * N + readNoise * readNoise * N;
     const snr = sigPeak / Math.sqrt(Math.max(1e-9, noiseVar));
-    return { summed, snr };
+    return { summed, snr, saturated };
   }
 
   /* analytic SNR only (no simulation) */
@@ -140,12 +155,12 @@
       $('v-bright').textContent = br;
       $('v-read').textContent = rd;
       const darkRate = 0.4;
-      const { summed, snr } = simulate(br, tA, N, rd, darkRate);
+      const { summed, snr, saturated } = simulate(br, tA, N, rd, darkRate, FULL_WELL);
       const trueS = trueSummed(br, tA, N);
       const max = Math.max(...trueS) * 1.15;
-      drawSpectrum(cv, Array.from(summed), trueS, { max });
+      drawSpectrum(cv, Array.from(summed), trueS, { max, satLine: FULL_WELL * N });
       $('st-T').textContent = (tA * N).toFixed(1) + ' s';
-      $('st-snr').textContent = snr.toFixed(1);
+      $('st-snr').textContent = saturated ? snr.toFixed(1) + ' *' : snr.toFixed(1);
       // dominant noise: compare variance terms at peak
       const totalPeak = br * PROFILE[PEAK_IDX] * tA * N;
       const vShot = totalPeak;
@@ -157,6 +172,13 @@
         { n: t('dark noise', 'ダークノイズ'), v: vDark },
       ].sort((a, b) => b.v - a.v);
       $('st-dom').textContent = terms[0].n;
+      const satEl = $('st-sat0');
+      if (satEl) {
+        satEl.textContent = saturated
+          ? t('⚠ Saturated — peak clipped (t too long)', '⚠ 飽和 — ピークがクリップされています（t が長すぎる）')
+          : t('OK — within detector range', 'OK — 検出器の範囲内');
+        satEl.style.color = saturated ? '#fb7185' : '#86efac';
+      }
     }
     ids.forEach(k => els[k].addEventListener('input', update));
     window.addEventListener('resize', update);
@@ -184,14 +206,26 @@
       drawCurve(curve, snrs, N);
 
       // two spectra at same total time
-      const long = simulate(br, T, 1, rd, 0.4);
-      const many = simulate(br, T / N, N, rd, 0.4);
+      const long = simulate(br, T, 1, rd, 0.4, FULL_WELL);
+      const many = simulate(br, T / N, N, rd, 0.4, FULL_WELL);
       const trueS = trueSummed(br, T, 1);             // total signal identical either way
       const max = Math.max(...trueS) * 1.2;
-      drawSpectrum($('c-spec-long'), Array.from(long.summed), trueS, { max });
-      drawSpectrum($('c-spec-many'), Array.from(many.summed), trueS, { max });
-      $('st-snr-long').textContent = long.snr.toFixed(1);
-      $('st-snr-many').textContent = many.snr.toFixed(1);
+      // satLine = per-frame well × frames; shows how headroom differs between the two strategies
+      drawSpectrum($('c-spec-long'), Array.from(long.summed), trueS, { max, satLine: FULL_WELL * 1 });
+      drawSpectrum($('c-spec-many'), Array.from(many.summed), trueS, { max, satLine: FULL_WELL * N });
+      $('st-snr-long').textContent = long.saturated ? long.snr.toFixed(1) + ' *' : long.snr.toFixed(1);
+      $('st-snr-many').textContent = many.saturated ? many.snr.toFixed(1) + ' *' : many.snr.toFixed(1);
+      // saturation badges under each panel
+      const satLongEl = $('sat-long');
+      const satManyEl = $('sat-many');
+      if (satLongEl) {
+        satLongEl.textContent = long.saturated ? t('⚠ Saturated', '⚠ 飽和') : '';
+        satLongEl.style.color = '#fb7185';
+      }
+      if (satManyEl) {
+        satManyEl.textContent = many.saturated ? t('⚠ Saturated', '⚠ 飽和') : '';
+        satManyEl.style.color = '#fb7185';
+      }
 
       // regime verdict (read share at this N)
       const totalPeak = br * PROFILE[PEAK_IDX] * T;     // shot+ (∝T, fixed)
@@ -254,25 +288,17 @@
     const cv = $('c-spike'); if (!cv) return;
     const elN = $('ctrl-spk-n');
     let mode = 'sum';
-    let spikeList = [];        // {frame, pix, amp} regenerated on roll
+    let spikeList = [];
+    let currentFrames = [];
+    let animK = 0;
+    let animTimer = null;
     const t_acq = 3, bright = 60, read = 5;
 
-    function roll() {
-      const N = +elN.value;
-      const nSpikes = Math.max(2, Math.round(N * 0.8));
-      spikeList = [];
-      for (let s = 0; s < nSpikes; s++) {
-        spikeList.push({
-          frame: Math.floor(Math.random() * N),
-          pix: Math.floor(Math.random() * NPIX),
-          amp: bright * PROFILE[PEAK_IDX] * t_acq * (2 + Math.random() * 4),
-        });
-      }
-      update();
+    function cancelAnim() {
+      if (animTimer !== null) { clearTimeout(animTimer); animTimer = null; }
     }
 
     function buildFrames(N) {
-      // per-frame counts (cosmic spikes injected), shared base draw
       const frames = [];
       for (let n = 0; n < N; n++) {
         const f = new Float64Array(NPIX);
@@ -286,49 +312,92 @@
       return frames;
     }
 
-    function update() {
-      const N = +elN.value;
-      $('v-spk-n').textContent = N;
-      const frames = buildFrames(N);
+    /* render accumulated spectrum for the first k frames */
+    function renderAt(k) {
+      const N = currentFrames.length;
+      const frames = currentFrames;
       const out = new Float64Array(NPIX);
       if (mode === 'sum') {
-        for (let i = 0; i < NPIX; i++) { let s = 0; for (let n = 0; n < N; n++) s += frames[n][i]; out[i] = s; }
-      } else {
-        // median across frames, then scale by N to match summed amplitude
-        const col = new Array(N);
         for (let i = 0; i < NPIX; i++) {
-          for (let n = 0; n < N; n++) col[n] = frames[n][i];
+          let s = 0; for (let n = 0; n < k; n++) s += frames[n][i]; out[i] = s;
+        }
+      } else {
+        // median of first k frames, scaled by k so amplitude grows like the sum
+        const col = new Array(k);
+        for (let i = 0; i < NPIX; i++) {
+          for (let n = 0; n < k; n++) col[n] = frames[n][i];
           col.sort((a, b) => a - b);
-          const m = N % 2 ? col[(N - 1) / 2] : 0.5 * (col[N / 2 - 1] + col[N / 2]);
-          out[i] = m * N;
+          const m = k % 2 ? col[(k - 1) / 2] : 0.5 * (col[k / 2 - 1] + col[k / 2]);
+          out[i] = m * k;
         }
       }
       const trueS = trueSummed(bright, t_acq, N);
-      const spikePix = spikeList.filter(s => s.frame < N).map(s => s.pix);
+      const spikePix = spikeList.filter(s => s.frame < k).map(s => s.pix);
       const max = Math.max(...trueS) * 1.3;
       drawSpectrum(cv, Array.from(out), trueS, { max, spikes: mode === 'sum' ? spikePix : [] });
 
+      // frame counter
+      const fcEl = $('spk-frame-count');
+      if (fcEl) fcEl.textContent = t('Frame ', 'フレーム ') + k + ' / ' + N;
+
+      // verdict only when animation completes
       const el = $('spk-verdict');
-      if (mode === 'sum') {
-        el.innerHTML = '<span class="me-verdict bad">' +
-          t('Summing keeps every cosmic-ray spike — they masquerade as sharp peaks.',
-            '単純加算はすべての宇宙線スパイクを残す — 鋭いピークに化けてしまう。') + '</span>';
+      if (k >= N) {
+        if (mode === 'sum') {
+          el.innerHTML = '<span class="me-verdict bad">' +
+            t('Summing keeps every cosmic-ray spike — they masquerade as sharp peaks.',
+              '単純加算はすべての宇宙線スパイクを残す — 鋭いピークに化けてしまう。') + '</span>';
+        } else {
+          el.innerHTML = '<span class="me-verdict good">' +
+            t('Median across frames rejects the spikes while preserving the real signal.',
+              'フレーム間の中央値がスパイクを除去し、本物の信号は保たれる。') + '</span>';
+        }
       } else {
-        el.innerHTML = '<span class="me-verdict good">' +
-          t('Median across frames rejects the spikes while preserving the real signal.',
-            'フレーム間の中央値がスパイクを除去し、本物の信号は保たれる。') + '</span>';
+        el.innerHTML = '';
       }
+    }
+
+    function animNext() {
+      animK++;
+      renderAt(animK);
+      if (animK < currentFrames.length) {
+        animTimer = setTimeout(animNext, 250);
+      }
+    }
+
+    function startAnim() {
+      cancelAnim();
+      animK = 0;
+      animNext();
+    }
+
+    function roll() {
+      cancelAnim();
+      const N = +elN.value;
+      $('v-spk-n').textContent = N;
+      const nSpikes = Math.max(2, Math.round(N * 0.8));
+      spikeList = [];
+      for (let s = 0; s < nSpikes; s++) {
+        spikeList.push({
+          frame: Math.floor(Math.random() * N),
+          pix: Math.floor(Math.random() * NPIX),
+          amp: bright * PROFILE[PEAK_IDX] * t_acq * (2 + Math.random() * 4),
+        });
+      }
+      currentFrames = buildFrames(N);
+      startAnim();
     }
 
     document.querySelectorAll('#spk-mode .demo-btn').forEach(btn =>
       btn.addEventListener('click', () => {
         document.querySelectorAll('#spk-mode .demo-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active'); mode = btn.dataset.mode; update();
+        btn.classList.add('active'); mode = btn.dataset.mode;
+        startAnim();   // replay from same frames in new mode
       }));
     elN.addEventListener('input', roll);
     $('btn-spk-roll').addEventListener('click', roll);
-    window.addEventListener('resize', update);
-    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(update, 0));
+    window.addEventListener('resize', () => renderAt(Math.max(1, animK)));
+    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(() => renderAt(Math.max(1, animK)), 0));
     roll();
   }
 

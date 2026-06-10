@@ -105,10 +105,12 @@
           <div class="me-stat"><span class="k"><span class="i18n-en">Total time T = tN</span><span class="i18n-ja">総時間 T = tN</span></span><span class="v" id="st-T">—</span></div>
           <div class="me-stat"><span class="k">SNR</span><span class="v" id="st-snr">—</span></div>
           <div class="me-stat"><span class="k"><span class="i18n-en">Dominant noise</span><span class="i18n-ja">支配的ノイズ</span></span><span class="v" id="st-dom" style="font-size:0.86rem">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Saturation</span><span class="i18n-ja">飽和</span></span><span class="v" id="st-sat0" style="font-size:0.82rem">—</span></div>
         </div>
         <div class="me-legend">
           <span><i style="background:#7dd3fc"></i><span class="i18n-en">measured spectrum</span><span class="i18n-ja">測定スペクトル</span></span>
           <span><i style="background:#fbbf24"></i><span class="i18n-en">true (noise-free) signal</span><span class="i18n-ja">真の（無ノイズ）信号</span></span>
+          <span><i style="background:#fb7185"></i><span class="i18n-en">saturation ceiling (dashed)</span><span class="i18n-ja">飽和上限（破線）</span></span>
         </div>
       </div>
     </div>
@@ -145,10 +147,12 @@
           <div>
             <p class="panel-label"><b><span class="i18n-en">One long acquisition</span><span class="i18n-ja">1回の長時間取得</span></b> — N=1, t=T</p>
             <canvas id="c-spec-long" height="150"></canvas>
+            <div id="sat-long" style="font-size:0.8rem;min-height:1.1em;text-align:center"></div>
           </div>
           <div>
             <p class="panel-label"><b><span class="i18n-en">Many short accumulations</span><span class="i18n-ja">多数の短時間積算</span></b> — <span id="lbl-many">N, t=T/N</span></p>
             <canvas id="c-spec-many" height="150"></canvas>
+            <div id="sat-many" style="font-size:0.8rem;min-height:1.1em;text-align:center"></div>
           </div>
         </div>
 
@@ -176,6 +180,7 @@
 
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-spike" height="240" aria-label="Cosmic-ray spike rejection demo"></canvas>
+        <div id="spk-frame-count" style="font-size:0.82rem;text-align:center;color:#a8a29e;margin-top:2px"></div>
         <div class="me-controls">
           <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>
             <input type="range" id="ctrl-spk-n" min="2" max="32" step="1" value="8"><output id="v-spk-n">8</output></div>
