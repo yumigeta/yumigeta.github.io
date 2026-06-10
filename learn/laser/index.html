@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Lasers Work — Interactive Guide</title>
+  <meta name="description" content="Learn how lasers work through interactive animations. Explore stimulated emission, population inversion, optical gain, cavity resonance, and the threshold condition — step by step.">
+  <meta name="keywords" content="laser, stimulated emission, population inversion, optical gain, Fabry-Perot cavity, threshold condition, Einstein coefficients, three-level laser, four-level laser, rate equations, laser physics tutorial, interactive physics">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/laser/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Lasers Work — Interactive Guide">
+  <meta property="og:description" content="Animated, step-by-step guide to laser physics: stimulated emission, population inversion, optical gain, cavity modes, and threshold condition.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/laser/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Lasers Work — Interactive Guide">
+  <meta name="twitter:description" content="Animated guide: stimulated emission → population inversion → optical cavity → threshold.">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "How Lasers Work — Interactive Guide",
+    "description": "An animated, interactive tutorial explaining how lasers work — from stimulated emission and population inversion to optical gain, cavity resonance, and the threshold condition.",
+    "url": "https://yumigeta.github.io/learn/laser/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Arizona"
+      }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Laser physics",
+      "Stimulated emission",
+      "Population inversion",
+      "Optical gain",
+      "Fabry-Perot cavity",
+      "Laser threshold condition",
+      "Einstein A and B coefficients",
+      "Rate equations"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/laser.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top">
+        <div class="crumb">
+          <a href="/">Home</a><span class="sep">/</span>
+          <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+          <span><span class="i18n-en">Laser Physics</span><span class="i18n-ja">レーザーの原理</span></span>
+        </div>
+        <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+      </div>
+      <div class="ptop">
+        <h1><span class="i18n-en">How Lasers Work</span><span class="i18n-ja">レーザーの動作原理</span></h1>
+      </div>
+      <p class="pintro">
+        <span class="i18n-en">A laser is a device that produces <b>coherent, collimated, monochromatic light</b> through <em>stimulated emission</em>. Unlike a lamp, every photon leaving a laser shares the same frequency, phase, and direction — a consequence of the quantum mechanics of light-matter interaction inside an <em>optical resonator</em>. This page builds laser physics from the ground up: from Einstein's three radiative processes, through population inversion and optical gain, to the resonator that feeds the gain back on itself and the threshold condition that separates amplified spontaneous emission from true laser oscillation.</span>
+        <span class="i18n-ja">レーザーは<em>誘導放出</em>を利用して<b>コヒーレントで平行かつ単色の光</b>を生み出す装置です。通常の光源と異なり、レーザーから出るすべての光子は同じ周波数・位相・進行方向を持ちます。これは<em>光共振器</em>内における光と物質の量子力学的相互作用の結果です。本ページでは、アインシュタインの3つの輻射過程に始まり、粒子数反転と光学利得、利得を帰還させる共振器、そして増幅された自然放出と真のレーザー発振を分ける発振閾値まで、レーザー物理を基礎から積み上げていきます。</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Three radiative processes ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Light–matter interaction</span><span class="i18n-ja">00 — 光と物質の相互作用</span></span>
+      <h2><span class="i18n-en">Three radiative processes: absorption, spontaneous emission, stimulated emission</span><span class="i18n-ja">3つの輻射過程：吸収・自然放出・誘導放出</span></h2>
+      <p>
+        <span class="i18n-en">In 1917 Einstein showed that an atom interacting with a radiation field can do three and only three things. Consider a two-level atom with a lower state $|1\rangle$ (energy $E_1$) and an upper state $|2\rangle$ (energy $E_2 = E_1 + h\nu_{21}$), bathed in a radiation field of spectral energy density $\rho(\nu)$.</span>
+        <span class="i18n-ja">アインシュタインは1917年、輻射場と相互作用する原子が行うことのできる過程は3つのみであることを示しました。エネルギー $E_1$ の下状態 $|1\rangle$ とエネルギー $E_2 = E_1 + h\nu_{21}$ の上状態 $|2\rangle$ を持つ2準位原子が、スペクトルエネルギー密度 $\rho(\nu)$ の輻射場の中にある状況を考えます。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">① Absorption — $B_{12}$</span><span class="i18n-ja">① 吸収 — $B_{12}$</span></h3>
+        <p>
+          <span class="i18n-en">An atom in the ground state $|1\rangle$ absorbs a photon of energy $h\nu_{21}$ and is promoted to the excited state $|2\rangle$. The rate of this process is proportional to the population $N_1$ and to the radiation density $\rho(\nu_{21})$:</span>
+          <span class="i18n-ja">基底状態 $|1\rangle$ にある原子がエネルギー $h\nu_{21}$ の光子を吸収し、励起状態 $|2\rangle$ へ遷移します。この過程の速度は集団数 $N_1$ と輻射密度 $\rho(\nu_{21})$ に比例します：</span>
+        </p>
+        <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{abs}} = B_{12}\,\rho(\nu_{21})\,N_1 \tag{1}$$</p>
+
+        <h3><span class="i18n-en">② Spontaneous emission — $A_{21}$</span><span class="i18n-ja">② 自然放出 — $A_{21}$</span></h3>
+        <p>
+          <span class="i18n-en">An atom in the excited state $|2\rangle$ decays spontaneously to $|1\rangle$ with the emission of a photon in a <b>random direction and phase</b>. The rate is proportional only to $N_2$ — it is independent of the field:</span>
+          <span class="i18n-ja">励起状態 $|2\rangle$ にある原子が自発的に $|1\rangle$ へ遷移し、<b>ランダムな方向と位相</b>で光子を放出します。この速度は $N_2$ にのみ比例し、場には依存しません：</span>
+        </p>
+        <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{sp}} = -A_{21}\,N_2 \tag{2}$$</p>
+        <p>
+          <span class="i18n-en">The spontaneous lifetime is $\tau_{\text{sp}} = 1/A_{21}$. Spontaneous photons carry the energy of the transition but are <em>incoherent</em> — they form the fluorescence background, not laser light.</span>
+          <span class="i18n-ja">自然放出の寿命は $\tau_{\text{sp}} = 1/A_{21}$ です。自然放出光子は遷移エネルギーを運びますが<em>非コヒーレント</em>であり、蛍光バックグラウンドを形成しますがレーザー光にはなりません。</span>
+        </p>
+
+        <h3><span class="i18n-en">③ Stimulated emission — $B_{21}$</span><span class="i18n-ja">③ 誘導放出 — $B_{21}$</span></h3>
+        <p>
+          <span class="i18n-en">This is the key process. An incoming photon of energy $h\nu_{21}$ stimulates an already-excited atom to emit a <b>second, identical photon</b> — same frequency, same direction, same phase, same polarization. The rate is again proportional to $N_2$ <em>and</em> to the field:</span>
+          <span class="i18n-ja">これが核心となる過程です。エネルギー $h\nu_{21}$ の入射光子が、すでに励起状態にある原子を誘導して<b>同一の光子を1個放出</b>させます — 同じ周波数、同じ方向、同じ位相、同じ偏光。この速度は $N_2$ と場の両方に比例します：</span>
+        </p>
+        <p class="eq-block">$$\left(\frac{dN_2}{dt}\right)_{\!\text{st}} = -B_{21}\,\rho(\nu_{21})\,N_2 \tag{3}$$</p>
+        <p>
+          <span class="i18n-en">Stimulated emission is the engine of the laser. Einstein showed that for non-degenerate levels $B_{12} = B_{21} \equiv B$, so the same coefficient governs both absorption and stimulated emission — the direction of the process depends entirely on which level has more atoms.</span>
+          <span class="i18n-ja">誘導放出はレーザーのエンジンです。アインシュタインは非縮退準位では $B_{12} = B_{21} \equiv B$ を示し、同じ係数が吸収と誘導放出の両方を支配します。過程の向きは、どちらの準位に原子が多いかによって完全に決まります。</span>
+        </p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Einstein relation between A and B</span><span class="i18n-ja">AとBの間のアインシュタイン関係</span></summary>
+          <div>
+            <p>
+              <span class="i18n-en">In thermal equilibrium the populations satisfy the Boltzmann ratio $N_2/N_1 = e^{-h\nu_{21}/k_BT}$, and the field is Planck's law $\rho(\nu) = 8\pi h\nu^3/c^3 \cdot 1/(e^{h\nu/k_BT}-1)$. Setting the total rate of change $dN_2/dt = 0$ and substituting both expressions yields:</span>
+              <span class="i18n-ja">熱平衡では $N_2/N_1 = e^{-h\nu_{21}/k_BT}$ のボルツマン比が成立し、場はプランクの式 $\rho(\nu) = 8\pi h\nu^3/c^3 \cdot 1/(e^{h\nu/k_BT}-1)$ となります。$dN_2/dt = 0$ として両式を代入すると：</span>
+            </p>
+            <p class="eq-block">$$A_{21} = \frac{8\pi h\nu^3}{c^3}\,B_{21} \tag{4}$$</p>
+            <p>
+              <span class="i18n-en">This means $A_{21}/B_{21} \propto \nu^3$: at optical frequencies spontaneous emission is very fast relative to stimulated emission in a thermal field, which is why we need strong pumping to achieve a population inversion.</span>
+              <span class="i18n-ja">つまり $A_{21}/B_{21} \propto \nu^3$：光の周波数では、熱場中での誘導放出に比べて自然放出は非常に速い。これが粒子数反転を達成するために強力なポンプが必要な理由です。</span>
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Interactive: animated energy-level diagram -->
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: the three processes</span><span class="i18n-ja">インタラクティブ：3つの過程</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-transition" class="laser-canvas"></canvas>
+        <div class="transition-controls">
+          <button class="demo-btn active" id="btn-abs"><span class="i18n-en">① Absorption</span><span class="i18n-ja">① 吸収</span></button>
+          <button class="demo-btn" id="btn-sp"><span class="i18n-en">② Spontaneous emission</span><span class="i18n-ja">② 自然放出</span></button>
+          <button class="demo-btn" id="btn-st"><span class="i18n-en">③ Stimulated emission</span><span class="i18n-ja">③ 誘導放出</span></button>
+        </div>
+        <div class="transition-legend">
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">incident photon</span><span class="i18n-ja">入射光子</span></span>
+          <span><i style="background:#22c55e"></i><span class="i18n-en">emitted photon (coherent)</span><span class="i18n-ja">放出光子（コヒーレント）</span></span>
+          <span><i style="background:#a855f7"></i><span class="i18n-en">spontaneous photon (random)</span><span class="i18n-ja">自然放出光子（ランダム）</span></span>
+        </div>
+        <p class="cap" id="transition-cap">
+          <span class="i18n-en"><b>Absorption:</b> a photon is destroyed and the atom climbs to the excited state. Rate $\propto N_1\,\rho(\nu)$.</span>
+          <span class="i18n-ja"><b>吸収：</b>光子が消滅し、原子が励起状態へ遷移します。速度 $\propto N_1\,\rho(\nu)$。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Population inversion ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Population inversion</span><span class="i18n-ja">01 — 粒子数反転</span></span>
+      <h2><span class="i18n-en">Why you need more atoms in the upper state</span><span class="i18n-ja">上準位に原子が多くなければならない理由</span></h2>
+      <p>
+        <span class="i18n-en">In thermal equilibrium the Boltzmann distribution always puts <em>more</em> atoms in the lower state: $N_2/N_1 = e^{-h\nu_{21}/k_BT} < 1$ for $T > 0$. Under these conditions absorption wins over stimulated emission, and the medium <em>attenuates</em> light. To <em>amplify</em> light we need to invert the populations: $N_2 > N_1$. This cannot happen in a two-level system — pumping just drives the system toward equal populations. A third or fourth level is required to accumulate atoms in the upper laser level.</span>
+        <span class="i18n-ja">熱平衡ではボルツマン分布により常に下準位に原子が多くなります：$T > 0$ で $N_2/N_1 = e^{-h\nu_{21}/k_BT} < 1$。この条件下では吸収が誘導放出に勝り、媒質は光を<em>減衰</em>させます。光を<em>増幅</em>するためには粒子数を反転させる必要があります：$N_2 > N_1$。これは2準位系では達成できません — ポンプは集団数を均等化するだけです。上レーザー準位に原子を蓄積するには第3または第4の準位が必要です。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <h3><span class="i18n-en">Why two levels fail</span><span class="i18n-ja">2準位系では達成できない理由</span></h3>
+        <p>
+          <span class="i18n-en">In steady state, with a pump rate $W_p$ (s⁻¹) driving atoms from $|1\rangle$ to $|2\rangle$, the rate equations give:</span>
+          <span class="i18n-ja">定常状態において、$|1\rangle$ から $|2\rangle$ へのポンプ速度を $W_p$（s⁻¹）とすると、速度方程式は次を与えます：</span>
+        </p>
+        <p class="eq-block">$$\frac{N_2 - N_1}{N_{\text{tot}}} = \frac{W_p - A_{21}}{W_p + A_{21}} \tag{5}$$</p>
+        <p>
+          <span class="i18n-en">As $W_p \to \infty$ this approaches zero, never becoming positive. The system bleaches (transparent) but cannot invert. In a <b>four-level system</b>, the lower laser level is empty by fast relaxation ($|3\rangle \to |1\rangle$), so even a weak pump achieves $N_2 > N_3 \approx 0$ — inversion is the default condition above threshold.</span>
+          <span class="i18n-ja">$W_p \to \infty$ でもこの値はゼロに近づくだけで正にはなりません。系は透明になりますが反転はできません。<b>4準位系</b>では、下レーザー準位が速い緩和（$|3\rangle \to |1\rangle$）により常に空に保たれるため、弱いポンプでも $N_2 > N_3 \approx 0$ を達成でき、発振閾値以上では反転が常態となります。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: pumping schemes and population</span><span class="i18n-ja">インタラクティブ：励起方式と集団数</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-population" class="laser-canvas"></canvas>
+        <div class="pop-controls">
+          <div class="pop-scheme-btns">
+            <button class="demo-btn active" id="btn-2lvl"><span class="i18n-en">2-level</span><span class="i18n-ja">2準位</span></button>
+            <button class="demo-btn" id="btn-3lvl"><span class="i18n-en">3-level</span><span class="i18n-ja">3準位</span></button>
+            <button class="demo-btn" id="btn-4lvl"><span class="i18n-en">4-level</span><span class="i18n-ja">4準位</span></button>
+          </div>
+          <div class="pop-slider-row">
+            <label for="sl-pump"><span class="i18n-en">Pump rate</span><span class="i18n-ja">ポンプ速度</span> $W_p / A_{21}$</label>
+            <input type="range" id="sl-pump" min="0" max="5" step="0.05" value="0">
+            <output id="out-pump">0.00</output>
+          </div>
+        </div>
+        <p class="cap" id="pop-cap">
+          <span class="i18n-en">In a <b>2-level</b> system the inversion $\Delta N = N_2 - N_1$ can never become positive no matter how hard you pump.</span>
+          <span class="i18n-ja"><b>2準位</b>系では、どれだけ強くポンプしても反転数 $\Delta N = N_2 - N_1$ が正になることはありません。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Optical gain ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — Optical gain</span><span class="i18n-ja">02 — 光学利得</span></span>
+      <h2><span class="i18n-en">Exponential amplification through a gain medium</span><span class="i18n-ja">利得媒質による指数関数的増幅</span></h2>
+      <p>
+        <span class="i18n-en">When $N_2 > N_1$, stimulated emission dominates and the medium amplifies light. The intensity of a plane wave propagating through the medium along $z$ obeys Beer's law with a <em>positive</em> gain coefficient $g$:</span>
+        <span class="i18n-ja">$N_2 > N_1$ のとき、誘導放出が支配的となり媒質は光を増幅します。媒質中を $z$ 方向に伝播する平面波の強度は、<em>正の</em>利得係数 $g$ によるビールの法則に従います：</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p class="eq-block">$$I(z) = I_0\,e^{g z} \tag{6}$$</p>
+        <p>
+          <span class="i18n-en">The small-signal gain coefficient $g$ (m⁻¹) is related to the population inversion $\Delta N = N_2 - N_1$ and the stimulated-emission cross-section $\sigma_{21}$ (m²):</span>
+          <span class="i18n-ja">小信号利得係数 $g$（m⁻¹）は粒子数反転 $\Delta N = N_2 - N_1$ と誘導放出断面積 $\sigma_{21}$（m²）に次のように関係します：</span>
+        </p>
+        <p class="eq-block">$$g = \sigma_{21}\,\Delta N \tag{7}$$</p>
+        <p>
+          <span class="i18n-en">If $\Delta N > 0$ then $g > 0$ and the medium amplifies; if $\Delta N < 0$ then $g < 0$ and it absorbs. The cross-section $\sigma_{21}$ depends on the transition dipole moment and the lineshape function — it encodes how well the medium couples to the optical field at each frequency.</span>
+          <span class="i18n-ja">$\Delta N > 0$ なら $g > 0$ で媒質は増幅し、$\Delta N < 0$ なら $g < 0$ で吸収します。断面積 $\sigma_{21}$ は遷移双極子モーメントと線形関数に依存し、各周波数で媒質が光場とどれだけ結合するかを表します。</span>
+        </p>
+
+        <h3><span class="i18n-en">Gain bandwidth and homogeneous vs inhomogeneous broadening</span><span class="i18n-ja">利得帯域幅：均一広がりと不均一広がり</span></h3>
+        <p>
+          <span class="i18n-en">The gain $g(\nu)$ is not a delta-function at $\nu_{21}$ — it is broadened by several mechanisms. <b>Homogeneous broadening</b> (e.g. collisions, phonons) gives a Lorentzian lineshape with every atom contributing identically. <b>Inhomogeneous broadening</b> (e.g. Doppler shifts in gas lasers, local strain in solid-state lasers) gives a Gaussian envelope because different atoms have different resonance frequencies. Real laser lines are often Voigt profiles — a convolution of the two. The gain bandwidth $\Delta\nu_g$ determines how many cavity modes can oscillate simultaneously.</span>
+          <span class="i18n-ja">利得 $g(\nu)$ は $\nu_{21}$ のデルタ関数ではなく、いくつかのメカニズムにより広がっています。<b>均一広がり</b>（衝突、フォノンなど）はすべての原子が同じ寄与をするローレンツ線形を与えます。<b>不均一広がり</b>（気体レーザーのドップラーシフト、固体レーザーの局所ひずみなど）は異なる原子が異なる共鳴周波数を持つためガウス包絡線を与えます。実際のレーザー線形は多くの場合ボイトプロファイルです。利得帯域幅 $\Delta\nu_g$ は同時発振できる共振器モードの数を決めます。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: gain spectrum and intensity growth</span><span class="i18n-ja">インタラクティブ：利得スペクトルと強度増幅</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-gain" class="laser-canvas"></canvas>
+        <div class="gain-controls">
+          <div class="gain-row">
+            <label for="sl-inversion"><span class="i18n-en">Population inversion</span><span class="i18n-ja">粒子数反転</span> $\Delta N / N_{\text{tot}}$</label>
+            <input type="range" id="sl-inversion" min="-1" max="1" step="0.02" value="0.5">
+            <output id="out-inversion">+0.50</output>
+          </div>
+          <div class="gain-row">
+            <label for="sl-length"><span class="i18n-en">Medium length</span><span class="i18n-ja">媒質長</span> $L$ (a.u.)</label>
+            <input type="range" id="sl-length" min="0.1" max="3" step="0.05" value="1">
+            <output id="out-length">1.00</output>
+          </div>
+        </div>
+        <p class="cap" id="gain-cap">
+          <span class="i18n-en"><b>Left:</b> gain coefficient spectrum $g(\nu)$. <b>Right:</b> intensity growth $I(z)/I_0 = e^{gz}$ through the medium. Negative $\Delta N$ means absorption.</span>
+          <span class="i18n-ja"><b>左：</b>利得係数スペクトル $g(\nu)$。<b>右：</b>媒質中の強度増幅 $I(z)/I_0 = e^{gz}$。$\Delta N$ が負の場合は吸収。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — Optical resonator ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — Optical resonator</span><span class="i18n-ja">03 — 光共振器</span></span>
+      <h2><span class="i18n-en">Feeding gain back on itself: the Fabry–Pérot cavity</span><span class="i18n-ja">利得の帰還：ファブリ・ペロー共振器</span></h2>
+      <p>
+        <span class="i18n-en">A single pass through the gain medium provides amplification, but to build a <em>self-sustaining oscillator</em> we need <em>feedback</em>: mirrors that reflect the light back through the gain medium over and over. The simplest resonator is the <b>Fabry–Pérot cavity</b> — two parallel mirrors separated by a distance $L$, with the gain medium filling the space between them.</span>
+        <span class="i18n-ja">利得媒質を1回通過するだけでは増幅が得られますが、<em>自励発振器</em>を構築するには<em>帰還</em>が必要です：光を何度も利得媒質に通じるためのミラーによる反射。最もシンプルな共振器は<b>ファブリ・ペロー共振器</b>です — 距離 $L$ で平行に向かい合う2枚のミラーの間に利得媒質を充填します。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <h3><span class="i18n-en">Cavity modes</span><span class="i18n-ja">共振器モード</span></h3>
+        <p>
+          <span class="i18n-en">Standing waves form only when an integer number of half-wavelengths fits exactly between the mirrors:</span>
+          <span class="i18n-ja">定在波は、整数個の半波長がミラー間にちょうど収まる場合にのみ形成されます：</span>
+        </p>
+        <p class="eq-block">$$L = m\,\frac{\lambda_m}{2} = m\,\frac{c}{2n\nu_m},\quad m = 1, 2, 3, \ldots \tag{8}$$</p>
+        <p>
+          <span class="i18n-en">where $n$ is the refractive index of the medium. The <b>free spectral range</b> (mode spacing) is $\Delta\nu_{\text{FSR}} = c/(2nL)$. For a 10 cm cavity, $\Delta\nu_{\text{FSR}} \approx 1.5$ GHz — many longitudinal modes may fall within the gain bandwidth.</span>
+          <span class="i18n-ja">ここで $n$ は媒質の屈折率です。<b>自由スペクトル領域</b>（モード間隔）は $\Delta\nu_{\text{FSR}} = c/(2nL)$ です。10 cm の共振器では $\Delta\nu_{\text{FSR}} \approx 1.5$ GHz となり、利得帯域幅内に多数の縦モードが存在する可能性があります。</span>
+        </p>
+
+        <h3><span class="i18n-en">Round-trip gain condition</span><span class="i18n-ja">往復利得条件</span></h3>
+        <p>
+          <span class="i18n-en">After one round trip (two passes through the gain medium of length $L_g$, reflections off mirrors $R_1$ and $R_2$, and internal loss $\alpha_i$ per unit length), the field amplitude is multiplied by:</span>
+          <span class="i18n-ja">1往復（長さ $L_g$ の利得媒質を2回通過し、ミラー $R_1$, $R_2$ で反射し、単位長あたり内部損失 $\alpha_i$ を受ける）後、電場振幅は次の係数を掛けられます：</span>
+        </p>
+        <p class="eq-block">$$G_{\text{rt}} = R_1\,R_2\,e^{(g - \alpha_i)\,2L_g} \tag{9}$$</p>
+        <p>
+          <span class="i18n-en">Oscillation is sustained when $G_{\text{rt}} \geq 1$. The <b>threshold gain</b> is therefore:</span>
+          <span class="i18n-ja">$G_{\text{rt}} \geq 1$ のとき発振が持続します。したがって<b>閾値利得</b>は：</span>
+        </p>
+        <p class="eq-block">$$g_{\text{th}} = \alpha_i + \frac{1}{2L_g}\ln\!\frac{1}{R_1 R_2} \tag{10}$$</p>
+        <p>
+          <span class="i18n-en">The second term is the <b>output coupling loss</b> — the fraction of photons that escape through the mirrors per unit length. A highly reflective output coupler reduces losses and lowers the threshold, but also reduces the output power. The optimum reflectivity trades off these effects.</span>
+          <span class="i18n-ja">第2項は<b>出力結合損失</b>です — ミラーを通じて単位長あたりに逃げる光子の割合。高反射率の出力カプラは損失を減らして閾値を下げますが、出力光のパワーも減らします。最適な反射率はこれらの効果のトレードオフで決まります。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: light bouncing in the cavity</span><span class="i18n-ja">インタラクティブ：共振器内の光伝播</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-cavity" class="laser-canvas"></canvas>
+        <div class="cavity-controls">
+          <div class="cavity-row">
+            <label for="sl-r2"><span class="i18n-en">Output coupler reflectivity</span><span class="i18n-ja">出力カプラ反射率</span> $R_2$</label>
+            <input type="range" id="sl-r2" min="0.1" max="0.99" step="0.01" value="0.7">
+            <output id="out-r2">0.70</output>
+          </div>
+          <div class="cavity-row">
+            <label for="sl-cavgain"><span class="i18n-en">Single-pass gain</span><span class="i18n-ja">シングルパス利得</span> $e^{gL_g}$</label>
+            <input type="range" id="sl-cavgain" min="1.0" max="3.0" step="0.05" value="1.5">
+            <output id="out-cavgain">1.50×</output>
+          </div>
+        </div>
+        <p class="cap" id="cavity-cap">
+          <span class="i18n-en">The beam (yellow) bounces between the HR mirror (left, $R_1 = 1$) and the output coupler (right). Width represents intensity. If round-trip gain &gt; 1, intensity grows each pass.</span>
+          <span class="i18n-ja">ビーム（黄）はHRミラー（左、$R_1 = 1$）と出力カプラ（右）の間を往復します。幅が強度を表します。往復利得 &gt; 1 なら、1往復ごとに強度が成長します。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — Threshold condition ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — Threshold condition and laser output</span><span class="i18n-ja">04 — 発振閾値と出力特性</span></span>
+      <h2><span class="i18n-en">The laser knee: output power versus pump rate</span><span class="i18n-ja">レーザーの膝：出力パワーとポンプ速度</span></h2>
+      <p>
+        <span class="i18n-en">Below threshold, stimulated emission cannot compensate losses and the output is only incoherent amplified spontaneous emission (ASE). At threshold the round-trip gain equals unity, the inversion <em>clamps</em> at $\Delta N_{\text{th}}$, and further pumping produces a linear increase in coherent output power. This creates the characteristic "knee" in the output–pump curve.</span>
+        <span class="i18n-ja">閾値以下では誘導放出が損失を補えず、出力は非コヒーレントな増幅自然放出（ASE）のみです。閾値において往復利得が1になり、反転数は $\Delta N_{\text{th}}$ に<em>クランプ</em>され、それ以上のポンプは出力パワーの線形増加をもたらします。これが出力−ポンプ曲線の特徴的な「膝」を生み出します。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <h3><span class="i18n-en">Rate equations above threshold</span><span class="i18n-ja">閾値上での速度方程式</span></h3>
+        <p>
+          <span class="i18n-en">For a four-level laser in steady state, with pump rate $R_p$ (photons s⁻¹ cm⁻³), photon density $\phi$, and cavity photon lifetime $\tau_c$:</span>
+          <span class="i18n-ja">4準位レーザーの定常状態において、ポンプ速度 $R_p$（光子 s⁻¹ cm⁻³）、光子密度 $\phi$、共振器光子寿命 $\tau_c$ を用いると：</span>
+        </p>
+        <p class="eq-block">$$\frac{d\Delta N}{dt} = R_p - \frac{\Delta N}{\tau} - \sigma_{21}\,v_g\,\Delta N\,\phi = 0 \tag{11}$$</p>
+        <p class="eq-block">$$\frac{d\phi}{dt} = \frac{\sigma_{21}\,v_g\,\Delta N\,\phi}{\mathcal{V}} - \frac{\phi}{\tau_c} = 0 \tag{12}$$</p>
+        <p>
+          <span class="i18n-en">Above threshold ($R_p > R_{p,\text{th}}$) the inversion is clamped: $\Delta N = \Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$. The output power (proportional to $\phi$) is then linear in the pump excess:</span>
+          <span class="i18n-ja">閾値以上（$R_p > R_{p,\text{th}}$）では反転数がクランプされます：$\Delta N = \Delta N_{\text{th}} = 1/(\sigma_{21} v_g \tau_c)$。出力パワー（$\phi$ に比例）はポンプ超過量に線形です：</span>
+        </p>
+        <p class="eq-block">$$P_{\text{out}} \propto \eta_d\,(R_p - R_{p,\text{th}}) \tag{13}$$</p>
+        <p>
+          <span class="i18n-en">where $\eta_d$ is the differential (slope) efficiency. The slope efficiency and threshold together fully characterise a CW laser's $P$–$I$ curve.</span>
+          <span class="i18n-ja">ここで $\eta_d$ は差動（スロープ）効率です。スロープ効率と閾値の2つで、CWレーザーの $P$–$I$ 曲線が完全に特徴づけられます。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: output vs pump (P–I curve)</span><span class="i18n-ja">インタラクティブ：出力−ポンプ曲線（P–Iカーブ）</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-threshold" class="laser-canvas"></canvas>
+        <div class="threshold-controls">
+          <div class="threshold-row">
+            <label for="sl-loss"><span class="i18n-en">Cavity loss</span><span class="i18n-ja">共振器損失</span> (a.u.)</label>
+            <input type="range" id="sl-loss" min="0.1" max="0.9" step="0.02" value="0.4">
+            <output id="out-loss">0.40</output>
+          </div>
+          <div class="threshold-row">
+            <label for="sl-pump-th"><span class="i18n-en">Pump rate</span><span class="i18n-ja">ポンプ速度</span> $R_p$ (a.u.)</label>
+            <input type="range" id="sl-pump-th" min="0" max="2" step="0.02" value="1.0">
+            <output id="out-pump-th">1.00</output>
+          </div>
+        </div>
+        <p class="cap" id="threshold-cap">
+          <span class="i18n-en">The red dot marks the current operating point. Below threshold: only ASE. Above threshold: coherent output grows linearly. The vertical dashed line is the threshold pump rate $R_{p,\text{th}}$.</span>
+          <span class="i18n-ja">赤い点が現在の動作点を示します。閾値以下：ASEのみ。閾値以上：コヒーレント出力が線形に増加。縦の破線が閾値ポンプ速度 $R_{p,\text{th}}$ です。</span>
+        </p>
+      </div>
+
+      <!-- Final summary -->
+      <div class="laser-summary">
+        <div class="sum-title"><span class="i18n-en">The four ingredients of every laser</span><span class="i18n-ja">すべてのレーザーに共通する4つの要素</span></div>
+        <ol>
+          <li><span class="i18n-en"><b>Gain medium</b> — a material that supports population inversion via stimulated emission (gas, crystal, semiconductor, …)</span><span class="i18n-ja"><b>利得媒質</b> — 誘導放出による粒子数反転を支持する材料（気体、結晶、半導体…）</span></li>
+          <li><span class="i18n-en"><b>Pump source</b> — supplies energy to create the inversion (flashlamp, diode laser, electrical discharge, …)</span><span class="i18n-ja"><b>ポンプ光源</b> — 反転を生成するためのエネルギー供給（フラッシュランプ、ダイオードレーザー、放電…）</span></li>
+          <li><span class="i18n-en"><b>Optical resonator</b> — provides feedback so photons are repeatedly amplified (Fabry–Pérot, ring cavity, …)</span><span class="i18n-ja"><b>光共振器</b> — 光子を繰り返し増幅するための帰還機構（ファブリ・ペロー、リング共振器…）</span></li>
+          <li><span class="i18n-en"><b>Output coupling</b> — extracts a fraction of the intracavity power as useful beam (partial mirror, diffraction grating, …)</span><span class="i18n-ja"><b>出力結合</b> — 共振器内パワーの一部を有用なビームとして取り出す（部分透過ミラー、回折格子…）</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶに戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
+  </footer>
+
+  <script src="/assets/js/laser.js"></script>
+</body>
+</html>

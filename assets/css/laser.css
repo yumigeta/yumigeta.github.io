@@ -1,0 +1,132 @@
+/* ── Laser-specific styles ── shared demo styles live in style.css ── */
+
+/* ── Canvas defaults ── */
+.laser-canvas {
+  width: 100%; display: block;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+/* ── Section stages: no background of their own ── */
+.demo-stage { background: transparent; padding: 0; border-radius: 0; }
+
+/* ── Demo 00 — Transition canvas ── */
+#c-transition { height: 320px; }
+
+.transition-controls {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 14px;
+}
+.transition-legend {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin-top: 12px;
+  font-size: 0.78rem; color: var(--soft);
+}
+.transition-legend span { display: flex; align-items: center; gap: 6px; }
+.transition-legend i {
+  display: inline-block; width: 22px; height: 3px; border-radius: 2px; flex: none;
+}
+
+/* ── Demo 01 — Population inversion ── */
+#c-population { height: 300px; }
+
+.pop-controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 18px;
+  margin-top: 14px;
+}
+.pop-slider-row {
+  display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px;
+}
+.pop-slider-row label {
+  font-size: 0.8rem; color: var(--soft);
+}
+.pop-slider-row input[type=range] { width: 100%; }
+.pop-slider-row output {
+  font-size: 0.76rem; color: var(--faint);
+}
+.pop-scheme-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ── Demo 02 — Gain ── */
+#c-gain { height: 260px; }
+.gain-controls {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px;
+  margin-top: 14px;
+}
+@media (max-width: 540px) {
+  .gain-controls { grid-template-columns: 1fr; }
+}
+.gain-row {
+  display: flex; flex-direction: column; gap: 5px;
+}
+.gain-row label { font-size: 0.8rem; color: var(--soft); }
+.gain-row input[type=range] { width: 100%; }
+.gain-row output { font-size: 0.76rem; color: var(--faint); }
+
+/* ── Demo 03 — Cavity ── */
+#c-cavity { height: 260px; }
+.cavity-controls {
+  display: flex; flex-wrap: wrap; gap: 14px 28px;
+  margin-top: 14px;
+  align-items: flex-start;
+}
+.cavity-row {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 180px;
+}
+.cavity-row label { font-size: 0.8rem; color: var(--soft); }
+.cavity-row input[type=range] { width: 100%; }
+.cavity-row output { font-size: 0.76rem; color: var(--faint); }
+
+/* ── Demo 04 — Threshold ── */
+#c-threshold { height: 280px; }
+.threshold-controls {
+  display: flex; flex-wrap: wrap; gap: 14px 28px;
+  margin-top: 14px;
+}
+.threshold-row {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 180px;
+}
+.threshold-row label { font-size: 0.8rem; color: var(--soft); }
+.threshold-row input[type=range] { width: 100%; }
+.threshold-row output { font-size: 0.76rem; color: var(--faint); }
+
+/* ── Summary callout ── */
+.laser-summary {
+  margin: 32px 0 8px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--paper-tint) 48%, var(--paper)),
+    color-mix(in srgb, var(--paper-tint) 72%, var(--paper)));
+  border-left: 3px solid var(--seal);
+  border-radius: 7px;
+  padding: 18px 24px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 1px 2px rgba(27,23,17,.05);
+}
+.laser-summary .sum-title {
+  font-family: var(--mincho); font-weight: 700;
+  font-size: 0.88rem; letter-spacing: .12em;
+  color: var(--seal); margin-bottom: 10px; text-transform: uppercase;
+}
+.laser-summary ol {
+  padding-left: 1.4em; margin: 0;
+  font-size: 0.88rem; line-height: 1.8; color: var(--ink);
+}
+
+/* ── Cap ── */
+.cap {
+  font-size: 0.8rem; color: var(--faint); margin-top: 10px; line-height: 1.6;
+}
+
+/* ── Two-column figure layout ── */
+.two-col-fig {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin: 16px 0;
+}
+@media (max-width: 600px) {
+  .two-col-fig { grid-template-columns: 1fr; }
+}
+.two-col-fig canvas {
+  width: 100%; height: 200px; display: block;
+  background: #1b1711; border: 1px solid var(--rule); border-radius: 8px;
+}
+.two-col-fig .fig-label {
+  font-size: 0.76rem; text-align: center; color: var(--faint); margin-top: 6px;
+}
