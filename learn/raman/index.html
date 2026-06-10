@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Raman Spectroscopy Works — Interactive Guide</title>
-  <meta name="description" content="Learn how Raman spectroscopy works through interactive animations. Explore molecular vibrations, polarizability modulation, Stokes/anti-Stokes scattering, Jablonski diagrams, selection rules, scattering intensity, and Raman tensors in crystals — step by step.">
-  <meta name="keywords" content="Raman spectroscopy, polarizability, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, Jablonski diagram, Raman tensor, selection rule, phonon, angle-resolved Raman, spectroscopy tutorial, physics animation, interactive physics">
+  <title>Classical Theory of Raman Scattering — Interactive Guide</title>
+  <meta name="description" content="A step-by-step derivation of Raman scattering from classical physics: polarizability modulation, Stokes and anti-Stokes sidebands, the ν⁴ intensity law, and the selection rule — with synchronized interactive animations.">
+  <meta name="keywords" content="Raman spectroscopy, classical theory, polarizability, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, Raman tensor, selection rule, phonon, angle-resolved Raman, spectroscopy tutorial, physics animation, interactive physics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/raman/">
 
   <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How Raman Spectroscopy Works — Interactive Guide">
-  <meta property="og:description" content="Animated, step-by-step guide to Raman scattering: molecular vibrations, polarizability, Stokes/anti-Stokes sidebands, and Jablonski diagrams.">
+  <meta property="og:title" content="Classical Theory of Raman Scattering — Interactive Guide">
+  <meta property="og:description" content="Step-by-step classical derivation: vibrating polarizability → AM modulation → Stokes/anti-Stokes sidebands → ν⁴ law → selection rule.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/raman/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta property="og:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
@@ -20,8 +20,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="How Raman Spectroscopy Works — Interactive Guide">
-  <meta name="twitter:description" content="Animated guide: vibrations → polarizability modulation → Stokes & anti-Stokes scattering.">
+  <meta name="twitter:title" content="Classical Theory of Raman Scattering — Interactive Guide">
+  <meta name="twitter:description" content="Classical derivation: vibrating polarizability → Stokes & anti-Stokes sidebands → selection rule.">
   <meta name="twitter:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
 
   <!-- Structured data: educational article -->
@@ -29,8 +29,8 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "How Raman Spectroscopy Works — Interactive Guide",
-    "description": "An animated, interactive tutorial explaining how Raman spectroscopy works — from molecular vibrations and polarizability modulation to Stokes/anti-Stokes scattering and Jablonski energy diagrams.",
+    "name": "Classical Theory of Raman Scattering — Interactive Guide",
+    "description": "A step-by-step classical derivation of Raman scattering: polarizability modulation, Stokes/anti-Stokes sidebands, the ν⁴ intensity law, and selection rules — with interactive animations.",
     "url": "https://yumigeta.github.io/learn/raman/",
     "author": {
       "@type": "Person",
@@ -89,11 +89,11 @@
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Raman Spectroscopy</span><span class="i18n-ja">ラマン分光法</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Classical Raman Theory</span><span class="i18n-ja">ラマン古典論</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">How Raman Spectroscopy Works</span><span class="i18n-ja">ラマン分光法の仕組み</span></h1>
+        <h1><span class="i18n-en">Classical Theory of Raman Scattering</span><span class="i18n-ja">ラマン散乱の古典論</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">Shine a laser on a material, and almost every photon bounces back with its colour unchanged. But about one in ten million comes back <em>slightly shifted in colour</em>. That tiny shift, $\omega_0\!\pm\!\omega_k$, turns out to be a direct copy of the material's vibration frequencies — a <b>vibrational fingerprint</b> that identifies the material and reads out its composition, crystallinity, strain, doping, temperature, layer number, and crystal orientation, all without touching it. Why does the colour change at all? This page answers that with nothing more than <b>classical physics</b> — the scattering mechanism, the scattered intensity, and the selection rules that decide which vibrations show up — before revisiting the same story in the <b>quantum picture</b>.</span><span class="i18n-ja">レーザーを物質に当てると、ほとんどの光は同じ色のまま跳ね返ってくる。ところが、およそ1000万分の1というごく僅かな光だけが、<em>わずかに色を変えて</em>戻ってくる。この小さな色の変化 $\omega_0\!\pm\!\omega_k$ こそ、物質の振動数をそのまま写し取った<b>振動の指紋</b>である。指紋を照合すれば物質が同定できるだけでなく、組成・結晶性・ひずみ・ドーピング・温度・層数・結晶方位までも、触れずに読み取れる。では、なぜ色が変わるのか？　本ページではこの謎を<b>古典物理だけ</b>で解き明かす — 散乱のからくり、散乱強度、そしてどの振動が見えるかを決める選択則まで。その後、同じ物理を<b>量子論</b>の目で捉え直す。</span></p>
+      <p class="pintro"><span class="i18n-en">Shine a laser on a material, and almost every photon bounces back with its colour unchanged. But about one in ten million comes back <em>slightly shifted in colour</em>. That tiny shift, $\omega_0\!\pm\!\omega_k$, turns out to be a direct copy of the material's vibration frequencies — a <b>vibrational fingerprint</b> that identifies the material and reads out its composition, crystallinity, strain, doping, temperature, layer number, and crystal orientation, all without touching it. Why does the colour change at all? This page answers that with nothing more than <b>classical physics</b> — the scattering mechanism, the scattered intensity, and the selection rules that decide which vibrations show up. The same story retold in the <b>quantum picture</b> continues on a <a href="/learn/raman-quantum/">companion page</a>.</span><span class="i18n-ja">レーザーを物質に当てると、ほとんどの光は同じ色のまま跳ね返ってくる。ところが、およそ1000万分の1というごく僅かな光だけが、<em>わずかに色を変えて</em>戻ってくる。この小さな色の変化 $\omega_0\!\pm\!\omega_k$ こそ、物質の振動数をそのまま写し取った<b>振動の指紋</b>である。指紋を照合すれば物質が同定できるだけでなく、組成・結晶性・ひずみ・ドーピング・温度・層数・結晶方位までも、触れずに読み取れる。では、なぜ色が変わるのか？　本ページではこの謎を<b>古典物理だけ</b>で解き明かす — 散乱のからくり、散乱強度、そしてどの振動が見えるかを決める選択則まで。同じ物理を<b>量子論</b>で語り直したものは<a href="/learn/raman-quantum/">別ページ</a>で扱う。</span></p>
     </div>
   </div>
 
@@ -286,7 +286,7 @@
 
         <div class="callout recap cv-daikake">
           <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
-          <p><span class="i18n-en">The next page retells this same scattering story in the <b>quantum picture</b> — photons in, phonons created or annihilated, and the molecule hopping between quantized vibrational levels. At a minimum it must recover what classical physics could not: the <b>Stokes / anti-Stokes intensity asymmetry</b>, its use as a <b>non-contact thermometer</b>, and the <b>resonance enhancement</b> — while showing how the classical result we just derived re-emerges as a limiting case.</span><span class="i18n-ja">次のページでは、この同じ散乱の物語を<b>量子論の描像</b>で語り直す — 光子が入り、フォノンが生成・消滅し、分子がとびとびの振動準位を飛び移る、という形で。そこでは少なくとも、古典論が説明できなかったもの — <b>ストークス／反ストークスの強度の非対称性</b>、それを使った<b>非接触の温度計</b>、そして<b>共鳴増強</b> — を取り戻し、いま導いた古典論の結果がその極限として再び現れることを示さなければならない。</span></p>
+          <p><span class="i18n-en">The companion page retells this same scattering story in the <b>quantum picture</b> — photons in, phonons created or annihilated, and the molecule hopping between quantized vibrational levels. It recovers what classical physics could not: the <b>Stokes / anti-Stokes intensity asymmetry</b>, its use as a <b>non-contact thermometer</b>, and the <b>resonance enhancement</b>. <a href="/learn/raman-quantum/">Quantum Picture of Raman Scattering &rsaquo;</a></span><span class="i18n-ja">別ページでは、この同じ散乱の物語を<b>量子論の描像</b>で語り直す — 光子が入り、フォノンが生成・消滅し、分子がとびとびの振動準位を飛び移る、という形で。古典論が説明できなかった<b>ストークス／反ストークスの強度の非対称性</b>・<b>非接触温度計</b>・<b>共鳴増強</b>を取り戻す。<a href="/learn/raman-quantum/">ラマン散乱の量子論 &rsaquo;</a></span></p>
         </div>
       </div>
 
@@ -366,16 +366,6 @@
     </div>
   </section>
 
-  <!-- ═══════ Module 02 — Quantum picture (planned) ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">02 — Quantum picture</span><span class="i18n-ja">02 — 量子論的描像</span></span>
-      <h2><span class="i18n-en">The quantum picture of Raman scattering</span><span class="i18n-ja">ラマン散乱の量子論的描像</span></h2>
-      <div class="callout recap cv-daikake coming-soon">
-        <span class="co-label"><span class="i18n-en">Coming soon</span><span class="i18n-ja">近日公開</span></span>
-      </div>
-    </div>
-  </section>
 
   <footer class="site-footer">
 
