@@ -256,13 +256,21 @@
         satManyEl.style.color = '#fb7185';
       }
 
-      // regime verdict (read share at this N)
-      const totalPeak = br * PROFILE[PEAK_IDX] * T;     // shot+ (∝T, fixed)
+      // regime verdict: saturation takes priority over read-noise analysis
+      const totalPeak = br * PROFILE[PEAK_IDX] * T;
       const vRead = rd * rd * N;
       const readShare = vRead / (totalPeak + 0.4 * T + vRead);
       const el = $('trade-verdict');
       let cls, msg;
-      if (readShare < 0.1) {
+      if (long.saturated && !many.saturated) {
+        cls = 'bad';
+        msg = t('⚠ Long acquisition saturates the detector — the peak is clipped and data is lost. Use more, shorter accumulations.',
+                '⚠ 長時間取得で検出器がサチュレーション — ピークがクリップされデータが失われます。短い積算回数に分けてください。');
+      } else if (long.saturated && many.saturated) {
+        cls = 'bad';
+        msg = t('⚠ Both strategies saturate — reduce acquisition time t (increase N) or lower the source brightness.',
+                '⚠ 両方の方法でサチュレーション — 取得時間 t を短くする（N を増やす）か、光源の明るさを下げてください。');
+      } else if (readShare < 0.1) {
         cls = 'good';
         msg = t('Shot-noise-limited — the split barely changes SNR. Accumulate freely for spike rejection & saturation headroom.',
                 'ショットノイズ律速 — 分け方はSN比をほとんど変えない。スパイク除去と飽和マージンのため積算を活用してよい。');
