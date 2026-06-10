@@ -218,21 +218,10 @@
   margin: 8px 0; padding: 4px 0; overflow-x: auto;
 }
 
-/* ── Coming-soon badge — callout style ── */
-.coming-soon {
-  max-width: var(--measure);
-  margin: 18px 0 0; padding: 14px 20px 14px 18px;
-  background: linear-gradient(
-    color-mix(in srgb, var(--paper-tint) 50%, var(--paper)),
-    color-mix(in srgb, var(--paper-tint) 50%, var(--paper))
-  );
-  border: 1px solid var(--rule);
-  border-left: 2px solid var(--ink-3);
-  border-radius: 3px;
-  font-family: var(--mincho);
-  font-size: 14.5px; font-weight: 700; letter-spacing: 0.14em;
-  color: var(--ink-2); line-height: 1.72;
-}
+/* ── Coming-soon badge — uses the shared .callout (cv-daikake) styling;
+   only the label is shown (no body), so trim the label's bottom margin. ── */
+.coming-soon { margin-top: 18px; }
+.coming-soon .co-label { margin-bottom: 0; }
 
 .recall {
   margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px;
