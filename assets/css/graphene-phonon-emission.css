@@ -1,0 +1,40 @@
+/* ── Phonon-emission page styles ── shared demo styles live in style.css/laser.css ── */
+
+/* ── Demo 02a — Cherenkov wake ── */
+#c-wake { height: 300px; }
+.wake-controls {
+  display: flex; flex-wrap: wrap; gap: 14px 28px;
+  margin-top: 14px;
+}
+.wake-row {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px;
+}
+.wake-row label { font-size: 0.8rem; color: var(--soft); }
+.wake-row input[type=range] { width: 100%; }
+.wake-row output { font-size: 0.76rem; color: var(--faint); }
+
+/* ── Demo 02b — Gain lobe ── */
+#c-lobe { height: 300px; }
+.lobe-controls {
+  display: flex; flex-wrap: wrap; gap: 14px 28px;
+  margin-top: 14px;
+}
+.lobe-row {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px;
+}
+.lobe-row label { font-size: 0.8rem; color: var(--soft); }
+.lobe-row input[type=range] { width: 100%; }
+.lobe-row output { font-size: 0.76rem; color: var(--faint); }
+
+/* ── Demo 04 — Phonon avalanche ── */
+#c-growth { height: 280px; }
+.growth-controls {
+  display: flex; flex-wrap: wrap; gap: 14px 28px;
+  margin-top: 14px;
+}
+.growth-row {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 180px;
+}
+.growth-row label { font-size: 0.8rem; color: var(--soft); }
+.growth-row input[type=range] { width: 100%; }
+.growth-row output { font-size: 0.76rem; color: var(--faint); }
