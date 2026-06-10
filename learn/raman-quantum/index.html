@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Picture of Raman Scattering — Interactive Guide</title>
+  <meta name="description" content="Why is the anti-Stokes line always weaker — and why does its brightness change with temperature? The quantum picture of Raman scattering: photons, phonons, Boltzmann populations, resonance enhancement, and the Jablonski diagram.">
+  <meta name="keywords" content="Raman spectroscopy, quantum theory, Stokes anti-Stokes ratio, Raman thermometry, resonance Raman, Jablonski diagram, phonon, virtual state, Boltzmann distribution, spectroscopy tutorial, physics animation">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/raman-quantum/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Quantum Picture of Raman Scattering — Interactive Guide">
+  <meta property="og:description" content="Photons, phonons, and Boltzmann populations: why anti-Stokes is weaker, how that ratio measures temperature, and why resonance can amplify Raman a millionfold.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/raman-quantum/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta property="og:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Quantum Picture of Raman Scattering — Interactive Guide">
+  <meta name="twitter:description" content="Why anti-Stokes is weaker, Raman thermometry, and resonance Raman — explained with photons and phonons.">
+  <meta name="twitter:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Quantum Picture of Raman Scattering — Interactive Guide",
+    "description": "The quantum picture of Raman scattering: photons and phonons, Stokes/anti-Stokes Boltzmann populations, non-contact Raman thermometry, virtual states, and resonance enhancement.",
+    "url": "https://yumigeta.github.io/learn/raman-quantum/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Arizona"
+      }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Quantum theory of Raman scattering",
+      "Stokes and anti-Stokes cross sections",
+      "Boltzmann population",
+      "Raman thermometry",
+      "Virtual state",
+      "Jablonski diagram",
+      "Resonance Raman spectroscopy"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Quantum Raman Theory</span><span class="i18n-ja">ラマン量子論</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Quantum Picture of Raman Scattering</span><span class="i18n-ja">ラマン散乱の量子論</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">The <a href="/learn/raman/">classical theory</a> nails the scattering frequencies, the selection rules, and the $\nu^4$ intensity law. But it hands the Stokes and anti-Stokes sidebands the exact same amplitude — and experiment flatly disagrees. The anti-Stokes line is always weaker, its relative brightness changes with temperature, and near an electronic resonance the entire signal can blaze up a millionfold. None of this can come from classical physics. This page retells the Raman story with <b>photons and phonons</b>: discrete energy quanta, Boltzmann-weighted vibrational populations, virtual states, and the Jablonski diagram — recovering everything classical physics left on the table.</span><span class="i18n-ja"><a href="/learn/raman/">古典論</a>は散乱周波数・選択則・$\nu^4$ 則を正しく与える。しかし古典論はストークス線と反ストークス線に同じ振幅を与えてしまう — 実験はこれをきっぱり否定する。反ストークス線はつねにずっと弱く、その明るさは温度とともに変わり、電子共鳴に近いとスペクトル全体が百万倍にも燃え上がる。これらは古典物理には不可能だ。本ページではラマン散乱の物語を<b>光子とフォノン</b>で語り直す — とびとびのエネルギー量子、ボルツマン重みをもった振動準位の分布、仮想状態、そしてヤブロンスキー図 — 古典論がテーブルに残していったものをすべて回収する。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Quantum picture ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Quantum picture of Raman scattering</span><span class="i18n-ja">00 — ラマン散乱の量子論的描像</span></span>
+      <h2><span class="i18n-en">Photons, phonons, and Boltzmann populations</span><span class="i18n-ja">光子・フォノン・ボルツマン分布</span></h2>
+      <div class="callout recap cv-daikake coming-soon">
+        <span class="co-label"><span class="i18n-en">Coming soon</span><span class="i18n-ja">近日公開</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Jablonski & resonance ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Jablonski diagram and resonance Raman</span><span class="i18n-ja">01 — ヤブロンスキー図と共鳴ラマン</span></span>
+      <h2><span class="i18n-en">Virtual states, real states, and the million-fold boost</span><span class="i18n-ja">仮想準位・実準位、そして百万倍の増強</span></h2>
+      <div class="callout recap cv-daikake coming-soon">
+        <span class="co-label"><span class="i18n-en">Coming soon</span><span class="i18n-ja">近日公開</span></span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+</body>
+</html>
