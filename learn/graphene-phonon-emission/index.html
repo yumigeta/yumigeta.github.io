@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stimulated Phonon Emission in Graphene — Interactive Guide</title>
+  <meta name="description" content="A beginner-friendly, essay-style sequel to the laser page. In graphene, electrons can be pushed faster than the speed of sound in the crystal — and when they break the sound barrier, they start cloning acoustic phonons by stimulated emission. The physics of phonon amplification, the Cherenkov condition, and the road toward a laser of sound, with interactive animations.">
+  <meta name="keywords" content="graphene, phonon, stimulated emission, acoustic phonon, phonon amplification, acoustoelectric effect, Cherenkov, SASER, phonon laser, drift velocity, sound velocity, carrier mobility, interactive physics, beginner">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-phonon-emission/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Stimulated Phonon Emission in Graphene — Interactive Guide">
+  <meta property="og:description" content="What happens when electrons in graphene break the sound barrier of their own crystal? An essay-style walk from the laser's cloning trick to phonon amplification and the dream of a laser of sound.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-phonon-emission/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stimulated Phonon Emission in Graphene — Interactive Guide">
+  <meta name="twitter:description" content="Electrons in graphene can outrun the crystal's own sound. When they do, they start cloning phonons — the seed of a laser of sound.">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Stimulated Phonon Emission in Graphene — Interactive Guide",
+    "description": "A beginner-friendly, essay-style interactive tutorial explaining how a DC current in graphene can amplify acoustic phonons by stimulated emission — covering phonons as quanta of sound, the Einstein bookkeeping for electron–phonon scattering, the supersonic-drift (Cherenkov) condition, why graphene's extreme carrier mobility makes it the ideal stage, and the threshold for a phonon avalanche.",
+    "url": "https://yumigeta.github.io/learn/graphene-phonon-emission/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Arizona"
+      }
+    },
+    "educationalLevel": "Beginner",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Acoustic phonons",
+      "Stimulated phonon emission",
+      "Electron–phonon interaction",
+      "Acoustoelectric amplification",
+      "Cherenkov condition",
+      "Carrier drift velocity and mobility in graphene",
+      "Phonon amplification threshold",
+      "SASER concept"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/laser.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/graphene-phonon-emission.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top">
+        <div class="crumb">
+          <a href="/">Home</a><span class="sep">/</span>
+          <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+          <span><span class="i18n-en">Phonon Emission in Graphene</span><span class="i18n-ja">グラフェンのフォノン誘導放出</span></span>
+        </div>
+        <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+      </div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Stimulated Phonon Emission in Graphene</span><span class="i18n-ja">グラフェン中のフォノン誘導放出</span></h1>
+      </div>
+      <p class="pintro">
+        <span class="i18n-en">A jet that flies faster than its own sound drags a thunderclap behind it — the sonic boom. Hold on to that picture, because this whole page is that picture in miniature. On the <a href="/learn/laser/">previous page</a> we met the trick at the heart of every laser: stimulated emission, where one photon provokes an excited atom into emitting a perfect clone of itself. Now for a question that sounds almost like a joke: can the same trick be played with <em>sound</em>? It can — and the punchline is where it happens. Inside graphene, electrons are so absurdly mobile that an ordinary DC current can push them <em>faster than the speed of sound in the crystal itself</em>. The moment they break that sound barrier, the bookkeeping that governs absorption and emission flips sign, and the electrons begin cloning sound quanta — phonons — exactly the way an inverted medium clones photons. No mirrors, no pump lamp; a battery and a flake of pencil lead. This page builds that story from parts you already own, and every equation in it will be one you have effectively seen before, wearing a different costume.</span>
+        <span class="i18n-ja">自分の出す音より速く飛ぶジェット機は、背後に雷鳴を引きずっていく——ソニックブームである。この絵をしっかり覚えておいてほしい。このページ全体が、この絵のミニチュア版だからだ。<a href="/learn/laser/">前のページ</a>で我々は、あらゆるレーザーの心臓部にある仕掛けに出会った。誘導放出——1個の光子が励起原子をつついて、自分の完全なクローンを吐き出させるあの技だ。さて、ほとんど冗談のように聞こえる問いをひとつ。同じ技を<em>音</em>で演じることはできないだろうか？　できるのである。しかも面白いのは、その舞台だ。グラフェンの中の電子はあきれるほど身軽で、ただの直流電流で<em>結晶自身の中の音速より速く</em>走らせることができてしまう。電子がその音の壁を破った瞬間、吸収と放出を支配していた帳簿の符号がひっくり返り、電子は音の量子——フォノン——のクローン作りを始める。反転した媒質が光子をクローンするのと、まったく同じ仕組みでだ。鏡も励起ランプも要らない。電池と、鉛筆の芯のかけら1枚である。このページでは、読者がすでに持っている部品だけからこの物語を組み立てる。出てくる式はどれも、衣装を着替えただけの「前に見た式」のはずだ。</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — Sound comes in quanta ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — Phonons</span><span class="i18n-ja">00 — フォノン</span></span>
+      <h2><span class="i18n-en">Sound comes in quanta too</span><span class="i18n-ja">音にも量子がある</span></h2>
+      <p>
+        <span class="i18n-en">The laser story began with a confession: light, which looks perfectly continuous, secretly comes in lumps called photons. This story begins with the same confession about sound.</span>
+        <span class="i18n-ja">レーザーの物語は、ひとつの白状から始まった。どこまでも連続に見える光が、実は光子という粒の集まりだった、という白状である。この物語も、音についての同じ白状から始まる。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">A crystal is an enormous grid of atoms connected by springs — the chemical bonds. Pluck it anywhere and the disturbance runs through the grid as a wave: that is what sound <em>is</em>, inside a solid. And just as the electromagnetic field cannot carry an arbitrary amount of energy at a given frequency but only whole photons of $h\nu$ each, a lattice vibration of frequency $\nu$ can only gain or lose energy in whole lumps of $h\nu$. Each lump is called a <b>phonon</b>: one quantum of sound. The pun in the name is deliberate — photon for light, phonon for sound — and the parallel runs much deeper than the spelling.</span>
+          <span class="i18n-ja">結晶とは、ばね——化学結合——でつながれた原子の巨大な格子である。どこかを弾けば、その乱れは波として格子を走っていく。固体の中の音とは、まさに<em>それ</em>のことだ。そして、電磁場が決まった周波数で勝手な量のエネルギーを持てず、$h\nu$ 単位の光子としてしかやり取りできなかったのとまったく同じように、周波数 $\nu$ の格子振動も、$h\nu$ のかたまり単位でしかエネルギーを増減できない。このかたまりを<b>フォノン</b>と呼ぶ。音の量子1個である。photon（光子）に対して phonon（音子）——名前のしゃれは確信犯であって、両者の並行関係は綴りよりずっと深いところまで続いている。</span>
+        </p>
+        <p>
+          <span class="i18n-en">For this page we need only the gentlest kind of lattice wave: long-wavelength <b>acoustic phonons</b>, where neighboring atoms sway together — ordinary sound, just at very high pitch. These obey the simplest dispersion you can write down, frequency proportional to wavenumber,</span>
+          <span class="i18n-ja">このページで必要になるのは、格子の波のうちいちばん穏やかな種類だけだ。波長の長い<b>音響フォノン</b>——隣り合う原子がそろって揺れる波で、要するにごく高い音程のふつうの音である。これは、書ける中でいちばん簡単な分散関係に従う。周波数は波数に比例し、</span>
+        </p>
+        <p class="eq-block">$$\omega_q = v_s\,q \tag{1}$$</p>
+        <p>
+          <span class="i18n-en">with one material constant $v_s$, the speed of sound. In graphene $v_s \approx 2\times10^4\,\mathrm{m/s}$ — about 60 times the speed of sound in air, and yet, remember this number, because the entire drama of this page hinges on how <em>slow</em> it is compared to something else.</span>
+          <span class="i18n-ja">物質定数はただ一つ、音速 $v_s$ である。グラフェンでは $v_s \approx 2\times10^4\,\mathrm{m/s}$。空気中の音速のおよそ60倍だ。それでも、この数字を覚えておいてほしい。このページの劇の全部が、これが「別のあるもの」に比べてどれほど<em>遅い</em>かに懸かっているのだから。</span>
+        </p>
+
+        <h3><span class="i18n-en">The three moves, replayed</span><span class="i18n-ja">あの3つの過程、再演</span></h3>
+        <p>
+          <span class="i18n-en">Now the crucial observation. Phonons, like photons, are <b>bosons</b> — identical copies are allowed, even encouraged, to pile into the same wave. And the actors that absorb and emit them — the conduction electrons swimming through the crystal — play exactly the role the atoms played in the laser story. Run down the cast list and check each part. An electron can <em>absorb</em> a phonon, stealing its energy and momentum: that is one face of electrical resistance. An electron with energy to spare can <em>spontaneously emit</em> a phonon, dumping heat into the lattice at a random moment, in a random direction: that is the other face of resistance, the microscopic event behind every warm laptop. And — Einstein's 1917 bookkeeping does not care whether the boson is light or sound — there must be a third move: a passing phonon can <em>stimulate</em> a suitable electron to emit a clone of it. Same frequency, same direction, same phase. The rates carry the same fingerprints as before. If $n_q$ phonons already occupy mode $q$,</span>
+          <span class="i18n-ja">ここで決定的な観察をする。フォノンは光子と同じく<b>ボース粒子</b>であって、同一のコピーが同じ波に重なって乗ることを許されている——むしろ歓迎されている。そして、それを吸収したり放出したりする役者——結晶の中を泳ぐ伝導電子——は、レーザーの物語で原子が演じた役をそっくりそのまま演じるのだ。配役表を上から確かめていこう。電子はフォノンを<em>吸収</em>できる。エネルギーと運動量を奪い取るのだ。これは電気抵抗の一つの顔である。余分なエネルギーを持った電子は、フォノンを<em>自然放出</em>できる。ランダムな瞬間に、ランダムな方向へ、格子に熱を捨てるのだ。これは抵抗のもう一つの顔、ノートパソコンが温かくなるあの現象の微視的な正体である。そして——アインシュタインの1917年の帳簿合わせは、ボース粒子が光だろうが音だろうがお構いなしだ——第3の過程が必ず存在する。通りかかったフォノンが、条件の合う電子を<em>誘って</em>、自分のクローンを放出させるのである。同じ周波数、同じ方向、同じ位相。頻度の式には前と同じ指紋が付いている。モード $q$ にすでに $n_q$ 個のフォノンがいるとき、</span>
+        </p>
+        <p class="eq-block">$$W_{\text{emit}} \propto (n_q + 1), \qquad W_{\text{absorb}} \propto n_q \tag{2}$$</p>
+        <p>
+          <span class="i18n-en">Look closely at that little "$+1$". The $n_q$ part of the emission rate is the stimulated piece — the more phonons already in the wave, the harder they recruit. The lonely $+1$ is spontaneous emission, the only term that survives when the mode is empty. This pair of factors is not an analogy to the laser equations; it is <em>the same mathematics</em>, derived the same way, and everything we learned from it transfers wholesale. One phonon can become two identical phonons. Two can become four. If — a big if — emission can somehow be made to outrun absorption, sound will be amplified exponentially, coherently, in a chosen direction. The rest of this page is the hunt for that "somehow."</span>
+          <span class="i18n-ja">この小さな「$+1$」をよく見てほしい。放出の式のうち $n_q$ の部分が誘導放出の項——波の中にいるフォノンが多いほど、勧誘の手も強くなる。ぽつんと残った $+1$ が自然放出で、モードが空っぽのときに唯一生き残る項だ。この一対の因子はレーザーの式の「たとえ話」ではない。同じ導出から出てくる、<em>文字どおり同じ数学</em>であって、あちらで学んだことは全部こちらへそのまま持ち込める。1個のフォノンが同一のフォノン2個になれる。2個が4個になれる。もし——大きな「もし」だが——放出を吸収より速くする方法さえあれば、音は指数関数的に、コヒーレントに、選ばれた方向へ増幅される。このページの残りは、その「方法」の捜索である。</span>
+        </p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Recall: the three moves from the laser page</span><span class="i18n-ja">復習：レーザーのページの3つの過程</span></summary>
+          <div>
+            <p>
+              <span class="i18n-en">On the <a href="/learn/laser/">laser page</a> we established that when a two-level atom meets light of the matching frequency, exactly three things can happen: absorption (rate $\propto N_1\rho$), spontaneous emission (rate $\propto N_2$, random direction and phase), and stimulated emission (rate $\propto N_2\rho$, producing a perfect clone of the passing photon). The third process was forced on Einstein by demanding that the books balance in thermal equilibrium. The factor structure in equation (2) above is the occupation-number way of writing the same three processes: the "$1$" is spontaneous, the "$n_q$" is stimulated, and absorption has no "$+1$" because you cannot absorb a phonon that isn't there.</span>
+              <span class="i18n-ja"><a href="/learn/laser/">レーザーのページ</a>では、2準位原子がぴったりの周波数の光に出会ったとき、起こりうることはきっかり3つだと確かめた。吸収（頻度 $\propto N_1\rho$）、自然放出（頻度 $\propto N_2$、方向も位相もランダム）、誘導放出（頻度 $\propto N_2\rho$、通りかかった光子の完全なクローンを作る）である。3つ目の過程は、熱平衡で帳簿が合うことを要求するとアインシュタインに強制的に手渡されたのだった。上の式 (2) の因子の構造は、同じ3過程を占有数の言葉で書き直したものだ。「$1$」が自然放出、「$n_q$」が誘導放出。そして吸収に「$+1$」が付かないのは、そこにいないフォノンを吸収することはできないからである。</span>
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — The bookkeeping again ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — The balance of emission and absorption</span><span class="i18n-ja">01 — 放出と吸収の収支</span></span>
+      <h2><span class="i18n-en">Why crystals are quiet</span><span class="i18n-ja">結晶はなぜ静かなのか</span></h2>
+      <p>
+        <span class="i18n-en">If electrons can be stimulated into cloning phonons, an awkward question arises immediately: why doesn't every copper wire scream? Something must normally keep the cloning in check. Finding out what — and how to defeat it — is this section's job.</span>
+        <span class="i18n-ja">電子がフォノンのクローン作りに誘えるのだとしたら、すぐに気まずい疑問が湧いてくる。なぜ、そのへんの銅線は絶叫していないのか？　ふだんは何かがクローン作りを抑え込んでいるはずだ。それが何なのかを突き止め、打ち負かす算段を立てるのが、この節の仕事である。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">Write the budget for one phonon mode $q$, exactly as we wrote rate equations for the laser. Income: emission events, at a rate proportional to $(n_q+1)$ times the number of electrons <em>able to emit</em> — call that availability $P_{\text{em}}$ (an electron able to emit must sit in an occupied state whose destination state, one phonon's worth of energy and momentum lower, is empty). Expenses: absorption events, proportional to $n_q$ times the availability $P_{\text{abs}}$ of electrons able to absorb. With a single coupling constant $\Gamma_q$ measuring how strongly electrons grip this phonon:</span>
+          <span class="i18n-ja">フォノンのモード $q$ ひとつについて、家計簿をつけよう。レーザーで速度方程式を書いたのとまったく同じやり方である。収入：放出イベント。頻度は $(n_q+1)$ に、<em>放出できる状態にある</em>電子の数を掛けたものに比例する——これを「放出の空き」$P_{\text{em}}$ と呼ぼう（放出できる電子とは、自分の席が埋まっていて、フォノン1個分だけエネルギーと運動量の低い行き先の席が空いている電子のことだ）。支出：吸収イベント。$n_q$ に「吸収の空き」$P_{\text{abs}}$ を掛けたものに比例する。電子がこのフォノンをつかむ強さを結合定数 $\Gamma_q$ ひとつにまとめると：</span>
+        </p>
+        <p class="eq-block">$$\frac{dn_q}{dt} = \Gamma_q\Big[(n_q + 1)\,P_{\text{em}} - n_q\,P_{\text{abs}}\Big] \tag{3}$$</p>
+        <p>
+          <span class="i18n-en">Now let the electrons be in their natural state — thermal equilibrium, no current. Then a beautiful and slightly depressing theorem takes over. The Boltzmann factor guarantees that the state populations always stack so that $P_{\text{abs}} > P_{\text{em}}$: the lower-energy configuration is always the better-populated one, so there are always more electrons positioned to absorb a phonon than to emit one. It is the same wall we hit on the laser page — there, $N_1 > N_2$ at any temperature; here, the electron sea plays the part of the atoms, and it too refuses to inverpopulate itself. Grinding through equation (3) with equilibrium occupations turns it into a relaxation law:</span>
+          <span class="i18n-ja">ここで、電子を自然のままの状態——熱平衡、電流なし——にしておこう。すると、美しくも少々気の滅入る定理が支配権を握る。ボルツマン因子のせいで、状態の埋まり方は必ず $P_{\text{abs}} > P_{\text{em}}$ となるように積み上がるのだ。エネルギーの低い配置のほうが必ずよく埋まっているのだから、フォノンを吸収できる位置にいる電子は、放出できる位置にいる電子より常に多い。これはレーザーのページでぶつかったのと同じ壁である。あちらではどんな温度でも $N_1 > N_2$ だった。こちらでは電子の海が原子たちの役を演じていて、やはり自分から反転してはくれない。平衡の占有数を式 (3) に入れて整理すると、緩和の法則が出てくる：</span>
+        </p>
+        <p class="eq-block">$$\frac{dn_q}{dt} = -\gamma_q\,(n_q - \bar n_q) \tag{4}$$</p>
+        <p>
+          <span class="i18n-en">with $\gamma_q > 0$. Read it in words: whatever sound you inject, the electrons eat it back down to the faint thermal hiss $\bar n_q$, at a rate $\gamma_q$. This is why crystals are quiet; it is also, looked at from the other side, the phonon half of electrical resistance. Sound launched through a normal conductor is <em>absorbed</em>, exactly as light launched through a normal (uninverted) material is absorbed. The two problems are now visibly the same problem. On the laser page the cure was population inversion — make $N_2 > N_1$ and absorption flips into gain. So the question writes itself: <b>what is the population inversion for phonons?</b> We cannot pump electrons "upstairs" with a lamp; an electron sea has no upstairs. Whatever the trick is, it must rearrange the sea itself. Hold that thought and look once more at the jet aircraft on the horizon.</span>
+          <span class="i18n-ja">ただし $\gamma_q > 0$ である。言葉で読み下すと：どんな音を注ぎ込んでも、電子はそれをかすかな熱雑音 $\bar n_q$ のレベルまで、速さ $\gamma_q$ で食い戻してしまう。結晶が静かなのはこのためだ。そして裏側から見れば、これは電気抵抗のフォノン側の半面でもある。ふつうの導体に送り込まれた音は<em>吸収される</em>。ふつうの（反転していない）物質に送り込まれた光が吸収されるのと、まったく同じように。2つの問題が同じ問題であることが、これで目に見えるようになった。レーザーのページでの処方箋は粒子数反転だった——$N_2 > N_1$ にしてしまえば、吸収は利得に裏返る。となれば、問いはひとりでに書き上がる。<b>フォノンにとっての粒子数反転とは何か？</b>　電子の海をランプで「2階」へ汲み上げることはできない。海に2階はないのだ。どんな手であれ、海そのものを並べ替える手でなければならない。この問いを抱えたまま、もう一度、地平線のジェット機に目をやってほしい。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Breaking the sound barrier ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — The supersonic condition</span><span class="i18n-ja">02 — 超音速の条件</span></span>
+      <h2><span class="i18n-en">The inversion in disguise: just add current</span><span class="i18n-ja">変装した粒子数反転：電流を流すだけ</span></h2>
+      <p>
+        <span class="i18n-en">The answer turns out to be hiding in the most mundane act in all of electronics: connecting a battery. A DC current does to the electron sea exactly what a pump lamp does to a collection of atoms — it prepares an unnatural, energy-loaded state. The surprise is the form the "inversion" takes: not a population stacked upstairs, but a sea on the move.</span>
+        <span class="i18n-ja">答えは、エレクトロニクス全体でいちばん地味な行為——電池をつなぐこと——の中に隠れていた。直流電流は、励起ランプが原子の集団にすることを、電子の海にそっくりそのまま行う。つまり、不自然でエネルギーの込められた状態を用意するのだ。意外なのはその「反転」の姿である。2階に積み上がった粒子数ではない。動き出した海、なのだ。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">Apply a field along the sample and the whole electron distribution slides in momentum space: every electron's velocity acquires, on average, the same added <b>drift velocity</b> $v_d$. Individually the electrons still dart about at enormous random speeds, but the <em>sea as a whole</em> flows. Now re-examine emission and absorption from the sea's own point of view. Hop into a reference frame gliding along with the drifting electrons. In that frame the electron sea is back to looking like an ordinary, calm, thermal sea — but the phonons are not what they were. A sound wave of frequency $\omega_q$ in the lab is Doppler-shifted, in the moving frame, to</span>
+          <span class="i18n-ja">試料に沿って電場をかけると、電子の分布全体が運動量空間の中でずるりと滑る。どの電子の速度にも、平均として同じ<b>ドリフト速度</b> $v_d$ が上乗せされるのだ。1個1個の電子は相変わらず猛烈な速さででたらめに飛び回っているが、<em>海全体として</em>は流れている。さて、放出と吸収を、海自身の視点から検分し直そう。ドリフトする電子と一緒に滑っていく座標系に飛び乗るのだ。その座標系では、電子の海はふつうの、穏やかな、熱平衡の海に見えている——だがフォノンのほうが元のままではない。実験室で周波数 $\omega_q$ だった音波は、動く座標系ではドップラー偏移を受けて</span>
+        </p>
+        <p class="eq-block">$$\hbar\tilde\omega_q = \hbar\,(\omega_q - \mathbf{q}\cdot\mathbf{v}_d) = \hbar q\,(v_s - v_d\cos\theta) \tag{5}$$</p>
+        <p>
+          <span class="i18n-en">where $\theta$ is the angle between the phonon's direction and the drift. Stare at the parenthesis. As long as the drift is slow, $\tilde\omega_q$ is positive for every direction: every phonon still costs energy to create, the calm sea declines to pay, and equation (4) holds — sound decays. But push the drift past the speed of sound, $v_d > v_s$, and for phonons traveling forward (within the cone $\cos\theta > v_s/v_d$) the effective energy $\hbar\tilde\omega_q$ goes <b>negative</b>. In the frame of the electron sea, creating such a phonon no longer costs energy — it <em>releases</em> energy. The sea is energetically better off emitting than absorbing. Emission now outruns absorption for every mode in that forward cone, which is precisely the condition the laser page taught us to crave. The drifting sea <em>is</em> the population inversion — worn sideways, in momentum space instead of energy space.</span>
+          <span class="i18n-ja">となる。$\theta$ はフォノンの進行方向とドリフトのなす角だ。括弧の中をじっと見てほしい。ドリフトが遅いうちは、どの方向でも $\tilde\omega_q$ は正である。フォノンを作るにはやはりエネルギーがかかり、穏やかな海はその支払いを断るから、式 (4) が成り立つ——音は減衰する。ところが、ドリフトを音速の向こうへ、$v_d > v_s$ まで押し込むと、前方へ進むフォノン（$\cos\theta > v_s/v_d$ の円錐の中）について、実効エネルギー $\hbar\tilde\omega_q$ が<b>負</b>になるのだ。電子の海の座標系では、そういうフォノンを作ることはもはやエネルギーの支出ではない——<em>放出</em>なのである。海にとっては、吸収するより放出するほうがエネルギー的に得になる。前方の円錐に入るすべてのモードで、放出が吸収を追い越す。これこそ、レーザーのページで我々が渇望することを学んだ、まさにあの条件だ。ドリフトする海こそが粒子数反転<em>そのもの</em>なのである——エネルギー空間ではなく運動量空間で、横向きに着こなされた反転が。</span>
+        </p>
+        <p>
+          <span class="i18n-en">Carrying the Doppler factor through the bookkeeping of equation (3) gives the decay rate its final, sign-flippable form:</span>
+          <span class="i18n-ja">このドップラー因子を式 (3) の帳簿に通すと、減衰率は符号の裏返せる最終形になる：</span>
+        </p>
+        <p class="eq-block">$$\gamma_q^{\text{drift}} = \gamma_q\left(1 - \frac{v_d\cos\theta}{v_s}\right) \tag{6}$$</p>
+        <p>
+          <span class="i18n-en">The same $\gamma_q$ that measured how fast electrons eat sound now measures how fast they feed it, the moment the parenthesis goes negative. This is absorption running backwards — the precise phonon counterpart of how, on the laser page, Beer's law of absorption turned into optical gain when $\Delta N$ changed sign. One equation, two signs, two worlds.</span>
+          <span class="i18n-ja">電子が音を食う速さを測っていたあの $\gamma_q$ が、括弧が負になった瞬間から、音を太らせる速さを測る量に変わる。これは吸収の逆回しだ——レーザーのページで、$\Delta N$ の符号が変わるとビールの吸収法則が光学利得に裏返った、あれのフォノン版そのものである。1つの式、2つの符号、2つの世界。</span>
+        </p>
+        <p>
+          <span class="i18n-en">The condition $v_d\cos\theta > v_s$ has an aristocratic pedigree. It is the <b>Cherenkov condition</b> — the same criterion that makes a charged particle outrunning light's speed in water glow blue, and the same criterion (Landau's) that decides when an object dragged through superfluid helium starts to feel friction. Anything that moves through a wave-bearing medium faster than the waves themselves becomes a generator of those waves, piling them into a cone-shaped wake. A boat, a supersonic jet, a particle in a reactor pool, and now: an electron sea in graphene. Watch the wake form below.</span>
+          <span class="i18n-ja">条件 $v_d\cos\theta > v_s$ には、由緒正しい血筋がある。これは<b>チェレンコフ条件</b>——水中の光速を追い越した荷電粒子を青白く光らせるあの判定条件であり、また超流動ヘリウムの中を引きずられる物体がいつ摩擦を感じ始めるかを決める判定条件（ランダウの条件）でもある。波を伝える媒質の中を、その波より速く動くものは、何であれその波の発生装置になり、円錐形の航跡に波を積み上げていく。船、超音速ジェット機、原子炉プールの中の粒子、そして今度は：グラフェンの中の電子の海だ。下で、航跡ができるところを見てほしい。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">See it move: breaking the sound barrier</span><span class="i18n-ja">動かして確かめる：音の壁を破る</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-wake" class="laser-canvas"></canvas>
+        <div class="wake-controls">
+          <div class="wake-row">
+            <label for="sl-mach"><span class="i18n-en">Drift speed</span><span class="i18n-ja">ドリフト速度</span> $v_d / v_s$</label>
+            <input type="range" id="sl-mach" min="0" max="3" step="0.05" value="0.6">
+            <output id="out-mach">0.60</output>
+          </div>
+        </div>
+        <p class="cap" id="wake-cap">
+          <span class="i18n-en">The dot is the drifting electron sea; the rings are the sound waves it emits. Below $v_d = v_s$ the waves outrun the source and disperse harmlessly.</span>
+          <span class="i18n-ja">点がドリフトする電子の海、輪がそこから出ていく音波。$v_d = v_s$ より遅いうちは、波が発生源を置き去りにして、無害に散っていく。</span>
+        </p>
+      </div>
+
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">A wake is a picture of <em>where</em> the amplification goes. Equation (6) makes it quantitative: the gain is largest for phonons running straight along the current ($\theta = 0$) and shuts off at the cone edge $\cos\theta_c = v_s/v_d$. The faster the drift, the wider the cone opens and the stronger the on-axis gain grows. Below, the same equation drawn as a polar plot — the green lobe is the set of sound directions the current amplifies.</span>
+          <span class="i18n-ja">航跡は、増幅が<em>どこへ</em>向かうかの絵である。式 (6) はそれを定量的にする。利得は電流の真正面（$\theta = 0$）を走るフォノンで最大になり、円錐の縁 $\cos\theta_c = v_s/v_d$ で打ち切られる。ドリフトが速いほど円錐は大きく開き、正面の利得は強くなる。下は同じ式を極座標プロットに描いたものだ——緑のローブが、電流に増幅してもらえる音の方向の集合である。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">See it move: which directions get amplified</span><span class="i18n-ja">動かして確かめる：増幅される方向はどこか</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-lobe" class="laser-canvas"></canvas>
+        <div class="lobe-controls">
+          <div class="lobe-row">
+            <label for="sl-vd"><span class="i18n-en">Drift speed</span><span class="i18n-ja">ドリフト速度</span> $v_d / v_s$</label>
+            <input type="range" id="sl-vd" min="0" max="3" step="0.05" value="1.5">
+            <output id="out-vd">1.50</output>
+          </div>
+        </div>
+        <p class="cap" id="lobe-cap">
+          <span class="i18n-en">Net phonon growth rate $-\gamma_q^{\text{drift}}$ versus direction $\theta$, from equation (6). <b>Green:</b> amplification ($v_d\cos\theta > v_s$). <b>Red:</b> absorption. The arrow is the current direction.</span>
+          <span class="i18n-ja">式 (6) による、方向 $\theta$ ごとのフォノンの正味増加率 $-\gamma_q^{\text{drift}}$。<b>緑：</b>増幅（$v_d\cos\theta > v_s$）。<b>赤：</b>吸収。矢印は電流の向き。</span>
+        </p>
+      </div>
+
+      <div class="derivation">
+        <details class="recall">
+          <summary><span class="i18n-en">A side note: where the electrons for this come from</span><span class="i18n-ja">余談：この芸当を担う電子はどこにいるのか</span></summary>
+          <div>
+            <p>
+              <span class="i18n-en">A more microscopic way to see the flip: an electron at wavevector $\mathbf{k}$ emits a phonon $\mathbf{q}$ by dropping into the state $\mathbf{k}-\mathbf{q}$, which must be empty; absorption is the reverse hop, which needs $\mathbf{k}-\mathbf{q}$ full and $\mathbf{k}$ empty. Because the phonon's energy $\hbar v_s q$ is tiny compared to electronic energies ($v_s \ll v_F$), both hops happen between states almost exactly on the Fermi surface — the shoreline of the electron sea. For a centered, calm sea the shoreline is symmetric and absorption wins by the thermal margin. Slide the whole sea by the drift and the shoreline tilts: in the forward direction the "from" states ride higher than the "to" states, and for $v_d\cos\theta > v_s$ more electrons sit poised to emit than to absorb. The displaced Fermi sea is the inversion, drawn in $k$-space.</span>
+              <span class="i18n-ja">符号の反転をもう少し微視的に見るとこうなる。波数 $\mathbf{k}$ の電子がフォノン $\mathbf{q}$ を放出するには、$\mathbf{k}-\mathbf{q}$ の状態へ落ちる必要があり、そこは空いていなければならない。吸収はその逆向きの跳びで、$\mathbf{k}-\mathbf{q}$ が埋まっていて $\mathbf{k}$ が空いていることが要る。フォノンのエネルギー $\hbar v_s q$ は電子のエネルギーに比べて微々たるものだから（$v_s \ll v_F$）、どちらの跳びも、ほとんどフェルミ面——電子の海の汀（みぎわ）——の上で起こる。海が中心に静止していれば汀は対称で、熱的な差のぶんだけ吸収が勝つ。海全体をドリフトで滑らせると汀が傾き、前方では「出発」側の状態が「到着」側より高く積まれて、$v_d\cos\theta > v_s$ なら放出の構えの電子のほうが多くなる。ずれたフェルミの海——それが $k$ 空間に描かれた反転なのである。</span>
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — Why graphene ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — Why graphene</span><span class="i18n-ja">03 — なぜグラフェンなのか</span></span>
+      <h2><span class="i18n-en">A sound barrier built to be broken</span><span class="i18n-ja">破られるために建てられた音の壁</span></h2>
+      <p>
+        <span class="i18n-en">Everything so far holds for any conductor. So why does the title of this page say graphene? Because the supersonic condition, so clean on paper, is brutally hard to satisfy in most materials — and graphene satisfies it almost without trying.</span>
+        <span class="i18n-ja">ここまでの話は、どんな導体にも当てはまる。では、なぜこのページの題名はグラフェンなのか。紙の上ではあれほどすっきりしていた超音速条件が、たいていの物質では満たすのが残酷なほど難しいからだ——そしてグラフェンは、それをほとんど苦もなく満たしてしまうからである。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">Think about what $v_d > v_s$ actually demands. Drift velocity is bought with electric field: at low fields $v_d = \mu E$, where the <b>mobility</b> $\mu$ is the conversion rate between field and speed — and mobility is exactly what scattering destroys. In an ordinary semiconductor, every impurity, every rough interface, every thermal jitter knocks drifting electrons off course, so reaching kilometer-per-second drift speeds takes large fields; large fields dump heat; heat lowers the mobility further and erodes the very gain you were chasing. Supersonic drift in bulk materials is not impossible — it has been done — but it is a fight uphill, against the material, the whole way.</span>
+          <span class="i18n-ja">$v_d > v_s$ が実際に何を要求しているかを考えてみよう。ドリフト速度は電場で買う。弱い電場では $v_d = \mu E$ であり、<b>移動度</b> $\mu$ が電場から速度への換算レートだ——そして移動度こそ、散乱がすり減らすものである。ふつうの半導体では、不純物の一つ一つ、荒れた界面の一つ一つ、熱の揺らぎの一つ一つが、ドリフトする電子を弾き飛ばす。だから毎秒キロメートル級のドリフト速度に達するには大きな電場が要り、大きな電場は熱を捨て、熱はさらに移動度を下げて、せっかく追いかけていた利得を浸食する。バルク物質での超音速ドリフトは不可能ではない——実例もある——のだが、最初から最後まで、物質を相手にした登り坂の喧嘩なのだ。</span>
+        </p>
+        <p>
+          <span class="i18n-en">Now line up graphene's numbers, and notice how the deck is stacked. Its electrons behave as massless Dirac particles whizzing at the Fermi velocity $v_F \approx 1\times10^6\,\mathrm{m/s}$ — a hundredth of the speed of light. Its sound, from section 00, travels at $v_s \approx 2\times10^4\,\mathrm{m/s}$. The ceiling for drift sits some <b>fifty times higher</b> than the sound barrier. And how hard is the barrier itself to reach? In clean graphene encapsulated in hexagonal boron nitride, room-temperature mobility reaches $\mu \sim 10\,\mathrm{m^2/V\,s}$ ($100{,}000\ \mathrm{cm^2/V\,s}$) — roughly a hundred times silicon. The field needed for supersonic drift is then</span>
+          <span class="i18n-ja">そこでグラフェンの数字を並べてみると、どれだけ出来レースなのかが分かる。グラフェンの電子は質量ゼロのディラック粒子として振る舞い、フェルミ速度 $v_F \approx 1\times10^6\,\mathrm{m/s}$——光速の100分の1——で飛び回る。一方、00節で見たとおり、音は $v_s \approx 2\times10^4\,\mathrm{m/s}$ で進む。ドリフトの天井は、音の壁の<b>およそ50倍も上</b>にあるのだ。では、壁そのものへ届くのはどれくらい大変か。六方晶窒化ホウ素（hBN）に挟んだ清浄なグラフェンでは、室温の移動度が $\mu \sim 10\,\mathrm{m^2/V\,s}$（$100{,}000\ \mathrm{cm^2/V\,s}$）——シリコンのざっと100倍——に達する。すると超音速ドリフトに必要な電場は</span>
+        </p>
+        <p class="eq-block">$$E_{\text{sonic}} \;=\; \frac{v_s}{\mu} \;\approx\; \frac{2\times10^4\ \mathrm{m/s}}{10\ \mathrm{m^2/V\,s}} \;=\; 2\times10^3\ \mathrm{V/m} \;=\; 20\ \mathrm{V/cm} \tag{7}$$</p>
+        <p>
+          <span class="i18n-en">Twenty volts per centimeter. Across a typical ten-micrometer device that is a few tens of <em>millivolts</em> — battery-trivial. In graphene, the sound barrier is not a distant goal to be assaulted with heroic fields; it is a line you cross by accident on the way to normal operating conditions. And once across, the gain factor $(v_d/v_s - 1)$ in equation (6) does not creep above zero the way a marginal laser creeps past threshold — it can grow to be of order ten. The inversion here is not won by a sliver; it is won by a landslide.</span>
+          <span class="i18n-ja">1センチメートルあたり20ボルト。典型的な10マイクロメートルの素子なら、両端でわずか数十<em>ミリボルト</em>——電池には朝飯前である。グラフェンにおいて音の壁は、決死の電場で攻略すべき遠い目標ではない。通常の動作条件へ向かう途中で、うっかり踏み越えてしまう線なのだ。しかも一度越えてしまえば、式 (6) の利得因子 $(v_d/v_s - 1)$ は、ぎりぎりのレーザーが閾値をそろそろと越えるようにゼロのすぐ上を這うのではない——10のオーダーまで育ちうる。ここでの反転は、僅差の勝利ではない。地滑り的大勝なのである。</span>
+        </p>
+        <p>
+          <span class="i18n-en">Two more cards in graphene's hand are worth naming. First, geometry: graphene is a sheet one atom thick, and the acoustic phonons in question live <em>in the same sheet</em> as the electrons — amplifier and amplified occupy identical real estate, with no coupling lost to a third dimension. Second, the knob: the carrier density, and with it the strength of the electron–phonon bookkeeping, is set by a gate voltage rather than frozen in by chemistry, so the gain medium is tunable while the experiment runs. A laser whose gain medium could be re-doped with a knob, mid-operation, would be an experimentalist's daydream; in graphene it is the default.</span>
+          <span class="i18n-ja">グラフェンの手札には、名前を挙げておくべきカードがあと2枚ある。1枚目は幾何学だ。グラフェンは原子1個分の厚さのシートであり、問題の音響フォノンは電子と<em>同じシートの中に</em>住んでいる。増幅する側とされる側が同じ土地に同居していて、結合が3次元目へ漏れて失われることがない。2枚目はつまみである。キャリア密度——ひいては電子・フォノンの帳簿の結合の強さ——は、化学的な作り込みで凍結されるのではなく、ゲート電圧で決められる。つまり利得媒質を、実験を走らせたまま調整できるのだ。動作中に利得媒質をつまみでドープし直せるレーザーなど実験屋の白昼夢だが、グラフェンではそれが標準装備なのである。</span>
+        </p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">A side note: the 1961 ancestor of this idea</span><span class="i18n-ja">余談：このアイデアの1961年生まれの祖先</span></summary>
+          <div>
+            <p>
+              <span class="i18n-en">Phonon amplification by supersonic drift is older than it sounds. In 1961, Hutson, McFee, and White sent ultrasound through a cadmium sulfide crystal while driving its electrons faster than the sound, and measured the sound coming out <em>stronger</em> than it went in — the acoustoelectric amplifier, equation (6) verified in the lab six decades ago. CdS was chosen because it is piezoelectric, which gives electrons an extra-strong grip on the lattice. The scheme never became everyday technology: the fields required were punishing and the devices ran hot. The modern interest in graphene is, in essence, a bet that a material with a hundredfold head start in mobility can take this honored old idea from "demonstrated" to "useful."</span>
+              <span class="i18n-ja">超音速ドリフトによるフォノン増幅は、響きから想像するより古い。1961年、ハットソン、マクフィー、ホワイトの3人は、硫化カドミウム結晶の中の電子を音より速く走らせながら超音波を通し、出てきた音が入れたときより<em>強く</em>なっていることを測定した——音響電気増幅器。式 (6) は60年以上前に実験室で検証済みなのである。CdS が選ばれたのは圧電性のためで、これは電子に格子をつかむ特別に強い握力を与える。ただ、この方式が日常の技術になることはなかった。必要な電場は過酷で、素子は熱くなりすぎた。グラフェンへの現代の関心は、要するに、移動度で100倍のハンデをもらった物質なら、この由緒ある古いアイデアを「実証済み」から「実用」へ運べるのではないか、という賭けなのだ。</span>
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — Toward a laser of sound ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — Threshold and the phonon avalanche</span><span class="i18n-ja">04 — 閾値とフォノンの雪崩</span></span>
+      <h2><span class="i18n-en">Toward a laser of sound</span><span class="i18n-ja">音のレーザーへ</span></h2>
+      <p>
+        <span class="i18n-en">An amplifier is not yet a laser — the laser page made us earn that distinction, and it must be earned again here. Gain has to beat loss, and what comes out the far end deserves a careful look.</span>
+        <span class="i18n-ja">増幅器はまだレーザーではない——その区別はレーザーのページで汗をかいて手に入れたものだった。ここでももう一度、汗をかいて確かめなければならない。利得は損失に勝たねばならず、向こう端から出てくるものの正体は、よく目を凝らして見る価値がある。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p>
+          <span class="i18n-en">Phonons have enemies of their own. A sound wave in a real crystal decays even with no electrons around: the lattice springs are not perfectly linear, so phonons collide with the thermal jitter and with each other (anharmonic decay), leak out at the sample edges, and scatter off defects. Bundle all of it into a phonon lifetime $\tau_q$, and the full budget for a forward-running mode reads</span>
+          <span class="i18n-ja">フォノンにはフォノン自身の敵がいる。現実の結晶の中の音波は、電子が1個もいなくても減衰する。格子のばねは完全な線形ではないので、フォノンは熱の揺らぎや仲間どうしと衝突し（非調和減衰）、試料の縁から漏れ出し、欠陥に散乱される。これを全部まとめてフォノン寿命 $\tau_q$ に詰め込むと、前方へ走るモードの収支の完全版はこうなる：</span>
+        </p>
+        <p class="eq-block">$$\frac{dn_q}{dt} = \underbrace{\gamma_q\!\left(\frac{v_d\cos\theta}{v_s} - 1\right)}_{\text{gain from the current}} n_q \;-\; \underbrace{\frac{n_q}{\tau_q}}_{\text{lattice losses}} \;+\; S_q \tag{8}$$</p>
+        <p>
+          <span class="i18n-en">with $S_q$ the steady trickle of spontaneous emission — the seed. The structure is identical to the photon rate equation of the laser's section 04, and so is the verdict it delivers. If the gain term is smaller than the loss term, $n_q$ settles at a modest steady value: amplified but tame, the acoustic analog of a lamp brightened by ASE. But the moment</span>
+          <span class="i18n-ja">$S_q$ は自然放出の絶え間ないしずく——種である。構造はレーザーの04節の光子の速度方程式と寸分違わず、下される判決も同じだ。利得の項が損失の項より小さければ、$n_q$ はほどほどの定常値に落ち着く。増幅されてはいるがおとなしい、ASE で明るくなったランプの音響版である。だが、</span>
+        </p>
+        <p class="eq-block">$$\gamma_q\!\left(\frac{v_d\cos\theta}{v_s} - 1\right) > \frac{1}{\tau_q} \tag{9}$$</p>
+        <p>
+          <span class="i18n-en">the bracket of equation (8) turns positive and $n_q$ stops settling anywhere: it grows exponentially, doubling and redoubling, every new phonon a coherent clone of the seed. A phonon avalanche, racing along the current direction. The threshold drift velocity is not $v_s$ itself but a little above it — the gain must pay the lattice's bills first, exactly as the laser's gain had to pay for its mirrors before the beam could grow. Play with the budget below and find the threshold yourself.</span>
+          <span class="i18n-ja">となった瞬間、式 (8) の括弧は正に転じ、$n_q$ はもうどこにも落ち着かない。倍また倍と指数関数的に育ち、新しいフォノンはどれも種のコヒーレントなクローンである。電流の方向へ突進する、フォノンの雪崩だ。閾値のドリフト速度は $v_s$ ちょうどではなく、その少し上にある——利得はまず格子への支払いを済ませなければならないのだ。レーザーの利得が、ビームが育つ前にまず鏡の代金を払わねばならなかったのと、まったく同じである。下で収支をいじって、自分の手で閾値を見つけてほしい。</span>
+        </p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">See it move: the phonon avalanche</span><span class="i18n-ja">動かして確かめる：フォノンの雪崩</span></h3>
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c-growth" class="laser-canvas"></canvas>
+        <div class="growth-controls">
+          <div class="growth-row">
+            <label for="sl-vd-g"><span class="i18n-en">Drift speed</span><span class="i18n-ja">ドリフト速度</span> $v_d / v_s$</label>
+            <input type="range" id="sl-vd-g" min="0" max="3" step="0.05" value="0.8">
+            <output id="out-vd-g">0.80</output>
+          </div>
+          <div class="growth-row">
+            <label for="sl-loss"><span class="i18n-en">Lattice loss</span><span class="i18n-ja">格子損失</span> $1/(\gamma_q \tau_q)$</label>
+            <input type="range" id="sl-loss" min="0.1" max="1.5" step="0.05" value="0.5">
+            <output id="out-loss">0.50</output>
+          </div>
+        </div>
+        <p class="cap" id="growth-cap">
+          <span class="i18n-en">Phonon number $n_q(t)$ for the forward mode ($\theta=0$), from equation (8). Below threshold the mode idles at a small steady value set by spontaneous emission.</span>
+          <span class="i18n-ja">式 (8) による、前方モード（$\theta=0$）のフォノン数 $n_q(t)$。閾値より下では、自然放出で決まる小さな定常値のあたりをうろつくだけである。</span>
+        </p>
+      </div>
+
+      <div class="derivation">
+        <h3><span class="i18n-en">How would you even notice?</span><span class="i18n-ja">起きたことに、どうやって気づくのか</span></h3>
+        <p>
+          <span class="i18n-en">Here is a delicious irony of this field: the cleanest witness to the phonon avalanche is the electrical current itself. Every cloned phonon is paid for with momentum taken from the drifting electrons — amplifying the sound <em>drags on the sea</em>. So as the drive is turned up past the supersonic threshold, the current stops climbing the way Ohm's law promises and begins to bend over: the energy you pump in is being rerouted from forward motion into a swelling wind of coherent sound. A bending current–voltage curve is, of course, exactly the kind of plot we learned to read on the laser page — the knee, seen from the gain medium's side of the ledger. The phonons themselves can also be caught in the act more directly, for instance by the heat they carry off or by acoustic detection at the sample edge; experiments along these lines, on graphene and on related two-dimensional conductors, are an active hunt as of this writing.</span>
+          <span class="i18n-ja">この分野には、なんとも味わい深い皮肉がある。フォノンの雪崩のいちばん清潔な目撃者は、電流それ自身なのだ。クローンされたフォノンの代金は、一つ残らず、ドリフトする電子から徴収した運動量で支払われる——音を増幅することは、<em>海に対する抗力</em>なのである。だから駆動を超音速の閾値より上へ回していくと、電流はオームの法則が約束するようには伸びなくなり、頭を垂れ始める。注ぎ込んだエネルギーが、前進運動から、膨れ上がるコヒーレントな音の風へと付け替えられているのだ。折れ曲がる電流–電圧カーブ——それはもちろん、レーザーのページで読み方を覚えたあのグラフそのものである。帳簿の利得媒質側から眺めた、あの膝だ。フォノン自身を現行犯で押さえる、もっと直接的な手もある。運び去る熱を測る、試料の縁で音響的に検出する、などだ。グラフェンとその同類の2次元導体を舞台に、この線の実験は本稿執筆の時点でも続く活発な狩りである。</span>
+        </p>
+
+        <h3><span class="i18n-en">The missing mirrors, and a name</span><span class="i18n-ja">まだ無い鏡と、ひとつの名前</span></h3>
+        <p>
+          <span class="i18n-en">The laser page taught us the last step by heart: wrap the amplifier in two mirrors, let the avalanche recycle, and a noisy amplifier becomes a true oscillator. Sound reflects too — a cleaved crystal edge or an engineered acoustic superlattice can serve as the mirrors of a phonon cavity. Close that loop around supersonic graphene and you would have the full acoustic counterpart of the laser: a <b>SASER</b> — Sound Amplification by Stimulated Emission of Radiation — pouring out a coherent beam of hypersound at gigahertz-to-terahertz frequencies, with wavelengths down in the nanometers. Light of such short wavelength would be deep in the X-ray regime and nearly impossible to handle; sound gets there at frequencies electronics can still touch. Coherent nanometer sound could image structures that light cannot resolve and clock devices that electronics cannot reach. None of this is on a shelf yet — phonon lasing has been demonstrated in other systems, and graphene's version remains a goal being chased — but every ingredient on the parts list is one this page has already priced out.</span>
+          <span class="i18n-ja">最後の一歩は、レーザーのページで暗記するほど学んだ。増幅器を2枚の鏡で包み、雪崩を循環させれば、雑音まじりの増幅器は本物の発振器になる。音だって反射する——劈開した結晶の縁や、設計された音響超格子が、フォノン共振器の鏡を務められる。超音速のグラフェンのまわりでそのループを閉じれば、レーザーの完全な音響版が手に入るはずだ。その名は <b>SASER</b>——Sound Amplification by Stimulated Emission of Radiation（誘導放出による音の増幅）。ギガヘルツからテラヘルツの周波数で、波長にしてナノメートル級のコヒーレントな極超音波のビームを注ぎ出す装置である。これほど短い波長の光はX線の深部にあたり、扱うことはほとんど不可能だが、音なら、エレクトロニクスの手がまだ届く周波数でそこへ達する。コヒーレントなナノメートルの音は、光では分解できない構造を撮像し、電子回路では届かない速さで素子を刻めるかもしれない。どれもまだ棚に並んではいない——フォノン発振そのものは別の系で実証済みだが、グラフェン版はいま追われている途中の獲物だ——とはいえ、部品表に載っている部品はすべて、このページで値段の見積もりを済ませたものばかりである。</span>
+        </p>
+      </div>
+
+      <!-- Final summary -->
+      <div class="laser-summary">
+        <div class="sum-title"><span class="i18n-en">The laser, translated into sound</span><span class="i18n-ja">レーザーを音に翻訳する</span></div>
+        <ol>
+          <li><span class="i18n-en"><b>Photon → acoustic phonon.</b> Both are bosons, so the $(n_q+1)$-versus-$n_q$ bookkeeping — spontaneous emission, stimulated emission, absorption — transfers word for word.</span><span class="i18n-ja"><b>光子 → 音響フォノン。</b>どちらもボース粒子なので、$(n_q+1)$ 対 $n_q$ の帳簿——自然放出・誘導放出・吸収——は一語一句そのまま移し替えられる。</span></li>
+          <li><span class="i18n-en"><b>Gain medium → the drifting Dirac sea.</b> The atoms' role is played by graphene's conduction electrons; the pump lamp is replaced by an ordinary DC current.</span><span class="i18n-ja"><b>利得媒質 → ドリフトするディラックの海。</b>原子の役はグラフェンの伝導電子が演じ、励起ランプはただの直流電流に置き換わる。</span></li>
+          <li><span class="i18n-en"><b>Population inversion → supersonic drift.</b> The unnatural state is not a crowd upstairs but a sea in motion: once $v_d\cos\theta > v_s$ (the Cherenkov condition), emission outruns absorption inside a forward cone, and absorption runs backwards into gain.</span><span class="i18n-ja"><b>粒子数反転 → 超音速ドリフト。</b>不自然な状態とは2階の混雑ではなく、動いている海である。$v_d\cos\theta > v_s$（チェレンコフ条件）を満たした瞬間、前方の円錐の中で放出が吸収を追い越し、吸収は逆回しされて利得になる。</span></li>
+          <li><span class="i18n-en"><b>Threshold → gain versus lattice losses.</b> The avalanche ignites when the current's gain outpays anharmonic decay and edge losses, betraying itself as a bend in the current–voltage curve; add acoustic mirrors and the amplifier graduates into a SASER, a laser of sound.</span><span class="i18n-ja"><b>閾値 → 利得対格子損失。</b>電流の稼ぐ利得が非調和減衰と縁からの漏れへの支払いを上回ったとき雪崩は点火し、電流–電圧カーブの折れ曲がりとして自首してくる。音響の鏡を足せば、増幅器は SASER——音のレーザー——に昇格する。</span></li>
+        </ol>
+        <p>
+          <span class="i18n-en">And the picture from the top of the page closes the loop. A jet outrunning its sound piles a shockwave into a cone behind it; in graphene, a sea of electrons outrunning the crystal's sound piles up phonons the same way — except that quantum mechanics, through that one stubborn little $+1$ and its $n_q$ companion, makes the pile <em>coherent</em>. The sonic boom of a jet is noise. The sonic boom of graphene, if we finish building it, will be a note.</span>
+          <span class="i18n-ja">そして、ページ冒頭の絵がここで輪を閉じる。自分の音を追い越したジェット機は、背後の円錐に衝撃波を積み上げる。グラフェンの中では、結晶の音を追い越した電子の海が、同じやり方でフォノンを積み上げる——ただし量子力学が、あの頑固な小さい $+1$ とその相棒 $n_q$ を通じて、その積み上げを<em>コヒーレント</em>にしてしまうのだ。ジェット機のソニックブームは騒音である。グラフェンのソニックブームは、組み立てが完成したあかつきには、ひとつの音色になるだろう。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶに戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
+  </footer>
+
+  <script src="/assets/js/graphene-phonon-emission.js"></script>
+</body>
+</html>
