@@ -49,7 +49,7 @@
 
   // ════════ Module 00 — band diagram ════════
   var bandCanvas = document.getElementById('c-band');
-  var bandMode = 'contact';
+  var bandMode = 'apart';
   var phiM = 4.75;
 
   function drawBand() {
