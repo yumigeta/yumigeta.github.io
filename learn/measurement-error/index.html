@@ -91,7 +91,7 @@
   <!-- ═══════ Module 00 — Types of error ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">00 — Types of error</span><span class="i18n-ja">00 — 誤差の種類</span></span>
+      <span class="demo-num"><span class="i18n-en">00 — What is the error made of?</span><span class="i18n-ja">00 — その誤差は何でできている?</span></span>
       <h2><span class="i18n-en" data-comment-anchor="7c17370190-span">Systematic vs random — accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差 — 正確さと精密さ</span></h2>
       <p><span class="i18n-en">So pick up that number and ask the first question: what is its error actually made of? Measurement error splits into two fundamentally different kinds. A <b>systematic error</b> shifts every reading the same way (a mis-zeroed scale, an un-subtracted baseline) — it limits <b>accuracy</b>, how close the average sits to the true value. A <b>random error</b> scatters readings unpredictably (electronic noise, counting statistics) — it limits <b>precision</b>, how tightly the readings cluster. Averaging beats down random error but is powerless against a systematic one.</span><span class="i18n-ja">では、その数値を手に取ってまず問おう — その誤差は何でできているのか。測定誤差は本質的に異なる2種類に分かれる。<b>系統誤差</b>はすべての測定値を同じ向きにずらす（ゼロ点のずれ、引き残したベースラインなど） — これは<b>正確さ（accuracy）</b>、すなわち平均が真値にどれだけ近いかを制限する。<b>偶然誤差</b>は測定値を予測できない形でばらつかせる（電子ノイズ、計数統計など） — これは<b>精密さ（precision）</b>、すなわち測定値がどれだけ密に集まるかを制限する。平均をとれば偶然誤差は小さくできるが、系統誤差には無力である。</span></p>
     </div>
@@ -140,8 +140,8 @@
   <!-- ═══════ Module 01 — Significant figures ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">01 — Significant figures</span><span class="i18n-ja">01 — 有効数字</span></span>
-      <h2><span class="i18n-en">How many digits may you actually trust?</span><span class="i18n-ja">その数値は何桁まで信じてよいか</span></h2>
+      <span class="demo-num"><span class="i18n-en">01 — How many digits can you trust?</span><span class="i18n-ja">01 — その数値、何桁まで信じてよい?</span></span>
+      <h2><span class="i18n-en">Significant figures</span><span class="i18n-ja">有効数字</span></h2>
       <p><span class="i18n-en">Random error means the reading is never exact — so the very next question is blunt: how many of its digits can we actually believe? Every measured value contains error, so writing digits below the doubtful one is meaningless — they are just garbage. Ask for the circumference of a circle of diameter <b>30.0 mm</b> and a calculator happily returns <b>94.2477796077 mm</b>. But if that last diameter digit is uncertain, the true diameter sits somewhere in 29.95–30.05 mm, and the circumference in <b>94.09–94.40 mm</b> — already the <em>third</em> digit is in doubt. Everything after it is noise. So scientists adopt a shared convention for how many digits to keep.</span><span class="i18n-ja">偶然誤差があるかぎり測定値は決して正確ではない — では次の問いは率直だ。その数値を何桁まで信じてよいのか。あらゆる測定値は誤差を含むので、怪しい桁より下を書いても意味がない — ただのデタラメな数字だ。直径 <b>30.0 mm</b> の円の円周を尋ねると、電卓は平気で <b>94.2477796077 mm</b> と返す。だが最後の直径の桁が不確かなら、真の直径は 29.95〜30.05 mm のどこかにあり、円周は <b>94.09〜94.40 mm</b> — すでに<em>3桁目</em>が怪しい。それ以降はただのノイズだ。そこで科学者は、何桁残すかの共通ルールを採用する。</span></p>
     </div>
     <div class="demo-stage">
@@ -175,8 +175,8 @@
   <!-- ═══════ Module 02 — Propagation of uncertainty ═══════ -->
   <section class="demo">
     <div class="demo-head" data-comment-anchor="754d5c2024-div">
-      <span class="demo-num"><span class="i18n-en">02 — Propagation of uncertainty</span><span class="i18n-ja">02 — 誤差の伝播</span></span>
-      <h2><span class="i18n-en">How input uncertainties combine in a result</span><span class="i18n-ja">入力の不確かさが結果でどう合成されるか</span></h2>
+      <span class="demo-num"><span class="i18n-en">02 — How does the uncertainty flow through?</span><span class="i18n-ja">02 — 不確かさはどう伝わっていく?</span></span>
+      <h2><span class="i18n-en">Propagation of uncertainty</span><span class="i18n-ja">誤差の伝播</span></h2>
       <p><span class="i18n-en">Counting the trustworthy digits of one number was the warm-up; the real world is messier. You rarely measure the quantity you want directly. Often you compute it from several other measurements — an <b>indirect measurement</b> $X=f(a,b,c)$ — and you must carry the errors of $a,b,c$ through to $X$. For a simple $f$ you could just nudge each input within its error and read off the largest and smallest $X$ (exactly what the Monte-Carlo panel below does). The general shortcut comes from a <b>first-order Taylor expansion</b>:</span><span class="i18n-ja">1つの数値の信頼できる桁を数えるのは準備運動にすぎない。現実はもっと厄介だ — 求めたい量を直接測れることはまれだ。多くは複数の測定から計算する — <b>間接測定</b> $X=f(a,b,c)$ — ので、$a,b,c$ の誤差を $X$ まで運ぶ必要がある。$f$ が単純なら、各入力を誤差の範囲で動かして $X$ の最大・最小を読めばよい（下のモンテカルロパネルがまさにそれだ）。一般的な近道は<b>1次のテイラー展開</b>から得られる：</span></p>
       <p class="eq-block">$$f(a+\Delta a,\,b+\Delta b,\,c+\Delta c)\simeq f(a,b,c)+\frac{\partial f}{\partial a}\Delta a+\frac{\partial f}{\partial b}\Delta b+\frac{\partial f}{\partial c}\Delta c$$</p>
       <p><span class="i18n-en"><b>Statistical case (quadrature) — the default.</b> When the errors are <b>independent and random</b>, they more often partly cancel than fully reinforce, so the honest, realistic estimate adds them <b>in quadrature</b>. This is the uncertainty used throughout this page:</span><span class="i18n-ja"><b>統計的な場合（二乗和）— 基本。</b>誤差が<b>独立でランダム</b>なら、完全に強め合うより部分的に打ち消し合うことの方が多いので、正直で現実的な見積もりは<b>二乗和</b>で合成する。本ページで通して使う不確かさだ：</span></p>
@@ -312,8 +312,8 @@
   <!-- ═══════ Module 03 — Statistical analysis ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — Statistical processing of measurements</span><span class="i18n-ja">03 — 測定値の統計処理</span></span>
-      <h2><span class="i18n-en">Does averaging really reduce the error?</span><span class="i18n-ja">平均を取れば誤差は減るのか？</span></h2>
+      <span class="demo-num"><span class="i18n-en">03 — Does measuring again actually help?</span><span class="i18n-ja">03 — もう一度測れば、誤差は減る?</span></span>
+      <h2><span class="i18n-en">Statistical processing of measurements</span><span class="i18n-ja">測定値の統計処理</span></h2>
       <p><span class="i18n-en">Propagation showed how errors combine when we <em>calculate</em> — but the single most powerful move in all of measurement is far simpler: just take the reading again. A random error scatters readings around the <b>true value</b>. Take many measurements and average them, and you expect to land close to that true value — but <em>how close</em>, and how should the confidence be reported? That is the whole question of this module. (Strictly we never observe the true value itself — only error-laden readings — and for some phenomena, such as quantum measurements, no single true value even exists. We will nonetheless keep the intuitive picture that a true value is out there.)</span><span class="i18n-ja">伝播は、<em>計算</em>で誤差がどう合成されるかを教えてくれた。だが測定における最も強力な一手は、もっと単純だ — ただもう一度測ること。偶然誤差は測定値を<b>真の値</b>のまわりにばらつかせる。何度も測って平均すれば真の値に近づくはずだが — <em>どれくらい</em>近いのか、そして確からしさをどう表現すればよいのか。これが本モジュールの主題である。（厳密には我々は真の値そのものを観測できず、誤差を含む測定値しか得られない。量子測定のように、そもそも単一の真の値が存在しない対象もある。ここでは「真の値が存在する」という素朴な描像のまま進める。）</span></p>
     </div>
     <div class="demo-stage">
@@ -487,7 +487,7 @@
       <p class="me-cap"><span class="i18n-en">This is the missing middle rung of the concept map, running live: data &#8594; one sample mean &#8594; the distribution that mean is drawn from. The <b>green</b> parent stays put while the <b>yellow</b> fit to your collected means is far narrower.</span><span class="i18n-ja">これが概念図の「欠けていた中間の段」を生で見せたものだ：データ &#8594; 1つの標本平均 &#8594; その平均が従う分布。<b>緑</b>の母分布は動かないのに対し、<b>黄</b>の（集めた平均への）フィットははるかに狭い。</span></p>
 
       <div class="me-prose"><h3><span class="i18n-en">3c — Expectation and variance</span><span class="i18n-ja">3c — 期待値と分散</span></h3>
-        <p><span class="i18n-en">Call the (unknowable) parent distribution of readings $f(x)$ — the probability of getting a reading near $x$, normalised so that $\int f(x)\,dx = 1$. Its <b>expectation value</b> $E$ is the average over infinitely many measurements, and its <b>variance</b> $V$ measures how widely the readings spread around $E$:</span><span class="i18n-ja">測定値の（知り得ない）母分布を $f(x)$ とする — $x$ 付近の測定値が得られる確率で、$\int f(x)\,dx = 1$ に規格化しておく。その<b>期待値</b> $E$ は無限回測定の平均、<b>分散</b> $V$ は測定値が $E$ のまわりにどれだけ広がるかを表す：</span></p>
+        <p><span class="i18n-en">Let's pin these ideas down with a little notation — nothing scary. Call the (unknowable) parent distribution of readings $f(x)$ — the probability of getting a reading near $x$, normalised so that $\int f(x)\,dx = 1$. Its <b>expectation value</b> $E$ is the average over infinitely many measurements, and its <b>variance</b> $V$ measures how widely the readings spread around $E$:</span><span class="i18n-ja">ここで少しだけ記号を導入しよう — 身構えなくていい。測定値の（知り得ない）母分布を $f(x)$ とする — $x$ 付近の測定値が得られる確率で、$\int f(x)\,dx = 1$ に規格化しておく。その<b>期待値</b> $E$ は無限回測定の平均、<b>分散</b> $V$ は測定値が $E$ のまわりにどれだけ広がるかを表す：</span></p>
         <p class="eq-block">$$E=\int x\,f(x)\,dx,\qquad V=\int (x-E)^2\,f(x)\,dx$$</p>
         <p><span class="i18n-en">For a finite set of $k$ readings $x_1,\dots,x_k$ with average $\bar{x}$, these become the familiar sums:</span><span class="i18n-ja">$k$ 個の有限の測定値 $x_1,\dots,x_k$（平均 $\bar{x}$）に対しては、おなじみの和になる：</span></p>
         <p class="eq-block">$$\bar{x}=\frac1k\sum_i x_i,\qquad V=\frac1k\sum_i (x_i-\bar{x})^2$$</p>
@@ -503,7 +503,7 @@
       </div>
 
       <div class="me-prose"><h3><span class="i18n-en">3e — Reporting conventions</span><span class="i18n-ja">3e — さまざまな運用</span></h3>
-        <p><span class="i18n-en">With $\bar{x}$ and $\sigma$ in hand, a result is usually written</span><span class="i18n-ja">$\bar{x}$ と $\sigma$ が求まれば、結果は普通こう書く：</span></p>
+        <p><span class="i18n-en">So you have done the work, and $\bar{x}$ and $\sigma$ are in hand. How do you actually write the answer down? Usually like this:</span><span class="i18n-ja">さて、ここまでの作業で $\bar{x}$ と $\sigma$ が手に入った。では、結果を実際にどう書き下すのか。普通はこう書く：</span></p>
         <p class="eq-block">$$\text{result}=\bar{x}\pm\sigma$$</p>
         <p><span class="i18n-en">Conventionally $\sigma$ is rounded to two significant figures and $\bar{x}$ is quoted down to $\sigma$'s last digit (this is where the significant-figure rules of &sect;01 come from). Some fields instead quote the <b>expanded uncertainty</b> $k\sigma$ — most often $2\sigma$, giving ~95 % coverage — where $k$ is the <b>coverage factor</b>; this is the modern "uncertainty analysis" standard. Conventions vary (some divide by $n$ rather than $n-1$, some scale $\sigma$ differently), so always state which definition you used.</span><span class="i18n-ja">慣例として $\sigma$ は有効数字2桁に四捨五入し、$\bar{x}$ は $\sigma$ の最終桁まで示す（&sect;01 の有効数字ルールはここに由来する）。分野によっては<b>拡張不確かさ</b> $k\sigma$ — 多くは $2\sigma$ で約95%被覆 — を示す（$k$ を<b>包含係数</b>と呼ぶ）。これが近年の「不確かさ解析」の標準的作法だ。作法は分野で異なる（$n-1$ でなく $n$ で割る、$\sigma$ を何倍するか等）ので、どの定義で計算したかを必ず明記する。</span></p>
         <p><span class="i18n-en"><b>Concise (parenthesis) notation.</b> A very common shorthand writes the uncertainty in parentheses right after the value, lined up digit-for-digit with the value's last digits:</span><span class="i18n-ja"><b>括弧表記（簡潔表記）。</b>非常によく使われる略記で、値の直後に括弧で不確かさを書く — 括弧内の数字は値の<b>末尾の桁</b>と桁を揃える：</span></p>
@@ -579,6 +579,20 @@
           <span><i style="background:#fbbf24"></i><span class="i18n-en">best-fit line</span><span class="i18n-ja">最小二乗直線</span></span>
           <span><i style="background:#a8a29e"></i><span class="i18n-en">residuals</span><span class="i18n-ja">残差</span></span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Epilogue ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — Epilogue</span><span class="i18n-ja">04 — むすび</span></span>
+      <h2><span class="i18n-en">The life of one number</span><span class="i18n-ja">ある数値の一生</span></h2>
+      <p><span class="i18n-en">We started with a single number in your notebook and put four questions to it. <b>What is its error made of?</b> — a steady systematic shift you have to hunt down, or a random scatter you can fight (&sect;00). <b>How many of its digits are real?</b> — only as many as the doubt allows; the rest is decoration (&sect;01). <b>How does that doubt travel</b> when the number meets others inside a formula? — in quadrature, where the largest term wins (&sect;02). And <b>what if we simply measure again?</b> — the average closes in on the truth as $1/\sqrt{n}$, though never for free (&sect;03).</span><span class="i18n-ja">私たちはノートに記された1つの数値から出発し、それに4つの問いを投げかけてきた。<b>その誤差は何でできているのか</b> — 突き止めて取り除くべき系統的なずれか、戦える偶然のばらつきか（&sect;00）。<b>その数値の何桁が本物なのか</b> — 疑いが許すぶんだけで、残りは飾りにすぎない（&sect;01）。式の中で他の数と出会ったとき、<b>その疑いはどう伝わるのか</b> — 二乗和で、いちばん大きな項が勝つ（&sect;02）。そして<b>ただもう一度測ったら</b>どうなるか — 平均は $1/\sqrt{n}$ で真実に近づくが、ただではない（&sect;03）。</span></p>
+    </div>
+    <div class="demo-stage" style="max-width:var(--measure)">
+      <div class="me-prose">
+        <p><span class="i18n-en">Notice the thread running through all four: a measured value is never a bare number — it is a number <em>plus a claim about how well we know it</em>. The whole craft of the experimentalist is learning to state that claim honestly — not pretending the error away, not inflating it, but writing the small <b>&plusmn;</b> that turns a guess into a result. Master that one habit, and every later subject — least-squares fitting, statistics, the analysis of real data — is just this same move carried further.</span><span class="i18n-ja">4つすべてを貫く一本の糸に気づいてほしい。測定値とは決して裸の数ではない — それは<em>「どれだけ確からしいか」という主張を伴った</em>数なのだ。実験者の技のすべては、その主張を正直に述べる訓練にある。誤差を無かったことにもせず、大げさにもせず、推測を結果へと変える小さな <b>&plusmn;</b> を書き添えること。この習慣ひとつを身につければ、この先のどんな話題 — 最小二乗フィット、統計、実データの解析 — も、結局はこの同じ一手を遠くまで延ばしただけなのである。</span></p>
       </div>
     </div>
   </section>
