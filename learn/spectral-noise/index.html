@@ -176,6 +176,7 @@
     <div class="demo-stage">
       <div class="me-prose">
         <p><span class="i18n-en">The same spectrum is acquired as $N$ frames; random cosmic-ray spikes hit individual frames. <b>Summing</b> keeps every spike; <b>median rejection</b> across frames removes them while preserving the real signal. Toggle the method and re-roll the spikes.</span><span class="i18n-ja">同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームに当たる。<b>単純加算</b>はすべてのスパイクを残すが、フレーム間の<b>中央値除去</b>は本物の信号を保ったままスパイクを取り除く。手法を切り替え、スパイクを振り直してみよう。</span></p>
+        <p><span class="i18n-en"><b>Caveat — minimum frames for median rejection:</b> the median needs enough frames to "outvote" the spike. If the spike hits more than half the frames (which can happen at small $N$), the median itself lands on a spiked value and rejection fails. In practice, $N \geq 5$ is a common minimum; more frames give more reliable rejection.</span><span class="i18n-ja"><b>注意 — 中央値除去に必要な最小フレーム数：</b>中央値がスパイクに「負けない」だけのフレーム数が必要だ。スパイクが半数以上のフレームに入ると（$N$ が少ないと起こりやすい）、中央値自体がスパイクの値になり除去が失敗する。実用上は $N \geq 5$ が最小の目安で、フレームが多いほど除去の信頼性が上がる。</span></p>
       </div>
 
       <div class="anim-card pv-bunchin mat-sunezu">
