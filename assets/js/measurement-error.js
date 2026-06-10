@@ -110,18 +110,30 @@
     opts = opts || {};
     const { ctx, w, h } = fitCanvas(cv);
     ctx.clearRect(0, 0, w, h);
-    if (!data.length) return;
-    const pad = { l: 8, r: 8, t: 10, b: 22 };
+    const density = opts.density || null;
+    // Only bail when there's nothing to draw AND no explicit range — an explicit
+    // lo/hi means callers (e.g. the voltmeter) still want axes + fixed overlays
+    // drawn even before any data has been collected.
+    if (!density && !data.length && !opts.countData && (opts.lo === undefined || opts.hi === undefined)) return;
+    const pad = { l: opts.yAxis ? 40 : 8, r: 8, t: 10, b: 22 };
     const lo = opts.lo !== undefined ? opts.lo : Math.min(...data);
     const hi = opts.hi !== undefined ? opts.hi : Math.max(...data);
     const span = (hi - lo) || 1;
-    const bins = opts.bins || Math.max(8, Math.min(30, Math.round(Math.sqrt(data.length))));
-    const counts = new Array(bins).fill(0);
-    data.forEach(v => {
-      let k = Math.floor((v - lo) / span * bins);
-      if (k < 0) k = 0; if (k >= bins) k = bins - 1;
-      counts[k]++;
-    });
+    const bins = density ? density.length : (opts.countData ? opts.countData.length : (opts.bins || Math.max(8, Math.min(30, Math.round(Math.sqrt(data.length))))));
+    let counts;
+    if (density) {
+      counts = density;
+    } else if (opts.countData) {
+      counts = opts.countData;            // precomputed, unbounded count array
+    } else {
+      counts = new Array(bins).fill(0);
+      data.forEach(v => {
+        const k = Math.floor((v - lo) / span * bins);
+        if (k >= 0 && k < bins) counts[k]++;   // ignore out-of-range — no edge pile-up
+      });
+    }
+    // total sample count (drives the data-scaled fit overlay)
+    const total = opts.countData ? counts.reduce((s, c) => s + c, 0) : data.length;
     const maxC = Math.max(...counts) || 1;
     const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
     const bw = plotW / bins;
@@ -133,7 +145,7 @@
       const bh = counts[i] / maxC * plotH;
       ctx.fillRect(pad.l + i * bw + gap, pad.t + plotH - bh, barW, bh);
     }
-    // overlay normal curve
+    // overlay normal curve (scaled to count space — grows with data)
     if (opts.normal) {
       const { mu, sd } = opts.normal;
       ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2; ctx.beginPath();
@@ -148,6 +160,27 @@
       }
       ctx.stroke();
     }
+    // generic Gaussian curve. mode 'fixed' → constant amplitude (peak at 0.9·plotH),
+    // independent of how much data is collected; mode 'data' → scaled to the bars.
+    function gaussCurve(mu, sd, color, mode) {
+      if (!(sd > 0)) return;
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+      const binW = span / bins;
+      const peak = 1 / (sd * Math.sqrt(2 * Math.PI));
+      const fixedScale = 0.9 * plotH / peak;
+      for (let px = 0; px <= plotW; px++) {
+        const xv = lo + px / plotW * span;
+        const g = Math.exp(-0.5 * ((xv - mu) / sd) ** 2) / (sd * Math.sqrt(2 * Math.PI));
+        const yval = mode === 'fixed' ? g * fixedScale : g * binW * total / maxC * plotH;
+        const y = pad.t + plotH - yval;
+        px === 0 ? ctx.moveTo(pad.l + px, y) : ctx.lineTo(pad.l + px, y);
+      }
+      ctx.stroke();
+    }
+    // parent distribution — fixed amplitude reference curve
+    if (opts.fixedCurve) gaussCurve(opts.fixedCurve.mu, opts.fixedCurve.sd, opts.fixedCurve.color || '#34d399', 'fixed');
+    // Gaussian fit to the collected data — scaled to the histogram
+    if (opts.fitCurve && total >= 2) gaussCurve(opts.fitCurve.mu, opts.fitCurve.sd, opts.fitCurve.color || '#fbbf24', 'data');
     // true (parent) mean — green dashed line
     if (opts.trueMean !== undefined) {
       const tx = pad.l + (opts.trueMean - lo) / span * plotW;
@@ -171,12 +204,52 @@
       ctx.fillStyle = '#fbbf24'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
       ctx.fillText('x̄ = ' + fmt(m, 4), mx, pad.t + plotH + 12 > h ? pad.t + plotH - 4 : pad.t + 24);
     }
+    // live marker at an explicit value (e.g. the current sample mean)
+    if (opts.liveMark && isFinite(opts.liveMark.x)) {
+      const cl = opts.liveMark.color || '#fbbf24';
+      let frac = (opts.liveMark.x - lo) / span;
+      frac = Math.max(0, Math.min(1, frac));
+      const mx = pad.l + frac * plotW;
+      ctx.strokeStyle = cl; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(mx, pad.t); ctx.lineTo(mx, pad.t + plotH); ctx.stroke();
+      ctx.fillStyle = cl;
+      ctx.beginPath(); ctx.moveTo(mx - 5, pad.t); ctx.lineTo(mx + 5, pad.t); ctx.lineTo(mx, pad.t + 7); ctx.closePath(); ctx.fill();
+      if (opts.liveMark.label) {
+        ctx.font = '11px sans-serif'; ctx.textAlign = mx > w - pad.r - 50 ? 'right' : 'left';
+        ctx.fillText(opts.liveMark.label + ' = ' + fmt(opts.liveMark.x, 4), mx + (mx > w - pad.r - 50 ? -6 : 6), pad.t + 16);
+      }
+    }
     // axis baseline + labels
     ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(pad.l, pad.t + plotH); ctx.lineTo(w - pad.r, pad.t + plotH); ctx.stroke();
     ctx.fillStyle = '#a8a29e'; ctx.font = '11px sans-serif';
     ctx.textAlign = 'left'; ctx.fillText(fmt(lo, 3), pad.l, h - 7);
     ctx.textAlign = 'right'; ctx.fillText(fmt(hi, 3), w - pad.r, h - 7);
+    // always mark the position of x = 0 on the axis (when it lies in range)
+    if (lo <= 0 && 0 <= hi) {
+      const x0 = pad.l + (0 - lo) / span * plotW;
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0, pad.t); ctx.lineTo(x0, pad.t + plotH); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.beginPath(); ctx.moveTo(x0, pad.t + plotH); ctx.lineTo(x0, pad.t + plotH + 3); ctx.stroke();
+      if (x0 > pad.l + 14 && x0 < w - pad.r - 14) {
+        ctx.fillStyle = '#a8a29e'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('0', x0, h - 7);
+      }
+    }
+    // vertical (count) axis — line, 0/max ticks and a rotated label
+    if (opts.yAxis) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + plotH); ctx.stroke();
+      ctx.fillStyle = '#a8a29e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      if (!opts.density) ctx.fillText(String(maxC), pad.l - 6, pad.t + 9);
+      ctx.fillText('0', pad.l - 6, pad.t + plotH);
+      ctx.save();
+      ctx.translate(12, pad.t + plotH / 2); ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center'; ctx.fillStyle = '#a8a29e';
+      ctx.fillText(opts.density ? t('probability density', '確率密度') : t('count', '度数'), 0, 0);
+      ctx.restore();
+    }
   }
 
   /* ════════════════ Module 00 — Target board ════════════════ */
@@ -190,27 +263,77 @@
     function draw() {
       const { ctx, w, h } = fitCanvas(cv);
       ctx.clearRect(0, 0, w, h);
-      const cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 * 0.92;
-      // rings
-      for (let i = 4; i >= 1; i--) {
-        ctx.beginPath(); ctx.arc(cx, cy, R * i / 4, 0, 2 * Math.PI);
-        ctx.fillStyle = i % 2 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.07)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1; ctx.stroke();
+      const cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 * 0.94;
+      const RINGS = 6, BLACK = 3;                     // inner 3 rings are the black bull
+
+      // paper face
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI);
+      ctx.fillStyle = '#e9e2d0'; ctx.fill();
+      // black bullseye disc
+      ctx.beginPath(); ctx.arc(cx, cy, R * BLACK / RINGS, 0, 2 * Math.PI);
+      ctx.fillStyle = '#1b1916'; ctx.fill();
+      // scoring rings
+      for (let i = 1; i <= RINGS; i++) {
+        const rr = R * i / RINGS;
+        ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 2 * Math.PI);
+        ctx.lineWidth = i === BLACK ? 1.6 : 1.1;
+        ctx.strokeStyle = i <= BLACK ? 'rgba(255,255,255,0.55)' : 'rgba(20,18,15,0.45)';
+        ctx.stroke();
       }
-      // bullseye (true value)
-      ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2 * Math.PI);
-      ctx.fillStyle = '#34d399'; ctx.fill();
-      // shots
-      ctx.fillStyle = 'rgba(125,211,252,0.85)';
+      // sighting crosshair through the centre
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = 'rgba(120,110,90,0.45)';
+      ctx.beginPath();
+      ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy);
+      ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R);
+      ctx.stroke();
+      // score numbers down the vertical axis (10 at centre → 5 at the rim)
+      ctx.font = '600 10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for (let i = 1; i <= RINGS; i++) {
+        const rMid = R * (i - 0.5) / RINGS;
+        ctx.fillStyle = i <= BLACK ? 'rgba(233,226,208,0.8)' : 'rgba(40,36,30,0.7)';
+        ctx.fillText(String(11 - i), cx, cy - rMid);
+      }
+      ctx.textBaseline = 'alphabetic';
+
+      // shots — translucent red bullet holes. Set the per-dot opacity from the
+      // DENSEST overlap so even the most-stacked spot never goes fully opaque:
+      // estimate peak overlap k, then solve 1-(1-a)^k = target.
+      let k = 1;
+      if (shots.length) {
+        const cell = 3.6;                 // ≈ dot radius
+        const g = new Map();
+        shots.forEach(p => {
+          const gx = Math.floor((cx + p.x * R) / cell), gy = Math.floor((cy + p.y * R) / cell);
+          const key = gx + ',' + gy; g.set(key, (g.get(key) || 0) + 1);
+        });
+        g.forEach((_, key) => {           // sum each 2×2 block (≈ one dot footprint)
+          const c = key.split(',').map(Number);
+          let s = 0;
+          for (let dx = 0; dx <= 1; dx++) for (let dy = 0; dy <= 1; dy++) s += g.get((c[0] + dx) + ',' + (c[1] + dy)) || 0;
+          if (s > k) k = s;
+        });
+      }
+      const TARGET = 0.78;                 // max opacity allowed at the densest point
+      const a = Math.max(0.05, Math.min(0.78, 1 - Math.pow(1 - TARGET, 1 / k)));
+      const fill = 'rgba(206,30,30,' + a.toFixed(3) + ')';
+      const edge = 'rgba(120,8,8,' + (a * 0.8).toFixed(3) + ')';
       shots.forEach(p => {
-        ctx.beginPath(); ctx.arc(cx + p.x * R, cy + p.y * R, 3.3, 0, 2 * Math.PI); ctx.fill();
+        const x = cx + p.x * R, y = cy + p.y * R;
+        ctx.beginPath(); ctx.arc(x, y, 3.6, 0, 2 * Math.PI);
+        ctx.fillStyle = fill; ctx.fill();
+        ctx.lineWidth = 1; ctx.strokeStyle = edge; ctx.stroke();
       });
-      // mean
+      // group centroid (mean of shots)
       if (shots.length) {
         const mx = mean(shots.map(p => p.x)), my = mean(shots.map(p => p.y));
-        ctx.beginPath(); ctx.arc(cx + mx * R, cy + my * R, 6, 0, 2 * Math.PI);
-        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.stroke();
+        const x = cx + mx * R, y = cy + my * R;
+        ctx.beginPath(); ctx.arc(x, y, 7, 0, 2 * Math.PI);
+        ctx.lineWidth = 2.5; ctx.strokeStyle = '#fbbf24'; ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x - 11, y); ctx.lineTo(x + 11, y);
+        ctx.moveTo(x, y - 11); ctx.lineTo(x, y + 11);
+        ctx.lineWidth = 1.5; ctx.stroke();
       }
     }
 
@@ -259,23 +382,37 @@
     const a = $('sf-a'), b = $('sf-b'), op = $('sf-op'), out = $('sf-out');
     if (!a) return;
 
-    function highlight(str) {
-      // colour significant digits blue, leading placeholder zeros grey
-      str = str.trim();
+    /* split a numeric string into integer / decimal-point / fraction cells so
+       the worksheet can line up every value on its decimal point. With
+       `color`, paint significant digits vs leading placeholder zeros. */
+    function numCells(str, color) {
+      str = String(str).trim();
       const sign = /^[+-]/.test(str) ? str[0] : '';
-      const body = sign ? str.slice(1) : str;
-      let seenSig = false, html = '';
-      for (let i = 0; i < body.length; i++) {
-        const ch = body[i];
-        if (ch === '.') { html += '.'; continue; }
-        if (!seenSig && ch === '0') {
-          html += '<span class="digit-pad">' + ch + '</span>';      // leading placeholder zero
-        } else {
-          seenSig = true;
-          html += '<span class="digit-sig">' + ch + '</span>';      // significant digit
+      let body = sign ? str.slice(1) : str;
+      if (/[eE]/.test(body)) return { int: sign + body, dot: '', frac: '' };  // scientific → whole
+      const di = body.indexOf('.');
+      const intPart = di < 0 ? body : body.slice(0, di);
+      const fracPart = di < 0 ? '' : body.slice(di + 1);
+      if (!color) return { int: sign + intPart, dot: di < 0 ? '' : '.', frac: fracPart };
+      let seen = false;
+      const paint = part => {
+        let h = '';
+        for (const ch of part) {
+          if (!seen && ch === '0') h += '<span class="digit-pad">0</span>';
+          else { seen = true; h += '<span class="digit-sig">' + ch + '</span>'; }
         }
-      }
-      return sign + html;
+        return h;
+      };
+      return { int: sign + paint(intPart), dot: di < 0 ? '' : '.', frac: paint(fracPart) };
+    }
+
+    function sfRow(opSym, cells, note, cls) {
+      cls = cls ? ' ' + cls : '';
+      return '<span class="c-op' + cls + '">' + opSym + '</span>' +
+             '<span class="c-int' + cls + '">' + cells.int + '</span>' +
+             '<span class="c-dot' + cls + '">' + cells.dot + '</span>' +
+             '<span class="c-frac' + cls + '">' + cells.frac + '</span>' +
+             '<span class="c-note' + cls + '">' + note + '</span>';
     }
 
     function compute() {
@@ -303,12 +440,16 @@
           '加算・減算 → 最小の小数位に合わせる：min(' + decimals(sa) + ', ' + decimals(sb) + ') = <b>小数第 ' + dp + ' 位</b>。');
       }
       const opSym = { '*': '×', '/': '÷', '+': '+', '-': '−' }[o];
+      const rawStr = raw.toPrecision(8).replace(/0+$/, '').replace(/\.$/, '');
       out.innerHTML =
-        '<div>' + highlight(sa) + ' <span style="color:#a8a29e">(' + ca + ' s.f.)</span> &nbsp;' + opSym + '&nbsp; ' +
-        highlight(sb) + ' <span style="color:#a8a29e">(' + cb + ' s.f.)</span></div>' +
-        '<div style="margin:8px 0 4px">' + t('Raw result', '素の結果') + ': <span style="color:#d6d3d1">' + raw.toPrecision(8).replace(/0+$/, '').replace(/\.$/, '') + '</span></div>' +
-        '<div class="sf-result">= ' + resStr + '</div>' +
-        '<div class="sf-rule" style="margin-top:6px">' + rule + '</div>';
+        '<div class="sf-calc">' +
+          sfRow('', numCells(sa, true), ca + ' s.f.') +
+          sfRow(opSym, numCells(sb, true), cb + ' s.f.') +
+          '<span class="c-rule"></span>' +
+          sfRow('=', numCells(rawStr, false), t('raw', '素の値'), 'r-raw') +
+          sfRow('', numCells(resStr, false), t('result', '結果'), 'r-final') +
+        '</div>' +
+        '<div class="sf-rule">' + rule + '</div>';
     }
 
     [a, b].forEach(el => el.addEventListener('input', compute));
@@ -326,6 +467,7 @@
     // persistent per-variable state (kept across formula changes)
     const state = { x: { val: 10, del: 0.3 }, y: { val: 4, del: 0.2 }, z: { val: 2, del: 0.1 } };
     let compiled = null, activeVars = [], shownKey = '';
+    let mcRAF = 0, lastDfA = 0, lastFval = 0;
 
     /* compile a user expression in x,y,z into a function (^ → **) */
     function compile(expr) {
@@ -405,26 +547,72 @@
       drawInputs(vals);
       drawBars(contrib, totVar);
 
-      // Monte-Carlo: sample the active variables, evaluate f
-      const N = mcN ? +mcN.value : 8000, samples = [];
-      for (let i = 0; i < N; i++) {
-        const s = { x: vals.x, y: vals.y, z: vals.z };
-        activeVars.forEach(n => { s[n] = gaussian(state[n].val, state[n].del); });
-        const fv = evalAt(s);
-        if (isFinite(fv)) samples.push(fv);
-      }
+      lastFval = fval; lastDfA = dfA;
+      // a quick full Monte-Carlo run keeps the read-outs live while sliders move
+      cancelAnimationFrame(mcRAF); mcRAF = 0;
+      const N = mcN ? +mcN.value : 8000;
+      const samples = sampleMC(N, vals);
       const mcMean = samples.length ? mean(samples) : fval;
       const mcSd = stdev(samples);
       $('prop-df-mc').textContent = fmt(mcSd, 3);
-      // agreement between analytic and MC standard deviations
+      if ($('mc-progress')) $('mc-progress').textContent = N.toLocaleString() + ' / ' + N.toLocaleString() + ' ' + t('trials', '試行');
+      setAgreement(dfA, mcSd);
+      drawComparison($('c-prop-mc'), samples, mcMean, dfA, mcSd);
+    }
+
+    /* agreement badge between the analytic and Monte-Carlo standard deviations */
+    function setAgreement(dfA, mcSd) {
       const rel = mcSd > 0 ? Math.abs(dfA - mcSd) / mcSd : 0;
       $('prop-agree').innerHTML = rel < 0.05
         ? '<span style="color:#6ee7b7">' + t('match', '一致') + ' (' + (rel * 100).toFixed(1) + '%)</span>'
         : (rel < 0.2
           ? '<span style="color:#fbbf24">~ ' + (rel * 100).toFixed(0) + '%</span>'
           : '<span style="color:#fda4af">' + t('differs', '相違') + ' ' + (rel * 100).toFixed(0) + '%</span>');
+    }
 
-      drawComparison($('c-prop-mc'), samples, mcMean, dfA, mcSd);
+    /* run `count` Monte-Carlo trials at the given input centres */
+    function sampleMC(count, vals) {
+      const out = [];
+      for (let i = 0; i < count; i++) {
+        const s = { x: vals.x, y: vals.y, z: vals.z };
+        activeVars.forEach(n => { s[n] = gaussian(state[n].val, state[n].del); });
+        const fv = evalAt(s);
+        if (isFinite(fv)) out.push(fv);
+      }
+      return out;
+    }
+
+    /* animated Monte-Carlo: accumulate trials a small batch per frame so the
+       histogram visibly builds up — one set of random draws at a time. This is
+       what makes "Monte-Carlo" concrete: each trial = one random sample of f. */
+    function animateMC() {
+      if (!compiled || activeVars.length === 0) return;
+      cancelAnimationFrame(mcRAF);
+      const vals = { x: state.x.val, y: state.y.val, z: state.z.val };
+      const dfA = lastDfA, fval = lastFval;
+      const N = mcN ? +mcN.value : 8000;
+      const btn = $('btn-mc-run');
+      const samples = [];
+      let drawn = 0;
+      const batch = Math.max(1, Math.round(N / 90));
+      if (btn) btn.disabled = true;
+      function step() {
+        const end = Math.min(N, drawn + batch);
+        for (; drawn < end; drawn++) {
+          const s = { x: vals.x, y: vals.y, z: vals.z };
+          activeVars.forEach(n => { s[n] = gaussian(state[n].val, state[n].del); });
+          const fv = evalAt(s);
+          if (isFinite(fv)) samples.push(fv);
+        }
+        const mcSd = stdev(samples);
+        $('prop-df-mc').textContent = fmt(mcSd, 3);
+        if ($('mc-progress')) $('mc-progress').textContent = drawn.toLocaleString() + ' / ' + N.toLocaleString() + ' ' + t('trials', '試行');
+        setAgreement(dfA, mcSd);
+        drawComparison($('c-prop-mc'), samples, fval, dfA, mcSd);
+        if (drawn < N) { mcRAF = requestAnimationFrame(step); }
+        else { mcRAF = 0; if (btn) btn.disabled = false; }
+      }
+      step();
     }
 
     /* MC histogram with the analytic Normal(mu, dfA) curve overlaid, plus
@@ -560,6 +748,7 @@
         btn.classList.add('active');
         exprInput.value = btn.dataset.expr;
         recompute();
+        animateMC();
       }));
     exprInput.addEventListener('input', () => {
       document.querySelectorAll('#prop-formula .demo-btn').forEach(b => b.classList.remove('active'));
@@ -571,8 +760,11 @@
     });
     window.addEventListener('resize', recompute);
     document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(recompute, 0));
+    const mcRunBtn = $('btn-mc-run');
+    if (mcRunBtn) mcRunBtn.addEventListener('click', animateMC);
     if (mcN) mcOut.textContent = (+mcN.value).toLocaleString();
     recompute();
+    animateMC();
   }
 
   /* ════════════════ Module 03a — Sample statistics ════════════════ */
@@ -611,19 +803,45 @@
     const cvM = $('c-clt-means'), sN = $('ctrl-clt-n');
 
     const PARENTS = {
-      uniform:     { mu: 0.5, sd: Math.sqrt(1 / 12), lo: 0,    hi: 1,   sample: () => Math.random() },
-      exponential: { mu: 1,   sd: 1,                 lo: 0,    hi: 6,   sample: () => -Math.log(1 - Math.random()) },
-      bimodal:     { mu: 0.5, sd: 0.5,               lo: -0.2, hi: 1.2, sample: () => (Math.random() < 0.5 ? 0 : 1) },
+      uniform:     { mu: 0.5, sd: Math.sqrt(1 / 12), lo: 0,    hi: 1,   sample: () => Math.random(),
+                     pdf: x => (x >= 0 && x <= 1 ? 1 : 0) },
+      exponential: { mu: 1,   sd: 1,                 lo: 0,    hi: 6,   sample: () => -Math.log(1 - Math.random()),
+                     pdf: x => (x >= 0 ? Math.exp(-x) : 0) },
+      bimodal:     { mu: 0.5, sd: 0.5,               lo: -0.2, hi: 1.2, sample: () => (Math.random() < 0.5 ? 0 : 1),
+                     mass: [{ x: 0, p: 0.5 }, { x: 1, p: 0.5 }] },
+      normal:      { mu: 0.5, sd: 0.16,              lo: -0.2, hi: 1.2, sample: () => gaussian(0.5, 0.16),
+                     pdf: x => Math.exp(-0.5 * ((x - 0.5) / 0.16) ** 2) / (0.16 * Math.sqrt(2 * Math.PI)) },
     };
+
+    /* exact theoretical density of the parent over [lo,hi] in `bins` bins.
+       The parent distribution is a fixed truth, not random — so we draw the
+       analytic pdf (continuous) or point masses (discrete), no sampling noise. */
+    function parentDensity(P, lo, hi, bins) {
+      const span = hi - lo, bw = span / bins;
+      const d = new Array(bins).fill(0);
+      if (P.mass) {
+        P.mass.forEach(m => {
+          let k = Math.floor((m.x - lo) / span * bins);
+          if (k < 0) k = 0; if (k >= bins) k = bins - 1;
+          d[k] += m.p;
+        });
+      } else if (P.pdf) {
+        for (let i = 0; i < bins; i++) d[i] = P.pdf(lo + (i + 0.5) * bw);
+      }
+      return d;
+    }
     let cur = 'uniform';
 
     function update() {
       const P = PARENTS[cur];
       const n = +sN.value;
       $('v-clt-n').textContent = n;
-      // parent panel: many raw single draws
-      const raw = Array.from({ length: 4000 }, P.sample);
-      drawHistogram(cvP, raw, { lo: P.lo, hi: P.hi, bins: 30, color: '#7dd3fc', trueMean: P.mu });
+      // Both panels share the SAME x-axis range AND the SAME bin count, so the
+      // bin size is identical and the two histograms are directly comparable.
+      const BINS = 100;
+      // parent panel: the EXACT parent density (deterministic, not a sample)
+      const dens = parentDensity(P, P.lo, P.hi, BINS);
+      drawHistogram(cvP, [], { lo: P.lo, hi: P.hi, density: dens, color: '#7dd3fc', trueMean: P.mu, yAxis: true });
       // means panel: distribution of the mean of n draws
       const trials = 4000, means = new Array(trials);
       for (let i = 0; i < trials; i++) {
@@ -634,13 +852,9 @@
       const seObs = stdev(means);
       $('clt-se-pred').textContent = fmt(sePred, 3);
       $('clt-se-obs').textContent = fmt(seObs, 3);
-      // Keep the x-axis FIXED to the parent spread so the narrowing toward μ is
-      // directly visible, but scale the bin count with n so the (ever-narrower)
-      // cluster of means always keeps plenty of resolved bars.
-      const bins = Math.min(150, Math.max(24, Math.round(24 * Math.sqrt(n))));
       drawHistogram(cvM, means, {
-        lo: P.mu - 4 * P.sd, hi: P.mu + 4 * P.sd, bins: bins, color: '#a78bfa',
-        normal: { mu: P.mu, sd: sePred }, trueMean: P.mu,
+        lo: P.lo, hi: P.hi, bins: BINS, color: '#a78bfa',
+        normal: { mu: P.mu, sd: sePred }, trueMean: P.mu, yAxis: true,
       });
     }
 
@@ -652,6 +866,160 @@
     sN.addEventListener('input', update);
     window.addEventListener('resize', update);
     update();
+  }
+
+  /* ════════════════ Module 03b — Worked example: noisy voltmeter ════════════════ */
+  function initVoltmeter() {
+    const cvS = $('c-volt-strip'); if (!cvS) return;
+    const cvD = $('c-volt-dist'), sN = $('ctrl-volt-n');
+    const MU = 5, NOISE = 0.5;          // true voltage and single-reading noise sd
+    const Y_HALF = 3.2 * NOISE;         // strip y half-range
+    const D_HALF = 1.5;                 // distribution x half-range (volts)
+    const VIS = 60;                     // readings visible in the strip
+    const SPEEDS = [                    // meter speed presets (× relative to 2 readings/s)
+      { label: '1×', ms: 500, step: 1 }, { label: '5×', ms: 100, step: 1 },
+      { label: '25×', ms: 20, step: 1 }, { label: '100×', ms: 20, step: 4 },
+      { label: '1000×', ms: 16, step: 32 },
+    ];
+    const HBINS = 60, H_LO = MU - D_HALF, H_HI = MU + D_HALF;
+    // readings: rolling display buffer · batch: current experiment in progress
+    // hist/cN/cSum/cSum2: persistent, unbounded tally of completed sample means
+    let readings = [], batch = [], liveX = NaN;
+    let hist = new Array(HBINS).fill(0), cN = 0, cSum = 0, cSum2 = 0;
+    let paused = false, timer = 0, speedIdx = 0;
+
+    function se() { return NOISE / Math.sqrt(+sN.value); }
+
+    function drawStrip() {
+      const { ctx, w, h } = fitCanvas(cvS);
+      ctx.clearRect(0, 0, w, h);
+      const pad = { l: 42, r: 10, t: 12, b: 18 };
+      const yLo = MU - Y_HALF, yHi = MU + Y_HALF, ySpan = yHi - yLo;
+      const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
+      const yP = v => pad.t + plotH - (v - yLo) / ySpan * plotH;
+      // true-value line
+      const ty = yP(MU);
+      ctx.strokeStyle = '#34d399'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(pad.l, ty); ctx.lineTo(w - pad.r, ty); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#34d399'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText(t('true 5 V', '真値 5 V'), pad.l + 3, ty - 3);
+      // visible slice
+      const vis = readings.slice(-VIS);
+      const xP = i => pad.l + (VIS <= 1 ? plotW : i / (VIS - 1) * plotW);
+      // connecting polyline
+      ctx.strokeStyle = 'rgba(125,211,252,0.45)'; ctx.lineWidth = 1; ctx.beginPath();
+      vis.forEach((v, i) => { const x = xP(i), y = yP(v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+      ctx.stroke();
+      // highlight the readings of the CURRENT experiment (the trailing batch).
+      // On the frame a batch just completed (batch empty) show the whole n.
+      const hi = batch.length > 0 ? batch.length : Math.min(+sN.value, vis.length);
+      vis.forEach((v, i) => {
+        const inBatch = i >= vis.length - hi;
+        ctx.fillStyle = inBatch ? '#fbbf24' : '#7dd3fc';
+        ctx.beginPath(); ctx.arc(xP(i), yP(v), inBatch ? 3 : 2, 0, 2 * Math.PI); ctx.fill();
+      });
+      // axes
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + plotH); ctx.lineTo(w - pad.r, pad.t + plotH); ctx.stroke();
+      ctx.fillStyle = '#a8a29e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText(fmt(yHi, 2), pad.l - 4, pad.t + 8);
+      ctx.fillText(fmt(yLo, 2), pad.l - 4, pad.t + plotH);
+      ctx.save(); ctx.translate(12, pad.t + plotH / 2); ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center'; ctx.fillText(t('volts', '電圧'), 0, 0); ctx.restore();
+      ctx.textAlign = 'right'; ctx.fillStyle = '#a8a29e';
+      ctx.fillText(t('time →', '時間 →'), w - pad.r, h - 5);
+    }
+
+    function drawDist() {
+      const fitMu = cN ? cSum / cN : MU;
+      const fitVar = cN >= 2 ? (cSum2 - cSum * cSum / cN) / (cN - 1) : 0;
+      const fitSd = fitVar > 0 ? Math.sqrt(fitVar) : 0;
+      drawHistogram(cvD, [], {
+        lo: H_LO, hi: H_HI, countData: hist, color: '#a78bfa',
+        fixedCurve: { mu: MU, sd: NOISE, color: '#34d399' },      // parent f(x), fixed size
+        fitCurve: { mu: fitMu, sd: fitSd, color: '#facc15' },     // normal fit to collected x̄
+        trueMean: MU, yAxis: true,
+        liveMark: isFinite(liveX) ? { x: liveX, color: '#38bdf8', label: 'x̄' } : null,
+      });
+    }
+
+    function refreshStats() {
+      const n = +sN.value;
+      $('v-volt-n').textContent = n;
+      $('volt-se').textContent = fmt(se(), 3) + ' V';
+      $('volt-xbar').textContent = isFinite(liveX) ? fmt(liveX, 4) + ' V' : '—';
+      $('volt-count').textContent = cN;
+      $('volt-batch').textContent = t(
+        'collecting reading ' + batch.length + ' / ' + n,
+        '測定中 ' + batch.length + ' / ' + n + ' 個');
+    }
+
+    function tick() {
+      const step = SPEEDS[speedIdx].step || 1;
+      let lastV = NaN;
+      for (let s = 0; s < step; s++) {
+        const v = gaussian(MU, NOISE); lastV = v;
+        readings.push(v);
+        if (readings.length > 400) readings.shift();
+        batch.push(v);
+        // one experiment = exactly n readings → compute its mean, then start fresh
+        if (batch.length >= +sN.value) {
+          liveX = mean(batch);
+          cN++; cSum += liveX; cSum2 += liveX * liveX;
+          const k = Math.floor((liveX - H_LO) / (H_HI - H_LO) * HBINS);
+          if (k >= 0 && k < HBINS) hist[k]++;     // unbounded tally
+          batch = [];
+        }
+      }
+      $('volt-now').textContent = fmt(lastV, 4);
+      refreshStats(); drawStrip(); drawDist();
+    }
+
+    function start() { if (!timer && !paused) timer = setInterval(tick, SPEEDS[speedIdx].ms); }
+    function stop() { if (timer) { clearInterval(timer); timer = 0; } }
+    function restart() { stop(); start(); }
+
+    function resetRun() {        // distribution shape changed → start the tally over
+      hist = new Array(HBINS).fill(0); cN = 0; cSum = 0; cSum2 = 0;
+      batch = []; liveX = NaN;
+      refreshStats(); drawStrip(); drawDist();
+    }
+
+    sN.addEventListener('input', resetRun);
+
+    // segmented speed control — every option visible at a glance, active highlighted
+    const speedOpts = $('volt-speed-opts');
+    if (speedOpts) {
+      SPEEDS.forEach((sp, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'vs-opt' + (i === speedIdx ? ' active' : '');
+        b.textContent = sp.label;
+        b.setAttribute('aria-label', 'Speed ' + sp.label);
+        b.addEventListener('click', () => {
+          speedIdx = i;
+          speedOpts.querySelectorAll('.vs-opt').forEach(x => x.classList.remove('active'));
+          b.classList.add('active');
+          restart();
+        });
+        speedOpts.appendChild(b);
+      });
+    }
+
+    const pauseBtn = $('btn-volt-pause');
+    if (pauseBtn) pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.innerHTML = paused
+        ? '<span class="i18n-en">▶ Resume</span><span class="i18n-ja">▶ 再開</span>'
+        : '<span class="i18n-en">❚❚ Pause</span><span class="i18n-ja">❚❚ 一時停止</span>';
+      paused ? stop() : start();
+    });
+    window.addEventListener('resize', () => { drawStrip(); drawDist(); });
+
+    // seed a partial batch so the strip isn't empty, then run
+    for (let i = 0; i < 8; i++) { const v = gaussian(MU, NOISE); readings.push(v); batch.push(v); }
+    refreshStats(); drawStrip(); drawDist();
+    start();
   }
 
   /* ════════════════ Module 03f — Least-squares fit ════════════════ */
@@ -755,6 +1123,7 @@
     initPropagation();
     initStats();
     initCLT();
+    initVoltmeter();
     initFit();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

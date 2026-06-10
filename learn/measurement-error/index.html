@@ -92,7 +92,7 @@
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">00 — Types of error</span><span class="i18n-ja">00 — 誤差の種類</span></span>
-      <h2><span class="i18n-en">Systematic vs random — accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差 — 正確さと精密さ</span></h2>
+      <h2><span class="i18n-en" data-comment-anchor="7c17370190-span">Systematic vs random — accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差 — 正確さと精密さ</span></h2>
       <p><span class="i18n-en">Measurement error splits into two fundamentally different kinds. A <b>systematic error</b> shifts every reading the same way (a mis-zeroed scale, an un-subtracted baseline) — it limits <b>accuracy</b>, how close the average sits to the true value. A <b>random error</b> scatters readings unpredictably (electronic noise, counting statistics) — it limits <b>precision</b>, how tightly the readings cluster. Averaging beats down random error but is powerless against a systematic one.</span><span class="i18n-ja">測定誤差は本質的に異なる2種類に分かれる。<b>系統誤差</b>はすべての測定値を同じ向きにずらす（ゼロ点のずれ、引き残したベースラインなど） — これは<b>正確さ（accuracy）</b>、すなわち平均が真値にどれだけ近いかを制限する。<b>偶然誤差</b>は測定値を予測できない形でばらつかせる（電子ノイズ、計数統計など） — これは<b>精密さ（precision）</b>、すなわち測定値がどれだけ密に集まるかを制限する。平均をとれば偶然誤差は小さくできるが、系統誤差には無力である。</span></p>
     </div>
     <div class="demo-stage">
@@ -100,8 +100,11 @@
         <p><span class="i18n-en">Fire shots at the target below. The <b>systematic offset</b> slides the whole cluster off the bullseye (an accuracy problem); the <b>random spread</b> blows the cluster apart (a precision problem). The verdict updates live.</span><span class="i18n-ja">下の的に向けて射撃してみよう。<b>系統誤差</b>のスライダーは点群全体を中心からずらし（正確さの問題）、<b>偶然誤差</b>のスライダーは点群を広げる（精密さの問題）。判定はリアルタイムで更新される。</span></p>
       </div>
 
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c-target" height="320" aria-label="Accuracy versus precision target board"></canvas>
+      <div class="anim-card pv-bunchin mat-sunezu target-card" data-comment-anchor="ea5d8aefb2-div">
+        <div class="target-figure">
+          <canvas id="c-target" height="300" aria-label="Accuracy versus precision target board"></canvas>
+        </div>
+        <div class="target-side">
         <div class="me-controls">
           <div class="me-slider">
             <label for="ctrl-sys"><span class="i18n-en">Systematic error</span><span class="i18n-ja">系統誤差</span></label>
@@ -124,9 +127,10 @@
         </div>
         <div id="target-verdict"></div>
         <div class="me-legend">
-          <span><i style="background:#7dd3fc"></i><span class="i18n-en">individual shots</span><span class="i18n-ja">各測定（射撃）</span></span>
-          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean of shots</span><span class="i18n-ja">測定の平均</span></span>
-          <span><i style="background:#34d399"></i><span class="i18n-en">true value (bullseye)</span><span class="i18n-ja">真値（中心）</span></span>
+          <span><i style="background:rgba(206,30,30,0.55)"></i><span class="i18n-en">individual shots (measurements)</span><span class="i18n-ja">各射撃（測定）</span></span>
+          <span><i style="background:#fbbf24"></i><span class="i18n-en">group centre = mean of shots</span><span class="i18n-ja">着弾の中心＝測定の平均</span></span>
+          <span><i style="border:2px solid #1b1916;background:#e9e2d0"></i><span class="i18n-en">bullseye = true value</span><span class="i18n-ja">中心＝真値</span></span>
+        </div>
         </div>
       </div>
       <p class="me-cap"><span class="i18n-en">Notice: with <b>high systematic / low random</b> error the shots form a tight cluster — <em>precise but inaccurate</em>. No amount of averaging moves that cluster onto the bullseye; only finding and removing the systematic cause does.</span><span class="i18n-ja">注目：<b>系統誤差が大きく偶然誤差が小さい</b>とき、点群は密に集まる — <em>精密だが不正確</em>な状態である。いくら平均をとってもこの点群は中心へ移動しない。系統誤差の原因を見つけて取り除くしかない。</span></p>
@@ -150,29 +154,10 @@
         <p><span class="i18n-en">It works for small numbers too: $0.000456 = 4.56\times10^{-4}$ — no need to count zeros. The <b>number of significant figures</b> is counted from the first non-zero digit through the doubtful last digit (leading zeros never count). So $1.230\times10^{5}$ has 4 significant figures; $0.000456$ has 3 (the digits <b>456</b>).</span><span class="i18n-ja">小さな数にも使える：$0.000456 = 4.56\times10^{-4}$ — ゼロを数えなくてよい。<b>有効数字の桁数</b>は、最初の非ゼロ数字から怪しい最後の桁まで数える（先頭のゼロは数えない）。よって $1.230\times10^{5}$ は4桁、$0.000456$ は3桁（<b>456</b> の部分）である。</span></p>
 
         <h3><span class="i18n-en">The rules for arithmetic</span><span class="i18n-ja">四則演算の作法</span></h3>
-        <p><span class="i18n-en"><b>Addition / subtraction:</b> line the numbers up by place value; the answer can only be trusted down to the <em>highest</em> last-trustworthy place among the inputs, so keep the <b>fewest decimal places</b>. <b>Multiplication / division:</b> place value is irrelevant — only the <em>count</em> of significant figures matters, so the answer keeps the <b>fewest significant figures</b>. In all cases, round just <em>once, at the end</em>. Try it:</span><span class="i18n-ja"><b>加算・減算：</b>位を揃えて並べる。結果は入力のうち最後の信頼桁が<em>最も高い位</em>までしか信用できないので、<b>最小の小数位</b>に合わせる。<b>乗算・除算：</b>位は関係なく、有効数字の<em>桁数</em>だけが効くので、結果は<b>最小の有効数字</b>に合わせる。いずれも丸めは<em>最後に1回だけ</em>。試してみよう：</span></p>
+        <p><span class="i18n-en"><b>Addition / subtraction:</b> line the numbers up by place value; the answer can only be trusted down to the <em>highest</em> last-trustworthy place among the inputs, so keep the <b>fewest decimal places</b>. <b>Multiplication / division:</b> place value is irrelevant — only the <em>count</em> of significant figures matters, so the answer keeps the <b>fewest significant figures</b>. In all cases, round just <em>once, at the end</em>. For example:</span><span class="i18n-ja"><b>加算・減算：</b>位を揃えて並べる。結果は入力のうち最後の信頼桁が<em>最も高い位</em>までしか信用できないので、<b>最小の小数位</b>に合わせる。<b>乗算・除算：</b>位は関係なく、有効数字の<em>桁数</em>だけが効くので、結果は<b>最小の有効数字</b>に合わせる。いずれも丸めは<em>最後に1回だけ</em>。例えば：</span></p>
+        <p class="eq-block">$$12.34 + 1.1 = 13.4\ \ (\text{fewest dp}=1),\qquad 12.34 \times 1.1 = 14\ \ (\text{fewest s.f.}=2)$$</p>
+        <p><span class="i18n-en">Keep a trailing zero when the rule produces one — it marks where the doubt sits ($1.1+2.4=3.5$; a carry gives $9.9+0.2=10.1$). And subtraction can be brutal: $1.2345-1.2300=0.0045$ collapses 5- and 6-figure inputs into a 2-figure answer (<b>catastrophic cancellation</b>). Round only the final answer.</span><span class="i18n-ja">ルールの結果として末尾に 0 が出たら残す — そこに疑いがあることを示す（$1.1+2.4=3.5$、繰り上がりで $9.9+0.2=10.1$）。引き算は厳しく、$1.2345-1.2300=0.0045$ は5桁・6桁の入力を2桁の答えに変えてしまう（<b>桁落ち</b>）。丸めは最終結果だけ。</span></p>
       </div>
-
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <div class="me-controls">
-          <div class="me-slider" style="flex:0 0 auto">
-            <input type="text" class="me-field" id="sf-a" value="12.34" inputmode="decimal" aria-label="First value">
-          </div>
-          <div class="me-slider" style="flex:0 0 auto">
-            <select class="me-field" id="sf-op" aria-label="Operation">
-              <option value="*">×</option>
-              <option value="/">÷</option>
-              <option value="+">+</option>
-              <option value="-">−</option>
-            </select>
-          </div>
-          <div class="me-slider" style="flex:0 0 auto">
-            <input type="text" class="me-field" id="sf-b" value="1.1" inputmode="decimal" aria-label="Second value">
-          </div>
-        </div>
-        <div class="sf-out" id="sf-out"></div>
-      </div>
-      <p class="me-cap"><span class="i18n-en">Blue digits are significant; grey digits are placeholders. A result's last kept digit may end in 0 (e.g. $1.1+2.4=3.5$, or a carry making $9.9+0.2=10.1$) — keep that zero, it marks where the doubt sits. Subtraction can be brutal: $1.2345-1.2300=0.0045$ turns 5- and 6-figure inputs into a 2-figure answer (catastrophic cancellation). Round only the final answer.</span><span class="i18n-ja">青字が有効数字、グレーが位取りのゼロ。結果の最後の桁が 0 になることもある（例 $1.1+2.4=3.5$、繰り上がりで $9.9+0.2=10.1$）— その 0 は「ここに疑いがある」ことを示すので残す。引き算は厳しい：$1.2345-1.2300=0.0045$ は5桁・6桁の入力を2桁の答えに変えてしまう（桁落ち）。丸めは最終結果だけ。</span></p>
 
       <div class="me-prose">
         <h3><span class="i18n-en">Constants and defined values</span><span class="i18n-ja">数学定数・定義値の扱い</span></h3>
@@ -191,16 +176,16 @@
 
   <!-- ═══════ Module 02 — Propagation of uncertainty ═══════ -->
   <section class="demo">
-    <div class="demo-head">
+    <div class="demo-head" data-comment-anchor="754d5c2024-div">
       <span class="demo-num"><span class="i18n-en">02 — Propagation of uncertainty</span><span class="i18n-ja">02 — 誤差の伝播</span></span>
       <h2><span class="i18n-en">How input uncertainties combine in a result</span><span class="i18n-ja">入力の不確かさが結果でどう合成されるか</span></h2>
       <p><span class="i18n-en">You rarely measure the quantity you want directly. Often you compute it from several other measurements — an <b>indirect measurement</b> $X=f(a,b,c)$ — and you must carry the errors of $a,b,c$ through to $X$. For a simple $f$ you could just nudge each input within its error and read off the largest and smallest $X$ (exactly what the Monte-Carlo panel below does). The general shortcut comes from a <b>first-order Taylor expansion</b>:</span><span class="i18n-ja">求めたい量を直接測れることはまれだ。多くは複数の測定から計算する — <b>間接測定</b> $X=f(a,b,c)$ — ので、$a,b,c$ の誤差を $X$ まで運ぶ必要がある。$f$ が単純なら、各入力を誤差の範囲で動かして $X$ の最大・最小を読めばよい（下のモンテカルロパネルがまさにそれだ）。一般的な近道は<b>1次のテイラー展開</b>から得られる：</span></p>
       <p class="eq-block">$$f(a+\Delta a,\,b+\Delta b,\,c+\Delta c)\simeq f(a,b,c)+\frac{\partial f}{\partial a}\Delta a+\frac{\partial f}{\partial b}\Delta b+\frac{\partial f}{\partial c}\Delta c$$</p>
-      <p><span class="i18n-en"><b>Worst case (maximum error).</b> If every error could conspire to push $X$ the same way, take absolute values so the terms always reinforce:</span><span class="i18n-ja"><b>最悪値（最大誤差）。</b>すべての誤差が $X$ を同じ向きに押すよう共謀し得るなら、項が必ず強め合うように絶対値をとる：</span></p>
-      <p class="eq-block">$$\Delta X=\left|\frac{\partial f}{\partial a}\right|\Delta a+\left|\frac{\partial f}{\partial b}\right|\Delta b+\left|\frac{\partial f}{\partial c}\right|\Delta c$$</p>
-      <p><span class="i18n-en"><b>Statistical case (quadrature).</b> When the errors are <b>independent and random</b>, they more often partly cancel than fully reinforce. The honest estimate then adds them <b>in quadrature</b> — the smaller, realistic uncertainty used throughout this page:</span><span class="i18n-ja"><b>統計的な場合（二乗和）。</b>誤差が<b>独立でランダム</b>なら、完全に強め合うより部分的に打ち消し合うことの方が多い。その場合の正直な見積もりは<b>二乗和</b>で合成する — 本ページで通して使う、より小さく現実的な不確かさだ：</span></p>
+      <p><span class="i18n-en"><b>Statistical case (quadrature) — the default.</b> When the errors are <b>independent and random</b>, they more often partly cancel than fully reinforce, so the honest, realistic estimate adds them <b>in quadrature</b>. This is the uncertainty used throughout this page:</span><span class="i18n-ja"><b>統計的な場合（二乗和）— 基本。</b>誤差が<b>独立でランダム</b>なら、完全に強め合うより部分的に打ち消し合うことの方が多いので、正直で現実的な見積もりは<b>二乗和</b>で合成する。本ページで通して使う不確かさだ：</span></p>
       <p class="eq-block">$$\delta f=\sqrt{\sum_i\left(\frac{\partial f}{\partial x_i}\right)^{\!2}\delta x_i^{\,2}}$$</p>
-      <p><span class="i18n-en">The worst case is an upper bound; quadrature is what you expect on average. Either way the same shortcuts fall out: for <b>sums and differences</b> the <em>absolute</em> uncertainties combine; for <b>products, quotients and powers</b> the <em>relative</em> ones do (a power $x^n$ multiplies the relative uncertainty by $|n|$, a logarithm turns a relative error into an absolute one).</span><span class="i18n-ja">最悪値は上限、二乗和は平均的に期待される値だ。どちらでも同じ近道が出てくる：<b>和・差</b>では<em>絶対</em>不確かさが、<b>積・商・べき乗</b>では<em>相対</em>不確かさが合成される（べき乗 $x^n$ は相対不確かさを $|n|$ 倍し、対数は相対誤差を絶対誤差に変える）。</span></p>
+      <p><span class="i18n-en"><b>Worst case (maximum error) — a conservative bound.</b> If instead every error could conspire to push $X$ the same way, take absolute values so the terms always reinforce. This over-estimate is worth quoting only when you need a guaranteed upper limit:</span><span class="i18n-ja"><b>最悪値（最大誤差）— 保守的な上限。</b>逆にすべての誤差が $X$ を同じ向きに押すよう共謀し得るなら、項が必ず強め合うように絶対値をとる。この過大評価は、保証された上限が必要なときにだけ示す価値がある：</span></p>
+      <p class="eq-block">$$\Delta X=\left|\frac{\partial f}{\partial a}\right|\Delta a+\left|\frac{\partial f}{\partial b}\right|\Delta b+\left|\frac{\partial f}{\partial c}\right|\Delta c$$</p>
+      <p><span class="i18n-en">Quadrature is what you expect on average and is the realistic default; the worst case is only the conservative upper bound. Either way the same shortcuts fall out: for <b>sums and differences</b> the <em>absolute</em> uncertainties combine; for <b>products, quotients and powers</b> the <em>relative</em> ones do (a power $x^n$ multiplies the relative uncertainty by $|n|$, a logarithm turns a relative error into an absolute one).</span><span class="i18n-ja">二乗和は平均的に期待される値で、現実的な基本だ。最悪値はあくまで保守的な上限である。どちらでも同じ近道が出てくる：<b>和・差</b>では<em>絶対</em>不確かさが、<b>積・商・べき乗</b>では<em>相対</em>不確かさが合成される（べき乗 $x^n$ は相対不確かさを $|n|$ 倍し、対数は相対誤差を絶対誤差に変える）。</span></p>
 
       <details class="recall">
         <summary><span class="i18n-en">Why independent errors add in quadrature — and correlated ones add linearly</span><span class="i18n-ja">なぜ独立なら二乗和、相関があれば線形和になるのか</span></summary>
@@ -216,7 +201,7 @@
         <p><span class="i18n-en">Pick a formula and set each variable's value and uncertainty. The left bars show each term's <b>share of the total variance</b> — the variable with the tallest bar is where improving precision pays off most. The right panel runs a <b>Monte Carlo</b> check: it draws thousands of random samples of each input and histograms $f$, confirming the formula above.</span><span class="i18n-ja">式を選び、各変数の値と不確かさを設定する。左の棒は各項の<b>全分散に占める割合</b>を示す — 棒が最も高い変数こそ、精度を上げる効果が最も大きい。右のパネルは<b>モンテカルロ</b>検算：各入力を何千回も乱数で振って $f$ をヒストグラム化し、上の式を確認する。</span></p>
       </div>
 
-      <div class="anim-card pv-bunchin mat-sunezu">
+      <div class="anim-card pv-bunchin mat-sunezu" data-comment-anchor="c695d892b5-div">
         <div class="btn-row" id="prop-formula">
           <button class="demo-btn" data-expr="x + y">f = x + y</button>
           <button class="demo-btn active" data-expr="x*y/z">f = x·y / z</button>
@@ -243,6 +228,12 @@
             <output id="v-mc-n">8000</output>
           </div>
         </div>
+
+        <div class="btn-row" style="margin-top:8px;align-items:center;gap:10px">
+          <button class="demo-btn" id="btn-mc-run"><span class="i18n-en">&#9654; Run trials one by one</span><span class="i18n-ja">&#9654; 試行を1つずつ実行</span></button>
+          <output id="mc-progress" style="font-size:0.8rem;font-variant-numeric:tabular-nums;color:#a8a29e"></output>
+        </div>
+        <div class="me-cap" style="margin:5px 2px 0"><span class="i18n-en">Each Monte-Carlo trial draws one random value of every input and computes f once — watch the histogram build up trial by trial.</span><span class="i18n-ja">モンテカルロの各試行は、各入力の乱数値を1組引いて f を1回計算する — ヒストグラムが1試行ずつ積み上がる様子を見てみよう。</span></div>
 
         <div class="me-stats">
           <div class="me-stat" style="flex:1 1 100%"><span class="k"><span class="i18n-en">Result (analytic)</span><span class="i18n-ja">結果（解析式）</span></span><span class="v" id="prop-result">—</span></div>
@@ -334,6 +325,85 @@
       <p><span class="i18n-en">A random error scatters readings around the <b>true value</b>. Take many measurements and average them, and you expect to land close to that true value — but <em>how close</em>, and how should the confidence be reported? That is the whole question of this module. (Strictly we never observe the true value itself — only error-laden readings — and for some phenomena, such as quantum measurements, no single true value even exists. We will nonetheless keep the intuitive picture that a true value is out there.)</span><span class="i18n-ja">偶然誤差は測定値を<b>真の値</b>のまわりにばらつかせる。何度も測って平均すれば真の値に近づくはずだが — <em>どれくらい</em>近いのか、そして確からしさをどう表現すればよいのか。これが本モジュールの主題である。（厳密には我々は真の値そのものを観測できず、誤差を含む測定値しか得られない。量子測定のように、そもそも単一の真の値が存在しない対象もある。ここでは「真の値が存在する」という素朴な描像のまま進める。）</span></p>
     </div>
     <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">The population is the truth — but we can never observe it directly, and we can never take infinitely many readings. We measure, collect a <b>finite</b> amount of data, and average it to estimate the truth. So how close is that average really? The answer is itself a distribution: if we could repeat the whole experiment again and again, <b>how widely would the sample mean scatter around the true value?</b></span><span class="i18n-ja">母集団は真実だが、直接観測することはできず、無限個のデータを取ることもできない。私たちは測定して<b>有限</b>のデータを集め、その平均をとって真実を推測する。では、その平均は本当に真実に近いのだろうか。その「近さ」自体が一つの分布で表せる — もし実験全体を何度も繰り返せたら、<b>標本平均は真の値のまわりにどれくらいの広さでばらつくだろうか。</b></span></p>
+        <p><span class="i18n-en">Concretely: a detector returns the quantity you want plus a <b>random error</b>, and as long as the instrument and conditions are fixed, the spread of that error is the same on every trial — that fixed spread is the <b>parent distribution</b>. Experience tells us that counting for longer, or averaging more repeated readings, pulls the result toward the true value. But infinite time and infinite data are impossible, so we take a <b>finite sample</b> and report its average (the <b>sample mean</b>). Because a finite sample never exactly reproduces the parent, this average never exactly equals the truth — even identical measurements leave a residual gap (the <b>distribution of the sample mean</b>). Longer integration and more readings shrink that gap; the <b>Central Limit Theorem</b> below explains why, and by how much.</span><span class="i18n-ja">具体的な実験に対応させてみよう。測定装置の結果には、知りたい値に常に<b>ランダムな誤差</b>が加わる。装置や環境が同じなら、その誤差のばらつきは何度測っても同じ — これが<b>母分布</b>だ。私たちは経験的に、検出時間を長くしたり、繰り返し測って平均をとったりすると結果が真の値に近づくことを知っている。しかし無限の時間も無限のデータも現実には不可能なので、<b>有限の標本</b>を取り、その平均を結果として報告する（<b>標本平均</b>）。有限の標本は母分布を完全には再現しないから、この平均は真の値と必ずしも一致せず、まったく同じ測定を繰り返してもずれが残る（<b>標本平均の分布</b>）。長い検出時間や平均に使う値を増やすことでこのずれを小さくできる — その理由と度合いを、以下の<b>中心極限定理</b>が説明する。</span></p>
+      </div>
+
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="cmap">
+          <p class="cmap-intro"><span class="i18n-en"><b>First, a map.</b> Three different "distributions" appear in this module and beginners routinely mix them up. Read top to bottom: the fixed <b>truth</b>, the <b>data</b> you actually collect, and the <b>uncertainty on their average</b>.</span><span class="i18n-ja"><b>まず全体像を。</b>本モジュールには3つの「分布」が登場し、初学者はこれらをよく混同する。上から順に読もう：固定された<b>真実</b>、実際に集める<b>データ</b>、そしてその<b>平均の不確かさ</b>。</span></p>
+
+          <!-- Level 1 — population / parent distribution -->
+          <div class="cmap-row">
+            <div class="cmap-fig">
+              <svg viewBox="0 0 168 62" aria-hidden="true">
+                <path d="M10,52 C40,52 58,12 84,12 C110,12 128,52 158,52 L10,52 Z" fill="rgba(191,47,37,0.12)"></path>
+                <path d="M10,52 C40,52 58,12 84,12 C110,12 128,52 158,52" fill="none" stroke="#bf2f25" stroke-width="1.8"></path>
+                <line x1="84" y1="9" x2="84" y2="56" stroke="#5b5345" stroke-width="1.3" stroke-dasharray="4 3"></line>
+                <text x="89" y="17" font-size="11" font-style="italic" fill="#5b5345">&#956;</text>
+              </svg>
+            </div>
+            <div>
+              <div class="cmap-title"><span class="i18n-en">Population — parent distribution f(x)</span><span class="i18n-ja">母集団 — 母分布 f(x)</span><span class="tag i18n-en">truth · fixed · unknown</span><span class="tag i18n-ja">真実・固定・未知</span></div>
+              <div class="cmap-desc"><span class="i18n-en">The true distribution of a single reading. You never see it directly. Its centre is the <span class="hl">true value &#956;</span>; its spread is <span class="hl">&#963;&#8242;</span> (how scattered one measurement is).</span><span class="i18n-ja">1回の測定値が従う真の分布。直接見ることはできない。中心が<span class="hl">真の値 &#956;</span>、広がりが<span class="hl">&#963;&#8242;</span>（1回の測定のばらつき）である。</span></div>
+            </div>
+          </div>
+
+          <!-- arrow: draw n -->
+          <div class="cmap-arrow">
+            <div class="a-fig">
+              <svg viewBox="0 0 168 30" aria-hidden="true"><line x1="84" y1="2" x2="84" y2="21" stroke="#8a8170" stroke-width="1.6"></line><path d="M79,16 L84,25 L89,16" fill="none" stroke="#8a8170" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+            </div>
+            <div class="a-label"><span class="i18n-en"><b>draw n readings</b> — run the experiment once</span><span class="i18n-ja"><b>n 個を測定</b> — 実験を1回おこなう</span></div>
+          </div>
+
+          <!-- Level 2 — one sample -->
+          <div class="cmap-row">
+            <div class="cmap-fig">
+              <svg viewBox="0 0 168 62" aria-hidden="true">
+                <line x1="10" y1="52" x2="158" y2="52" stroke="#cfc7b6" stroke-width="1"></line>
+                <g fill="#3a342b">
+                  <circle cx="48" cy="47" r="2.6"></circle><circle cx="60" cy="44" r="2.6"></circle><circle cx="68" cy="48" r="2.6"></circle><circle cx="75" cy="43" r="2.6"></circle><circle cx="80" cy="47" r="2.6"></circle><circle cx="86" cy="42" r="2.6"></circle><circle cx="86" cy="48" r="2.6"></circle><circle cx="92" cy="45" r="2.6"></circle><circle cx="99" cy="48" r="2.6"></circle><circle cx="107" cy="45" r="2.6"></circle><circle cx="118" cy="48" r="2.6"></circle><circle cx="130" cy="47" r="2.6"></circle>
+                </g>
+                <line x1="88" y1="9" x2="88" y2="56" stroke="#bf2f25" stroke-width="1.6"></line>
+                <text x="92" y="17" font-size="11" font-style="italic" fill="#bf2f25">x&#772;</text>
+              </svg>
+            </div>
+            <div>
+              <div class="cmap-title"><span class="i18n-en">One sample — n actual readings</span><span class="i18n-ja">標本 — 実際の n 個の測定値</span><span class="tag i18n-en">data · what you measure</span><span class="tag i18n-ja">データ・実測</span></div>
+              <div class="cmap-desc"><span class="i18n-en">The numbers in your notebook. From them you compute the <span class="hl">sample mean x&#772;</span> and <span class="hl">sample sd s</span> — your best <em>estimates</em> of the unknown &#956; and &#963;&#8242;.</span><span class="i18n-ja">ノートに記録した数値。ここから<span class="hl">標本平均 x&#772;</span>と<span class="hl">標本標準偏差 s</span>を計算する — 未知の &#956; と &#963;&#8242; の最良の<em>推定値</em>だ。</span></div>
+            </div>
+          </div>
+
+          <!-- arrow: repeat many times -->
+          <div class="cmap-arrow">
+            <div class="a-fig">
+              <svg viewBox="0 0 168 30" aria-hidden="true"><line x1="84" y1="2" x2="84" y2="21" stroke="#8a8170" stroke-width="1.6"></line><path d="M79,16 L84,25 L89,16" fill="none" stroke="#8a8170" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+            </div>
+            <div class="a-label"><span class="i18n-en"><b>imagine repeating the whole experiment many times</b> — collect many x&#772;</span><span class="i18n-ja"><b>実験全体を何度も繰り返すと想像する</b> — 多数の x&#772; を集める</span></div>
+          </div>
+
+          <!-- Level 3 — distribution of the mean -->
+          <div class="cmap-row">
+            <div class="cmap-fig">
+              <svg viewBox="0 0 168 62" aria-hidden="true">
+                <path d="M10,52 L60,52 C74,52 80,12 84,12 C88,12 94,52 108,52 L158,52 Z" fill="rgba(167,139,250,0.18)"></path>
+                <path d="M10,52 L60,52 C74,52 80,12 84,12 C88,12 94,52 108,52 L158,52" fill="none" stroke="#7c3aed" stroke-width="1.8"></path>
+                <line x1="84" y1="9" x2="84" y2="56" stroke="#5b5345" stroke-width="1.3" stroke-dasharray="4 3"></line>
+                <text x="89" y="17" font-size="11" font-style="italic" fill="#5b5345">&#956;</text>
+              </svg>
+            </div>
+            <div>
+              <div class="cmap-title"><span class="i18n-en">Distribution of the sample mean x&#772;</span><span class="i18n-ja">標本平均 x&#772; の分布</span><span class="tag i18n-en">uncertainty on the average</span><span class="tag i18n-ja">平均の不確かさ</span></div>
+              <div class="cmap-desc"><span class="i18n-en">How much x&#772; itself would jump around if you repeated everything. By the Central Limit Theorem it is a <b>Gaussian</b> centred on &#956;, with spread <span class="hl">&#963; = &#963;&#8242;/&#8730;n</span> — the <span class="hl">standard error</span>. This is the &#177; you attach to your answer. <em>(This is the right-hand panel in 3a.)</em></span><span class="i18n-ja">実験全体を繰り返したとき x&#772; 自身がどれだけ動くか。中心極限定理により &#956; を中心とする<b>ガウス分布</b>になり、広がりは <span class="hl">&#963; = &#963;&#8242;/&#8730;n</span> — <span class="hl">標準誤差</span>である。これが答えに付ける &#177; だ。<em>（3a の右側パネルがこれ。）</em></span></div>
+            </div>
+          </div>
+
+          <p class="cmap-take"><span class="i18n-en"><b>The one idea to hold onto:</b> averaging n readings keeps the centre at &#956; but shrinks the width by <b>&#8730;n</b> &nbsp;(&#963;&#8242; &#8594; &#963;&#8242;/&#8730;n). The data scatter &#963;&#8242; barely changes with more readings; the uncertainty on the <em>mean</em> is what shrinks.</span><span class="i18n-ja"><b>覚えておくべき1点：</b>n 個を平均しても中心は &#956; のままだが、広がりは <b>&#8730;n</b> 分の1に縮む &nbsp;(&#963;&#8242; &#8594; &#963;&#8242;/&#8730;n)。測定数を増やしてもデータのばらつき &#963;&#8242; はほとんど変わらない。縮むのは<em>平均値</em>の不確かさである。</span></p>
+        </div>
+      </div>
+
       <div class="me-prose"><h3><span class="i18n-en">3a — Averaging and the Central Limit Theorem</span><span class="i18n-ja">3a — 平均と中心極限定理</span></h3>
         <p><span class="i18n-en">Measure one object many times and the readings form a distribution — and its shape depends on the experiment (it need not be a bell). Now do something remarkable: take $n$ measurements, average them, and repeat that whole procedure over and over, collecting many <em>averages</em>. Histogram those averages and — <b>whatever the shape of the original distribution</b> — they pile up into a <b>Gaussian</b>. This is the <b>Central Limit Theorem</b>, and the peak of that Gaussian sits at the true value.</span><span class="i18n-ja">一つの対象を何度も測ると、測定値はある分布をつくる — その形は実験によって異なる（釣鐘型とは限らない）。ここで驚くべきことが起きる：$n$ 回測って平均をとり、その手続きを何度も繰り返して<em>平均値</em>を多数集める。その平均値をヒストグラムにすると — <b>元の分布の形が何であれ</b> — <b>ガウス分布</b>に積み上がる。これが<b>中心極限定理</b>であり、そのガウス分布のピークは真の値に一致する。</span></p>
         <p class="eq-block">$$g(x)=\frac{1}{\sqrt{2\pi}\,\sigma}\,\exp\!\left[-\frac{(x-\mu)^2}{2\sigma^2}\right]$$</p>
@@ -343,11 +413,11 @@
       <div class="anim-card pv-bunchin mat-sunezu">
         <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div>
-            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution f(x) (one draw)</span><span class="i18n-ja">母分布 f(x)（1回の抽出）</span></div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Parent distribution f(x) (true density)</span><span class="i18n-ja">母分布 f(x)（真の密度）</span></div>
             <canvas id="c-clt-parent" height="150"></canvas>
           </div>
           <div>
-            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Distribution of the sample mean x̄</span><span class="i18n-ja">標本平均 x̄ の分布</span></div>
+            <div class="me-cap" style="margin:0 0 4px;color:#a8a29e"><span class="i18n-en">Distribution of the sample mean x̄ (4000 trials)</span><span class="i18n-ja">標本平均 x̄ の分布（4000 試行）</span></div>
             <canvas id="c-clt-means" height="150"></canvas>
           </div>
         </div>
@@ -355,6 +425,7 @@
           <button class="demo-btn active" data-parent="uniform"><span class="i18n-en">Uniform</span><span class="i18n-ja">一様</span></button>
           <button class="demo-btn" data-parent="exponential"><span class="i18n-en">Exponential</span><span class="i18n-ja">指数</span></button>
           <button class="demo-btn" data-parent="bimodal"><span class="i18n-en">Bimodal (coin)</span><span class="i18n-ja">二峰（コイン）</span></button>
+          <button class="demo-btn" data-parent="normal"><span class="i18n-en">Normal</span><span class="i18n-ja">正規</span></button>
         </div>
         <div class="me-controls">
           <div class="me-slider">
@@ -374,7 +445,56 @@
       </div>
       <p class="me-cap"><span class="i18n-en">Start at $n=1$: the right panel is just the (non-normal) parent. Slide $n$ up and the distribution of means tightens around $\mu$ and morphs into a bell — the Central Limit Theorem in action.</span><span class="i18n-ja">$n=1$ から始めると、右パネルは（非正規な）母集団そのもの。$n$ を上げると平均の分布は $\mu$ のまわりに締まり、釣鐘型へ変わっていく — これが中心極限定理である。</span></p>
 
-      <div class="me-prose"><h3><span class="i18n-en">3b — Expectation and variance</span><span class="i18n-ja">3b — 期待値と分散</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3b — A worked example: a noisy voltmeter</span><span class="i18n-ja">3b — 具体例：ノイズののった電圧計</span></h3>
+        <p><span class="i18n-en">Watch the three distributions come alive in a real measurement. A voltmeter reads a source whose true value is exactly <b>5 V</b>, but every reading carries random noise. <b>(1)</b> the meter posts a fresh reading every 0.5 s; <b>(2)</b> we average the most recent $n$ readings into a sample mean $\bar{x}$; <b>(3)</b> we drop that $\bar{x}$ onto the predicted distribution of the sample mean. Leave it running and the dropped means pile up into exactly that predicted bell — and widening $n$ visibly narrows it.</span><span class="i18n-ja">3つの分布が実際の測定で動く様子を見よう。電圧計が、真値がちょうど <b>5 V</b> の源を読むが、毎回ランダムなノイズが乗る。<b>（１）</b>計器は 0.5 秒ごとに新しい値を表示する；<b>（２）</b>直近 $n$ 個を平均して標本平均 $\bar{x}$ を作る；<b>（３）</b>その $\bar{x}$ を、予測される標本平均の分布上に落とす。しばらく動かしておくと、落とした平均がまさにその予測釣鐘に積み上がり、$n$ を広げると目に見えて狭くなる。</span></p>
+      </div>
+
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="volt-head">
+          <div class="volt-readout">
+            <span class="v-lab"><span class="i18n-en">live reading</span><span class="i18n-ja">現在の読み</span></span>
+            <span class="volt-value" id="volt-now">5.000</span><span class="volt-unit">V</span>
+          </div>
+          <div class="volt-truth"><span class="i18n-en">true voltage <b>&#956; = 5.000 V</b> (unknown to the experimenter)</span><span class="i18n-ja">真の電圧 <b>&#956; = 5.000 V</b>（実験者には未知）</span></div>
+          <div class="volt-controls">
+            <div class="volt-speed" role="group" aria-label="Meter speed">
+              <span class="vs-lab"><span class="i18n-en">Meter speed</span><span class="i18n-ja">計器の速度</span></span>
+              <span class="vs-opts" id="volt-speed-opts"></span>
+            </div>
+            <button class="demo-btn volt-pausebtn" id="btn-volt-pause"><span class="i18n-en">&#10042;&#10042; Pause</span><span class="i18n-ja">&#10042;&#10042; 一時停止</span></button>
+          </div>
+        </div>
+
+        <div class="volt-step"><span class="sn">1</span><span><span class="i18n-en">The meter posts a new reading every <b>0.5 s</b> — the true value plus random noise. Readings fill up the current experiment (amber) until <b>n</b> have been collected. Use <b>Speed</b> to run the meter faster.</span><span class="i18n-ja">計器は <b>0.5 秒</b>ごとに新しい値を表示 — 真値＋ランダムノイズだ。測定値は <b>n</b> 個たまるまで今回の実験（橙）に積まれる。<b>速度</b>で計器を速くできる。</span></span></div>
+        <canvas id="c-volt-strip" height="150"></canvas>
+
+        <div class="volt-step"><span class="sn">2</span><span><span class="i18n-en">Once <b>n</b> readings are in, average them into one sample mean <b>x&#772;</b> — that completes one experiment — then start a fresh batch. The slider sets how many readings make up each experiment.</span><span class="i18n-ja"><b>n</b> 個たまったらそれを平均して 1 つの標本平均 <b>x&#772;</b> を得る — これで 1 回の実験が完了 — そして次のバッチを始める。スライダーで 1 回の実験に使う個数を決める。</span></span></div>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="ctrl-volt-n"><span class="i18n-en">Readings per experiment n</span><span class="i18n-ja">1 回の実験の個数 n</span></label>
+            <input type="range" id="ctrl-volt-n" min="1" max="50" step="1" value="5" aria-label="Readings per experiment">
+            <output id="v-volt-n">5</output>
+          </div>
+          <div class="volt-prog" id="volt-batch">—</div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Latest sample mean x&#772;</span><span class="i18n-ja">直近の標本平均 x&#772;</span></span><span class="v" id="volt-xbar">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Predicted spread &#963;/&#8730;n</span><span class="i18n-ja">予測幅 &#963;/&#8730;n</span></span><span class="v" id="volt-se">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">Experiments run</span><span class="i18n-ja">実験回数</span></span><span class="v" id="volt-count">0</span></div>
+        </div>
+
+        <div class="volt-step"><span class="sn">3</span><span><span class="i18n-en">Each completed experiment's x&#772; joins the purple histogram. The <b>green</b> curve is the parent distribution f(x) of single readings — drawn at a <b>fixed</b> width &#963; — while the <b>yellow</b> curve is a normal distribution <b>fitted to the collected means</b>. The means cluster far more tightly than the parent: the yellow fit's width is &#963;/&#8730;n, and it shrinks as <b>n</b> grows.</span><span class="i18n-ja">完了した各実験の x&#772; が紫のヒストグラムに加わる。<b>緑</b>の曲線は 1 回の測定の母分布 f(x) で、幅 &#963; は<b>常に固定</b>。<b>黄</b>の曲線は<b>集めた平均にフィットした正規分布</b>だ。平均は母分布よりずっと狭く集まる — 黄のフィットの幅は &#963;/&#8730;n で、<b>n</b> を増やすと狭くなる。</span></span></div>
+        <canvas id="c-volt-dist" height="165"></canvas>
+        <div class="me-legend">
+          <span><i style="background:#a78bfa"></i><span class="i18n-en">collected sample means x&#772;</span><span class="i18n-ja">集めた標本平均 x&#772;</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">parent distribution f(x) — fixed</span><span class="i18n-ja">母分布 f(x)（固定）</span></span>
+          <span><i style="background:#facc15"></i><span class="i18n-en">normal fit to collected means</span><span class="i18n-ja">集めた平均への正規分布フィット</span></span>
+          <span><i style="background:#38bdf8"></i><span class="i18n-en">latest experiment's x&#772;</span><span class="i18n-ja">直近の実験の x&#772;</span></span>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">This is the missing middle rung of the concept map, running live: data &#8594; one sample mean &#8594; the distribution that mean is drawn from. The <b>green</b> parent stays put while the <b>yellow</b> fit to your collected means narrows as 1/&#8730;n — more readings per experiment buy a more certain mean.</span><span class="i18n-ja">これが概念図の「欠けていた中間の段」を生で見せたものだ：データ &#8594; 1つの標本平均 &#8594; その平均が従う分布。<b>緑</b>の母分布は動かず、<b>黄</b>の（集めた平均への）フィットが 1/&#8730;n で狭まる — 1 回の実験の測定を増やすほど平均は確かになる。</span></p>
+
+      <div class="me-prose"><h3><span class="i18n-en">3c — Expectation and variance</span><span class="i18n-ja">3c — 期待値と分散</span></h3>
         <p><span class="i18n-en">Call the (unknowable) parent distribution of readings $f(x)$ — the probability of getting a reading near $x$, normalised so that $\int f(x)\,dx = 1$. Its <b>expectation value</b> $E$ is the average over infinitely many measurements, and its <b>variance</b> $V$ measures how widely the readings spread around $E$:</span><span class="i18n-ja">測定値の（知り得ない）母分布を $f(x)$ とする — $x$ 付近の測定値が得られる確率で、$\int f(x)\,dx = 1$ に規格化しておく。その<b>期待値</b> $E$ は無限回測定の平均、<b>分散</b> $V$ は測定値が $E$ のまわりにどれだけ広がるかを表す：</span></p>
         <p class="eq-block">$$E=\int x\,f(x)\,dx,\qquad V=\int (x-E)^2\,f(x)\,dx$$</p>
         <p><span class="i18n-en">For a finite set of $k$ readings $x_1,\dots,x_k$ with average $\bar{x}$, these become the familiar sums:</span><span class="i18n-ja">$k$ 個の有限の測定値 $x_1,\dots,x_k$（平均 $\bar{x}$）に対しては、おなじみの和になる：</span></p>
@@ -382,39 +502,15 @@
         <p><span class="i18n-en">Why <em>square</em> the deviations? Because each reading lies above or below the mean, so adding the raw deviations gives exactly zero. Squaring makes every term positive (and penalises big misses); it is also easier to handle algebraically than the absolute value. A smaller variance means a more precise measurement. The demo below draws $N$ readings from a parent and reports the sample estimates of $E$ (the mean) and the spread.</span><span class="i18n-ja">なぜ偏差を<em>2乗</em>するのか？ 各測定値は平均より上にも下にもずれるので、そのまま足すと合計はちょうど0になる。2乗すれば各項が正になり（大きな外れを強く効かせ）、絶対値より代数的に扱いやすい。分散が小さいほど精密な測定である。下のデモは母集団から $N$ 個の測定値を引き、$E$（平均）とばらつきの標本推定を表示する。</span></p>
       </div>
 
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c-hist" height="240" aria-label="Histogram of sampled measurements"></canvas>
-        <div class="me-controls">
-          <div class="me-slider">
-            <label for="ctrl-n">N =</label>
-            <input type="range" id="ctrl-n" min="5" max="500" step="5" value="40" aria-label="Sample size">
-            <output id="v-n">40</output>
-          </div>
-          <div class="btn-row">
-            <button class="demo-btn" id="btn-gen"><span class="i18n-en">Draw new sample</span><span class="i18n-ja">標本を取り直す</span></button>
-          </div>
-        </div>
-        <div class="me-stats">
-          <div class="me-stat"><span class="k"><span class="i18n-en">Mean x̄</span><span class="i18n-ja">平均 x̄</span></span><span class="v" id="st-mean">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">Std dev s</span><span class="i18n-ja">標準偏差 s</span></span><span class="v" id="st-sd">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">Std error s/√N</span><span class="i18n-ja">標準誤差 s/√N</span></span><span class="v" id="st-sem">—</span></div>
-        </div>
-        <div class="me-legend">
-          <span><i style="background:#7dd3fc"></i><span class="i18n-en">sampled data</span><span class="i18n-ja">標本データ</span></span>
-          <span><i style="background:#fbbf24"></i><span class="i18n-en">mean ± std error</span><span class="i18n-ja">平均 ± 標準誤差</span></span>
-          <span><i style="background:#34d399"></i><span class="i18n-en">parent distribution &amp; true mean μ</span><span class="i18n-ja">母集団分布・真の平均 μ</span></span>
-        </div>
-      </div>
-
-      <div class="me-prose"><h3><span class="i18n-en">3c — Unbiased variance and the standard error of the mean</span><span class="i18n-ja">3c — 不偏分散と平均値の標準誤差</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3d — Unbiased variance and the standard error of the mean</span><span class="i18n-ja">3d — 不偏分散と平均値の標準誤差</span></h3>
         <p><span class="i18n-en">From just $n$ readings, how well can we estimate the parent variance $V$? The honest estimate divides not by $n$ but by $n-1$ — the <b>unbiased variance</b> $W$. (The difference matters when $n$ is small; for large $n$ it is negligible.) Its expectation over many repeats equals $V$.</span><span class="i18n-ja">たった $n$ 個の測定から母分散 $V$ をどれだけ推定できるか。正しい推定は $n$ ではなく $n-1$ で割る — <b>不偏分散</b> $W$ である。（$n$ が小さいとき違いが効く。$n$ が大きければ無視できる。）これを何度も繰り返したときの期待値が $V$ に等しくなる。</span></p>
         <p class="eq-block">$$W=\frac{1}{n-1}\sum_i (x_i-\bar{x})^2$$</p>
         <p><span class="i18n-en">Now the key step. Divide $W$ once more by $n$: the result is the variance of the <b>mean</b> $\bar{x}$ itself — exactly the spread of the Gaussian from 3a. Its square root is the <b>standard error</b> $\sigma$, the uncertainty we attach to the average:</span><span class="i18n-ja">ここが要だ。$W$ をさらに $n$ で割ると、それは<b>平均値</b> $\bar{x}$ 自身の分散 — まさに 3a のガウス分布の広がり — になる。その平方根が<b>標準誤差</b> $\sigma$ であり、平均につける不確かさである：</span></p>
         <p class="eq-block">$$\sigma=\sqrt{\frac{W}{n}}=\sqrt{\frac{1}{n(n-1)}\sum_i (x_i-\bar{x})^2}\;=\;\frac{s}{\sqrt{n}}$$</p>
-        <p><span class="i18n-en">Because the mean follows a Gaussian, the standard $\sigma$ probabilities apply: the true value lies within $\bar{x}\pm\sigma$ with probability <b>68.27 %</b>, within $\bar{x}\pm2\sigma$ with <b>95.45 %</b>, and within $\bar{x}\pm3\sigma$ with <b>99.73 %</b>. The amber band in the demo above is exactly this $\pm\sigma$ interval, and it narrows as $1/\sqrt{n}$.</span><span class="i18n-ja">平均はガウス分布に従うので、標準的な $\sigma$ の確率が使える：真の値が $\bar{x}\pm\sigma$ に入る確率は <b>68.27 %</b>、$\bar{x}\pm2\sigma$ では <b>95.45 %</b>、$\bar{x}\pm3\sigma$ では <b>99.73 %</b> になる。上のデモの橙の帯がまさにこの $\pm\sigma$ 区間で、$1/\sqrt{n}$ で狭まっていく。</span></p>
+        <p><span class="i18n-en">Because the mean follows a Gaussian, the standard $\sigma$ probabilities apply: the true value lies within $\bar{x}\pm\sigma$ with probability <b>68.27 %</b>, within $\bar{x}\pm2\sigma$ with <b>95.45 %</b>, and within $\bar{x}\pm3\sigma$ with <b>99.73 %</b>. This $\pm\sigma$ interval is exactly the spread of the sample-mean distribution plotted in 3a, and it narrows as $1/\sqrt{n}$.</span><span class="i18n-ja">平均はガウス分布に従うので、標準的な $\sigma$ の確率が使える：真の値が $\bar{x}\pm\sigma$ に入る確率は <b>68.27 %</b>、$\bar{x}\pm2\sigma$ では <b>95.45 %</b>、$\bar{x}\pm3\sigma$ では <b>99.73 %</b> になる。この $\pm\sigma$ 区間がまさに 3a で描いた標本平均の分布の広がりで、$1/\sqrt{n}$ で狭まっていく。</span></p>
       </div>
 
-      <div class="me-prose"><h3><span class="i18n-en">3d — Reporting conventions</span><span class="i18n-ja">3d — さまざまな運用</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3e — Reporting conventions</span><span class="i18n-ja">3e — さまざまな運用</span></h3>
         <p><span class="i18n-en">With $\bar{x}$ and $\sigma$ in hand, a result is usually written</span><span class="i18n-ja">$\bar{x}$ と $\sigma$ が求まれば、結果は普通こう書く：</span></p>
         <p class="eq-block">$$\text{result}=\bar{x}\pm\sigma$$</p>
         <p><span class="i18n-en">Conventionally $\sigma$ is rounded to two significant figures and $\bar{x}$ is quoted down to $\sigma$'s last digit (this is where the significant-figure rules of &sect;01 come from). Some fields instead quote the <b>expanded uncertainty</b> $k\sigma$ — most often $2\sigma$, giving ~95 % coverage — where $k$ is the <b>coverage factor</b>; this is the modern "uncertainty analysis" standard.</span><span class="i18n-ja">慣例として $\sigma$ は有効数字2桁に四捨五入し、$\bar{x}$ は $\sigma$ の最終桁まで示す（&sect;01 の有効数字ルールはここに由来する）。分野によっては<b>拡張不確かさ</b> $k\sigma$ — 多くは $2\sigma$ で約95%被覆 — を示す。$k$ を<b>包含係数</b>と呼ぶ。これが近年の「不確かさ解析」の標準的作法である。</span></p>
@@ -422,7 +518,7 @@
         <p><span class="i18n-en">Conventions vary by field — some divide by $n$ rather than $n-1$, some scale $\sigma$ differently — so always state which definition you used.</span><span class="i18n-ja">作法は分野によって異なり（$n-1$ ではなく $n$ で割る、$\sigma$ を何倍するか等）、どの定義で計算したかを必ず明記することが大切である。</span></p>
       </div>
 
-      <div class="me-prose"><h3><span class="i18n-en">3e — Statistics is not all-powerful</span><span class="i18n-ja">3e — 統計は万能ではない</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3f — Statistics is not all-powerful</span><span class="i18n-ja">3f — 統計は万能ではない</span></h3>
         <p><span class="i18n-en">Averaging beats down <em>random</em> error, but not without limit. Reading a millimetre ruler you might estimate to ~0.1 mm by eye; averaging 10,000 readings will <em>not</em> get you to microns. This is not (only) about systematic error — even with none, the <b>reading resolution</b> itself sets a floor that averaging cannot cross. Always ask what causes the scatter and whether statistics can actually help. And recall the cost: because $\sigma\propto1/\sqrt{n}$, <b>halving the error needs four times as many measurements</b>.</span><span class="i18n-ja">平均は<em>偶然</em>誤差を減らすが、無限にではない。ミリ目盛りの定規を目分量で0.1 mmまで読めても、1万回平均してもミクロンには届かない。これは（単に）系統誤差の話ではない — 系統誤差がなくても、<b>読み取り分解能</b>そのものが、平均では越えられない下限を与える。ばらつきの原因が何で、統計が本当に効くのかを常に問うべきだ。そして代償も忘れずに：$\sigma\propto1/\sqrt{n}$ なので、<b>誤差を半分にするには測定回数を4倍</b>にしなければならない。</span></p>
 
         <details class="recall">
@@ -450,7 +546,7 @@
         </details>
       </div>
 
-      <div class="me-prose"><h3><span class="i18n-en">3f — Extension: least-squares fitting</span><span class="i18n-ja">3f — 発展：最小二乗フィット</span></h3>
+      <div class="me-prose"><h3><span class="i18n-en">3g — Extension: least-squares fitting</span><span class="i18n-ja">3g — 発展：最小二乗フィット</span></h3>
         <p><span class="i18n-en">Suppose your data points seem to fall along a straight line, but scattered by noise. Which line is <b>best</b>? Pick any candidate line $y=ax+b$. For each measured point, the line predicts a value $a x_i + b$, and the <b>residual</b> $r_i = y_i - (a x_i + b)$ is the vertical gap between the point and the line — how badly the line misses that point. A good line makes all the gaps small at once.</span><span class="i18n-ja">データ点がほぼ直線上に並んでいるが、ノイズで散らばっているとしよう。どの直線が<b>最良</b>だろうか？ 候補の直線 $y=ax+b$ を1本選ぶ。各測定点について直線は値 $a x_i + b$ を予測し、<b>残差</b> $r_i = y_i - (a x_i + b)$ は点と直線の縦方向のずれ — その点をどれだけ外しているか — を表す。良い直線はすべてのずれを同時に小さくする。</span></p>
         <p><span class="i18n-en">We can't just add the residuals — positive and negative gaps would cancel, making a terrible line look perfect. Instead we <b>square</b> each gap (always positive, and big misses count extra) and add them up. The <b>least-squares</b> line is the single $(a,b)$ that makes this total, $\sum_i r_i^2$, as small as possible. In the demo the grey stems <em>are</em> these residuals — the fit settles where their squared lengths add to the minimum.</span><span class="i18n-ja">残差をそのまま足すことはできない — 正と負のずれが打ち消し合い、ひどい直線が完璧に見えてしまう。そこで各ずれを<b>二乗</b>し（常に正で、大きな外れほど強く効く）、それらを合計する。<b>最小二乗</b>直線とは、この合計 $\sum_i r_i^2$ を最小にする唯一の $(a,b)$ である。デモの灰色の縦線が<em>まさに</em>この残差で、二乗した長さの合計が最小になる位置に直線が落ち着く。</span></p>
 

@@ -15,26 +15,44 @@
 .me-prose p { font-size: 0.9rem; color: var(--soft); line-height: 1.75; margin: 10px 0; }
 .me-prose p b { color: var(--ink); }
 .me-prose h3 {
+  font-family: var(--mincho);
   font-size: 0.95rem; font-weight: 700; color: var(--ink);
   margin: 22px 0 4px; padding-bottom: 6px; border-bottom: 1px solid var(--rule);
 }
 
+/* Headings on this page are serif (mincho). The page title is already serif
+   by default in the shared stylesheet; the module/section headings match it. */
+.demo-head h2 { font-family: var(--mincho); }
+
 /* ── Interactive animation card: canvas + its controls share one dark frame ── */
 .anim-card {
   background: #1b1711; border: 1px solid var(--rule); border-radius: 14px;
-  box-shadow: var(--shadow-card); padding: 18px; margin: 18px 0;
+  box-shadow: var(--shadow-card); padding: 18px; margin: 16px 0;
   color: #e7e5e4;
 }
 .anim-card canvas {
-  width: 100%; display: block; border-radius: 8px;
+  width: 100%; display: block; border-radius: 4px;
   background: #14110b; border: 1px solid rgba(255,255,255,0.08);
 }
 .anim-card .btn-row { margin-bottom: 6px; }
 
+/* trim the felt-mat padding so the panels read tighter (less wasted space) */
+.demo-stage .anim-card.pv-bunchin { padding: 15px 16px 13px; }
+
+/* Module 00 target board — two columns so the square target board no longer
+   leaves wide empty margins: figure on the left, controls + read-outs right. */
+.target-card { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 14px 24px; align-items: start; }
+.target-card .target-figure { min-width: 0; }
+.target-card .target-side > .me-controls { margin-top: 0; }
+.target-card .target-side > .me-stats { margin-top: 10px; }
+.target-card .target-side .me-slider { flex: 1 1 100%; }
+.target-card .me-legend { margin-top: 10px; }
+@media (max-width: 640px) { .target-card { grid-template-columns: 1fr; } }
+
 /* ── Sliders / controls inside a card ── */
 .me-controls {
   display: flex; flex-wrap: wrap; align-items: center;
-  gap: 14px 24px; margin: 14px 2px 4px;
+  gap: 12px 22px; margin: 10px 0 2px;
 }
 .me-slider { display: flex; align-items: center; gap: 10px; flex: 1 1 230px; }
 .me-slider label { font-size: 0.82rem; color: #d6d3d1; white-space: nowrap; }
@@ -56,11 +74,11 @@
 select.me-field { width: auto; cursor: pointer; }
 
 /* ── Read-out tiles (mean, σ, slope …) ── */
-.me-stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 2px; }
+.me-stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 2px; }
 .me-stat {
   flex: 1 1 110px; min-width: 100px;
   background: #14110b; border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 10px; padding: 10px 12px;
+  border-radius: 6px; padding: 9px 11px;
 }
 .me-stat .k { display: block; font-size: 0.68rem; letter-spacing: 0.05em;
   text-transform: uppercase; color: #a8a29e; margin-bottom: 4px; }
@@ -71,7 +89,7 @@ select.me-field { width: auto; cursor: pointer; }
 /* accuracy/precision verdict badge */
 .me-verdict {
   display: inline-block; font-size: 0.78rem; font-weight: 700;
-  padding: 5px 12px; border-radius: 100px; margin-top: 4px;
+  padding: 6px 12px; border-radius: 6px; margin-top: 4px;
 }
 .me-verdict.good { background: #064e3b; color: #6ee7b7; }
 .me-verdict.mid  { background: #422006; color: #fbbf24; }
@@ -87,12 +105,97 @@ select.me-field { width: auto; cursor: pointer; }
 .me-cap { font-size: 0.82rem; color: var(--faint); margin-top: 10px; line-height: 1.65; }
 .me-cap b { color: var(--soft); }
 
-/* sig-fig output panel */
-.sf-out { font-size: 0.9rem; color: #e7e5e4; line-height: 1.8; margin-top: 4px; }
-.sf-out .digit-sig { color: #7dd3fc; font-weight: 700; }
-.sf-out .digit-pad { color: #78716c; }
-.sf-out .sf-result { font-size: 1.05rem; font-weight: 700; color: #fafaf9; }
+/* sig-fig output panel — a decimal-aligned worksheet (place values line up) */
+.sf-out { font-size: 0.9rem; color: #e7e5e4; line-height: 1.7; margin-top: 6px; }
+.sf-calc {
+  display: grid; grid-template-columns: auto auto auto auto 1fr;
+  align-items: baseline; row-gap: 5px;
+  font-size: 1.2rem; font-weight: 600; font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em; margin: 2px 0 12px;
+}
+.sf-calc .c-op   { text-align: right; padding-right: 0.5em; font-weight: 700; color: var(--soft); }
+.sf-calc .c-int  { text-align: right; }
+.sf-calc .c-dot  { text-align: center; min-width: 0.34em; }
+.sf-calc .c-frac { text-align: left; }
+.sf-calc .c-note {
+  text-align: left; padding-left: 1.1em; align-self: center;
+  font-size: 0.6em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #a8a29e; font-variant-numeric: normal;
+}
+.sf-calc .c-rule { grid-column: 1 / -1; height: 1px; background: rgba(255,255,255,0.22); margin: 3px 0; }
+.sf-calc .digit-sig { color: #7dd3fc; }
+.sf-calc .digit-pad { color: #78716c; }
+.sf-calc .r-raw .c-int, .sf-calc .r-raw .c-dot, .sf-calc .r-raw .c-frac { color: #a8a29e; font-weight: 500; }
+.sf-calc .r-final .c-op { color: var(--accent); }
+.sf-calc .r-final .c-int, .sf-calc .r-final .c-dot, .sf-calc .r-final .c-frac { color: #fafaf9; font-weight: 700; }
+.sf-calc .r-final .c-note { color: var(--accent); }
 .sf-out .sf-rule { color: #a8a29e; font-size: 0.84rem; }
+
+/* worksheet on the washi sheet: dark ink instead of the light-on-dark defaults */
+.pv-bunchin:not(.pv-light) .sf-calc .c-rule { background: var(--rule-2); }
+.pv-bunchin:not(.pv-light) .sf-calc .digit-pad { color: var(--ink-3); }
+.pv-bunchin:not(.pv-light) .sf-calc .r-raw .c-int,
+.pv-bunchin:not(.pv-light) .sf-calc .r-raw .c-dot,
+.pv-bunchin:not(.pv-light) .sf-calc .r-raw .c-frac { color: var(--ink-3); }
+.pv-bunchin:not(.pv-light) .sf-calc .r-final .c-int,
+.pv-bunchin:not(.pv-light) .sf-calc .r-final .c-dot,
+.pv-bunchin:not(.pv-light) .sf-calc .r-final .c-frac { color: var(--ink); }
+
+/* ── Module 03 concept map: population → sample → distribution of the mean ── */
+.cmap { margin-top: 2px; }
+.cmap-intro { color: var(--ink-2); font-size: 0.9rem; line-height: 1.6; margin: 0 0 14px; }
+.cmap-row { display: grid; grid-template-columns: 168px 1fr; gap: 22px; align-items: center; }
+.cmap-fig { display: flex; justify-content: center; }
+.cmap-fig svg, .cmap-arrow .a-fig svg { width: 168px; height: auto; display: block; }
+.cmap-title { font-weight: 700; color: var(--ink); font-size: 0.98rem; }
+.cmap-title .tag {
+  font-weight: 600; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-3); margin-left: 9px; white-space: nowrap;
+}
+.cmap-desc { color: var(--ink-2); font-size: 0.85rem; line-height: 1.55; margin-top: 4px; }
+.cmap-desc .hl { color: var(--accent); font-weight: 600; }
+.cmap-desc b { color: var(--ink); }
+.cmap-arrow { display: grid; grid-template-columns: 168px 1fr; gap: 22px; align-items: center; min-height: 40px; }
+.cmap-arrow .a-fig { display: flex; justify-content: center; }
+.cmap-arrow .a-label { color: var(--ink-2); font-size: 0.82rem; font-style: italic; }
+.cmap-arrow .a-label b { color: var(--ink); font-style: normal; }
+.cmap-take {
+  margin-top: 15px; padding: 12px 15px; border: 1px solid var(--rule-2); border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  color: var(--ink); font-size: 0.9rem; line-height: 1.6;
+}
+.cmap-take b { color: var(--accent); }
+@media (max-width: 560px) {
+  .cmap-row, .cmap-arrow { grid-template-columns: 104px 1fr; gap: 13px; }
+  .cmap-fig svg, .cmap-arrow .a-fig svg { width: 104px; }
+}
+
+/* ── 3b voltmeter worked example ── */
+.volt-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px 20px; flex-wrap: wrap; margin-bottom: 8px; }
+.volt-readout { display: flex; align-items: baseline; gap: 7px; }
+.volt-readout .v-lab { font-size: 0.68rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-3); }
+.volt-value { font-family: var(--gothic); font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); min-width: 4.4em; text-align: right; line-height: 1; }
+.volt-unit { font-size: 1.05rem; color: var(--ink-2); font-weight: 600; }
+.volt-truth { font-size: 0.82rem; color: var(--ink-2); }
+.volt-truth b { color: #1f8a5b; }
+.volt-step { display: flex; align-items: baseline; gap: 8px; font-size: 0.85rem; color: var(--ink-2); margin: 14px 0 7px; line-height: 1.5; }
+.volt-step:first-child { margin-top: 4px; }
+.volt-step .sn { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 19px; height: 19px; border-radius: 4px; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 700; transform: translateY(2px); }
+.volt-step b { color: var(--ink); }
+.volt-pausebtn { font-size: 0.78rem; }
+.volt-prog { flex: 0 0 auto; font-size: 0.82rem; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.volt-controls { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+.volt-speed { display: flex; align-items: center; gap: 8px; }
+.volt-speed .vs-lab { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+.vs-opts { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 5px; overflow: hidden; }
+.vs-opt {
+  appearance: none; border: none; border-left: 1px solid var(--rule); background: transparent;
+  color: var(--ink-2); font-family: var(--gothic); font-weight: 600; font-size: 0.78rem; line-height: 1;
+  font-variant-numeric: tabular-nums; padding: 6px 9px; cursor: pointer; transition: background .12s, color .12s;
+}
+.vs-opt:first-child { border-left: none; }
+.vs-opt:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.vs-opt.active { background: var(--accent); color: #fff; }
 
 /* "reminder" collapsible (same affordance as the Raman page) */
 .recall {
