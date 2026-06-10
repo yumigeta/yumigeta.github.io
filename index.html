@@ -244,8 +244,23 @@
 
     .after { margin-top: clamp(16px,2vw,24px); }
     .more { font-family: var(--gothic); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
-      display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
+      display: inline-flex; align-items: center; gap: 9px; border-bottom: 1px solid transparent; transition: border-color .18s; padding-bottom: 2px; }
     .more:hover { border-color: var(--accent); }
+
+    /* ===== Arrow icons (CSS-drawn, crisp) ===== */
+    .ico-arrow { display: inline-block; position: relative; width: 16px; height: 8px; flex: none; vertical-align: middle; }
+    .ico-arrow::before { content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 1.4px; background: currentColor; transform: translateY(-50%); }
+    .ico-arrow::after { content: ""; position: absolute; top: 50%; right: 0; width: 6px; height: 6px; border-top: 1.4px solid currentColor; border-right: 1.4px solid currentColor; transform: translateY(-50%) rotate(45deg); }
+    a:hover .ico-arrow, .more:hover .ico-arrow { transform: translateX(3px); transition: transform .2s cubic-bezier(.16,1,.3,1); }
+
+    .ico-ne { display: inline-block; position: relative; width: 11px; height: 11px; flex: none; vertical-align: middle; }
+    .ico-ne::before { content: ""; position: absolute; top: 50%; left: 50%; width: 13px; height: 1.4px; background: currentColor; transform: translate(-50%,-50%) rotate(-45deg); }
+    .ico-ne::after { content: ""; position: absolute; top: 0; right: 0; width: 6px; height: 6px; border-top: 1.4px solid currentColor; border-right: 1.4px solid currentColor; }
+    a:hover .ico-ne { transform: translate(2px,-2px); transition: transform .2s cubic-bezier(.16,1,.3,1); }
+
+    .ico-dn { display: inline-block; position: relative; width: 8px; height: 14px; flex: none; vertical-align: middle; }
+    .ico-dn::before { content: ""; position: absolute; left: 50%; top: 0; width: 1.4px; height: 100%; background: currentColor; transform: translateX(-50%); }
+    .ico-dn::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 6px; height: 6px; border-bottom: 1.4px solid currentColor; border-right: 1.4px solid currentColor; transform: translateX(-50%) rotate(45deg); }
 
     /* ===== LEARN ===== */
     .learn-intro p { font-size: clamp(15px,1.45vw,17px); line-height: 1.65; color: var(--ink-2); max-width: 62ch; margin-bottom: clamp(12px,1.4vw,18px); }
@@ -360,14 +375,14 @@
     <div class="feat-grid rv">
       <a class="cover-link" href="/assets/img/cover-acsami-2026-full.jpg" target="_blank" rel="noopener" title="View high-resolution cover">
         <img src="/assets/img/cover-acsami-2026.jpg" alt="ACS Applied Materials &amp; Interfaces — Front Cover, Vol. 18 (2026)" width="160" height="213">
-        <span class="cover-hint">Hi-res ↗</span>
+        <span class="cover-hint">Hi-res <i class="ico-ne" aria-hidden="true"></i></span>
       </a>
       <div class="feat-body">
         <p class="bigq">Electrical and structural response of <em>graphene nanoribbon transistors</em> to gamma irradiation.</p>
         <div class="pub-meta"><span class="venue">ACS Applied Materials &amp; Interfaces</span> <span>18, 25103 (2026)</span> <span class="badge">Front Cover</span></div>
         <div class="byq">
           <span>Yumigeta, K.; Yusufoglu, M.; Federici, J. G.; et al.</span>
-          <a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Read the paper →</a>
+          <a href="https://doi.org/10.1021/acsami.6c02516" target="_blank" rel="noopener">Read the paper <i class="ico-arrow" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
@@ -435,7 +450,7 @@
       <div class="pub"><div class="yr">2025</div><div class="cite"><span class="authors">Banerjee, R.; Uppala, S.; Yumigeta, K.; et al.</span> <span class="title"><a href="https://doi.org/10.1039/D4NR03715D" target="_blank" rel="noopener">Controllable Synthesis of Environmentally Stable vdW Antiferromagnetic Oxyhalide CrOCl.</a></span> <span class="journal">Nanoscale</span> <span class="vol">2025</span>, <em>17</em>, 5472.</div></div>
       <div class="pub"><div class="yr">2024</div><div class="cite"><span class="authors">Dinh, C.; Yusufoglu, M.; Yumigeta, K.; et al.</span> <span class="title"><a href="https://doi.org/10.1021/acsnano.4c04097" target="_blank" rel="noopener">Atomically Precise Graphene Nanoribbon Transistors with Long-Term Stability and Reliability.</a></span> <span class="journal">ACS Nano</span> <span class="vol">2024</span>, <em>18</em>, 22949.</div></div>
     </div>
-    <div class="after rv"><a class="more" href="/publications/">Full publication list <span>→</span></a></div>
+    <div class="after rv"><a class="more" href="/publications/">Full publication list <i class="ico-arrow" aria-hidden="true"></i></a></div>
   </div>
 </section>
 
@@ -447,8 +462,8 @@
       <h2>Learn the Basics</h2>
     </div>
     <div class="rv learn-intro">
-      <p><span class="i18n-en">Browser-based interactive demos and research software — built for teaching, visualization, and open science. Topics range from measurement &amp; data analysis and electronic structure to spectroscopy, photonics, and devices.</span><span class="i18n-ja">ブラウザ上で動く教育デモと研究用ソフトウェア — 教育・可視化・オープンサイエンスのために作られています。測定・データ解析、電子構造から分光法、フォトニクス、デバイスまで幅広く扱っています。</span></p>
-      <div class="after"><a class="more" href="/learn/"><span class="i18n-en">Browse all modules →</span><span class="i18n-ja">モジュール一覧を見る →</span></a></div>
+      <p>Browser-based interactive demos and research software — built for teaching, visualization, and open science. Topics range from measurement &amp; data analysis and electronic structure to spectroscopy, photonics, and devices.</p>
+      <div class="after"><a class="more" href="/learn/">Browse all modules <i class="ico-arrow" aria-hidden="true"></i></a></div>
     </div>
   </div>
 </section>
@@ -477,7 +492,7 @@
       <div class="row"><div class="w">2025</div><div class="d">Postdoctoral Affairs Travel Award <span class="ex">· University of Arizona</span></div></div>
       <div class="row"><div class="w">2019</div><div class="d">Summer University Graduate Fellowship <span class="ex">· Arizona State University</span></div></div>
     </div>
-    <div class="cv-cta rv"><a class="btn" href="/assets/docs/yumigeta-cv.pdf" target="_blank">Download full CV (PDF) ↓</a></div>
+    <div class="cv-cta rv"><a class="btn" href="/assets/docs/yumigeta-cv.pdf" target="_blank">Download full CV (PDF) <i class="ico-dn" aria-hidden="true"></i></a></div>
   </div>
 </section>
 
@@ -492,10 +507,10 @@
     <div class="ct rv">
       <a class="em" href="mailto:kyumiget@arizona.edu">kyumiget@arizona.edu</a>
       <div class="c-links">
-        <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar <span class="ar">↗</span></a>
-        <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener">ORCID <span class="ar">↗</span></a>
-        <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener">ResearchGate <span class="ar">↗</span></a>
-        <a href="https://www.linkedin.com/in/kentaro-yumigeta-6010a71b7" target="_blank" rel="noopener">LinkedIn <span class="ar">↗</span></a>
+        <a href="https://scholar.google.com/citations?user=cuItojgAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar <i class="ico-ne ar" aria-hidden="true"></i></a>
+        <a href="https://orcid.org/0000-0003-1938-0915" target="_blank" rel="noopener">ORCID <i class="ico-ne ar" aria-hidden="true"></i></a>
+        <a href="https://www.researchgate.net/profile/Kentaro-Yumigeta-2" target="_blank" rel="noopener">ResearchGate <i class="ico-ne ar" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/kentaro-yumigeta-6010a71b7" target="_blank" rel="noopener">LinkedIn <i class="ico-ne ar" aria-hidden="true"></i></a>
       </div>
     </div>
   </div>
