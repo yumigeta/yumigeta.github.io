@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Schottky Junction and Fermi Level Pinning — Interactive Guide</title>
+  <meta name="description" content="Learn how a Schottky barrier forms at a metal-semiconductor interface — band alignment, the Schottky-Mott rule, Fermi level pinning, MIGS, the bond polarization model, thermionic emission, and how charge density waves can realign the barrier. With interactive band diagrams.">
+  <meta name="keywords" content="Schottky junction, Schottky barrier, Fermi level pinning, Schottky-Mott rule, Bardeen limit, charge neutrality level, MIGS, metal-induced gap states, bond polarization, thermionic emission, ideality factor, metal-semiconductor junction, 2D materials, charge density wave, interactive physics">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/schottky/">
+
+  <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Schottky Junction and Fermi Level Pinning — Interactive Guide">
+  <meta property="og:description" content="Why a metal-semiconductor contact rectifies, why the barrier refuses to follow the Schottky-Mott rule, and how to measure it — step by step with interactive band diagrams.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/schottky/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Schottky Junction and Fermi Level Pinning — Interactive Guide">
+  <meta name="twitter:description" content="Band bending, the Schottky and Bardeen limits, the origins of Fermi level pinning, and thermionic emission — interactive.">
+
+  <!-- Structured data: educational article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "The Schottky Junction and Fermi Level Pinning — Interactive Guide",
+    "description": "An interactive tutorial on metal-semiconductor junctions: band alignment and depletion, the Schottky-Mott rule, Fermi level pinning and the charge neutrality level, the microscopic origins of pinning (MIGS, bond polarization, DIGS, UDM), thermionic emission and the ideality factor, and Schottky junctions of 2D materials as probes of charge density waves.",
+    "url": "https://yumigeta.github.io/learn/schottky/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Arizona"
+      }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": [
+      "Schottky barrier formation",
+      "Band bending and depletion layer",
+      "Schottky-Mott rule",
+      "Fermi level pinning",
+      "Charge neutrality level",
+      "Metal-induced gap states",
+      "Bond polarization model",
+      "Thermionic emission",
+      "Ideality factor",
+      "Schottky junctions of 2D materials"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/schottky.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news">News</a>
+        <a href="/#research">Research</a>
+        <a href="/#publications">Publications</a>
+        <a href="/#learn" aria-current="page">Learn</a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact">Contact</a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Schottky Junction</span><span class="i18n-ja">ショットキー接合</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">The Schottky Junction and Fermi Level Pinning</span><span class="i18n-ja">ショットキー接合とフェルミ準位ピニング</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">Press a piece of metal against a semiconductor and something remarkable happens: current flows easily in one direction and barely at all in the other. An invisible wall — the <b>Schottky barrier</b> — has appeared at the interface. This page builds the physics step by step: why the wall forms, what the simplest theory says its height should be (<b>the Schottky-Mott rule</b>), why real interfaces stubbornly refuse to obey that rule (<b>Fermi level pinning</b>), where the pinning comes from microscopically, and how the barrier height is actually measured from a current-voltage curve. At the end we see how this old textbook junction becomes a modern research tool — a window onto charge density waves in layered crystals.</span><span class="i18n-ja">金属を半導体に押し当てると、不思議なことが起こる。電流が一方向にはすんなり流れるのに、逆方向にはほとんど流れないのである。界面に目に見えない壁 — <b>ショットキー障壁</b> — が出現したのだ。このページでは、その物理を一歩ずつ組み立てていく。なぜ壁ができるのか。最も単純な理論（<b>ショットキー・モット則</b>）は壁の高さをどう予言するのか。なぜ現実の界面はその予言に頑として従わないのか（<b>フェルミ準位ピニング</b>）。ピニングはミクロには何に由来するのか。そして壁の高さは電流電圧特性からどうやって測るのか。最後には、この教科書的な接合が現代の研究道具 — 層状結晶の電荷密度波を覗き込む窓 — に化けるところまで見届けよう。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — The Schottky model ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — The Schottky model</span><span class="i18n-ja">00 — ショットキーモデル</span></span>
+      <h2><span class="i18n-en">What happens when a metal touches a semiconductor?</span><span class="i18n-ja">金属と半導体をくっつけると何が起こるか</span></h2>
+      <p>
+        <span class="i18n-en">A metal-semiconductor contact is one of the most fundamental building blocks of electronics — every transistor, diode, and solar cell contains one somewhere. When the two materials touch, charge carriers diffuse across the interface, a <b>depletion layer</b> forms inside the semiconductor, and the bands bend. The result, seen by an electron, is a wall: the Schottky barrier.</span><span class="i18n-ja">金属と半導体の接合は、電子デバイスの最も基本的な構成要素のひとつである。トランジスタにもダイオードにも太陽電池にも、どこかに必ず潜んでいる。両者が接触すると、キャリアが界面を越えて拡散し、半導体の内部に<b>空乏層</b>が形成され、バンドが曲がる。その結果として電子の目の前に立ちはだかるのが、ショットキー障壁という壁である。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Before contact: two unrelated energy ladders</span><span class="i18n-ja">接触前 — 互いに無関係な2本のエネルギーの梯子</span></h3>
+        <p><span class="i18n-en">Picture the metal and the semiconductor sitting side by side, not yet touching. Inside the metal, electrons fill states up to the Fermi level $E_{\mathrm{F}}$. Inside the (n-type) semiconductor, the Fermi level sits just below the conduction band edge $E_{\mathrm{C}}$. The two Fermi levels are, in general, at <em>different</em> heights — there is no reason for two unrelated materials to agree.</span><span class="i18n-ja">まず、金属と半導体が触れ合わずに並んでいる場面を思い浮かべてほしい。金属の内部では、電子はフェルミ準位 $E_{\mathrm{F}}$ まで状態を埋め尽くしている。一方の（n型）半導体では、フェルミ準位は伝導帯の底 $E_{\mathrm{C}}$ のすぐ下にある。そして両者のフェルミ準位は、一般には<em>異なる</em>高さにある。赤の他人どうしの物質が示し合わせて同じ高さに揃えておく理由など、どこにもないからである。</span></p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Reminder: work function and electron affinity</span><span class="i18n-ja">復習：仕事関数と電子親和力</span></summary>
+          <div>
+            <p><span class="i18n-en">Energies of the two solids are compared on a common scale: the <b>vacuum level</b> $E_{\mathrm{vac}}$, the energy of an electron at rest just outside the surface. The <b>work function</b> $\phi_{\mathrm{M}}$ of a metal is the energy needed to lift an electron from the Fermi level to the vacuum level. For a semiconductor the analogous quantity from the conduction band edge is the <b>electron affinity</b> $\chi$ (and from the Fermi level, the semiconductor work function $\phi_{\mathrm{S}}$).</span><span class="i18n-ja">2つの固体のエネルギーを比べるには共通のものさしが要る。それが<b>真空準位</b> $E_{\mathrm{vac}}$ — 表面のすぐ外側で静止した電子のエネルギー — である。金属の<b>仕事関数</b> $\phi_{\mathrm{M}}$ は、フェルミ準位から真空準位まで電子を引き上げるのに要するエネルギーである。半導体では、伝導帯の底から測った同様の量を<b>電子親和力</b> $\chi$ と呼ぶ（フェルミ準位から測れば半導体の仕事関数 $\phi_{\mathrm{S}}$ である）。</span></p>
+          </div>
+        </details>
+
+        <h3><span class="i18n-en">After contact: the Fermi levels must agree</span><span class="i18n-ja">接触後 — フェルミ準位は一致しなければならない</span></h3>
+        <p><span class="i18n-en">Now bring them into contact. Electrons flow from the side with the higher Fermi level to the side with the lower one — exactly like water finding a common level between two connected tanks. In equilibrium the Fermi level must be flat across the whole system. For $\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$, electrons leave the semiconductor near the interface, exposing the positively charged donor ions they leave behind. This carrier-free region is the <b>depletion layer</b>, and the electric field of the exposed charge bends the bands upward toward the interface.</span><span class="i18n-ja">では接触させてみよう。電子はフェルミ準位の高い側から低い側へと流れ込む。つながれた2つの水槽の水面が同じ高さに落ち着くのと、まったく同じ理屈である。平衡状態では、フェルミ準位は系全体で一直線につながっていなければならない。$\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$ の場合、界面近くの半導体から電子が逃げ出し、後には正に帯電したドナーイオンが取り残される。このキャリアの抜け殻になった領域が<b>空乏層</b>であり、取り残された電荷の作る電場によって、バンドは界面に向かって上向きに反り上がる。</span></p>
+        <p><span class="i18n-en">From the metal's point of view, an electron trying to enter the semiconductor's conduction band now faces a step of height $\phi_{\mathrm{SBH}}$ — the <b>Schottky barrier height</b>. The <b>Schottky model</b> assumes that <em>no interface states exist</em> between metal and semiconductor; the barrier is then fixed purely by the band alignment:</span><span class="i18n-ja">金属側から見ると、半導体の伝導帯へ乗り移ろうとする電子の前に、高さ $\phi_{\mathrm{SBH}}$ の段差が立ちはだかることになる。これが<b>ショットキー障壁高さ</b>である。<b>ショットキーモデル</b>では、金属と半導体の間に<em>界面準位が一切存在しない</em>と仮定する。すると障壁の高さは、バンドの位置合わせだけから純粋に決まってしまう。</span></p>
+        <p class="eq-block" id="eq1">$$\phi_{\mathrm{SBH}} = \phi_{\mathrm{M}} - \chi \tag{1}$$</p>
+        <p><span class="i18n-en">This beautifully simple result is the <b>Schottky-Mott rule</b>. It makes a sharp, testable prediction: change the metal's work function by 1&nbsp;eV and the barrier height changes by exactly 1&nbsp;eV. The regime where this holds — $\partial\phi_{\mathrm{SBH}}/\partial\phi_{\mathrm{M}} = 1$ — is called the <b>Schottky limit</b>. Hold on to this prediction; the next section is about how nature betrays it.</span><span class="i18n-ja">この見事に単純な結果が<b>ショットキー・モット則</b>である。この式は、実験で白黒のつくきわめて鋭い予言をしている。金属の仕事関数を 1&nbsp;eV 変えれば、障壁の高さもきっかり 1&nbsp;eV 変わるはずだ、というのである。この関係が成り立つ極限 — $\partial\phi_{\mathrm{SBH}}/\partial\phi_{\mathrm{M}} = 1$ — を<b>ショットキー極限</b>と呼ぶ。この予言をよく覚えておいてほしい。次の節では、自然がこの予言をどう裏切るかを見ることになる。</span></p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: band alignment of a metal/n-Si junction</span><span class="i18n-ja">インタラクティブ：金属／n型Si接合のバンド図</span></h3>
+      <p class="demo-sub-p"><span class="i18n-en">Bring the metal into contact and watch the bands bend. Then drag the work-function slider: in the Schottky model the barrier height follows $\phi_{\mathrm{M}}$ one-to-one — the Schottky limit.</span><span class="i18n-ja">金属を接触させて、バンドが曲がる様子を見てみよう。続いて仕事関数のスライダーを動かしてみてほしい。ショットキーモデルでは、障壁の高さは $\phi_{\mathrm{M}}$ に1対1で追従する — これがショットキー極限である。</span></p>
+      <div class="anim-card">
+        <canvas id="c-band" class="sj-canvas"></canvas>
+        <div class="atom-controls">
+          <div class="btn-row" id="band-mode">
+            <button class="demo-btn" data-bmode="apart"><span class="i18n-en">Separated</span><span class="i18n-ja">接触前</span></button>
+            <button class="demo-btn active" data-bmode="contact"><span class="i18n-en">In contact</span><span class="i18n-ja">接触後</span></button>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-phim"><span class="i18n-en">Metal work function</span><span class="i18n-ja">金属の仕事関数</span>&nbsp;$\phi_{\mathrm{M}}$</label>
+            <input type="range" id="ctrl-phim" min="4.3" max="5.4" step="0.01" value="4.75" aria-label="Metal work function">
+            <output id="v-phim">4.75 eV</output>
+          </div>
+        </div>
+        <div class="atom-legend">
+          <span><i style="background:#fcd34d"></i><span class="i18n-en">Fermi level $E_{\mathrm{F}}$</span><span class="i18n-ja">フェルミ準位 $E_{\mathrm{F}}$</span></span>
+          <span><i style="background:#38bdf8"></i><span class="i18n-en">conduction band $E_{\mathrm{C}}$</span><span class="i18n-ja">伝導帯 $E_{\mathrm{C}}$</span></span>
+          <span><i style="background:#f87171"></i><span class="i18n-en">valence band $E_{\mathrm{V}}$</span><span class="i18n-ja">価電子帯 $E_{\mathrm{V}}$</span></span>
+          <span><i style="background:#a8a29e"></i><span class="i18n-en">vacuum level $E_{\mathrm{vac}}$</span><span class="i18n-ja">真空準位 $E_{\mathrm{vac}}$</span></span>
+        </div>
+      </div>
+      <p class="cap"><span class="i18n-en">Parameters of n-Si: electron affinity $\chi = 4.05$ eV, band gap $E_{\mathrm{g}} = 1.12$ eV. In contact, the depletion layer (shaded) carries the band bending $qV_{\mathrm{bi}}$, and the barrier at the interface is $\phi_{\mathrm{SBH}} = \phi_{\mathrm{M}} - \chi$.</span><span class="i18n-ja">n型Siのパラメータ：電子親和力 $\chi = 4.05$ eV、バンドギャップ $E_{\mathrm{g}} = 1.12$ eV。接触後は空乏層（網掛け部）がバンドの曲がり $qV_{\mathrm{bi}}$ を担い、界面での障壁は $\phi_{\mathrm{SBH}} = \phi_{\mathrm{M}} - \chi$ となる。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Fermi level pinning ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Fermi level pinning</span><span class="i18n-ja">01 — フェルミ準位ピニング</span></span>
+      <h2><span class="i18n-en">The ideal is betrayed: interface states pin the barrier</span><span class="i18n-ja">理想は裏切られる — 界面準位が障壁を釘付けにする</span></h2>
+      <p>
+        <span class="i18n-en">The Schottky-Mott rule predicts that the barrier tracks the metal work function one-to-one. Experiments, however, often find barriers that barely budge when the metal is swapped. The culprit: electronic states living right at the interface.</span><span class="i18n-ja">ショットキー・モット則は「障壁は金属の仕事関数に1対1で追従する」と予言した。ところが実験してみると、金属を取り替えても障壁がほとんど動かないことがしばしばあるのだ。犯人は、界面そのものに棲みついている電子状態である。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Interface states and the charge neutrality level</span><span class="i18n-ja">界面準位と電荷中性準位</span></h3>
+        <p><span class="i18n-en">Why would the prediction of <span class="eqref" data-eq="1">Eq. (1)</span> fail? Because the interface is not the featureless plane the Schottky model assumed. Real interfaces host electronic states inside the semiconductor's band gap — <b>interface states</b>. These states can capture or release charge. When their density is large, they soak up the charge that would otherwise have to flow to equalize the Fermi levels; the band alignment then no longer responds to the metal. The Fermi level at the interface gets stuck at a special energy of the interface-state distribution, the <b>charge neutrality level</b> (CNL) $\phi_{\mathrm{CNL}}$ — the energy below which the states are filled in a neutral interface. The barrier height becomes</span><span class="i18n-ja">なぜ<span class="eqref" data-eq="1">式(1)</span>の予言が外れるのだろうか。それは、界面がショットキーモデルの想定したような何もないのっぺりした平面ではないからである。現実の界面には、半導体のバンドギャップの中に電子状態 — <b>界面準位</b> — が存在している。この準位は電荷を捕まえたり放したりできる。その密度が十分大きいと、フェルミ準位を揃えるために流れ込むはずだった電荷を界面準位がそっくり吸収してしまい、バンドの位置合わせは金属の都合に応じなくなる。界面のフェルミ準位は、界面準位の分布が持つ特別なエネルギー — 中性な界面で準位がそこまで埋まる境目である<b>電荷中性準位</b>（CNL）$\phi_{\mathrm{CNL}}$ — に釘付けにされてしまうのである。このとき障壁の高さは</span></p>
+        <p class="eq-block" id="eq2">$$\phi_{\mathrm{SBH}} = \phi_{\mathrm{CNL}} \tag{2}$$</p>
+        <p><span class="i18n-en">— completely independent of which metal you chose. This phenomenon is <b>Fermi level pinning</b> (FLP), and the extreme case where the barrier is fully work-function independent is called the <b>Bardeen limit</b>. Swap gold for aluminum, and the barrier does not care.</span><span class="i18n-ja">となり、どの金属を選んだかに一切よらなくなる。この現象が<b>フェルミ準位ピニング</b>（FLP）であり、障壁が仕事関数に完全に無関係になる極端な場合を<b>バーディーン極限</b>と呼ぶ。金をアルミニウムに取り替えようが、障壁は知らん顔なのである。</span></p>
+
+        <h3><span class="i18n-en">Between the two limits: the pinning factor S</span><span class="i18n-ja">2つの極限のあいだ — ピニング因子 S</span></h3>
+        <p><span class="i18n-en">A real junction lives somewhere between the Schottky limit and the Bardeen limit. The natural way to write this is as a weighted average of the two answers:</span><span class="i18n-ja">現実の接合は、ショットキー極限とバーディーン極限のあいだのどこかにいる。これを表すには、2つの答えの重みつき平均を取るのが自然だろう。</span></p>
+        <p class="eq-block" id="eq3">$$\phi_{\mathrm{SBH}} = S\,(\phi_{\mathrm{M}} - \chi) + (1-S)\,\phi_{\mathrm{CNL}} \tag{3}$$</p>
+        <p class="eq-block" id="eq4">$$S = \frac{\partial\phi_{\mathrm{SBH}}}{\partial\phi_{\mathrm{M}}} = \left(1 + \frac{q^2 D\,\delta}{\epsilon_{\mathrm{i}}}\right)^{\!-1} \tag{4}$$</p>
+        <p><span class="i18n-en">where $D$ is the density of interface states, $\delta$ is the length of the dipole formed at the interface, and $\epsilon_{\mathrm{i}}$ is the dielectric constant inside that dipole layer. The <b>pinning factor</b> $S$ measures the degree of FLP: $S=1$ recovers the Schottky limit (<span class="eqref" data-eq="1">Eq. 1</span>), $S=0$ the Bardeen limit (<span class="eqref" data-eq="2">Eq. 2</span>). Rearranging <span class="eqref" data-eq="4">Eq. (4)</span> makes the physics transparent:</span><span class="i18n-ja">ここで $D$ は界面準位の密度、$\delta$ は界面に形成される双極子の長さ、$\epsilon_{\mathrm{i}}$ はその双極子層内の誘電率である。<b>ピニング因子</b> $S$ がFLPの度合いを表す。$S=1$ ならショットキー極限（<span class="eqref" data-eq="1">式1</span>）に、$S=0$ ならバーディーン極限（<span class="eqref" data-eq="2">式2</span>）に戻る。<span class="eqref" data-eq="4">式(4)</span>を変形すると、物理の見通しがよくなる。</span></p>
+        <p class="eq-block" id="eq5">$$\frac{1-S}{S} = \frac{q^2 D\,\delta}{\epsilon_{\mathrm{i}}} \tag{5}$$</p>
+        <p><span class="i18n-en">The left side is the ratio of the weights of $\phi_{\mathrm{CNL}}$ and $(\phi_{\mathrm{M}}-\chi)$ in <span class="eqref" data-eq="3">Eq. (3)</span>; the right side is the amount of charge the interface can store. The more charge the interface states can absorb, the more the CNL wins the tug-of-war over the metal.</span><span class="i18n-ja">左辺は<span class="eqref" data-eq="3">式(3)</span>における $\phi_{\mathrm{CNL}}$ と $(\phi_{\mathrm{M}}-\chi)$ の重みの比、右辺は界面が蓄えられる電荷の量を表している。つまり、界面準位が電荷を多く吸い込めるほど、金属とCNLの綱引きはCNLの勝ちに傾いていくのである。</span></p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: how interface states flatten the Schottky-Mott line</span><span class="i18n-ja">インタラクティブ：界面準位がショットキー・モット則の直線を寝かせる</span></h3>
+      <p class="demo-sub-p"><span class="i18n-en">Plot $\phi_{\mathrm{SBH}}$ against $\phi_{\mathrm{M}}$ and crank up the interface state density $D$. The line rotates from slope 1 (Schottky limit) down to a flat line at the CNL (Bardeen limit) — the tug-of-war of <span class="eqref" data-eq="3">Eq. (3)</span> in action.</span><span class="i18n-ja">$\phi_{\mathrm{SBH}}$ を $\phi_{\mathrm{M}}$ に対してプロットし、界面準位密度 $D$ をどんどん上げてみよう。直線は傾き1（ショットキー極限）からCNLの高さの水平線（バーディーン極限）へと倒れ込んでいく。<span class="eqref" data-eq="3">式(3)</span>の綱引きが目の前で起こるのが見えるはずだ。</span></p>
+      <div class="anim-card">
+        <canvas id="c-pin" class="sj-canvas"></canvas>
+        <div class="atom-controls">
+          <div class="atom-slider">
+            <label for="ctrl-dit"><span class="i18n-en">Interface state density</span><span class="i18n-ja">界面準位密度</span>&nbsp;$D$</label>
+            <input type="range" id="ctrl-dit" min="11" max="14.3" step="0.01" value="11" aria-label="Interface state density (log scale)">
+            <output id="v-dit">10¹¹ cm⁻²eV⁻¹</output>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-phim2"><span class="i18n-en">Metal work function</span><span class="i18n-ja">金属の仕事関数</span>&nbsp;$\phi_{\mathrm{M}}$</label>
+            <input type="range" id="ctrl-phim2" min="4.3" max="5.4" step="0.01" value="4.75" aria-label="Metal work function">
+            <output id="v-phim2">4.75 eV</output>
+          </div>
+        </div>
+        <div class="atom-legend">
+          <span><i style="background:#38bdf8"></i><span class="i18n-en">Schottky limit (slope 1)</span><span class="i18n-ja">ショットキー極限（傾き1）</span></span>
+          <span><i style="background:#f87171"></i><span class="i18n-en">Bardeen limit (pinned at CNL)</span><span class="i18n-ja">バーディーン極限（CNLに固定）</span></span>
+          <span><i style="background:#fcd34d"></i><span class="i18n-en">actual junction, Eq. (3)</span><span class="i18n-ja">現実の接合・式(3)</span></span>
+        </div>
+      </div>
+      <p class="cap"><span class="i18n-en">$S$ is computed from <span class="eqref" data-eq="4">Eq. (4)</span> with $\delta = 0.5$ nm and $\epsilon_{\mathrm{i}} = \epsilon_0$. Around $D \sim 10^{13}\,\mathrm{cm^{-2}eV^{-1}}$ — roughly one state per thousand interface atoms — the pinning is already substantial. It takes astonishingly few states to capture the Fermi level.</span><span class="i18n-ja">$S$ は<span class="eqref" data-eq="4">式(4)</span>から $\delta = 0.5$ nm、$\epsilon_{\mathrm{i}} = \epsilon_0$ として計算している。$D \sim 10^{13}\,\mathrm{cm^{-2}eV^{-1}}$ — 界面の原子1000個あたり1個ほどの準位 — で、ピニングはすでにかなり強い。フェルミ準位を捕まえるのに必要な準位の数は、驚くほど少ないのである。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Origins of Fermi level pinning ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — Origins of Fermi level pinning</span><span class="i18n-ja">02 — フェルミ準位ピニングの起源</span></span>
+      <h2><span class="i18n-en">Where do the pinning states come from?</span><span class="i18n-ja">ピニングを起こす準位はどこからやって来るのか</span></h2>
+      <p>
+        <span class="i18n-en">So interface states pin the Fermi level — but what <em>are</em> they? Four classic models answer this question, and they sort neatly into a 2×2 table: whether the pinning is <b>intrinsic</b> (inevitable, even at a perfect interface) or <b>extrinsic</b> (caused by disorder and defects), and whether the model is built on <b>wave functions</b> or on <b>classical-like</b> charge arguments.</span><span class="i18n-ja">界面準位がフェルミ準位を釘付けにする — それはいいとして、ではその準位の正体は<em>何者</em>なのだろうか。この問いに答える古典的なモデルが4つあり、きれいな2×2の表に整理できる。分類の軸は2つ。ピニングが<b>内因性</b>（完璧な界面でも避けられない）か<b>外因性</b>（乱れや欠陥が原因）か。そしてモデルが<b>波動関数</b>に基づくか、<b>古典的</b>な電荷の議論に基づくか、である。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <table class="flp-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th><span class="i18n-en">Intrinsic</span><span class="i18n-ja">内因性</span></th>
+              <th><span class="i18n-en">Extrinsic</span><span class="i18n-ja">外因性</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><span class="i18n-en">Wave function</span><span class="i18n-ja">波動関数</span></th>
+              <td><a href="#flp-migs"><span class="i18n-en">Metal-induced gap states (MIGS)</span><span class="i18n-ja">金属誘起ギャップ準位（MIGS）</span></a></td>
+              <td><a href="#flp-digs"><span class="i18n-en">Disorder-induced gap states (DIGS)</span><span class="i18n-ja">乱れ誘起ギャップ準位（DIGS）</span></a></td>
+            </tr>
+            <tr>
+              <th><span class="i18n-en">Classical</span><span class="i18n-ja">古典的</span></th>
+              <td><a href="#flp-bond"><span class="i18n-en">Bond polarization model</span><span class="i18n-ja">結合分極モデル</span></a></td>
+              <td><a href="#flp-udm"><span class="i18n-en">Unified defect model (UDM)</span><span class="i18n-ja">統一欠陥モデル（UDM）</span></a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 id="flp-migs"><span class="i18n-en">Metal-induced gap states (MIGS) — the wave function refuses to stop</span><span class="i18n-ja">金属誘起ギャップ準位（MIGS）— 波動関数は界面で止まってくれない</span></h3>
+        <p><span class="i18n-en">Here is the quantum-mechanical inevitability: the electron wave function of the metal does not drop to zero at the interface. It leaks — decays exponentially — into the semiconductor, even at energies inside the band gap where the semiconductor offers no propagating states. These evanescent tails form a continuum of <b>U-shaped gap states</b> in the semiconductor's gap: dense near the band edges, sparsest near midgap. The Fermi level settles near the minimum of the U — which plays the role of the CNL. Because the leakage is a property of the <em>semiconductor's</em> complex band structure, MIGS pinning depends mostly on the semiconductor and only weakly on which metal sits on top. A wider band gap suppresses the penetration and weakens the pinning.</span><span class="i18n-ja">これは量子力学が突きつける宿命である。金属の電子の波動関数は、界面でぴたりとゼロになってはくれない。半導体側に染み出して指数関数的に減衰していくのだ。それも、半導体側に伝播できる状態が存在しないはずの、バンドギャップ内のエネルギーであってもである。この染み出した波動関数の尻尾が、半導体のギャップ内に<b>U字型のギャップ準位</b>の連続体を作る。バンド端の近くで密、ギャップ中央付近で最も疎になる分布である。フェルミ準位はこのUの底の近くに落ち着く — それがCNLの役割を果たすわけだ。染み出し方は<em>半導体側</em>の複素バンド構造で決まる性質なので、MIGSによるピニングは主に半導体で決まり、上に載せる金属にはあまりよらない。バンドギャップが広いほど染み出しは浅くなり、ピニングは弱まる。</span></p>
+
+        <h3 id="flp-bond"><span class="i18n-en">Bond polarization — chemistry at the interface</span><span class="i18n-ja">結合分極モデル — 界面の化学</span></h3>
+        <p><span class="i18n-en">The bond polarization model reaches a similar conclusion from an entirely classical direction: treat the metal-semiconductor bonds as partly ionic. Charge redistributes between the atoms across the interface, dipoles form, and the dipoles shift the band alignment. Both the pinning and the pinning position come out of minimizing the total energy. Expand the energy of the $i$-th atom to second order in the charge $Q_i$ it gains [193]:</span><span class="i18n-ja">結合分極モデルは、まったく古典的な道筋から似た結論にたどり着く。金属と半導体の間の結合を、部分的にイオン性の結合とみなすのである。界面をはさんで原子間で電荷が再配分され、双極子ができ、その双極子がバンドの位置をずらす。ピニングが起こることも、ピニングの位置も、どちらも全エネルギーの最小化から導かれる。第 $i$ 原子が電荷 $Q_i$ を受け取ったときのエネルギーを、$Q_i$ の2次までテイラー展開すると</span></p>
+        <p class="eq-block" id="eq6">$$E_i(Q_i) = E_i^{0} + U_i Q_i + \tfrac{1}{2} Y_i Q_i^{2} \tag{6}$$</p>
+        <p><span class="i18n-en">where $E_i^0$ is the ground-state energy of the neutral atom, $U_i$ is Mulliken's electronegativity ($U_i = \frac{\chi_i + I_i}{2}$, with electron affinity $\chi_i$ and ionization potential $I_i$), and $Y_i$ is the chemical hardness. Minimize the total energy — including the Coulomb interaction $J_{AB} = \frac{q^2}{4\pi\epsilon\, d_{AB}}$ between charges at atomic sites — using $U_{\mathrm{M}} = \phi_{\mathrm{M}},\ Y_{\mathrm{M}} = 0$ for the metal atoms and $U_{\mathrm{S}} = \chi_{\mathrm{S}} + \frac{E_{\mathrm{g}}}{2},\ Y_{\mathrm{S}} = E_{\mathrm{g}}$ for the semiconductor atoms. The charge transferred to the interface semiconductor atoms is</span><span class="i18n-ja">となる。ここで $E_i^0$ は中性原子の基底状態エネルギー、$U_i$ はマリケンの電気陰性度（$U_i = \frac{\chi_i + I_i}{2}$、$\chi_i$ は電子親和力、$I_i$ はイオン化エネルギー）、$Y_i$ は化学的硬さである。原子位置間のクーロン相互作用 $J_{AB} = \frac{q^2}{4\pi\epsilon\, d_{AB}}$ まで含めて系の全エネルギーが最小になる条件を求める。金属原子には $U_{\mathrm{M}} = \phi_{\mathrm{M}},\ Y_{\mathrm{M}} = 0$、半導体原子には $U_{\mathrm{S}} = \chi_{\mathrm{S}} + \frac{E_{\mathrm{g}}}{2},\ Y_{\mathrm{S}} = E_{\mathrm{g}}$ を使うと、界面の半導体原子に移る電荷は</span></p>
+        <p class="eq-block" id="eq7">$$Q_{\mathrm{S}} = \frac{U_{\mathrm{M}} - U_{\mathrm{S}}}{Y_{\mathrm{S}} + Y_{\mathrm{M}} - 2J_{\mathrm{MS}} + 4J_{\mathrm{MM}} + 4J_{\mathrm{SS}}} = \frac{\phi_{\mathrm{M}} - \chi_{\mathrm{S}} - \frac{E_{\mathrm{g}}}{2}}{E_{\mathrm{g}} + \kappa} \tag{7}$$</p>
+        <p><span class="i18n-en">with $\kappa = 4J_{\mathrm{SS}} + 4J_{\mathrm{MM}} - 2J_{\mathrm{MS}}$. The dipole built from this transferred charge then shifts the barrier:</span><span class="i18n-ja">となる。ここで $\kappa = 4J_{\mathrm{SS}} + 4J_{\mathrm{MM}} - 2J_{\mathrm{MS}}$ である。この移動電荷の作る双極子が障壁をずらして、</span></p>
+        <p class="eq-block" id="eq8">$$\phi_{\mathrm{SBH}} = \phi_{\mathrm{M}} - \chi_{\mathrm{S}} - \frac{q^2 N_{\mathrm{B}}\, d_{\mathrm{MS}}}{\epsilon}\, Q_{\mathrm{S}} = S\,(\phi_{\mathrm{M}} - \chi_{\mathrm{S}}) + (1-S)\,\frac{E_{\mathrm{g}}}{2} \tag{8}$$</p>
+        <p><span class="i18n-en">where $N_{\mathrm{B}}$ is the density of bonds at the interface and $S = 1 - \frac{q^2 N_{\mathrm{B}} d_{\mathrm{MS}}}{\epsilon\,(E_{\mathrm{g}} + \kappa)}$. Remarkably, this lands on the same functional form as the gap-state result <span class="eqref" data-eq="3">Eq. (3)</span>, with $\frac{E_{\mathrm{g}}}{2}$ playing the role of the CNL. But the model is not just MIGS in disguise: $S$ now depends on the <em>metal</em> through $N_{\mathrm{B}}$ and $d_{\mathrm{MS}}$, and $S$ can even go negative when $E_{\mathrm{g}} + \kappa < 0$ — something the gap-state picture cannot produce.</span><span class="i18n-ja">となる。$N_{\mathrm{B}}$ は界面の結合密度で、$S = 1 - \frac{q^2 N_{\mathrm{B}} d_{\mathrm{MS}}}{\epsilon\,(E_{\mathrm{g}} + \kappa)}$ である。面白いことに、これはギャップ準位から導いた<span class="eqref" data-eq="3">式(3)</span>とまったく同じ形に落ち着く。$\frac{E_{\mathrm{g}}}{2}$ がCNLの役を演じているのだ。だが、このモデルは単なるMIGSの焼き直しではない。$S$ が $N_{\mathrm{B}}$ と $d_{\mathrm{MS}}$ を通じて<em>金属</em>に依存するし、$E_{\mathrm{g}} + \kappa < 0$ なら $S$ が負になることさえ許される。これはギャップ準位の描像からは決して出てこない振る舞いである。</span></p>
+
+        <h3 id="flp-digs"><span class="i18n-en">Disorder-induced gap states (DIGS) — when the interface is messy</span><span class="i18n-ja">乱れ誘起ギャップ準位（DIGS）— 界面が乱れている場合</span></h3>
+        <p><span class="i18n-en">The two models above operate even at a perfect interface. The remaining two blame imperfections. A semiconductor's band gap exists because the periodic lattice splits sp³ states into bonding (valence band) and antibonding (conduction band) combinations. Disorder at the interface — strained or broken bonds, intermixing, residues — weakens that splitting locally. Bonding and antibonding states creep back into the gap from both edges, again forming a U-shaped continuum of gap states: DIGS. The mechanism is the wave-function cousin of MIGS, but its origin is extrinsic — a cleaner interface means fewer DIGS.</span><span class="i18n-ja">上の2つのモデルは、完璧な界面でも働いてしまうものだった。残る2つは、界面の不完全さに責任を負わせるモデルである。そもそも半導体にバンドギャップがあるのは、周期的な格子がsp³状態を結合性（価電子帯）と反結合性（伝導帯）に分裂させているからだ。界面の乱れ — 歪んだ結合や切れた結合、原子の混ざり合い、残留物 — は、この分裂を局所的に弱めてしまう。すると結合状態と反結合状態が両側のバンド端からギャップ内ににじみ出てきて、やはりU字型のギャップ準位の連続体を作る。これがDIGSである。仕組みとしてはMIGSの波動関数版のいとこだが、起源は外因性 — 界面をきれいに作れば減らせるのである。</span></p>
+
+        <h3 id="flp-udm"><span class="i18n-en">Unified defect model (UDM) — discrete defect levels</span><span class="i18n-ja">統一欠陥モデル（UDM）— 欠陥が作る離散準位</span></h3>
+        <p><span class="i18n-en">When metals are deposited on compound semiconductors (GaAs being the classic case), the surface Fermi level shifts to a specific energy that does not depend on which metal was used. The unified defect model attributes this to defects — vacancies and antisite atoms — created near the surface during deposition. Their discrete defect levels inside the gap pin the Fermi level; the metal merely triggers their formation.</span><span class="i18n-ja">化合物半導体（代表選手はGaAs）に金属を蒸着すると、表面のフェルミ準位は金属の種類によらない決まったエネルギーへ移動してしまう。統一欠陥モデルは、この現象の原因を蒸着の際に表面近くに生じる欠陥 — 空孔やアンチサイト原子 — に求める。それらがギャップ内に作る離散的な欠陥準位がフェルミ準位を釘付けにするのであって、金属はその欠陥形成の引き金を引いたにすぎない、という見方である。</span></p>
+
+        <p><span class="i18n-en">Which model "wins"? In practice they coexist, and which dominates depends on the materials and on how the interface was made. The useful skill is recognizing their fingerprints: MIGS predicts pinning set by the semiconductor; bond polarization allows metal-dependent (even negative) $S$; DIGS and UDM weaken when the interface is made cleaner.</span><span class="i18n-ja">では、どのモデルが「正解」なのだろうか。実際にはこれらは共存していて、どれが主役になるかは物質の組み合わせと界面の作り方しだいである。役に立つのは、それぞれの指紋を見分けられるようになることだ。MIGSなら、ピニングは半導体側で決まるはず。結合分極なら、$S$ が金属に依存し、負にさえなりうる。DIGSとUDMなら、界面をきれいに作るほどピニングは弱まるはずである。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — Measuring the barrier ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — Thermionic emission</span><span class="i18n-ja">03 — 熱電子放出</span></span>
+      <h2><span class="i18n-en">How do you measure a barrier you cannot see?</span><span class="i18n-ja">目に見えない障壁の高さを、どうやって測るのか</span></h2>
+      <p>
+        <span class="i18n-en">The barrier height is buried at an interface a few atoms thick. Yet a simple current-voltage (I-V) measurement reads it out — because the current over the barrier depends <em>exponentially</em> on its height.</span><span class="i18n-ja">障壁は、厚さ原子数個分の界面の中に埋まっている。ところが、ただの電流電圧（I-V）測定でその高さが読み取れてしまう。障壁を乗り越える電流が、その高さに<em>指数関数的に</em>依存しているおかげである。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Why the junction rectifies</span><span class="i18n-ja">なぜ接合は整流するのか</span></h3>
+        <p><span class="i18n-en">Electrons in the metal face the fixed wall $\phi_{\mathrm{SBH}}$; electrons in the semiconductor face the band bending $qV_{\mathrm{bi}}$, and <em>that</em> is what an applied voltage controls. Forward bias flattens the bending, and the semiconductor-to-metal flood grows exponentially. Reverse bias steepens it, choking the flow — only the small, voltage-independent trickle from the metal side remains. One direction conducts, the other does not: rectification.</span><span class="i18n-ja">金属側の電子の前にあるのは高さ不変の壁 $\phi_{\mathrm{SBH}}$。一方、半導体側の電子の前にあるのはバンドの曲がり $qV_{\mathrm{bi}}$ で、外から電圧をかけて動かせるのは<em>こちら</em>である。順方向バイアスは曲がりをなだらかにし、半導体から金属への電子の流れを指数関数的に増やす。逆方向バイアスは曲がりを急にして流れを締め上げ、残るのは金属側からの電圧によらないわずかな染み出しだけになる。一方向には流れ、逆方向には流れない — これが整流である。</span></p>
+
+        <h3><span class="i18n-en">The thermionic emission model</span><span class="i18n-ja">熱電子放出モデル</span></h3>
+        <p><span class="i18n-en">How does an electron actually get across? At ordinary temperatures the dominant route is over the top: electrons in the thermal tail of the distribution that happen to have enough energy. This is <b>thermionic emission</b>, and it gives the diode equation</span><span class="i18n-ja">電子は実際のところ、どうやって界面を越えるのだろうか。常温付近で主役になるのは、壁を上から乗り越えるルートである。熱分布の裾にいて、たまたま十分なエネルギーを持っている電子たちだ。これが<b>熱電子放出</b>であり、ここから次のダイオード方程式が得られる。</span></p>
+        <p class="eq-block" id="eq9">$$I(T, V) = I_0(T)\left[\exp\!\left(\frac{qV}{\eta\, k_{\mathrm{B}} T}\right) - 1\right] \tag{9}$$</p>
+        <p><span class="i18n-en">where $V$ is the applied voltage, $k_{\mathrm{B}}$ the Boltzmann constant, and $\eta$ the <b>ideality factor</b>. The saturation current $I_0$ carries the barrier height:</span><span class="i18n-ja">ここで $V$ は印加電圧、$k_{\mathrm{B}}$ はボルツマン定数、$\eta$ は<b>理想因子</b>である。飽和電流 $I_0$ の中に、障壁の高さが入っている。</span></p>
+        <p class="eq-block" id="eq10">$$I_0(T) = A_{\mathrm{d}}\, A^{*}\, T^{2} \exp\!\left(-\frac{q\,\phi_{\mathrm{SBH}}}{k_{\mathrm{B}} T}\right) \tag{10}$$</p>
+        <p><span class="i18n-en">with $A_{\mathrm{d}}$ the diode area and $A^{*}$ the Richardson constant ($112\ \mathrm{A\,cm^{-2}K^{-2}}$ for n-type Si). The recipe is then simple: plot $\ln I$ against $V$ in forward bias, fit the straight part — the <b>slope</b> gives $\eta$, the <b>intercept</b> gives $I_0$ and hence $\phi_{\mathrm{SBH}}$.</span><span class="i18n-ja">$A_{\mathrm{d}}$ はダイオード面積、$A^{*}$ はリチャードソン定数（n型Siでは $112\ \mathrm{A\,cm^{-2}K^{-2}}$）である。あとの手順は単純だ。順方向の $\ln I$ を $V$ に対してプロットし、直線部分をフィットする。<b>傾き</b>から $\eta$ が、<b>切片</b>から $I_0$ すなわち $\phi_{\mathrm{SBH}}$ が求まるのである。</span></p>
+        <p><span class="i18n-en">And what does $\eta$ mean? It is an honesty meter for the model. $\eta \approx 1$ says thermionic emission really does dominate. $\eta$ significantly above 1 confesses that other channels — tunneling <em>through</em> the barrier, or recombination inside the depletion layer — are carrying part of the current.</span><span class="i18n-ja">では $\eta$ は何を意味するのだろう。これはモデルの正直さを測るメーターである。$\eta \approx 1$ なら、本当に熱電子放出が支配している。$\eta$ が1よりはっきり大きければ、それは別のルート — 障壁を<em>すり抜ける</em>トンネル伝導や、空乏層内での再結合 — が電流の一部を運んでいるという白状なのである。</span></p>
+      </div>
+
+      <h3 class="demo-sub"><span class="i18n-en">Interactive: the I-V curve of a Schottky diode</span><span class="i18n-ja">インタラクティブ：ショットキーダイオードのI-V特性</span></h3>
+      <p class="demo-sub-p"><span class="i18n-en">Play with the barrier height, ideality factor, and temperature. Switch to the semilog scale to see the straight line used for fitting — raising $\phi_{\mathrm{SBH}}$ slides the whole line down (smaller $I_0$), while $\eta$ tilts its slope.</span><span class="i18n-ja">障壁の高さ・理想因子・温度を動かしてみよう。片対数表示に切り替えると、フィットに使う直線部分が見える。$\phi_{\mathrm{SBH}}$ を上げると直線ごと下に平行移動し（$I_0$ が減る）、$\eta$ は直線の傾きを倒すのが分かるはずだ。</span></p>
+      <div class="anim-card">
+        <canvas id="c-iv" class="sj-canvas"></canvas>
+        <div class="atom-controls">
+          <div class="btn-row" id="iv-scale">
+            <button class="demo-btn active" data-ivscale="lin"><span class="i18n-en">Linear</span><span class="i18n-ja">線形</span></button>
+            <button class="demo-btn" data-ivscale="log"><span class="i18n-en">Semilog</span><span class="i18n-ja">片対数</span></button>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-phib"><span class="i18n-en">Barrier</span><span class="i18n-ja">障壁</span>&nbsp;$\phi_{\mathrm{SBH}}$</label>
+            <input type="range" id="ctrl-phib" min="0.5" max="0.9" step="0.005" value="0.7" aria-label="Schottky barrier height">
+            <output id="v-phib">0.70 eV</output>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-eta"><span class="i18n-en">Ideality</span><span class="i18n-ja">理想因子</span>&nbsp;$\eta$</label>
+            <input type="range" id="ctrl-eta" min="1" max="2" step="0.01" value="1.1" aria-label="Ideality factor">
+            <output id="v-eta">1.10</output>
+          </div>
+          <div class="atom-slider">
+            <label for="ctrl-temp"><span class="i18n-en">Temperature</span><span class="i18n-ja">温度</span>&nbsp;$T$</label>
+            <input type="range" id="ctrl-temp" min="150" max="350" step="1" value="300" aria-label="Temperature">
+            <output id="v-temp">300 K</output>
+          </div>
+        </div>
+      </div>
+      <p class="cap"><span class="i18n-en">Computed from <span class="eqref" data-eq="9">Eqs. (9)</span> and <span class="eqref" data-eq="10">(10)</span> with $A_{\mathrm{d}} = 10^{-3}\ \mathrm{cm^2}$ and $A^{*} = 112\ \mathrm{A\,cm^{-2}K^{-2}}$. Note how strongly the current depends on temperature: the exponential factor $e^{-q\phi_{\mathrm{SBH}}/k_{\mathrm{B}}T}$ makes the diode an exquisite thermometer of its own barrier.</span><span class="i18n-ja"><span class="eqref" data-eq="9">式(9)</span>・<span class="eqref" data-eq="10">(10)</span>から $A_{\mathrm{d}} = 10^{-3}\ \mathrm{cm^2}$、$A^{*} = 112\ \mathrm{A\,cm^{-2}K^{-2}}$ として計算。電流の温度依存性の強さに注目してほしい。指数因子 $e^{-q\phi_{\mathrm{SBH}}/k_{\mathrm{B}}T}$ のおかげで、ダイオードは自分自身の障壁を測る精密な温度計になっているのである。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — 2D materials and CDW probe ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — 2D materials &amp; charge density waves</span><span class="i18n-ja">04 — 2次元材料と電荷密度波</span></span>
+      <h2><span class="i18n-en">The barrier as a window: probing charge density waves</span><span class="i18n-ja">障壁という名の窓 — 電荷密度波を覗き込む</span></h2>
+      <p>
+        <span class="i18n-en">A Schottky barrier is usually treated as a nuisance to be engineered away. Here is the twist: because the barrier height encodes the metal's work function, it can be turned around and used as a <em>probe</em> of the metal's electronic state.</span><span class="i18n-ja">ショットキー障壁は、ふつうは設計の邪魔者として扱われる。ところが、ここで話が一回転する。障壁の高さには金属の仕事関数が刻み込まれているのだから、逆手に取れば金属側の電子状態を探る<em>プローブ</em>として使えるはずなのだ。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Junctions of 2D materials: weak bonds, strong pinning</span><span class="i18n-ja">2次元材料の接合 — 結合は弱いのに、ピニングは強い</span></h3>
+        <p><span class="i18n-en">Van der Waals materials seemed to promise an escape from Fermi level pinning: no dangling bonds, only weak vdW contact — surely the Schottky-Mott rule should finally hold? In practice, most 2D-based junctions still deviate from it. Hybridized phases can form at the interface, and atomically thin crystals are exquisitely sensitive to even minor interfacial disorder. The lesson of Module 01 — that astonishingly few states suffice to pin the Fermi level — applies with full force.</span><span class="i18n-ja">ファンデルワールス物質の登場で、フェルミ準位ピニングからついに逃げられるのではないかと期待された。ダングリングボンドはなく、界面は弱いvdW接触だけ。今度こそショットキー・モット則が成り立つはずだ — と。ところが実際には、2次元材料の接合の多くがやはりこの則からずれるのである。界面に混成した新しい相が形成されることがあるうえ、原子1枚分の薄さの結晶は、界面のごくわずかな乱れにも極端に敏感だからだ。「驚くほど少数の準位でフェルミ準位は釘付けにされる」というモジュール01の教訓が、ここでも容赦なく効いてくる。</span></p>
+
+        <h3><span class="i18n-en">A CDW transition seen through a Schottky barrier</span><span class="i18n-ja">ショットキー障壁越しに見る電荷密度波転移</span></h3>
+        <p><span class="i18n-en">Now for the payoff. Rare-earth tritellurides (RTe<sub>3</sub>, R = Dy, Ho, Er) are layered metals that undergo <b>charge density wave</b> (CDW) transitions: below a transition temperature $T_{\mathrm{CDW}}$, the electron density spontaneously ripples and a gap opens over part of the Fermi surface. Opening a gap at the Fermi level shifts the chemical potential — that is, it changes the <em>work function</em>. And the Schottky-Mott rule <span class="eqref" data-eq="1">Eq. (1)</span> says: change the work function, change the barrier.</span><span class="i18n-ja">さて、ここからが本番である。希土類トリテルル化物（RTe<sub>3</sub>、R = Dy, Ho, Er）は層状の金属で、<b>電荷密度波</b>（CDW）転移を起こす。転移温度 $T_{\mathrm{CDW}}$ より低温では電子密度が自発的に波打ち、フェルミ面の一部にギャップが開くのである。フェルミ準位にギャップが開けば化学ポテンシャルがずれる — つまり<em>仕事関数</em>が変わる。そしてショットキー・モット則<span class="eqref" data-eq="1">式(1)</span>はこう言っていた。仕事関数が変われば、障壁が変わる、と。</span></p>
+        <p><span class="i18n-en">Build a Schottky junction from an exfoliated RTe<sub>3</sub> crystal on an n-Si substrate, measure I-V curves as a function of temperature, and extract $\phi_{\mathrm{SBH}}(T)$ and $\eta(T)$ with the thermionic emission recipe of Module 03. The result: the temperature derivatives $d\phi_{\mathrm{SBH}}/dT$ and $d\eta/dT$ show clear <b>kinks near the CDW transition temperatures</b> — kinks entirely absent in a control junction made with Au, which has no CDW. Below $T_{\mathrm{CDW}}$ the barrier grows (the work function rises as the CDW gap opens) and $\eta$ falls toward 1 (a taller barrier suppresses tunneling, leaving cleaner thermionic transport). Careful bookkeeping with the Module 02 models rules out the pinning-based explanations — MIGS barely cares about the metal, the CDW's lattice distortion is too small to alter the interface bonds, and RTe<sub>3</sub> remains far more metallic than n-Si throughout — leaving the work-function shift as the cause.</span><span class="i18n-ja">実際に、劈開したRTe<sub>3</sub>結晶をn型Si基板に載せてショットキー接合を作り、温度を変えながらI-V特性を測って、モジュール03の手順で $\phi_{\mathrm{SBH}}(T)$ と $\eta(T)$ を取り出してみる。すると、温度微分 $d\phi_{\mathrm{SBH}}/dT$ と $d\eta/dT$ に、<b>CDW転移温度の近くではっきりした折れ曲がり</b>が現れるのである。CDWを持たない金（Au）で作った対照用の接合には、この折れ曲がりは現れない。$T_{\mathrm{CDW}}$ 以下では障壁が高くなり（CDWギャップが開いて仕事関数が上がる）、$\eta$ は1に近づいていく（障壁が高くなるとトンネル伝導が抑えられ、より純粋な熱電子放出に近づく）。モジュール02のモデルを使ってピニング由来の説明をひとつずつ消していくと — MIGSは金属側にほとんど無頓着、CDWの格子歪みは界面の結合を変えるには小さすぎ、RTe<sub>3</sub>はどの温度でもn-Siよりはるかに金属的 — 残るのは仕事関数の変化、ただひとつになる。</span></p>
+        <p><span class="i18n-en">Step back and admire what happened. A phase transition occurring <em>inside</em> a metal — a reorganization of its Fermi surface — was detected by watching the height of a wall at its <em>surface</em>. The Schottky junction, the oldest nuisance in device physics, turns out to be a window onto the electronic states of the very metal that forms it.</span><span class="i18n-ja">少し離れて、ここで起きたことを眺めてみてほしい。金属の<em>内部</em>で起こった相転移 — フェルミ面の組み替え — が、その<em>表面</em>に立つ壁の高さの変化として検出されたのである。デバイス物理で最古の厄介者だったはずのショットキー接合は、それを形作っている当の金属の電子状態を覗き込む窓でもあったのだ。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="/assets/js/schottky.js"></script>
+  <script src="/assets/js/eq-hover.js"></script>
+</body>
+</html>
