@@ -221,10 +221,19 @@
           <span class="i18n-en">The first plan anyone thinks of: blast the atoms with intense light at exactly $\nu_{21}$ and pump them up by brute-force absorption. Push hard enough and surely the top fills past the bottom? It is worth pausing to spot the flaw before reading on, because we have already met it. The pump light cannot tell which rung an atom is on. When it hits a bottom atom, it pumps it up — but when it hits a top atom, it <em>stimulates it back down</em>. Our magic cloning process turns traitor here. The harder you pump, the harder it pushes back. Let's see exactly how badly we lose. Write the balance in steady state, with $W_p$ the per-atom pumping rate:</span>
           <span class="i18n-ja">誰もが最初に思いつく作戦はこうだ。$\nu_{21}$ ぴったりの強烈な光を当てて、吸収の力ずくで原子を押し上げる。十分強く押せば、いつかは上が下を追い越すのではないか？　読み進める前に、どこに穴があるか自分で疑ってみてほしい。実は、その穴に我々はもう出会っているのだ。ポンプ光には、原子がどちらの段にいるかを見分けることができない。下の段の原子に当たれば押し上げてくれるが、上の段の原子に当たれば<em>誘導放出で叩き落としてしまう</em>のである。我々の魔法のクローン過程が、ここでは裏切り者として働くのだ。強く押せば押すほど、強く押し返される。どれくらい完敗なのか、きちんと見ておこう。1原子あたりのポンプ速度を $W_p$ として、定常状態の釣り合いを書くと：</span>
         </p>
-        <p class="eq-block">$$\frac{N_2 - N_1}{N_{\text{tot}}} = \frac{W_p - A_{21}}{W_p + A_{21}} \tag{5}$$</p>
         <p>
-          <span class="i18n-en">Look at the right-hand side as $W_p$ grows. At $W_p = A_{21}$ it is zero. Push $W_p$ toward infinity and it crawls toward... zero from below, never crossing. With infinite pumping power, the best a two-level system achieves is a perfect 50-50 tie, where the material is transparent — it neither absorbs nor amplifies. Not "hard to invert." Impossible — and the impossibility is built into the structure of the problem, not a matter of insufficient effort.</span>
-          <span class="i18n-ja">$W_p$ を大きくしながら右辺を眺めてほしい。$W_p = A_{21}$ でゼロ。$W_p$ を無限大に飛ばしても……下からゼロににじり寄るだけで、決して越えない。無限のポンプパワーをもってしても、2準位系にできる最善は完全な五分五分の引き分けであり、そこで物質は透明になる。吸収もしなければ増幅もしない。「反転させるのが難しい」のではない。不可能なのだ。しかもこの不可能性は、努力不足の問題ではなく、問題の構造そのものに組み込まれている。</span>
+          <span class="i18n-en">The rate equation for $N_2$ must include all three terms — pump up, stimulated back down, and spontaneous decay — giving in steady state:</span>
+          <span class="i18n-ja">$N_2$ の速度方程式には、上向きポンプ・下向き誘導放出・自然放出の3項すべてが入る。定常状態（$dN_2/dt=0$）にすると：</span>
+        </p>
+        <p class="eq-block">$$\underbrace{W_p N_1}_{\text{pump up}} = \underbrace{W_p N_2}_{\text{stim. back down}} + \underbrace{A_{21} N_2}_{\text{spontaneous}}$$</p>
+        <p>
+          <span class="i18n-en">Substituting $N_1 = N_{\text{tot}} - N_2$ and solving gives $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$, and therefore:</span>
+          <span class="i18n-ja">$N_1 = N_{\text{tot}} - N_2$ を代入して解くと $N_2 = \frac{W_p}{2W_p + A_{21}} N_{\text{tot}}$、よって：</span>
+        </p>
+        <p class="eq-block">$$\frac{N_2 - N_1}{N_{\text{tot}}} = \frac{-A_{21}}{2W_p + A_{21}} \tag{5}$$</p>
+        <p>
+          <span class="i18n-en">The numerator is $-A_{21}$, a negative constant. No matter how large $W_p$ grows, the right-hand side crawls toward zero from below — it can never become positive. With infinite pump power, the best outcome is a 50-50 tie ($\Delta N = 0$), where the material goes transparent. Not "hard to invert." Impossible. The reason is right there in the equation: the same $W_p$ that pumps atoms up also drives them back down via stimulated emission (the "traitor" term $W_p N_2$). Push harder and you push back just as hard.</span>
+          <span class="i18n-ja">分子は $-A_{21}$ という負の定数だ。$W_p$ をいくら大きくしても、右辺は下からゼロに近づくだけで、決して正にはならない。無限のポンプパワーをもってしても最善は引き分け（$\Delta N = 0$）であり、そこで物質は透明になる。吸収もしなければ増幅もしない。「反転させるのが難しい」のではない。不可能なのだ。理由は式の中にある。原子を上へ押し上げる $W_p$ と、誘導放出で下へ叩き落とす $W_p N_2$（「裏切り者」の項）は、まったく同じ係数でつながっている。強く押せば、同じ力で押し返されるのである。</span>
         </p>
 
         <h3><span class="i18n-en">The trick: go around, not through</span><span class="i18n-ja">正面突破ではなく、搦め手から</span></h3>
