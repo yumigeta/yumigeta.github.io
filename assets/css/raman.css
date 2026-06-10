@@ -68,6 +68,9 @@
    not being an animation, carries no card background of its own. */
 .demo-stage { background: transparent; padding: 0; border-radius: 0; }
 
+/* Section headings use the same mincho treatment as the measurement-error page */
+.demo-head h2 { font-family: var(--mincho); }
+
 /* ── Decomposition ── */
 .decomp-section {
   margin-top: 18px;
@@ -201,14 +204,16 @@
 
 .derivation { display: flex; flex-direction: column; gap: 4px; }
 .derivation h3 {
-  font-size: 0.9rem; font-weight: 700; color: var(--ink);
-  margin: 18px 0 4px; padding-bottom: 6px;
+  font-family: var(--mincho);
+  font-size: 0.95rem; font-weight: 700; color: var(--ink);
+  margin: 22px 0 4px; padding-bottom: 6px;
   border-bottom: 1px solid var(--rule);
 }
 .derivation h3:first-child { margin-top: 4px; }
 .derivation p {
-  font-size: 0.84rem; color: var(--soft); line-height: 1.7; margin: 4px 0;
+  font-size: 0.9rem; color: var(--soft); line-height: 1.75; margin: 10px 0;
 }
+.derivation p b { color: var(--ink); }
 .derivation .eq-block {
   margin: 8px 0; padding: 4px 0; overflow-x: auto;
 }
