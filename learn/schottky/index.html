@@ -61,6 +61,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/css/schottky.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -104,7 +105,7 @@
     </div>
     <div class="demo-stage">
 
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-band" class="sj-canvas"></canvas>
         <div class="atom-controls">
           <div class="btn-row" id="band-mode">
@@ -143,10 +144,10 @@
         <p><span class="i18n-en">If $\phi_{\mathrm{M}} < \phi_{\mathrm{S}}$, the metal's Fermi level starts higher, and electrons pour from the metal <em>into</em> the n-type semiconductor. The region near the interface ends up with <em>more</em> electrons than the bulk, the bands bend downward, and an arriving electron finds an open door: current flows in proportion to voltage, in both directions. This is an <b>ohmic contact</b> — enormously useful, but its story is short, and it ends here.</span><span class="i18n-ja">$\phi_{\mathrm{M}} < \phi_{\mathrm{S}}$ なら、金属側のフェルミ準位が高いところから始まるので、電子は金属から n 型半導体へと流れ<em>込む</em>。界面付近は内部よりむしろ電子が<em>増え</em>、バンドは下向きに曲がり、やって来た電子の前にあるのは開いた扉である。電流は電圧に比例して、両方向に流れる。これが<b>オーミック接触</b> — おおいに役に立つのだが、物語としては短く、話はここでおしまいである。</span></p>
         <p><span class="i18n-en">If instead $\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$, the same logic runs the other way, and this is where our story begins. Electrons leave the semiconductor near the interface, exposing the positively charged donor ions they leave behind. This carrier-free region is the <b>depletion layer</b>, and the electric field of the exposed charge bends the bands upward toward the interface. From the metal's point of view, an electron trying to enter the semiconductor's conduction band now faces a step of height $\phi_{\mathrm{SBH}}$ — the <b>Schottky barrier height</b>. This is exactly what the "In contact" figure is showing: the shaded region is the depletion layer, the upward bow of the bands is the band bending $qV_{\mathrm{bi}}$, and the step right at the interface is the wall.</span><span class="i18n-ja">逆に $\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$ なら、同じ理屈が逆向きに走る。そして、ここからが本題である。界面近くの半導体から電子が逃げ出し、後には正に帯電したドナーイオンが取り残される。このキャリアの抜け殻になった領域が<b>空乏層</b>であり、取り残された電荷の作る電場によって、バンドは界面に向かって上向きに反り上がる。金属側から見ると、半導体の伝導帯へ乗り移ろうとする電子の前に、高さ $\phi_{\mathrm{SBH}}$ の段差が立ちはだかることになる。これが<b>ショットキー障壁高さ</b>である。「接触後」の図に描かれているのは、まさにこの場面だ。網掛けの領域が空乏層、バンドの反り上がりが曲がりの大きさ $qV_{\mathrm{bi}}$、そして界面のところの段差が、例の壁である。</span></p>
 
-        <aside class="callout">
-          <div class="callout-label"><span class="i18n-en">Note — p-type semiconductors</span><span class="i18n-ja">補足 — p型半導体の場合</span></div>
+        <div class="callout intuition cv-daikake">
+          <span class="co-label"><span class="i18n-en">What changes for a p-type semiconductor?</span><span class="i18n-ja">p型半導体では話がどう変わる？</span></span>
           <p><span class="i18n-en">This page tells the story with an n-type semiconductor, where the carriers are electrons and the barrier is measured from the Fermi level up to the conduction band edge. For a p-type semiconductor the carriers are holes, and the reference flips to the valence band edge: the barrier seen by a hole is $\phi_{\mathrm{SBH}}^{(p)} = E_{\mathrm{g}} - (\phi_{\mathrm{M}} - \chi)$. The fork also trades places — for p-type, $\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$ tends to give the open door (ohmic) and $\phi_{\mathrm{M}} < \phi_{\mathrm{S}}$ builds the wall. A handy sanity check: for the same metal on the same semiconductor, the electron barrier and the hole barrier add up to the band gap, $\phi_{\mathrm{SBH}}^{(n)} + \phi_{\mathrm{SBH}}^{(p)} = E_{\mathrm{g}}$.</span><span class="i18n-ja">このページでは n 型半導体（キャリアは電子）で話を進めており、障壁の高さはフェルミ準位から伝導帯の底までで測っている。p 型ではキャリアが正孔になるので、基準が価電子帯の上端に変わる。正孔から見た障壁は $\phi_{\mathrm{SBH}}^{(p)} = E_{\mathrm{g}} - (\phi_{\mathrm{M}} - \chi)$ である。道の分かれ方も入れ替わって、p 型では $\phi_{\mathrm{M}} > \phi_{\mathrm{S}}$ が扉の開く側（オーミック）、$\phi_{\mathrm{M}} < \phi_{\mathrm{S}}$ が壁の立つ側になる。覚えておくと便利な検算がひとつ：同じ金属・同じ半導体なら、電子の障壁と正孔の障壁を足すとバンドギャップになる。$\phi_{\mathrm{SBH}}^{(n)} + \phi_{\mathrm{SBH}}^{(p)} = E_{\mathrm{g}}$ である。</span></p>
-        </aside>
+        </div>
 
         <h3><span class="i18n-en">The height of the wall: the Schottky-Mott rule</span><span class="i18n-ja">壁の高さ — ショットキー・モット則</span></h3>
         <p><span class="i18n-en">So how tall is the wall? The <b>Schottky model</b> assumes that <em>no interface states exist</em> between metal and semiconductor; the barrier is then fixed purely by the band alignment:</span><span class="i18n-ja">では、壁の高さはいくらだろうか。<b>ショットキーモデル</b>では、金属と半導体の間に<em>界面準位が一切存在しない</em>と仮定する。すると障壁の高さは、バンドの位置合わせだけから純粋に決まってしまう。</span></p>
@@ -188,7 +189,7 @@
 
       <h3 class="demo-sub"><span class="i18n-en">Interactive: how interface states flatten the Schottky-Mott line</span><span class="i18n-ja">インタラクティブ：界面準位がショットキー・モット則の直線を寝かせる</span></h3>
       <p class="demo-sub-p"><span class="i18n-en">Plot $\phi_{\mathrm{SBH}}$ against $\phi_{\mathrm{M}}$ and crank up the interface state density $D$. The line rotates from slope 1 (Schottky limit) down to a flat line at the CNL (Bardeen limit) — the tug-of-war of <span class="eqref" data-eq="3">Eq. (3)</span> in action.</span><span class="i18n-ja">$\phi_{\mathrm{SBH}}$ を $\phi_{\mathrm{M}}$ に対してプロットし、界面準位密度 $D$ をどんどん上げてみよう。直線は傾き1（ショットキー極限）からCNLの高さの水平線（バーディーン極限）へと倒れ込んでいく。<span class="eqref" data-eq="3">式(3)</span>の綱引きが目の前で起こるのが見えるはずだ。</span></p>
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-pin" class="sj-canvas"></canvas>
         <div class="atom-controls">
           <div class="atom-slider">
@@ -295,7 +296,7 @@
 
       <h3 class="demo-sub"><span class="i18n-en">Interactive: the I-V curve of a Schottky diode</span><span class="i18n-ja">インタラクティブ：ショットキーダイオードのI-V特性</span></h3>
       <p class="demo-sub-p"><span class="i18n-en">Play with the barrier height, ideality factor, and temperature. Switch to the semilog scale to see the straight line used for fitting — raising $\phi_{\mathrm{SBH}}$ slides the whole line down (smaller $I_0$), while $\eta$ tilts its slope.</span><span class="i18n-ja">障壁の高さ・理想因子・温度を動かしてみよう。片対数表示に切り替えると、フィットに使う直線部分が見える。$\phi_{\mathrm{SBH}}$ を上げると直線ごと下に平行移動し（$I_0$ が減る）、$\eta$ は直線の傾きを倒すのが分かるはずだ。</span></p>
-      <div class="anim-card">
+      <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-iv" class="sj-canvas"></canvas>
         <div class="atom-controls">
           <div class="btn-row" id="iv-scale">
