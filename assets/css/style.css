@@ -581,6 +581,8 @@ input[type=range]::-moz-range-thumb {
 }
 .demo-btn:hover { border-color: var(--accent); color: #fff; }
 .demo-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.demo-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.demo-btn.primary:hover { filter: brightness(1.12); }
 
 /* ── Compact GNR control bar ── */
 .gnr-controls {

@@ -179,8 +179,17 @@
       </div>
 
       <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c-spike" height="240" aria-label="Cosmic-ray spike rejection demo"></canvas>
-        <div id="spk-frame-count" style="font-size:0.82rem;text-align:center;color:#a8a29e;margin-top:2px"></div>
+        <div class="spec-duo">
+          <div>
+            <p class="panel-label" id="spk-frame-label"><span class="i18n-en">Frame — / N</span><span class="i18n-ja">フレーム — / N</span></p>
+            <canvas id="c-spike-frame" height="160" aria-label="Single frame spectrum"></canvas>
+          </div>
+          <div>
+            <p class="panel-label"><b><span class="i18n-en">Accumulated result</span><span class="i18n-ja">積算結果</span></b> — <span id="spk-acc-label"></span></p>
+            <canvas id="c-spike" height="160" aria-label="Accumulated spectrum"></canvas>
+          </div>
+        </div>
+        <div id="spk-frame-count" style="font-size:0.82rem;text-align:center;color:#a8a29e;margin:4px 0 2px"></div>
         <div class="me-controls">
           <div class="me-slider"><label><span class="i18n-en">Accumulations N</span><span class="i18n-ja">積算 N</span></label>
             <input type="range" id="ctrl-spk-n" min="2" max="32" step="1" value="8"><output id="v-spk-n">8</output></div>
@@ -189,14 +198,16 @@
             <button class="demo-btn" data-mode="median"><span class="i18n-en">Median rejection</span><span class="i18n-ja">中央値除去</span></button>
           </div>
           <div class="btn-row">
+            <button class="demo-btn primary" id="btn-spk-start"><span class="i18n-en">▶ Start measurement</span><span class="i18n-ja">▶ 測定開始</span></button>
             <button class="demo-btn" id="btn-spk-roll"><span class="i18n-en">Re-roll spikes</span><span class="i18n-ja">スパイク再生成</span></button>
           </div>
         </div>
         <div id="spk-verdict"></div>
         <div class="me-legend">
-          <span><i style="background:#7dd3fc"></i><span class="i18n-en">processed spectrum</span><span class="i18n-ja">処理後スペクトル</span></span>
+          <span><i style="background:#7dd3fc"></i><span class="i18n-en">current frame</span><span class="i18n-ja">このフレーム</span></span>
+          <span><i style="background:#34d399"></i><span class="i18n-en">accumulated</span><span class="i18n-ja">積算結果</span></span>
           <span><i style="background:#fbbf24"></i><span class="i18n-en">true signal</span><span class="i18n-ja">真の信号</span></span>
-          <span><i style="background:#fda4af"></i><span class="i18n-en">cosmic-ray spikes</span><span class="i18n-ja">宇宙線スパイク</span></span>
+          <span><i style="background:#fda4af"></i><span class="i18n-en">cosmic-ray spike</span><span class="i18n-ja">宇宙線スパイク</span></span>
         </div>
       </div>
     </div>

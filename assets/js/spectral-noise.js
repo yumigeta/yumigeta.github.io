@@ -68,11 +68,40 @@
     opts = opts || {};
     const { ctx, w, h } = fitCanvas(cv);
     ctx.clearRect(0, 0, w, h);
-    const pad = { l: 8, r: 8, t: 12, b: 14 };
+    const yAxis = opts.yAxis || false;   // draw labelled y-axis when true
+    const pad = { l: yAxis ? 38 : 8, r: 8, t: 12, b: 14 };
     const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
     const max = opts.max || Math.max(1e-9, ...measured, ...(trueSig || []));
     const X = i => pad.l + i / (NPIX - 1) * plotW;
     const Y = v => pad.t + plotH - Math.max(0, Math.min(1, v / max)) * plotH;
+    // y-axis ticks and labels
+    if (yAxis) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
+      ctx.fillStyle = '#a8a29e'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      const nTicks = 4;
+      for (let i = 0; i <= nTicks; i++) {
+        const val = max * i / nTicks;
+        const y   = Y(val);
+        ctx.beginPath(); ctx.moveTo(pad.l - 4, y); ctx.lineTo(pad.l, y); ctx.stroke();
+        ctx.fillText(val >= 1000 ? (val / 1000).toFixed(0) + 'k' : val.toFixed(0), pad.l - 6, y + 3);
+        if (i > 0) {
+          ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); ctx.restore();
+        }
+      }
+      // axis line
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + plotH); ctx.stroke();
+      // y-axis label (rotated)
+      ctx.save();
+      ctx.translate(11, pad.t + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center'; ctx.fillStyle = '#78716c'; ctx.font = '9px sans-serif';
+      ctx.fillText(t('Intensity (counts)', '強度 (カウント)'), 0, 0);
+      ctx.restore();
+      ctx.restore();
+    }
     // baseline grid
     ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(pad.l, pad.t + plotH); ctx.lineTo(w - pad.r, pad.t + plotH); ctx.stroke();
@@ -158,7 +187,7 @@
       const { summed, snr, saturated } = simulate(br, tA, N, rd, darkRate, FULL_WELL);
       const trueS = trueSummed(br, tA, N);
       const max = Math.max(...trueS) * 1.15;
-      drawSpectrum(cv, Array.from(summed), trueS, { max, satLine: FULL_WELL * N });
+      drawSpectrum(cv, Array.from(summed), trueS, { max, satLine: FULL_WELL * N, yAxis: true });
       $('st-T').textContent = (tA * N).toFixed(1) + ' s';
       $('st-snr').textContent = saturated ? snr.toFixed(1) + ' *' : snr.toFixed(1);
       // dominant noise: compare variance terms at peak
@@ -285,14 +314,17 @@
 
   /* ════════════════ Module 02 — Cosmic-ray spikes ════════════════ */
   function initSpikes() {
-    const cv = $('c-spike'); if (!cv) return;
-    const elN = $('ctrl-spk-n');
+    const cv    = $('c-spike');       if (!cv) return;
+    const cvFrm = $('c-spike-frame'); if (!cvFrm) return;
+    const elN   = $('ctrl-spk-n');
     let mode = 'sum';
-    let spikeList = [];
+    let spikeList    = [];
     let currentFrames = [];
-    let animK = 0;
-    let animTimer = null;
+    let animK = 0, animTimer = null;
     const t_acq = 3, bright = 60, read = 5;
+    /* normalized reference profile (peak = 1.0), shared by both panels */
+    const NORM_TRUE  = PROFILE.map(p => p / PROFILE[PEAK_IDX]);
+    const singlePeak = bright * PROFILE[PEAK_IDX] * t_acq;
 
     function cancelAnim() {
       if (animTimer !== null) { clearTimeout(animTimer); animTimer = null; }
@@ -312,46 +344,70 @@
       return frames;
     }
 
-    /* render accumulated spectrum for the first k frames */
+    function clearPanels() {
+      [cv, cvFrm].forEach(c => { const { ctx, w, h } = fitCanvas(c); ctx.clearRect(0, 0, w, h); });
+      const fcEl = $('spk-frame-count');
+      if (fcEl) fcEl.textContent = t('Press ▶ Start measurement', '▶ 測定開始 を押してください');
+      $('spk-verdict').innerHTML = '';
+      const lbl = $('spk-frame-label');
+      const N = currentFrames.length || '—';
+      if (lbl) lbl.innerHTML = '<span class="i18n-en">Frame — / ' + N + '</span>'
+                              + '<span class="i18n-ja">フレーム — / ' + N + '</span>';
+    }
+
+    /* render step k (1-indexed): left = frame k, right = accumulated 1..k, both normalised */
     function renderAt(k) {
-      const N = currentFrames.length;
-      const frames = currentFrames;
+      const N = currentFrames.length; if (!N) return;
+      const totalPeak = singlePeak * N;
+
+      /* left panel: frame k normalised to single-frame expected peak */
+      const normFrm = Array.from(currentFrames[k - 1], v => v / singlePeak);
+      /* max = 1.5 → spikes clip at top, true peak sits comfortably at ~1 */
+      drawSpectrum(cvFrm, normFrm, NORM_TRUE, { max: 1.5 });
+
+      /* right panel: accumulated 1..k, normalised to N-frame expected peak (grows 0→1) */
       const out = new Float64Array(NPIX);
       if (mode === 'sum') {
         for (let i = 0; i < NPIX; i++) {
-          let s = 0; for (let n = 0; n < k; n++) s += frames[n][i]; out[i] = s;
+          let s = 0; for (let n = 0; n < k; n++) s += currentFrames[n][i]; out[i] = s;
         }
       } else {
-        // median of first k frames, scaled by k so amplitude grows like the sum
         const col = new Array(k);
         for (let i = 0; i < NPIX; i++) {
-          for (let n = 0; n < k; n++) col[n] = frames[n][i];
+          for (let n = 0; n < k; n++) col[n] = currentFrames[n][i];
           col.sort((a, b) => a - b);
           const m = k % 2 ? col[(k - 1) / 2] : 0.5 * (col[k / 2 - 1] + col[k / 2]);
-          out[i] = m * k;
+          out[i] = m * k;   // scale by k so amplitude tracks the running sum
         }
       }
-      const trueS = trueSummed(bright, t_acq, N);
-      const spikePix = spikeList.filter(s => s.frame < k).map(s => s.pix);
-      const max = Math.max(...trueS) * 1.3;
-      drawSpectrum(cv, Array.from(out), trueS, { max, spikes: mode === 'sum' ? spikePix : [] });
+      const normAcc   = Array.from(out, v => v / totalPeak);
+      const spikePix  = spikeList.filter(s => s.frame < k).map(s => s.pix);
+      drawSpectrum(cv, normAcc, NORM_TRUE, { max: 1.3, spikes: mode === 'sum' ? spikePix : [] });
 
-      // frame counter
+      /* labels */
+      const hasSpikeThisFrame = spikeList.some(s => s.frame === k - 1);
+      const spikeTag = hasSpikeThisFrame ? ' ⚡' : '';
+      const lbl = $('spk-frame-label');
+      if (lbl) lbl.innerHTML = '<b><span class="i18n-en">Frame ' + k + ' / ' + N + spikeTag + '</span>'
+                              + '<span class="i18n-ja">フレーム ' + k + ' / ' + N + spikeTag + '</span></b>';
+      const accLbl = $('spk-acc-label');
+      if (accLbl) accLbl.textContent = mode === 'sum' ? t('sum', '単純加算') : t('median', '中央値');
       const fcEl = $('spk-frame-count');
-      if (fcEl) fcEl.textContent = t('Frame ', 'フレーム ') + k + ' / ' + N;
+      if (fcEl) {
+        if (k < N) {
+          fcEl.textContent = t('Acquiring frame ', 'フレーム取得中 ') + k + ' / ' + N
+                           + '  (' + Math.round(k / N * 100) + '%)';
+        } else {
+          fcEl.textContent = t('Complete — ' + N + ' frames', '完了 — ' + N + ' フレーム');
+        }
+      }
 
-      // verdict only when animation completes
+      /* verdict only when done */
       const el = $('spk-verdict');
       if (k >= N) {
-        if (mode === 'sum') {
-          el.innerHTML = '<span class="me-verdict bad">' +
-            t('Summing keeps every cosmic-ray spike — they masquerade as sharp peaks.',
-              '単純加算はすべての宇宙線スパイクを残す — 鋭いピークに化けてしまう。') + '</span>';
-        } else {
-          el.innerHTML = '<span class="me-verdict good">' +
-            t('Median across frames rejects the spikes while preserving the real signal.',
-              'フレーム間の中央値がスパイクを除去し、本物の信号は保たれる。') + '</span>';
-        }
+        el.innerHTML = mode === 'sum'
+          ? '<span class="me-verdict bad">'  + t('Summing keeps every cosmic-ray spike — they masquerade as sharp peaks.', '単純加算はすべての宇宙線スパイクを残す — 鋭いピークに化けてしまう。') + '</span>'
+          : '<span class="me-verdict good">' + t('Median across frames rejects the spikes while preserving the real signal.', 'フレーム間の中央値がスパイクを除去し、本物の信号は保たれる。') + '</span>';
       } else {
         el.innerHTML = '';
       }
@@ -360,13 +416,12 @@
     function animNext() {
       animK++;
       renderAt(animK);
-      if (animK < currentFrames.length) {
-        animTimer = setTimeout(animNext, 250);
-      }
+      if (animK < currentFrames.length) animTimer = setTimeout(animNext, 500);
     }
 
     function startAnim() {
       cancelAnim();
+      $('spk-verdict').innerHTML = '';
       animK = 0;
       animNext();
     }
@@ -380,24 +435,26 @@
       for (let s = 0; s < nSpikes; s++) {
         spikeList.push({
           frame: Math.floor(Math.random() * N),
-          pix: Math.floor(Math.random() * NPIX),
-          amp: bright * PROFILE[PEAK_IDX] * t_acq * (2 + Math.random() * 4),
+          pix:   Math.floor(Math.random() * NPIX),
+          amp:   bright * PROFILE[PEAK_IDX] * t_acq * (2 + Math.random() * 4),
         });
       }
       currentFrames = buildFrames(N);
-      startAnim();
+      clearPanels();
     }
 
     document.querySelectorAll('#spk-mode .demo-btn').forEach(btn =>
       btn.addEventListener('click', () => {
         document.querySelectorAll('#spk-mode .demo-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active'); mode = btn.dataset.mode;
-        startAnim();   // replay from same frames in new mode
+        if (animK > 0) startAnim();   // replay same frames in new mode only if already started
       }));
+    $('btn-spk-start').addEventListener('click', startAnim);
     elN.addEventListener('input', roll);
     $('btn-spk-roll').addEventListener('click', roll);
-    window.addEventListener('resize', () => renderAt(Math.max(1, animK)));
-    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(() => renderAt(Math.max(1, animK)), 0));
+    window.addEventListener('resize', () => { if (animK > 0) renderAt(Math.max(1, animK)); });
+    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click',
+      () => setTimeout(() => { if (animK > 0) renderAt(Math.max(1, animK)); }, 0));
     roll();
   }
 
