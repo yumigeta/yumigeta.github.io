@@ -366,14 +366,14 @@
     /* render step k (1-indexed): left = frame k, right = accumulated 1..k, both normalised */
     function renderAt(k) {
       const N = currentFrames.length; if (!N) return;
-      const totalPeak = singlePeak * N;
 
       /* left panel: frame k normalised to single-frame expected peak */
       const normFrm = Array.from(currentFrames[k - 1], v => v / singlePeak);
       /* max = 1.5 → spikes clip at top, true peak sits comfortably at ~1 */
       drawSpectrum(cvFrm, normFrm, NORM_TRUE, { max: 1.5 });
 
-      /* right panel: accumulated 1..k, normalised to N-frame expected peak (grows 0→1) */
+      /* right panel: accumulated 1..k, normalised to k-frame expected peak (always ~1) */
+      const kPeak = singlePeak * k;
       const out = new Float64Array(NPIX);
       if (mode === 'sum') {
         for (let i = 0; i < NPIX; i++) {
@@ -385,10 +385,10 @@
           for (let n = 0; n < k; n++) col[n] = currentFrames[n][i];
           col.sort((a, b) => a - b);
           const m = k % 2 ? col[(k - 1) / 2] : 0.5 * (col[k / 2 - 1] + col[k / 2]);
-          out[i] = m * k;   // scale by k so amplitude tracks the running sum
+          out[i] = m * k;
         }
       }
-      const normAcc   = Array.from(out, v => v / totalPeak);
+      const normAcc   = Array.from(out, v => v / kPeak);
       const spikePix  = spikeList.filter(s => s.frame < k).map(s => s.pix);
       drawSpectrum(cv, normAcc, NORM_TRUE, { max: 1.3, spikes: mode === 'sum' ? spikePix : [] });
 
