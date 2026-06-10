@@ -8,6 +8,21 @@
 #c-pin, #c-iv { height: 320px; }
 #c-band { height: 250px; }
 
+/* ── Callout (side note) ── */
+.callout {
+  margin: 16px 0; padding: 12px 18px 10px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-soft);
+  border-radius: 0 10px 10px 0;
+}
+.callout-label {
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
+}
+.callout p {
+  font-size: 0.82rem; color: var(--soft); line-height: 1.7; margin: 4px 0;
+}
+
 /* ── 2×2 classification table of FLP models ── */
 .flp-table {
   width: 100%; border-collapse: collapse; margin: 14px 0 22px;
