@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Measurement, Error &amp; Data Analysis — Interactive Guide</title>
-  <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data — with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and least-squares fitting.">
-  <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, least squares, statistics, data analysis, experimental physics">
+  <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data — with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and the central limit theorem.">
+  <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, central limit theorem, statistics, data analysis, experimental physics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/measurement-error/">
 
   <!-- Open Graph -->
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
-  <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and least-squares fitting — interactive.">
+  <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and the statistics of repeated measurements — interactive.">
 
   <!-- Structured data: educational article -->
   <script type="application/ld+json">
@@ -42,8 +42,7 @@
       "Accuracy and precision",
       "Significant figures",
       "Propagation of uncertainty",
-      "Standard deviation and standard error",
-      "Least-squares fitting"
+      "Standard deviation and standard error"
     ],
     "inLanguage": "en",
     "isAccessibleForFree": true,
@@ -540,42 +539,6 @@
         </details>
       </div>
 
-      <div class="me-prose"><h3><span class="i18n-en">3g — Extension: least-squares fitting</span><span class="i18n-ja">3g — 発展：最小二乗フィット</span></h3>
-        <p><span class="i18n-en">Suppose your data points seem to fall along a straight line, but scattered by noise. Which line is <b>best</b>? Pick any candidate line $y=ax+b$. For each measured point, the line predicts a value $a x_i + b$, and the <b>residual</b> $r_i = y_i - (a x_i + b)$ is the vertical gap between the point and the line — how badly the line misses that point. A good line makes all the gaps small at once.</span><span class="i18n-ja">データ点がほぼ直線上に並んでいるが、ノイズで散らばっているとしよう。どの直線が<b>最良</b>だろうか？ 候補の直線 $y=ax+b$ を1本選ぶ。各測定点について直線は値 $a x_i + b$ を予測し、<b>残差</b> $r_i = y_i - (a x_i + b)$ は点と直線の縦方向のずれ — その点をどれだけ外しているか — を表す。良い直線はすべてのずれを同時に小さくする。</span></p>
-        <p><span class="i18n-en">As with the variance in 3c, we can't just add the residuals — positive and negative gaps would cancel, making a terrible line look perfect — so we <b>square</b> each one (always positive, big misses count extra) and add them up. The <b>least-squares</b> line is the single $(a,b)$ that makes this total, $\sum_i r_i^2$, as small as possible. In the demo the grey stems <em>are</em> these residuals — the fit settles where their squared lengths add to the minimum.</span><span class="i18n-ja">3c の分散と同じく、残差をそのまま足すことはできない — 正と負のずれが打ち消し合い、ひどい直線が完璧に見えてしまう — ので各ずれを<b>二乗</b>し（常に正、大きな外れほど強く効く）、合計する。<b>最小二乗</b>直線とは、この合計 $\sum_i r_i^2$ を最小にする唯一の $(a,b)$ である。デモの灰色の縦線が<em>まさに</em>この残差で、二乗した長さの合計が最小になる位置に直線が落ち着く。</span></p>
-
-        <details class="recall">
-          <summary><span class="i18n-en">Step by step: from "smallest squared error" to the formulas</span><span class="i18n-ja">ステップごとに：「二乗誤差最小」から公式へ</span></summary>
-          <div>
-            <p><span class="i18n-en">1. Write the total squared error as a function of the line's two unknowns:</span><span class="i18n-ja">1. 二乗誤差の合計を、直線の2つの未知数の関数として書く：</span></p>
-            <p class="eq-block">$$S(a,b)=\sum_i \big(y_i - a x_i - b\big)^2$$</p>
-            <p><span class="i18n-en">2. $S$ is smallest where it is flat in every direction — so its slopes with respect to $a$ and to $b$ are both zero ($\partial S/\partial a = 0$, $\partial S/\partial b = 0$). That gives two linear equations.</span><span class="i18n-ja">2. $S$ はあらゆる方向に平らな点で最小になる — つまり $a$ と $b$ それぞれに対する傾きがともにゼロ（$\partial S/\partial a = 0$, $\partial S/\partial b = 0$）。これで2本の1次方程式が得られる。</span></p>
-            <p><span class="i18n-en">3. Solving them gives a single answer (here $N$ is the number of points):</span><span class="i18n-ja">3. これを解くと唯一の答えが得られる（$N$ は点の数）：</span></p>
-            <p class="eq-block">$$a=\frac{N\sum x_i y_i-\sum x_i\sum y_i}{N\sum x_i^2-\left(\sum x_i\right)^2},\qquad b=\bar{y}-a\,\bar{x}$$</p>
-            <p><span class="i18n-en">The intercept formula $b=\bar y - a\bar x$ just says the best line always passes through the data's centre of mass $(\bar x,\bar y)$.</span><span class="i18n-ja">切片の式 $b=\bar y - a\bar x$ は、最良の直線が必ずデータの重心 $(\bar x,\bar y)$ を通ることを意味する。</span></p>
-          </div>
-        </details>
-
-        <p><span class="i18n-en"><b>What the numbers mean.</b> The <b>slope</b> $a$ is how much $y$ changes per unit of $x$ (often the physical quantity you want); the <b>intercept</b> $b$ is $y$ at $x=0$. Because the data are noisy, $a$ and $b$ are themselves uncertain — the fit also reports their error bars $\delta a,\delta b$. The <b>$R^2$</b> value (0 to 1) is the fraction of the variation in $y$ that the line explains: $R^2=1$ is a perfect straight-line fit, while $R^2\approx 0$ means the line is no better than a flat average. Add scattered points in the demo and watch $R^2$ drop and the error bars widen.</span><span class="i18n-ja"><b>数値の意味。</b><b>傾き</b> $a$ は $x$ が1増えるごとの $y$ の変化（多くの場合これが求めたい物理量）、<b>切片</b> $b$ は $x=0$ での $y$。データにノイズがあるため $a$ と $b$ 自体も不確かで、フィットはその誤差棒 $\delta a,\delta b$ も返す。<b>$R^2$</b>（0〜1）は、直線が $y$ のばらつきのうちどれだけを説明できるかの割合：$R^2=1$ は完全な直線フィット、$R^2\approx 0$ は平らな平均と大差ないことを意味する。デモで点を散らして加え、$R^2$ が下がり誤差棒が広がる様子を見てみよう。</span></p>
-      </div>
-
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c-fit" height="300" aria-label="Least-squares fit scatter plot"></canvas>
-        <div class="btn-row" style="margin-top:12px">
-          <button class="demo-btn" id="btn-fit-demo"><span class="i18n-en">Load sample data</span><span class="i18n-ja">サンプルデータ</span></button>
-          <button class="demo-btn" id="btn-fit-clear"><span class="i18n-en">Clear</span><span class="i18n-ja">クリア</span></button>
-        </div>
-        <div class="me-stats">
-          <div class="me-stat"><span class="k"><span class="i18n-en">Slope a</span><span class="i18n-ja">傾き a</span></span><span class="v" id="st-slope">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">Intercept b</span><span class="i18n-ja">切片 b</span></span><span class="v" id="st-int">—</span></div>
-          <div class="me-stat"><span class="k">R²</span><span class="v" id="st-r2">—</span></div>
-        </div>
-        <div class="me-legend">
-          <span><i style="background:#7dd3fc"></i><span class="i18n-en">data points</span><span class="i18n-ja">データ点</span></span>
-          <span><i style="background:#fbbf24"></i><span class="i18n-en">best-fit line</span><span class="i18n-ja">最小二乗直線</span></span>
-          <span><i style="background:#a8a29e"></i><span class="i18n-en">residuals</span><span class="i18n-ja">残差</span></span>
-        </div>
-      </div>
     </div>
   </section>
 

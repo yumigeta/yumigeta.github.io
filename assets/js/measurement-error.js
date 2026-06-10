@@ -4,7 +4,7 @@
      00  Types of error      — accuracy-vs-precision target board
      01  Significant figures — sig-fig calculator
      02  Error propagation   — quadrature + Monte-Carlo check
-     03  Statistics          — sample stats + least-squares fit
+     03  Statistics          — sample stats, CLT + noisy voltmeter
    ════════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -42,29 +42,6 @@
     if (a.length < 2) return 0;
     const m = mean(a);
     return Math.sqrt(a.reduce((s, x) => s + (x - m) * (x - m), 0) / (a.length - 1));
-  }
-  function linearFit(xs, ys) {
-    const n = xs.length;
-    if (n < 2) return null;
-    const sx = xs.reduce((s, x) => s + x, 0);
-    const sy = ys.reduce((s, y) => s + y, 0);
-    const sxx = xs.reduce((s, x) => s + x * x, 0);
-    const sxy = xs.reduce((s, x, i) => s + x * ys[i], 0);
-    const d = n * sxx - sx * sx;
-    if (Math.abs(d) < 1e-12) return null;
-    const a = (n * sxy - sx * sy) / d;                // slope
-    const b = (sy - a * sx) / n;                      // intercept
-    // residual statistics → parameter uncertainties
-    let ssr = 0;
-    for (let i = 0; i < n; i++) { const r = ys[i] - (a * xs[i] + b); ssr += r * r; }
-    const s2 = n > 2 ? ssr / (n - 2) : 0;
-    const da = Math.sqrt(s2 * n / d);
-    const db = Math.sqrt(s2 * sxx / d);
-    // R²
-    const my = sy / n;
-    let sst = 0; for (let i = 0; i < n; i++) sst += (ys[i] - my) * (ys[i] - my);
-    const r2 = sst > 0 ? 1 - ssr / sst : 1;
-    return { a, b, da, db, r2 };
   }
 
   /* round to n significant figures; return a string preserving trailing zeros */
@@ -1022,100 +999,6 @@
     start();
   }
 
-  /* ════════════════ Module 03f — Least-squares fit ════════════════ */
-  function initFit() {
-    const cv = $('c-fit'); if (!cv) return;
-    // data domain in plot units
-    const X0 = 0, X1 = 10, Y0 = 0, Y1 = 10;
-    let pts = [];                                     // {x,y} in data units
-
-    function toPx(p, w, h, pad) {
-      return {
-        px: pad.l + (p.x - X0) / (X1 - X0) * (w - pad.l - pad.r),
-        py: h - pad.b - (p.y - Y0) / (Y1 - Y0) * (h - pad.t - pad.b),
-      };
-    }
-    function toData(px, py, w, h, pad) {
-      return {
-        x: X0 + (px - pad.l) / (w - pad.l - pad.r) * (X1 - X0),
-        y: Y0 + (h - pad.b - py) / (h - pad.t - pad.b) * (Y1 - Y0),
-      };
-    }
-    const PAD = { l: 34, r: 12, t: 12, b: 26 };
-
-    function draw() {
-      const { ctx, w, h } = fitCanvas(cv);
-      ctx.clearRect(0, 0, w, h);
-      // grid
-      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
-      for (let i = 0; i <= 10; i += 2) {
-        const x = PAD.l + i / 10 * (w - PAD.l - PAD.r);
-        const y = h - PAD.b - i / 10 * (h - PAD.t - PAD.b);
-        ctx.beginPath(); ctx.moveTo(x, PAD.t); ctx.lineTo(x, h - PAD.b); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(w - PAD.r, y); ctx.stroke();
-      }
-      // axes
-      ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(PAD.l, PAD.t); ctx.lineTo(PAD.l, h - PAD.b); ctx.lineTo(w - PAD.r, h - PAD.b); ctx.stroke();
-      ctx.fillStyle = '#a8a29e'; ctx.font = '11px sans-serif';
-      ctx.textAlign = 'center'; ctx.fillText('x', w - PAD.r, h - 8);
-      ctx.textAlign = 'left'; ctx.fillText('y', PAD.l + 4, PAD.t + 4);
-
-      const fit = linearFit(pts.map(p => p.x), pts.map(p => p.y));
-      if (fit) {
-        // residual stems
-        ctx.strokeStyle = 'rgba(168,162,158,0.6)'; ctx.lineWidth = 1;
-        pts.forEach(p => {
-          const a = toPx(p, w, h, PAD);
-          const yhat = fit.a * p.x + fit.b;
-          const b = toPx({ x: p.x, y: yhat }, w, h, PAD);
-          ctx.beginPath(); ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py); ctx.stroke();
-        });
-        // best-fit line (clipped to plot box)
-        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.4;
-        const p1 = toPx({ x: X0, y: fit.a * X0 + fit.b }, w, h, PAD);
-        const p2 = toPx({ x: X1, y: fit.a * X1 + fit.b }, w, h, PAD);
-        ctx.save();
-        ctx.beginPath(); ctx.rect(PAD.l, PAD.t, w - PAD.l - PAD.r, h - PAD.t - PAD.b); ctx.clip();
-        ctx.beginPath(); ctx.moveTo(p1.px, p1.py); ctx.lineTo(p2.px, p2.py); ctx.stroke();
-        ctx.restore();
-        $('st-slope').innerHTML = fmt(fit.a, 3) + ' <small>± ' + fmt(fit.da, 2) + '</small>';
-        $('st-int').innerHTML = fmt(fit.b, 3) + ' <small>± ' + fmt(fit.db, 2) + '</small>';
-        $('st-r2').textContent = fit.r2.toFixed(4);
-      } else {
-        $('st-slope').textContent = '—'; $('st-int').textContent = '—'; $('st-r2').textContent = '—';
-      }
-      // points
-      ctx.fillStyle = '#7dd3fc';
-      pts.forEach(p => {
-        const a = toPx(p, w, h, PAD);
-        ctx.beginPath(); ctx.arc(a.px, a.py, 4, 0, 2 * Math.PI); ctx.fill();
-      });
-      if (!pts.length) {
-        ctx.fillStyle = '#78716c'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText(t('click to add points, or load sample data', 'クリックで点を追加、またはサンプルデータを読み込み'), w / 2, h / 2);
-      }
-    }
-
-    cv.addEventListener('click', e => {
-      const r = cv.getBoundingClientRect();
-      const { ctx, w, h } = fitCanvas(cv);   // ensures same coords; redraw afterwards
-      const d = toData(e.clientX - r.left, e.clientY - r.top, w, h, PAD);
-      if (d.x >= X0 && d.x <= X1 && d.y >= Y0 && d.y <= Y1) { pts.push(d); draw(); }
-    });
-    $('btn-fit-demo').addEventListener('click', () => {
-      pts = [];
-      const a = 0.7, b = 1.5;
-      for (let x = 0.5; x < 10; x += 1) pts.push({ x, y: Math.max(0.2, Math.min(9.8, a * x + b + gaussian(0, 1.0))) });
-      draw();
-    });
-    $('btn-fit-clear').addEventListener('click', () => { pts = []; draw(); });
-    window.addEventListener('resize', draw);
-    document.querySelector('.lang-btn') && document.querySelector('.lang-btn').addEventListener('click', () => setTimeout(draw, 0));
-    // start with sample data
-    $('btn-fit-demo').click();
-  }
-
   /* ── boot once fonts/layout are ready ── */
   function boot() {
     initTarget();
@@ -1124,7 +1007,6 @@
     initStats();
     initCLT();
     initVoltmeter();
-    initFit();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
