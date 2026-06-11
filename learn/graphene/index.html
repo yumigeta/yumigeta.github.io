@@ -153,20 +153,11 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-
-    <div class="foot">
-      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
-      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
-  </footer>
-
-  <!-- ═══════ Crystal structure notes side panel ═══════ -->
-  <div class="deriv-panel" id="crystal-panel">
-    <div class="deriv-close">
-      <span class="deriv-close-title">Crystal structure</span>
-      <button class="deriv-close-btn" id="crystal-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="deriv-panel-inner">
+  <!-- ═══════ Crystal structure — foldable background ═══════ -->
+  <section class="demo">
+  <details class="fold" id="fold-crystal">
+    <summary><span class="fold-title"><span class="i18n-en">Crystal structure — the basics</span><span class="i18n-ja">結晶構造の基礎</span></span><span class="fold-hint"><span class="i18n-en">background</span><span class="i18n-ja">前提知識</span></span></summary>
+    <div class="fold-body">
       <h2 class="deriv-title">Crystal structure — a crash course (after Kittel, Ch. 1)</h2>
 <div class="deriv-step">
 <h3>Periodic array of atoms</h3>
@@ -270,16 +261,14 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 </div>
 
     </div>
-  </div>
+  </details>
+  </section>
 
-  <!-- ═══════ Derivation side panel ═══════ -->
-  <div class="deriv-scrim" id="deriv-scrim"></div>
-  <div class="deriv-panel" id="deriv-panel">
-    <div class="deriv-close">
-      <span class="deriv-close-title">Derivation</span>
-      <button class="deriv-close-btn" id="deriv-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="deriv-panel-inner">
+  <!-- ═══════ Tight-binding derivation — foldable ═══════ -->
+  <section class="demo">
+  <details class="fold" id="fold-derivation">
+    <summary><span class="fold-title"><span class="i18n-en">Full derivation — tight-binding band structure</span><span class="i18n-ja">完全な導出 — 強結合バンド構造</span></span><span class="fold-hint"><span class="i18n-en">the payoff</span><span class="i18n-ja">本編</span></span></summary>
+    <div class="fold-body">
       <h2 class="deriv-title">Tight-binding band structure of graphene</h2>
 <div class="deriv-step">
 <h3>What is the tight-binding model?</h3>
@@ -495,12 +484,35 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 </div>
 
     </div>
-  </div>
+  </details>
+  </section>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
 
   <script>
+  (function () {
+    var map = {
+      'open-crystal': 'fold-crystal', 'open-crystal-ja': 'fold-crystal',
+      'open-derivation': 'fold-derivation', 'open-derivation-ja': 'fold-derivation'
+    };
+    Object.keys(map).forEach(function (id) {
+      var a = document.getElementById(id);
+      if (!a) return;
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var d = document.getElementById(map[id]);
+        if (!d) return;
+        d.open = true;
+        d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  })();
   </script>
   <script src="/assets/js/graphene.js"></script>
-  <script src="/assets/js/derivation.js"></script>
   <script src="/assets/js/crystal-figures.js"></script>
 </body>
 </html>

@@ -524,13 +524,13 @@
     });
   }
 
-  var panel = document.getElementById('crystal-panel');
-  if (panel) {
-    var obs = new MutationObserver(function () {
-      if (panel.classList.contains('open'))
+  var fold = document.getElementById('fold-crystal');
+  if (fold) {
+    fold.addEventListener('toggle', function () {
+      if (fold.open)
         requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
     });
-    obs.observe(panel, { attributes: true, attributeFilter: ['class'] });
   }
   window.addEventListener('resize', function () { drawn = {}; drawAll(); });
+  requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
 })();

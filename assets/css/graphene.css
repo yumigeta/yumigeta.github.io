@@ -117,50 +117,40 @@
 }
 .gr-info b { color: #bfdbfe; }
 
-/* ── Derivation side panel ── */
-.deriv-panel {
-  position: fixed; top: 0; right: 0; bottom: 0; z-index: 200;
-  width: min(520px, 92vw);
+/* ── Foldable (collapsible) derivation / background sections ── */
+.fold {
   background: #1a1715;
-  border-left: 1px solid rgba(255,255,255,.1);
-  transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.22,1,.36,1);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
   color: #e7e5e4;
+  overflow: hidden;
 }
-.deriv-panel.open { transform: translateX(0); }
-
-.deriv-panel-inner {
-  padding: 28px 26px 48px;
+.fold > summary {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 22px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700; font-size: 15px; color: #fafaf9;
+  -webkit-user-select: none; user-select: none;
 }
-
-.deriv-close {
-  position: sticky; top: 0; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 26px 12px;
-  background: rgba(26,23,21,.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after {
+  content: "▸"; color: #a8a29e; font-size: 13px;
+  transition: transform .25s;
 }
-.deriv-close-title {
-  font-size: 13px; font-weight: 700;
+.fold[open] > summary::after { transform: rotate(90deg); }
+.fold[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); }
+.fold-title { margin-right: auto; }
+.fold-hint {
+  font-size: 11px; font-weight: 600;
   text-transform: uppercase; letter-spacing: .06em;
   color: #a8a29e;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
+  padding: 3px 9px;
 }
-.deriv-close-btn {
-  background: none; border: none; cursor: pointer;
-  font-size: 24px; line-height: 1; color: #78716c;
-  transition: color .2s; padding: 0 0 0 12px;
+.fold-body {
+  padding: 24px 26px 32px;
 }
-.deriv-close-btn:hover { color: #fff; }
-
-.deriv-scrim {
-  display: none; position: fixed; inset: 0; z-index: 199;
-  background: rgba(0,0,0,.3);
-}
-.deriv-scrim.open { display: block; }
 
 .deriv-title {
   font-size: clamp(20px, 2.5vw, 24px);
@@ -213,8 +203,8 @@
 }
 
 @media (max-width: 768px) {
-  .deriv-panel { width: 100vw; }
-  .deriv-panel-inner { padding: 20px 18px 40px; }
+  .fold > summary { padding: 14px 16px; font-size: 14px; }
+  .fold-body { padding: 20px 18px 28px; }
 }
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
