@@ -1,0 +1,329 @@
+{
+  "publications": [
+    {
+      "year": 2026,
+      "tags": ["gnr"],
+      "title": "Electrical and Structural Response of Nine-Atom-Wide Armchair Graphene Nanoribbon Transistors to Gamma Irradiation",
+      "authors": "__K. Yumigeta__, M. Yusufoglu, J. G. Federici et al.",
+      "journal": "ACS Appl. Mater. Interfaces",
+      "volume": "18",
+      "page": "25103",
+      "doi": "10.1021/acsami.6c02516",
+      "badge": "Cover",
+      "badge_cover": true,
+      "highlight": true
+    },
+    {
+      "year": 2026,
+      "tags": ["gnr", "2d"],
+      "title": "Scalable Etch-Free Transfer of Low-Dimensional Materials From Metal Films to Diverse Substrates",
+      "authors": "__K. Yumigeta__, M. Yusufoglu, M. Sarker et al.",
+      "journal": "Adv. Mater. Interfaces",
+      "volume": "13",
+      "page": "e2500630",
+      "doi": "10.1002/admi.202500630",
+      "highlight": false
+    },
+    {
+      "year": 2025,
+      "tags": ["cdw"],
+      "title": "Schottky Barrier Formation and Band Realignment of Rare-Earth Tritelluride Charge Density Wave Material–Semiconductor Interfaces",
+      "authors": "__K. Yumigeta__, J. Kopaczek, R. Banerjee et al.",
+      "journal": "Appl. Phys. Lett.",
+      "volume": "126",
+      "page": "151602",
+      "doi": "10.1063/5.0253262",
+      "highlight": false
+    },
+    {
+      "year": 2025,
+      "tags": ["2d"],
+      "title": "Controllable Synthesis of Environmentally Stable vdW Antiferromagnetic Oxyhalide CrOCl",
+      "authors": "R. Banerjee, S. Uppala, __K. Yumigeta__ et al.",
+      "journal": "Nanoscale",
+      "volume": "17",
+      "page": "5472",
+      "doi": "10.1039/D4NR03715D",
+      "highlight": false
+    },
+    {
+      "year": 2024,
+      "tags": ["gnr"],
+      "title": "Atomically Precise Graphene Nanoribbon Transistors with Long-Term Stability and Reliability",
+      "authors": "C. Dinh, M. Yusufoglu, __K. Yumigeta__ et al.",
+      "journal": "ACS Nano",
+      "volume": "18",
+      "page": "22949",
+      "doi": "10.1021/acsnano.4c04097",
+      "highlight": false
+    },
+    {
+      "year": 2024,
+      "tags": ["cdw"],
+      "title": "Alloying Effect of Rare-Earth Tritellurides on the Charge Density Wave and Magnetic Properties",
+      "authors": "__K. Yumigeta__, J. Kopaczek, Y. Attarde et al.",
+      "journal": "Appl. Phys. Rev.",
+      "volume": "11",
+      "page": "011407",
+      "badge": "Featured",
+      "highlight": true
+    },
+    {
+      "year": 2023,
+      "tags": ["2d"],
+      "title": "Second-Order Temporal Coherence of Polariton Lasers Based on an Atomically Thin Crystal in a Microcavity",
+      "authors": "H. Shan, J. C. Drawer, __K. Yumigeta__ et al.",
+      "journal": "Phys. Rev. Lett.",
+      "volume": "131",
+      "page": "206901",
+      "highlight": false
+    },
+    {
+      "year": 2023,
+      "tags": ["2d"],
+      "title": "Strain Anisotropy Driven Spontaneous Formation of Nanoscrolls from 2D Janus Layers",
+      "authors": "M. Sayyad, Y. Qin, __K. Yumigeta__ et al.",
+      "journal": "Adv. Funct. Mater.",
+      "volume": "33",
+      "page": "2303526",
+      "badge": "Cover",
+      "highlight": true
+    },
+    {
+      "year": 2023,
+      "tags": ["cdw"],
+      "title": "Experimental and Theoretical Studies of the Surface Oxidation Process of Rare-Earth Tritellurides",
+      "authors": "J. Kopaczek, __K. Yumigeta__, A. Ibrahim et al.",
+      "journal": "Adv. Electron. Mater.",
+      "volume": "9",
+      "page": "2201129",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["cdw"],
+      "title": "The Phononic and Charge Density Wave Behavior of Entire Rare-Earth Tritelluride Series with Chemical Pressure and Temperature",
+      "authors": "__K. Yumigeta__, Y. Attarde, J. Kopaczek et al.",
+      "journal": "APL Mater.",
+      "volume": "10",
+      "page": "111112",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["2d"],
+      "title": "Correlated Interlayer Exciton Insulator in Heterostructures of Monolayer WSe₂ and Moiré WS₂/WSe₂",
+      "authors": "Z. Zhang, E. C. Regan, __K. Yumigeta__ et al.",
+      "journal": "Nat. Phys.",
+      "volume": "18",
+      "page": "1214",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["2d"],
+      "title": "Intralayer Charge-Transfer Moiré Excitons in van der Waals Superlattices",
+      "authors": "M. H. Naik, E. C. Regan, __K. Yumigeta__ et al.",
+      "journal": "Nature",
+      "volume": "609",
+      "page": "52",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["cdw"],
+      "title": "Pressure-Induced Suppression of Charge Density Phases Across the Entire Rare-Earth Tritellurides by Optical Spectroscopy",
+      "authors": "J. Kopaczek, H. Li, __K. Yumigeta__ et al.",
+      "journal": "J. Mater. Chem. C",
+      "volume": "10",
+      "page": "11995",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["2d"],
+      "title": "Temperature Dependence of the Indirect Gap and the Direct Optical Transitions at the High-Symmetry Point of the Brillouin Zone and Band Nesting in MoS₂, MoSe₂, MoTe₂, WS₂, and WSe₂ Crystals",
+      "authors": "J. Kopaczek, S. Zelewski, __K. Yumigeta__ et al.",
+      "journal": "J. Phys. Chem. C",
+      "volume": "126",
+      "page": "5665",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["2d"],
+      "title": "Brightening of a Dark Monolayer Semiconductor via Strong Light-Matter Coupling in a Cavity",
+      "authors": "H. Shan, I. Iorsh, __K. Yumigeta__ et al.",
+      "journal": "Nat. Commun.",
+      "volume": "13",
+      "page": "1",
+      "highlight": false
+    },
+    {
+      "year": 2022,
+      "tags": ["2d"],
+      "title": "Giant Effects of Interlayer Interaction on Valence-Band Splitting in Transition Metal Dichalcogenides",
+      "authors": "G. Benson, V. Zurdo Costa, __K. Yumigeta__ et al.",
+      "journal": "J. Phys. Chem. C",
+      "volume": "126",
+      "page": "8667",
+      "highlight": false
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Spatial Coherence of Room-Temperature Monolayer WSe₂ Exciton-Polaritons in a Trap",
+      "authors": "H. Shan, L. Lackner, __K. Yumigeta__ et al.",
+      "journal": "Nat. Commun.",
+      "volume": "12",
+      "page": "1",
+      "badge": "Top 25 Physics",
+      "highlight": true
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Imaging Moiré Flat Bands in Three-Dimensional Reconstructed WSe₂/WS₂ Superlattices",
+      "authors": "H. Li, S. Li, __K. Yumigeta__ et al.",
+      "journal": "Nat. Mater.",
+      "volume": "20",
+      "page": "945",
+      "highlight": false
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Excitons in Bilayer MoS₂ Displaying a Colossal Electric Field Splitting and Tunable Magnetic Response",
+      "authors": "E. Lorchat, M. Selig, __K. Yumigeta__ et al.",
+      "journal": "Phys. Rev. Lett.",
+      "volume": "126",
+      "page": "037401",
+      "highlight": false
+    },
+    {
+      "year": 2021,
+      "tags": ["cdw"],
+      "title": "Advances in Rare-Earth Tritelluride Quantum Materials: Structure, Properties, and Synthesis",
+      "authors": "__K. Yumigeta__, Y. Qin, H. Li et al.",
+      "journal": "Adv. Sci.",
+      "volume": "8",
+      "page": "2004762",
+      "badge": "Invited Review",
+      "highlight": true
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Imaging Local Discharge Cascades for Correlated Electrons in WS₂/WSe₂ Moiré Superlattices",
+      "authors": "H. Li, S. Li, __K. Yumigeta__ et al.",
+      "journal": "Nat. Phys.",
+      "volume": "17",
+      "page": "1114",
+      "badge": "News &amp; Views",
+      "highlight": true
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Valley Relaxation of Resident Electrons and Holes in a Monolayer Semiconductor",
+      "authors": "J. Li, M. Goryca, __K. Yumigeta__ et al.",
+      "journal": "Phys. Rev. Mater.",
+      "volume": "5",
+      "page": "044001",
+      "badge": "Editor&#8217;s Suggestion",
+      "highlight": true
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Abnormal Phase Transition and Band Renormalization of Guanidinium-Based Organic–Inorganic Hybrid Perovskite",
+      "authors": "H. Li, D. Wines, __K. Yumigeta__ et al.",
+      "journal": "ACS Appl. Mater. Interfaces",
+      "volume": "13",
+      "page": "44964",
+      "highlight": false
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Imaging Two-Dimensional Generalized Wigner Crystals",
+      "authors": "H. Li, S. Li, __K. Yumigeta__ et al.",
+      "journal": "Nature",
+      "volume": "597",
+      "page": "650",
+      "badge": "News &amp; Views",
+      "highlight": true
+    },
+    {
+      "year": 2021,
+      "tags": ["2d"],
+      "title": "Dynamic Tuning of Moiré Excitons in a WSe₂/WS₂ Heterostructure via Mechanical Deformation",
+      "authors": "W. Zhao, E. C. Regan, __K. Yumigeta__ et al.",
+      "journal": "Nano Lett.",
+      "volume": "21",
+      "page": "8910",
+      "highlight": false
+    },
+    {
+      "year": 2020,
+      "tags": ["2d"],
+      "title": "Mott and Generalized Wigner Crystal States in WSe₂/WS₂ Moiré Superlattices",
+      "authors": "E. C. Regan, D. Wang, __K. Yumigeta__ et al.",
+      "journal": "Nature",
+      "volume": "579",
+      "page": "359",
+      "highlight": false
+    },
+    {
+      "year": 2020,
+      "tags": ["2d"],
+      "title": "Low-Temperature Synthesis of 2D Anisotropic MoTe₂ Using a High-Pressure Soft Sputtering Technique",
+      "authors": "__K. Yumigeta__, C. Kopas, M. Blei et al.",
+      "journal": "Nanoscale Adv.",
+      "volume": "2",
+      "page": "1443",
+      "badge": "Cover",
+      "highlight": true
+    },
+    {
+      "year": 2020,
+      "tags": ["2d"],
+      "title": "Nanoscale Conductivity Imaging of Correlated Electronic States in WSe₂/WS₂ Moiré Superlattices",
+      "authors": "Z. Chu, E. C. Regan, __K. Yumigeta__ et al.",
+      "journal": "Phys. Rev. Lett.",
+      "volume": "125",
+      "page": "186803",
+      "highlight": false
+    },
+    {
+      "year": 2020,
+      "tags": ["2d"],
+      "title": "The Synthesis of Competing Phase GeSe and GeSe₂ 2D Layered Materials",
+      "authors": "__K. Yumigeta__, C. Brayfield, H. Cai et al.",
+      "journal": "RSC Adv.",
+      "volume": "10",
+      "page": "38227",
+      "highlight": false
+    },
+    {
+      "year": 2020,
+      "tags": ["2d"],
+      "title": "Epitaxial Synthesis of Highly Oriented 2D Janus Rashba Semiconductor BiTeCl and BiTeBr Layers",
+      "authors": "D. Hajra, R. Sailus, __K. Yumigeta__ et al.",
+      "journal": "ACS Nano",
+      "volume": "14",
+      "page": "15626",
+      "highlight": false
+    },
+    {
+      "year": 2019,
+      "tags": ["2d"],
+      "title": "Strain-Tunable Single Photon Sources in WSe₂ Monolayers",
+      "authors": "O. Iff, D. Tedeschi, __K. Yumigeta__ et al.",
+      "journal": "Nano Lett.",
+      "volume": "19",
+      "page": "6931",
+      "highlight": false
+    }
+  ]
+}
