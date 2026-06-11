@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Structure II — From the Frozen Wheel to the Brillouin Zone</title>
+  <meta name="description" content="Why do wagon wheels spin backwards in movies? Because sampling cannot tell certain motions apart — and a crystal is nature's sampling device. From aliasing to the reciprocal lattice to the Brillouin zone, the stage on which graphene's band structure plays out.">
+  <meta name="keywords" content="crystal structure, lattice, basis, unit cell, reciprocal lattice, Brillouin zone, aliasing, Nyquist, sampling, crystallography, condensed matter, physics tutorial">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/crystal-structure-v2/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Crystal Structure II — From the Frozen Wheel to the Brillouin Zone">
+  <meta property="og:description" content="A crystal is nature's sampling device. From the wagon-wheel illusion through aliasing to the reciprocal lattice and the Brillouin zone — the stage for band structure.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/crystal-structure-v2/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Crystal Structure II — From the Frozen Wheel to the Brillouin Zone">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Crystal Structure II — From the Frozen Wheel to the Brillouin Zone",
+    "description": "A story-driven introduction to crystal structure from the wave's point of view: sampling and aliasing, lattice and basis, the reciprocal lattice, and the Brillouin zone as the crystal's Nyquist band.",
+    "url": "https://yumigeta.github.io/learn/crystal-structure-v2/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Interactive simulation",
+    "teaches": ["Crystal lattice", "Lattice and basis", "Unit cell", "Aliasing", "Reciprocal lattice", "Brillouin zone"],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/measurement-error.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Crystal Structure II</span><span class="i18n-ja">結晶構造の基礎 Ⅱ</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Crystal Structure&nbsp;Ⅱ</span><span class="i18n-ja">結晶構造の基礎 Ⅱ</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">In old westerns, the wagon wheels sometimes spin slowly <em>backwards</em> while the wagon races forward. No one on set made a mistake. A film camera looks at the world only 24 times a second — in discrete snapshots — and an observer who only looks in snapshots genuinely cannot tell certain motions apart. Hold that thought, because a crystal is exactly such an observer. A crystal is matter arranged in a repeating pattern, and any wave that lives in it — an electron, an X-ray, a sound wave — is felt by the atoms <em>only where the atoms are</em>: at discrete, regularly spaced points. A crystal, in other words, is a sampling device built by nature. This page takes that one idea and rides it the whole way: from the frozen wheel (<b>§00</b>), to what a row of atoms does to a wave (<b>§01</b>), to the grammar of repeating patterns (<b>§02</b>), to the shifts no lattice can see (<b>§03</b>), and finally to the <b>Brillouin zone</b> (<b>§04</b>) — the finite stage on which all of solid-state physics performs. The last thing you will see is a hexagonal stage with six suspicious corners; what happens on it is the story of the companion page <a href="/learn/graphene-v2/">Electronic Structure of Graphene Ⅱ</a>.</span><span class="i18n-ja">古い西部劇では、駅馬車が疾走しているのに、車輪だけがゆっくり<em>逆回転</em>して見えることがある。撮影所の誰かがミスをしたのではない。映画のカメラは世界を1秒に24回しか見ない — 飛び飛びの静止画として、だ。そして飛び飛びにしか見ない観測者には、本気で区別できない運動というものが存在するのである。この話を覚えておいてほしい。なぜなら、結晶とはまさにそういう観測者だからだ。結晶とは物質が繰り返し模様に並んだものであり、その中に住む波 — 電子も、X線も、音波も — を原子たちが感じ取れるのは、<em>原子のいる場所だけ</em>。つまり等間隔に並んだ飛び飛びの点の上だけである。言い換えれば、結晶とは自然が作ったサンプリング装置なのだ。このページはこのひとつのアイデアに最後まで乗っていく。止まって見える車輪（<b>§00</b>）から、原子の列が波をどう見るか（<b>§01</b>）、繰り返し模様の文法（<b>§02</b>）、格子には見えない波のずらし方（<b>§03</b>）、そして固体物理のすべてが上演される有限の舞台 — <b>ブリルアンゾーン</b>（<b>§04</b>）へ。最後にあなたの手元に残るのは、6つの怪しい角を持つ六角形の舞台である。その上で何が起こるかは、姉妹ページ「<a href="/learn/graphene-v2/">グラフェンの電子構造 Ⅱ</a>」の物語だ。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — The frozen wheel ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — The illusion</span><span class="i18n-ja">00 — 錯覚</span></span>
+      <h2><span class="i18n-en">The wheel that freezes</span><span class="i18n-ja">止まって見える車輪</span></h2>
+      <p><span class="i18n-en">First, reproduce the crime. Below is a spoked wheel filmed by a camera that takes one frame at a time. The slider sets how far the wheel <em>really</em> turns between frames. One spoke is tipped in red so you can track the truth; the other spokes are identical, so your eye tracks only the <em>pattern</em>.</span><span class="i18n-ja">まずは事件を再現しよう。下にあるのは、1コマずつ撮影するカメラで写したスポーク付きの車輪である。スライダーは、コマとコマのあいだに車輪が<em>実際に</em>回る角度を決める。スポークのうち1本だけ先端を赤く塗ってある。赤を追えば真実が見え、それ以外のスポークは全部同じ顔をしているから、目は<em>模様</em>だけを追うことになる。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c4-strobe" style="height:300px;"></canvas>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="demo-btn active" id="b4-play"><span class="i18n-en">&#9654; Run</span><span class="i18n-ja">&#9654; 再生</span></button>
+        </div>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="s4-rot"><span class="i18n-en">True rotation per frame</span><span class="i18n-ja">1コマあたりの実際の回転</span></label>
+            <input type="range" id="s4-rot" min="0" max="90" step="0.5" value="42" aria-label="True rotation per frame">
+            <output id="v4-rot">42°</output>
+          </div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">True rotation / frame</span><span class="i18n-ja">実際の回転（1コマ）</span></span><span class="v" id="st4-true">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">What the pattern shows</span><span class="i18n-ja">模様の見かけの回転</span></span><span class="v" id="st4-app">—</span></div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">The wheel has 8 spokes, so the pattern repeats every 45°. Set the true rotation to exactly 45°/frame: the pattern freezes while the red tip whirls. At 42° the pattern crawls <em>backwards</em> at −3°/frame. The camera is not lying about the snapshots — it is only that many different motions produce the <b>same snapshots</b>.</span><span class="i18n-ja">車輪のスポークは8本なので、模様は45°ごとに元に戻る。実際の回転をぴったり45°/コマにしてみてほしい。赤い先端は猛回転しているのに、模様は静止する。42°にすると、模様は−3°/コマでじりじりと<em>逆走</em>する。カメラは静止画について嘘をついていない。ただ、異なる多数の運動が<b>同じ静止画の列</b>を作ってしまうだけなのだ。</span></p>
+
+      <div class="me-prose">
+        <p><span class="i18n-en">Give the phenomenon its name: <b>aliasing</b>. When you observe only at discrete steps, any two motions that agree <em>at the sampling moments</em> are indistinguishable — they are aliases of each other, different names on the same passport. For the wheel, rotations of $\theta$ and $\theta + 45°$ per frame are perfect aliases. The fastest the <em>pattern</em> can ever appear to move is ±22.5°/frame; everything beyond folds back into that window.</span><span class="i18n-ja">この現象に名前を与えよう。<b>エイリアシング（折り返し）</b>である。飛び飛びの瞬間にしか観測しないとき、<em>観測の瞬間ごとに一致する</em>2つの運動はけっして区別できない — 互いの偽名（エイリアス）、同じパスポートに書かれた別名である。車輪の場合、1コマあたり $\theta$ の回転と $\theta + 45°$ の回転は完全な偽名どうしだ。<em>模様</em>の見かけの動きは±22.5°/コマが上限で、それを超える回転はすべてこの窓の中へ折り返される。</span></p>
+        <p><span class="i18n-en">An idle curiosity about old movies? Hardly. Replace “frames per second” by “atoms per nanometer”, and the same theorem will build the most important object in solid-state physics. That is the rest of this page.</span><span class="i18n-ja">古い映画にまつわる暇つぶしの豆知識だろうか。とんでもない。「1秒あたりのコマ数」を「1ナノメートルあたりの原子数」に置き換えれば、同じ定理が固体物理でいちばん重要な道具を組み立てる。それがこのページの残り全部である。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — A row of atoms ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — One dimension</span><span class="i18n-ja">01 — まずは1次元</span></span>
+      <h2><span class="i18n-en">What a row of atoms does to a wave</span><span class="i18n-ja">原子の列は波をどう見るか</span></h2>
+      <p><span class="i18n-en">Now swap the camera for a crystal. Take the simplest one imaginable: atoms in a row, spacing $a$. Send a wave through it — $\cos(kx)$, with <b>wavenumber</b> $k$ setting how fast the wave wiggles in space. Here is the crucial sentence: <em>the atoms experience the wave only at their own positions</em> $x = na$. Between atoms there is nothing to push and nothing to measure. The row of atoms is a camera whose “frames” are positions instead of instants.</span><span class="i18n-ja">ではカメラを結晶に交換しよう。考えうる最も単純な結晶 — 間隔 $a$ で一列に並んだ原子たち — を用意する。そこに波 $\cos(kx)$ を送り込む。<b>波数</b> $k$ は、波が空間の中でどれだけ速くうねるかを決める数だ。ここで決定的な一文を言う。<em>原子たちが波を感じられるのは、自分のいる場所</em> $x = na$ <em>だけ</em>である。原子と原子のあいだには、押すべきものも測るべきものも存在しない。原子の列とは、「コマ」が時刻ではなく位置であるようなカメラなのだ。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c4-alias" style="height:320px;"></canvas>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="s4-k"><span class="i18n-en">Wavenumber k (units of 1/a)</span><span class="i18n-ja">波数 k（1/a 単位）</span></label>
+            <input type="range" id="s4-k" min="0.2" max="6.0" step="0.02" value="2.2" aria-label="Wavenumber">
+            <output id="v4-k">2.20</output>
+          </div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">The solid curve is $\cos(kx)$; the dashed curve is its alias $\cos\!\big((k - 2\pi/a)x\big)$ — a completely different wave between the atoms. Watch the dots: <b>at every atom the two curves agree exactly, for every value of $k$</b>. Slide $k$ past $\pi/a \approx 3.14$ and the dashed alias becomes the <em>slower</em>-wiggling of the two — the backwards-turning wheel, reborn in space.</span><span class="i18n-ja">実線は $\cos(kx)$、破線はその偽名 $\cos\!\big((k - 2\pi/a)x\big)$ — 原子と原子のあいだではまるで別物の波だ。点に注目してほしい。<b>どの原子の上でも、2本の曲線は $k$ の値によらず完全に一致する</b>。$k$ を $\pi/a \approx 3.14$ より大きくすると、破線の偽名のほうが<em>ゆっくり</em>うねる側になる — 逆回転する車輪が、空間の上で生まれ変わったのである。</span></p>
+
+      <div class="me-prose">
+        <p><span class="i18n-en">The proof fits in one line. Shift the wavenumber by $2\pi/a$ and evaluate at an atom:</span><span class="i18n-ja">証明は1行に収まる。波数を $2\pi/a$ だけずらして、原子の位置で値を見ればよい。</span></p>
+        <p class="eq-block">$$\cos\!\Big[\big(k + \tfrac{2\pi}{a}\big)\, na\Big] = \cos\big(kna + 2\pi n\big) = \cos(kna)$$</p>
+        <p><span class="i18n-en">The extra phase is $2\pi n$ — a whole number of full turns at <em>every</em> atom, hence invisible at <em>every</em> atom. So on a chain with spacing $a$, the wavenumbers $k$ and $k + 2\pi/a$ are aliases: not approximately similar, but physically <b>the same state</b>, because no atom can ever feel the difference. All genuinely distinct waves therefore fit inside one window of width $2\pi/a$. Choosing the window symmetrically around zero gives the official object:</span><span class="i18n-ja">余分な位相は $2\pi n$ — <em>どの</em>原子の上でもちょうど整数回転であり、ゆえに<em>どの</em>原子からも見えない。だから間隔 $a$ の鎖の上では、波数 $k$ と $k + 2\pi/a$ は偽名どうしである。似ているどころの話ではなく、物理的に<b>同じ状態</b>なのだ。どの原子も違いを感じられないのだから。したがって、本当に異なる波はすべて幅 $2\pi/a$ の窓1つに収まる。窓をゼロのまわりに対称に取れば、公式の道具が手に入る：</span></p>
+        <p class="eq-block">$$-\frac{\pi}{a} < k \le \frac{\pi}{a} \qquad \textbf{(the first Brillouin zone, in 1D)}$$</p>
+        <p><span class="i18n-en">There it is — the Brillouin zone, derived in two lines from the wagon-wheel illusion, before we have even written the word “lattice” properly. It is not a mysterious decree of solid-state physics. It is the statement that <em>a sampled wave only has so many distinguishable speeds of wiggle</em>.</span><span class="i18n-ja">出た — ブリルアンゾーンである。「格子」という言葉をきちんと書き下す前に、駅馬車の車輪の錯覚から2行で導けてしまった。これは固体物理の謎めいた御触れではない。<em>サンプリングされた波には、区別できるうねりの速さがこれだけしかない</em>という、ただそれだけの声明なのである。</span></p>
+        <details class="recall">
+          <summary><span class="i18n-en">The same theorem runs your music player (Nyquist)</span><span class="i18n-ja">同じ定理があなたの音楽プレーヤーを動かしている（ナイキスト）</span></summary>
+          <div>
+            <p><span class="i18n-en">A CD stores sound as 44,100 samples per second. By exactly the argument above, sampled audio cannot distinguish frequencies $f$ and $f + 44.1$ kHz, so the recording faithfully captures only frequencies up to half the sampling rate — 22.05 kHz, conveniently just above human hearing. Engineers call the limit the <b>Nyquist frequency</b>; the symmetric window of distinguishable frequencies is their name for our Brillouin zone. One theorem, two trades.</span><span class="i18n-ja">CDは音を1秒あたり44,100個のサンプルとして記録する。上とまったく同じ論法により、サンプリングされた音声は周波数 $f$ と $f + 44.1$ kHz を区別できない。だから録音が忠実に捉えられるのはサンプリングレートの半分 — 22.05 kHz、都合よく人間の可聴域のすぐ上 — までである。工学者はこの上限を<b>ナイキスト周波数</b>と呼ぶ。区別可能な周波数の対称な窓は、我々のブリルアンゾーンの工学側の呼び名だ。定理はひとつ、業界はふたつ、である。</span></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — The grammar of repetition ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — The grammar</span><span class="i18n-ja">02 — 文法</span></span>
+      <h2><span class="i18n-en">Specifying the sampler: lattice and basis</span><span class="i18n-ja">サンプリング装置の仕様書 — 格子と基底</span></h2>
+      <p><span class="i18n-en">To replay §01 in two dimensions we must first say, precisely, what “a repeating pattern of atoms” means — we need the spec sheet of the sampling device. Fortunately the entire grammar of repetition has just two words in it.</span><span class="i18n-ja">§01を2次元で再演するには、まず「原子の繰り返し模様」とは正確には何なのかを言わねばならない。サンプリング装置の仕様書が要るのだ。幸い、繰り返しの文法に登場する単語は、たった2つしかない。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en"><b>Word one: the lattice — “where to put copies”.</b> Choose two arrows $\mathbf{a}_1$ and $\mathbf{a}_2$ (not parallel). The set of all points you can reach by integer numbers of steps along them,</span><span class="i18n-ja"><b>単語その1：格子 — 「コピーをどこに置くか」。</b>平行でない2本の矢印 $\mathbf{a}_1$、$\mathbf{a}_2$ を選ぶ。それらに沿って整数歩だけ進んで到達できる点の集合、すなわち</span></p>
+        <p class="eq-block">$$\mathbf{R} = n\,\mathbf{a}_1 + m\,\mathbf{a}_2 \qquad (n, m = 0, \pm1, \pm2, \dots)$$</p>
+        <p><span class="i18n-en">is a <b>lattice</b>: pure bookkeeping, an infinite grid of destinations with no atoms in it yet. <b>Word two: the basis — “what to copy”.</b> The basis is the motif placed identically at every lattice point: one atom, two atoms, a whole protein. Lattice says <em>where</em>; basis says <em>what</em>. Every crystal that has ever existed is one lattice plus one basis — and the smallest parallelogram spanned by $\mathbf{a}_1, \mathbf{a}_2$, the <b>unit cell</b>, is the single stamp from which the whole infinite pattern is printed.</span><span class="i18n-ja">が<b>格子</b>である。これは純粋な帳簿であって、行き先の無限の一覧表にすぎず、まだ原子はひとつも置かれていない。<b>単語その2：基底 — 「何をコピーするか」。</b>基底とは、すべての格子点にまったく同じ向き・同じ形で置かれるモチーフのことだ。原子1個でも、2個でも、タンパク質まるごとでもよい。格子が<em>どこへ</em>を言い、基底が<em>何を</em>を言う。これまでに存在したあらゆる結晶は、格子1つ＋基底1つである。そして $\mathbf{a}_1, \mathbf{a}_2$ が張る最小の平行四辺形 — <b>単位胞</b> — が、無限の模様全体を刷り出すたった1個のハンコになる。</span></p>
+      </div>
+
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c4-builder" style="height:340px;"></canvas>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="demo-btn" id="b4-sq"><span class="i18n-en">Square</span><span class="i18n-ja">正方</span></button>
+          <button class="demo-btn" id="b4-rc"><span class="i18n-en">Rectangular</span><span class="i18n-ja">長方</span></button>
+          <button class="demo-btn active" id="b4-tr"><span class="i18n-en">Triangular</span><span class="i18n-ja">三角</span></button>
+          <button class="demo-btn" id="b4-gr"><span class="i18n-en">Graphene preset</span><span class="i18n-ja">グラフェン・プリセット</span></button>
+        </div>
+        <div class="me-controls">
+          <div class="me-slider">
+            <label for="s4-len"><span class="i18n-en">Length of a₂</span><span class="i18n-ja">a₂ の長さ</span></label>
+            <input type="range" id="s4-len" min="0.6" max="1.6" step="0.01" value="1" aria-label="Length of a2">
+            <output id="v4-len">1.00</output>
+          </div>
+          <div class="me-slider">
+            <label for="s4-ang"><span class="i18n-en">Angle of a₂</span><span class="i18n-ja">a₂ の角度</span></label>
+            <input type="range" id="s4-ang" min="30" max="150" step="1" value="60" aria-label="Angle of a2">
+            <output id="v4-ang">60°</output>
+          </div>
+          <div class="me-slider">
+            <label for="s4-basis"><span class="i18n-en">Atoms in the basis</span><span class="i18n-ja">基底の原子数</span></label>
+            <input type="range" id="s4-basis" min="1" max="2" step="1" value="1" aria-label="Atoms in basis">
+            <output id="v4-basis">1</output>
+          </div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">A pattern factory: drag the sliders to reshape the lattice, and switch the basis between one and two atoms. The dashed parallelogram is the unit cell; the readout names the lattice you have built. The <b>Graphene preset</b> is the destination of this whole page: a triangular lattice carrying a two-atom basis — the honeycomb.</span><span class="i18n-ja">模様の工場である。スライダーで格子を変形させ、基底を原子1個と2個で切り替えてみてほしい。破線の平行四辺形が単位胞で、左上の表示がいま組み上がった格子の名前を告げる。<b>グラフェン・プリセット</b>がこのページ全体の目的地だ — 三角格子に2原子の基底を載せたもの、すなわちハニカムである。</span></p>
+
+      <div class="me-prose">
+        <p><span class="i18n-en">Play with the preset for a moment, because it teaches the one subtlety worth carrying out of this module: the honeycomb pattern of graphene is <em>not itself a lattice</em> — no single pair of arrows reaches every atom while treating them all identically. It is a <b>triangular lattice with a two-atom basis</b>, atoms A and B. The pattern looks innocently uniform, but its spec sheet says “two per stamp”, and that little 2 is exactly the number that, on the companion page, becomes the two bands of graphene.</span><span class="i18n-ja">少しだけプリセットで遊んでほしい。このモジュールから持ち帰る価値のある機微は、実はひとつだけだからだ。グラフェンのハニカム模様は、<em>それ自体は格子ではない</em>。どんな2本の矢印を選んでも、全原子を同格に扱いながら全員に到達することはできないのである。ハニカムの正体は<b>三角格子＋2原子の基底</b> — 原子AとBだ。模様は一見すまし顔で一様に見えるが、仕様書には「ハンコ1個につき原子2個」と書いてある。そしてこの小さな「2」こそ、姉妹ページでグラフェンの2枚のバンドに化ける数なのである。</span></p>
+        <details class="recall">
+          <summary><span class="i18n-en">How many lattice shapes are possible? (the census, for reference)</span><span class="i18n-ja">格子の形は何種類ありうるのか（参考：国勢調査）</span></summary>
+          <div>
+            <p><span class="i18n-en">Classifying lattices by their symmetry yields exactly five types in two dimensions (oblique, rectangular, centered rectangular, square, triangular) and fourteen in three — and the same symmetry bookkeeping forbids five-fold rotational order in any lattice, which is why the builder above can produce squares and hexagons but you will never coax a pentagon out of it. This page does not need the full census; the companion page <a href="/learn/crystal-structure/">Crystal Structure in 2D</a> conducts it properly, theorem and all.</span><span class="i18n-ja">格子を対称性で分類すると、2次元ではちょうど5種類（斜方・長方・面心長方・正方・三角）、3次元では14種類になる。そして同じ対称性の帳簿づけが、いかなる格子にも5回回転対称を禁じている — 上の工場が正方形や六角形は作れても、五角形だけは絶対に作れない理由だ。本ページにこの国勢調査の全貌は必要ないので、きちんとした実施（定理込み）は姉妹ページ「<a href="/learn/crystal-structure/">2次元の結晶構造</a>」に譲る。</span></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — Invisible shifts ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — The invisible shifts</span><span class="i18n-ja">03 — 見えないずらし方</span></span>
+      <h2><span class="i18n-en">The reciprocal lattice: every alias at once</span><span class="i18n-ja">逆格子 — 偽名の完全リスト</span></h2>
+      <p><span class="i18n-en">Back to the main road. In 1D, shifting a wave's $k$ by $2\pi/a$ changed nothing at any atom. Now the atoms sit at $\mathbf{R} = n\mathbf{a}_1 + m\mathbf{a}_2$ and the wave is $\cos(\mathbf{k}\cdot\mathbf{r})$, its wavevector $\mathbf{k}$ a genuine 2D vector (wiggle rate <em>and</em> direction). The question writes itself: <b>by which vectors $\mathbf{G}$ can you shift $\mathbf{k}$ so that no atom anywhere notices?</b></span><span class="i18n-ja">本筋に戻ろう。1次元では、波の $k$ を $2\pi/a$ ずらしても、どの原子の上でも何ひとつ変わらなかった。いま原子は $\mathbf{R} = n\mathbf{a}_1 + m\mathbf{a}_2$ に座っており、波は $\cos(\mathbf{k}\cdot\mathbf{r})$、波数ベクトル $\mathbf{k}$ は正真正銘の2次元ベクトルである（うねりの速さに加えて<em>向き</em>を持つ）。問いはひとりでに書き上がる。<b>$\mathbf{k}$ をどんなベクトル $\mathbf{G}$ でずらせば、どこの原子にも気づかれずに済むのか？</b></span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">The condition is the 2D copy of the one-liner from §01: the added phase $\mathbf{G}\cdot\mathbf{R}$ must be a whole number of turns at <em>every</em> lattice point. Since every $\mathbf{R}$ is built from $\mathbf{a}_1$ and $\mathbf{a}_2$, it is enough to demand it for those two steps:</span><span class="i18n-ja">条件は§01の1行証明の2次元版である。追加される位相 $\mathbf{G}\cdot\mathbf{R}$ が、<em>すべての</em>格子点でちょうど整数回転であればよい。あらゆる $\mathbf{R}$ は $\mathbf{a}_1$ と $\mathbf{a}_2$ から組み立てられるのだから、この2歩について要求すれば十分だ：</span></p>
+        <p class="eq-block">$$\mathbf{G}\cdot\mathbf{a}_1 = 2\pi \times \text{integer}, \qquad \mathbf{G}\cdot\mathbf{a}_2 = 2\pi \times \text{integer}$$</p>
+        <p><span class="i18n-en">Solve it once and for all: define two new arrows $\mathbf{b}_1, \mathbf{b}_2$ by the “handshake table” $\mathbf{b}_i \cdot \mathbf{a}_j = 2\pi\,\delta_{ij}$ (each $\mathbf{b}$ gives $2\pi$ to its partner and $0$ to the other). Then the invisible shifts are precisely the integer combinations</span><span class="i18n-ja">一度で全部解いてしまおう。新しい2本の矢印 $\mathbf{b}_1, \mathbf{b}_2$ を、「握手の表」 $\mathbf{b}_i \cdot \mathbf{a}_j = 2\pi\,\delta_{ij}$（各 $\mathbf{b}$ は相方には $2\pi$ を、他方には $0$ を渡す）で定義する。すると見えないずらし方は、ちょうど整数結合</span></p>
+        <p class="eq-block">$$\mathbf{G} = h\,\mathbf{b}_1 + l\,\mathbf{b}_2 \qquad (h, l = 0, \pm1, \pm2, \dots)$$</p>
+        <p><span class="i18n-en">Look at the form of that answer: integer steps along two fixed arrows. <b>The invisible shifts form a lattice of their own.</b> It lives in $k$-space rather than real space, and it is called the <b>reciprocal lattice</b> — the original lattice's shadow twin. Fine print worth savoring: the basis plays no role here. Whether each stamp carries one atom or a protein, the invisible shifts are fixed by the lattice alone — which is why graphene (two-atom basis) will inherit the reciprocal lattice of the plain triangular lattice.</span><span class="i18n-ja">が全部である。この答えの<em>形</em>を見てほしい。固定された2本の矢印に沿った整数歩 — <b>見えないずらし方たちは、それ自身がまたひとつの格子をなす</b>のだ。ただし住んでいるのは実空間ではなく $k$ 空間。これを<b>逆格子</b>と呼ぶ。元の格子の、影の双子である。味わう価値のある但し書きをひとつ：ここに基底は一切登場しなかった。ハンコに乗るのが原子1個だろうとタンパク質だろうと、見えないずらし方は格子だけで決まる。グラフェン（2原子基底）が、素の三角格子の逆格子をそっくり相続するのはこのためだ。</span></p>
+        <p><span class="i18n-en">Seeing is believing. Below, the lattice points are colored by the value of the wave on them, with the continuous wave drawn faintly behind. Press the buttons to shift $\mathbf{k}$ by $\mathbf{b}_1$ or $\mathbf{b}_2$: the stripes behind change violently — <b>the dots never change at all</b>.</span><span class="i18n-ja">百聞は一見にしかず。下の図では、各格子点をその上での波の値で色分けし、連続な波そのものを背景に薄く描いてある。ボタンで $\mathbf{k}$ を $\mathbf{b}_1$ や $\mathbf{b}_2$ だけずらしてみてほしい。背景の縞模様は激しく変わるのに — <b>点の色は何ひとつ変わらない</b>。</span></p>
+      </div>
+
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <canvas id="c4-invis" style="height:340px;"></canvas>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="demo-btn" id="b4-pb1">k → k + b₁</button>
+          <button class="demo-btn" id="b4-pb2">k → k + b₂</button>
+          <button class="demo-btn" id="b4-prst"><span class="i18n-en">Reset k</span><span class="i18n-ja">k をリセット</span></button>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><span class="k"><span class="i18n-en">Current wavevector</span><span class="i18n-ja">現在の波数ベクトル</span></span><span class="v" id="st4-k">—</span></div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">A triangular lattice sampling the wave $\cos(\mathbf{k}\cdot\mathbf{r})$. Background stripes: the continuous wave (what empty space would see). Dots: the sampled values (what the crystal sees). Shifting $\mathbf{k}$ by any reciprocal lattice vector rewrites the stripes and leaves every dot untouched — two different waves, one crystal experience.</span><span class="i18n-ja">三角格子が波 $\cos(\mathbf{k}\cdot\mathbf{r})$ をサンプリングしている。背景の縞は連続な波そのもの（何もない空間が見るもの）、点はサンプリングされた値（結晶が見るもの）。$\mathbf{k}$ を逆格子ベクトルだけずらすと、縞は書き換わるのに点はひとつ残らずそのまま — 波としては別物、結晶の体験としては同一なのである。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — The Brillouin zone ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — The stage</span><span class="i18n-ja">04 — 舞台</span></span>
+      <h2><span class="i18n-en">The Brillouin zone: the crystal's Nyquist band</span><span class="i18n-ja">ブリルアンゾーン — 結晶のナイキスト帯域</span></h2>
+      <p><span class="i18n-en">Time to collect the prize. Every wavevector $\mathbf{k}$ now drags behind it an infinite gang of aliases $\mathbf{k} + \mathbf{G}$, all physically identical. To catalog the genuinely distinct waves, pick one representative per gang — and the natural choice is the same one §01 made: <b>the member closest to zero</b>, the gentlest wiggle in the family. The set of all such representatives is a single finite tile of $k$-space around the origin: the <b>first Brillouin zone</b>. Its shape follows from the recipe “closer to the origin than to any other reciprocal lattice point”, so the zone is simply the territory of the origin in the reciprocal lattice — and its shape changes with the lattice you started from.</span><span class="i18n-ja">賞品を受け取りに行こう。いまやどの波数ベクトル $\mathbf{k}$ も、物理的に同一な偽名の一団 $\mathbf{k} + \mathbf{G}$ を無限に引き連れている。本当に異なる波の台帳を作るには、一団につき代表者を1人ずつ選べばよい — そして自然な選び方は§01と同じ、<b>ゼロに最も近い者</b>、一族でいちばん穏やかにうねる波だ。代表者全員の集合は、原点のまわりの $k$ 空間の有限なタイル1枚になる。これが<b>第一ブリルアンゾーン</b>である。「他のどの逆格子点よりも原点に近い」という選抜基準そのままに、ゾーンとは逆格子における原点の縄張りであり、その形は出発した格子に応じて変わる。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <canvas id="c4-real" style="height:300px;"></canvas>
+          <canvas id="c4-recip" style="height:300px;"></canvas>
+        </div>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="demo-btn" id="b4-r-sq"><span class="i18n-en">Square</span><span class="i18n-ja">正方</span></button>
+          <button class="demo-btn" id="b4-r-rc"><span class="i18n-en">Rectangular</span><span class="i18n-ja">長方</span></button>
+          <button class="demo-btn" id="b4-r-ob"><span class="i18n-en">Oblique</span><span class="i18n-ja">斜方</span></button>
+          <button class="demo-btn active" id="b4-r-tr"><span class="i18n-en">Triangular (graphene's)</span><span class="i18n-ja">三角（グラフェンの親格子）</span></button>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en"><b>Left:</b> the real-space lattice. <b>Right:</b> its reciprocal lattice (dots) and the first Brillouin zone (shaded) — the territory of $k$-space closer to the origin than to any other reciprocal lattice point. A square lattice owns a square zone; stretch or shear the lattice and the zone answers in kind (note how it responds <em>reciprocally</em>: a longer $\mathbf{a}_2$ makes a shorter $\mathbf{b}_2$). And the triangular lattice — graphene's parent — owns a perfect hexagon.</span><span class="i18n-ja"><b>左:</b> 実空間の格子。<b>右:</b> その逆格子（点）と第一ブリルアンゾーン（塗りつぶし） — 他のどの逆格子点よりも原点に近い $k$ 空間の縄張りである。正方格子のゾーンは正方形。格子を伸ばしたり歪めたりすればゾーンも応じて変わる（その応じ方が<em>逆</em>であることに注目 — $\mathbf{a}_2$ を長くすると $\mathbf{b}_2$ は短くなる）。そして三角格子 — グラフェンの親格子 — のゾーンは、完璧な六角形になる。</span></p>
+
+      <div class="me-prose">
+        <p><span class="i18n-en">Take stock of what this page has manufactured, because it is more than a pretty tile. The Brillouin zone is the crystal's <b>complete catalog of distinguishable waves</b> — the 2D Nyquist band. Any wave you can ever excite in the crystal, any electron state, any lattice vibration, has exactly one address inside this tile. Nothing outside it is new; everything outside is an alias of something within.</span><span class="i18n-ja">このページが製造したものを棚卸ししておこう。これは綺麗なタイルというだけの代物ではない。ブリルアンゾーンとは、結晶における<b>区別可能な波の完全カタログ</b> — 2次元のナイキスト帯域である。この結晶の中で励起しうるあらゆる波、あらゆる電子状態、あらゆる格子振動は、このタイルの中にちょうど1つずつ住所を持つ。タイルの外に新しいものは何ひとつなく、外にあるものはすべて中の誰かの偽名にすぎない。</span></p>
+        <details class="recall">
+          <summary><span class="i18n-en">The reciprocal lattice is not a metaphor — X-rays photograph it</span><span class="i18n-ja">逆格子は比喩ではない — X線がその写真を撮る</span></summary>
+          <div>
+            <p><span class="i18n-en">Shine X-rays through a crystal onto a detector and bright spots appear at sharp angles. The condition for a bright spot is that the change in the X-ray's wavevector equals a reciprocal lattice vector, $\Delta\mathbf{k} = \mathbf{G}$ — scattering can only hand the crystal a momentum the lattice cannot “see”, or the contributions from the countless atoms cancel. So a diffraction photograph <em>is</em> a portrait of the reciprocal lattice, dot for dot. This is how every crystal structure in the databases — from table salt to DNA — was actually determined.</span><span class="i18n-ja">結晶にX線を当てて検出器で受けると、鋭い角度にだけ明るい斑点が現れる。斑点が立つ条件は、X線の波数ベクトルの変化が逆格子ベクトルに一致すること — $\Delta\mathbf{k} = \mathbf{G}$ — である。散乱が結晶に渡せる運動量は、格子に「見えない」ものだけ。さもなくば無数の原子からの寄与が打ち消し合ってしまう。つまり回折写真とは、逆格子の肖像画<em>そのもの</em>なのだ。食塩からDNAまで、データベースに載っているあらゆる結晶構造は、実際にはこうやって決定されてきた。</span></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 05 — The handover ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">05 — The handover</span><span class="i18n-ja">05 — 受け渡し</span></span>
+      <h2><span class="i18n-en">A hexagonal stage, with six suspicious corners</span><span class="i18n-ja">六角形の舞台と、6つの怪しい角</span></h2>
+      <p><span class="i18n-en">Why did a page about crystal geometry keep talking about waves? Because of one fact from quantum mechanics: <b>electrons are waves.</b> An electron moving through a crystal is a wave sampled by the atomic lattice, so everything proved here applies to it verbatim — its only good label is a wavevector $\mathbf{k}$, and the complete dial-board of its possible $\mathbf{k}$'s is the Brillouin zone. When physicists draw a <em>band structure</em> — the energy of the electron at each $\mathbf{k}$ — the Brillouin zone is the floor plan under the drawing. This page built the stage; it has said nothing about the play.</span><span class="i18n-ja">結晶の幾何学のページが、なぜ波の話ばかりしてきたのか。量子力学のひとつの事実のためである — <b>電子は波だ</b>。結晶の中を進む電子は、原子の格子にサンプリングされる波である。だからここで証明したことは一字一句そのまま電子に適用される。電子のまともな名札は波数ベクトル $\mathbf{k}$ ただひとつであり、取りうる $\mathbf{k}$ の完全な文字盤がブリルアンゾーンだ。物理学者が<em>バンド構造</em> — 各 $\mathbf{k}$ における電子のエネルギー — を描くとき、その図面の床に敷かれているのがブリルアンゾーンである。このページが建てたのは舞台だ。芝居の中身には、まだ一言も触れていない。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <p><span class="i18n-en">So here is the handover. Graphene is the triangular lattice with a two-atom basis (§02). Its Brillouin zone is the hexagon you just manufactured (§04). On the companion page, electrons hop across that two-atom basis, their states are cataloged by this very hexagon — and at its six corners, three interfering hopping paths cancel exactly, with consequences strange enough to earn a Nobel Prize. The stage is yours: <a href="/learn/graphene-v2/"><b>Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone</b></a>.</span><span class="i18n-ja">それでは受け渡しである。グラフェンとは、2原子の基底を載せた三角格子だった（§02）。そのブリルアンゾーンは、あなたがたったいま製造した六角形である（§04）。姉妹ページでは、電子がその2原子基底の上を飛び移り、その状態たちはまさにこの六角形に台帳づけされる — そして六角形の6つの角では、3本の干渉するホッピング経路がきっかり相殺し、ノーベル賞に値するほど奇妙な帰結をもたらす。舞台はあなたのものだ：「<a href="/learn/graphene-v2/"><b>グラフェンの電子構造 Ⅱ — 結合一本からディラック錐へ</b></a>」。</span></p>
+      </div>
+      <div class="callout recap cv-daikake">
+        <span class="co-label"><span class="i18n-en">The ledger of this page, in three lines</span><span class="i18n-ja">このページの帳簿を3行で</span></span>
+        <p><span class="i18n-en">A crystal observes waves only at its atoms — it is a sampling device (§00–01). Sampling cannot distinguish waves whose wavevectors differ by a reciprocal lattice vector — the complete list of invisible shifts is itself a lattice (§03). Electing the gentlest alias of each wave fences off one finite tile of $k$-space — the Brillouin zone, the crystal's Nyquist band, and the stage of all band structure (§04–05).</span><span class="i18n-ja">結晶は波を原子の上でしか観測しない — つまりサンプリング装置である（§00–01）。サンプリングは、波数が逆格子ベクトルだけ違う波を区別できない — 見えないずらし方の完全リストは、それ自身がまた格子である（§03）。各波の偽名一族から最も穏やかな代表を選抜すると、$k$ 空間に有限のタイルが1枚囲い込まれる — ブリルアンゾーン、結晶のナイキスト帯域にして、あらゆるバンド構造の舞台である（§04–05）。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- See also -->
+  <section class="demo">
+    <div class="demo-stage" style="max-width:var(--measure)">
+      <div class="callout recap cv-daikake">
+        <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
+        <p><span class="i18n-en">The play performed on this stage: <a href="/learn/graphene-v2/">Electronic Structure of Graphene Ⅱ</a> (and the same summit by the other face, <a href="/learn/graphene/">Electronic Structure of Graphene</a>). The full census of lattices and the five-fold prohibition: <a href="/learn/crystal-structure/">Crystal Structure in 2D</a>. Cutting the stage into strips: <a href="/learn/graphene-nanoribbons/">Graphene Nanoribbons</a>.</span><span class="i18n-ja">この舞台で上演される芝居は「<a href="/learn/graphene-v2/">グラフェンの電子構造 Ⅱ</a>」へ（同じ頂上へ反対側の壁から登るなら「<a href="/learn/graphene/">グラフェンの電子構造</a>」）。格子の国勢調査と5回対称の禁止令の全貌は「<a href="/learn/crystal-structure/">2次元の結晶構造</a>」へ。舞台を短冊に切る話は「<a href="/learn/graphene-nanoribbons/">グラフェンナノリボン</a>」へ。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="/assets/js/crystal-structure-v2.js"></script>
+</body>
+</html>

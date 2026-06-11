@@ -15,4 +15,4 @@ Disallow: /learn/schottky/
 Disallow: /learn/spectral-noise/
 Disallow: /learn/vdw-gap/
 
-Sitemap: https://yumigeta.github.io/sitemap.xml
+Sitemap: https://yumigeta.com/sitemap.xml
