@@ -524,13 +524,9 @@
     });
   }
 
-  var panel = document.getElementById('crystal-panel');
-  if (panel) {
-    var obs = new MutationObserver(function () {
-      if (panel.classList.contains('open'))
-        requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
-    });
-    obs.observe(panel, { attributes: true, attributeFilter: ['class'] });
-  }
   window.addEventListener('resize', function () { drawn = {}; drawAll(); });
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', drawAll);
+  else
+    drawAll();
 })();
