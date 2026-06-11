@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yumigeta.github.io/sitemap.xml
+# Learn pages not yet publicly released
+Disallow: /learn/crystal-structure/
+Disallow: /learn/crystal-structure-v2/
+Disallow: /learn/dev/
+Disallow: /learn/gate-dielectrics/
+Disallow: /learn/graphene/
+Disallow: /learn/graphene-nanoribbons/
+Disallow: /learn/graphene-phonon-emission/
+Disallow: /learn/graphene-raman/
+Disallow: /learn/graphene-v2/
+Disallow: /learn/laser/
+Disallow: /learn/raman-quantum/
+Disallow: /learn/schottky/
+Disallow: /learn/spectral-noise/
+Disallow: /learn/vdw-gap/
+
+Sitemap: https://yumigeta.com/sitemap.xml
