@@ -12,6 +12,10 @@
   margin: 0 auto;
 }
 
+/* A single canvas standing alone in a module (not in a top-row pair) */
+.gr-solo { max-width: 520px; margin: 0 auto; }
+.deriv-flow .gr-solo { margin: 14px auto; }
+
 .gr-bands canvas {
   width: 100%; height: 300px; display: block;
   background: rgba(255,255,255,0.04);
@@ -117,50 +121,37 @@
 }
 .gr-info b { color: #bfdbfe; }
 
-/* ── Derivation side panel ── */
-.deriv-panel {
-  position: fixed; top: 0; right: 0; bottom: 0; z-index: 200;
-  width: min(520px, 92vw);
+/* ── Derivation / notes card in main flow ── */
+.deriv-flow {
   background: #1a1715;
-  border-left: 1px solid rgba(255,255,255,.1);
-  transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.22,1,.36,1);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
   color: #e7e5e4;
+  padding: 28px 26px 32px;
+  max-width: 860px;
 }
-.deriv-panel.open { transform: translateX(0); }
+.deriv-flow > p {
+  font-size: 14.5px; line-height: 1.7; color: #d6d3d1;
+  margin-bottom: 10px;
+}
+.deriv-flow a { color: #e8615a; font-weight: 600; }
 
-.deriv-panel-inner {
-  padding: 28px 26px 48px;
+.cs-list { list-style: none; margin: 8px 0 14px; padding: 0; }
+.cs-list li {
+  font-size: 14.5px; line-height: 1.9; color: #d6d3d1;
+  padding-left: 14px; position: relative;
+}
+.cs-list li::before {
+  content: "—"; position: absolute; left: 0; color: #78716c;
 }
 
-.deriv-close {
-  position: sticky; top: 0; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 26px 12px;
-  background: rgba(26,23,21,.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+.deriv-outro {
+  margin-top: 20px;
+  font-size: 15px; line-height: 1.7;
+  color: var(--soft, #a8a29e);
+  max-width: var(--measure, 65ch);
 }
-.deriv-close-title {
-  font-size: 13px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: #a8a29e;
-}
-.deriv-close-btn {
-  background: none; border: none; cursor: pointer;
-  font-size: 24px; line-height: 1; color: #78716c;
-  transition: color .2s; padding: 0 0 0 12px;
-}
-.deriv-close-btn:hover { color: #fff; }
-
-.deriv-scrim {
-  display: none; position: fixed; inset: 0; z-index: 199;
-  background: rgba(0,0,0,.3);
-}
-.deriv-scrim.open { display: block; }
+.deriv-outro a { color: var(--accent); font-weight: 600; }
 
 .deriv-title {
   font-size: clamp(20px, 2.5vw, 24px);
@@ -213,8 +204,7 @@
 }
 
 @media (max-width: 768px) {
-  .deriv-panel { width: 100vw; }
-  .deriv-panel-inner { padding: 20px 18px 40px; }
+  .deriv-flow { padding: 20px 18px 28px; }
 }
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */
