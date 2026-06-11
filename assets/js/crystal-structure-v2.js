@@ -511,9 +511,18 @@
     var oI = setup('c5-real'), oF = setup('c5-k');
     if (!oI || !oF) return;
     var N = 128;
-    var APX = 10.5;            // lattice constant of the test image, in pixels
+    // ---- 2D material presets: lattice + basis (+ scattering weight) ----
+    // one example per 2D lattice symmetry, lattice constants in image pixels
+    var MATS = {
+      tri:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0]], w: [1]},
+      gra:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0], [5.25, 10.5/(2*sqrt3)]], w: [1, 1]},
+      hbn:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0], [5.25, 10.5/(2*sqrt3)]], w: [1, 0.55]},
+      fese: {a1: [10.5, 0], a2: [0, 10.5], bas: [[0, 0]], w: [1]},
+      bp:   {a1: [9.2, 0], a2: [0, 12.8], bas: [[0, 0], [4.6, 5.1]], w: [1, 1]},
+      res2: {a1: [11, 0], a2: [4.2, 10.2], bas: [[0, 0]], w: [1]}
+    };
     var state = {
-      basis2: false, noise: 0,
+      mat: 'tri', noise: 0,
       mode: 'orig',            // 'orig' | 'spots' | 'manual'
       pen: true, brush: 4,     // manual tool: pen/eraser, radius in image px
       zoom: 1, vcx: N/2, vcy: N/2   // k-panel view: zoom + view centre (image coords)
@@ -522,21 +531,22 @@
     var selSpots = {};                   // selected Bragg spots, key 'h,l'
     var cursor = {x: 0, y: 0, inside: false};
 
-    // ---- Bragg spot catalogue: positions of G = h b1 + l b2 in display px ----
-    // reciprocal vectors of the image lattice, in FFT bins (y runs downward)
-    var DET = APX*APX*sqrt3/2;
-    var G1 = [N*(APX*sqrt3/2)/DET, N*(-APX/2)/DET];
-    var G2 = [0, N*APX/DET];
-    var SPOTS = (function () {
-      var list = [];
-      for (var h = -3; h <= 3; h++) for (var l = -3; l <= 3; l++) {
+    // ---- Bragg spot catalogue for the current lattice: G = h b1 + l b2 ----
+    var SPOTS = [];
+    function makeSpots() {
+      var M = MATS[state.mat];
+      var det = M.a1[0]*M.a2[1] - M.a1[1]*M.a2[0];
+      var B1 = [N*M.a2[1]/det, -N*M.a2[0]/det];
+      var B2 = [-N*M.a1[1]/det, N*M.a1[0]/det];
+      SPOTS = [];
+      for (var h = -4; h <= 4; h++) for (var l = -4; l <= 4; l++) {
         if (h === 0 && l === 0) continue;
-        var x = N/2 + h*G1[0] + l*G2[0], y = N/2 + h*G1[1] + l*G2[1];
+        var x = N/2 + h*B1[0] + l*B2[0], y = N/2 + h*B1[1] + l*B2[1];
         if (x < 4 || x > N - 4 || y < 4 || y > N - 4) continue;
-        list.push({h: h, l: l, x: x, y: y, key: h + ',' + l});
+        SPOTS.push({h: h, l: l, x: x, y: y, key: h + ',' + l});
       }
-      return list;
-    })();
+    }
+    makeSpots();
     var SPOT_R = 2.2;          // ring radius drawn around a spot, image px
     var SPOT_MR = 3;           // mask radius around a selected spot, image px
     function spotLabel(sp) {
@@ -616,8 +626,8 @@
 
     function buildImage() {
       var img = new Float64Array(N*N);
-      var a1 = [APX, 0], a2 = [APX*0.5, APX*sqrt3/2];
-      var bas = state.basis2 ? [[0, 0], [(a1[0] + a2[0])/3, (a1[1] + a2[1])/3]] : [[0, 0]];
+      var M = MATS[state.mat];
+      var a1 = M.a1, a2 = M.a2, bas = M.bas, w = M.w;
       var R = 16, sig = 1.35, rad = 4;
       for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
         for (var bi = 0; bi < bas.length; bi++) {
@@ -628,7 +638,7 @@
           var y0 = max(0, Math.floor(y - rad)), y1 = min(N - 1, Math.ceil(y + rad));
           for (var py = y0; py <= y1; py++) for (var px = x0; px <= x1; px++) {
             var d2 = (px - x)*(px - x) + (py - y)*(py - y);
-            img[py*N + px] += Math.exp(-d2/(2*sig*sig));
+            img[py*N + px] += w[bi]*Math.exp(-d2/(2*sig*sig));
           }
         }
       }
@@ -935,9 +945,21 @@
     var sB = document.getElementById('s5-brush'), vB = document.getElementById('v5-brush');
     if (sB) sB.addEventListener('input', function () { state.brush = +sB.value; vB.textContent = state.brush; if (state.mode === 'manual') renderK(); });
 
-    var bT = document.getElementById('b5-tri'), bG = document.getElementById('b5-gra');
-    bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); recompute(); });
-    bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); recompute(); });
+    var matBtns = {tri: 'b5-tri', gra: 'b5-gra', hbn: 'b5-hbn', fese: 'b5-fese', bp: 'b5-bp', res2: 'b5-res2'};
+    Object.keys(matBtns).forEach(function (m) {
+      var el = document.getElementById(matBtns[m]);
+      if (!el) return;
+      el.addEventListener('click', function () {
+        state.mat = m;
+        selSpots = {};          // spot positions change with the lattice
+        makeSpots();
+        Object.keys(matBtns).forEach(function (j) {
+          var e2 = document.getElementById(matBtns[j]);
+          if (e2) e2.classList.toggle('active', j === m);
+        });
+        recompute();
+      });
+    });
 
     var modeBtns = {orig: document.getElementById('b5-orig'), spots: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
     function setMode(m) {
