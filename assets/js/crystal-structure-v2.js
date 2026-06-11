@@ -511,14 +511,37 @@
     var oI = setup('c5-real'), oF = setup('c5-k');
     if (!oI || !oF) return;
     var N = 128;
+    var APX = 10.5;            // lattice constant of the test image, in pixels
     var state = {
       basis2: false, noise: 0,
-      mode: 'orig',            // 'orig' | 'auto' | 'manual'
+      mode: 'orig',            // 'orig' | 'spots' | 'manual'
       pen: true, brush: 4,     // manual tool: pen/eraser, radius in image px
       zoom: 1, vcx: N/2, vcy: N/2   // k-panel view: zoom + view centre (image coords)
     };
     var manKeep = new Uint8Array(N*N);   // manual mask, shifted (display) coords
+    var selSpots = {};                   // selected Bragg spots, key 'h,l'
     var cursor = {x: 0, y: 0, inside: false};
+
+    // ---- Bragg spot catalogue: positions of G = h b1 + l b2 in display px ----
+    // reciprocal vectors of the image lattice, in FFT bins (y runs downward)
+    var DET = APX*APX*sqrt3/2;
+    var G1 = [N*(APX*sqrt3/2)/DET, N*(-APX/2)/DET];
+    var G2 = [0, N*APX/DET];
+    var SPOTS = (function () {
+      var list = [];
+      for (var h = -3; h <= 3; h++) for (var l = -3; l <= 3; l++) {
+        if (h === 0 && l === 0) continue;
+        var x = N/2 + h*G1[0] + l*G2[0], y = N/2 + h*G1[1] + l*G2[1];
+        if (x < 4 || x > N - 4 || y < 4 || y > N - 4) continue;
+        list.push({h: h, l: l, x: x, y: y, key: h + ',' + l});
+      }
+      return list;
+    })();
+    var SPOT_R = 4;            // mask radius around a selected spot, image px
+    function spotLabel(sp) {
+      var mi = '\u2212';      // minus sign
+      return (sp.h < 0 ? mi + (-sp.h) : '' + sp.h) + ',' + (sp.l < 0 ? mi + (-sp.l) : '' + sp.l);
+    }
 
     // deterministic pseudo-randoms so the sliders replay identically
     function rnd(x) { var s = sin(x)*43758.5453123; return s - Math.floor(s); }
@@ -592,8 +615,7 @@
 
     function buildImage() {
       var img = new Float64Array(N*N);
-      var apx = 10.5;
-      var a1 = [apx, 0], a2 = [apx*0.5, apx*sqrt3/2];
+      var a1 = [APX, 0], a2 = [APX*0.5, APX*sqrt3/2];
       var bas = state.basis2 ? [[0, 0], [(a1[0] + a2[0])/3, (a1[1] + a2[1])/3]] : [[0, 0]];
       var R = 16, sig = 1.35, rad = 4;
       for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
@@ -655,6 +677,17 @@
       return off;
     }
 
+    // disk stamp into a shifted-coords keep mask
+    function stampDisk(keep, cx0, cy0, R) {
+      var xi = Math.round(cx0), yi = Math.round(cy0);
+      for (var dy = -R; dy <= R; dy++) for (var dx = -R; dx <= R; dx++) {
+        if (dx*dx + dy*dy > R*R) continue;
+        var x = xi + dx, y = yi + dy;
+        if (x < 0 || x >= N || y < 0 || y >= N) continue;
+        keep[y*N + x] = 1;
+      }
+    }
+
     function compute() {
       var img = buildImage();
       var re = Float64Array.from(img), im = new Float64Array(N*N);
@@ -666,10 +699,12 @@
       }
       // keep-mask in shifted (display) coords; DC is always kept
       var keep = null;
-      if (state.mode === 'auto') {
-        var thr = 0.13*maxm;
+      if (state.mode === 'spots') {
         keep = new Uint8Array(N*N);
-        for (i = 0; i < N*N; i++) if (i === 0 || mag[i] >= thr) keep[shIdx(i)] = 1;
+        SPOTS.forEach(function (sp) {
+          if (selSpots[sp.key]) stampDisk(keep, sp.x, sp.y, SPOT_R);
+        });
+        keep[shIdx(0)] = 1;
       } else if (state.mode === 'manual') {
         keep = Uint8Array.from(manKeep);
         keep[shIdx(0)] = 1;
@@ -703,6 +738,9 @@
       state.vcy = max(vw/2, min(N - vw/2, state.vcy));
       return {vx: state.vcx - vw/2, vy: state.vcy - vw/2, vw: vw};
     }
+    function toCanvas(g, v, ix, iy) {
+      return [g.dx + (ix - v.vx)/v.vw*g.side, g.dy + (iy - v.vy)/v.vw*g.side];
+    }
 
     function renderReal() {
       var ctx = oI.x;
@@ -714,8 +752,8 @@
       ctx.strokeRect(g.dx, g.dy, g.side, g.side);
       label(ctx, state.mode === 'orig'
         ? (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice')
-        : (state.mode === 'auto'
-          ? (JA() ? 'Bragg斑点（自動選択）のみで再構成' : 'rebuilt from auto-selected Bragg spots')
+        : (state.mode === 'spots'
+          ? (JA() ? '選択したBragg点のみで再構成' : 'rebuilt from the selected Bragg spots')
           : (JA() ? 'マスクした領域のみで再構成' : 'rebuilt from the painted mask only')),
         oI.w/2, 16, '#e7e5e4', 12.5);
     }
@@ -727,6 +765,32 @@
       ctx.imageSmoothingEnabled = state.zoom < 1.5;
       ctx.drawImage(specOff, v.vx, v.vy, v.vw, v.vw, g.dx, g.dy, g.side, g.side);
       ctx.imageSmoothingEnabled = true;
+
+      // Bragg spot rings + index labels
+      ctx.save();
+      ctx.beginPath(); ctx.rect(g.dx, g.dy, g.side, g.side); ctx.clip();
+      var sc = g.side/v.vw;
+      SPOTS.forEach(function (sp) {
+        var pcv = toCanvas(g, v, sp.x, sp.y);
+        if (pcv[0] < g.dx - 20 || pcv[0] > g.dx + g.side + 20 || pcv[1] < g.dy - 20 || pcv[1] > g.dy + g.side + 20) return;
+        if (state.mode === 'spots') {
+          var on = !!selSpots[sp.key];
+          ctx.strokeStyle = on ? '#6ee7b7' : 'rgba(255,255,255,0.45)';
+          ctx.lineWidth = on ? 2.2 : 1.1;
+          ctx.beginPath(); ctx.arc(pcv[0], pcv[1], SPOT_R*sc, 0, 2*PI); ctx.stroke();
+        }
+        // labels: only the first-order spots at low zoom, everything when zoomed in
+        if (state.zoom >= 1.8 || (abs(sp.h) <= 1 && abs(sp.l) <= 1)) {
+          label(ctx, spotLabel(sp), pcv[0] + SPOT_R*sc*0.8 + 3, pcv[1] - SPOT_R*sc*0.8 - 3,
+                state.mode === 'spots' && selSpots[sp.key] ? '#6ee7b7' : 'rgba(255,255,255,0.6)',
+                state.zoom > 2 ? 12 : 9.5, 'left');
+        }
+      });
+      // Γ at the centre
+      var pc0 = toCanvas(g, v, N/2, N/2);
+      label(ctx, 'Γ (0,0)', pc0[0] + 6, pc0[1] - 8, 'rgba(255,255,255,0.6)', state.zoom > 2 ? 12 : 9.5, 'left');
+      ctx.restore();
+
       ctx.strokeStyle = 'rgba(255,255,255,0.18)';
       ctx.strokeRect(g.dx, g.dy, g.side, g.side);
       label(ctx, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
@@ -734,14 +798,16 @@
       if (state.zoom > 1.01) {
         label(ctx, '×' + state.zoom.toFixed(1), g.dx + g.side - 6, g.dy + 12, '#fbbf24', 12, 'right');
       }
-      label(ctx, state.mode === 'manual'
-        ? (JA() ? (state.pen ? 'ペン：残す領域を塗る（−k の相方は自動）' : '消しゴム：マスクを削る（−k の相方も同時に）')
-                : (state.pen ? 'pen: paint the regions to keep (−k partner added for you)' : 'eraser: remove mask (the −k partner too)'))
-        : (JA() ? '輝点の並び＝逆格子（ホイールで拡大縮小）' : 'spot arrangement = the reciprocal lattice (wheel to zoom)'),
-        oF.w/2, oF.h - 12, state.mode === 'manual' ? '#fbbf24' : INKDIM, 11.5);
-      // brush-size cursor preview
+      label(ctx, state.mode === 'spots'
+        ? (JA() ? 'Bragg点をクリックで選択／解除（複数可・−k の相方は自動）' : 'click Bragg spots to select/deselect (multiple; −k partner included)')
+        : (state.mode === 'manual'
+          ? (JA() ? (state.pen ? 'ペン：残す領域を塗る（−k の相方は自動）' : '消しゴム：マスクを削る（−k の相方も同時に）')
+                  : (state.pen ? 'pen: paint the regions to keep (−k partner added for you)' : 'eraser: remove mask (the −k partner too)'))
+          : (JA() ? '輝点の並び＝逆格子（ホイールで拡大縮小）' : 'spot arrangement = the reciprocal lattice (wheel to zoom)')),
+        oF.w/2, oF.h - 12, state.mode !== 'orig' ? '#fbbf24' : INKDIM, 11.5);
+      // brush-size cursor preview (manual mode only)
       if (state.mode === 'manual' && cursor.inside) {
-        var rPix = state.brush*(g.side/v.vw);
+        var rPix = state.brush*sc;
         ctx.strokeStyle = state.pen ? 'rgba(110,231,183,0.95)' : 'rgba(253,164,175,0.95)';
         ctx.lineWidth = 1.6;
         ctx.beginPath(); ctx.arc(cursor.x, cursor.y, rPix, 0, 2*PI); ctx.stroke();
@@ -778,7 +844,7 @@
       requestAnimationFrame(function () { rafPending = false; recompute(); });
     }
 
-    // ---- pointer handling on the k panel: paint, cursor, zoom ----
+    // ---- pointer handling on the k panel: select, paint, cursor, zoom ----
     function imgCoords(ev) {
       var rect = oF.c.getBoundingClientRect();
       var g = panel(oF), v = viewRect();
@@ -803,11 +869,28 @@
       }
       scheduleRecompute();
     }
+    function toggleSpotAt(pt) {
+      if (!pt.inPanel) return;
+      var best = null, bestD = 36;   // threshold: 6 image px, squared
+      SPOTS.forEach(function (sp) {
+        var d = (sp.x - pt.ix)*(sp.x - pt.ix) + (sp.y - pt.iy)*(sp.y - pt.iy);
+        if (d < bestD) { bestD = d; best = sp; }
+      });
+      if (!best) return;
+      var k1 = best.key, k2 = (-best.h) + ',' + (-best.l);
+      var on = !selSpots[k1];
+      if (on) { selSpots[k1] = true; selSpots[k2] = true; }
+      else { delete selSpots[k1]; delete selSpots[k2]; }
+      recompute();
+    }
     var painting = false;
     oF.c.addEventListener('pointerdown', function (e) {
-      if (state.mode !== 'manual') return;
-      painting = true; oF.c.setPointerCapture(e.pointerId);
-      paintAt(imgCoords(e));
+      if (state.mode === 'manual') {
+        painting = true; oF.c.setPointerCapture(e.pointerId);
+        paintAt(imgCoords(e));
+      } else if (state.mode === 'spots') {
+        toggleSpotAt(imgCoords(e));
+      }
     });
     oF.c.addEventListener('pointermove', function (e) {
       var pt = imgCoords(e);
@@ -854,18 +937,27 @@
     bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); recompute(); });
     bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); recompute(); });
 
-    var modeBtns = {orig: document.getElementById('b5-orig'), auto: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
+    var modeBtns = {orig: document.getElementById('b5-orig'), spots: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
     function setMode(m) {
       state.mode = m;
       Object.keys(modeBtns).forEach(function (k2) { modeBtns[k2].classList.toggle('active', k2 === m); });
-      oF.c.style.cursor = m === 'manual' ? 'none' : 'default';
+      oF.c.style.cursor = m === 'manual' ? 'none' : (m === 'spots' ? 'pointer' : 'default');
       recompute();
     }
     modeBtns.orig.addEventListener('click', function () { setMode('orig'); });
-    modeBtns.auto.addEventListener('click', function () { setMode('auto'); });
+    modeBtns.spots.addEventListener('click', function () { setMode('spots'); });
     modeBtns.manual.addEventListener('click', function () { setMode('manual'); });
+
+    var bAll = document.getElementById('b5-all');
+    if (bAll) bAll.addEventListener('click', function () {
+      SPOTS.forEach(function (sp) { selSpots[sp.key] = true; });
+      if (state.mode !== 'spots') setMode('spots'); else recompute();
+    });
     var bC = document.getElementById('b5-clr');
-    if (bC) bC.addEventListener('click', function () { manKeep = new Uint8Array(N*N); if (state.mode === 'manual') recompute(); });
+    if (bC) bC.addEventListener('click', function () {
+      if (state.mode === 'manual') { manKeep = new Uint8Array(N*N); recompute(); }
+      else { selSpots = {}; if (state.mode === 'spots') recompute(); }
+    });
 
     var bPen = document.getElementById('b5-pen'), bErs = document.getElementById('b5-ers');
     function setPen(p2) {
