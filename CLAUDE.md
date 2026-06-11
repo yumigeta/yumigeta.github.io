@@ -224,6 +224,24 @@ The `measurement-error.css` file is the reference for what to put there:
 
 ---
 
+## Search engine visibility (Learn pages)
+
+**Published** (indexed by Google): `graphene/`, `graphene-v2/`, `raman/`
+
+**Unpublished / dev** (hidden from Google): everything else under `learn/`
+
+When a page is still in development:
+1. Add `<meta name="robots" content="noindex,nofollow">` right after `<meta charset="UTF-8">` in its `<head>`
+2. Add `Disallow: /learn/[slug]/` to `robots.txt`
+3. Do NOT add it to `sitemap.xml`
+
+When a page is ready to publish (go live):
+1. Remove the `<meta name="robots" ...>` noindex line from its `index.html`
+2. Remove its `Disallow` line from `robots.txt`
+3. Add it to `sitemap.xml`
+
+---
+
 ## Git workflow
 
 Feature branches: `claude/*`
