@@ -44,68 +44,13 @@
 <nav class="ed-index" id="categories" aria-label="Categories / カテゴリ一覧">
   <div class="container">
     <div class="ed-index-lab"><span class="i18n-en">Categories</span><span class="i18n-ja">カテゴリ一覧</span></div>
-    <div class="ed-index-grid">
-      <a class="ed-ix" href="#measurement">
-        <span class="ed-ix-no">Ⅰ</span>
-        <span class="ed-ix-name"><span class="i18n-en">Measurement &amp; Data Analysis</span><span class="i18n-ja">測定・データ解析</span></span>
-      </a>
-      <a class="ed-ix" href="#spectroscopy">
-        <span class="ed-ix-no">Ⅱ</span>
-        <span class="ed-ix-name"><span class="i18n-en">Spectroscopy</span><span class="i18n-ja">分光法</span></span>
-      </a>
-    </div>
+    <div class="ed-index-grid" id="learn-nav-grid"></div>
   </div>
 </nav>
 
 <!-- INTERACTIVE TOOLS -->
 <section class="band">
-  <div class="container">
-
-    <!-- Ⅰ Measurement & Data Analysis -->
-    <div class="ed-cat rv" id="measurement">
-      <div class="ed-cat-hd">
-        <span class="ed-cat-no">Ⅰ</span>
-        <span class="ed-cat-name"><span class="i18n-en">Measurement &amp; Data Analysis</span><span class="i18n-ja">測定・データ解析</span></span>
-      </div>
-      <div class="ed-tools">
-        <a href="/learn/measurement-error/" class="et">
-          <div>
-            <h3><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h3>
-            <p><span class="i18n-en">The experimentalist's toolkit — types of error (accuracy vs precision), significant figures, propagation of uncertainty, and the statistical analysis of measured data, with hands-on demos for each.</span><span class="i18n-ja">実験者の基本道具 — 誤差の種類（正確さと精密さ）、有効数字、誤差の伝播、測定値の統計処理を、それぞれ操作できるデモとともに解説します。</span></p>
-          </div>
-        </a>
-      </div>
-      <div class="ed-cat-foot">
-        <a class="ed-cat-back" href="#categories">
-          <span class="ed-cat-back-ic" aria-hidden="true"></span>
-          <span class="i18n-en">Back to categories</span><span class="i18n-ja">カテゴリ一覧へ戻る</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Ⅱ Spectroscopy -->
-    <div class="ed-cat rv" id="spectroscopy">
-      <div class="ed-cat-hd">
-        <span class="ed-cat-no">Ⅱ</span>
-        <span class="ed-cat-name"><span class="i18n-en">Spectroscopy</span><span class="i18n-ja">分光法</span></span>
-      </div>
-      <div class="ed-tools">
-        <a href="/learn/raman/" class="et">
-          <div>
-            <h3><span class="i18n-en">Classical Theory of Raman Scattering</span><span class="i18n-ja">ラマン散乱の古典論</span></h3>
-            <p><span class="i18n-en">How a vibrating polarizability modulates the scattered light — producing Stokes and anti-Stokes sidebands, the $\nu^4$ law, and the selection rule — derived step by step using classical physics only.</span><span class="i18n-ja">振動する分極率が散乱光をどのように変調するか — ストークス・反ストークス側帯波、$\nu^4$ 則、選択則 — を古典物理だけで段階的に導く。</span></p>
-          </div>
-        </a>
-      </div>
-      <div class="ed-cat-foot">
-        <a class="ed-cat-back" href="#categories">
-          <span class="ed-cat-back-ic" aria-hidden="true"></span>
-          <span class="i18n-en">Back to categories</span><span class="i18n-ja">カテゴリ一覧へ戻る</span>
-        </a>
-      </div>
-    </div>
-
-  </div>
+  <div class="container" id="learn-sections"></div>
 </section>
 
 <div class="backrow">
@@ -121,19 +66,7 @@
   </div>
 </footer>
 
-<script>
-  // scroll reveal
-  (function() {
-    const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
-    const items = [...document.querySelectorAll('.rv')];
-    if (!motionOK || !('IntersectionObserver' in window)) { items.forEach(s => s.classList.add('in')); return; }
-    document.body.classList.add('reveal-on');
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }), { rootMargin: '0px 0px -8% 0px' });
-    items.forEach(s => io.observe(s));
-    setTimeout(() => items.forEach(s => s.classList.add('in')), 1500);
-  })();
-</script>
+<script src="/assets/js/learn-index.js"></script>
+<script>window.initLearnIndex(true);</script>
 </body>
 </html>
