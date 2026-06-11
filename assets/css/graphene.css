@@ -117,40 +117,37 @@
 }
 .gr-info b { color: #bfdbfe; }
 
-/* ── Foldable (collapsible) derivation / background sections ── */
-.fold {
+/* ── Derivation / notes card in main flow ── */
+.deriv-flow {
   background: #1a1715;
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 12px;
   color: #e7e5e4;
-  overflow: hidden;
+  padding: 28px 26px 32px;
+  max-width: 860px;
 }
-.fold > summary {
-  display: flex; align-items: center; gap: 10px;
-  padding: 16px 22px;
-  cursor: pointer;
-  list-style: none;
-  font-weight: 700; font-size: 15px; color: #fafaf9;
-  -webkit-user-select: none; user-select: none;
+.deriv-flow > p {
+  font-size: 14.5px; line-height: 1.7; color: #d6d3d1;
+  margin-bottom: 10px;
 }
-.fold > summary::-webkit-details-marker { display: none; }
-.fold > summary::after {
-  content: "▸"; color: #a8a29e; font-size: 13px;
-  transition: transform .25s;
+.deriv-flow a { color: #e8615a; font-weight: 600; }
+
+.cs-list { list-style: none; margin: 8px 0 14px; padding: 0; }
+.cs-list li {
+  font-size: 14.5px; line-height: 1.9; color: #d6d3d1;
+  padding-left: 14px; position: relative;
 }
-.fold[open] > summary::after { transform: rotate(90deg); }
-.fold[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); }
-.fold-title { margin-right: auto; }
-.fold-hint {
-  font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: #a8a29e;
-  border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
-  padding: 3px 9px;
+.cs-list li::before {
+  content: "—"; position: absolute; left: 0; color: #78716c;
 }
-.fold-body {
-  padding: 24px 26px 32px;
+
+.deriv-outro {
+  margin-top: 20px;
+  font-size: 15px; line-height: 1.7;
+  color: var(--soft, #a8a29e);
+  max-width: var(--measure, 65ch);
 }
+.deriv-outro a { color: var(--accent); font-weight: 600; }
 
 .deriv-title {
   font-size: clamp(20px, 2.5vw, 24px);
@@ -203,8 +200,7 @@
 }
 
 @media (max-width: 768px) {
-  .fold > summary { padding: 14px 16px; font-size: 14px; }
-  .fold-body { padding: 20px 18px 28px; }
+  .deriv-flow { padding: 20px 18px 28px; }
 }
 
 /* Header row: title left, language toggle right (no number/meta on sub-pages) */

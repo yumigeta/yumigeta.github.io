@@ -524,13 +524,9 @@
     });
   }
 
-  var fold = document.getElementById('fold-crystal');
-  if (fold) {
-    fold.addEventListener('toggle', function () {
-      if (fold.open)
-        requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
-    });
-  }
   window.addEventListener('resize', function () { drawn = {}; drawAll(); });
-  requestAnimationFrame(function () { requestAnimationFrame(drawAll); });
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', drawAll);
+  else
+    drawAll();
 })();
