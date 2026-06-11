@@ -226,7 +226,7 @@ The `measurement-error.css` file is the reference for what to put there:
 
 ## Search engine visibility (Learn pages)
 
-**Published** (indexed by Google): `graphene/`, `graphene-v2/`, `raman/`
+**Published** (indexed by Google): `raman/`, `measurement-error/`
 
 **Unpublished / dev** (hidden from Google): everything else under `learn/`
 
