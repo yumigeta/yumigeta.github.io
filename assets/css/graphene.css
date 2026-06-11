@@ -12,6 +12,10 @@
   margin: 0 auto;
 }
 
+/* A single canvas standing alone in a module (not in a top-row pair) */
+.gr-solo { max-width: 520px; margin: 0 auto; }
+.deriv-flow .gr-solo { margin: 14px auto; }
+
 .gr-bands canvas {
   width: 100%; height: 300px; display: block;
   background: rgba(255,255,255,0.04);
