@@ -177,7 +177,7 @@
     <div class="demo-stage">
       <div class="me-prose">
         <p><span class="i18n-en">Watch the trial below. The same spectrum is acquired as $N$ frames, and random cosmic-ray spikes strike individual frames. <b>Summing</b> faithfully keeps every spike, impostors included. <b>Median rejection</b> across frames throws them out while the real signal sails through untouched. Toggle the method, re-roll the spikes, and see the vote in action.</span><span class="i18n-ja">下で「裁判」の様子を見てみよう。同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームを直撃する。<b>単純加算</b>は律儀にすべてのスパイクを（偽物もろとも）残してしまう。一方、フレーム間の<b>中央値除去</b>は、本物の信号には指一本触れずに偽物だけを追い出す。手法を切り替え、スパイクを振り直して、多数決の働きぶりを確かめてほしい。</span></p>
-        <p><span class="i18n-en"><b>One caveat: a majority vote needs a quorum.</b> The median can only outvote a spike if enough clean frames show up. Should the spike hit more than half the frames (easy to happen at small $N$), the median itself lands on a spiked value and the vote is rigged. In practice, $N \geq 5$ is a common minimum; the more frames, the more reliable the verdict.</span><span class="i18n-ja"><b>ただし注意 — 多数決には定足数がある。</b>中央値がスパイクを追い出せるのは、無傷のフレームが過半数を占めているときだけだ。スパイクが半数以上のフレームに入ってしまうと（$N$ が少ないと起こりやすい）、中央値そのものがスパイクの値になり、裁判は偽物の勝ちに終わる。実用上は $N \geq 5$ が最小の目安で、フレームが多いほど判決の信頼性は上がる。</span></p>
+        <p><span class="i18n-en"><b>One caveat: a majority vote needs a quorum.</b> The median can only outvote a spike if enough clean frames show up. Should the spike hit more than half the frames (easy to happen at small $N$), the median itself lands on a spiked value and the vote is rigged. In practice, $N \geq 5$ is a common minimum; the more frames, the more reliable the verdict.</span><span class="i18n-ja"><b>ただし注意：多数決には定足数がある。</b>中央値がスパイクを追い出せるのは、無傷のフレームが過半数を占めているときだけだ。スパイクが半数以上のフレームに入ってしまうと（$N$ が少ないと起こりやすい）、中央値そのものがスパイクの値になり、裁判は偽物の勝ちに終わる。実用上は $N \geq 5$ が最小の目安で、フレームが多いほど判決の信頼性は上がる。</span></p>
       </div>
 
       <div class="anim-card pv-bunchin mat-sunezu">
@@ -220,7 +220,7 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">Summary</span><span class="i18n-ja">まとめ</span></span>
       <h2><span class="i18n-en">So, which knob do you turn?</span><span class="i18n-ja">結局、どちらのつまみを回せばいいのか</span></h2>
-      <p><span class="i18n-en">Back to that late night in the lab. You now know the three culprits, the read-noise toll, and the impostor from space. Here is the whole story folded into one table.</span><span class="i18n-ja">夜の実験室に話を戻そう。3人の犯人、読み出しのたびの税金、そして宇宙から来る偽ピーク — ここまでの物語を1枚の表にたたむと、こうなる。</span></p>
+      <p><span class="i18n-en">Back to that late night in the lab. You now know the three culprits, the read-noise toll, and the impostor from space. Here is the whole story folded into one table.</span><span class="i18n-ja">夜の実験室に話を戻そう。3人の犯人、読み出しのたびの税金、そして宇宙から来る偽ピーク。ここまでの物語を1枚の表にたたむと、こうなる。</span></p>
     </div>
     <div class="demo-stage">
       <table class="decide-table">
