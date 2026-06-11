@@ -35,7 +35,7 @@
     {
       "slug": "measurement-error",
       "category": "measurement",
-      "published": true,
+      "published": false,
       "title_en": "Measurement, Error &amp; Data Analysis",
       "title_ja": "測定・誤差・データ解析の基礎",
       "desc_en": "The experimentalist's toolkit — types of error (accuracy vs precision), significant figures, propagation of uncertainty, and the statistical analysis of measured data, with hands-on demos for each.",
