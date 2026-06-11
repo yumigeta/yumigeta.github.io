@@ -505,16 +505,22 @@
   })();
 
   // ================================================================
-  //  05 — Nature's FFT: lattice image → spectrum → Bragg filtering
+  //  05 — Nature's FFT: lattice image → spectrum → Bragg / manual filtering
   // ================================================================
   (function () {
     var oI = setup('c5-real'), oF = setup('c5-k');
     if (!oI || !oF) return;
     var N = 128;
-    var state = {basis2: false, dis: 0, noise: 0, filt: false};
+    var state = {basis2: false, noise: 0, mode: 'orig'};   // 'orig' | 'auto' | 'manual'
+    var manKeep = new Uint8Array(N*N);                     // manual mask, shifted (display) coords
+    var geomF = null;                                      // k-panel image placement, for painting
 
-    // deterministic pseudo-random in [0,1) so sliders replay identically
+    // deterministic pseudo-randoms so the sliders replay identically
     function rnd(x) { var s = sin(x)*43758.5453123; return s - Math.floor(s); }
+    function gauss(i) {
+      var u = rnd(i*0.6180339887 + 11.31) + 1e-7, v = rnd(i*2.3344556 + 5.97);
+      return sqrt(-2*Math.log(u))*cos(2*PI*v);
+    }
 
     // in-place radix-2 FFT on (re, im)
     function fft1(re, im, inv) {
@@ -555,6 +561,30 @@
       }
     }
 
+    // two-octave correlated random field — the mottled background of an
+    // amorphous support film in a TEM image
+    function mottleField() {
+      function octave(cell, seed) {
+        var g = Math.floor(N/cell) + 2, grid = new Float64Array(g*g);
+        for (var i = 0; i < g*g; i++) grid[i] = rnd(i*7.137 + seed)*2 - 1;
+        return function (x, y) {
+          var fx = x/cell, fy = y/cell;
+          var x0 = Math.floor(fx), y0 = Math.floor(fy);
+          var tx = fx - x0, ty = fy - y0;
+          var a = grid[y0*g + x0], b = grid[y0*g + x0 + 1];
+          var c = grid[(y0 + 1)*g + x0], d = grid[(y0 + 1)*g + x0 + 1];
+          return (a*(1 - tx) + b*tx)*(1 - ty) + (c*(1 - tx) + d*tx)*ty;
+        };
+      }
+      var o1 = octave(9, 3.7), o2 = octave(4, 19.3);
+      var f = new Float64Array(N*N);
+      for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+        f[y*N + x] = 0.7*o1(x, y) + 0.45*o2(x, y);
+      }
+      return f;
+    }
+    var MOTTLE = mottleField();
+
     function buildImage() {
       var img = new Float64Array(N*N);
       var apx = 10.5;
@@ -565,8 +595,6 @@
         for (var bi = 0; bi < bas.length; bi++) {
           var x = n*a1[0] + m*a2[0] + bas[bi][0] + N/2;
           var y = n*a1[1] + m*a2[1] + bas[bi][1] + N/2;
-          x += (rnd(n*12.9898 + m*78.233 + bi*37.719)*2 - 1)*state.dis*apx;
-          y += (rnd(n*39.3461 + m*11.1353 + bi*83.155)*2 - 1)*state.dis*apx;
           if (x < -rad || x > N + rad || y < -rad || y > N + rad) continue;
           var x0 = max(0, Math.floor(x - rad)), x1 = min(N - 1, Math.ceil(x + rad));
           var y0 = max(0, Math.floor(y - rad)), y1 = min(N - 1, Math.ceil(y + rad));
@@ -576,7 +604,12 @@
           }
         }
       }
-      if (state.noise > 0) for (var i = 0; i < N*N; i++) img[i] += (rnd(i*0.7311 + 3.7)*2 - 1)*state.noise;
+      if (state.noise > 0) {
+        for (var i = 0; i < N*N; i++) {
+          // mottled amorphous background + signal-dependent shot grain
+          img[i] += state.noise*(0.55*MOTTLE[i] + 0.5*sqrt(max(img[i], 0) + 0.12)*gauss(i));
+        }
+      }
       // Hann window: suppresses the artificial edges of the finite image
       for (var yk = 0; yk < N; yk++) {
         var wy = 0.5 - 0.5*cos(2*PI*yk/(N - 1));
@@ -585,6 +618,18 @@
         }
       }
       return img;
+    }
+
+    // shifted (display) index <-> unshifted index — the same map both ways
+    function shIdx(i) {
+      var x = i % N, y = (i - x)/N;
+      return ((y + N/2) % N)*N + ((x + N/2) % N);
+    }
+    // shifted-coords index of the −k partner (keeps the inverse FFT real)
+    function conjIdx(i) {
+      var x = i % N, y = (i - x)/N;
+      var ux = (N - ((x + N/2) % N)) % N, uy = (N - ((y + N/2) % N)) % N;
+      return ((uy + N/2) % N)*N + ((ux + N/2) % N);
     }
 
     function paint(o, data, lo, hi, kind, dimMask) {
@@ -622,72 +667,115 @@
         mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
         if (i !== 0 && mag[i] > maxm) maxm = mag[i];   // exclude DC from the scale
       }
-      var thr = 0.13*maxm;
-      var mask = new Uint8Array(N*N);                  // 1 = discarded by the filter
-      for (i = 1; i < N*N; i++) if (mag[i] < thr) mask[i] = 1;
-
+      // keep-mask in shifted (display) coords; DC is always kept
+      var keep = null;
+      if (state.mode === 'auto') {
+        var thr = 0.13*maxm;
+        keep = new Uint8Array(N*N);
+        for (i = 0; i < N*N; i++) if (i === 0 || mag[i] >= thr) keep[shIdx(i)] = 1;
+      } else if (state.mode === 'manual') {
+        keep = Uint8Array.from(manKeep);
+        keep[shIdx(0)] = 1;
+      }
       var recon = null;
-      if (state.filt) {
+      if (keep) {
         var fr = Float64Array.from(re), fi = Float64Array.from(im);
-        for (i = 1; i < N*N; i++) if (mask[i]) { fr[i] = 0; fi[i] = 0; }
+        for (i = 1; i < N*N; i++) if (!keep[shIdx(i)]) { fr[i] = 0; fi[i] = 0; }
         fft2(fr, fi, true);
         recon = fr;
       }
-      return {img: img, mag: mag, maxm: maxm, mask: mask, recon: recon};
+      return {img: img, mag: mag, maxm: maxm, keep: keep, recon: recon};
     }
 
-    // fftshift index mapping for display
-    function shifted(mag) {
+    function shifted(arr) {
       var out = new Float64Array(N*N);
-      for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
-        out[((y + N/2) % N)*N + ((x + N/2) % N)] = mag[y*N + x];
-      }
+      for (var i = 0; i < N*N; i++) out[shIdx(i)] = arr[i];
       return out;
     }
 
     function draw() {
       var r = compute();
-      // left: image or reconstruction
-      var src = state.filt && r.recon ? r.recon : r.img;
+      var src = r.recon || r.img;
       var lo = 0, hi = 0;
       for (var i = 0; i < N*N; i++) { if (src[i] > hi) hi = src[i]; if (src[i] < lo) lo = src[i]; }
       if (hi <= lo) hi = lo + 1;
       paint(oI, src, lo, hi, 'real', null);
-      label(oI.x, state.filt
-        ? (JA() ? 'Bragg斑点のみで再構成した画像' : 'image rebuilt from Bragg spots only')
-        : (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice'),
+      label(oI.x, state.mode === 'orig'
+        ? (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice')
+        : (state.mode === 'auto'
+          ? (JA() ? 'Bragg斑点（自動選択）のみで再構成' : 'rebuilt from auto-selected Bragg spots')
+          : (JA() ? 'マスクした領域のみで再構成' : 'rebuilt from the painted mask only')),
         oI.w/2, 16, '#e7e5e4', 12.5);
 
-      // right: log-magnitude spectrum (fftshifted), dimmed where filtered away
       var disp = new Float64Array(N*N), lmax = Math.log(1 + r.maxm);
       for (i = 0; i < N*N; i++) disp[i] = Math.log(1 + r.mag[i])/lmax;
       var sdisp = shifted(disp);
-      var smask = null;
-      if (state.filt) {
-        var m8 = new Float64Array(N*N);
-        for (i = 0; i < N*N; i++) m8[i] = r.mask[i];
-        var sm = shifted(m8);
-        smask = new Uint8Array(N*N);
-        for (i = 0; i < N*N; i++) smask[i] = sm[i] > 0.5 ? 1 : 0;
+      var dim = null;
+      if (r.keep) {
+        dim = new Uint8Array(N*N);
+        for (i = 0; i < N*N; i++) dim[i] = r.keep[i] ? 0 : 1;
       }
-      paint(oF, sdisp, 0, 1, 'k', smask);
+      geomF = paint(oF, sdisp, 0, 1, 'k', dim);
       label(oF.x, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
         oF.w/2, 16, '#e7e5e4', 12.5);
-      label(oF.x, JA() ? '輝点の並び＝逆格子' : 'spot arrangement = the reciprocal lattice',
-        oF.w/2, oF.h - 12, INKDIM, 11.5);
+      label(oF.x, state.mode === 'manual'
+        ? (JA() ? 'ドラッグで「残す」領域を塗る（中心対称の相方は自動）' : 'drag to paint the regions to keep (the −k partner is added for you)')
+        : (JA() ? '輝点の並び＝逆格子' : 'spot arrangement = the reciprocal lattice'),
+        oF.w/2, oF.h - 12, state.mode === 'manual' ? '#fbbf24' : INKDIM, 11.5);
     }
 
-    var sD = document.getElementById('s5-dis'), vD = document.getElementById('v5-dis');
-    var sN = document.getElementById('s5-noise'), vN = document.getElementById('v5-noise');
-    sD.addEventListener('input', function () { state.dis = +sD.value; vD.textContent = state.dis.toFixed(2); draw(); });
-    sN.addEventListener('input', function () { state.noise = +sN.value; vN.textContent = state.noise.toFixed(2); draw(); });
+    // coalesce expensive redraws while painting
+    var rafPending = false;
+    function scheduleDraw() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () { rafPending = false; draw(); });
+    }
+
+    // ---- manual painting on the k panel ----
+    var painting = false;
+    function paintAt(ev) {
+      if (state.mode !== 'manual' || !geomF) return;
+      var rect = oF.c.getBoundingClientRect();
+      var px = (ev.clientX - rect.left - geomF.dx)/geomF.side*N;
+      var py = (ev.clientY - rect.top - geomF.dy)/geomF.side*N;
+      if (px < 0 || px >= N || py < 0 || py >= N) return;
+      var R = 4;
+      var cx = Math.round(px), cy = Math.round(py);
+      for (var dy = -R; dy <= R; dy++) for (var dx = -R; dx <= R; dx++) {
+        if (dx*dx + dy*dy > R*R) continue;
+        var x = cx + dx, y = cy + dy;
+        if (x < 0 || x >= N || y < 0 || y >= N) continue;
+        var i = y*N + x;
+        manKeep[i] = 1; manKeep[conjIdx(i)] = 1;
+      }
+      scheduleDraw();
+    }
+    oF.c.addEventListener('pointerdown', function (e) { painting = true; oF.c.setPointerCapture(e.pointerId); paintAt(e); });
+    oF.c.addEventListener('pointermove', function (e) { if (painting) paintAt(e); });
+    oF.c.addEventListener('pointerup', function () { painting = false; });
+    oF.c.style.touchAction = 'none';
+
+    // ---- controls ----
+    var sN2 = document.getElementById('s5-noise'), vN2 = document.getElementById('v5-noise');
+    sN2.addEventListener('input', function () { state.noise = +sN2.value; vN2.textContent = state.noise.toFixed(2); draw(); });
 
     var bT = document.getElementById('b5-tri'), bG = document.getElementById('b5-gra');
     bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); draw(); });
     bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); draw(); });
-    var bO = document.getElementById('b5-orig'), bF = document.getElementById('b5-filt');
-    bO.addEventListener('click', function () { state.filt = false; bO.classList.add('active'); bF.classList.remove('active'); draw(); });
-    bF.addEventListener('click', function () { state.filt = true; bF.classList.add('active'); bO.classList.remove('active'); draw(); });
+
+    var modeBtns = {orig: document.getElementById('b5-orig'), auto: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
+    function setMode(m) {
+      state.mode = m;
+      Object.keys(modeBtns).forEach(function (k2) { modeBtns[k2].classList.toggle('active', k2 === m); });
+      oF.c.style.cursor = m === 'manual' ? 'crosshair' : 'default';
+      draw();
+    }
+    modeBtns.orig.addEventListener('click', function () { setMode('orig'); });
+    modeBtns.auto.addEventListener('click', function () { setMode('auto'); });
+    modeBtns.manual.addEventListener('click', function () { setMode('manual'); });
+    var bC = document.getElementById('b5-clr');
+    if (bC) bC.addEventListener('click', function () { manKeep = new Uint8Array(N*N); if (state.mode === 'manual') draw(); });
 
     draw();
     onLangChange.push(draw);
