@@ -511,9 +511,48 @@
     var oI = setup('c5-real'), oF = setup('c5-k');
     if (!oI || !oF) return;
     var N = 128;
-    var state = {basis2: false, noise: 0, mode: 'orig'};   // 'orig' | 'auto' | 'manual'
-    var manKeep = new Uint8Array(N*N);                     // manual mask, shifted (display) coords
-    var geomF = null;                                      // k-panel image placement, for painting
+    // ---- 2D material presets: lattice + basis (+ scattering weight) ----
+    // one example per 2D lattice symmetry, lattice constants in image pixels
+    var MATS = {
+      tri:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0]], w: [1]},
+      gra:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0], [5.25, 10.5/(2*sqrt3)]], w: [1, 1]},
+      hbn:  {a1: [10.5, 0], a2: [5.25, 10.5*sqrt3/2], bas: [[0, 0], [5.25, 10.5/(2*sqrt3)]], w: [1, 0.55]},
+      fese: {a1: [10.5, 0], a2: [0, 10.5], bas: [[0, 0]], w: [1]},
+      bp:   {a1: [9.2, 0], a2: [0, 12.8], bas: [[0, 0], [4.6, 5.1]], w: [1, 1]},
+      res2: {a1: [11, 0], a2: [4.2, 10.2], bas: [[0, 0]], w: [1]}
+    };
+    var state = {
+      mat: 'tri', noise: 0,
+      mode: 'orig',            // 'orig' | 'spots' | 'manual'
+      pen: true, brush: 4,     // manual tool: pen/eraser, radius in image px
+      zoom: 1, vcx: N/2, vcy: N/2   // k-panel view: zoom + view centre (image coords)
+    };
+    var manKeep = new Uint8Array(N*N);   // manual mask, shifted (display) coords
+    var selSpots = {};                   // selected Bragg spots, key 'h,l'
+    var cursor = {x: 0, y: 0, inside: false};
+
+    // ---- Bragg spot catalogue for the current lattice: G = h b1 + l b2 ----
+    var SPOTS = [];
+    function makeSpots() {
+      var M = MATS[state.mat];
+      var det = M.a1[0]*M.a2[1] - M.a1[1]*M.a2[0];
+      var B1 = [N*M.a2[1]/det, -N*M.a2[0]/det];
+      var B2 = [-N*M.a1[1]/det, N*M.a1[0]/det];
+      SPOTS = [];
+      for (var h = -4; h <= 4; h++) for (var l = -4; l <= 4; l++) {
+        if (h === 0 && l === 0) continue;
+        var x = N/2 + h*B1[0] + l*B2[0], y = N/2 + h*B1[1] + l*B2[1];
+        if (x < 4 || x > N - 4 || y < 4 || y > N - 4) continue;
+        SPOTS.push({h: h, l: l, x: x, y: y, key: h + ',' + l});
+      }
+    }
+    makeSpots();
+    var SPOT_R = 2.2;          // ring radius drawn around a spot, image px
+    var SPOT_MR = 3;           // mask radius around a selected spot, image px
+    function spotLabel(sp) {
+      var mi = '\u2212';      // minus sign
+      return (sp.h < 0 ? mi + (-sp.h) : '' + sp.h) + ',' + (sp.l < 0 ? mi + (-sp.l) : '' + sp.l);
+    }
 
     // deterministic pseudo-randoms so the sliders replay identically
     function rnd(x) { var s = sin(x)*43758.5453123; return s - Math.floor(s); }
@@ -587,9 +626,8 @@
 
     function buildImage() {
       var img = new Float64Array(N*N);
-      var apx = 10.5;
-      var a1 = [apx, 0], a2 = [apx*0.5, apx*sqrt3/2];
-      var bas = state.basis2 ? [[0, 0], [(a1[0] + a2[0])/3, (a1[1] + a2[1])/3]] : [[0, 0]];
+      var M = MATS[state.mat];
+      var a1 = M.a1, a2 = M.a2, bas = M.bas, w = M.w;
       var R = 16, sig = 1.35, rad = 4;
       for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
         for (var bi = 0; bi < bas.length; bi++) {
@@ -600,7 +638,7 @@
           var y0 = max(0, Math.floor(y - rad)), y1 = min(N - 1, Math.ceil(y + rad));
           for (var py = y0; py <= y1; py++) for (var px = x0; px <= x1; px++) {
             var d2 = (px - x)*(px - x) + (py - y)*(py - y);
-            img[py*N + px] += Math.exp(-d2/(2*sig*sig));
+            img[py*N + px] += w[bi]*Math.exp(-d2/(2*sig*sig));
           }
         }
       }
@@ -632,9 +670,7 @@
       return ((uy + N/2) % N)*N + ((ux + N/2) % N);
     }
 
-    function paint(o, data, lo, hi, kind, dimMask) {
-      var ctx = o.x;
-      clear(o);
+    function makeOff(data, lo, hi, kind, dimMask) {
       var off = document.createElement('canvas');
       off.width = N; off.height = N;
       var octx = off.getContext('2d');
@@ -649,13 +685,18 @@
         id.data[4*i] = r; id.data[4*i + 1] = g; id.data[4*i + 2] = b; id.data[4*i + 3] = 255;
       }
       octx.putImageData(id, 0, 0);
-      var side = min(o.w, o.h) - 44;
-      var dx = (o.w - side)/2, dy = (o.h - side)/2 + 8;
-      ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(off, dx, dy, side, side);
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      ctx.strokeRect(dx, dy, side, side);
-      return {dx: dx, dy: dy, side: side};
+      return off;
+    }
+
+    // disk stamp into a shifted-coords keep mask
+    function stampDisk(keep, cx0, cy0, R) {
+      var xi = Math.round(cx0), yi = Math.round(cy0);
+      for (var dy = -R; dy <= R; dy++) for (var dx = -R; dx <= R; dx++) {
+        if (dx*dx + dy*dy > R*R) continue;
+        var x = xi + dx, y = yi + dy;
+        if (x < 0 || x >= N || y < 0 || y >= N) continue;
+        keep[y*N + x] = 1;
+      }
     }
 
     function compute() {
@@ -669,10 +710,12 @@
       }
       // keep-mask in shifted (display) coords; DC is always kept
       var keep = null;
-      if (state.mode === 'auto') {
-        var thr = 0.13*maxm;
+      if (state.mode === 'spots') {
         keep = new Uint8Array(N*N);
-        for (i = 0; i < N*N; i++) if (i === 0 || mag[i] >= thr) keep[shIdx(i)] = 1;
+        SPOTS.forEach(function (sp) {
+          if (selSpots[sp.key]) stampDisk(keep, sp.x, sp.y, SPOT_MR);
+        });
+        keep[shIdx(0)] = 1;
       } else if (state.mode === 'manual') {
         keep = Uint8Array.from(manKeep);
         keep[shIdx(0)] = 1;
@@ -693,92 +736,270 @@
       return out;
     }
 
-    function draw() {
+    // ---- cached offscreens; cursor moves only re-blit the k panel ----
+    var realOff = null, specOff = null;
+
+    function panel(o) {
+      var side = min(o.w, o.h) - 44;
+      return {dx: (o.w - side)/2, dy: (o.h - side)/2 + 8, side: side};
+    }
+    function viewRect() {
+      var vw = N/state.zoom;
+      state.vcx = max(vw/2, min(N - vw/2, state.vcx));
+      state.vcy = max(vw/2, min(N - vw/2, state.vcy));
+      return {vx: state.vcx - vw/2, vy: state.vcy - vw/2, vw: vw};
+    }
+    function toCanvas(g, v, ix, iy) {
+      return [g.dx + (ix - v.vx)/v.vw*g.side, g.dy + (iy - v.vy)/v.vw*g.side];
+    }
+
+    function renderReal() {
+      var ctx = oI.x;
+      clear(oI);
+      var g = panel(oI);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(realOff, g.dx, g.dy, g.side, g.side);
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.strokeRect(g.dx, g.dy, g.side, g.side);
+      label(ctx, state.mode === 'orig'
+        ? (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice')
+        : (state.mode === 'spots'
+          ? (JA() ? '選択したBragg点のみで再構成' : 'rebuilt from the selected Bragg spots')
+          : (JA() ? 'マスクした領域のみで再構成' : 'rebuilt from the painted mask only')),
+        oI.w/2, 16, '#e7e5e4', 12.5);
+    }
+
+    function renderK() {
+      var ctx = oF.x;
+      clear(oF);
+      var g = panel(oF), v = viewRect();
+      ctx.imageSmoothingEnabled = state.zoom < 1.5;
+      ctx.drawImage(specOff, v.vx, v.vy, v.vw, v.vw, g.dx, g.dy, g.side, g.side);
+      ctx.imageSmoothingEnabled = true;
+
+      // Bragg spot rings + index labels
+      ctx.save();
+      ctx.beginPath(); ctx.rect(g.dx, g.dy, g.side, g.side); ctx.clip();
+      var sc = g.side/v.vw;
+      SPOTS.forEach(function (sp) {
+        // +0.5: an FFT bin at index i is displayed as a pixel centred at i+0.5
+        var pcv = toCanvas(g, v, sp.x + 0.5, sp.y + 0.5);
+        if (pcv[0] < g.dx - 20 || pcv[0] > g.dx + g.side + 20 || pcv[1] < g.dy - 20 || pcv[1] > g.dy + g.side + 20) return;
+        if (state.mode === 'spots') {
+          var on = !!selSpots[sp.key];
+          ctx.strokeStyle = on ? '#6ee7b7' : 'rgba(255,255,255,0.45)';
+          ctx.lineWidth = on ? 2.2 : 1.1;
+          ctx.beginPath(); ctx.arc(pcv[0], pcv[1], SPOT_R*sc, 0, 2*PI); ctx.stroke();
+        }
+        // labels: only the first-order spots at low zoom, everything when zoomed in
+        if (state.zoom >= 1.8 || (abs(sp.h) <= 1 && abs(sp.l) <= 1)) {
+          label(ctx, spotLabel(sp), pcv[0] + SPOT_R*sc*0.8 + 3, pcv[1] - SPOT_R*sc*0.8 - 3,
+                state.mode === 'spots' && selSpots[sp.key] ? '#6ee7b7' : 'rgba(255,255,255,0.6)',
+                state.zoom > 2 ? 12 : 9.5, 'left');
+        }
+      });
+      // Γ at the centre
+      var pc0 = toCanvas(g, v, N/2 + 0.5, N/2 + 0.5);
+      label(ctx, 'Γ (0,0)', pc0[0] + 6, pc0[1] - 8, 'rgba(255,255,255,0.6)', state.zoom > 2 ? 12 : 9.5, 'left');
+      ctx.restore();
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.strokeRect(g.dx, g.dy, g.side, g.side);
+      label(ctx, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
+        oF.w/2, 16, '#e7e5e4', 12.5);
+      if (state.zoom > 1.01) {
+        label(ctx, '×' + state.zoom.toFixed(1), g.dx + g.side - 6, g.dy + 12, '#fbbf24', 12, 'right');
+      }
+      label(ctx, state.mode === 'spots'
+        ? (JA() ? 'Bragg点をクリックで選択／解除（複数可・−k の相方は自動）' : 'click Bragg spots to select/deselect (multiple; −k partner included)')
+        : (state.mode === 'manual'
+          ? (JA() ? (state.pen ? 'ペン：残す領域を塗る（−k の相方は自動）' : '消しゴム：マスクを削る（−k の相方も同時に）')
+                  : (state.pen ? 'pen: paint the regions to keep (−k partner added for you)' : 'eraser: remove mask (the −k partner too)'))
+          : (JA() ? '輝点の並び＝逆格子（ホイールで拡大縮小）' : 'spot arrangement = the reciprocal lattice (wheel to zoom)')),
+        oF.w/2, oF.h - 12, state.mode !== 'orig' ? '#fbbf24' : INKDIM, 11.5);
+      // brush-size cursor preview (manual mode only)
+      if (state.mode === 'manual' && cursor.inside) {
+        var rPix = state.brush*sc;
+        ctx.strokeStyle = state.pen ? 'rgba(110,231,183,0.95)' : 'rgba(253,164,175,0.95)';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(cursor.x, cursor.y, rPix, 0, 2*PI); ctx.stroke();
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cursor.x, cursor.y, rPix + 1.4, 0, 2*PI); ctx.stroke();
+      }
+    }
+
+    function recompute() {
       var r = compute();
       var src = r.recon || r.img;
       var lo = 0, hi = 0;
       for (var i = 0; i < N*N; i++) { if (src[i] > hi) hi = src[i]; if (src[i] < lo) lo = src[i]; }
       if (hi <= lo) hi = lo + 1;
-      paint(oI, src, lo, hi, 'real', null);
-      label(oI.x, state.mode === 'orig'
-        ? (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice')
-        : (state.mode === 'auto'
-          ? (JA() ? 'Bragg斑点（自動選択）のみで再構成' : 'rebuilt from auto-selected Bragg spots')
-          : (JA() ? 'マスクした領域のみで再構成' : 'rebuilt from the painted mask only')),
-        oI.w/2, 16, '#e7e5e4', 12.5);
+      realOff = makeOff(src, lo, hi, 'real', null);
 
       var disp = new Float64Array(N*N), lmax = Math.log(1 + r.maxm);
       for (i = 0; i < N*N; i++) disp[i] = Math.log(1 + r.mag[i])/lmax;
-      var sdisp = shifted(disp);
       var dim = null;
       if (r.keep) {
         dim = new Uint8Array(N*N);
         for (i = 0; i < N*N; i++) dim[i] = r.keep[i] ? 0 : 1;
       }
-      geomF = paint(oF, sdisp, 0, 1, 'k', dim);
-      label(oF.x, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
-        oF.w/2, 16, '#e7e5e4', 12.5);
-      label(oF.x, state.mode === 'manual'
-        ? (JA() ? 'ドラッグで「残す」領域を塗る（中心対称の相方は自動）' : 'drag to paint the regions to keep (the −k partner is added for you)')
-        : (JA() ? '輝点の並び＝逆格子' : 'spot arrangement = the reciprocal lattice'),
-        oF.w/2, oF.h - 12, state.mode === 'manual' ? '#fbbf24' : INKDIM, 11.5);
+      specOff = makeOff(shifted(disp), 0, 1, 'k', dim);
+      renderReal(); renderK();
     }
 
-    // coalesce expensive redraws while painting
+    // coalesce expensive recomputes while painting
     var rafPending = false;
-    function scheduleDraw() {
+    function scheduleRecompute() {
       if (rafPending) return;
       rafPending = true;
-      requestAnimationFrame(function () { rafPending = false; draw(); });
+      requestAnimationFrame(function () { rafPending = false; recompute(); });
     }
 
-    // ---- manual painting on the k panel ----
-    var painting = false;
-    function paintAt(ev) {
-      if (state.mode !== 'manual' || !geomF) return;
+    // ---- pointer handling on the k panel: select, paint, cursor, zoom ----
+    function imgCoords(ev) {
       var rect = oF.c.getBoundingClientRect();
-      var px = (ev.clientX - rect.left - geomF.dx)/geomF.side*N;
-      var py = (ev.clientY - rect.top - geomF.dy)/geomF.side*N;
-      if (px < 0 || px >= N || py < 0 || py >= N) return;
-      var R = 4;
-      var cx = Math.round(px), cy = Math.round(py);
+      var g = panel(oF), v = viewRect();
+      var cxp = ev.clientX - rect.left, cyp = ev.clientY - rect.top;
+      return {
+        cx: cxp, cy: cyp,
+        ix: v.vx + (cxp - g.dx)/g.side*v.vw,
+        iy: v.vy + (cyp - g.dy)/g.side*v.vw,
+        inPanel: cxp >= g.dx && cxp <= g.dx + g.side && cyp >= g.dy && cyp <= g.dy + g.side
+      };
+    }
+    function paintAt(pt) {
+      if (!pt.inPanel) return;
+      var R = state.brush, val = state.pen ? 1 : 0;
+      var cx0 = Math.round(pt.ix), cy0 = Math.round(pt.iy);
       for (var dy = -R; dy <= R; dy++) for (var dx = -R; dx <= R; dx++) {
         if (dx*dx + dy*dy > R*R) continue;
-        var x = cx + dx, y = cy + dy;
+        var x = cx0 + dx, y = cy0 + dy;
         if (x < 0 || x >= N || y < 0 || y >= N) continue;
         var i = y*N + x;
-        manKeep[i] = 1; manKeep[conjIdx(i)] = 1;
+        manKeep[i] = val; manKeep[conjIdx(i)] = val;
       }
-      scheduleDraw();
+      scheduleRecompute();
     }
-    oF.c.addEventListener('pointerdown', function (e) { painting = true; oF.c.setPointerCapture(e.pointerId); paintAt(e); });
-    oF.c.addEventListener('pointermove', function (e) { if (painting) paintAt(e); });
+    function toggleSpotAt(pt) {
+      if (!pt.inPanel) return;
+      var best = null, bestD = 36;   // threshold: 6 image px, squared
+      SPOTS.forEach(function (sp) {
+        var d = (sp.x + 0.5 - pt.ix)*(sp.x + 0.5 - pt.ix) + (sp.y + 0.5 - pt.iy)*(sp.y + 0.5 - pt.iy);
+        if (d < bestD) { bestD = d; best = sp; }
+      });
+      if (!best) return;
+      var k1 = best.key, k2 = (-best.h) + ',' + (-best.l);
+      var on = !selSpots[k1];
+      if (on) { selSpots[k1] = true; selSpots[k2] = true; }
+      else { delete selSpots[k1]; delete selSpots[k2]; }
+      recompute();
+    }
+    var painting = false;
+    oF.c.addEventListener('pointerdown', function (e) {
+      if (state.mode === 'manual') {
+        painting = true; oF.c.setPointerCapture(e.pointerId);
+        paintAt(imgCoords(e));
+      } else if (state.mode === 'spots') {
+        toggleSpotAt(imgCoords(e));
+      }
+    });
+    oF.c.addEventListener('pointermove', function (e) {
+      var pt = imgCoords(e);
+      cursor.x = pt.cx; cursor.y = pt.cy; cursor.inside = pt.inPanel;
+      if (painting) paintAt(pt);
+      else if (state.mode === 'manual') renderK();   // cheap re-blit for the cursor circle
+    });
     oF.c.addEventListener('pointerup', function () { painting = false; });
+    oF.c.addEventListener('pointerleave', function () {
+      cursor.inside = false;
+      if (state.mode === 'manual') renderK();
+    });
     oF.c.style.touchAction = 'none';
+
+    // wheel zoom, anchored at the cursor
+    oF.c.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var pt = imgCoords(e);
+      if (!pt.inPanel) return;
+      var z0 = state.zoom;
+      state.zoom = max(1, min(6, z0*(e.deltaY < 0 ? 1.25 : 0.8)));
+      if (state.zoom !== z0) {
+        // keep the image point under the cursor fixed
+        var g = panel(oF), f = (pt.cx - g.dx)/g.side - 0.5, f2 = (pt.cy - g.dy)/g.side - 0.5;
+        state.vcx = pt.ix - f*(N/state.zoom);
+        state.vcy = pt.iy - f2*(N/state.zoom);
+      }
+      renderK();
+    }, {passive: false});
+
+    function setZoom(z) {
+      state.zoom = max(1, min(6, z));
+      if (state.zoom === 1) { state.vcx = N/2; state.vcy = N/2; }
+      renderK();
+    }
 
     // ---- controls ----
     var sN2 = document.getElementById('s5-noise'), vN2 = document.getElementById('v5-noise');
-    sN2.addEventListener('input', function () { state.noise = +sN2.value; vN2.textContent = state.noise.toFixed(2); draw(); });
+    sN2.addEventListener('input', function () { state.noise = +sN2.value; vN2.textContent = state.noise.toFixed(2); recompute(); });
+    var sB = document.getElementById('s5-brush'), vB = document.getElementById('v5-brush');
+    if (sB) sB.addEventListener('input', function () { state.brush = +sB.value; vB.textContent = state.brush; if (state.mode === 'manual') renderK(); });
 
-    var bT = document.getElementById('b5-tri'), bG = document.getElementById('b5-gra');
-    bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); draw(); });
-    bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); draw(); });
+    var matBtns = {tri: 'b5-tri', gra: 'b5-gra', hbn: 'b5-hbn', fese: 'b5-fese', bp: 'b5-bp', res2: 'b5-res2'};
+    Object.keys(matBtns).forEach(function (m) {
+      var el = document.getElementById(matBtns[m]);
+      if (!el) return;
+      el.addEventListener('click', function () {
+        state.mat = m;
+        selSpots = {};          // spot positions change with the lattice
+        makeSpots();
+        Object.keys(matBtns).forEach(function (j) {
+          var e2 = document.getElementById(matBtns[j]);
+          if (e2) e2.classList.toggle('active', j === m);
+        });
+        recompute();
+      });
+    });
 
-    var modeBtns = {orig: document.getElementById('b5-orig'), auto: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
+    var modeBtns = {orig: document.getElementById('b5-orig'), spots: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
     function setMode(m) {
       state.mode = m;
       Object.keys(modeBtns).forEach(function (k2) { modeBtns[k2].classList.toggle('active', k2 === m); });
-      oF.c.style.cursor = m === 'manual' ? 'crosshair' : 'default';
-      draw();
+      oF.c.style.cursor = m === 'manual' ? 'none' : (m === 'spots' ? 'pointer' : 'default');
+      recompute();
     }
     modeBtns.orig.addEventListener('click', function () { setMode('orig'); });
-    modeBtns.auto.addEventListener('click', function () { setMode('auto'); });
+    modeBtns.spots.addEventListener('click', function () { setMode('spots'); });
     modeBtns.manual.addEventListener('click', function () { setMode('manual'); });
-    var bC = document.getElementById('b5-clr');
-    if (bC) bC.addEventListener('click', function () { manKeep = new Uint8Array(N*N); if (state.mode === 'manual') draw(); });
 
-    draw();
-    onLangChange.push(draw);
-    window.addEventListener('resize', function () { oI = setup('c5-real'); oF = setup('c5-k'); draw(); });
+    var bAll = document.getElementById('b5-all');
+    if (bAll) bAll.addEventListener('click', function () {
+      SPOTS.forEach(function (sp) { selSpots[sp.key] = true; });
+      if (state.mode !== 'spots') setMode('spots'); else recompute();
+    });
+    var bC = document.getElementById('b5-clr');
+    if (bC) bC.addEventListener('click', function () {
+      if (state.mode === 'manual') { manKeep = new Uint8Array(N*N); recompute(); }
+      else { selSpots = {}; if (state.mode === 'spots') recompute(); }
+    });
+
+    var bPen = document.getElementById('b5-pen'), bErs = document.getElementById('b5-ers');
+    function setPen(p2) {
+      state.pen = p2;
+      if (bPen) bPen.classList.toggle('active', p2);
+      if (bErs) bErs.classList.toggle('active', !p2);
+      if (state.mode === 'manual') renderK();
+    }
+    if (bPen) bPen.addEventListener('click', function () { setPen(true); });
+    if (bErs) bErs.addEventListener('click', function () { setPen(false); });
+
+    var bZi = document.getElementById('b5-zin'), bZo = document.getElementById('b5-zout'), bZr = document.getElementById('b5-zrst');
+    if (bZi) bZi.addEventListener('click', function () { setZoom(state.zoom*1.5); });
+    if (bZo) bZo.addEventListener('click', function () { setZoom(state.zoom/1.5); });
+    if (bZr) bZr.addEventListener('click', function () { setZoom(1); });
+
+    recompute();
+    onLangChange.push(recompute);
+    window.addEventListener('resize', function () { oI = setup('c5-real'); oF = setup('c5-k'); recompute(); });
   })();
 })();
