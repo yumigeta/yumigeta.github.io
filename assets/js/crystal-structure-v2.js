@@ -537,7 +537,8 @@
       }
       return list;
     })();
-    var SPOT_R = 4;            // mask radius around a selected spot, image px
+    var SPOT_R = 2.2;          // ring radius drawn around a spot, image px
+    var SPOT_MR = 3;           // mask radius around a selected spot, image px
     function spotLabel(sp) {
       var mi = '\u2212';      // minus sign
       return (sp.h < 0 ? mi + (-sp.h) : '' + sp.h) + ',' + (sp.l < 0 ? mi + (-sp.l) : '' + sp.l);
@@ -702,7 +703,7 @@
       if (state.mode === 'spots') {
         keep = new Uint8Array(N*N);
         SPOTS.forEach(function (sp) {
-          if (selSpots[sp.key]) stampDisk(keep, sp.x, sp.y, SPOT_R);
+          if (selSpots[sp.key]) stampDisk(keep, sp.x, sp.y, SPOT_MR);
         });
         keep[shIdx(0)] = 1;
       } else if (state.mode === 'manual') {
@@ -771,7 +772,8 @@
       ctx.beginPath(); ctx.rect(g.dx, g.dy, g.side, g.side); ctx.clip();
       var sc = g.side/v.vw;
       SPOTS.forEach(function (sp) {
-        var pcv = toCanvas(g, v, sp.x, sp.y);
+        // +0.5: an FFT bin at index i is displayed as a pixel centred at i+0.5
+        var pcv = toCanvas(g, v, sp.x + 0.5, sp.y + 0.5);
         if (pcv[0] < g.dx - 20 || pcv[0] > g.dx + g.side + 20 || pcv[1] < g.dy - 20 || pcv[1] > g.dy + g.side + 20) return;
         if (state.mode === 'spots') {
           var on = !!selSpots[sp.key];
@@ -787,7 +789,7 @@
         }
       });
       // Γ at the centre
-      var pc0 = toCanvas(g, v, N/2, N/2);
+      var pc0 = toCanvas(g, v, N/2 + 0.5, N/2 + 0.5);
       label(ctx, 'Γ (0,0)', pc0[0] + 6, pc0[1] - 8, 'rgba(255,255,255,0.6)', state.zoom > 2 ? 12 : 9.5, 'left');
       ctx.restore();
 
@@ -873,7 +875,7 @@
       if (!pt.inPanel) return;
       var best = null, bestD = 36;   // threshold: 6 image px, squared
       SPOTS.forEach(function (sp) {
-        var d = (sp.x - pt.ix)*(sp.x - pt.ix) + (sp.y - pt.iy)*(sp.y - pt.iy);
+        var d = (sp.x + 0.5 - pt.ix)*(sp.x + 0.5 - pt.ix) + (sp.y + 0.5 - pt.iy)*(sp.y + 0.5 - pt.iy);
         if (d < bestD) { bestD = d; best = sp; }
       });
       if (!best) return;
