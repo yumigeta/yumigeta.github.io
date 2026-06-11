@@ -511,9 +511,14 @@
     var oI = setup('c5-real'), oF = setup('c5-k');
     if (!oI || !oF) return;
     var N = 128;
-    var state = {basis2: false, noise: 0, mode: 'orig'};   // 'orig' | 'auto' | 'manual'
-    var manKeep = new Uint8Array(N*N);                     // manual mask, shifted (display) coords
-    var geomF = null;                                      // k-panel image placement, for painting
+    var state = {
+      basis2: false, noise: 0,
+      mode: 'orig',            // 'orig' | 'auto' | 'manual'
+      pen: true, brush: 4,     // manual tool: pen/eraser, radius in image px
+      zoom: 1, vcx: N/2, vcy: N/2   // k-panel view: zoom + view centre (image coords)
+    };
+    var manKeep = new Uint8Array(N*N);   // manual mask, shifted (display) coords
+    var cursor = {x: 0, y: 0, inside: false};
 
     // deterministic pseudo-randoms so the sliders replay identically
     function rnd(x) { var s = sin(x)*43758.5453123; return s - Math.floor(s); }
@@ -632,9 +637,7 @@
       return ((uy + N/2) % N)*N + ((ux + N/2) % N);
     }
 
-    function paint(o, data, lo, hi, kind, dimMask) {
-      var ctx = o.x;
-      clear(o);
+    function makeOff(data, lo, hi, kind, dimMask) {
       var off = document.createElement('canvas');
       off.width = N; off.height = N;
       var octx = off.getContext('2d');
@@ -649,13 +652,7 @@
         id.data[4*i] = r; id.data[4*i + 1] = g; id.data[4*i + 2] = b; id.data[4*i + 3] = 255;
       }
       octx.putImageData(id, 0, 0);
-      var side = min(o.w, o.h) - 44;
-      var dx = (o.w - side)/2, dy = (o.h - side)/2 + 8;
-      ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(off, dx, dy, side, side);
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      ctx.strokeRect(dx, dy, side, side);
-      return {dx: dx, dy: dy, side: side};
+      return off;
     }
 
     function compute() {
@@ -693,92 +690,200 @@
       return out;
     }
 
-    function draw() {
-      var r = compute();
-      var src = r.recon || r.img;
-      var lo = 0, hi = 0;
-      for (var i = 0; i < N*N; i++) { if (src[i] > hi) hi = src[i]; if (src[i] < lo) lo = src[i]; }
-      if (hi <= lo) hi = lo + 1;
-      paint(oI, src, lo, hi, 'real', null);
-      label(oI.x, state.mode === 'orig'
+    // ---- cached offscreens; cursor moves only re-blit the k panel ----
+    var realOff = null, specOff = null;
+
+    function panel(o) {
+      var side = min(o.w, o.h) - 44;
+      return {dx: (o.w - side)/2, dy: (o.h - side)/2 + 8, side: side};
+    }
+    function viewRect() {
+      var vw = N/state.zoom;
+      state.vcx = max(vw/2, min(N - vw/2, state.vcx));
+      state.vcy = max(vw/2, min(N - vw/2, state.vcy));
+      return {vx: state.vcx - vw/2, vy: state.vcy - vw/2, vw: vw};
+    }
+
+    function renderReal() {
+      var ctx = oI.x;
+      clear(oI);
+      var g = panel(oI);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(realOff, g.dx, g.dy, g.side, g.side);
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.strokeRect(g.dx, g.dy, g.side, g.side);
+      label(ctx, state.mode === 'orig'
         ? (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice')
         : (state.mode === 'auto'
           ? (JA() ? 'Bragg斑点（自動選択）のみで再構成' : 'rebuilt from auto-selected Bragg spots')
           : (JA() ? 'マスクした領域のみで再構成' : 'rebuilt from the painted mask only')),
         oI.w/2, 16, '#e7e5e4', 12.5);
+    }
+
+    function renderK() {
+      var ctx = oF.x;
+      clear(oF);
+      var g = panel(oF), v = viewRect();
+      ctx.imageSmoothingEnabled = state.zoom < 1.5;
+      ctx.drawImage(specOff, v.vx, v.vy, v.vw, v.vw, g.dx, g.dy, g.side, g.side);
+      ctx.imageSmoothingEnabled = true;
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.strokeRect(g.dx, g.dy, g.side, g.side);
+      label(ctx, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
+        oF.w/2, 16, '#e7e5e4', 12.5);
+      if (state.zoom > 1.01) {
+        label(ctx, '×' + state.zoom.toFixed(1), g.dx + g.side - 6, g.dy + 12, '#fbbf24', 12, 'right');
+      }
+      label(ctx, state.mode === 'manual'
+        ? (JA() ? (state.pen ? 'ペン：残す領域を塗る（−k の相方は自動）' : '消しゴム：マスクを削る（−k の相方も同時に）')
+                : (state.pen ? 'pen: paint the regions to keep (−k partner added for you)' : 'eraser: remove mask (the −k partner too)'))
+        : (JA() ? '輝点の並び＝逆格子（ホイールで拡大縮小）' : 'spot arrangement = the reciprocal lattice (wheel to zoom)'),
+        oF.w/2, oF.h - 12, state.mode === 'manual' ? '#fbbf24' : INKDIM, 11.5);
+      // brush-size cursor preview
+      if (state.mode === 'manual' && cursor.inside) {
+        var rPix = state.brush*(g.side/v.vw);
+        ctx.strokeStyle = state.pen ? 'rgba(110,231,183,0.95)' : 'rgba(253,164,175,0.95)';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(cursor.x, cursor.y, rPix, 0, 2*PI); ctx.stroke();
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cursor.x, cursor.y, rPix + 1.4, 0, 2*PI); ctx.stroke();
+      }
+    }
+
+    function recompute() {
+      var r = compute();
+      var src = r.recon || r.img;
+      var lo = 0, hi = 0;
+      for (var i = 0; i < N*N; i++) { if (src[i] > hi) hi = src[i]; if (src[i] < lo) lo = src[i]; }
+      if (hi <= lo) hi = lo + 1;
+      realOff = makeOff(src, lo, hi, 'real', null);
 
       var disp = new Float64Array(N*N), lmax = Math.log(1 + r.maxm);
       for (i = 0; i < N*N; i++) disp[i] = Math.log(1 + r.mag[i])/lmax;
-      var sdisp = shifted(disp);
       var dim = null;
       if (r.keep) {
         dim = new Uint8Array(N*N);
         for (i = 0; i < N*N; i++) dim[i] = r.keep[i] ? 0 : 1;
       }
-      geomF = paint(oF, sdisp, 0, 1, 'k', dim);
-      label(oF.x, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
-        oF.w/2, 16, '#e7e5e4', 12.5);
-      label(oF.x, state.mode === 'manual'
-        ? (JA() ? 'ドラッグで「残す」領域を塗る（中心対称の相方は自動）' : 'drag to paint the regions to keep (the −k partner is added for you)')
-        : (JA() ? '輝点の並び＝逆格子' : 'spot arrangement = the reciprocal lattice'),
-        oF.w/2, oF.h - 12, state.mode === 'manual' ? '#fbbf24' : INKDIM, 11.5);
+      specOff = makeOff(shifted(disp), 0, 1, 'k', dim);
+      renderReal(); renderK();
     }
 
-    // coalesce expensive redraws while painting
+    // coalesce expensive recomputes while painting
     var rafPending = false;
-    function scheduleDraw() {
+    function scheduleRecompute() {
       if (rafPending) return;
       rafPending = true;
-      requestAnimationFrame(function () { rafPending = false; draw(); });
+      requestAnimationFrame(function () { rafPending = false; recompute(); });
     }
 
-    // ---- manual painting on the k panel ----
-    var painting = false;
-    function paintAt(ev) {
-      if (state.mode !== 'manual' || !geomF) return;
+    // ---- pointer handling on the k panel: paint, cursor, zoom ----
+    function imgCoords(ev) {
       var rect = oF.c.getBoundingClientRect();
-      var px = (ev.clientX - rect.left - geomF.dx)/geomF.side*N;
-      var py = (ev.clientY - rect.top - geomF.dy)/geomF.side*N;
-      if (px < 0 || px >= N || py < 0 || py >= N) return;
-      var R = 4;
-      var cx = Math.round(px), cy = Math.round(py);
+      var g = panel(oF), v = viewRect();
+      var cxp = ev.clientX - rect.left, cyp = ev.clientY - rect.top;
+      return {
+        cx: cxp, cy: cyp,
+        ix: v.vx + (cxp - g.dx)/g.side*v.vw,
+        iy: v.vy + (cyp - g.dy)/g.side*v.vw,
+        inPanel: cxp >= g.dx && cxp <= g.dx + g.side && cyp >= g.dy && cyp <= g.dy + g.side
+      };
+    }
+    function paintAt(pt) {
+      if (!pt.inPanel) return;
+      var R = state.brush, val = state.pen ? 1 : 0;
+      var cx0 = Math.round(pt.ix), cy0 = Math.round(pt.iy);
       for (var dy = -R; dy <= R; dy++) for (var dx = -R; dx <= R; dx++) {
         if (dx*dx + dy*dy > R*R) continue;
-        var x = cx + dx, y = cy + dy;
+        var x = cx0 + dx, y = cy0 + dy;
         if (x < 0 || x >= N || y < 0 || y >= N) continue;
         var i = y*N + x;
-        manKeep[i] = 1; manKeep[conjIdx(i)] = 1;
+        manKeep[i] = val; manKeep[conjIdx(i)] = val;
       }
-      scheduleDraw();
+      scheduleRecompute();
     }
-    oF.c.addEventListener('pointerdown', function (e) { painting = true; oF.c.setPointerCapture(e.pointerId); paintAt(e); });
-    oF.c.addEventListener('pointermove', function (e) { if (painting) paintAt(e); });
+    var painting = false;
+    oF.c.addEventListener('pointerdown', function (e) {
+      if (state.mode !== 'manual') return;
+      painting = true; oF.c.setPointerCapture(e.pointerId);
+      paintAt(imgCoords(e));
+    });
+    oF.c.addEventListener('pointermove', function (e) {
+      var pt = imgCoords(e);
+      cursor.x = pt.cx; cursor.y = pt.cy; cursor.inside = pt.inPanel;
+      if (painting) paintAt(pt);
+      else if (state.mode === 'manual') renderK();   // cheap re-blit for the cursor circle
+    });
     oF.c.addEventListener('pointerup', function () { painting = false; });
+    oF.c.addEventListener('pointerleave', function () {
+      cursor.inside = false;
+      if (state.mode === 'manual') renderK();
+    });
     oF.c.style.touchAction = 'none';
+
+    // wheel zoom, anchored at the cursor
+    oF.c.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var pt = imgCoords(e);
+      if (!pt.inPanel) return;
+      var z0 = state.zoom;
+      state.zoom = max(1, min(6, z0*(e.deltaY < 0 ? 1.25 : 0.8)));
+      if (state.zoom !== z0) {
+        // keep the image point under the cursor fixed
+        var g = panel(oF), f = (pt.cx - g.dx)/g.side - 0.5, f2 = (pt.cy - g.dy)/g.side - 0.5;
+        state.vcx = pt.ix - f*(N/state.zoom);
+        state.vcy = pt.iy - f2*(N/state.zoom);
+      }
+      renderK();
+    }, {passive: false});
+
+    function setZoom(z) {
+      state.zoom = max(1, min(6, z));
+      if (state.zoom === 1) { state.vcx = N/2; state.vcy = N/2; }
+      renderK();
+    }
 
     // ---- controls ----
     var sN2 = document.getElementById('s5-noise'), vN2 = document.getElementById('v5-noise');
-    sN2.addEventListener('input', function () { state.noise = +sN2.value; vN2.textContent = state.noise.toFixed(2); draw(); });
+    sN2.addEventListener('input', function () { state.noise = +sN2.value; vN2.textContent = state.noise.toFixed(2); recompute(); });
+    var sB = document.getElementById('s5-brush'), vB = document.getElementById('v5-brush');
+    if (sB) sB.addEventListener('input', function () { state.brush = +sB.value; vB.textContent = state.brush; if (state.mode === 'manual') renderK(); });
 
     var bT = document.getElementById('b5-tri'), bG = document.getElementById('b5-gra');
-    bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); draw(); });
-    bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); draw(); });
+    bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); recompute(); });
+    bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); recompute(); });
 
     var modeBtns = {orig: document.getElementById('b5-orig'), auto: document.getElementById('b5-filt'), manual: document.getElementById('b5-man')};
     function setMode(m) {
       state.mode = m;
       Object.keys(modeBtns).forEach(function (k2) { modeBtns[k2].classList.toggle('active', k2 === m); });
-      oF.c.style.cursor = m === 'manual' ? 'crosshair' : 'default';
-      draw();
+      oF.c.style.cursor = m === 'manual' ? 'none' : 'default';
+      recompute();
     }
     modeBtns.orig.addEventListener('click', function () { setMode('orig'); });
     modeBtns.auto.addEventListener('click', function () { setMode('auto'); });
     modeBtns.manual.addEventListener('click', function () { setMode('manual'); });
     var bC = document.getElementById('b5-clr');
-    if (bC) bC.addEventListener('click', function () { manKeep = new Uint8Array(N*N); if (state.mode === 'manual') draw(); });
+    if (bC) bC.addEventListener('click', function () { manKeep = new Uint8Array(N*N); if (state.mode === 'manual') recompute(); });
 
-    draw();
-    onLangChange.push(draw);
-    window.addEventListener('resize', function () { oI = setup('c5-real'); oF = setup('c5-k'); draw(); });
+    var bPen = document.getElementById('b5-pen'), bErs = document.getElementById('b5-ers');
+    function setPen(p2) {
+      state.pen = p2;
+      if (bPen) bPen.classList.toggle('active', p2);
+      if (bErs) bErs.classList.toggle('active', !p2);
+      if (state.mode === 'manual') renderK();
+    }
+    if (bPen) bPen.addEventListener('click', function () { setPen(true); });
+    if (bErs) bErs.addEventListener('click', function () { setPen(false); });
+
+    var bZi = document.getElementById('b5-zin'), bZo = document.getElementById('b5-zout'), bZr = document.getElementById('b5-zrst');
+    if (bZi) bZi.addEventListener('click', function () { setZoom(state.zoom*1.5); });
+    if (bZo) bZo.addEventListener('click', function () { setZoom(state.zoom/1.5); });
+    if (bZr) bZr.addEventListener('click', function () { setZoom(1); });
+
+    recompute();
+    onLangChange.push(recompute);
+    window.addEventListener('resize', function () { oI = setup('c5-real'); oF = setup('c5-k'); recompute(); });
   })();
 })();

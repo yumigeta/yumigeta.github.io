@@ -280,7 +280,14 @@
           <button class="demo-btn active" id="b5-orig"><span class="i18n-en">Original image</span><span class="i18n-ja">元の画像</span></button>
           <button class="demo-btn" id="b5-filt"><span class="i18n-en">Auto: Bragg spots → inverse FFT</span><span class="i18n-ja">自動：Bragg斑点 → 逆FFT</span></button>
           <button class="demo-btn" id="b5-man"><span class="i18n-en">Manual: paint the mask</span><span class="i18n-ja">マニュアル：マスクを塗る</span></button>
+        </div>
+        <div class="btn-row" style="margin-top:8px">
+          <button class="demo-btn active" id="b5-pen"><span class="i18n-en">✎ Pen</span><span class="i18n-ja">✎ ペン</span></button>
+          <button class="demo-btn" id="b5-ers"><span class="i18n-en">◌ Eraser</span><span class="i18n-ja">◌ 消しゴム</span></button>
           <button class="demo-btn" id="b5-clr"><span class="i18n-en">Clear mask</span><span class="i18n-ja">マスクを消す</span></button>
+          <button class="demo-btn" id="b5-zin"><span class="i18n-en">Zoom +</span><span class="i18n-ja">拡大 ＋</span></button>
+          <button class="demo-btn" id="b5-zout"><span class="i18n-en">Zoom −</span><span class="i18n-ja">縮小 −</span></button>
+          <button class="demo-btn" id="b5-zrst"><span class="i18n-en">1×</span><span class="i18n-ja">等倍</span></button>
         </div>
         <div class="me-controls">
           <div class="me-slider">
@@ -288,9 +295,14 @@
             <input type="range" id="s5-noise" min="0" max="1.2" step="0.02" value="0" aria-label="Image noise">
             <output id="v5-noise">0.00</output>
           </div>
+          <div class="me-slider">
+            <label for="s5-brush"><span class="i18n-en">Brush size</span><span class="i18n-ja">ペンの太さ</span></label>
+            <input type="range" id="s5-brush" min="1" max="12" step="1" value="4" aria-label="Brush size">
+            <output id="v5-brush">4</output>
+          </div>
         </div>
       </div>
-      <p class="me-cap"><span class="i18n-en"><b>Left:</b> a 128×128 “photograph” of a lattice; the slider injects TEM-like noise — a mottled amorphous background plus signal-dependent grain. <b>Right:</b> the magnitude of its 2D Fourier transform, on a log scale; the arrangement of bright spots is the reciprocal lattice of §04, computed from pixels alone. <b>Auto</b> keeps only the Bragg spots (by threshold) and transforms back. <b>Manual</b> lets you drag directly on the right panel to paint the regions of $k$-space to keep — the centrosymmetric partner of every stroke is added automatically, so the rebuilt image stays real.</span><span class="i18n-ja"><b>左:</b> 格子の128×128の「写真」。スライダーはTEM風のノイズ — まだらなアモルファス背景＋信号に応じた粒状ノイズ — を注入する。<b>右:</b> その2次元フーリエ変換の強度（対数表示）。輝点の並びは§04の逆格子そのもの — ただし今度は、画素だけから計算されたものだ。<b>自動</b>はBragg斑点だけを（閾値で）残して逆変換する。<b>マニュアル</b>では右パネルを直接ドラッグして、残したい $k$ 空間の領域を自分で塗れる — 再構成画像が実数に保たれるよう、塗った場所の中心対称の相方は自動で追加される。</span></p>
+      <p class="me-cap"><span class="i18n-en"><b>Left:</b> a 128×128 “photograph” of a lattice; the slider injects TEM-like noise — a mottled amorphous background plus signal-dependent grain. <b>Right:</b> the magnitude of its 2D Fourier transform, on a log scale; the arrangement of bright spots is the reciprocal lattice of §04, computed from pixels alone. <b>Auto</b> keeps only the Bragg spots (by threshold) and transforms back. <b>Manual</b> lets you drag directly on the right panel to paint the regions of $k$-space to keep — switch between <b>pen</b> and <b>eraser</b>, set the brush size (the circle at the pointer previews it), and zoom with the buttons or the mouse wheel (anchored at the cursor) to mask individual spots precisely. The centrosymmetric partner of every stroke is added automatically, so the rebuilt image stays real.</span><span class="i18n-ja"><b>左:</b> 格子の128×128の「写真」。スライダーはTEM風のノイズ — まだらなアモルファス背景＋信号に応じた粒状ノイズ — を注入する。<b>右:</b> その2次元フーリエ変換の強度（対数表示）。輝点の並びは§04の逆格子そのもの — ただし今度は、画素だけから計算されたものだ。<b>自動</b>はBragg斑点だけを（閾値で）残して逆変換する。<b>マニュアル</b>では右パネルを直接ドラッグして、残したい $k$ 空間の領域を自分で塗れる — <b>ペン</b>と<b>消しゴム</b>を切り替え、太さも変えられる（ポインタの円が太さのプレビュー）。ボタンまたはマウスホイール（カーソル位置を中心に）で拡大すれば、斑点1個ずつを正確にマスクできる。再構成画像が実数に保たれるよう、塗った場所の中心対称の相方は自動で追加される。</span></p>
 
       <div class="me-prose">
         <h3><span class="i18n-en">Three experiments to run</span><span class="i18n-ja">試してほしい3つの実験</span></h3>
