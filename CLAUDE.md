@@ -234,11 +234,16 @@ When a page is still in development:
 1. Add `<meta name="robots" content="noindex,nofollow">` right after `<meta charset="UTF-8">` in its `<head>`
 2. Add `Disallow: /learn/[slug]/` to `robots.txt`
 3. Do NOT add it to `sitemap.xml`
+4. Add it to `learn/dev/index.html` only — **never** to `learn/index.html`
 
 When a page is ready to publish (go live):
 1. Remove the `<meta name="robots" ...>` noindex line from its `index.html`
 2. Remove its `Disallow` line from `robots.txt`
 3. Add it to `sitemap.xml`
+4. Add it to `learn/index.html` (public index)
+5. Remove it from `learn/dev/index.html`
+
+**IMPORTANT**: New Learn pages must NEVER be added to `learn/index.html` until explicitly told to publish. Always use `learn/dev/index.html` during development.
 
 ---
 
