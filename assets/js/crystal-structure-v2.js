@@ -503,4 +503,194 @@
     onLangChange.push(redraw);
     window.addEventListener('resize', function () { oR = setup('c4-real'); oK = setup('c4-recip'); redraw(); });
   })();
+
+  // ================================================================
+  //  05 — Nature's FFT: lattice image → spectrum → Bragg filtering
+  // ================================================================
+  (function () {
+    var oI = setup('c5-real'), oF = setup('c5-k');
+    if (!oI || !oF) return;
+    var N = 128;
+    var state = {basis2: false, dis: 0, noise: 0, filt: false};
+
+    // deterministic pseudo-random in [0,1) so sliders replay identically
+    function rnd(x) { var s = sin(x)*43758.5453123; return s - Math.floor(s); }
+
+    // in-place radix-2 FFT on (re, im)
+    function fft1(re, im, inv) {
+      var n = re.length, i, j, bit, t;
+      for (i = 1, j = 0; i < n; i++) {
+        bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) {
+          t = re[i]; re[i] = re[j]; re[j] = t;
+          t = im[i]; im[i] = im[j]; im[j] = t;
+        }
+      }
+      for (var len = 2; len <= n; len <<= 1) {
+        var ang = (inv ? 1 : -1)*2*PI/len;
+        var wr = cos(ang), wi = sin(ang);
+        for (i = 0; i < n; i += len) {
+          var cr = 1, ci = 0;
+          for (var k2 = 0; k2 < len/2; k2++) {
+            var i1 = i + k2, i2 = i + k2 + len/2;
+            var vr = re[i2]*cr - im[i2]*ci;
+            var vi = re[i2]*ci + im[i2]*cr;
+            re[i2] = re[i1] - vr; im[i2] = im[i1] - vi;
+            re[i1] += vr; im[i1] += vi;
+            var ncr = cr*wr - ci*wi; ci = cr*wi + ci*wr; cr = ncr;
+          }
+        }
+      }
+      if (inv) for (i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+    }
+    function fft2(re, im, inv) {
+      var tr = new Float64Array(N), ti = new Float64Array(N), x, y;
+      for (y = 0; y < N; y++) fft1(re.subarray(y*N, y*N + N), im.subarray(y*N, y*N + N), inv);
+      for (x = 0; x < N; x++) {
+        for (y = 0; y < N; y++) { tr[y] = re[y*N + x]; ti[y] = im[y*N + x]; }
+        fft1(tr, ti, inv);
+        for (y = 0; y < N; y++) { re[y*N + x] = tr[y]; im[y*N + x] = ti[y]; }
+      }
+    }
+
+    function buildImage() {
+      var img = new Float64Array(N*N);
+      var apx = 10.5;
+      var a1 = [apx, 0], a2 = [apx*0.5, apx*sqrt3/2];
+      var bas = state.basis2 ? [[0, 0], [(a1[0] + a2[0])/3, (a1[1] + a2[1])/3]] : [[0, 0]];
+      var R = 16, sig = 1.35, rad = 4;
+      for (var n = -R; n <= R; n++) for (var m = -R; m <= R; m++) {
+        for (var bi = 0; bi < bas.length; bi++) {
+          var x = n*a1[0] + m*a2[0] + bas[bi][0] + N/2;
+          var y = n*a1[1] + m*a2[1] + bas[bi][1] + N/2;
+          x += (rnd(n*12.9898 + m*78.233 + bi*37.719)*2 - 1)*state.dis*apx;
+          y += (rnd(n*39.3461 + m*11.1353 + bi*83.155)*2 - 1)*state.dis*apx;
+          if (x < -rad || x > N + rad || y < -rad || y > N + rad) continue;
+          var x0 = max(0, Math.floor(x - rad)), x1 = min(N - 1, Math.ceil(x + rad));
+          var y0 = max(0, Math.floor(y - rad)), y1 = min(N - 1, Math.ceil(y + rad));
+          for (var py = y0; py <= y1; py++) for (var px = x0; px <= x1; px++) {
+            var d2 = (px - x)*(px - x) + (py - y)*(py - y);
+            img[py*N + px] += Math.exp(-d2/(2*sig*sig));
+          }
+        }
+      }
+      if (state.noise > 0) for (var i = 0; i < N*N; i++) img[i] += (rnd(i*0.7311 + 3.7)*2 - 1)*state.noise;
+      // Hann window: suppresses the artificial edges of the finite image
+      for (var yk = 0; yk < N; yk++) {
+        var wy = 0.5 - 0.5*cos(2*PI*yk/(N - 1));
+        for (var xk = 0; xk < N; xk++) {
+          img[yk*N + xk] *= wy*(0.5 - 0.5*cos(2*PI*xk/(N - 1)));
+        }
+      }
+      return img;
+    }
+
+    function paint(o, data, lo, hi, kind, dimMask) {
+      var ctx = o.x;
+      clear(o);
+      var off = document.createElement('canvas');
+      off.width = N; off.height = N;
+      var octx = off.getContext('2d');
+      var id = octx.createImageData(N, N);
+      for (var i = 0; i < N*N; i++) {
+        var v = (data[i] - lo)/(hi - lo);
+        v = v < 0 ? 0 : (v > 1 ? 1 : v);
+        if (dimMask && dimMask[i]) v *= 0.18;
+        var r, g, b;
+        if (kind === 'real') { r = v*255; g = v*240; b = v*208; }
+        else { r = min(255, v*440); g = max(0, v*330 - 60); b = max(0, v*560 - 320); }
+        id.data[4*i] = r; id.data[4*i + 1] = g; id.data[4*i + 2] = b; id.data[4*i + 3] = 255;
+      }
+      octx.putImageData(id, 0, 0);
+      var side = min(o.w, o.h) - 44;
+      var dx = (o.w - side)/2, dy = (o.h - side)/2 + 8;
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(off, dx, dy, side, side);
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.strokeRect(dx, dy, side, side);
+      return {dx: dx, dy: dy, side: side};
+    }
+
+    function compute() {
+      var img = buildImage();
+      var re = Float64Array.from(img), im = new Float64Array(N*N);
+      fft2(re, im, false);
+      var mag = new Float64Array(N*N), maxm = 0, i;
+      for (i = 0; i < N*N; i++) {
+        mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
+        if (i !== 0 && mag[i] > maxm) maxm = mag[i];   // exclude DC from the scale
+      }
+      var thr = 0.13*maxm;
+      var mask = new Uint8Array(N*N);                  // 1 = discarded by the filter
+      for (i = 1; i < N*N; i++) if (mag[i] < thr) mask[i] = 1;
+
+      var recon = null;
+      if (state.filt) {
+        var fr = Float64Array.from(re), fi = Float64Array.from(im);
+        for (i = 1; i < N*N; i++) if (mask[i]) { fr[i] = 0; fi[i] = 0; }
+        fft2(fr, fi, true);
+        recon = fr;
+      }
+      return {img: img, mag: mag, maxm: maxm, mask: mask, recon: recon};
+    }
+
+    // fftshift index mapping for display
+    function shifted(mag) {
+      var out = new Float64Array(N*N);
+      for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+        out[((y + N/2) % N)*N + ((x + N/2) % N)] = mag[y*N + x];
+      }
+      return out;
+    }
+
+    function draw() {
+      var r = compute();
+      // left: image or reconstruction
+      var src = state.filt && r.recon ? r.recon : r.img;
+      var lo = 0, hi = 0;
+      for (var i = 0; i < N*N; i++) { if (src[i] > hi) hi = src[i]; if (src[i] < lo) lo = src[i]; }
+      if (hi <= lo) hi = lo + 1;
+      paint(oI, src, lo, hi, 'real', null);
+      label(oI.x, state.filt
+        ? (JA() ? 'Bragg斑点のみで再構成した画像' : 'image rebuilt from Bragg spots only')
+        : (JA() ? '実空間 — 格子の「写真」' : 'real space — a “photograph” of the lattice'),
+        oI.w/2, 16, '#e7e5e4', 12.5);
+
+      // right: log-magnitude spectrum (fftshifted), dimmed where filtered away
+      var disp = new Float64Array(N*N), lmax = Math.log(1 + r.maxm);
+      for (i = 0; i < N*N; i++) disp[i] = Math.log(1 + r.mag[i])/lmax;
+      var sdisp = shifted(disp);
+      var smask = null;
+      if (state.filt) {
+        var m8 = new Float64Array(N*N);
+        for (i = 0; i < N*N; i++) m8[i] = r.mask[i];
+        var sm = shifted(m8);
+        smask = new Uint8Array(N*N);
+        for (i = 0; i < N*N; i++) smask[i] = sm[i] > 0.5 ? 1 : 0;
+      }
+      paint(oF, sdisp, 0, 1, 'k', smask);
+      label(oF.x, JA() ? 'k空間 — |FFT|（対数表示）＝回折写真' : 'k space — |FFT| (log scale) = the diffraction photo',
+        oF.w/2, 16, '#e7e5e4', 12.5);
+      label(oF.x, JA() ? '輝点の並び＝逆格子' : 'spot arrangement = the reciprocal lattice',
+        oF.w/2, oF.h - 12, INKDIM, 11.5);
+    }
+
+    var sD = document.getElementById('s5-dis'), vD = document.getElementById('v5-dis');
+    var sN = document.getElementById('s5-noise'), vN = document.getElementById('v5-noise');
+    sD.addEventListener('input', function () { state.dis = +sD.value; vD.textContent = state.dis.toFixed(2); draw(); });
+    sN.addEventListener('input', function () { state.noise = +sN.value; vN.textContent = state.noise.toFixed(2); draw(); });
+
+    var bT = document.getElementById('b5-tri'), bG = document.getElementById('b5-gra');
+    bT.addEventListener('click', function () { state.basis2 = false; bT.classList.add('active'); bG.classList.remove('active'); draw(); });
+    bG.addEventListener('click', function () { state.basis2 = true; bG.classList.add('active'); bT.classList.remove('active'); draw(); });
+    var bO = document.getElementById('b5-orig'), bF = document.getElementById('b5-filt');
+    bO.addEventListener('click', function () { state.filt = false; bO.classList.add('active'); bF.classList.remove('active'); draw(); });
+    bF.addEventListener('click', function () { state.filt = true; bF.classList.add('active'); bO.classList.remove('active'); draw(); });
+
+    draw();
+    onLangChange.push(draw);
+    window.addEventListener('resize', function () { oI = setup('c5-real'); oF = setup('c5-k'); draw(); });
+  })();
 })();
