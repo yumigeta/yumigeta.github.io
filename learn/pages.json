@@ -105,6 +105,15 @@
       "desc_ja": "振動する分極率が散乱光をどのように変調するか — ストークス・反ストークス側帯波、$\\nu^4$ 則、選択則 — を古典物理だけで段階的に導く。"
     },
     {
+      "slug": "angle-resolved-raman",
+      "category": "spectroscopy",
+      "published": false,
+      "title_en": "Angle-Resolved Raman: Reading Crystal Symmetry",
+      "title_ja": "角度分解ラマン：結晶対称性を読む",
+      "desc_en": "How polarization-resolved Raman intensity, $|\\boldsymbol{e}_{\\mathrm{s}}\\cdot\\boldsymbol{R}\\cdot\\boldsymbol{e}_{\\mathrm{i}}|^2$, reads out crystal symmetry — the Raman tensor, parallel vs crossed setups, and polar plots for graphene, nanoribbons, silicon, and RTe$_3$.",
+      "desc_ja": "偏光分解したラマン強度 $|\\boldsymbol{e}_{\\mathrm{s}}\\cdot\\boldsymbol{R}\\cdot\\boldsymbol{e}_{\\mathrm{i}}|^2$ がどのように結晶対称性を読み出すか — ラマンテンソル、平行／直交配置、そして graphene・nanoribbon・silicon・RTe$_3$ の極座標プロット。"
+    },
+    {
       "slug": "raman-quantum",
       "category": "spectroscopy",
       "published": false,

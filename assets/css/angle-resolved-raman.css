@@ -1,0 +1,79 @@
+/* ── Angle-resolved Raman ── shared demo styles live in style.css ── */
+
+.crystal-explain {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.crystal-concept h3 {
+  font-size: 0.92rem; font-weight: 700; color: var(--ink);
+  margin-bottom: 8px;
+}
+.crystal-concept p {
+  font-size: 0.84rem; color: var(--soft); line-height: 1.65;
+  margin-bottom: 8px;
+}
+.eq-block {
+  text-align: center; font-size: 1rem; font-weight: 600;
+  color: var(--ink); padding: 10px 0; letter-spacing: 0.02em;
+}
+
+.tensor-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin: 14px 0;
+}
+.tensor-card {
+  border: 1px solid var(--rule); border-radius: 8px;
+  padding: 14px; text-align: center;
+  background: var(--bg-soft);
+}
+.tensor-label {
+  display: block; font-size: 0.88rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 8px;
+}
+.tensor-matrix table {
+  margin: 0 auto; border-collapse: collapse;
+}
+.tensor-matrix td {
+  width: 28px; height: 28px; text-align: center;
+  font-size: 0.82rem; color: var(--ink); font-style: italic;
+}
+.tensor-matrix td:empty::after {
+  content: "0"; color: #57534e;
+}
+
+.raman-info-list {
+  list-style: none; padding: 0; margin: 8px 0 0;
+}
+.raman-info-list li {
+  font-size: 0.82rem; color: var(--soft); line-height: 1.65;
+  padding: 4px 0 4px 18px; position: relative;
+}
+.raman-info-list li::before {
+  content: ""; position: absolute; left: 0; top: 12px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+}
+.raman-info-list li b { color: var(--ink); }
+
+.crystal-concept .ext-link {
+  color: var(--accent); text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px; font-weight: 500;
+}
+.crystal-concept .ext-link:hover {
+  color: var(--soft); text-decoration-color: var(--soft);
+}
+
+/* ── Polar plots ── */
+.polar-fig { margin: 12px 0 6px; text-align: center; }
+.polar-svg { width: min(210px, 62%); height: auto; display: inline-block; }
+.polar-cap { font-size: 0.78rem; color: var(--soft); margin-top: 2px; }
+.polar-cap b { color: var(--ink); }
+.polar-cap .sw {
+  display: inline-block; width: 11px; height: 11px; border-radius: 2px;
+  vertical-align: middle; margin-right: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .tensor-grid { grid-template-columns: 1fr; }
+}
