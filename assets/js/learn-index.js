@@ -37,12 +37,17 @@ window.initLearnIndex = function (publishedOnly) {
         var catPages = pages.filter(function (p) { return p.category === cat.id; });
         var cardsHtml = '';
         catPages.forEach(function (p) {
+          var statusTag = publishedOnly ? '' :
+            p.published
+              ? '<span class="dev-status dev-status--live"><span class="i18n-en">Live</span><span class="i18n-ja">公開中</span></span>'
+              : '<span class="dev-status dev-status--wip"><span class="i18n-en">Dev</span><span class="i18n-ja">非公開</span></span>';
           cardsHtml +=
             '<a href="/learn/' + p.slug + '/" class="et">' +
               '<div>' +
                 '<h3>' +
                   '<span class="i18n-en">' + p.title_en + '</span>' +
                   '<span class="i18n-ja">' + p.title_ja + '</span>' +
+                  statusTag +
                 '</h3>' +
                 '<p>' +
                   '<span class="i18n-en">' + p.desc_en + '</span>' +
