@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Measurement, Error &amp; Data Analysis — Interactive Guide</title>
-  <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data — with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and the central limit theorem.">
+  <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data, with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and the central limit theorem.">
   <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, central limit theorem, statistics, data analysis, experimental physics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/measurement-error/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
-  <meta property="og:description" content="Types of error, significant figures, error propagation, and statistical analysis of measured data — with hands-on, interactive demos.">
+  <meta property="og:description" content="Types of error, significant figures, error propagation, and statistical analysis of measured data, with hands-on, interactive demos.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/measurement-error/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
-  <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and the statistics of repeated measurements — interactive.">
+  <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and the statistics of repeated measurements. Interactive.">
 
   <!-- Structured data: educational article -->
   <script type="application/ld+json">
@@ -26,7 +26,7 @@
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": "Measurement, Error & Data Analysis — Interactive Guide",
-    "description": "An interactive tutorial on measurement uncertainty — types of error, significant figures, error propagation, and the statistical analysis of measured data.",
+    "description": "An interactive tutorial on measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data.",
     "url": "https://yumigeta.github.io/learn/measurement-error/",
     "author": {
       "@type": "Person",
@@ -83,7 +83,7 @@
       <div class="ptop">
         <h1><span class="i18n-en">Measurement, Error &amp; Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析の基礎</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">As a number, $9.8$ and $9.80000$ are equal. As <em>measurement reports</em> they are completely different claims — the second asserts a hundred-thousand-fold better knowledge, and writing it without grounds is, scientifically, a lie. Behind this gap lies everything this page covers: every measurement carries an uncertainty, and the experimenter's job is to <b>estimate</b> it, <b>report</b> it, and <b>carry it through</b> calculations honestly. Four questions, in the order they arise in practice: what kinds of error exist (<b>§00</b>); how many digits a measured number may claim (<b>§01</b>); how uncertainties combine when measurements enter a formula (<b>§02</b>); and how far repetition can push the uncertainty down (<b>§03</b>). Each section has an interactive demo.</span><span class="i18n-ja">数としては $9.8$ と $9.80000$ は等しい。だが<em>測定の報告</em>としては全く別の主張である — 後者は10万倍精密に知っていると主張しており、根拠なくそう書けば、科学的には嘘になる。この差の背後に、本ページで扱うことのすべてがある。あらゆる測定値は不確かさを伴い、実験者の仕事はそれを正直に<b>見積もり</b>、<b>報告し</b>、計算の中まで<b>持ち運ぶ</b>ことだ。実務で現れる順に、4つの問いを扱う：誤差にはどんな種類があるか（<b>§00</b>）、測定値は何桁まで主張してよいか（<b>§01</b>）、測定値を式に通すと不確かさはどう合成されるか（<b>§02</b>）、繰り返し測定で不確かさをどこまで減らせるか（<b>§03</b>）。各節に操作できるデモを添えた。</span></p>
+      <p class="pintro"><span class="i18n-en">As a number, $9.8$ and $9.80000$ are equal. As <em>measurement reports</em> they are completely different claims: the second asserts a hundred-thousand-fold better knowledge, and writing it without grounds is, scientifically, a lie. Behind this gap lies everything this page covers: every measurement carries an uncertainty, and the experimenter's job is to <b>estimate</b> it, <b>report</b> it, and <b>carry it through</b> calculations honestly. Four questions, in the order they arise in practice: what kinds of error exist (<b>§00</b>); how many digits a measured number may claim (<b>§01</b>); how uncertainties combine when measurements enter a formula (<b>§02</b>); and how far repetition can push the uncertainty down (<b>§03</b>). Each section has an interactive demo.</span><span class="i18n-ja">数としては $9.8$ と $9.80000$ は等しい。だが<em>測定の報告</em>としては全く別の主張である。後者は10万倍精密に知っていると主張しており、根拠なくそう書けば、科学的には嘘になる。この差の背後に、本ページで扱うことのすべてがある。あらゆる測定値は不確かさを伴い、実験者の仕事はそれを正直に<b>見積もり</b>、<b>報告し</b>、計算の中まで<b>持ち運ぶ</b>ことだ。実務で現れる順に、4つの問いを扱う：誤差にはどんな種類があるか（<b>§00</b>）、測定値は何桁まで主張してよいか（<b>§01</b>）、測定値を式に通すと不確かさはどう合成されるか（<b>§02</b>）、繰り返し測定で不確かさをどこまで減らせるか（<b>§03</b>）。各節に操作できるデモを添えた。</span></p>
     </div>
   </div>
 
@@ -91,8 +91,8 @@
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">00 — What is the error made of?</span><span class="i18n-ja">00 — 誤差は何でできているのか</span></span>
-      <h2><span class="i18n-en" data-comment-anchor="7c17370190-span">Systematic vs random — accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差 — 正確さと精密さ</span></h2>
-      <p><span class="i18n-en">Why classify errors at all? Because the two kinds respond to completely different remedies. A <b>systematic error</b> shifts every reading the same way (a mis-zeroed scale, an un-subtracted baseline) — it limits <b>accuracy</b>, how close the average sits to the true value. A <b>random error</b> scatters readings unpredictably (electronic noise, counting statistics) — it limits <b>precision</b>, how tightly the readings cluster. Averaging beats down random error but is powerless against a systematic one.</span><span class="i18n-ja">なぜ誤差をわざわざ分類するのか。種類によって対処法がまるで違うからだ。測定誤差は本質的に異なる2種類に分かれる。<b>系統誤差</b>はすべての測定値を同じ向きにずらす（ゼロ点のずれ、引き残したベースラインなど） — これは<b>正確さ（accuracy）</b>、すなわち平均が真値にどれだけ近いかを制限する。<b>偶然誤差</b>は測定値を予測できない形でばらつかせる（電子ノイズ、計数統計など） — これは<b>精密さ（precision）</b>、すなわち測定値がどれだけ密に集まるかを制限する。平均をとれば偶然誤差は小さくできるが、系統誤差には無力である。</span></p>
+      <h2><span class="i18n-en" data-comment-anchor="7c17370190-span">Systematic vs random: accuracy vs precision</span><span class="i18n-ja">系統誤差と偶然誤差：正確さと精密さ</span></h2>
+      <p><span class="i18n-en">Why classify errors at all? Because the two kinds respond to completely different remedies. A <b>systematic error</b> shifts every reading the same way (a mis-zeroed scale, an un-subtracted baseline): it limits <b>accuracy</b>, how close the average sits to the true value. A <b>random error</b> scatters readings unpredictably (electronic noise, counting statistics): it limits <b>precision</b>, how tightly the readings cluster. Averaging beats down random error but is powerless against a systematic one.</span><span class="i18n-ja">なぜ誤差をわざわざ分類するのか。種類によって対処法がまるで違うからだ。測定誤差は本質的に異なる2種類に分かれる。<b>系統誤差</b>はすべての測定値を同じ向きにずらす（ゼロ点のずれ、引き残したベースラインなど）：これは<b>正確さ（accuracy）</b>、すなわち平均が真値にどれだけ近いかを制限する。<b>偶然誤差</b>は測定値を予測できない形でばらつかせる（電子ノイズ、計数統計など）：これは<b>精密さ（precision）</b>、すなわち測定値がどれだけ密に集まるかを制限する。平均をとれば偶然誤差は小さくできるが、系統誤差には無力である。</span></p>
     </div>
     <div class="demo-stage">
       <div class="me-prose">
@@ -132,7 +132,7 @@
         </div>
         </div>
       </div>
-      <p class="me-cap"><span class="i18n-en">Notice: with <b>high systematic / low random</b> error the shots form a tight cluster — <em>precise but inaccurate</em>. No amount of averaging moves that cluster onto the bullseye; only finding and removing the systematic cause does.</span><span class="i18n-ja">注目：<b>系統誤差が大きく偶然誤差が小さい</b>とき、点群は密に集まる — <em>精密だが不正確</em>な状態である。いくら平均をとってもこの点群は中心へ移動しない。系統誤差の原因を見つけて取り除くしかない。</span></p>
+      <p class="me-cap"><span class="i18n-en">Notice: with <b>high systematic / low random</b> error the shots form a tight cluster, <em>precise but inaccurate</em>. No amount of averaging moves that cluster onto the bullseye; only finding and removing the systematic cause does.</span><span class="i18n-ja">注目：<b>系統誤差が大きく偶然誤差が小さい</b>とき、点群は密に集まる（<em>精密だが不正確</em>な状態である）。いくら平均をとってもこの点群は中心へ移動しない。系統誤差の原因を見つけて取り除くしかない。</span></p>
     </div>
   </section>
 
@@ -141,19 +141,19 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">01 — How many digits can you trust?</span><span class="i18n-ja">01 — 何桁まで信じてよいのか</span></span>
       <h2><span class="i18n-en">Significant figures</span><span class="i18n-ja">有効数字</span></h2>
-      <p><span class="i18n-en">As &sect;00 showed, every measured value contains error — so writing digits below the doubtful one is meaningless; they are just garbage. Ask for the circumference of a circle of diameter <b>30.0 mm</b> and a calculator happily returns <b>94.2477796077 mm</b>. But if that last diameter digit is uncertain, the true diameter sits somewhere in 29.95–30.05 mm, and the circumference in <b>94.09–94.40 mm</b> — already the <em>third</em> digit is in doubt. Everything after it is noise. So scientists adopt a shared convention for how many digits to keep.</span><span class="i18n-ja">&sect;00 で見たとおり、あらゆる測定値は誤差を含む。だとすれば、怪しい桁より下を書いても意味がない — ただのデタラメな数字だ。直径 <b>30.0 mm</b> の円の円周を尋ねると、電卓は平気で <b>94.2477796077 mm</b> と返す。だが最後の直径の桁が不確かなら、真の直径は 29.95〜30.05 mm のどこかにあり、円周は <b>94.09〜94.40 mm</b> — すでに<em>3桁目</em>が怪しい。それ以降はただのノイズだ。そこで科学者は、何桁残すかの共通ルールを採用する。</span></p>
+      <p><span class="i18n-en">As &sect;00 showed, every measured value contains error, so writing digits below the doubtful one is meaningless; they are just garbage. Ask for the circumference of a circle of diameter <b>30.0 mm</b> and a calculator happily returns <b>94.2477796077 mm</b>. But if that last diameter digit is uncertain, the true diameter sits somewhere in 29.95–30.05 mm, and the circumference in <b>94.09–94.40 mm</b>: already the <em>third</em> digit is in doubt. Everything after it is noise. So scientists adopt a shared convention for how many digits to keep.</span><span class="i18n-ja">&sect;00 で見たとおり、あらゆる測定値は誤差を含む。だとすれば、怪しい桁より下を書いても意味がない。ただのデタラメな数字だ。直径 <b>30.0 mm</b> の円の円周を尋ねると、電卓は平気で <b>94.2477796077 mm</b> と返す。だが最後の直径の桁が不確かなら、真の直径は 29.95〜30.05 mm のどこかにあり、円周は <b>94.09〜94.40 mm</b>：すでに<em>3桁目</em>が怪しい。それ以降はただのノイズだ。そこで科学者は、何桁残すかの共通ルールを採用する。</span></p>
     </div>
     <div class="demo-stage">
       <div class="me-prose">
         <h3><span class="i18n-en">The basic convention</span><span class="i18n-ja">表記の基本</span></h3>
-        <p><span class="i18n-en">When you read an instrument you can usually estimate to about <b>1/10 of the smallest division</b> by eye. That last estimated digit is uncertain, but it still carries real information — so it is worth recording, while anything below it is pure waste. Hence the universal rule:</span><span class="i18n-ja">測定器を読むとき、ふつう<b>最小目盛の1/10</b>くらいまで目分量で読み取れる。その最後の桁は不確かだが、おおよそ正しい情報を含むので記録する価値がある — 一方それより下の桁は全くの無駄だ。そこで普遍的なルール：</span></p>
-        <p class="eq-block" style="font-weight:600"><span class="i18n-en">“The last written digit is informative — but suspect it!”</span><span class="i18n-ja">「記載された数値の最後の桁は参考になるが、かなり怪しいと疑え！」</span></p>
+        <p><span class=”i18n-en”>When you read an instrument you can usually estimate to about <b>1/10 of the smallest division</b> by eye. That last estimated digit is uncertain, but it still carries real information, so it is worth recording; anything below it is pure waste. Hence the universal rule:</span><span class=”i18n-ja”>測定器を読むとき、ふつう<b>最小目盛の1/10</b>くらいまで目分量で読み取れる。その最後の桁は不確かだが、おおよそ正しい情報を含むので記録する価値がある。それより下の桁は全くの無駄だ。そこで普遍的なルール：</span></p>
+        <p class=”eq-block” style=”font-weight:600”><span class=”i18n-en”>”The last written digit is informative, but suspect it!”</span><span class=”i18n-ja”>「記載された数値の最後の桁は参考になるが、かなり怪しいと疑え！」</span></p>
         <p><span class="i18n-en">Then how many digits you write tells the reader how far the value can be trusted. A problem arises only above the decimal point: in <b>123000</b>, are the trailing zeros real or just placeholders? <b>Scientific notation</b> removes the ambiguity:</span><span class="i18n-ja">こうすれば、何桁書くかで「どこまで信用できるか」を読み手に伝えられる。困るのは小数点より上の桁だけだ：<b>123000</b> の末尾のゼロは有効なのか位取りなのか分からない。<b>指数表記（科学的表記法）</b>がこの曖昧さを取り除く：</span></p>
         <p class="eq-block">$$1.23\times10^{5}\ \text{(3 s.f.)},\quad 1.230\times10^{5}\ \text{(4 s.f.)},\quad 1.2300\times10^{5}\ \text{(5 s.f.)}$$</p>
-        <p><span class="i18n-en">It works for small numbers too: $0.000456 = 4.56\times10^{-4}$ — no need to count zeros. The <b>number of significant figures</b> is counted from the first non-zero digit through the doubtful last digit (leading zeros never count). So $1.230\times10^{5}$ has 4 significant figures; $0.000456$ has 3 (the digits <b>456</b>).</span><span class="i18n-ja">小さな数にも使える：$0.000456 = 4.56\times10^{-4}$ — ゼロを数えなくてよい。<b>有効数字の桁数</b>は、最初の非ゼロ数字から怪しい最後の桁まで数える（先頭のゼロは数えない）。よって $1.230\times10^{5}$ は4桁、$0.000456$ は3桁（<b>456</b> の部分）である。</span></p>
+        <p><span class="i18n-en">It works for small numbers too: $0.000456 = 4.56\times10^{-4}$, with no need to count zeros. The <b>number of significant figures</b> is counted from the first non-zero digit through the doubtful last digit (leading zeros never count). So $1.230\times10^{5}$ has 4 significant figures; $0.000456$ has 3 (the digits <b>456</b>).</span><span class="i18n-ja">小さな数にも使える：$0.000456 = 4.56\times10^{-4}$、ゼロを数えなくてよい。<b>有効数字の桁数</b>は、最初の非ゼロ数字から怪しい最後の桁まで数える（先頭のゼロは数えない）。よって $1.230\times10^{5}$ は4桁、$0.000456$ は3桁（<b>456</b> の部分）である。</span></p>
 
         <h3><span class="i18n-en">The rules for arithmetic</span><span class="i18n-ja">四則演算の作法</span></h3>
-        <p><span class="i18n-en"><b>Addition / subtraction:</b> line the numbers up by place value; the answer can only be trusted down to the <em>highest</em> last-trustworthy place among the inputs, so keep the <b>fewest decimal places</b>. <b>Multiplication / division:</b> place value is irrelevant — only the <em>count</em> of significant figures matters, so the answer keeps the <b>fewest significant figures</b>. In all cases, round just <em>once, at the end</em>. For example:</span><span class="i18n-ja"><b>加算・減算：</b>位を揃えて並べる。結果は入力のうち最後の信頼桁が<em>最も高い位</em>までしか信用できないので、<b>最小の小数位</b>に合わせる。<b>乗算・除算：</b>位は関係なく、有効数字の<em>桁数</em>だけが効くので、結果は<b>最小の有効数字</b>に合わせる。いずれも丸めは<em>最後に1回だけ</em>。例えば：</span></p>
+        <p><span class="i18n-en"><b>Addition / subtraction:</b> line the numbers up by place value; the answer can only be trusted down to the <em>highest</em> last-trustworthy place among the inputs, so keep the <b>fewest decimal places</b>. <b>Multiplication / division:</b> place value is irrelevant; only the <em>count</em> of significant figures matters, so the answer keeps the <b>fewest significant figures</b>. In all cases, round just <em>once, at the end</em>. For example:</span><span class="i18n-ja"><b>加算・減算：</b>位を揃えて並べる。結果は入力のうち最後の信頼桁が<em>最も高い位</em>までしか信用できないので、<b>最小の小数位</b>に合わせる。<b>乗算・除算：</b>位は関係なく、有効数字の<em>桁数</em>だけが効くので、結果は<b>最小の有効数字</b>に合わせる。いずれも丸めは<em>最後に1回だけ</em>。例えば：</span></p>
         <p class="eq-block">$$12.34 + 1.1 = 13.4\ \ (\text{fewest dp}=1),\qquad 12.34 \times 1.1 = 14\ \ (\text{fewest s.f.}=2)$$</p>
         <p><span class="i18n-en">Keep a trailing zero when the rule produces one — it marks where the doubt sits ($1.1+2.4=3.5$; a carry gives $9.9+0.2=10.1$). And subtraction can be brutal: $1.2345-1.2300=0.0045$ collapses 5- and 6-figure inputs into a 2-figure answer (<b>catastrophic cancellation</b>). Round only the final answer.</span><span class="i18n-ja">ルールの結果として末尾に 0 が出たら残す — そこに疑いがあることを示す（$1.1+2.4=3.5$、繰り上がりで $9.9+0.2=10.1$）。引き算は厳しく、$1.2345-1.2300=0.0045$ は5桁・6桁の入力を2桁の答えに変えてしまう（<b>桁落ち</b>）。丸めは最終結果だけ。</span></p>
         <p><span class="i18n-en"><b>One caveat — constants don't limit the count.</b> Numbers that aren't measured — mathematical constants ($\pi$, $e$), plain integers like the "2" in $2\pi r$, exact counts, and <b>defined</b> values such as the speed of light $c=299{,}792{,}458$ m/s — carry infinitely many significant figures and never cap the result. In practice you only need to carry one or two guard digits beyond the target precision; there is no point typing a 12-digit $\pi$ into a calculator.</span><span class="i18n-ja"><b>1つだけ注意 — 定数は桁数を制限しない。</b>測定値でない数 — 数学定数（$\pi$, $e$）、$2\pi r$ の「2」のようなただの整数、数えられる個数、そして光速 $c=299{,}792{,}458$ m/s のような<b>定義値</b> — は有効数字を<b>無限桁</b>持ち、結果の桁数を制限しない。実用上は目標精度より1〜2桁だけ余分に持てば十分で、$\pi$ を12桁も電卓に打ち込む意味はない。</span></p>

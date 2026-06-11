@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classical Theory of Raman Scattering — Interactive Guide</title>
-  <meta name="description" content="A step-by-step derivation of Raman scattering from classical physics: polarizability modulation, Stokes and anti-Stokes sidebands, the ν⁴ intensity law, and the selection rule — with synchronized interactive animations.">
+  <meta name="description" content="A step-by-step derivation of Raman scattering from classical physics: polarizability modulation, Stokes and anti-Stokes sidebands, the ν⁴ intensity law, and the selection rule, with synchronized interactive animations.">
   <meta name="keywords" content="Raman spectroscopy, classical theory, polarizability, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, Raman tensor, selection rule, phonon, spectroscopy tutorial, physics animation, interactive physics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/raman/">
 
@@ -30,7 +30,7 @@
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": "Classical Theory of Raman Scattering — Interactive Guide",
-    "description": "A step-by-step classical derivation of Raman scattering: polarizability modulation, Stokes/anti-Stokes sidebands, the ν⁴ intensity law, and selection rules — with interactive animations.",
+    "description": "A step-by-step classical derivation of Raman scattering: polarizability modulation, Stokes/anti-Stokes sidebands, the ν⁴ intensity law, and selection rules, with interactive animations.",
     "url": "https://yumigeta.github.io/learn/raman/",
     "author": {
       "@type": "Person",
@@ -92,7 +92,7 @@
       <div class="ptop">
         <h1><span class="i18n-en">Classical Theory of Raman Scattering</span><span class="i18n-ja">ラマン散乱の古典論</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">Shine a laser on a material, and almost every photon bounces back with its colour unchanged. But about one in ten million comes back <em>slightly shifted in colour</em>. That tiny shift, $\omega_0\!\pm\!\omega_k$, turns out to be a direct copy of the material's vibration frequencies — a <b>vibrational fingerprint</b> that identifies the material and reads out its composition, crystallinity, strain, doping, temperature, layer number, and crystal orientation, all without touching it. Why does the colour change at all? This page answers that with nothing more than <b>classical physics</b> — the scattering mechanism, the scattered intensity, and the selection rules that decide which vibrations show up. The same story retold in the <b>quantum picture</b> continues on a <a href="/learn/raman-quantum/">companion page</a>.</span><span class="i18n-ja">レーザーを物質に当てると、ほとんどの光は同じ色のまま跳ね返ってくる。ところが、およそ1000万分の1というごく僅かな光だけが、<em>わずかに色を変えて</em>戻ってくる。この小さな色の変化 $\omega_0\!\pm\!\omega_k$ こそ、物質の振動数をそのまま写し取った<b>振動の指紋</b>である。指紋を照合すれば物質が同定できるだけでなく、組成・結晶性・ひずみ・ドーピング・温度・層数・結晶方位までも、触れずに読み取れる。では、なぜ色が変わるのか？　本ページではこの謎を<b>古典物理だけ</b>で解き明かす — 散乱のからくり、散乱強度、そしてどの振動が見えるかを決める選択則まで。同じ物理を<b>量子論</b>で語り直したものは<a href="/learn/raman-quantum/">別ページ</a>で扱う。</span></p>
+      <p class="pintro"><span class="i18n-en">Shine a laser on a material, and almost every photon bounces back with its colour unchanged. But about one in ten million comes back <em>slightly shifted in colour</em>. That tiny shift, $\omega_0\!\pm\!\omega_k$, turns out to be a direct copy of the material's vibration frequencies: a <b>vibrational fingerprint</b> that identifies the material and reads out its composition, crystallinity, strain, doping, temperature, layer number, and crystal orientation, all without touching it. Why does the colour change at all? This page answers that with nothing more than <b>classical physics</b>: the scattering mechanism, the scattered intensity, and the selection rules that decide which vibrations show up. The same story retold in the <b>quantum picture</b> continues on a <a href="/learn/raman-quantum/">companion page</a>.</span><span class="i18n-ja">レーザーを物質に当てると、ほとんどの光は同じ色のまま跳ね返ってくる。ところが、およそ1000万分の1というごく僅かな光だけが、<em>わずかに色を変えて</em>戻ってくる。この小さな色の変化 $\omega_0\!\pm\!\omega_k$ こそ、物質の振動数をそのまま写し取った<b>振動の指紋</b>である。指紋を照合すれば物質が同定できるだけでなく、組成・結晶性・ひずみ・ドーピング・温度・層数・結晶方位までも、触れずに読み取れる。では、なぜ色が変わるのか？　本ページではこの謎を<b>古典物理だけ</b>で解き明かす：散乱のからくり、散乱強度、そしてどの振動が見えるかを決める選択則まで。同じ物理を<b>量子論</b>で語り直したものは<a href="/learn/raman-quantum/">別ページ</a>で扱う。</span></p>
     </div>
   </div>
 
@@ -102,7 +102,7 @@
       <span class="demo-num"><span class="i18n-en">00 — Classical theory of vibrational Raman scattering</span><span class="i18n-ja">00 — 振動ラマン散乱の古典論</span></span>
       <h2><span class="i18n-en">Why does the scattered light change colour?</span><span class="i18n-ja">散乱光はなぜ色を変えるのか</span></h2>
       <p>
-        <span class="i18n-en">Let's give away the answer up front. The key is that a molecule's <b>polarizability</b> — how easily its electron cloud deforms — is <b>periodically shaken by the molecular vibrations</b>. A shaking polarizability <em>modulates</em> the scattered light, and exactly as in AM radio, modulation plants sidebands on either side of the original frequency: the <b>Stokes</b> and <b>anti-Stokes</b> lines. In this section we make that one-line story rigorous, using only two ingredients: the incident light as a <b>plane electromagnetic wave</b>, and the molecule as a particle with a <b>vibrating polarizability</b>.</span><span class="i18n-ja">先に種明かしをしてしまおう。鍵は、分子の<b>分極率</b> — 電子雲の変形しやすさ — が<b>分子振動によって周期的に揺さぶられる</b>ことにある。揺れる分極率は散乱光に「変調」をかける。するとAMラジオとまったく同じ仕組みで、元の周波数の両脇に側帯波が立つ — これが<b>ストークス光</b>と<b>反ストークス光</b>だ。この節では、この一行の筋書きを数式できちんと確かめる。使う道具は2つだけ。入射光を表す<b>平面電磁波</b>と、<b>振動する分極率</b>を持つ分子である。</span>
+        <span class="i18n-en">Let's give away the answer up front. The key is that a molecule's <b>polarizability</b> (how easily its electron cloud deforms) is <b>periodically shaken by the molecular vibrations</b>. A shaking polarizability <em>modulates</em> the scattered light, and exactly as in AM radio, modulation plants sidebands on either side of the original frequency: the <b>Stokes</b> and <b>anti-Stokes</b> lines. In this section we make that one-line story rigorous, using only two ingredients: the incident light as a <b>plane electromagnetic wave</b>, and the molecule as a particle with a <b>vibrating polarizability</b>.</span><span class="i18n-ja">先に種明かしをしてしまおう。鍵は、分子の<b>分極率</b>（電子雲の変形しやすさ）が<b>分子振動によって周期的に揺さぶられる</b>ことにある。揺れる分極率は散乱光に「変調」をかける。するとAMラジオとまったく同じ仕組みで、元の周波数の両脇に側帯波が立つ。これが<b>ストークス光</b>と<b>反ストークス光</b>だ。この節では、この一行の筋書きを数式できちんと確かめる。使う道具は2つだけ。入射光を表す<b>平面電磁波</b>と、<b>振動する分極率</b>を持つ分子である。</span>
       </p>
     </div>
     <div class="demo-stage">
@@ -111,14 +111,14 @@
       <div class="derivation">
 
         <h3><span class="i18n-en">First ingredient: the incident wave</span><span class="i18n-ja">1つ目の要素：入射電磁波</span></h3>
-        <p><span class="i18n-en">First, let's set up the two ingredients we need. The first is the light. A laser is monochromatic, so a single plane wave is all we need — its electric-field vector is</span><span class="i18n-ja">まずは必要な2つの要素を用意しよう。1つ目は光だ。レーザーは単色光なので、平面波が1つあれば足りる。その電場ベクトルを次のように書く。</span></p>
+        <p><span class="i18n-en">First, let's set up the two ingredients we need. The first is the light. A laser is monochromatic, so a single plane wave is all we need; its electric-field vector is</span><span class="i18n-ja">まずは必要な2つの要素を用意しよう。1つ目は光だ。レーザーは単色光なので、平面波が1つあれば足りる。その電場ベクトルを次のように書く。</span></p>
         <p class="eq-block" id="eq1">$$\boldsymbol{E}_{\mathrm{i}} = E_{\mathrm{i}}\,\boldsymbol{e}_{\mathrm{i}}\cos\omega_{\mathrm{i}} t \tag{1}$$</p>
         <p><span class="i18n-en">where $E_{\mathrm{i}}$ is the field amplitude, $\boldsymbol{e}_{\mathrm{i}}$ the polarization vector, and $\omega_{\mathrm{i}}$ the angular frequency. The vector $\boldsymbol{e}_{\mathrm{i}}$ has three components,</span><span class="i18n-ja">ここで $E_{\mathrm{i}}$ は入射光電場の振幅、$\boldsymbol{e}_{\mathrm{i}}$ は偏光ベクトル、$\omega_{\mathrm{i}}$ は角振動数である。ベクトル $\boldsymbol{e}_{\mathrm{i}}$ は3つの成分を持つ。</span></p>
         <p class="eq-block" id="eq2">$$\boldsymbol{e}_{\mathrm{i}}=\begin{pmatrix}e_{\mathrm{i}x}\\ e_{\mathrm{i}y}\\ e_{\mathrm{i}z}\end{pmatrix} \tag{2}$$</p>
         <p><span class="i18n-en">where $x,y,z$ are the space-fixed Cartesian axes.</span><span class="i18n-ja">ここで $x,y,z$ はそれぞれ空間固定のデカルト座標である。</span></p>
 
-        <h3><span class="i18n-en">Second ingredient: the molecule — polarizability and the induced dipole</span><span class="i18n-ja">2つ目の要素：分子 — 分極率と誘起双極子</span></h3>
-        <p><span class="i18n-en">The second ingredient is the molecule. What does the field do to it? The light <b style="color:#38bdf8">electron cloud</b> is light enough to follow the field, while the heavy <b style="color:#ef4444">nuclei</b> barely move — so the centres of positive and negative charge separate, and a dipole moment appears, proportional to the field: $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant $\boldsymbol{\alpha}$ is the <b>polarizability</b> — "how easily the electron cloud deforms". Try it below.</span><span class="i18n-ja">2つ目の要素は分子である。電場は分子に何をするか？　軽い<b style="color:#38bdf8">電子雲</b>は電場に引かれて素直に変位するが、重い<b style="color:#ef4444">原子核</b>はほとんど動けない。すると正負の電荷の中心がずれ、電場に比例した双極子モーメント $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$ が現れる。この比例定数 $\boldsymbol{\alpha}$ が<b>分極率</b> — 「電子雲の変形しやすさ」である。下のデモで実際に動かしてみてほしい。</span></p>
+        <h3><span class="i18n-en">Second ingredient: the molecule (polarizability and the induced dipole)</span><span class="i18n-ja">2つ目の要素：分子（分極率と誘起双極子）</span></h3>
+        <p><span class="i18n-en">The second ingredient is the molecule. What does the field do to it? The light <b style="color:#38bdf8">electron cloud</b> is light enough to follow the field, while the heavy <b style="color:#ef4444">nuclei</b> barely move; so the centres of positive and negative charge separate, and a dipole moment appears, proportional to the field: $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$. The proportionality constant $\boldsymbol{\alpha}$ is the <b>polarizability</b>: "how easily the electron cloud deforms". Try it below.</span><span class="i18n-ja">2つ目の要素は分子である。電場は分子に何をするか？　軽い<b style="color:#38bdf8">電子雲</b>は電場に引かれて素直に変位するが、重い<b style="color:#ef4444">原子核</b>はほとんど動けない。すると正負の電荷の中心がずれ、電場に比例した双極子モーメント $\boldsymbol{\mu}=\boldsymbol{\alpha}\,\boldsymbol{E}_{\mathrm{i}}$ が現れる。この比例定数 $\boldsymbol{\alpha}$ が<b>分極率</b>、すなわち「電子雲の変形しやすさ」である。下のデモで実際に動かしてみてほしい。</span></p>
         <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c-atom" class="atom-canvas"></canvas>
         <div class="atom-controls">
@@ -139,7 +139,7 @@
         </div>
         </div>
         <p class="cap" id="atom-cap">
-          <span class="i18n-en">Here is the crux of the whole page. If $\alpha$ <b>stays constant in time</b>, the induced dipole has no choice but to oscillate at the <b>same frequency as the incident light</b> ($\omega_{\mathrm{i}}$) — the colour cannot change. That is elastic <b>Rayleigh scattering</b>. For the colour to change, $\alpha$ <b>itself must vary in time</b>. So what shakes $\alpha$? The <b>molecular vibration</b>.</span><span class="i18n-ja">ここが本ページ最大の急所である。$\alpha$ が<b>時間的に一定</b>なら、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_{\mathrm{i}}$）で揺れることしかできない — 色は変わりようがない。これが弾性的な<b>レイリー散乱</b>だ。色が変わるためには、$\alpha$ <b>自身が時間変化</b>しなければならない。では、$\alpha$ を揺らすものは何か？　— 分子の<b>振動</b>である。</span>
+          <span class="i18n-en">Here is the crux of the whole page. If $\alpha$ <b>stays constant in time</b>, the induced dipole has no choice but to oscillate at the <b>same frequency as the incident light</b> ($\omega_{\mathrm{i}}$); the colour cannot change. That is elastic <b>Rayleigh scattering</b>. For the colour to change, $\alpha$ <b>itself must vary in time</b>. So what shakes $\alpha$? The <b>molecular vibration</b>.</span><span class="i18n-ja">ここが本ページ最大の急所である。$\alpha$ が<b>時間的に一定</b>なら、誘起双極子は<b>入射光と同じ周波数</b>（$\omega_{\mathrm{i}}$）で揺れることしかできず、色は変わりようがない。これが弾性的な<b>レイリー散乱</b>だ。色が変わるためには、$\alpha$ <b>自身が時間変化</b>しなければならない。では、$\alpha$ を揺らすものは何か。分子の<b>振動</b>である。</span>
         </p>
 
         <h3><span class="i18n-en">A vibrating polarizability</span><span class="i18n-ja">振動する分極率</span></h3>

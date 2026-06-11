@@ -5,7 +5,7 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Picture of Raman Scattering — Interactive Guide</title>
-  <meta name="description" content="Why is the anti-Stokes line always weaker — and why does its brightness change with temperature? The quantum picture of Raman scattering: photons, phonons, Boltzmann populations, resonance enhancement, and the Jablonski diagram.">
+  <meta name="description" content="Why is the anti-Stokes line always weaker, and why does its brightness change with temperature? The quantum picture of Raman scattering: photons, phonons, Boltzmann populations, resonance enhancement, and the Jablonski diagram.">
   <meta name="keywords" content="Raman spectroscopy, quantum theory, Stokes anti-Stokes ratio, Raman thermometry, resonance Raman, Jablonski diagram, phonon, virtual state, Boltzmann distribution, spectroscopy tutorial, physics animation">
   <link rel="canonical" href="https://yumigeta.github.io/learn/raman-quantum/">
 
@@ -22,7 +22,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Quantum Picture of Raman Scattering — Interactive Guide">
-  <meta name="twitter:description" content="Why anti-Stokes is weaker, Raman thermometry, and resonance Raman — explained with photons and phonons.">
+  <meta name="twitter:description" content="Why anti-Stokes is weaker, Raman thermometry, and resonance Raman, explained with photons and phonons.">
   <meta name="twitter:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
 
   <!-- Structured data -->
@@ -92,7 +92,7 @@
       <div class="ptop">
         <h1><span class="i18n-en">Quantum Picture of Raman Scattering</span><span class="i18n-ja">ラマン散乱の量子論</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">The <a href="/learn/raman/">classical theory</a> nails the scattering frequencies, the selection rules, and the $\nu^4$ intensity law. But it hands the Stokes and anti-Stokes sidebands the exact same amplitude — and experiment flatly disagrees. The anti-Stokes line is always weaker, its relative brightness changes with temperature, and near an electronic resonance the entire signal can blaze up a millionfold. None of this can come from classical physics. This page retells the Raman story with <b>photons and phonons</b>: discrete energy quanta, Boltzmann-weighted vibrational populations, virtual states, and the Jablonski diagram — recovering everything classical physics left on the table.</span><span class="i18n-ja"><a href="/learn/raman/">古典論</a>は散乱周波数・選択則・$\nu^4$ 則を正しく与える。しかし古典論はストークス線と反ストークス線に同じ振幅を与えてしまう — 実験はこれをきっぱり否定する。反ストークス線はつねにずっと弱く、その明るさは温度とともに変わり、電子共鳴に近いとスペクトル全体が百万倍にも燃え上がる。これらは古典物理には不可能だ。本ページではラマン散乱の物語を<b>光子とフォノン</b>で語り直す — とびとびのエネルギー量子、ボルツマン重みをもった振動準位の分布、仮想状態、そしてヤブロンスキー図 — 古典論がテーブルに残していったものをすべて回収する。</span></p>
+      <p class="pintro"><span class="i18n-en">The <a href="/learn/raman/">classical theory</a> nails the scattering frequencies, the selection rules, and the $\nu^4$ intensity law. But it hands the Stokes and anti-Stokes sidebands the exact same amplitude, and experiment flatly disagrees. The anti-Stokes line is always weaker, its relative brightness changes with temperature, and near an electronic resonance the entire signal can blaze up a millionfold. None of this can come from classical physics. This page retells the Raman story with <b>photons and phonons</b>: discrete energy quanta, Boltzmann-weighted vibrational populations, virtual states, and the Jablonski diagram, recovering everything classical physics left on the table.</span><span class="i18n-ja"><a href="/learn/raman/">古典論</a>は散乱周波数・選択則・$\nu^4$ 則を正しく与える。しかし古典論はストークス線と反ストークス線に同じ振幅を与えてしまう。実験はこれをきっぱり否定する。反ストークス線はつねにずっと弱く、その明るさは温度とともに変わり、電子共鳴に近いとスペクトル全体が百万倍にも燃え上がる。これらは古典物理には不可能だ。本ページではラマン散乱の物語を<b>光子とフォノン</b>で語り直す：とびとびのエネルギー量子、ボルツマン重みをもった振動準位の分布、仮想状態、そしてヤブロンスキー図。古典論がテーブルに残していったものをすべて回収する。</span></p>
     </div>
   </div>
 
@@ -109,7 +109,7 @@
 
       <div class="derivation">
 
-        <h3><span class="i18n-en">Recasting the actors: waves become quanta</span><span class="i18n-ja">役者の衣装替え — 波を量子の言葉で書き直す</span></h3>
+        <h3><span class="i18n-en">Recasting the actors: waves become quanta</span><span class="i18n-ja">役者の衣装替え：波を量子の言葉で書き直す</span></h3>
         <p><span class="i18n-en">The cast is the same as before — light and a vibrating molecule — but both must change costume. First, the light. A beam of angular frequency $\omega_{\mathrm{i}}$ is no longer a smooth wave but a stream of <b>photons</b>, each carrying one indivisible lump of energy</span><span class="i18n-ja">役者は前と同じ — 光と、振動する分子だ。ただし、二人とも衣装を替えてもらう。まずは光。角振動数 $\omega_{\mathrm{i}}$ の光は、もはやなめらかな波ではなく<b>光子</b>の流れであり、1個1個がそれ以上分割できないエネルギーの塊を運ぶ。</span></p>
         <p class="eq-block" id="eq1">$$E_{\mathrm{photon}}=\hbar\omega_{\mathrm{i}} \tag{1}$$</p>
         <p><span class="i18n-en">Next, the vibration. Classically, the normal coordinate $Q_k$ could swing with <em>any</em> amplitude — the molecule could vibrate "a little more" or "a little less" at will. Quantum mechanics says no. A harmonic vibration of frequency $\omega_k$ is allowed only the discrete ladder of energies</span><span class="i18n-ja">次は振動だ。古典論では基準座標 $Q_k$ は<em>どんな</em>振幅でも振れた — 分子は好きなだけ「もう少し強く」も「もう少し弱く」も振動できた。量子力学はこれを許さない。振動数 $\omega_k$ の調和振動に許されるのは、とびとびの梯子状のエネルギーだけである。</span></p>

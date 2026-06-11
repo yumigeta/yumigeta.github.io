@@ -5,21 +5,21 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gate Dielectrics and Transistor Performance</title>
-  <meta name="description" content="What a dielectric is — polarization, bound charge, and the four polarization mechanisms — and how the gate dielectric controls a field-effect transistor: gate capacitance and EOT, leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation — and hysteresis, whose loop direction identifies the microscopic culprit.">
+  <meta name="description" content="What a dielectric is: polarization, bound charge, and the four polarization mechanisms. How the gate dielectric controls a field-effect transistor: gate capacitance and EOT, leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation, and hysteresis. The loop direction identifies the microscopic culprit.">
   <meta name="keywords" content="dielectric, polarization, polarization mechanisms, bound charge, gate dielectric, gate oxide, high-k, low-k, EOT, equivalent oxide thickness, threshold voltage, subthreshold swing, interface traps, Dit, mobility, remote phonon scattering, Anderson localization, hysteresis, transfer curve, charge trapping, mobile ions, ferroelectric, FeFET, floating gate, ionic liquid gating, MOSFET, 2D transistors">
   <link rel="canonical" href="https://yumigeta.github.io/learn/gate-dielectrics/">
 
   <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Gate Dielectrics and Transistor Performance">
-  <meta property="og:description" content="The thin insulating film under the gate decides how much charge the gate can summon, how steeply the transistor switches, how fast carriers move — and whether the device remembers its past. Ends with hysteresis loops and how their direction names the culprit.">
+  <meta property="og:description" content="The thin insulating film under the gate decides how much charge the gate can summon, how steeply the transistor switches, how fast carriers move, and whether the device remembers its past. Ends with hysteresis loops and how their direction names the culprit.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/gate-dielectrics/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Gate Dielectrics and Transistor Performance">
-  <meta name="twitter:description" content="One capacitor formula explains most of a transistor's personality — and one loop in its transfer curve confesses the rest. A story-driven tour of gate dielectric physics.">
+  <meta name="twitter:description" content="One capacitor formula explains most of a transistor's personality, and one loop in its transfer curve confesses the rest. A story-driven tour of gate dielectric physics.">
 
   <!-- Structured data: educational article -->
   <script type="application/ld+json">
@@ -27,7 +27,7 @@
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": "Gate Dielectrics and Transistor Performance",
-    "description": "An explainer of gate dielectric physics in field-effect transistors, starting from what a dielectric is (polarization, bound charge, and the four polarization mechanisms): gate capacitance, equivalent oxide thickness, tunneling leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation mechanisms, and transfer-curve hysteresis — including the direction of the hysteresis loop and the classification of its microscopic causes.",
+    "description": "An explainer of gate dielectric physics in field-effect transistors, starting from what a dielectric is (polarization, bound charge, and the four polarization mechanisms): gate capacitance, equivalent oxide thickness, tunneling leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation mechanisms, and transfer-curve hysteresis, including the direction of the hysteresis loop and the classification of its microscopic causes.",
     "url": "https://yumigeta.github.io/learn/gate-dielectrics/",
     "author": {
       "@type": "Person",
@@ -91,7 +91,7 @@
       <div class="ptop">
         <h1><span class="i18n-en">Gate Dielectrics and Transistor Performance</span><span class="i18n-ja">ゲート誘電体とトランジスタ性能</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">Ask anyone to name the important part of a transistor and they will point at the channel — the silicon, the MoS<sub>2</sub>, the material in the headlines. But between the gate metal and the channel lies a film of insulator, often just a few nanometers thick, that quietly decides almost everything: how much charge the gate can summon, how steeply the device switches on, how fast the carriers move, how much current leaks away — and whether the transistor <em>remembers its own past</em>. This page starts from the very beginning — what a dielectric even <em>is</em>, and why anyone would put an insulator in command of a switch — builds the physics of that film from a single capacitor formula, and follows it all the way to its strangest symptom: <b>hysteresis</b>, the loop that opens up in a transfer curve when you sweep the gate voltage up and then back down. The loop is not just a nuisance. Its width measures how much the dielectric remembers, and — remarkably — <em>the direction in which the loop is traced names the culprit</em>. By the end, you will be able to look at a hysteresis loop and interrogate it like a detective.</span><span class="i18n-ja">トランジスタの大事な部品はどこかと聞けば、たいていの人はチャネルを指さすだろう — シリコン、MoS<sub>2</sub>、ニュースの見出しを飾る材料たちだ。しかしゲート金属とチャネルのあいだには、厚さわずか数ナノメートルの絶縁体の膜が挟まっていて、これがほとんどすべてを静かに決めている。ゲートがどれだけの電荷を呼び寄せられるか、デバイスがどれだけ急峻にオンするか、キャリアがどれだけ速く走れるか、電流がどれだけ漏れるか — そして、トランジスタが<em>自分の過去を覚えてしまう</em>かどうか、までも。このページでは、いちばんの始まり — そもそも誘電体とは<em>何なのか</em>、なぜスイッチの指揮を絶縁体に任せるのか — から出発し、この膜の物理をたった1本のコンデンサの式から組み立て、その最も奇妙な症状までたどり着く。<b>ヒステリシス</b> — ゲート電圧を上げてから下げて戻ってくると、伝達特性に口を開けるループ — である。このループはただの迷惑者ではない。その幅は誘電体がどれだけ過去を覚えているかの目盛りであり、しかも驚くべきことに、<em>ループを描く向きが犯人の名を告げる</em>のだ。読み終わる頃には、ヒステリシスループを探偵のように尋問できるようになっているはずである。</span></p>
+      <p class="pintro"><span class="i18n-en">Ask anyone to name the important part of a transistor and they will point at the channel: the silicon, the MoS<sub>2</sub>, the material in the headlines. But between the gate metal and the channel lies a film of insulator, often just a few nanometers thick, that quietly decides almost everything: how much charge the gate can summon, how steeply the device switches on, how fast the carriers move, how much current leaks away, and whether the transistor <em>remembers its own past</em>. This page starts from the very beginning: what a dielectric even <em>is</em>, and why anyone would put an insulator in command of a switch. It builds the physics of that film from a single capacitor formula, and follows it all the way to its strangest symptom: <b>hysteresis</b>, the loop that opens up in a transfer curve when you sweep the gate voltage up and then back down. The loop is not just a nuisance. Its width measures how much the dielectric remembers, and, remarkably, <em>the direction in which the loop is traced names the culprit</em>. By the end, you will be able to look at a hysteresis loop and interrogate it like a detective.</span><span class="i18n-ja">トランジスタの大事な部品はどこかと聞けば、たいていの人はチャネルを指さすだろう。シリコン、MoS<sub>2</sub>、ニュースの見出しを飾る材料たちだ。しかしゲート金属とチャネルのあいだには、厚さわずか数ナノメートルの絶縁体の膜が挟まっていて、これがほとんどすべてを静かに決めている。ゲートがどれだけの電荷を呼び寄せられるか、デバイスがどれだけ急峻にオンするか、キャリアがどれだけ速く走れるか、電流がどれだけ漏れるか、そして、トランジスタが<em>自分の過去を覚えてしまう</em>かどうか、までも。このページでは、いちばんの始まり、すなわちそもそも誘電体とは<em>何なのか</em>、なぜスイッチの指揮を絶縁体に任せるのか、から出発し、この膜の物理をたった1本のコンデンサの式から組み立て、その最も奇妙な症状までたどり着く。<b>ヒステリシス</b>（ゲート電圧を上げてから下げて戻ってくると、伝達特性に口を開けるループ）である。このループはただの迷惑者ではない。その幅は誘電体がどれだけ過去を覚えているかの目盛りであり、しかも驚くべきことに、<em>ループを描く向きが犯人の名を告げる</em>のだ。読み終わる頃には、ヒステリシスループを探偵のように尋問できるようになっているはずである。</span></p>
     </div>
   </div>
 
@@ -101,16 +101,16 @@
       <span class="demo-num"><span class="i18n-en">00 — What is a dielectric?</span><span class="i18n-ja">00 — 誘電体とは何か</span></span>
       <h2><span class="i18n-en">An insulator that answers the field</span><span class="i18n-ja">電場に応答する絶縁体</span></h2>
       <p>
-        <span class="i18n-en">Conductors let charge travel; insulators forbid it. A dielectric is an insulator with a subtler talent: it cannot <em>pass</em> charge, but it can <em>shift</em> it. That small shift — polarization — is the entire reason this family of materials runs modern electronics.</span><span class="i18n-ja">導体は電荷を旅させる。絶縁体はそれを禁じる。誘電体とは、絶縁体の中でもひときわ繊細な才能を持つ一族である — 電荷を<em>通す</em>ことはできないが、<em>ずらす</em>ことはできるのだ。この小さなずれ — 分極 — こそが、この材料一族が現代エレクトロニクスを動かしている理由のすべてである。</span>
+        <span class="i18n-en">Conductors let charge travel; insulators forbid it. A dielectric is an insulator with a subtler talent: it cannot <em>pass</em> charge, but it can <em>shift</em> it. That small shift (polarization) is the entire reason this family of materials runs modern electronics.</span><span class="i18n-ja">導体は電荷を旅させる。絶縁体はそれを禁じる。誘電体とは、絶縁体の中でもひときわ繊細な才能を持つ一族である。電荷を<em>通す</em>ことはできないが、<em>ずらす</em>ことはできるのだ。この小さなずれ（分極）こそが、この材料一族が現代エレクトロニクスを動かしている理由のすべてである。</span>
       </p>
     </div>
     <div class="demo-stage">
       <div class="derivation">
 
-        <h3><span class="i18n-en">Polarization: charge that shifts but never travels</span><span class="i18n-ja">分極 — 旅はしないが、ずれる電荷</span></h3>
-        <p><span class="i18n-en">Inside a dielectric, every electron and every ion is tied to its home — but the tie is a spring, not a chain. Apply an electric field, and the positive charges lean one way, the negative charges the other, filling the material with microscopic <b>dipoles</b>. Each individual shift is smaller than an atom, but when all of them lean together, net <b>bound charge</b> surfaces at the faces of the material and pushes back against the applied field. How generously a material leans is measured by its susceptibility $\chi$, and the dielectric constant follows from it:</span><span class="i18n-ja">誘電体の中では、電子もイオンもみな自分の持ち場に縛り付けられている — ただしその縛りは、鎖ではなくバネである。電場をかけると、正電荷はわずかに一方へ、負電荷は反対へ傾き、材料の内部は微視的な<b>双極子</b>で満たされる。1つ1つのずれは原子よりも小さい。だが全員がそろって同じ向きに傾くと、材料の表面には正味の<b>束縛電荷</b>が顔を出し、外から掛けられた電場を押し返しにかかる。材料がどれほど気前よく傾いてくれるか — その度合いを測るのが電気感受率 $\chi$ であり、誘電率はそこから決まる。</span></p>
+        <h3><span class="i18n-en">Polarization: charge that shifts but never travels</span><span class="i18n-ja">分極：旅はしないが、ずれる電荷</span></h3>
+        <p><span class="i18n-en">Inside a dielectric, every electron and every ion is tied to its home, but the tie is a spring, not a chain. Apply an electric field, and the positive charges lean one way, the negative charges the other, filling the material with microscopic <b>dipoles</b>. Each individual shift is smaller than an atom, but when all of them lean together, net <b>bound charge</b> surfaces at the faces of the material and pushes back against the applied field. How generously a material leans is measured by its susceptibility $\chi$, and the dielectric constant follows from it:</span><span class="i18n-ja">誘電体の中では、電子もイオンもみな自分の持ち場に縛り付けられている。ただしその縛りは、鎖ではなくバネである。電場をかけると、正電荷はわずかに一方へ、負電荷は反対へ傾き、材料の内部は微視的な<b>双極子</b>で満たされる。1つ1つのずれは原子よりも小さい。だが全員がそろって同じ向きに傾くと、材料の表面には正味の<b>束縛電荷</b>が顔を出し、外から掛けられた電場を押し返しにかかる。材料がどれほど気前よく傾いてくれるか、その度合いを測るのが電気感受率 $\chi$ であり、誘電率はそこから決まる。</span></p>
         <p class="eq-block" id="eq1">$$\vec{P} = \varepsilon_0\,\chi\,\vec{E}, \qquad \kappa = 1 + \chi \tag{1}$$</p>
-        <p><span class="i18n-en">Vacuum owns nothing it could shift, so $\chi = 0$ and $\kappa = 1$; every material does at least slightly better. Read $\kappa$ as a measure of how much of the field's work the material is willing to shoulder for you — a number we will be spending for the rest of this page.</span><span class="i18n-ja">真空はずらせるものを何ひとつ持っていないので、$\chi = 0$、$\kappa = 1$ である。どんな材料も、これよりは少しだけ上を行く。$\kappa$ は「電場の仕事のうち、どれだけを材料が肩代わりしてくれるか」の倍率だと読んでほしい — このページの残りすべてで使い込んでいく数字である。</span></p>
+        <p><span class="i18n-en">Vacuum owns nothing it could shift, so $\chi = 0$ and $\kappa = 1$; every material does at least slightly better. Read $\kappa$ as a measure of how much of the field's work the material is willing to shoulder for you: a number we will be spending for the rest of this page.</span><span class="i18n-ja">真空はずらせるものを何ひとつ持っていないので、$\chi = 0$、$\kappa = 1$ である。どんな材料も、これよりは少しだけ上を行く。$\kappa$ は「電場の仕事のうち、どれだけを材料が肩代わりしてくれるか」の倍率だと読んでほしい。このページの残りすべてで使い込んでいく数字である。</span></p>
 
         <figure class="ray-fig">
           <svg class="ray-svg" viewBox="0 0 560 270" role="img" aria-label="A dielectric between capacitor plates: aligned dipoles produce bound surface charge that opposes the applied field">
@@ -158,8 +158,8 @@
             <text class="i18n-ja" x="453" y="118" font-size="12" font-weight="600" fill="#b3433a">束縛電荷の</text>
             <text class="i18n-ja" x="453" y="133" font-size="12" font-weight="600" fill="#b3433a">電場</text>
             <!-- caption row -->
-            <text class="i18n-en" x="110" y="244" font-size="12" fill="#78716c">no charge ever crosses the film — yet its surfaces have become charged</text>
-            <text class="i18n-ja" x="110" y="244" font-size="12" fill="#78716c">膜を横切った電荷は1つもない — それでも表面は帯電している</text>
+            <text class="i18n-en" x="110" y="244" font-size="12" fill="#78716c">no charge ever crosses the film, yet its surfaces have become charged</text>
+            <text class="i18n-ja" x="110" y="244" font-size="12" fill="#78716c">膜を横切った電荷は1つもない。それでも表面は帯電している</text>
           </svg>
           <figcaption><span class="i18n-en">A dielectric between charged plates. The field stretches every atom and molecule into a tiny dipole (negative ends toward the positive plate). In the interior the heads and tails cancel, but at the surfaces a net <b>bound charge</b> remains — negative facing the positive plate, positive facing the negative one — whose own field opposes the applied one. The interior field is weakened $\kappa$-fold, even though not a single charge has traveled through the material.</span><span class="i18n-ja">帯電した極板に挟まれた誘電体。電場はすべての原子・分子を小さな双極子へと引き伸ばす（負の端が正極板側を向く）。内部では頭と尻尾が打ち消し合うが、表面には正味の<b>束縛電荷</b>が残る — 正極板に面して負、負極板に面して正 — そしてその電場は、外部電場に逆らう向きを向く。材料の中を電荷は1つも旅していないのに、内部の電場は $\kappa$ 分の1まで弱められるのである。</span></figcaption>
         </figure>
