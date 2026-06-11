@@ -33,7 +33,7 @@
   };
   var PATHSEG = ['#f472b6', '#34d399', '#60a5fa'];   // Γ→M, M→K, K→Γ
   var ACCENT = '#e0635a', INKDIM = 'rgba(255,255,255,0.45)';
-  var BG = '#1c1917';
+  var BG = '#14110b';
 
   function insideBZ(kx, ky) {
     for (var n = 0; n < 6; n++) {
