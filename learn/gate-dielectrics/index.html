@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gate Dielectrics and Transistor Performance</title>
+  <meta name="description" content="How the gate dielectric controls a field-effect transistor: gate capacitance and EOT, leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation — and hysteresis, whose loop direction identifies the microscopic culprit.">
+  <meta name="keywords" content="gate dielectric, gate oxide, high-k, EOT, equivalent oxide thickness, threshold voltage, subthreshold swing, interface traps, Dit, mobility, remote phonon scattering, hysteresis, transfer curve, charge trapping, mobile ions, ferroelectric, FeFET, MOSFET, 2D transistors">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/gate-dielectrics/">
+
+  <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Gate Dielectrics and Transistor Performance">
+  <meta property="og:description" content="The thin insulating film under the gate decides how much charge the gate can summon, how steeply the transistor switches, how fast carriers move — and whether the device remembers its past. Ends with hysteresis loops and how their direction names the culprit.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/gate-dielectrics/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Gate Dielectrics and Transistor Performance">
+  <meta name="twitter:description" content="One capacitor formula explains most of a transistor's personality — and one loop in its transfer curve confesses the rest. A story-driven tour of gate dielectric physics.">
+
+  <!-- Structured data: educational article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Gate Dielectrics and Transistor Performance",
+    "description": "An explainer of gate dielectric physics in field-effect transistors: gate capacitance, equivalent oxide thickness, tunneling leakage and the high-κ trade-off, interface traps and subthreshold swing, mobility degradation mechanisms, and transfer-curve hysteresis — including the direction of the hysteresis loop and the classification of its microscopic causes.",
+    "url": "https://yumigeta.github.io/learn/gate-dielectrics/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Arizona"
+      }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Explainer article",
+    "teaches": [
+      "Gate capacitance and the MOS capacitor",
+      "Equivalent oxide thickness (EOT) and high-κ dielectrics",
+      "Gate leakage by quantum tunneling",
+      "Interface trap density and subthreshold swing",
+      "Mobility degradation: Coulomb, remote phonon, and roughness scattering",
+      "Threshold voltage shifts from oxide charge",
+      "Hysteresis in transfer curves and loop direction",
+      "Causes of hysteresis: charge trapping, adsorbates, mobile ions, ferroelectric polarization"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/schottky.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body>
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news">News</a>
+        <a href="/#research">Research</a>
+        <a href="/#publications">Publications</a>
+        <a href="/#learn" aria-current="page">Learn</a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact">Contact</a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Gate Dielectrics</span><span class="i18n-ja">ゲート誘電体</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Gate Dielectrics and Transistor Performance</span><span class="i18n-ja">ゲート誘電体とトランジスタ性能</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">Ask anyone to name the important part of a transistor and they will point at the channel — the silicon, the MoS<sub>2</sub>, the material in the headlines. But between the gate metal and the channel lies a film of insulator, often just a few nanometers thick, that quietly decides almost everything: how much charge the gate can summon, how steeply the device switches on, how fast the carriers move, how much current leaks away — and whether the transistor <em>remembers its own past</em>. This page builds the physics of that film from a single capacitor formula and follows it all the way to its strangest symptom: <b>hysteresis</b>, the loop that opens up in a transfer curve when you sweep the gate voltage up and then back down. The loop is not just a nuisance. Its width measures how much the dielectric remembers, and — remarkably — <em>the direction in which the loop is traced names the culprit</em>. By the end, you will be able to look at a hysteresis loop and interrogate it like a detective.</span><span class="i18n-ja">トランジスタの大事な部品はどこかと聞けば、たいていの人はチャネルを指さすだろう — シリコン、MoS<sub>2</sub>、ニュースの見出しを飾る材料たちだ。しかしゲート金属とチャネルのあいだには、厚さわずか数ナノメートルの絶縁体の膜が挟まっていて、これがほとんどすべてを静かに決めている。ゲートがどれだけの電荷を呼び寄せられるか、デバイスがどれだけ急峻にオンするか、キャリアがどれだけ速く走れるか、電流がどれだけ漏れるか — そして、トランジスタが<em>自分の過去を覚えてしまう</em>かどうか、までも。このページでは、この膜の物理をたった1本のコンデンサの式から組み立て、その最も奇妙な症状までたどり着く。<b>ヒステリシス</b> — ゲート電圧を上げてから下げて戻ってくると、伝達特性に口を開けるループ — である。このループはただの迷惑者ではない。その幅は誘電体がどれだけ過去を覚えているかの目盛りであり、しかも驚くべきことに、<em>ループを描く向きが犯人の名を告げる</em>のだ。読み終わる頃には、ヒステリシスループを探偵のように尋問できるようになっているはずである。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 00 — The faucet and its handle ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">00 — The faucet and its handle</span><span class="i18n-ja">00 — 蛇口とそのハンドル</span></span>
+      <h2><span class="i18n-en">A transistor is a capacitor with a job</span><span class="i18n-ja">トランジスタとは、仕事を持ったコンデンサである</span></h2>
+      <p>
+        <span class="i18n-en">Strip a field-effect transistor down to its skeleton and what remains is a parallel-plate capacitor. One plate is the gate metal; the other is the channel; the filling between them is our protagonist, the gate dielectric. Everything in this page follows from taking that capacitor seriously.</span><span class="i18n-ja">電界効果トランジスタを骨組みだけに剥ぎ取ると、残るのは平行平板コンデンサである。片方の極板はゲート金属、もう片方はチャネル。そのあいだの詰め物こそ、本ページの主人公 — ゲート誘電体だ。このページの内容はすべて、このコンデンサを本気で扱うところから始まる。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">One formula to rule the channel</span><span class="i18n-ja">チャネルを支配する1本の式</span></h3>
+        <p><span class="i18n-en">A field-effect transistor is a faucet for current: the source and drain hold the pipe, and the gate is the handle. Turning the handle means using the gate voltage $V_{\mathrm{G}}$ to pull mobile charge into the channel. How much charge? Exactly what the capacitor formula says. With a dielectric of permittivity $\kappa$ (relative to vacuum, $\varepsilon_0$) and thickness $t_{\mathrm{ox}}$, the gate capacitance per unit area and the channel charge it commands are</span><span class="i18n-ja">電界効果トランジスタは電流の蛇口である。ソースとドレインが配管を受け持ち、ゲートがハンドルだ。ハンドルを回すとは、ゲート電圧 $V_{\mathrm{G}}$ で可動電荷をチャネルに呼び込むことに他ならない。では、どれだけの電荷を呼べるのか？　その答えは、コンデンサの式がそのまま教えてくれる。誘電率 $\kappa$（真空の誘電率 $\varepsilon_0$ に対する比）、厚さ $t_{\mathrm{ox}}$ の誘電体に対して、単位面積あたりのゲート容量と、それが従えるチャネル電荷は</span></p>
+        <p class="eq-block" id="eq1">$$C_{\mathrm{ox}} = \frac{\kappa\,\varepsilon_0}{t_{\mathrm{ox}}}, \qquad Q_{\mathrm{ch}} = C_{\mathrm{ox}}\,(V_{\mathrm{G}} - V_{\mathrm{th}}) \tag{1}$$</p>
+        <p><span class="i18n-en">where $V_{\mathrm{th}}$ is the <b>threshold voltage</b> — the gate voltage at which the channel first wakes up. The on-current of the transistor is, roughly, this charge times how fast it moves: $I_{\mathrm{on}} \sim Q_{\mathrm{ch}}\, v$. Stare at <span class="eqref" data-eq="1">Eq. (1)</span> for a moment and the entire job description of a gate dielectric falls out. We want $C_{\mathrm{ox}}$ as large as possible — so the handle turns the faucet with authority — which means we want the dielectric <em>thin</em> and its $\kappa$ <em>high</em>. We want it to carry that field without letting any current through itself. And we want the surface where it touches the channel to be pristine, because that is where all the mobile charge will live, pressed up against the interface by the very field that summoned it.</span><span class="i18n-ja">ここで $V_{\mathrm{th}}$ は<b>閾値電圧</b> — チャネルが目を覚ます最初のゲート電圧である。トランジスタのオン電流は、おおざっぱに言えばこの電荷に速さを掛けたもの、$I_{\mathrm{on}} \sim Q_{\mathrm{ch}}\, v$ だ。<span class="eqref" data-eq="1">式(1)</span>をしばらく眺めれば、ゲート誘電体の職務記述書がまるごと読み取れる。$C_{\mathrm{ox}}$ はできるだけ大きくしたい — ハンドルが蛇口を力強く回せるように。つまり誘電体は<em>薄く</em>、$\kappa$ は<em>高く</em>。その電場を支えながら、自分自身には一切電流を流さないでほしい。そしてチャネルと接する面は清浄であってほしい。なぜなら可動電荷はすべてそこに住むからだ — 自分を呼び寄せた当の電場によって、界面に押し付けられて。</span></p>
+
+        <figure class="ray-fig">
+          <svg class="ray-svg" viewBox="0 0 560 250" role="img" aria-label="Cross-section of a gate stack: gate metal, dielectric, and channel forming a parallel-plate capacitor">
+            <defs>
+              <marker id="gd-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#44403c"/>
+              </marker>
+              <marker id="gd-ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#b3433a"/>
+              </marker>
+            </defs>
+            <!-- gate metal -->
+            <rect x="90" y="35" width="300" height="42" fill="#d6d3d1"/>
+            <text class="i18n-en ray-lab" x="400" y="61" font-size="13" fill="#57534e">gate metal</text>
+            <text class="i18n-ja ray-lab" x="400" y="61" font-size="13" fill="#57534e">ゲート金属</text>
+            <text x="100" y="63" font-size="14" font-weight="700" fill="#57534e">+ + + + + + + + + +</text>
+            <!-- dielectric -->
+            <rect x="90" y="77" width="300" height="60" fill="#f3ecd8"/>
+            <text class="i18n-en ray-lab" x="400" y="111" font-size="13" fill="#57534e">gate dielectric (κ, t_ox)</text>
+            <text class="i18n-ja ray-lab" x="400" y="111" font-size="13" fill="#57534e">ゲート誘電体（κ, t_ox）</text>
+            <!-- field arrows -->
+            <line x1="140" y1="84" x2="140" y2="128" stroke="#b3433a" stroke-width="1.5" marker-end="url(#gd-ahr)"/>
+            <line x1="240" y1="84" x2="240" y2="128" stroke="#b3433a" stroke-width="1.5" marker-end="url(#gd-ahr)"/>
+            <line x1="340" y1="84" x2="340" y2="128" stroke="#b3433a" stroke-width="1.5" marker-end="url(#gd-ahr)"/>
+            <text x="252" y="110" font-size="12.5" font-style="italic" fill="#b3433a">E</text>
+            <!-- channel -->
+            <rect x="90" y="137" width="300" height="42" fill="#e7e0ce"/>
+            <text x="100" y="158" font-size="14" font-weight="700" fill="#3a4a52">− − − − − − − − − −</text>
+            <text class="i18n-en ray-lab" x="400" y="161" font-size="13" fill="#57534e">channel (semiconductor)</text>
+            <text class="i18n-ja ray-lab" x="400" y="161" font-size="13" fill="#57534e">チャネル（半導体）</text>
+            <!-- interface marker -->
+            <line x1="90" y1="137" x2="390" y2="137" stroke="#b3433a" stroke-width="1.6"/>
+            <text class="i18n-en" x="90" y="200" font-size="12" fill="#b3433a">the interface — where the mobile charge lives, and where most of this page happens</text>
+            <text class="i18n-ja" x="90" y="200" font-size="12" fill="#b3433a">界面 — 可動電荷が住む場所であり、このページの大半が起きる場所</text>
+            <!-- thickness arrow -->
+            <line x1="70" y1="77" x2="70" y2="137" stroke="#44403c" stroke-width="1.4" marker-start="url(#gd-ah)" marker-end="url(#gd-ah)"/>
+            <text x="62" y="111" text-anchor="end" font-size="12.5" font-weight="600" fill="#292524">t_ox</text>
+          </svg>
+          <figcaption><span class="i18n-en">The gate stack as a parallel-plate capacitor. A gate voltage charges the plates: positive charge on the metal, mobile electrons in the channel, pressed against the dielectric interface (red line). Everything the dielectric does — store field, block current, host defects, trap charge — it does across this nanometer-scale sandwich.</span><span class="i18n-ja">平行平板コンデンサとしてのゲートスタック。ゲート電圧が極板を帯電させる — 金属側には正電荷、チャネル側には可動電子が、誘電体との界面（赤線）に押し付けられて並ぶ。誘電体の仕事のすべて — 電場を蓄え、電流を堰き止め、欠陥を抱え、電荷を捕まえる — は、このナノメートルのサンドイッチの中で起きる。</span></figcaption>
+        </figure>
+
+        <div class="callout point cv-daikake">
+          <span class="co-label"><span class="i18n-en">The plan of attack</span><span class="i18n-ja">作戦計画</span></span>
+          <p><span class="i18n-en">Each demand on the dielectric, pushed to its limit, breaks something. Make it thin → it leaks (Module 01). Make $\kappa$ high → carriers slow down (Module 02). And whenever the interface is imperfect — which is always — the dielectric starts to <em>store</em> charge it was never asked to store, and the transistor develops a memory: hysteresis (Modules 03–04). The page is one long tour of this chain of consequences.</span><span class="i18n-ja">誘電体への要求はどれも、限界まで押し進めると何かが壊れる。薄くすれば → 漏れる（モジュール01）。$\kappa$ を高くすれば → キャリアが遅くなる（モジュール02）。そして界面が不完全なら — それは常にそうなのだが — 誘電体は頼んでもいない電荷を<em>蓄え</em>始め、トランジスタは記憶を持ってしまう。それがヒステリシスだ（モジュール03〜04）。このページは、この因果の連鎖をたどる一本道の旅である。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 01 — Thinner, until it leaks ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">01 — Thinner, until it leaks</span><span class="i18n-ja">01 — 薄く、漏れ出すまで</span></span>
+      <h2><span class="i18n-en">The leakage wall and the high-κ escape</span><span class="i18n-ja">リークの壁と、high-κという脱出路</span></h2>
+      <p>
+        <span class="i18n-en">For forty years the recipe for a better transistor included one reliable step: make the SiO<sub>2</sub> thinner. Around the year 2000, at a thickness of about five silicon atoms, the recipe hit a wall that no engineering could move — quantum mechanics itself.</span><span class="i18n-ja">40年ものあいだ、より良いトランジスタのレシピには確実な一手が含まれていた。SiO<sub>2</sub>を薄くすること、である。2000年頃、シリコン原子およそ5個分の厚さに達したところで、このレシピはどんな工学でも動かせない壁にぶつかった — 量子力学そのものに。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Tunneling: the insulator that forgot to insulate</span><span class="i18n-ja">トンネリング — 絶縁を忘れた絶縁体</span></h3>
+        <p><span class="i18n-en">An electron facing an insulating barrier of height $\Phi_{\mathrm{B}}$ and thickness $t_{\mathrm{ox}}$ does not politely stop. Quantum mechanics gives it a small amplitude to appear on the other side, and the resulting leakage current density falls off exponentially with thickness:</span><span class="i18n-ja">高さ $\Phi_{\mathrm{B}}$、厚さ $t_{\mathrm{ox}}$ の絶縁障壁を前にした電子は、行儀よく立ち止まったりはしない。量子力学は電子に、向こう側へ抜ける小さな振幅を与える。その結果生じるリーク電流密度は、厚さに対して指数関数的に減衰する。</span></p>
+        <p class="eq-block" id="eq2">$$J_{\mathrm{leak}} \;\propto\; \exp\!\left(-\frac{2\,t_{\mathrm{ox}}}{\hbar}\sqrt{2m^{*}\Phi_{\mathrm{B}}}\right) \tag{2}$$</p>
+        <p><span class="i18n-en">Exponentials are unforgiving in both directions. In the direct-tunneling regime of SiO<sub>2</sub>, shaving off a mere 2&nbsp;Å — one atomic layer — multiplies the leakage by roughly an order of magnitude. By the early 2000s, gate oxides had reached ~1.2&nbsp;nm and leakage had climbed to the scale of amps per square centimeter: chips were burning watts of power through gates that were supposed to be insulators. Thinner was no longer an option.</span><span class="i18n-ja">指数関数は、どちらの向きにも容赦がない。SiO<sub>2</sub>の直接トンネル領域では、わずか2Å — 原子1層分 — 削るだけで、リークはおよそ1桁増える。2000年代初頭、ゲート酸化膜は約1.2nmに達し、リークは1平方センチメートルあたりアンペアの規模まで膨れ上がっていた。絶縁体であるはずのゲートを通して、チップは何ワットもの電力を垂れ流していたのである。「もっと薄く」は、もはや選択肢ではなくなった。</span></p>
+
+        <h3><span class="i18n-en">The high-κ trade: same capacitance, thicker wall</span><span class="i18n-ja">high-κの取引 — 同じ容量を、より厚い壁で</span></h3>
+        <p><span class="i18n-en">But look again at <span class="eqref" data-eq="1">Eq. (1)</span>: capacitance depends on the <em>ratio</em> $\kappa/t_{\mathrm{ox}}$. Raise $\kappa$, and you can afford a physically thicker film — a taller, wider wall against tunneling — at the same capacitance. To compare materials fairly, the industry quotes every dielectric in units of "the SiO<sub>2</sub> thickness that would give the same capacitance," the <b>equivalent oxide thickness</b>:</span><span class="i18n-ja">しかし<span class="eqref" data-eq="1">式(1)</span>をもう一度見てほしい。容量が依存するのは<em>比</em> $\kappa/t_{\mathrm{ox}}$ である。$\kappa$ を上げれば、同じ容量のまま物理的に厚い膜 — トンネリングに対してより高く分厚い壁 — を張れる。材料を公平に比べるため、業界はあらゆる誘電体を「同じ容量を与えるSiO<sub>2</sub>の厚さ」に換算して語る。<b>等価酸化膜厚（EOT）</b>である。</span></p>
+        <p class="eq-block" id="eq3">$$\mathrm{EOT} = \frac{\kappa_{\mathrm{SiO_2}}}{\kappa}\, t_{\mathrm{ox}}, \qquad \kappa_{\mathrm{SiO_2}} = 3.9 \tag{3}$$</p>
+        <p><span class="i18n-en">A 5&nbsp;nm film of HfO<sub>2</sub> ($\kappa \approx 20$–$25$) has an EOT of only ~1&nbsp;nm: it pulls charge like ultrathin SiO<sub>2</sub> while presenting several times the physical thickness to a tunneling electron. This is the trade that saved scaling — in 2007, high-κ/metal-gate stacks entered mass production, and they have been in every leading-edge chip since.</span><span class="i18n-ja">HfO<sub>2</sub>（$\kappa \approx 20$〜$25$）の5nm膜のEOTはわずか約1nm。極薄SiO<sub>2</sub>並みの力で電荷を引き寄せながら、トンネルしようとする電子には数倍の物理的厚みを突きつける。これがスケーリングを救った取引である — 2007年、high-κ/メタルゲートのスタックは量産に入り、以来すべての最先端チップに載り続けている。</span></p>
+
+        <div class="callout intuition cv-daikake">
+          <span class="co-label"><span class="i18n-en">No free lunch: the κ–band gap seesaw</span><span class="i18n-ja">タダ飯はない — κとバンドギャップのシーソー</span></span>
+          <p><span class="i18n-en">Why not grab the highest $\kappa$ on the shelf? Because nature attached a string: across oxides, high permittivity and wide band gap are roughly <em>anticorrelated</em>. The soft, highly polarizable ionic lattices that produce a large $\kappa$ also tend to close the band gap, lowering the barrier $\Phi_{\mathrm{B}}$ in <span class="eqref" data-eq="2">Eq. (2)</span> — and a lower wall partly refunds the leakage you just suppressed. SiO<sub>2</sub> sits at one extreme ($\kappa = 3.9$, $E_{\mathrm{g}} \approx 9$&nbsp;eV); TiO<sub>2</sub> at the other ($\kappa \sim 80$, $E_{\mathrm{g}} \approx 3$&nbsp;eV, far too leaky). HfO<sub>2</sub> won because it sits at the sweet spot. For the modern frontier of this trade-off — where even the <em>interface itself</em> joins the accounting — see the companion page on <a href="/learn/vdw-gap/">the van der Waals gap</a>.</span><span class="i18n-ja">では、棚にある最高の $\kappa$ を掴めばよいのでは？　そうはいかない。自然はひもを付けていた。酸化物の世界では、高い誘電率と広いバンドギャップはおおむね<em>逆相関</em>するのだ。大きな $\kappa$ を生む柔らかく分極しやすいイオン格子は、同時にバンドギャップを狭める傾向があり、<span class="eqref" data-eq="2">式(2)</span>の障壁 $\Phi_{\mathrm{B}}$ を下げてしまう — 壁が低くなれば、せっかく抑えたリークの一部が払い戻されてしまう。SiO<sub>2</sub>は一方の極（$\kappa = 3.9$、$E_{\mathrm{g}} \approx 9$eV）、TiO<sub>2</sub>はもう一方の極（$\kappa \sim 80$、$E_{\mathrm{g}} \approx 3$eVで漏れすぎ）。HfO<sub>2</sub>が勝者となったのは、ちょうど甘い場所に座っていたからである。このトレードオフの現代の最前線 — <em>界面そのもの</em>までが勘定に加わる世界 — については、姉妹ページ<a href="/learn/vdw-gap/">ファンデルワールスギャップ</a>を参照してほしい。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — The interface taxes everything ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">02 — The interface taxes everything</span><span class="i18n-ja">02 — 界面はすべてに課税する</span></span>
+      <h2><span class="i18n-en">Traps, swing, and the mobility toll</span><span class="i18n-ja">トラップ、スイング、そして移動度の通行料</span></h2>
+      <p>
+        <span class="i18n-en">So far the dielectric has been an ideal slab. Real dielectrics end somewhere — and where they end, chemistry gets messy: broken bonds, foreign atoms, charges frozen in place. Every figure of merit of the transistor pays a tax at this border.</span><span class="i18n-ja">ここまで誘電体は理想的な板だった。しかし現実の誘電体にはどこかに「果て」がある — そしてその果てでは、化学が散らかる。切れた結合、よそ者の原子、凍りついたまま動かない電荷。トランジスタのあらゆる性能指数が、この国境で税を払うことになる。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">Interface traps: parking spaces for charge</span><span class="i18n-ja">界面トラップ — 電荷のための駐車場</span></h3>
+        <p><span class="i18n-en">At the dielectric–semiconductor interface, some bonds find no partner. Each broken or strained bond creates an electronic state inside the band gap — an <b>interface trap</b> — and their density per unit area and energy is called $D_{\mathrm{it}}$. Think of traps as parking spaces along the channel's highway: carriers pull in, sit immobile for a while, and pull out. A parked carrier does three bad things at once. It carries no current. Its charge must be supplied by the gate, wasting gate voltage. And while parked, it is a charged obstacle that scatters every carrier driving past. The first two effects blunt the switching; the third slows the traffic. Let us price them.</span><span class="i18n-ja">誘電体と半導体の界面では、相手を見つけられない結合がいくつか残る。切れたり歪んだりした結合は1本ごとに、バンドギャップ内に電子状態 — <b>界面トラップ</b> — を作る。その単位面積・単位エネルギーあたりの密度を $D_{\mathrm{it}}$ と呼ぶ。トラップは、チャネルという幹線道路に沿った駐車場だと思えばよい。キャリアは脇に入り、しばらく動かずに座り、また出ていく。駐車中のキャリアは、3つの悪事を同時に働く。電流を運ばない。その電荷はゲートが供給しなければならず、ゲート電圧の無駄遣いになる。そして駐車中は帯電した障害物として、横を走り抜けるすべてのキャリアを散乱させる。最初の2つはスイッチングを鈍らせ、3つ目は交通を遅くする。順に値段を付けていこう。</span></p>
+
+        <h3><span class="i18n-en">Subthreshold swing: how sharply can you switch?</span><span class="i18n-ja">サブスレッショルドスイング — どれだけ鋭くオンできるか</span></h3>
+        <p><span class="i18n-en">Below threshold, the current grows exponentially with gate voltage, and the steepness is quoted as the <b>subthreshold swing</b> $S$: the gate voltage needed to raise the current tenfold. Thermodynamics sets a floor of $(\ln 10)\,k_{\mathrm{B}}T/q \approx 60$&nbsp;mV/decade at room temperature — but only if the gate's voltage actually reaches the channel. In reality the gate shares its influence with the depletion charge and with the traps, through a capacitive divider:</span><span class="i18n-ja">閾値より下では電流はゲート電圧に対して指数関数的に増え、その急峻さは<b>サブスレッショルドスイング</b> $S$ — 電流を10倍にするのに必要なゲート電圧 — で表される。熱力学は室温で $(\ln 10)\,k_{\mathrm{B}}T/q \approx 60$mV/桁という床を敷いている — ただしそれは、ゲートの電圧がきちんとチャネルまで届けばの話だ。現実には、ゲートの影響力は空乏層電荷やトラップと、容量分圧器を通して分け合うことになる。</span></p>
+        <p class="eq-block" id="eq4">$$S = (\ln 10)\,\frac{k_{\mathrm{B}}T}{q}\left(1 + \frac{C_{\mathrm{dep}} + q^2 D_{\mathrm{it}}}{C_{\mathrm{ox}}}\right) \tag{4}$$</p>
+        <p><span class="i18n-en">Every trap adds its bit of capacitance $q^2 D_{\mathrm{it}}$ to the thief's side of the divider. A dirty interface ($D_{\mathrm{it}} \sim 10^{13}\,\mathrm{cm^{-2}eV^{-1}}$) can drag $S$ from 60 toward hundreds of mV/decade — a transistor that turns on like a dimmer instead of a switch. Note the counterweight in the denominator: a larger $C_{\mathrm{ox}}$ (thinner EOT!) suppresses the damage. The dielectric's capacitance is not just an on-current knob; it is the gate's voting power against every parasite at the interface.</span><span class="i18n-ja">トラップは1つ1つが、分圧器の泥棒側に自分の容量 $q^2 D_{\mathrm{it}}$ を積み増していく。汚れた界面（$D_{\mathrm{it}} \sim 10^{13}\,\mathrm{cm^{-2}eV^{-1}}$）は $S$ を60から数百mV/桁まで引きずり下ろす — スイッチではなく調光ダイヤルのようにしかオンできないトランジスタの出来上がりだ。分母の重りに注目してほしい。$C_{\mathrm{ox}}$ が大きい（EOTが薄い）ほど、被害は抑え込まれる。誘電体の容量はオン電流のつまみであるだけではない。界面に巣食うあらゆる寄生者に対する、ゲートの議決権なのである。</span></p>
+
+        <details class="recall">
+          <summary><span class="i18n-en">Reminder: why a capacitive divider steals gate voltage</span><span class="i18n-ja">復習：容量分圧器はなぜゲート電圧を盗むのか</span></summary>
+          <div>
+            <p><span class="i18n-en">The gate couples to the channel surface through $C_{\mathrm{ox}}$, while the surface couples to ground through the depletion capacitance and the trap capacitance in parallel. A change $\Delta V_{\mathrm{G}}$ moves the surface potential by only $\Delta\psi_{\mathrm{s}} = \Delta V_{\mathrm{G}} \cdot C_{\mathrm{ox}}/(C_{\mathrm{ox}} + C_{\mathrm{dep}} + q^2 D_{\mathrm{it}})$ — the same voltage-divider formula as two resistors, with capacitances in place of conductances. The factor in parentheses in <span class="eqref" data-eq="4">Eq. (4)</span> is exactly the reciprocal of this divider ratio. Traps "steal" gate voltage because charging them consumes part of every $\Delta V_{\mathrm{G}}$ before it can bend the bands.</span><span class="i18n-ja">ゲートは $C_{\mathrm{ox}}$ を通してチャネル表面と結合し、表面は空乏層容量とトラップ容量（並列）を通して接地側と結合している。$\Delta V_{\mathrm{G}}$ だけゲートを動かしても、表面ポテンシャルは $\Delta\psi_{\mathrm{s}} = \Delta V_{\mathrm{G}} \cdot C_{\mathrm{ox}}/(C_{\mathrm{ox}} + C_{\mathrm{dep}} + q^2 D_{\mathrm{it}})$ しか動かない — 抵抗2本の分圧と同じ式で、コンダクタンスの代わりに容量が入っただけだ。<span class="eqref" data-eq="4">式(4)</span>の括弧の中身は、ちょうどこの分圧比の逆数になっている。トラップが電圧を「盗む」のは、バンドを曲げる前に、$\Delta V_{\mathrm{G}}$ の一部がトラップの充電に食われてしまうからである。</span></p>
+          </div>
+        </details>
+
+        <h3><span class="i18n-en">Mobility: three tolls on the highway</span><span class="i18n-ja">移動度 — 幹線道路の3つの料金所</span></h3>
+        <p><span class="i18n-en">The carriers do not travel through the bulk of the semiconductor; the gate field presses them against the dielectric, so they ride <em>along</em> the interface, within a nanometer or two of it. Their mobility is set by whichever scattering mechanism is most violent, combined by Matthiessen's rule:</span><span class="i18n-ja">キャリアは半導体の奥を走るのではない。ゲート電場が彼らを誘電体に押し付けるので、界面の<em>すぐ際</em> — 1〜2ナノメートル以内 — に沿って走る。その移動度は、もっとも乱暴な散乱機構が支配し、マティーセンの法則で合算される。</span></p>
+        <p class="eq-block" id="eq5">$$\frac{1}{\mu} = \frac{1}{\mu_{\mathrm{Coulomb}}} + \frac{1}{\mu_{\mathrm{phonon}}} + \frac{1}{\mu_{\mathrm{roughness}}} \tag{5}$$</p>
+        <p><span class="i18n-en"><b>Coulomb scattering</b> comes from charged traps and fixed charge in the dielectric — every parked carrier and frozen ion deflects the moving ones. <b>Remote phonon scattering</b> is the hidden tax of high-κ: the same soft, polar lattice vibrations that produce a large $\kappa$ generate oscillating electric fields that reach across the interface and shake the channel carriers. (The κ–band gap seesaw of Module 01 has a sibling: a κ–mobility seesaw.) <b>Surface roughness scattering</b> grows brutally at high gate fields, as carriers pressed ever harder against a bumpy wall feel every bump. A good dielectric must therefore be more than thin and polarizable — it must be <em>quiet</em>: few charges, stiff phonons or enough separation from them, and an atomically smooth face.</span><span class="i18n-ja"><b>クーロン散乱</b>は、帯電したトラップや誘電体中の固定電荷が源だ — 駐車中のキャリアも凍りついたイオンも、1つ残らず、走行中のキャリアの進路を曲げる。<b>リモートフォノン散乱</b>はhigh-κの隠れた税金である。大きな $\kappa$ を生むまさにその柔らかい極性格子振動が、振動する電場を界面越しに送り込み、チャネルのキャリアを揺さぶるのだ（モジュール01のκ–バンドギャップのシーソーには、κ–移動度というきょうだいがいたわけである）。<b>表面ラフネス散乱</b>は高ゲート電場で猛烈に効いてくる。でこぼこの壁にますます強く押し付けられたキャリアは、すべての凹凸を肌で感じることになる。良い誘電体は、薄くて分極しやすいだけでは足りない。<em>静かで</em>なければならないのだ — 電荷は少なく、フォノンは硬いか十分に遠く、そして面は原子レベルで滑らかに。</span></p>
+
+        <h3><span class="i18n-en">Threshold voltage: charge in the wrong place</span><span class="i18n-ja">閾値電圧 — 間違った場所にいる電荷</span></h3>
+        <p><span class="i18n-en">Finally, any charge sitting <em>inside</em> the dielectric or at its interface pre-biases the capacitor. A sheet of trapped charge $Q_{\mathrm{t}}$ (per unit area) near the channel shifts the threshold by</span><span class="i18n-ja">最後に、誘電体の<em>内部</em>や界面に居座る電荷は、コンデンサにあらかじめバイアスをかけてしまう。チャネル近くの面密度 $Q_{\mathrm{t}}$ の捕獲電荷は、閾値を</span></p>
+        <p class="eq-block" id="eq6">$$\Delta V_{\mathrm{th}} = -\,\frac{Q_{\mathrm{t}}}{C_{\mathrm{ox}}} \tag{6}$$</p>
+        <p><span class="i18n-en">Negative trapped charge pushes $V_{\mathrm{th}}$ up; positive charge pulls it down; and charge sitting closer to the gate counts proportionally less, because the divider weights it by its position. If $Q_{\mathrm{t}}$ were constant, this would be a one-time calibration nuisance. The trouble — and the door to the next module — is that trapped charge is not constant. It <em>responds to the gate voltage itself</em>, slowly, with delays of milliseconds to hours. The threshold becomes a moving target that depends on where the gate voltage has recently been. There is a name for a device whose output depends on the history of its input: it has hysteresis.</span><span class="i18n-ja">だけずらす。負の捕獲電荷は $V_{\mathrm{th}}$ を押し上げ、正の電荷は引き下げる。またゲート寄りに座る電荷ほど効き目は薄い — 分圧器が位置に応じて重みを付けるからだ。$Q_{\mathrm{t}}$ が一定なら、これは一度補正すれば済む些事である。問題は — そしてこれが次のモジュールへの扉なのだが — 捕獲電荷は一定ではない、ということだ。それは<em>ゲート電圧そのものに応答する</em>。ゆっくりと、ミリ秒から数時間の遅れを伴って。閾値は、ゲート電圧が最近どこにいたかに依存する動く標的になる。入力の履歴に出力が依存するデバイスには、名前が付いている。ヒステリシスを持つ、と言うのである。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 03 — The dielectric remembers ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">03 — The dielectric remembers</span><span class="i18n-ja">03 — 誘電体は覚えている</span></span>
+      <h2><span class="i18n-en">Hysteresis: the loop whose direction names the culprit</span><span class="i18n-ja">ヒステリシス — 向きが犯人の名を告げるループ</span></h2>
+      <p>
+        <span class="i18n-en">Sweep the gate voltage up, then sweep it back down, and plot the current both ways. In a perfect transistor the two curves lie on top of each other. In a real one they often do not — they enclose a loop. Here is the experimentalist's secret: before asking how <em>wide</em> the loop is, ask which <em>way</em> it turns.</span><span class="i18n-ja">ゲート電圧を上げ、それから下げて戻し、行きと帰りの電流を両方プロットしてみよう。完璧なトランジスタなら2本の曲線はぴったり重なる。現実のトランジスタでは、しばしば重ならない — ループを囲ってしまうのだ。ここで実験家の秘伝をひとつ。ループの<em>幅</em>を問う前に、どちら<em>向き</em>に回っているかを問え。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">The measurement: a dual sweep</span><span class="i18n-ja">測定 — 往復スイープ</span></h3>
+        <p><span class="i18n-en">The standard test is the <b>dual-sweep transfer curve</b>: drive $V_{\mathrm{G}}$ from off to on (the <em>forward</em> sweep), then back from on to off (the <em>return</em> sweep), at a fixed small drain voltage, and record $I_{\mathrm{D}}$ throughout. The hysteresis is quantified as the threshold-voltage difference between the two branches,</span><span class="i18n-ja">標準の試験は<b>往復スイープの伝達特性</b>である。小さな一定のドレイン電圧の下で、$V_{\mathrm{G}}$ をオフからオンへ（<em>往路</em>）、続いてオンからオフへ（<em>復路</em>）駆動し、その間ずっと $I_{\mathrm{D}}$ を記録する。ヒステリシスは、2つの枝の閾値電圧の差として数値化される。</span></p>
+        <p class="eq-block" id="eq7">$$\Delta V_{\mathrm{H}} \;=\; V_{\mathrm{th}}^{\,\mathrm{return}} - V_{\mathrm{th}}^{\,\mathrm{forward}} \tag{7}$$</p>
+        <p><span class="i18n-en">Now the physics. During the forward sweep of an n-type transistor, the gate spends time at large positive voltage, with the channel full of electrons pressed against the interface. Whatever slow processes live in the dielectric — traps filling, ions drifting, dipoles turning — they do their work <em>during</em> that excursion, and the return sweep measures a transistor whose dielectric has been altered by it. The key question is simply: <b>what is the sign of the slow charge that built up near the channel?</b> By <span class="eqref" data-eq="6">Eq. (6)</span>, negative charge accumulated near the channel shifts $V_{\mathrm{th}}$ positive ($\Delta V_{\mathrm{H}} > 0$); positive charge shifts it negative ($\Delta V_{\mathrm{H}} < 0$). And each sign corresponds to a rotation direction of the loop.</span><span class="i18n-ja">では物理に入ろう。n型トランジスタの往路では、ゲートは大きな正電圧の領域に滞在し、チャネルは界面に押し付けられた電子で満たされる。誘電体に棲むあらゆる遅い過程 — 埋まっていくトラップ、漂うイオン、向きを変える双極子 — は、この滞在の<em>あいだに</em>仕事を済ませてしまう。そして復路が測るのは、その仕事で変質した誘電体を持つトランジスタなのだ。問うべきはただ1つ。<b>チャネルの近くに溜まった遅い電荷の符号は何か？</b>　<span class="eqref" data-eq="6">式(6)</span>より、チャネル近くに溜まった負電荷は $V_{\mathrm{th}}$ を正にずらし（$\Delta V_{\mathrm{H}} > 0$）、正電荷は負にずらす（$\Delta V_{\mathrm{H}} < 0$）。そしてそれぞれの符号が、ループの回転の向きに対応するのである。</span></p>
+
+        <h3><span class="i18n-en">Clockwise or counterclockwise</span><span class="i18n-ja">時計回りか、反時計回りか</span></h3>
+        <p><span class="i18n-en">Take the n-type case and follow the loop with a finger. <b>Clockwise</b>: if the channel's own electrons get captured into traps at high $V_{\mathrm{G}}$, the trapped charge is negative, $V_{\mathrm{th}}$ shifts positive, and the return branch lies to the <em>right</em> of (below) the forward branch. Rightward along the upper curve, leftward along the lower one — the loop runs clockwise. The channel charging its own jailers: this is the signature of <b>charge trapping of channel carriers</b>. <b>Counterclockwise</b>: if instead the slow species that responds is positive charge arriving near the channel — mobile cations drifting through the oxide, or a ferroelectric polarization whose positive bound charge faces the channel — then $V_{\mathrm{th}}$ shifts negative, the return branch lies to the <em>left</em> of (above) the forward branch, and the loop runs counterclockwise. (For a p-type transistor swept toward negative voltages, mirror every word; the classification logic — "which sign of charge accumulated near the channel" — is unchanged.)</span><span class="i18n-ja">n型の場合で、指でループをなぞってみよう。<b>時計回り</b>：高い $V_{\mathrm{G}}$ でチャネル自身の電子がトラップに捕まると、捕獲電荷は負、$V_{\mathrm{th}}$ は正にずれ、復路の枝は往路の<em>右</em>（下）に来る。上の曲線を右へ、下の曲線を左へ — ループは時計回りに回る。チャネルが自分の看守に電荷を差し入れる構図 — これが<b>チャネルキャリアの電荷捕獲</b>の署名である。<b>反時計回り</b>：応答する遅い種が逆に、チャネル近くへやって来る正電荷 — 酸化膜中を漂う可動カチオンや、正の束縛電荷をチャネルに向ける強誘電分極 — なら、$V_{\mathrm{th}}$ は負にずれ、復路の枝は往路の<em>左</em>（上）に来て、ループは反時計回りに回る。（負電圧側に掃引するp型では、すべての言葉を鏡映しにすればよい。「チャネル近くに溜まった電荷の符号はどちらか」という分類の論理そのものは変わらない。）</span></p>
+
+        <figure class="ray-fig">
+          <svg class="ray-svg" viewBox="0 0 560 290" role="img" aria-label="Two hysteresis loops in transfer curves: clockwise from charge trapping, counterclockwise from mobile ions or ferroelectric polarization">
+            <defs>
+              <marker id="hy-af" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#3a4a52"/>
+              </marker>
+              <marker id="hy-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#b3433a"/>
+              </marker>
+              <marker id="hy-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#78716c"/>
+              </marker>
+            </defs>
+
+            <!-- ───── Panel A: clockwise ───── -->
+            <g>
+              <!-- axes -->
+              <line x1="45" y1="225" x2="265" y2="225" stroke="#78716c" stroke-width="1.3" marker-end="url(#hy-ax)"/>
+              <line x1="45" y1="225" x2="45" y2="45" stroke="#78716c" stroke-width="1.3" marker-end="url(#hy-ax)"/>
+              <text x="258" y="243" font-size="12" fill="#57534e" font-style="italic">V_G</text>
+              <text x="32" y="52" font-size="12" fill="#57534e" font-style="italic">I_D</text>
+              <!-- forward branch (left curve) -->
+              <path d="M55,221 C105,219 122,200 142,150 C156,113 166,85 186,62" fill="none" stroke="#3a4a52" stroke-width="2.2"/>
+              <!-- return branch (right curve, shifted right) -->
+              <path d="M212,62 C192,85 182,113 168,150 C148,200 131,219 81,221" fill="none" stroke="#b3433a" stroke-width="2.2" stroke-dasharray="6 4"/>
+              <!-- direction arrows -->
+              <line x1="118" y1="208" x2="128" y2="203" stroke="#3a4a52" stroke-width="2" marker-end="url(#hy-af)"/>
+              <line x1="170" y1="92" x2="176" y2="81" stroke="#3a4a52" stroke-width="2" marker-end="url(#hy-af)"/>
+              <line x1="184" y1="118" x2="178" y2="131" stroke="#b3433a" stroke-width="2" marker-end="url(#hy-ar)"/>
+              <line x1="130" y1="216" x2="118" y2="219" stroke="#b3433a" stroke-width="2" marker-end="url(#hy-ar)"/>
+              <!-- ΔV_H marker -->
+              <line x1="142" y1="150" x2="168" y2="150" stroke="#44403c" stroke-width="1.3" marker-start="url(#hy-ax)" marker-end="url(#hy-ax)"/>
+              <text x="155" y="143" text-anchor="middle" font-size="11" fill="#44403c">ΔV_H</text>
+              <!-- labels -->
+              <text class="i18n-en" x="155" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#292524">clockwise</text>
+              <text class="i18n-ja" x="155" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#292524">時計回り</text>
+              <text class="i18n-en" x="155" y="279" text-anchor="middle" font-size="11.5" fill="#57534e">trapping of channel carriers</text>
+              <text class="i18n-ja" x="155" y="279" text-anchor="middle" font-size="11.5" fill="#57534e">チャネルキャリアの捕獲</text>
+              <text class="i18n-en" x="62" y="205" font-size="11" fill="#3a4a52">forward</text>
+              <text class="i18n-ja" x="62" y="205" font-size="11" fill="#3a4a52">往路</text>
+              <text class="i18n-en" x="216" y="100" font-size="11" fill="#b3433a">return</text>
+              <text class="i18n-ja" x="216" y="100" font-size="11" fill="#b3433a">復路</text>
+            </g>
+
+            <!-- ───── Panel B: counterclockwise ───── -->
+            <g transform="translate(285,0)">
+              <!-- axes -->
+              <line x1="45" y1="225" x2="265" y2="225" stroke="#78716c" stroke-width="1.3" marker-end="url(#hy-ax)"/>
+              <line x1="45" y1="225" x2="45" y2="45" stroke="#78716c" stroke-width="1.3" marker-end="url(#hy-ax)"/>
+              <text x="258" y="243" font-size="12" fill="#57534e" font-style="italic">V_G</text>
+              <text x="32" y="52" font-size="12" fill="#57534e" font-style="italic">I_D</text>
+              <!-- forward branch (right curve) -->
+              <path d="M81,221 C131,219 148,200 168,150 C182,113 192,85 212,62" fill="none" stroke="#3a4a52" stroke-width="2.2"/>
+              <!-- return branch (left curve, shifted left) -->
+              <path d="M186,62 C166,85 156,113 142,150 C122,200 105,219 55,221" fill="none" stroke="#b3433a" stroke-width="2.2" stroke-dasharray="6 4"/>
+              <!-- direction arrows -->
+              <line x1="144" y1="208" x2="154" y2="203" stroke="#3a4a52" stroke-width="2" marker-end="url(#hy-af)"/>
+              <line x1="196" y1="92" x2="202" y2="81" stroke="#3a4a52" stroke-width="2" marker-end="url(#hy-af)"/>
+              <line x1="158" y1="118" x2="152" y2="131" stroke="#b3433a" stroke-width="2" marker-end="url(#hy-ar)"/>
+              <line x1="104" y1="216" x2="92" y2="219" stroke="#b3433a" stroke-width="2" marker-end="url(#hy-ar)"/>
+              <!-- ΔV_H marker -->
+              <line x1="142" y1="150" x2="168" y2="150" stroke="#44403c" stroke-width="1.3" marker-start="url(#hy-ax)" marker-end="url(#hy-ax)"/>
+              <text x="155" y="143" text-anchor="middle" font-size="11" fill="#44403c">ΔV_H</text>
+              <!-- labels -->
+              <text class="i18n-en" x="155" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#292524">counterclockwise</text>
+              <text class="i18n-ja" x="155" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#292524">反時計回り</text>
+              <text class="i18n-en" x="155" y="279" text-anchor="middle" font-size="11.5" fill="#57534e">mobile ions / ferroelectric polarization</text>
+              <text class="i18n-ja" x="155" y="279" text-anchor="middle" font-size="11.5" fill="#57534e">可動イオン／強誘電分極</text>
+              <text class="i18n-en" x="196" y="180" font-size="11" fill="#3a4a52">forward</text>
+              <text class="i18n-ja" x="196" y="180" font-size="11" fill="#3a4a52">往路</text>
+              <text class="i18n-en" x="60" y="180" font-size="11" fill="#b3433a">return</text>
+              <text class="i18n-ja" x="60" y="180" font-size="11" fill="#b3433a">復路</text>
+            </g>
+          </svg>
+          <figcaption><span class="i18n-en">The two hysteresis loop directions in an n-type transfer curve (solid: forward sweep; dashed: return). <b>Left:</b> trapping of channel electrons at high $V_{\mathrm{G}}$ leaves negative charge near the channel, shifts $V_{\mathrm{th}}$ positive, and traces a <b>clockwise</b> loop. <b>Right:</b> positive charge arriving near the channel — drifting cations or ferroelectric bound charge — shifts $V_{\mathrm{th}}$ negative and traces a <b>counterclockwise</b> loop. The loop width $\Delta V_{\mathrm{H}}$ measures how much slow charge moved.</span><span class="i18n-ja">n型伝達特性に現れる2つのループの向き（実線：往路、破線：復路）。<b>左：</b>高 $V_{\mathrm{G}}$ でのチャネル電子の捕獲は、チャネル近くに負電荷を残し、$V_{\mathrm{th}}$ を正にずらして<b>時計回り</b>のループを描く。<b>右：</b>チャネル近くに届く正電荷 — 漂着したカチオンや強誘電体の束縛電荷 — は $V_{\mathrm{th}}$ を負にずらし、<b>反時計回り</b>のループを描く。ループの幅 $\Delta V_{\mathrm{H}}$ は、動いた遅い電荷の量の目盛りである。</span></figcaption>
+        </figure>
+
+        <div class="callout point cv-daikake">
+          <span class="co-label"><span class="i18n-en">The direction rule</span><span class="i18n-ja">向きの法則</span></span>
+          <p><span class="i18n-en">For an n-type transistor: if the forward excursion to positive $V_{\mathrm{G}}$ leaves <em>negative</em> slow charge near the channel, the loop is <b>clockwise</b> — think "the channel's own carriers got caught." If it leaves <em>positive</em> charge (or equivalent polarization) near the channel, the loop is <b>counterclockwise</b> — think "something inside the dielectric moved to help the gate." One glance at the rotation direction immediately cuts the list of suspects in half. That is an extraordinary amount of microscopic information for a measurement that takes thirty seconds.</span><span class="i18n-ja">n型トランジスタの場合：往路で正の $V_{\mathrm{G}}$ に滞在した結果、チャネル近くに<em>負</em>の遅い電荷が残れば、ループは<b>時計回り</b> — 「チャネル自身のキャリアが捕まった」と覚えればよい。<em>正</em>の電荷（あるいはそれと等価な分極）が残れば、ループは<b>反時計回り</b> — 「誘電体の中の何かが、ゲートに加勢する向きに動いた」だ。回転の向きを一目見るだけで、容疑者リストは即座に半分になる。30秒で済む測定から得られる微視的情報としては、破格と言うほかない。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 04 — A field guide to the suspects ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">04 — A field guide to the suspects</span><span class="i18n-ja">04 — 容疑者たちの図鑑</span></span>
+      <h2><span class="i18n-en">The causes of hysteresis, and how to tell them apart</span><span class="i18n-ja">ヒステリシスの原因と、その見分け方</span></h2>
+      <p>
+        <span class="i18n-en">The direction halved the list; now we line up the suspects one by one. Each mechanism has a characteristic sign, a characteristic time scale, and — most usefully — a characteristic response to changes in how you measure. That is what lets a careful experiment convict one of them.</span><span class="i18n-ja">向きでリストは半分になった。今度は容疑者を1人ずつ整列させよう。各機構には固有の符号、固有の時間スケール、そして — 何より役に立つことに — 測定条件の変更に対する固有の反応がある。丁寧な実験が1人を有罪にできるのは、そのおかげである。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">The clockwise gang: charge trapping in its three habitats</span><span class="i18n-ja">時計回り組 — 3つの生息地に分かれる電荷捕獲</span></h3>
+        <p><span class="i18n-en">All clockwise hysteresis (n-type convention) is charge trapping of channel carriers — but the traps live in three different places, and the address matters. <b>Interface traps</b> ($D_{\mathrm{it}}$, Module 02) sit right at the boundary and exchange carriers fast; they broaden the swing more than they open a loop, unless their time constants are slow. <b>Border traps</b> sit a nanometer or so <em>inside</em> the oxide — oxygen vacancies in HfO<sub>2</sub> are the classic residents — and carriers reach them by tunneling. Since tunneling time grows exponentially with depth, border traps come with a huge spread of time constants: this is the trademark of trap hysteresis, a loop that <em>keeps growing as you sweep more slowly</em>, because ever-deeper traps get time to fill. <b>Adsorbates</b> are traps you never fabricated: water and oxygen molecules sitting on an exposed channel surface (the standard headache for 2D-material and organic transistors, which are all surface) act as slow electron acceptors. Their fingerprint is environmental: pump the chamber to vacuum, gently anneal, or encapsulate the channel, and this component of the loop collapses — often from volts to millivolts.</span><span class="i18n-ja">時計回りのヒステリシス（n型の約束で）はすべてチャネルキャリアの電荷捕獲である — ただしトラップの住処は3か所に分かれ、その住所が重要だ。<b>界面トラップ</b>（$D_{\mathrm{it}}$、モジュール02）は境界のちょうど上に座り、キャリアを素早くやり取りする。時定数がよほど遅くないかぎり、ループを開くよりもスイングをなまらせる方に効く。<b>ボーダートラップ</b>は酸化膜の<em>内側</em>1ナノメートルほどのところに住む — HfO<sub>2</sub>中の酸素空孔が古典的な住人だ — そしてキャリアはトンネリングでそこへ到達する。トンネル時間は深さとともに指数関数的に伸びるから、ボーダートラップの時定数は桁違いに幅広い。これがトラップ性ヒステリシスの商標である。<em>スイープを遅くするほどループが育ち続ける</em>のだ — より深いトラップにまで、埋まる時間が与えられるからである。<b>吸着分子</b>は、作った覚えのないトラップである。露出したチャネル表面に座る水や酸素の分子（全身が表面である2次元材料トランジスタや有機トランジスタの定番の頭痛の種）が、遅い電子受容体として働く。その指紋は環境依存性だ。チャンバーを真空に引く、軽くアニールする、チャネルを封止する — するとこの成分のループは崩れ落ちる。しばしば、ボルト級からミリボルト級まで。</span></p>
+
+        <h3><span class="i18n-en">The counterclockwise gang: things that move inside the dielectric</span><span class="i18n-ja">反時計回り組 — 誘電体の中で動くものたち</span></h3>
+        <p><span class="i18n-en"><b>Mobile ions</b> are the historical villain: sodium contamination in early MOS technology made thresholds wander so badly that fabs declared war on salt. Cations like Na<sup>+</sup> or Li<sup>+</sup> drift through the oxide under the gate field — toward the channel at positive $V_{\mathrm{G}}$ — and positive charge near the channel means a counterclockwise loop. Their giveaway is temperature: ionic drift is thermally activated, so this hysteresis grows steeply on heating and freezes out on cooling. <b>Ferroelectric polarization</b> produces the same rotation for a nobler reason: in a ferroelectric gate insulator (HfO<sub>2</sub> doped with Zr, for instance), the gate field flips a remanent polarization whose bound charge then <em>assists</em> the channel. Unlike trap hysteresis, the ferroelectric loop <em>saturates</em> once the coercive field is exceeded and survives changes of sweep rate largely intact — it is a property of the crystal, not of slow parasitics. <b>Slow dipolar relaxation</b> in some polymer and ionic-liquid gate dielectrics behaves as a softer cousin: polarization that lags the sweep, again counterclockwise, but without a sharp coercive field.</span><span class="i18n-ja"><b>可動イオン</b>は歴史に名を残す悪役である。初期のMOS技術ではナトリウム汚染のせいで閾値がふらふらとさまよい、工場は塩に宣戦布告するはめになった。Na<sup>+</sup> や Li<sup>+</sup> のようなカチオンはゲート電場に押されて酸化膜中を漂い — 正の $V_{\mathrm{G}}$ ではチャネル側へ — チャネル近くの正電荷、すなわち反時計回りのループを作る。彼らの尻尾は温度である。イオンの移動は熱活性型なので、このヒステリシスは加熱で急激に育ち、冷却で凍りつく。<b>強誘電分極</b>は、もっと気高い理由で同じ回転を生む。強誘電性のゲート絶縁膜（たとえばZrを添加したHfO<sub>2</sub>）では、ゲート電場が残留分極を反転させ、その束縛電荷がチャネルに<em>加勢</em>するのだ。トラップ性と違って、強誘電ループは抗電場を超えれば<em>飽和</em>し、スイープ速度を変えてもほぼ無傷で生き残る — 遅い寄生現象ではなく、結晶の性質だからである。一部のポリマーやイオン液体ゲート誘電体に見られる<b>遅い双極子緩和</b>は、その柔らかい親戚だ。スイープに遅れて付いてくる分極で、やはり反時計回りだが、鋭い抗電場は持たない。</span></p>
+
+        <table class="flp-table">
+          <thead>
+            <tr>
+              <th><span class="i18n-en">Cause</span><span class="i18n-ja">原因</span></th>
+              <th><span class="i18n-en">Slow charge near channel</span><span class="i18n-ja">チャネル近くの遅い電荷</span></th>
+              <th><span class="i18n-en">Loop (n-type)</span><span class="i18n-ja">ループの向き（n型）</span></th>
+              <th><span class="i18n-en">Fingerprints</span><span class="i18n-ja">指紋</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><span class="i18n-en">Interface / border traps</span><span class="i18n-ja">界面／ボーダートラップ</span></th>
+              <td><span class="i18n-en">Captured channel carriers (negative)</span><span class="i18n-ja">捕獲されたチャネルキャリア（負）</span></td>
+              <td><span class="i18n-en">Clockwise</span><span class="i18n-ja">時計回り</span></td>
+              <td><span class="i18n-en">Grows with slower sweeps and wider $V_{\mathrm{G}}$ range; broad spread of time constants; persists in vacuum</span><span class="i18n-ja">遅いスイープ・広い $V_{\mathrm{G}}$ 範囲で育つ。時定数の分布が広い。真空中でも残る</span></td>
+            </tr>
+            <tr>
+              <th><span class="i18n-en">Adsorbates (H<sub>2</sub>O, O<sub>2</sub>)</span><span class="i18n-ja">吸着分子（H<sub>2</sub>O、O<sub>2</sub>）</span></th>
+              <td><span class="i18n-en">Electrons donated to surface species (negative)</span><span class="i18n-ja">表面種に渡された電子（負）</span></td>
+              <td><span class="i18n-en">Clockwise</span><span class="i18n-ja">時計回り</span></td>
+              <td><span class="i18n-en">Collapses in vacuum, after annealing, or with encapsulation; humidity-dependent</span><span class="i18n-ja">真空・アニール・封止で消滅する。湿度に依存する</span></td>
+            </tr>
+            <tr>
+              <th><span class="i18n-en">Mobile ions (Na<sup>+</sup>, Li<sup>+</sup>…)</span><span class="i18n-ja">可動イオン（Na<sup>+</sup>、Li<sup>+</sup>…）</span></th>
+              <td><span class="i18n-en">Cations drifted toward channel (positive)</span><span class="i18n-ja">チャネル側へ漂着したカチオン（正）</span></td>
+              <td><span class="i18n-en">Counterclockwise</span><span class="i18n-ja">反時計回り</span></td>
+              <td><span class="i18n-en">Strongly thermally activated — grows on heating, freezes out on cooling; very slow recovery</span><span class="i18n-ja">強い熱活性型 — 加熱で育ち、冷却で凍結。回復が非常に遅い</span></td>
+            </tr>
+            <tr>
+              <th><span class="i18n-en">Ferroelectric polarization</span><span class="i18n-ja">強誘電分極</span></th>
+              <td><span class="i18n-en">Switched bound polarization charge (positive face to channel)</span><span class="i18n-ja">反転した分極の束縛電荷（正の面がチャネル側）</span></td>
+              <td><span class="i18n-en">Counterclockwise</span><span class="i18n-ja">反時計回り</span></td>
+              <td><span class="i18n-en">Saturates above the coercive field; robust to sweep rate; the basis of FeFET memory</span><span class="i18n-ja">抗電場以上で飽和。スイープ速度に頑健。FeFETメモリの原理そのもの</span></td>
+            </tr>
+            <tr>
+              <th><span class="i18n-en">Slow dipolar relaxation</span><span class="i18n-ja">遅い双極子緩和</span></th>
+              <td><span class="i18n-en">Lagging polarization (effectively positive)</span><span class="i18n-ja">遅れて応答する分極（実効的に正）</span></td>
+              <td><span class="i18n-en">Counterclockwise</span><span class="i18n-ja">反時計回り</span></td>
+              <td><span class="i18n-en">No sharp coercive field; typical of polymer and ionic-liquid gating; strong frequency dependence</span><span class="i18n-ja">鋭い抗電場を持たない。ポリマーやイオン液体ゲートで典型的。強い周波数依存性</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout misconception cv-daikake">
+          <span class="co-label"><span class="i18n-en">Hysteresis is not a material constant</span><span class="i18n-ja">ヒステリシスは物性値ではない</span></span>
+          <p><span class="i18n-en">A statement like "this device has 0.5&nbsp;V of hysteresis" is incomplete to the point of being unusable. Trap-dominated loops depend on the sweep rate, the sweep range, the starting point, the atmosphere, the temperature, and the device's recent bias history — change any of these and $\Delta V_{\mathrm{H}}$ can change several-fold. The same device can even show <em>both</em> rotation directions in different regimes, when two mechanisms with opposite signs compete and the faster one wins at fast sweeps. A hysteresis figure without its measurement conditions is a portrait without a face; always report (and always read for) the sweep rate, range, and environment.</span><span class="i18n-ja">「このデバイスのヒステリシスは0.5Vです」という言明は、使い物にならないほど不完全である。トラップ支配のループは、スイープ速度、スイープ範囲、開始点、雰囲気、温度、そしてデバイスが直前に経験したバイアス履歴に依存する — どれか1つ変えるだけで $\Delta V_{\mathrm{H}}$ は数倍変わりうる。符号の異なる2つの機構が競合していれば、同じデバイスが条件次第で<em>両方</em>の回転の向きを見せることさえある — 速いスイープでは速い機構が勝つからだ。測定条件の付いていないヒステリシスの数値は、顔のない肖像画である。スイープ速度・範囲・環境を必ず書くこと。そして読むときも必ず探すこと。</span></p>
+        </div>
+
+        <div class="callout intuition cv-daikake">
+          <span class="co-label"><span class="i18n-en">When the bug is the feature</span><span class="i18n-ja">バグが仕様になるとき</span></span>
+          <p><span class="i18n-en">A transistor that remembers is a defective switch — or a working memory. The ferroelectric loop, deliberately maximized, is the operating principle of the <b>FeFET</b>: the two polarization states are two stored bits, read non-destructively as two different threshold voltages, and the "hysteresis window" becomes the spec to celebrate rather than suppress. Even trap-based memories exist (charge-trap flash stores your photos in a nitride layer's traps). The physics draws no line between flaw and function — only the application does. What separates a memory from a nuisance is <em>control</em>: a switching mechanism with a sharp threshold and reproducible states, rather than a smear of parasitic time constants.</span><span class="i18n-ja">過去を覚えてしまうトランジスタは、欠陥品のスイッチである — あるいは、立派なメモリである。強誘電ループを意図的に最大化したものが<b>FeFET</b>の動作原理だ。2つの分極状態が2つの記憶ビットとなり、2つの異なる閾値電圧として非破壊で読み出される。「ヒステリシス窓」は、抑え込む対象ではなく誇るべきスペックに変わる。トラップ式のメモリさえ実在する（電荷捕獲型フラッシュは、窒化膜のトラップにあなたの写真を保存している）。物理は欠陥と機能のあいだに線を引かない — 線を引くのは用途である。メモリと迷惑現象を分けるのは<em>制御</em>だ。寄生時定数の寄せ集めのにじみではなく、鋭い閾値と再現性のある状態を持つ、反転機構であること。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 05 — Epilogue ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">05 — Epilogue</span><span class="i18n-ja">05 — むすび</span></span>
+      <h2><span class="i18n-en">The loop as free spectroscopy</span><span class="i18n-ja">ループという無料の分光法</span></h2>
+      <p>
+        <span class="i18n-en">We began with a capacitor formula and ended with a detective story. Time to collect what the journey actually taught us about judging a gate dielectric.</span><span class="i18n-ja">コンデンサの式から始まり、探偵物語で終わった。この旅がゲート誘電体の品定めについて実際に教えてくれたことを、回収しておこう。</span>
+      </p>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <h3><span class="i18n-en">The story so far</span><span class="i18n-ja">物語のあらすじ</span></h3>
+        <p><span class="i18n-en">A gate dielectric is hired for one capacitor's worth of work — <span class="eqref" data-eq="1">Eq. (1)</span> — but judged on five counts. Capacitance sets the on-current and, through the divider of <span class="eqref" data-eq="4">Eq. (4)</span>, the sharpness of switching. Tunneling, <span class="eqref" data-eq="2">Eq. (2)</span>, forbids the lazy route of simply thinning the film, and the EOT bookkeeping of <span class="eqref" data-eq="3">Eq. (3)</span> defines the high-κ workaround — paid for by the κ–band gap seesaw and the remote-phonon toll on mobility, <span class="eqref" data-eq="5">Eq. (5)</span>. And because real dielectrics store slow charge, the threshold of <span class="eqref" data-eq="6">Eq. (6)</span> becomes history-dependent: the transfer curve opens into a loop, clockwise when the channel's own carriers are being trapped, counterclockwise when positive charge — ions or polarization — arrives near the channel. The loop's width, <span class="eqref" data-eq="7">Eq. (7)</span>, counts the slow charge; its direction, sweep-rate dependence, temperature dependence, and response to vacuum identify the mechanism.</span><span class="i18n-ja">ゲート誘電体はコンデンサ1個分の仕事 — <span class="eqref" data-eq="1">式(1)</span> — のために雇われ、5つの項目で査定される。容量はオン電流を決め、<span class="eqref" data-eq="4">式(4)</span>の分圧器を通してスイッチングの鋭さも決める。トンネリング — <span class="eqref" data-eq="2">式(2)</span> — は「ただ薄くする」という安直な道を禁じ、<span class="eqref" data-eq="3">式(3)</span>のEOTの帳簿がhigh-κという迂回路を定義する — その代金は、κ–バンドギャップのシーソーと、移動度へのリモートフォノンの通行料（<span class="eqref" data-eq="5">式(5)</span>）で支払う。そして現実の誘電体は遅い電荷を蓄えるので、<span class="eqref" data-eq="6">式(6)</span>の閾値は履歴依存になる。伝達特性はループへと口を開く — チャネル自身のキャリアが捕まっているなら時計回り、正の電荷 — イオンか分極 — がチャネル近くへやって来るなら反時計回り。ループの幅（<span class="eqref" data-eq="7">式(7)</span>）は遅い電荷を数え上げ、向き・スイープ速度依存性・温度依存性・真空への応答が、その機構を特定する。</span></p>
+
+        <h3><span class="i18n-en">Read the loop, then fix the film</span><span class="i18n-ja">ループを読み、それから膜を直す</span></h3>
+        <p><span class="i18n-en">Here is the perspective worth keeping. A dual-sweep transfer curve costs nothing — no synchrotron, no cryostat, just the same two voltage sources every transistor measurement already uses — yet it is a genuine spectroscopy of the dielectric's hidden degrees of freedom. The rotation direction reads out the sign of the slow charge; the sweep-rate dependence reads out its spectrum of time constants; temperature reads out its activation energy; the response to vacuum reads out whether it even belongs to the device or to the air above it. Much of gate-stack engineering over the decades — gettering sodium, passivating interfaces with hydrogen, encapsulating 2D channels in hBN, crystallizing HfO<sub>2</sub> into its ferroelectric phase on purpose — can be summarized as: someone read the loop correctly, and then fixed (or exploited) exactly what it pointed to. The dielectric was never just a spacer between the gate and the channel. It is the transistor's memory, conscience, and confessional — and the hysteresis loop is where it confesses.</span><span class="i18n-ja">持ち帰る価値のある視点はこれだ。往復スイープの伝達特性測定には何の追加費用もかからない — 放射光もクライオスタットも要らず、どのトランジスタ測定でも使っている2台の電圧源があれば足りる。それでいてこれは、誘電体の隠れた自由度に対する正真正銘の分光法なのだ。回転の向きは遅い電荷の符号を読み出し、スイープ速度依存性はその時定数のスペクトルを、温度は活性化エネルギーを、真空への応答は、それがそもそもデバイスのものなのか上空の空気のものなのかを読み出す。数十年にわたるゲートスタック工学の多く — ナトリウムのゲッタリング、水素による界面の不活性化、hBNによる2次元チャネルの封止、HfO<sub>2</sub>を意図的に強誘電相へ結晶化させること — は、こう要約できる。誰かがループを正しく読み、それが指し示すものを正確に直した（あるいは利用した）のだ、と。誘電体は、ゲートとチャネルのあいだのただの詰め物だったことなど一度もない。それはトランジスタの記憶であり、良心であり、告解室である — そしてヒステリシスループこそ、告白がなされる場所なのだ。</span></p>
+
+        <div class="callout recap cv-daikake">
+          <span class="co-label"><span class="i18n-en">Where to go next</span><span class="i18n-ja">次に読むなら</span></span>
+          <p><span class="i18n-en">Two companion pages continue this story at the device frontier. <a href="/learn/vdw-gap/">The van der Waals Gap</a> follows what happens to the EOT budget of Module 01 when the channel is a 2D material that refuses to bond to its dielectric. <a href="/learn/schottky/">The Schottky Junction and Fermi Level Pinning</a> examines the <em>other</em> critical interface of the transistor — where the metal contacts meet the semiconductor — and finds interface states playing yet another starring role. The physics in this page is textbook material; classic treatments include Sze &amp; Ng, <em>Physics of Semiconductor Devices</em> (interface traps, oxide charges, MOS electrostatics) and the high-κ review literature (e.g., Robertson, <em>Rep. Prog. Phys.</em> <b>69</b>, 327 (2006)).</span><span class="i18n-ja">この物語はデバイスの最前線で、2つの姉妹ページに続いていく。<a href="/learn/vdw-gap/">ファンデルワールスギャップ</a>は、チャネルが誘電体と結合しようとしない2次元材料になったとき、モジュール01のEOT予算に何が起きるかを追う。<a href="/learn/schottky/">ショットキー接合とフェルミ準位ピニング</a>は、トランジスタの<em>もう1つ</em>の重要界面 — 金属電極と半導体の出会う場所 — を調べ、そこでも界面準位が主役級の役を演じているのを見届ける。本ページの物理は教科書級の標準的内容であり、古典的な文献としては Sze &amp; Ng『Physics of Semiconductor Devices』（界面トラップ、酸化膜電荷、MOS静電気学）や、high-κ 誘電体のレビュー（例：Robertson, <em>Rep. Prog. Phys.</em> <b>69</b>, 327 (2006)）が挙げられる。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script src="/assets/js/eq-hover.js"></script>
+</body>
+</html>
