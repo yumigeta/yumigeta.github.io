@@ -1,13 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
-  <!-- red background -->
-  <rect x="0" y="0" width="1024" height="1024" rx="150" fill="#bf2f25"/>
-  <!-- white frame + u, bold strokes for small-size legibility -->
-  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+  <!-- white paper background -->
+  <rect x="0" y="0" width="1024" height="1024" fill="#ffffff"/>
+  <g fill="none" stroke="#bf2f25" stroke-linecap="round" stroke-linejoin="round">
     <!-- square frame -->
-    <rect x="150" y="150" width="724" height="724" rx="48" stroke-width="40"/>
-    <!-- top horizontal stroke with upward flick at right end -->
-    <path d="M 268 272 C 410 252 560 244 690 244 C 706 230 716 210 720 182" stroke-width="62"/>
-    <!-- main body of u -->
-    <path d="M 268 432 C 430 374 588 380 666 438 C 740 492 740 560 706 612 C 624 712 432 778 262 826" stroke-width="62"/>
+    <rect x="104" y="104" width="816" height="816" rx="44" stroke-width="42"/>
+    <!-- upward flick at top-right, joined to the corner -->
+    <path d="M 698 258 C 710 236 718 210 721 184" stroke-width="60"/>
+    <!-- one continuous stroke: top horizontal, down at right, back left,
+         U-turn at left, right again, then big sweep to bottom-left -->
+    <path d="M 250 240
+             C 380 226 540 222 660 230
+             C 686 234 700 246 702 270
+             L 702 310
+             C 700 348 678 366 638 372
+             C 530 384 392 388 318 396
+             C 284 400 266 418 266 444
+             C 266 470 286 486 320 490
+             C 440 502 580 496 652 508
+             C 718 520 746 568 738 626
+             C 726 706 600 778 460 808
+             C 390 822 310 828 246 828" stroke-width="60"/>
   </g>
 </svg>
