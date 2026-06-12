@@ -54,10 +54,10 @@
       "slug": "crystal-structure-v2",
       "category": "electronic-structure",
       "published": false,
-      "title_en": "Crystal Structure Ⅱ — From the Frozen Wheel to the Brillouin Zone",
-      "title_ja": "結晶構造の基礎 Ⅱ — 止まって見える車輪からブリルアンゾーンへ",
-      "desc_en": "A crystal is a sampling device built by nature. From the frozen wagon wheel to aliasing, lattice &amp; basis, reciprocal space, and the Brillouin zone, ending on the hexagonal stage where the graphene story begins.",
-      "desc_ja": "結晶とは自然が作ったサンプリング装置だ。止まって見える車輪からエイリアシング、格子と基底、逆空間、そしてブリルアンゾーンへ。グラフェンの物語が始まる六角形の舞台で幕を引く。"
+      "title_en": "Crystal Structure Ⅱ — Same Element, Different Material: Why Arrangement Decides",
+      "title_ja": "結晶構造の基礎 Ⅱ — 同じ元素から、なぜ別物の材料が生まれるのか",
+      "desc_en": "Diamond and graphite are both pure carbon, so the ingredients cannot be the culprit; the arrangement of atoms is. The grammar of arrangements (lattice &amp; basis), probing them with waves, the reciprocal lattice, diffraction, and the Brillouin zone: the hexagonal stage where the graphene story begins.",
+      "desc_ja": "ダイヤモンドも黒鉛も純粋な炭素。犯人は成分ではなく、原子の並び方だ。並び方の文法（格子と基底）、波で並びを探る方法、逆格子、回折、そしてグラフェンの物語が始まる六角形の舞台・ブリルアンゾーンへ。"
     },
     {
       "slug": "crystal-structure",
