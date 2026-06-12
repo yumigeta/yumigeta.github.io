@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide</title>
@@ -11,7 +14,7 @@
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide">
-  <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations — interactive.">
+  <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations: an interactive guide.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/spectral-noise/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary_large_image">
@@ -72,7 +75,7 @@
       <div class="ptop">
         <h1><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en">Late at night in the lab, the spectrum you finally captured shows its peaks half-buried in a meadow of noise. At a moment like this, the acquisition software offers you two lifelines: make each exposure <b>longer</b> (acquisition time $t$), or repeat the same measurement <b>many times</b> and add the results (accumulation count $N$). Either way, the time you pay is $T=t\times N$. Pay the same time, get the same result — or so you'd think. But it doesn't work that way. The two knobs act on the signal-to-noise ratio differently, and they protect you from different enemies. Why is that, and how should you choose? That is the question of this page. The underlying ideas of random error and averaging are built from scratch on the <a href="/learn/measurement-error/">measurement-error</a> page, so feel free to hop back and forth.</span><span class="i18n-ja">夜の実験室。ようやく測れたスペクトルは、肝心のピークがノイズの草むらに半分埋もれている。こんなとき、測定ソフトが差し出してくれる頼みの綱は2本ある。1回の露光を<b>長く</b>する「取得時間 $t$」と、同じ測定を<b>何度も</b>繰り返して足し合わせる「積算回数 $N$」だ。どちらを増やしても、支払う時間は $T=t\times N$。同じ時間を払うのだから結果も同じになりそうなものだが、世の中そう甘くはない。この2つのつまみはSN比への効き方が違うし、守ってくれる敵も違うのである。なぜそうなるのか、どう使い分ければよいのか — それがこのページのテーマだ。土台になる偶然誤差と平均化の考え方は<a href="/learn/measurement-error/">測定と誤差</a>のページで一から説明しているので、行き来しながら読んでほしい。</span></p>
+      <p class="pintro"><span class="i18n-en">Late at night in the lab, the spectrum you finally captured shows its peaks half-buried in a meadow of noise. At a moment like this, the acquisition software offers you two lifelines: make each exposure <b>longer</b> (acquisition time $t$), or repeat the same measurement <b>many times</b> and add the results (accumulation count $N$). Either way, the time you pay is $T=t\times N$. Pay the same time, get the same result, or so you'd think. But it doesn't work that way. The two knobs act on the signal-to-noise ratio differently, and they protect you from different enemies. Why is that, and how should you choose? That is the question of this page. The underlying ideas of random error and averaging are built from scratch on the <a href="/learn/measurement-error/">measurement-error</a> page, so feel free to hop back and forth.</span><span class="i18n-ja">夜の実験室。ようやく測れたスペクトルは、肝心のピークがノイズの草むらに半分埋もれている。こんなとき、測定ソフトが差し出してくれる頼みの綱は2本ある。1回の露光を<b>長く</b>する「取得時間 $t$」と、同じ測定を<b>何度も</b>繰り返して足し合わせる「積算回数 $N$」だ。どちらを増やしても、支払う時間は $T=t\times N$。同じ時間を払うのだから結果も同じになりそうなものだが、世の中そう甘くはない。この2つのつまみはSN比への効き方が違うし、守ってくれる敵も違うのである。なぜそうなるのか、どう使い分ければよいのか。それがこのページのテーマだ。土台になる偶然誤差と平均化の考え方は<a href="/learn/measurement-error/">測定と誤差</a>のページで一から説明しているので、行き来しながら読んでほしい。</span></p>
     </div>
   </div>
 
@@ -80,14 +83,14 @@
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">00 — Know your enemy first</span><span class="i18n-ja">00 — まずは敵を知る</span></span>
-      <h2><span class="i18n-en">There are three culprits — and a square-root toll</span><span class="i18n-ja">犯人は3人いる — そして「平方根の壁」</span></h2>
-      <p><span class="i18n-en">We say "noise" as if it were one thing, but the grass on your spectrum is the work of three different culprits. The first is <b>shot noise</b>. Light is a rain of particles called photons, and counting raindrops always fluctuates — that's Poisson statistics, where the variance equals the count itself, so the noise grows as $\sqrt{\text{counts}}$. The second is <b>dark noise</b>. Even with the light blocked, heat inside the detector makes charge bubble up drop by drop, and counting those drops fluctuates too, growing with exposure time. The third — and the troublemaker of this story — is <b>read noise</b>. Every time the electronics read a number off the detector, they smudge it a little: one helping of noise <em>per readout</em>, no matter whether you exposed for a second or an hour.</span><span class="i18n-ja">ひとくちに「ノイズ」と言うが、スペクトルに生える草むらの正体は1つではない。犯人は主に3人いる。1人目は<b>ショットノイズ</b>。光は光子という粒の雨であり、雨粒の数を数えれば必ずばらつく。これはポアソン統計の世界で、ばらつき（分散）はカウント数そのものに等しく、ノイズは $\sqrt{\text{カウント}}$ で増えていく。2人目は<b>ダークノイズ</b>。光を遮っていても、検出器の中では熱のせいで電荷がぽつりぽつりと湧いてくる。これも「数える」以上ばらつき、露光時間とともに蓄積する。そして3人目、この物語の曲者が<b>読み出しノイズ</b>だ。検出器から数値を読み出すたびに、電子回路が<em>読み出し1回につき1回分</em>のノイズを上乗せする。露光が1秒だろうが1時間だろうがお構いなしである。</span></p>
+      <h2><span class="i18n-en">There are three culprits, with a square-root toll</span><span class="i18n-ja">犯人は3人いる、そして「平方根の壁」</span></h2>
+      <p><span class="i18n-en">We say "noise" as if it were one thing, but the grass on your spectrum is the work of three different culprits. The first is <b>shot noise</b>. Light is a rain of particles called photons, and counting raindrops always fluctuates: that's Poisson statistics, where the variance equals the count itself, so the noise grows as $\sqrt{\text{counts}}$. The second is <b>dark noise</b>. Even with the light blocked, heat inside the detector makes charge bubble up drop by drop, and counting those drops fluctuates too, growing with exposure time. The third, the troublemaker of this story, is <b>read noise</b>. Every time the electronics read a number off the detector, they smudge it a little: one helping of noise <em>per readout</em>, no matter whether you exposed for a second or an hour.</span><span class="i18n-ja">ひとくちに「ノイズ」と言うが、スペクトルに生える草むらの正体は1つではない。犯人は主に3人いる。1人目は<b>ショットノイズ</b>。光は光子という粒の雨であり、雨粒の数を数えれば必ずばらつく。これはポアソン統計の世界で、ばらつき（分散）はカウント数そのものに等しく、ノイズは $\sqrt{\text{カウント}}$ で増えていく。2人目は<b>ダークノイズ</b>。光を遮っていても、検出器の中では熱のせいで電荷がぽつりぽつりと湧いてくる。これも「数える」以上ばらつき、露光時間とともに蓄積する。そして3人目、この物語の曲者が<b>読み出しノイズ</b>だ。検出器から数値を読み出すたびに、電子回路が<em>読み出し1回につき1回分</em>のノイズを上乗せする。露光が1秒だろうが1時間だろうがお構いなしである。</span></p>
       <p class="eq-block">$$\mathrm{SNR}=\frac{S}{\sqrt{\underbrace{S}_{\text{shot}}+\underbrace{D}_{\text{dark}}+\underbrace{N\,\sigma_{\mathrm{read}}^2}_{\text{read}}}}$$</p>
-      <p><span class="i18n-en">Look closely at who grows with what. The signal $S$ and the dark counts $D$ both grow with the total time $T=tN$ — but the read term grows with the <b>number of readouts</b> $N$. Keep that asymmetry in mind; it is the key to everything that follows. Now suppose shot noise dominates. Then $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$: quadruple the exposure and the SNR merely doubles. Work four times harder, get paid twice as much — a harsh rule, but it is nothing more than the $1/\sqrt{N}$ averaging law from the statistics page, viewed from the signal's side.</span><span class="i18n-ja">ここで「誰が何に比例して育つか」をよく見てほしい。信号 $S$ とダークカウント $D$ は総時間 $T=tN$ に比例して育つ。ところが読み出し項だけは<b>読み出した回数</b> $N$ に比例する。この非対称性が、これから先のすべての鍵になる。さて、ショットノイズが支配的な場合を考えると $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$。つまり露光を4倍にしてもSN比は2倍にしかならない。4倍働いて2倍しか報われない、なんとも世知辛い法則だが、これは統計処理ページに出てきた $1/\sqrt{N}$ の平均化則を、信号の側から眺め直したものにすぎない。</span></p>
+      <p><span class="i18n-en">Look closely at who grows with what. The signal $S$ and the dark counts $D$ both grow with the total time $T=tN$, but the read term grows with the <b>number of readouts</b> $N$. Keep that asymmetry in mind; it is the key to everything that follows. Now suppose shot noise dominates. Then $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$: quadruple the exposure and the SNR merely doubles. Work four times harder, get paid twice as much: a harsh rule, but it is nothing more than the $1/\sqrt{N}$ averaging law from the statistics page, viewed from the signal's side.</span><span class="i18n-ja">ここで「誰が何に比例して育つか」をよく見てほしい。信号 $S$ とダークカウント $D$ は総時間 $T=tN$ に比例して育つ。ところが読み出し項だけは<b>読み出した回数</b> $N$ に比例する。この非対称性が、これから先のすべての鍵になる。さて、ショットノイズが支配的な場合を考えると $\mathrm{SNR}\approx\sqrt{S}\propto\sqrt{T}$。つまり露光を4倍にしてもSN比は2倍にしかならない。4倍働いて2倍しか報われない、なんとも世知辛い法則だが、これは統計処理ページに出てきた $1/\sqrt{N}$ の平均化則を、信号の側から眺め直したものにすぎない。</span></p>
     </div>
     <div class="demo-stage">
       <div class="me-prose">
-        <p><span class="i18n-en">Enough theory — let's get our hands dirty. Build a spectrum below: adjust the per-frame acquisition time $t$, the accumulation count $N$, the source <b>brightness</b>, and the detector <b>read noise</b>, and watch the noisy trace, the SNR, and — most importantly — <em>which of the three culprits is in charge</em>.</span><span class="i18n-ja">理屈はこのくらいにして、手を動かしてみよう。下のシミュレーターで、1フレームの取得時間 $t$、積算回数 $N$、光源の<b>明るさ</b>、検出器の<b>読み出しノイズ</b>を動かしながら、ノイズの乗ったスペクトルとSN比、そして何より「<em>いま3人の犯人のうち誰が主犯か</em>」がどう変わるかを観察してほしい。</span></p>
+        <p><span class="i18n-en">Enough theory; let's get our hands dirty. Build a spectrum below: adjust the per-frame acquisition time $t$, the accumulation count $N$, the source <b>brightness</b>, and the detector <b>read noise</b>, and watch the noisy trace, the SNR, and, most importantly, <em>which of the three culprits is in charge</em>.</span><span class="i18n-ja">理屈はこのくらいにして、手を動かしてみよう。下のシミュレーターで、1フレームの取得時間 $t$、積算回数 $N$、光源の<b>明るさ</b>、検出器の<b>読み出しノイズ</b>を動かしながら、ノイズの乗ったスペクトルとSN比、そして何より「<em>いま3人の犯人のうち誰が主犯か</em>」がどう変わるかを観察してほしい。</span></p>
       </div>
 
       <div class="anim-card pv-bunchin mat-sunezu">
@@ -122,9 +125,9 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">01 — The main event</span><span class="i18n-ja">01 — いよいよ本題の対決</span></span>
       <h2><span class="i18n-en">Spend it all at once, or in instalments?</span><span class="i18n-ja">一括で払うか、分割で払うか</span></h2>
-      <p><span class="i18n-en">Now for the showdown. Say your time budget $T$ is fixed. You can spend it all at once — one long acquisition ($N=1$, $t=T$) — or in instalments: many short ones ($N$ large, $t=T/N$). Which is the better deal? The signal you collect, $S\propto T$, is exactly the same either way. So are the shot noise and the dark noise. The <em>only</em> thing that differs is that read-noise toll, charged once per readout — $N$ times in total. At fixed $T$:</span><span class="i18n-ja">いよいよ対決だ。使える時間 $T$ は決まっているとしよう。これを「一括で払う」— 1回の長時間取得（$N=1$, $t=T$）— のと、「分割で払う」— 多数の短時間取得（$N$ 大, $t=T/N$）— のと、どちらが得だろうか。集まる信号 $S\propto T$ は両者まったく同じ。ショットノイズもダークノイズも同じ。違うのはただ1つ、読み出しのたびに徴収されるあの「読み出しノイズ税」が、合計 $N$ 回ぶん課されることだけである。総時間 $T$ 固定のもとで式に書けばこうだ：</span></p>
+      <p><span class="i18n-en">Now for the showdown. Say your time budget $T$ is fixed. You can spend it all at once (one long acquisition, $N=1$, $t=T$) or in instalments: many short ones ($N$ large, $t=T/N$). Which is the better deal? The signal you collect, $S\propto T$, is exactly the same either way. So are the shot noise and the dark noise. The <em>only</em> thing that differs is that read-noise toll, charged once per readout, $N$ times in total. At fixed $T$:</span><span class="i18n-ja">いよいよ対決だ。使える時間 $T$ は決まっているとしよう。これを「一括で払う」（1回の長時間取得、$N=1$, $t=T$）のと、「分割で払う」（多数の短時間取得、$N$ 大, $t=T/N$）のと、どちらが得だろうか。集まる信号 $S\propto T$ は両者まったく同じ。ショットノイズもダークノイズも同じ。違うのはただ1つ、読み出しのたびに徴収されるあの「読み出しノイズ税」が、合計 $N$ 回ぶん課されることだけである。総時間 $T$ 固定のもとで式に書けばこうだ：</span></p>
       <p class="eq-block">$$\mathrm{SNR}(N)=\frac{S}{\sqrt{S+D+N\,\sigma_{\mathrm{read}}^2}}\;,\qquad S,D\ \text{fixed}$$</p>
-      <p><span class="i18n-en">This formula reads two ways. <b>When the signal is bright</b> ($S\gg N\sigma_{\mathrm{read}}^2$, shot-noise-limited), the read term is a drop in the ocean — the curve is flat, and how you split the time hardly matters. <b>When the signal is faint</b> (read-noise-limited), the story flips: every extra readout piles on tax that the meagre signal cannot afford, and the SNR <em>falls</em> as $N$ rises. The iron rule for faint signals: <b>expose as long as you can, read out as rarely as you can.</b></span><span class="i18n-ja">この式の読み方は2通りある。<b>信号が明るい</b>とき（$S\gg N\sigma_{\mathrm{read}}^2$、ショットノイズ律速）は、分母の読み出し項など大海の一滴。曲線はほぼ平坦で、時間の分け方はどうでもよくなる。ところが<b>信号が微弱な</b>とき（読み出しノイズ律速）は話が逆転する。読み出すたびに課される税金が、乏しい信号にはずしりと重く、$N$ を増やすほどSN比は下がる一方。微弱信号の鉄則はこうだ：<b>できるだけ長く露光し、できるだけ読み出さない。</b></span></p>
+      <p><span class="i18n-en">This formula reads two ways. <b>When the signal is bright</b> ($S\gg N\sigma_{\mathrm{read}}^2$, shot-noise-limited), the read term is a drop in the ocean; the curve is flat, and how you split the time hardly matters. <b>When the signal is faint</b> (read-noise-limited), the story flips: every extra readout piles on tax that the meagre signal cannot afford, and the SNR <em>falls</em> as $N$ rises. The iron rule for faint signals: <b>expose as long as you can, read out as rarely as you can.</b></span><span class="i18n-ja">この式の読み方は2通りある。<b>信号が明るい</b>とき（$S\gg N\sigma_{\mathrm{read}}^2$、ショットノイズ律速）は、分母の読み出し項など大海の一滴。曲線はほぼ平坦で、時間の分け方はどうでもよくなる。ところが<b>信号が微弱な</b>とき（読み出しノイズ律速）は話が逆転する。読み出すたびに課される税金が、乏しい信号にはずしりと重く、$N$ を増やすほどSN比は下がる一方。微弱信号の鉄則はこうだ：<b>できるだけ長く露光し、できるだけ読み出さない。</b></span></p>
     </div>
     <div class="demo-stage">
       <div class="anim-card pv-bunchin mat-sunezu">
@@ -146,24 +149,24 @@
 
         <div class="spec-duo">
           <div>
-            <p class="panel-label"><b><span class="i18n-en">One long acquisition</span><span class="i18n-ja">1回の長時間取得</span></b> — N=1, t=T</p>
+            <p class="panel-label"><b><span class="i18n-en">One long acquisition</span><span class="i18n-ja">1回の長時間取得</span></b>: N=1, t=T</p>
             <canvas id="c-spec-long" height="150"></canvas>
             <div id="sat-long" style="font-size:0.8rem;min-height:1.1em;text-align:center"></div>
           </div>
           <div>
-            <p class="panel-label"><b><span class="i18n-en">Many short accumulations</span><span class="i18n-ja">多数の短時間積算</span></b> — <span id="lbl-many">N, t=T/N</span></p>
+            <p class="panel-label"><b><span class="i18n-en">Many short accumulations</span><span class="i18n-ja">多数の短時間積算</span></b>: <span id="lbl-many">N, t=T/N</span></p>
             <canvas id="c-spec-many" height="150"></canvas>
             <div id="sat-many" style="font-size:0.8rem;min-height:1.1em;text-align:center"></div>
           </div>
         </div>
 
         <div class="me-stats">
-          <div class="me-stat"><span class="k"><span class="i18n-en">SNR — long (N=1)</span><span class="i18n-ja">SN比 — 長時間 (N=1)</span></span><span class="v" id="st-snr-long">—</span></div>
-          <div class="me-stat"><span class="k"><span class="i18n-en">SNR — many (N)</span><span class="i18n-ja">SN比 — 多数積算 (N)</span></span><span class="v" id="st-snr-many">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">SNR, long (N=1)</span><span class="i18n-ja">SN比、長時間 (N=1)</span></span><span class="v" id="st-snr-long">—</span></div>
+          <div class="me-stat"><span class="k"><span class="i18n-en">SNR, many (N)</span><span class="i18n-ja">SN比、多数積算 (N)</span></span><span class="v" id="st-snr-many">—</span></div>
         </div>
         <div id="trade-verdict"></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">Try it: drag <b>Brightness</b> down and you enter read-noise-limited territory — the left panel (one long shot) visibly beats the right. Now turn the brightness back up and watch the difference evaporate: both panels look the same, because the split stopped mattering.</span><span class="i18n-ja">試してみよう。<b>明るさ</b>をぐっと下げると読み出しノイズ律速の領域に入り、左パネル（1回の長時間取得）が目に見えて勝つ。今度は明るさを上げてみると — 差はすっと消え、両パネルは見分けがつかなくなる。分け方が効かなくなったのだ。</span></p>
+      <p class="me-cap"><span class="i18n-en">Try it: drag <b>Brightness</b> down and you enter read-noise-limited territory, and the left panel (one long shot) visibly beats the right. Now turn the brightness back up and watch the difference evaporate: both panels look the same, because the split stopped mattering.</span><span class="i18n-ja">試してみよう。<b>明るさ</b>をぐっと下げると読み出しノイズ律速の領域に入り、左パネル（1回の長時間取得）が目に見えて勝つ。今度は明るさを上げてみると、差はすっと消え、両パネルは見分けがつかなくなる。分け方が効かなくなったのだ。</span></p>
     </div>
   </section>
 
@@ -172,12 +175,12 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">02 — The plot twist</span><span class="i18n-ja">02 — ところが、どんでん返し</span></span>
       <h2><span class="i18n-en">Why everyone accumulates anyway</span><span class="i18n-ja">それでも誰もが積算する理由</span></h2>
-      <p><span class="i18n-en">Reading the last section, you might conclude "one long exposure wins; accumulation is pointless." Yet walk into any spectroscopy lab and you'll find everyone accumulating. Why? Because a single long exposure has two weaknesses that never show up in the SNR formula. The first is <b>saturation</b>. A detector pixel is like a bucket: it can only hold so much charge. A strong peak overflows the bucket during one long exposure and gets clipped flat — but split the time into shorter frames and each one stays on-scale. The second is the <b>cosmic ray</b>. Every so often, a high-energy particle from space pierces the detector and plants a sharp, fake peak in your spectrum. In a single exposure, it is indistinguishable from a real peak — there is nothing to compare against. But split the measurement into frames, and the impostor betrays itself: the spike appears in <em>one frame only</em>. Take the <b>median</b> across frames instead of the sum, and the majority vote throws it out.</span><span class="i18n-ja">前節だけ読むと「長時間露光が最強、積算など無用」という結論になりそうだ。ところが、どこの分光実験室をのぞいても、みんな当たり前のように積算している。なぜか。単一の長時間露光には、SN比の式にはいっさい現れない2つの弱点があるからだ。第一の弱点は<b>飽和</b>。検出器のピクセルはバケツのようなもので、溜められる電荷には上限がある。強いピークは長時間露光の途中でバケツから溢れ、頭を平らに刈り取られてしまう — だが時間を短いフレームに分ければ、各フレームはスケール内に収まる。第二の弱点が<b>宇宙線</b>だ。宇宙から降ってくる高エネルギー粒子がたまたま検出器を貫くと、スペクトルに鋭い偽ピークが立つ。1回きりの露光では、これが本物のピークなのか偽物なのか、比べる相手がいないので見分けようがない。ところがフレームを分けておくと、偽物はぼろを出す。スパイクは<em>1つのフレームにしか</em>写らないのだ。和の代わりにフレーム間の<b>中央値</b>をとれば、多数決で追い出せる。</span></p>
+      <p><span class="i18n-en">Reading the last section, you might conclude "one long exposure wins; accumulation is pointless." Yet walk into any spectroscopy lab and you'll find everyone accumulating. Why? Because a single long exposure has two weaknesses that never show up in the SNR formula. The first is <b>saturation</b>. A detector pixel is like a bucket: it can only hold so much charge. A strong peak overflows the bucket during one long exposure and gets clipped flat, but split the time into shorter frames and each one stays on-scale. The second is the <b>cosmic ray</b>. Every so often, a high-energy particle from space pierces the detector and plants a sharp, fake peak in your spectrum. In a single exposure, it is indistinguishable from a real peak; there is nothing to compare against. But split the measurement into frames, and the impostor betrays itself: the spike appears in <em>one frame only</em>. Take the <b>median</b> across frames instead of the sum, and the majority vote throws it out.</span><span class="i18n-ja">前節だけ読むと「長時間露光が最強、積算など無用」という結論になりそうだ。ところが、どこの分光実験室をのぞいても、みんな当たり前のように積算している。なぜか。単一の長時間露光には、SN比の式にはいっさい現れない2つの弱点があるからだ。第一の弱点は<b>飽和</b>。検出器のピクセルはバケツのようなもので、溜められる電荷には上限がある。強いピークは長時間露光の途中でバケツから溢れ、頭を平らに刈り取られてしまう。だが時間を短いフレームに分ければ、各フレームはスケール内に収まる。第二の弱点が<b>宇宙線</b>だ。宇宙から降ってくる高エネルギー粒子がたまたま検出器を貫くと、スペクトルに鋭い偽ピークが立つ。1回きりの露光では、これが本物のピークなのか偽物なのか、比べる相手がいないので見分けようがない。ところがフレームを分けておくと、偽物はぼろを出す。スパイクは<em>1つのフレームにしか</em>写らないのだ。和の代わりにフレーム間の<b>中央値</b>をとれば、多数決で追い出せる。</span></p>
     </div>
     <div class="demo-stage">
       <div class="me-prose">
-        <p><span class="i18n-en">Watch the trial below. The same spectrum is acquired as $N$ frames, and random cosmic-ray spikes strike individual frames. <b>Summing</b> faithfully keeps every spike — impostors included. <b>Median rejection</b> across frames throws them out while the real signal sails through untouched. Toggle the method, re-roll the spikes, and see the vote in action.</span><span class="i18n-ja">下で「裁判」の様子を見てみよう。同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームを直撃する。<b>単純加算</b>は律儀にすべてのスパイクを — 偽物もろとも — 残してしまう。一方、フレーム間の<b>中央値除去</b>は、本物の信号には指一本触れずに偽物だけを追い出す。手法を切り替え、スパイクを振り直して、多数決の働きぶりを確かめてほしい。</span></p>
-        <p><span class="i18n-en"><b>One caveat — a majority vote needs a quorum.</b> The median can only outvote a spike if enough clean frames show up. Should the spike hit more than half the frames (easy to happen at small $N$), the median itself lands on a spiked value and the vote is rigged. In practice, $N \geq 5$ is a common minimum; the more frames, the more reliable the verdict.</span><span class="i18n-ja"><b>ただし注意 — 多数決には定足数がある。</b>中央値がスパイクを追い出せるのは、無傷のフレームが過半数を占めているときだけだ。スパイクが半数以上のフレームに入ってしまうと（$N$ が少ないと起こりやすい）、中央値そのものがスパイクの値になり、裁判は偽物の勝ちに終わる。実用上は $N \geq 5$ が最小の目安で、フレームが多いほど判決の信頼性は上がる。</span></p>
+        <p><span class="i18n-en">Watch the trial below. The same spectrum is acquired as $N$ frames, and random cosmic-ray spikes strike individual frames. <b>Summing</b> faithfully keeps every spike, impostors included. <b>Median rejection</b> across frames throws them out while the real signal sails through untouched. Toggle the method, re-roll the spikes, and see the vote in action.</span><span class="i18n-ja">下で「裁判」の様子を見てみよう。同じスペクトルを $N$ フレームで取得し、ランダムな宇宙線スパイクが個々のフレームを直撃する。<b>単純加算</b>は律儀にすべてのスパイクを（偽物もろとも）残してしまう。一方、フレーム間の<b>中央値除去</b>は、本物の信号には指一本触れずに偽物だけを追い出す。手法を切り替え、スパイクを振り直して、多数決の働きぶりを確かめてほしい。</span></p>
+        <p><span class="i18n-en"><b>One caveat: a majority vote needs a quorum.</b> The median can only outvote a spike if enough clean frames show up. Should the spike hit more than half the frames (easy to happen at small $N$), the median itself lands on a spiked value and the vote is rigged. In practice, $N \geq 5$ is a common minimum; the more frames, the more reliable the verdict.</span><span class="i18n-ja"><b>ただし注意：多数決には定足数がある。</b>中央値がスパイクを追い出せるのは、無傷のフレームが過半数を占めているときだけだ。スパイクが半数以上のフレームに入ってしまうと（$N$ が少ないと起こりやすい）、中央値そのものがスパイクの値になり、裁判は偽物の勝ちに終わる。実用上は $N \geq 5$ が最小の目安で、フレームが多いほど判決の信頼性は上がる。</span></p>
       </div>
 
       <div class="anim-card pv-bunchin mat-sunezu">
@@ -220,7 +223,7 @@
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">Summary</span><span class="i18n-ja">まとめ</span></span>
       <h2><span class="i18n-en">So, which knob do you turn?</span><span class="i18n-ja">結局、どちらのつまみを回せばいいのか</span></h2>
-      <p><span class="i18n-en">Back to that late night in the lab. You now know the three culprits, the read-noise toll, and the impostor from space. Here is the whole story folded into one table.</span><span class="i18n-ja">夜の実験室に話を戻そう。3人の犯人、読み出しのたびの税金、そして宇宙から来る偽ピーク — ここまでの物語を1枚の表にたたむと、こうなる。</span></p>
+      <p><span class="i18n-en">Back to that late night in the lab. You now know the three culprits, the read-noise toll, and the impostor from space. Here is the whole story folded into one table.</span><span class="i18n-ja">夜の実験室に話を戻そう。3人の犯人、読み出しのたびの税金、そして宇宙から来る偽ピーク。ここまでの物語を1枚の表にたたむと、こうなる。</span></p>
     </div>
     <div class="demo-stage">
       <table class="decide-table">
@@ -237,7 +240,7 @@
           </tr>
           <tr>
             <td><b><span class="i18n-en">Bright signal (shot-noise-limited)</span><span class="i18n-ja">明るい信号（ショットノイズ律速）</span></b></td>
-            <td><span class="i18n-en">Either — split for safety</span><span class="i18n-ja">どちらでも可 — 安全のため分割</span></td>
+            <td><span class="i18n-en">Either (split for safety)</span><span class="i18n-ja">どちらでも可（安全のため分割）</span></td>
             <td><span class="i18n-en">SNR ∝ √T regardless of split, so accumulate to gain spike rejection and saturation headroom for free.</span><span class="i18n-ja">分け方によらず SNR ∝ √T なので、積算してスパイク除去と飽和マージンをタダで得る。</span></td>
           </tr>
           <tr>
