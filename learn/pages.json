@@ -54,10 +54,10 @@
       "slug": "crystal-structure-v2",
       "category": "electronic-structure",
       "published": false,
-      "title_en": "Crystal Structure Ⅱ — From the Frozen Wheel to the Brillouin Zone",
-      "title_ja": "結晶構造の基礎 Ⅱ — 原子の並びはどうやって分かったのか",
-      "desc_en": "No microscope can show an atom, yet since 1913 humanity has known where the atoms sit. The answer is waves: lattice &amp; basis, sampling and aliasing, the reciprocal lattice, diffraction — and the Brillouin zone, the hexagonal stage where the graphene story begins.",
-      "desc_ja": "どんな顕微鏡にも原子は映らないのに、人類は1913年から原子の並びを知っている。答えは「波で触る」 — 格子と基底、サンプリングとエイリアシング、逆格子、回折、そしてグラフェンの物語が始まる六角形の舞台・ブリルアンゾーンへ。"
+      "title_en": "Crystal Structure Ⅱ — Same Element, Different Material: Why Arrangement Decides",
+      "title_ja": "結晶構造の基礎 Ⅱ — 同じ元素から、なぜ別物の材料が生まれるのか",
+      "desc_en": "Diamond and graphite are both pure carbon — so the ingredients cannot be the culprit; the arrangement of atoms is. The grammar of arrangements (lattice &amp; basis), probing them with waves, the reciprocal lattice, diffraction — and the Brillouin zone, the hexagonal stage where the graphene story begins.",
+      "desc_ja": "ダイヤモンドも黒鉛も純粋な炭素 — 犯人は成分ではなく、原子の並び方だ。並び方の文法（格子と基底）、波で並びを探る方法、逆格子、回折、そしてグラフェンの物語が始まる六角形の舞台・ブリルアンゾーンへ。"
     },
     {
       "slug": "crystal-structure",
