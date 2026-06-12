@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- red background -->
+  <rect x="0" y="0" width="1024" height="1024" rx="150" fill="#bf2f25"/>
+  <!-- white frame + u, bold strokes for small-size legibility -->
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- square frame -->
+    <rect x="150" y="150" width="724" height="724" rx="48" stroke-width="40"/>
+    <!-- top horizontal stroke with upward flick at right end -->
+    <path d="M 268 272 C 410 252 560 244 690 244 C 706 230 716 210 720 182" stroke-width="62"/>
+    <!-- main body of u -->
+    <path d="M 268 432 C 430 374 588 380 666 438 C 740 492 740 560 706 612 C 624 712 432 778 262 826" stroke-width="62"/>
+  </g>
+</svg>
