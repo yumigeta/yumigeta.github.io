@@ -358,18 +358,18 @@
         ctx.beginPath(); ctx.arc(sx, sy, 6, 0, 2*PI); ctx.stroke();
       }
 
-      label(ctx, JA() ? '背景の縞＝連続な波　点の色＝原子が感じる値' : 'stripes = continuous wave   dot color = value felt by atoms',
+      label(ctx, JA() ? '点の色＝各原子の散乱波の位相（縞＝同じ位相の連続場）' : "dot color = each atom's scattered phase (stripes: the same phase as a continuous field)",
             o.w/2, o.h - 14, INKDIM, 11.5);
 
       var el = document.getElementById('st4-k');
-      if (el) el.textContent = 'k = (' + k[0].toFixed(2) + ', ' + k[1].toFixed(2) + ')/a';
+      if (el) el.textContent = 'Δk = (' + k[0].toFixed(2) + ', ' + k[1].toFixed(2) + ')/a';
     }
 
     function shift(b) { k[0] += b[0]; k[1] += b[1]; draw(); }
     var B1 = document.getElementById('b4-pb1'), B2 = document.getElementById('b4-pb2'), BR = document.getElementById('b4-prst');
     if (B1) B1.addEventListener('click', function () { shift(b1); });
     if (B2) B2.addEventListener('click', function () { shift(b2); });
-    if (BR) BR.addEventListener('click', function () { k = k0.slice(); draw(); });
+    if (BR) BR.addEventListener('click', function () { k = [0, 0]; draw(); });
 
     draw();
     onLangChange.push(draw);
