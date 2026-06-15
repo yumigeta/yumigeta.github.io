@@ -1,0 +1,238 @@
+/* ════════════════════════════════════════════════════════════════════════
+   proofread.css — in-browser proofreading ("校正") tools for DEV Learn pages
+   Loaded automatically (via lang-toggle.js) ONLY on unpublished (noindex)
+   /learn/ pages. Never ships on published pages.
+
+   Visual language matches the site: cream paper, warm ink, red accent.
+   All injected UI carries the .pf-ui class so the editor never treats it
+   as proofread-able content.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Launcher pill (always visible on dev pages; opens review mode) ── */
+.pf-launch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 99990;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 14px; border: 1px solid var(--rule-2);
+  border-radius: 999px; background: var(--paper); color: var(--ink);
+  font-family: var(--gothic); font-size: 13px; font-weight: 700;
+  box-shadow: var(--shadow-card); cursor: pointer; opacity: .82;
+  transition: opacity .15s ease, transform .15s ease;
+}
+.pf-launch:hover { opacity: 1; transform: translateY(-1px); }
+.pf-launch .pf-pen { color: var(--accent); font-size: 14px; line-height: 1; }
+body.pf-on .pf-launch { display: none; }
+
+/* ── Bottom toolbar (shown while review mode is on) ── */
+.pf-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 99990;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  padding: 10px clamp(14px, 4vw, 32px);
+  background: rgba(254,254,252,.97);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 -10px 30px -18px rgba(0,0,0,.4);
+  font-family: var(--gothic); color: var(--ink);
+}
+.pf-bar .pf-title {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-weight: 800; font-size: 13px; letter-spacing: .02em;
+}
+.pf-bar .pf-title .pf-pen { color: var(--accent); }
+.pf-bar .pf-spacer { flex: 1 1 auto; }
+
+/* segmented view switch: Markup / Final / Original */
+.pf-view { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 8px; overflow: hidden; }
+.pf-view button {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  font-family: var(--gothic); font-size: 12px; font-weight: 700; color: var(--ink-2);
+  padding: 6px 11px; border-right: 1px solid var(--rule);
+}
+.pf-view button:last-child { border-right: 0; }
+.pf-view button.is-active { background: var(--accent); color: #fff; }
+
+/* small ghost buttons in the bar */
+.pf-btn {
+  appearance: none; cursor: pointer; font-family: var(--gothic);
+  font-size: 12px; font-weight: 700; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--rule-2);
+  border-radius: 7px; padding: 6px 11px; line-height: 1.2;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.pf-btn:hover { border-color: var(--accent); color: var(--accent); }
+.pf-btn--accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pf-btn--accent:hover { color: #fff; filter: brightness(1.05); }
+.pf-btn[disabled] { opacity: .45; cursor: default; }
+
+.pf-count { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.pf-count b { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* ══════════════════ Change marks (always styled when present) ══════════════════ */
+del.pf-del {
+  text-decoration: line-through; text-decoration-color: rgba(179,38,30,.7);
+  color: #b3261e; background: rgba(191,47,37,.08);
+  border-radius: 2px; cursor: pointer; padding: 0 .5px;
+}
+ins.pf-ins {
+  text-decoration: underline; text-decoration-color: rgba(31,122,77,.6);
+  color: #1f7a4d; background: rgba(31,122,77,.10);
+  border-radius: 2px; cursor: pointer; padding: 0 .5px;
+}
+.pf-comment {
+  background: rgba(214,158,46,.24);
+  box-shadow: inset 0 -1px 0 rgba(180,120,20,.5);
+  cursor: pointer; border-radius: 2px;
+}
+.pf-comment[data-pf-num]::after {
+  content: attr(data-pf-num);
+  display: inline-block; vertical-align: super; margin-left: 1px;
+  min-width: 14px; height: 14px; padding: 0 3px; box-sizing: border-box;
+  font-family: var(--gothic); font-size: 9px; font-weight: 800; line-height: 14px;
+  text-align: center; color: #fff; background: #b8841a; border-radius: 7px;
+}
+
+/* highlight a mark momentarily (when jumped to from the panel) */
+.pf-flash { animation: pf-flash 1.1s ease; }
+@keyframes pf-flash { 0%,100% { outline: 0 solid transparent; } 20% { outline: 2px solid var(--accent); outline-offset: 2px; } }
+
+/* ── View modes ─────────────────────────────────────────────────────────
+   markup   : show everything (default)
+   final    : hide deletions, render insertions as plain text → "after I apply"
+   original : hide insertions, render deletions as plain text → "before edits"  */
+body[data-pf-view="final"] del.pf-del { display: none; }
+body[data-pf-view="final"] ins.pf-ins {
+  color: inherit; background: none; text-decoration: none;
+}
+body[data-pf-view="final"] .pf-comment { background: none; box-shadow: none; }
+body[data-pf-view="final"] .pf-comment[data-pf-num]::after { display: none; }
+
+body[data-pf-view="original"] ins.pf-ins { display: none; }
+body[data-pf-view="original"] del.pf-del {
+  color: inherit; background: none; text-decoration: none;
+}
+body[data-pf-view="original"] .pf-comment { background: none; box-shadow: none; }
+body[data-pf-view="original"] .pf-comment[data-pf-num]::after { display: none; }
+
+/* ══════════════════ Selection popover (Delete / Replace / Insert / Comment) ══════ */
+.pf-pop {
+  position: fixed; z-index: 99995; display: none;
+  background: var(--ink); border-radius: 9px; padding: 4px;
+  box-shadow: 0 10px 28px -10px rgba(0,0,0,.55);
+  gap: 2px;
+}
+.pf-pop.is-open { display: inline-flex; }
+.pf-pop button {
+  appearance: none; border: 0; cursor: pointer; background: transparent;
+  color: #f3f2ec; font-family: var(--gothic); font-size: 12px; font-weight: 700;
+  padding: 6px 9px; border-radius: 6px; white-space: nowrap;
+}
+.pf-pop button:hover { background: rgba(255,255,255,.14); }
+.pf-pop button .pf-k { display: block; font-size: 9px; font-weight: 600; opacity: .6; }
+
+/* small popover shown when clicking an existing mark */
+.pf-markpop {
+  position: fixed; z-index: 99995; display: none;
+  background: var(--ink); border-radius: 8px; padding: 4px;
+  box-shadow: 0 10px 28px -10px rgba(0,0,0,.55); gap: 2px;
+}
+.pf-markpop.is-open { display: inline-flex; }
+.pf-markpop button {
+  appearance: none; border: 0; cursor: pointer; background: transparent;
+  color: #f3f2ec; font-family: var(--gothic); font-size: 12px; font-weight: 700;
+  padding: 6px 9px; border-radius: 6px;
+}
+.pf-markpop button:hover { background: rgba(255,255,255,.14); }
+
+/* ── Inline input bubble (for replace / insert / comment text) ── */
+.pf-input {
+  position: fixed; z-index: 99996; display: none;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 10px;
+  padding: 10px; width: min(360px, 90vw);
+  box-shadow: 0 16px 40px -16px rgba(0,0,0,.5);
+  font-family: var(--gothic);
+}
+.pf-input.is-open { display: block; }
+.pf-input .pf-input-lab { font-size: 11px; font-weight: 700; color: var(--ink-2); margin-bottom: 6px; }
+.pf-input .pf-input-lab b { color: var(--accent); }
+.pf-input input, .pf-input textarea {
+  width: 100%; box-sizing: border-box; font-family: var(--gothic); font-size: 13px;
+  color: var(--ink); background: #fff; border: 1px solid var(--rule-2);
+  border-radius: 6px; padding: 7px 9px; resize: vertical;
+}
+.pf-input textarea { min-height: 58px; }
+.pf-input .pf-input-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+
+/* ══════════════════ Comments side panel ══════════════════ */
+.pf-panel {
+  position: fixed; top: 0; right: 0; bottom: 52px; z-index: 99988;
+  width: min(320px, 86vw); transform: translateX(102%);
+  transition: transform .22s ease;
+  background: var(--paper); border-left: 1px solid var(--rule-2);
+  box-shadow: -16px 0 40px -24px rgba(0,0,0,.4);
+  display: flex; flex-direction: column; font-family: var(--gothic);
+}
+.pf-panel.is-open { transform: translateX(0); }
+.pf-panel-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid var(--rule);
+  font-weight: 800; font-size: 13px; color: var(--ink);
+}
+.pf-panel-hd .pf-x { cursor: pointer; border: 0; background: none; font-size: 18px; line-height: 1; color: var(--ink-2); }
+.pf-panel-body { overflow-y: auto; padding: 8px 12px 16px; }
+.pf-panel-empty { color: var(--ink-3); font-size: 12px; padding: 16px 4px; }
+.pf-cmt {
+  border: 1px solid var(--rule); border-radius: 8px; padding: 9px 10px; margin: 8px 0;
+  background: #fff; cursor: pointer;
+}
+.pf-cmt:hover { border-color: var(--accent); }
+.pf-cmt-num {
+  display: inline-block; min-width: 16px; height: 16px; line-height: 16px; padding: 0 3px;
+  text-align: center; font-size: 10px; font-weight: 800; color: #fff;
+  background: #b8841a; border-radius: 8px; margin-right: 6px;
+}
+.pf-cmt-quote { font-size: 11px; color: var(--ink-3); font-style: italic; }
+.pf-cmt-note { font-size: 12.5px; color: var(--ink); margin-top: 4px; line-height: 1.5; white-space: pre-wrap; }
+
+/* ══════════════════ Export / Help modal ══════════════════ */
+.pf-modal {
+  position: fixed; inset: 0; z-index: 99997; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(20,17,11,.5); padding: 20px;
+}
+.pf-modal.is-open { display: flex; }
+.pf-card {
+  background: var(--paper); border-radius: 14px; width: min(720px, 96vw);
+  max-height: 90vh; overflow-y: auto; padding: 22px;
+  box-shadow: 0 40px 90px -30px rgba(0,0,0,.6); font-family: var(--gothic);
+}
+.pf-card h2 { font-family: var(--mincho); font-size: 20px; margin: 0 0 4px; color: var(--ink); }
+.pf-card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; margin: 6px 0; }
+.pf-card code { background: var(--paper-tint); padding: 1px 5px; border-radius: 4px; font-size: 12px; color: var(--accent); }
+.pf-card .pf-field-lab { font-size: 12px; font-weight: 800; color: var(--ink); margin: 14px 0 5px; display: flex; justify-content: space-between; align-items: center; }
+.pf-card textarea {
+  width: 100%; box-sizing: border-box; min-height: 130px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 11.5px; line-height: 1.5; color: var(--ink);
+  background: #fff; border: 1px solid var(--rule-2); border-radius: 8px; padding: 10px;
+}
+.pf-card .pf-modal-foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.pf-help-list { font-size: 13px; color: var(--ink-2); line-height: 1.7; padding-left: 18px; margin: 8px 0; }
+.pf-help-list b { color: var(--ink); }
+
+/* ── Toast ── */
+.pf-toast {
+  position: fixed; left: 50%; bottom: 64px; transform: translateX(-50%) translateY(8px);
+  z-index: 99998; background: var(--ink); color: #f3f2ec;
+  font-family: var(--gothic); font-size: 12.5px; font-weight: 600;
+  padding: 9px 15px; border-radius: 8px; box-shadow: 0 10px 30px -12px rgba(0,0,0,.5);
+  opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease;
+}
+.pf-toast.is-open { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* while review mode is on, give the page a little bottom breathing room */
+body.pf-on { padding-bottom: 56px; }
+
+@media (max-width: 620px) {
+  .pf-bar { gap: 8px 10px; }
+  .pf-count, .pf-title .pf-title-ja, .pf-title .pf-title-en { display: none; }
+  .pf-bar .pf-title .pf-pen { display: inline; }
+}

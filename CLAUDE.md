@@ -247,6 +247,56 @@ When a page is ready to publish (go live):
 
 ---
 
+## Proofreading (校正) Learn pages
+
+Unpublished Learn pages ship an **in-browser proofreading layer** (Word-style
+track changes) so prose can be marked up directly in the browser and handed back
+to Claude to implement.
+
+**Files**
+- `assets/js/proofread.js` — the engine (selection editing, view modes, export).
+- `assets/css/proofread.css` — its styling (matches the site tokens).
+- `assets/js/lang-toggle.js` — contains a small loader that **auto-injects** the
+  two files above, but ONLY on pages that carry
+  `<meta name="robots" content="noindex">` under `/learn/<slug>/`. It never loads
+  on published pages, and new dev pages get it for free. Do **not** add
+  `<script>`/`<link>` tags for it to individual pages.
+
+**How the reviewer uses it** (no edits to HTML needed)
+- Open review mode: the **✎ 校正 / Review** pill (bottom-right), the URL
+  `?review`, or `Alt+R`.
+- Select prose → choose **Delete / Replace / Insert / Comment**. Insert adds
+  text right after the selected anchor word. Click any mark to remove it.
+- View switch: **Markup** (all marks) · **Final** (deletions hidden = what it
+  looks like after applying) · **Original** (insertions hidden).
+- Marks auto-save to `localStorage` (per page, on-device only). **Export** gives
+  a JSON file + a Markdown summary.
+
+**Handoff → Claude.** The reviewer does ONE of:
+1. Saves the JSON as `learn/_reviews/<slug>.json`, commits it, and says
+   "apply the review for `<slug>`". (The `_reviews/` folder is underscore-
+   prefixed so Jekyll keeps it out of the published site.)
+2. Pastes the Markdown or JSON straight into the chat.
+
+**How Claude applies a review** (`schema: yumigeta-proofread/v1`)
+Each edit carries: `type` (`delete|replace|insert|comment`), `lang`
+(`en|ja`), `section` (hint), `prefix`/`suffix` (≈55 chars of surrounding text),
+`oldText`, `newText`, `comment`. Steps:
+1. Open `learn/<slug>/index.html`. For each edit, locate `oldText` using
+   `prefix`+`suffix` and `lang` (the text lives inside an
+   `.i18n-en` / `.i18n-ja` span) and `section` to disambiguate duplicates.
+2. Apply by type: **delete** → remove `oldText`; **replace** → `oldText`→
+   `newText`; **insert** → add `newText` immediately after the anchor (`prefix`
+   ends at the insertion point); **comment** → it's a note/question, use
+   judgment (make the implied change, or ask the user if ambiguous — do not
+   apply blindly).
+3. Preserve surrounding inline markup (`<b>`, `<em>`, `$…$` KaTeX). Keep the
+   EN/JA pair consistent when a change affects meaning.
+4. When applying a committed `learn/_reviews/<slug>.json`, delete that file in
+   the same commit once the edits are in. Commit on the `claude/*` branch.
+
+---
+
 ## Git workflow
 
 Feature branches: `claude/*`

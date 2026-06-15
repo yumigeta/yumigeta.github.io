@@ -13,4 +13,20 @@
       localStorage.setItem('lang', lang);
     });
   });
+
+  // ── Dev-only proofreading ("校正") tools ──────────────────────────────
+  // Auto-load the in-browser review layer on UNPUBLISHED Learn pages only:
+  // gated to pages that carry <meta name="robots" content="noindex,...">, so
+  // it never ships on published pages. New dev pages get it for free.
+  (function(){
+    var noindex = document.querySelector('meta[name="robots"][content*="noindex"]');
+    if(!noindex) return;
+    if(!/^\/learn\/[^/]+\//.test(location.pathname)) return; // /learn/ topic pages only (proofread.js skips the dev index)
+    var css = document.createElement('link');
+    css.rel = 'stylesheet'; css.href = '/assets/css/proofread.css';
+    document.head.appendChild(css);
+    var s = document.createElement('script');
+    s.src = '/assets/js/proofread.js';
+    document.head.appendChild(s);
+  })();
 })();
