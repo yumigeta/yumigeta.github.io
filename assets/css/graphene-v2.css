@@ -1,0 +1,179 @@
+/* ====================================================================
+   Electronic Structure of Graphene Ⅱ — figure styles (F1–F6).
+
+   Shared demo components (.anim-card, .me-*, .eq-block, .recall …)
+   come from measurement-error.css. This file only adds what the six
+   SVG figures need. Two rules are deliberate, and fix the bugs the
+   old canvas figures had:
+     · SVG text inherits the site font — never a hard-coded family.
+     · every formula is real KaTeX, set in absolutely-placed HTML
+       labels (.gv-lab) layered over the SVG drawing.
+   ==================================================================== */
+
+.gv-fig {
+  /* the whole figure inherits the site sans; SVG <text> inherits from here */
+  font-family: var(--gothic);
+  color: #e7e5e4;
+  --gv-d1:    #5fb7b0;   /* δ₁ / arrow 1 — teal  */
+  --gv-d2:    #d8a25c;   /* δ₂ / arrow 2 — ochre */
+  --gv-d3:    #a78fd0;   /* δ₃ / arrow 3 — violet*/
+  --gv-sum:   #f4efe6;   /* resultant f(k)       */
+  --gv-A:     #d98c6a;   /* sublattice A         */
+  --gv-B:     #6fa8d6;   /* sublattice B         */
+  --gv-bond:  #5fb7b0;   /* bonding / lower band */
+  --gv-anti:  #d8a25c;   /* antibonding / upper  */
+  --gv-elec:  #6fb7d6;   /* electrons            */
+  --gv-hole:  #d98c6a;   /* holes                */
+  --gv-grid:  rgba(255,255,255,.08);
+  --gv-grid2: rgba(255,255,255,.16);
+  --gv-axis:  rgba(255,255,255,.34);
+  --gv-axlab: rgba(245,245,244,.62);
+  --gv-fermi: #e7e5e4;
+  --gv-zone:  #cdb78a;   /* Brillouin-zone outline */
+  --gv-snap:  #e0584c;   /* active high-symmetry marker */
+}
+/* the SVG is sized in real pixels by JS so the HTML KaTeX labels line up;
+   it is never stretched by CSS (that would knock the labels off) */
+.gv-fig svg { display: block; }
+.gv-fig svg text { font-family: inherit; }   /* ← the font fix */
+
+/* drawing + label layer share one origin (the SVG's top-left) */
+.gv-stage { position: relative; width: 100%; }
+
+/* ── figure top bar: optional caption + reset (top-right of every figure) ── */
+.gv-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin: 0 2px 10px;
+}
+.gv-bar .gv-bar-t {
+  font-size: .8rem; color: #d6d3d1; line-height: 1.4;
+}
+.gv-reset {
+  flex: 0 0 auto; appearance: none; cursor: pointer;
+  font-family: var(--gothic); font-size: .74rem; font-weight: 600;
+  color: #cfcbc5; background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.18); border-radius: 999px;
+  padding: 5px 12px; transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.gv-reset:hover { background: rgba(255,255,255,.10); color: #fff; border-color: rgba(255,255,255,.34); }
+.gv-reset:focus-visible { outline: 2px solid var(--gv-snap); outline-offset: 2px; }
+
+/* ── a drawing panel ── */
+.gv-panel {
+  position: relative;
+  background: #14110b;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  padding: 26px 12px 12px;
+  min-width: 0;
+}
+.gv-panel.is-plain { padding-top: 12px; }
+
+/* small tag in the panel's top-left: 〔定量〕/〔模式図〕 + name */
+.gv-tag {
+  position: absolute; top: 8px; left: 11px; right: 11px;
+  display: flex; align-items: baseline; gap: 7px;
+  font-size: .68rem; letter-spacing: .02em; color: #a8a29e;
+  pointer-events: none;
+}
+.gv-tag .gv-kind {
+  flex: 0 0 auto; font-size: .62rem; letter-spacing: .06em;
+  color: #8a8377; border: 1px solid rgba(255,255,255,.14);
+  border-radius: 4px; padding: 1px 5px;
+}
+.gv-tag .gv-name { color: #cfcbc5; font-weight: 600; }
+
+/* ── KaTeX / text labels layered over the SVG ── */
+.gv-lab {
+  position: absolute; transform: translate(-50%, -50%);
+  pointer-events: none; white-space: nowrap;
+  font-size: .8rem; line-height: 1.05; color: #e7e5e4;
+}
+.gv-lab.gv-mut  { color: #a8a29e; font-size: .72rem; }
+.gv-lab.gv-num  { font-variant-numeric: tabular-nums; color: #7dd3fc; font-size: .76rem; }
+.gv-lab.gv-tl   { transform: translate(0, 0); }            /* top-left anchored  */
+.gv-lab.gv-al   { transform: translate(0, -50%); }         /* left, v-centred    */
+.gv-lab .katex  { font-size: 1.02em; }
+.gv-lab .num    { font-variant-numeric: tabular-nums; }
+
+/* fixed-vs-rotating reminder pills */
+.gv-pin {
+  position: absolute; bottom: 9px; left: 11px; right: 11px;
+  font-size: .7rem; color: #b9b4ac; line-height: 1.35;
+  pointer-events: none;
+}
+.gv-pin b { color: #efe9df; font-weight: 600; }
+
+/* ── layouts ── */
+.gv-row { display: grid; gap: 12px; }
+
+/* F1 — three panels: orbitals · waveforms · levels */
+.gv1 { grid-template-columns: 1fr; }
+@media (min-width: 720px) { .gv1 { grid-template-columns: 0.9fr 1.2fr 0.9fr; } }
+
+/* F3 — BZ controller + three result panels */
+.gv3 { grid-template-columns: 1fr; }
+.gv3-tabs { display: flex; gap: 6px; margin: 2px 0; flex-wrap: wrap; }
+.gv3-tab {
+  appearance: none; cursor: pointer; flex: 1 1 auto;
+  font-family: var(--gothic); font-size: .76rem; font-weight: 600;
+  color: #cfcbc5; background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.16); border-radius: 8px; padding: 7px 6px;
+}
+.gv3-tab.is-active { background: var(--gv-snap); border-color: var(--gv-snap); color: #fff; }
+.gv3 .gv3-result { display: none; }
+.gv3 .gv3-result.is-active { display: block; }
+@media (min-width: 760px) {
+  .gv3 { grid-template-columns: 1fr 1fr; }
+  .gv3-tabs { display: none; }
+  .gv3 .gv3-result { display: block; }
+}
+
+/* F4 / F5 / F6 single wide panels */
+.gv-one { grid-template-columns: 1fr; }
+.gv6 { grid-template-columns: 1fr; }
+@media (min-width: 680px) { .gv6 { grid-template-columns: 1.25fr 0.85fr; } }
+
+/* ── controls ── */
+.gv-controls { margin-top: 12px; }
+.gv-controls .me-slider output { color: #7dd3fc; }
+.gv-hs { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+.gv-hs .demo-btn { min-width: 46px; }
+.gv-aux {
+  margin-top: 10px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  font-size: .78rem; color: #a8a29e;
+}
+.gv-aux .gv-link {
+  appearance: none; background: none; border: none; cursor: pointer;
+  color: #7dd3fc; font: inherit; text-decoration: underline; text-underline-offset: 2px; padding: 0;
+}
+
+/* legend reused look (round chips, but allow square/line swatches for shapes) */
+.gv-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font-size: .76rem; color: #a8a29e; }
+.gv-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.gv-legend i { width: 13px; height: 4px; border-radius: 2px; display: inline-block; }
+.gv-legend i.dot { width: 11px; height: 11px; border-radius: 50%; }
+
+/* equation reveal (F5) */
+.gv-eq { margin-top: 12px; display: none; }
+.gv-eq.is-open { display: block; }
+.gv-eq .eq-block { color: #ece9e2; font-size: .95rem; }
+
+/* ── toast (F3) ── */
+.gv-toastwrap { position: relative; }
+.gv-toast {
+  position: absolute; left: 50%; top: 8px; transform: translateX(-50%) translateY(-6px);
+  background: rgba(20,17,11,.94); border: 1px solid rgba(224,88,76,.55);
+  color: #f4efe6; font-size: .76rem; line-height: 1.4; max-width: 22rem;
+  padding: 8px 13px; border-radius: 9px; box-shadow: 0 10px 30px -12px rgba(0,0,0,.7);
+  opacity: 0; pointer-events: none; transition: opacity .35s ease, transform .35s ease; z-index: 5;
+}
+.gv-toast.is-on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* draggable surfaces */
+.gv-drag { cursor: grab; touch-action: none; }
+.gv-drag:active { cursor: grabbing; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gv-toast { transition: none; }
+}
