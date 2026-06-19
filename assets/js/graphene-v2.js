@@ -74,12 +74,15 @@
     }, 25);
   }
 
-  /* a drawing panel: tag (〔quant.〕…) + a stage holding the svg + labels */
+  /* a drawing panel: tag (〔定量〕/〔模式図〕) + a stage holding the svg + labels.
+     kind is 'quant' or 'schematic'; the tag is rendered bilingually. */
   function panel(parent, kind, nameEn, nameJa) {
     var el0 = htm('div', 'gv-panel', parent);
     if (kind) {
+      var kEn = kind === 'schematic' ? 'schematic' : 'quantitative';
+      var kJa = kind === 'schematic' ? '模式図' : '定量';
       var tag = htm('div', 'gv-tag', el0);
-      tag.innerHTML = '<span class="gv-kind">' + kind + '</span>' +
+      tag.innerHTML = '<span class="gv-kind">〔' + bi(kEn, kJa) + '〕</span>' +
         '<span class="gv-name">' + bi(nameEn, nameJa) + '</span>';
     }
     var stage = htm('div', 'gv-stage', el0);
@@ -167,7 +170,7 @@
       clear(root);
       var grid = htm('div', 'gv-row gv3', root);
 
-      var bz = panel(grid, '〔quant.〕', 'Brillouin zone — drag $k$', 'ブリルアンゾーン — $k$をドラッグ');
+      var bz = panel(grid, 'quant', 'Brillouin zone — drag $k$', 'ブリルアンゾーン — $k$をドラッグ');
       bz.panel.classList.add('gv3-bz');
 
       var tabs = htm('div', 'gv3-tabs', grid);
@@ -178,11 +181,11 @@
           b.onclick = function () { activeTab = tb[0]; build(); };
         });
 
-      var cplx = panel(grid, '〔quant.〕', 'Complex plane', '複素平面');
+      var cplx = panel(grid, 'quant', 'Complex plane', '複素平面');
       cplx.panel.classList.add('gv3-result', 'gv3-cplx'); if (activeTab === 'cplx') cplx.panel.classList.add('is-active');
-      var real = panel(grid, '〔quant.〕', 'Real space', '実空間');
+      var real = panel(grid, 'quant', 'Real space', '実空間');
       real.panel.classList.add('gv3-result', 'gv3-real'); if (activeTab === 'real') real.panel.classList.add('is-active');
-      var lad = panel(grid, '〔quant.〕', 'Energy split', '分裂');
+      var lad = panel(grid, 'quant', 'Energy split', '分裂');
       lad.panel.classList.add('gv3-result', 'gv3-ladder'); if (activeTab === 'ladder') lad.panel.classList.add('is-active');
 
       var legend = htm('div', 'gv-legend', root);
@@ -409,7 +412,7 @@
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv-one', root);
-      var p = panel(row, '〔quant.〕', 'Bands near K', 'K点近傍のバンド');
+      var p = panel(row, 'quant', 'Bands near K', 'K点近傍のバンド');
       var W = stageW(p); if (!W) { P = {}; return; }
       var H = Math.max(210, Math.min(W * 0.5, 280)); size(p, W, H);
       var padL = 40, padR = 18, padT = 16, padB = 30, cx = (padL + W - padR) / 2, cy = (padT + H - padB) / 2;
@@ -502,7 +505,7 @@
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv-one', root);
-      var p = panel(row, '〔quant.〕', 'Ring states on $E(\\phi)$', '$E(\\phi)$上の輪の状態');
+      var p = panel(row, 'quant', 'Ring states on $E(\\phi)$', '$E(\\phi)$上の輪の状態');
       var W = stageW(p); if (!W) { P = {}; return; }
       var H = Math.max(210, Math.min(W * 0.52, 280)); size(p, W, H);
       var padL = 52, padR = 56, padT = 18, padB = 32, x0 = padL, x1 = W - padR, y0 = H - padB, y1 = padT;
@@ -564,8 +567,8 @@
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv6', root);
-      var cone = panel(row, '〔quant.〕', 'Dirac cone (cross-section)', 'ディラック錐（断面）');
-      var dos = panel(row, '〔quant.〕', 'Density of states', '状態密度');
+      var cone = panel(row, 'quant', 'Dirac cone (cross-section)', 'ディラック錐（断面）');
+      var dos = panel(row, 'quant', 'Density of states', '状態密度');
       drawCone(cone); drawDOS(dos);
       P = { cone: cone, dos: dos };
       var lg = htm('div', 'gv-legend', root);
@@ -656,9 +659,9 @@
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv1', root);
-      var orb = panel(row, '〔schematic〕', 'Two orbitals', '二つの軌道');
-      var wav = panel(row, '〔quant.〕', 'Amplitudes', '振幅の形');
-      var lev = panel(row, '〔quant.〕', 'Energy levels', 'エネルギー準位');
+      var orb = panel(row, 'schematic', 'Two orbitals', '二つの軌道');
+      var wav = panel(row, 'quant', 'Amplitudes', '振幅の形');
+      var lev = panel(row, 'quant', 'Energy levels', 'エネルギー準位');
       drawOrb(orb); drawWav(wav); drawLev(lev);
       P = { lev: lev };
       whenKatex(function () { renderMath(root); });
@@ -747,7 +750,7 @@
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv-one', root);
-      var p = panel(row, '〔quant.〕', 'Bands along $\\Gamma\\!\\to\\!M\\!\\to\\!K\\!\\to\\!\\Gamma$', 'バンド $\\Gamma\\!\\to\\!M\\!\\to\\!K\\!\\to\\!\\Gamma$');
+      var p = panel(row, 'quant', 'Bands along $\\Gamma\\!\\to\\!M\\!\\to\\!K\\!\\to\\!\\Gamma$', 'バンド $\\Gamma\\!\\to\\!M\\!\\to\\!K\\!\\to\\!\\Gamma$');
       var W = stageW(p); if (!W) return;
       var H = Math.max(220, Math.min(W * 0.52, 300)); size(p, W, H);
       var padL = 44, padR = 18, padT = 18, padB = 30, x0 = padL, x1 = W - padR, yMid = (padT + H - padB) / 2;
