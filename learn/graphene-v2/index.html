@@ -2,28 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
-  <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone</title>
-  <meta name="description" content="Is graphene a metal or an insulator? Nature's answer is 'neither,' and the shape of that answer is a cone. Build graphene's band structure by pure addition: one chemical bond, a chain of atoms, the honeycomb, and the full tight-binding derivation.">
-  <meta name="keywords" content="graphene, band structure, Dirac cone, tight-binding, bonding antibonding, LCAO, Brillouin zone, honeycomb lattice, semimetal, zero-gap semiconductor, electronic structure, physics tutorial">
+  <title>Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone</title>
+  <meta name="description" content="Is graphene a metal or an insulator? Build its band structure by pure addition — one chemical bond, a ring of atoms, the honeycomb's three-arrow interference, and the tight-binding derivation — and find that nature's answer is 'neither': a semimetal whose Fermi surface shrinks to isolated points.">
+  <meta name="keywords" content="graphene, band structure, Dirac cone, tight-binding, bonding antibonding, LCAO, Brillouin zone, honeycomb lattice, semimetal, zero-gap semiconductor, density of states, electronic structure">
   <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-v2/">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone">
-  <meta property="og:description" content="Metal or insulator? Build graphene's bands by pure addition: one bond, a chain, then the honeycomb. Watch the answer collapse to six points and a cone.">
+  <meta property="og:title" content="Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone">
+  <meta property="og:description" content="Metal or insulator? Build graphene's bands by pure addition: one bond, a ring, then the honeycomb. Watch the answer collapse to isolated points and a cone.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-v2/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone">
+  <meta name="twitter:title" content="Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone",
-    "description": "A story-driven, chemistry-up tutorial on graphene's electronic structure: bonding and antibonding orbitals, band formation in an atomic chain, the honeycomb's three-arrow interference, the tight-binding derivation, and why graphene is neither metal nor insulator.",
+    "name": "Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone",
+    "description": "A story-driven, chemistry-up tutorial on graphene's electronic structure: bonding and antibonding states, band formation on an atomic ring, the honeycomb's three-arrow interference, the tight-binding derivation, the Dirac cone, and why graphene is neither metal nor insulator.",
     "url": "https://yumigeta.github.io/learn/graphene-v2/",
     "author": {
       "@type": "Person",
@@ -33,7 +33,7 @@
     },
     "educationalLevel": "Undergraduate",
     "learningResourceType": "Interactive simulation",
-    "teaches": ["Graphene", "Band structure", "Bonding and antibonding orbitals", "Tight-binding model", "Brillouin zone", "Dirac cone", "Semimetal"],
+    "teaches": ["Graphene", "Band structure", "Bonding and antibonding states", "Tight-binding model", "Brillouin zone", "Dirac cone", "Semimetal", "Density of states"],
     "inLanguage": "en",
     "isAccessibleForFree": true,
     "interactivityType": "active"
@@ -44,6 +44,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/measurement-error.css">
+  <link rel="stylesheet" href="/assets/css/graphene-v2.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -68,339 +69,337 @@
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Electronic Structure II</span><span class="i18n-ja">グラフェンの電子構造 Ⅱ</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Electronic Structure Ⅱ</span><span class="i18n-ja">グラフェンの電子構造 Ⅱ</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
         <h1><span class="i18n-en">Electronic Structure of Graphene&nbsp;Ⅱ</span><span class="i18n-ja">グラフェンの電子構造 Ⅱ</span></h1>
       </div>
       <div class="pintro">
-        <p><span class="i18n-en">Diamond is a transparent insulator.</span><span class="i18n-ja">ダイヤモンドは透明な絶縁体である。</span></p>
-        <p><span class="i18n-en">Graphite is black, and it conducts electricity.</span><span class="i18n-ja">黒鉛は黒く、電気を流す。</span></p>
-        <p><span class="i18n-en">They look and behave nothing alike, yet both are made of carbon atoms and nothing else. Take a single atom out of each and compare them, and there is no difference at all.</span><span class="i18n-ja">見た目も性質もまるで違うが、どちらも炭素原子だけでできている。原子一個だけを取り出して比べれば、そこに違いはない。</span></p>
+        <p><span class="i18n-en">Diamond is a transparent insulator. Graphite is black and conducts electricity. They look and behave nothing alike, yet both are made of carbon atoms and nothing else. Take a single atom out of each and compare them, and there is no difference at all.</span><span class="i18n-ja">ダイヤモンドは透明な絶縁体である。黒鉛は黒く、電気を流す。見た目も性質もまるで違うのに、どちらも炭素原子だけでできている。原子を一個だけ取り出して比べれば、そこに違いはない。</span></p>
         <p><span class="i18n-en">So why does one turn out to be an insulator while the other carries a current?</span><span class="i18n-ja">それなのに、なぜ一方は絶縁体になり、もう一方は電気を流すのだろうか。</span></p>
-        <p><span class="i18n-en">Electrons do not move by reading off chemical symbols. What matters to an electron is how the atoms are arranged, and how each one is connected to its neighbors.</span><span class="i18n-ja">電子は元素記号を読んで動いているわけではない。電子にとって重要なのは、原子がどのように並び、それぞれの原子がどのようにつながっているかである。</span></p>
-        <p><span class="i18n-en">If that is so, arranging carbon atoms in a different pattern ought to bring out a different set of properties.</span><span class="i18n-ja">それなら、炭素原子を別の形に並べたときには、また別の性質が現れるはずである。</span></p>
-        <p><span class="i18n-en">So picture a sheet, only one atom thick, of carbon atoms laid out in a honeycomb pattern.</span><span class="i18n-ja">そこで、炭素原子を蜂の巣模様に並べた、原子一個分の厚さしかないシートを考えてみよう。</span></p>
-        <p><span class="i18n-en">This is graphene.</span><span class="i18n-ja">これがグラフェンである。</span></p>
-        <p><span class="i18n-en">So how do electrons behave in carbon arranged this way? Is graphene a metal, or an insulator?</span><span class="i18n-ja">では、このような並び方をした炭素の中で、電子はどのように振る舞うのだろうか。グラフェンは金属なのか、それとも絶縁体なのか。</span></p>
-        <p><span class="i18n-en">You would expect it to settle into one or the other.</span><span class="i18n-ja">普通なら、どちらか一方に決まりそうに思える。</span></p>
-        <p><span class="i18n-en">But graphene does not fall neatly into either.</span><span class="i18n-ja">しかし、グラフェンはそのどちらにも素直には当てはまらない。</span></p>
-        <p><span class="i18n-en">Why should that happen?</span><span class="i18n-ja">なぜ、そんなことが起きるのだろうか。</span></p>
-        <p><span class="i18n-en">To find out, we have to work out which energies an electron is allowed to take inside graphene.</span><span class="i18n-ja">それを知るには、グラフェンの中で電子がどのようなエネルギーを取ることができるのかを調べなければならない。</span></p>
-        <p><span class="i18n-en">We do not, however, have to take on the whole sheet of countless carbon atoms from the start. Even an intricate electronic structure is built, when you trace it back, from the linking of orbitals on neighboring atoms.</span><span class="i18n-ja">とはいえ、最初から無数の炭素原子が並んだシート全体を相手にする必要はない。複雑な電子構造も、もとをたどれば、隣り合う原子の軌道どうしの結び付きからできている。</span></p>
-        <p><span class="i18n-en">So let us start with the simplest case of all.</span><span class="i18n-ja">そこでまず、もっとも単純な場合から始めよう。</span></p>
-        <p><span class="i18n-en">Two atoms, and a single bond between them.</span><span class="i18n-ja">原子二個と、その間の結合一本である。</span></p>
+        <p><span class="i18n-en">Electrons do not move by reading off chemical symbols. What matters to an electron is how the atoms are arranged and how they are connected to one another. If that is so, arranging carbon in a different shape ought to bring out a different set of properties.</span><span class="i18n-ja">電子は元素記号を読んで動いているわけではない。電子にとって大事なのは、原子がどう並び、互いにどうつながっているかである。それなら、炭素を別の形に並べれば、また別の性質が現れるはずだ。</span></p>
+        <p><span class="i18n-en">So picture a sheet, only one atom thick, of carbon atoms laid out in a honeycomb pattern. This is graphene.</span><span class="i18n-ja">そこで、炭素原子を蜂の巣模様に並べた、原子一個分の厚さしかないシートを考えてみよう。これがグラフェンである。</span></p>
+        <p><span class="i18n-en">How do electrons behave inside an arrangement like this? Is graphene a metal, or an insulator? You would expect it to settle into one or the other — but graphene does not fall neatly into either. Why should that happen?</span><span class="i18n-ja">このような並び方の中で、電子はどう振る舞うのか。グラフェンは金属なのか、絶縁体なのか。普通ならどちらか一方に決まりそうだが、グラフェンはそのどちらにも素直には当てはまらない。なぜ、そんなことが起きるのか。</span></p>
+        <p><span class="i18n-en">To find out, we have to work out which energies an electron is allowed to take inside graphene. We need not, however, take on the whole sheet of countless carbon atoms at once. Even an intricate electronic structure is built, when you trace it back, from the linking of orbitals on neighboring atoms. Let us start with the simplest case of all — how the seats for electrons split when atoms join — with just two atoms and a single bond between them.</span><span class="i18n-ja">それを知るには、グラフェンの中で電子がどんなエネルギーを取れるのかを調べねばならない。とはいえ、いきなり無数の炭素が並んだシート全体を相手にする必要はない。複雑な電子構造も、もとをたどれば、隣り合う原子の軌道どうしの結びつきからできている。まずは、原子がつながると電子の席がどう割れるのか、いちばん単純な——原子二個と、その間の結合一本——から見ていこう。</span></p>
       </div>
     </div>
   </div>
 
-  <!-- ═══════ Module 00 — One bond ═══════ -->
+  <!-- ═══════ §00 — A single bond ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">00 — The first brick</span><span class="i18n-ja">00 — 最初のひとかけら</span></span>
-      <h2><span class="i18n-en">A single bond: the seesaw of phase</span><span class="i18n-ja">結合一本：位相のシーソー</span></h2>
-      <p><span class="i18n-en">Suppose we have two atoms of the same kind, and let each one carry a single orbital that an electron can occupy. A real atom has many orbitals, but what we want to understand here is the most basic mechanism — what happens when two orbitals link up. So we take just one orbital from each atom.</span><span class="i18n-ja">同じ種類の原子が二個あるとする。それぞれの原子には、電子が入ることのできる軌道が一つずつあるものとしよう。本物の原子には何本もの軌道がある。しかし今知りたいのは、二つの軌道が結び付いたときに何が起こるかという、もっとも基本的な仕組みである。そのため、ここでは各原子から一つの軌道だけを取り出して考える。</span></p>
+      <span class="demo-num"><span class="i18n-en">00 — A single bond</span><span class="i18n-ja">00 — 結合一本</span></span>
+      <h2><span class="i18n-en">A single bond: two seats split, one up and one down</span><span class="i18n-ja">結合一本：二つの席が上下に割れる</span></h2>
+      <p><span class="i18n-en">Suppose we have two atoms of the same kind, each carrying a single orbital that an electron can occupy. A real atom has many orbitals, but what we want to understand here is the most basic mechanism — what happens when two orbitals link up — so we take just one orbital from each atom.</span><span class="i18n-ja">同じ種類の原子が二個あり、それぞれに電子の入る軌道が一つずつあるとしよう。本物の原子には軌道が何本もあるが、いま知りたいのは「二つの軌道が結びつくと何が起こるか」という最も基本の仕組みなので、各原子から軌道を一つだけ取り出す。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c2-dimer" style="height:300px;"></canvas>
-        <div class="btn-row" style="margin-top:12px">
-          <button class="demo-btn active" id="b2-bond"><span class="i18n-en">In phase (bonding)</span><span class="i18n-ja">同位相（結合）</span></button>
-          <button class="demo-btn" id="b2-anti"><span class="i18n-en">Out of phase (antibonding)</span><span class="i18n-ja">逆位相（反結合）</span></button>
-        </div>
-        <div class="me-controls">
-          <div class="me-slider">
-            <label for="s2-t"><span class="i18n-en">Hopping energy t</span><span class="i18n-ja">ホッピングエネルギー t</span></label>
-            <input type="range" id="s2-t" min="0.4" max="3.6" step="0.1" value="2.8" aria-label="Hopping energy">
-            <output id="v2-t">2.8 eV</output>
-          </div>
-        </div>
+      <div class="me-prose">
+        <p><span class="i18n-en">When the two atoms are far apart, the left and right orbitals barely influence each other and may be treated separately. Being of the same kind, they have the same energy. Bring them close, though, and the two orbitals overlap in space, and the electron can hop from one atom to the other. We call this ease of hopping the <b>hopping energy</b> $t$.</span><span class="i18n-ja">二つの原子が十分に離れていれば、左右の軌道は互いにほとんど影響せず、別々に考えてよい。同じ種類だから、どちらも同じエネルギーを持つ。ところが近づけると、二つの軌道が空間的に重なり、電子は一方からもう一方へ飛び移れるようになる。この飛び移りやすさを、ホッピングエネルギー $t$ と呼ぶ。</span></p>
+        <p><span class="i18n-en">Once the electron can travel back and forth, we can no longer treat the “left orbital” and the “right orbital” separately. The electron's state has to be written as a combination of left and right.</span><span class="i18n-ja">電子が左右を行き来できるようになると、もう「左の軌道」「右の軌道」と別々には扱えない。電子の状態は、左右を組み合わせて表すしかなくなる。</span></p>
+        <p><span class="i18n-en">So write $|A\rangle$ for the state with the electron on the left atom and $|B\rangle$ for the state with it on the right. (The symbol $|\ \rangle$ is just a way to name “this state” as a single object; for now read $|A\rangle$ simply as “the electron is on the left.”)</span><span class="i18n-ja">そこで、左の原子に電子がいる状態を $|A\rangle$、右の原子に電子がいる状態を $|B\rangle$ と書こう。（$|\ \rangle$ は「この状態」とひとまとめに呼ぶための記号で、いまは「$|A\rangle$＝左に電子がいる」とだけ読めばよい。）</span></p>
+        <p><span class="i18n-en">The two atoms are exactly alike, with no distinction between left and right. So we look for combinations that look essentially the same when left and right are swapped. There are two such combinations.</span><span class="i18n-ja">二つの原子はまったく同じで、左と右に区別はない。だから、左右を入れ替えても実質的に同じに見える組み合わせを探す。そういう組み合わせは二つある。</span></p>
+        <p class="eq-block">$$|\psi_+\rangle = \tfrac{1}{\sqrt{2}}\big(|A\rangle + |B\rangle\big), \qquad |\psi_-\rangle = \tfrac{1}{\sqrt{2}}\big(|A\rangle - |B\rangle\big)$$</p>
+        <p><span class="i18n-en">In $|\psi_+\rangle$, superposed with the same sign, the amplitudes add between the atoms, so the region between them carries a large amplitude too. In $|\psi_-\rangle$, superposed with opposite signs, the amplitudes cancel between the atoms, going to zero at the midpoint (such a point is called a <b>node</b>). Whether the amplitude joins up smoothly between the atoms, or reverses sign at a node in the middle — that is the difference between these two states.</span><span class="i18n-ja">同符号で重ねた $|\psi_+\rangle$ では、二つの原子の間で振幅が足し合わさり、原子間にも大きな振幅が乗る。逆符号で重ねた $|\psi_-\rangle$ では、原子間で振幅が打ち消し合い、中央で振幅がゼロになる（この点を節と呼ぶ）。振幅が原子間でなめらかにつながっているか、中央で符号を変えて節を作るか——それがこの二つの状態の違いである。</span></p>
+        <p><span class="i18n-en">In the figure below, drag the ease of hopping $t$. The two shapes — the same-sign combination and the opposite-sign combination — never change, but the larger $t$ is, the wider the energy difference between them grows. The lower one joins up between the atoms; the higher one carries a node in the middle.</span><span class="i18n-ja">下の図で、飛び移りやすさ $t$ を動かしてみよう。同符号の組み合わせと逆符号の組み合わせという二つの形は変わらないが、$t$ を大きくするほど、その二つのエネルギー差は広がっていく。低い方は原子間で振幅がつながり、高い方は中央に節を持つ。</span></p>
       </div>
-      <p class="me-cap"><span class="i18n-en">Two atoms, two states. <b>Left:</b> the two orbitals and their relative phase (same color = in phase, opposite = out of phase). <b>Right:</b> the energy ledger. Increase $t$ and watch the seesaw tilt further.</span><span class="i18n-ja">原子2個、状態2つ。<b>左:</b> 2本の軌道とその位相関係（同じ色＝同位相、反対色＝逆位相）。<b>右:</b> エネルギーの帳簿。$t$ を大きくすると、シーソーの傾きが増す。</span></p>
+
+      <!-- [図F1：結合・反結合のシーソー] -->
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="gv-bar">
+          <span class="gv-bar-t"><span class="i18n-en">Two atoms, two states — the shapes are fixed; $t$ only sets how far the two levels split.</span><span class="i18n-ja">原子2個・状態2つ。形は固定で、$t$ は二つの準位がどこまで割れるかを決めるだけ。</span></span>
+          <button class="gv-reset" type="button" data-reset="f1"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+        </div>
+        <div class="gv-fig" id="gv-f1"></div>
+        <div class="gv-controls"><div class="me-controls">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="f1-t"><span class="i18n-en">Ease of hopping&nbsp;$t$</span><span class="i18n-ja">飛び移りやすさ&nbsp;$t$</span></label>
+            <input type="range" id="f1-t" min="0" max="1" step="0.05" value="0.4" aria-label="hopping t">
+            <output id="f1-t-o">0.40</output>
+          </div>
+        </div></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">The node is the shape of the opposite-sign combination itself — it is not produced by $t$. Turning $t$ up only widens the split: bonding ($\varepsilon_0-t$) drops, antibonding ($\varepsilon_0+t$) rises.</span><span class="i18n-ja">節は逆符号の組み合わせの形そのものであって、$t$ が作るのではない。$t$ は分裂幅を広げる量で、結合（$\varepsilon_0-t$）は下がり、反結合（$\varepsilon_0+t$）は上がる。</span></p>
 
       <div class="me-prose">
-        <p><span class="i18n-en">When the two atoms are far apart, the orbital on the left atom and the orbital on the right atom barely influence each other. At this stage we may treat “the electron is on the left atom” and “the electron is on the right atom” as two separate states. Because the two atoms are identical, both orbitals have the same energy.</span><span class="i18n-ja">二つの原子が十分に離れているとき、左の原子の軌道と右の原子の軌道は、互いにほとんど影響を及ぼし合わない。この段階では、「左の原子にいる状態」と「右の原子にいる状態」を別々に考えてよい。二つの原子は同じ種類なのだから、どちらの軌道も同じエネルギーを持っている。</span></p>
-        <p><span class="i18n-en">Bring the two atoms close together, though, and the situation changes. The two orbitals overlap in space, and the electron can hop from one atom to the other. The quantity that measures how easily it hops is the <b>hopping energy</b> $t$.</span><span class="i18n-ja">ところが、二つの原子を近づけると事情が変わる。二つの軌道が空間的に重なり、電子は一方の原子からもう一方の原子へ飛び移れるようになる。この飛び移りやすさを表す量が、<b>ホッピングエネルギー</b> $t$ である。</span></p>
-        <p><span class="i18n-en">As long as the electron could not hop, we could treat the left orbital and the right orbital as separate things. But once the electron can travel back and forth, the two orbitals are no longer separate. To describe the electron's state, we now have to combine the left and right orbitals.</span><span class="i18n-ja">電子が飛び移れないうちは、左の軌道と右の軌道を、それぞれ別のものとして考えることができた。しかし、電子が左右を行き来できるようになると、二つの軌道はもはや別々のものではない。電子の状態を表すには、左と右の軌道を組み合わせて考えなければならなくなる。</span></p>
-        <p><span class="i18n-en">So once the two atoms are joined, what shape does the electron's wavefunction take?</span><span class="i18n-ja">では、二つの原子がつながったあと、電子の波動関数はどのような形を取るのだろうか。</span></p>
-        <p><span class="i18n-en">Write $\lvert A\rangle$ for the orbital on the left atom and $\lvert B\rangle$ for the one on the right. The two atoms are exactly alike, with no difference between left and right. So let us look for combinations whose spatial shape is essentially unchanged when left and right are swapped.</span><span class="i18n-ja">左の原子の軌道を $\lvert A\rangle$、右の原子の軌道を $\lvert B\rangle$ と書くことにしよう。二つの原子はまったく同じであり、左と右に違いはない。そこで、左と右を入れ替えても、波動関数の空間的な形が実質的に変わらない組み合わせを探してみる。</span></p>
-        <p><span class="i18n-en">There are two such combinations. The first superposes the left and right orbitals with the same sign.</span><span class="i18n-ja">そのような組み合わせは二つある。一つは、左右の軌道を同じ符号で重ねる場合である。</span></p>
-        <p class="eq-block">$$\lvert\psi_{+}\rangle = \tfrac{1}{\sqrt{2}}\bigl(\lvert A\rangle+\lvert B\rangle\bigr)$$</p>
-        <p><span class="i18n-en">Swapping left and right leaves this wavefunction unchanged.</span><span class="i18n-ja">左右を入れ替えても、この波動関数は変わらない。</span></p>
-        <p><span class="i18n-en">The second superposes them with opposite signs.</span><span class="i18n-ja">もう一つは、左右の軌道を逆の符号で重ねる場合である。</span></p>
-        <p class="eq-block">$$\lvert\psi_{-}\rangle = \tfrac{1}{\sqrt{2}}\bigl(\lvert A\rangle-\lvert B\rangle\bigr)$$</p>
-        <p><span class="i18n-en">For this one, swapping left and right flips the sign of the whole wavefunction. But multiplying the entire wavefunction by $-1$ does not change where the electron is found, so this state too is essentially unchanged in shape by the swap.</span><span class="i18n-ja">こちらは左右を入れ替えると、波動関数全体の符号が反転する。しかし、波動関数全体にマイナスを掛けても、電子を見つける確率は変わらない。したがって、こちらも左右を入れ替えただけでは、状態の空間的な形は実質的に変わらない。</span></p>
-        <p><span class="i18n-en">So when two identical atoms are joined, two states appear: one in which the left and right orbitals line up with the same sign, and one with opposite signs. This sign relationship is what we call the <b>relative phase</b> of the two orbitals. The two states differ in the shape of the wavefunction between the atoms.</span><span class="i18n-ja">こうして、二つの同じ原子を結び付けたときには、左右の軌道が同じ符号で並ぶ状態と、逆の符号で並ぶ状態が現れる。この符号の関係を、二つの軌道の<b>相対的な位相</b>と呼ぶ。二つの状態では、原子と原子の間での波動関数の形が異なっている。</span></p>
-        <p><span class="i18n-en">First take the same-sign superposition. Between the atoms, the amplitudes of the left and right orbitals add together, so the wavefunction has a large amplitude in the region between the two atoms.</span><span class="i18n-ja">まず、左右の軌道を同じ符号で重ねた場合を考えよう。原子間では、左右の軌道の振幅が足し合わされる。そのため、波動関数は二つの原子の間にも大きな振幅を持つ。</span></p>
-        <p><span class="i18n-en">Next take the opposite-sign superposition. This time the amplitudes cancel between the atoms; the wavefunction goes to zero at the midpoint of the two atoms and reverses sign on either side. A place where the wavefunction is zero is called a <b>node</b>.</span><span class="i18n-ja">次に、左右の軌道を逆の符号で重ねた場合を考えよう。今度は、原子間で左右の軌道の振幅が打ち消し合う。二つの原子の中央では波動関数がゼロになり、その両側で符号が反転する。波動関数がゼロになる場所を、<b>節</b>と呼ぶ。</span></p>
-        <p><span class="i18n-en">In the same-phase state, the wavefunction connects the two atoms without a break. In the opposite-phase state, its middle is cut in two by a node.</span><span class="i18n-ja">同じ位相で重ねた状態では、波動関数が二つの原子の間を切れ目なくつないでいる。逆の位相で重ねた状態では、その中央が節によって分断されている。</span></p>
-        <p><span class="i18n-en">How, then, does this difference in shape show up in the energy?</span><span class="i18n-ja">では、この形の違いは、エネルギーにどのように現れるのだろうか。</span></p>
-        <p><span class="i18n-en">Let the energy of the orbital on a single atom be $\varepsilon_0$. With the electron on the left atom alone, the energy is $\varepsilon_0$ — but the electron can also hop from left to right. Let us write the effect of this hopping as $-t$, where $t$ is a positive number.</span><span class="i18n-ja">一個の原子にある軌道のエネルギーを $\varepsilon_0$ とする。左の原子だけに電子がいる状態では、そのエネルギーは $\varepsilon_0$ である。ただし、電子は左から右へ飛び移ることもできる。このホッピングの効果を $-t$ と書くことにしよう。ここで $t$ は正の数である。</span></p>
-        <p><span class="i18n-en">Then on the left orbital the following action arises:</span><span class="i18n-ja">すると、左の軌道に対しては、次の作用が生じる。</span></p>
-        <p class="eq-block">$$\lvert A\rangle \;\longrightarrow\; \varepsilon_0\lvert A\rangle - t\lvert B\rangle$$</p>
-        <p><span class="i18n-en">The first term is the energy the left atomic orbital had to begin with; the second represents the electron hopping over to the right atom.</span><span class="i18n-ja">最初の項は、左の原子軌道がもともと持っていたエネルギーである。二つ目の項は、電子が右の原子へ飛び移る効果を表している。</span></p>
-        <p><span class="i18n-en">In the same way, on the right orbital:</span><span class="i18n-ja">同じように、右の軌道に対しては、次のようになる。</span></p>
-        <p class="eq-block">$$\lvert B\rangle \;\longrightarrow\; \varepsilon_0\lvert B\rangle - t\lvert A\rangle$$</p>
-        <p><span class="i18n-en">Now consider the same-sign state $\lvert A\rangle+\lvert B\rangle$. The component hopping from left to right and the component hopping from right to left enter with the same sign. Adding the two actions gives:</span><span class="i18n-ja">ここで、同じ符号で重ねた状態 $\lvert A\rangle+\lvert B\rangle$ を考えてみよう。左の軌道から右へ移る成分と、右の軌道から左へ移る成分は、同じ符号で加わる。実際に二つを足すと、次のようになる。</span></p>
-        <p class="eq-block">$$\begin{aligned}\lvert A\rangle+\lvert B\rangle \;\longrightarrow\;& \varepsilon_0\lvert A\rangle-t\lvert B\rangle \\ &+\varepsilon_0\lvert B\rangle-t\lvert A\rangle\end{aligned}$$</p>
-        <p><span class="i18n-en">Collecting the terms for each orbital:</span><span class="i18n-ja">同じ軌道の項をまとめれば、次のようになる。</span></p>
-        <p class="eq-block">$$(\varepsilon_0 - t)\bigl(\lvert A\rangle + \lvert B\rangle\bigr)$$</p>
-        <p><span class="i18n-en">So for the same-sign state, the action keeps the original form and merely multiplies it by the number $\varepsilon_0-t$. The energy of this state is therefore:</span><span class="i18n-ja">つまり、同じ符号で重ねた状態では、もとの形を保ったまま、その前に $\varepsilon_0-t$ という数が掛かる。この状態のエネルギーは、次のとおりである。</span></p>
-        <p class="eq-block">$$E_{+} = \varepsilon_0 - t$$</p>
-        <p><span class="i18n-en">Now do the same for the opposite-sign state $\lvert A\rangle-\lvert B\rangle$:</span><span class="i18n-ja">次に、逆の符号で重ねた状態 $\lvert A\rangle-\lvert B\rangle$ について、同じことをしてみよう。</span></p>
-        <p class="eq-block">$$\begin{aligned}\lvert A\rangle-\lvert B\rangle \;\longrightarrow\;& \varepsilon_0\lvert A\rangle-t\lvert B\rangle \\ &-\varepsilon_0\lvert B\rangle+t\lvert A\rangle\end{aligned}$$</p>
-        <p><span class="i18n-en">Collecting terms:</span><span class="i18n-ja">これをまとめると、次のようになる。</span></p>
-        <p class="eq-block">$$(\varepsilon_0 + t)\bigl(\lvert A\rangle - \lvert B\rangle\bigr)$$</p>
-        <p><span class="i18n-en">So the energy of the opposite-sign state is:</span><span class="i18n-ja">したがって、逆の符号で重ねた状態のエネルギーは、次のとおりである。</span></p>
-        <p class="eq-block">$$E_{-} = \varepsilon_0 + t$$</p>
-        <p><span class="i18n-en">The same-sign state comes out lower in energy, the opposite-sign state higher. The gap between the two is:</span><span class="i18n-ja">同じ符号で重ねた状態のエネルギーは低くなり、逆の符号で重ねた状態のエネルギーは高くなる。二つのエネルギーの間隔は、次のとおりである。</span></p>
-        <p class="eq-block">$$E_{-} - E_{+} = 2t$$</p>
-        <p><span class="i18n-en">The lower state, formed in the same phase, is called the <b>bonding</b> state. The higher state, formed in the opposite phase, is called the <b>antibonding</b> state.</span><span class="i18n-ja">同じ位相で重ねた、エネルギーの低い状態を<b>結合状態</b>と呼ぶ。逆の位相で重ねた、エネルギーの高い状態を<b>反結合状態</b>と呼ぶ。</span></p>
-        <p><span class="i18n-en">Let us gather up what just happened. For a single atom with a single orbital, there is one energy level. With two identical atoms still far apart, there are two orbitals at the same energy.</span><span class="i18n-ja">ここで起きたことをまとめておこう。原子が一個で、軌道を一つだけ考えるなら、エネルギー準位も一つである。同じ原子が二個あり、まだ互いに離れているときには、同じエネルギーを持つ軌道が二つある。</span></p>
-        <p><span class="i18n-en">Bring the two atoms close and let the electron hop between them, and the two orbitals no longer stay at the same energy. One becomes the lower state, with the left and right orbitals in the same phase; the other becomes the higher state, with them in the opposite phase. The two levels that were once identical have split, one downward and one upward.</span><span class="i18n-ja">二つの原子を近づけ、電子がその間を飛び移れるようにすると、二つの軌道は同じエネルギーのままではなくなる。一方は、左右の軌道が同じ位相で重なった低い状態になる。もう一方は、左右の軌道が逆の位相で重なった高い状態になる。もともと同じだった二つの準位が、一つは下へ、一つは上へと分かれたのである。</span></p>
-        <p><span class="i18n-en">So what happens if we add still more atoms? With one orbital per atom, three atoms give three states and ten atoms give ten.</span><span class="i18n-ja">では、原子をさらに増やしたらどうなるだろうか。一個の原子につき一つの軌道を考えるなら、原子が三個あれば三つ、十個あれば十個の状態ができる。</span></p>
-        <p><span class="i18n-en">Line up a great many atoms, and a great many energy levels appear. The spacing between the levels grows finer and finer, until they come to look like a continuous band. This is the beginning of an energy band.</span><span class="i18n-ja">非常に多くの原子が並べば、非常に多くのエネルギー準位が生まれる。それぞれの準位の間隔はしだいに細かくなり、やがて連続した帯のように見えるようになる。これが、エネルギーバンドの始まりである。</span></p>
-        <p><span class="i18n-en">Graphene's strange electronic structure, too, begins with nothing more than this single bond.</span><span class="i18n-ja">グラフェンの不思議な電子構造も、出発点はこの結合一本にすぎない。</span></p>
+        <p><span class="i18n-en">So how does this difference in shape act on the energy? Here is the intuition first. The bonding state, whose amplitude joins up smoothly between the atoms, varies only gently overall. The antibonding state, with a node in the middle, turns its amplitude sharply around at that node. In quantum mechanics, the more sharply an amplitude changes, the more it costs in energy (a larger curvature of the amplitude reads as a larger momentum). So the connected bonding state lies lower and the noded antibonding state lies higher — the difference in shape becomes, directly, a difference in energy. Let us confirm this with algebra.</span><span class="i18n-ja">では、この形の違いはエネルギーにどう効くのか。直感を先に言っておこう。原子間で振幅がなめらかにつながった結合状態は、全体としてゆるやかにしか変化しない。中央に節を持つ反結合状態は、その節のところで振幅が急に向きを変える。量子力学では、振幅が急に変化するほどエネルギーが高くつく（振幅の曲がりが大きい＝運動量が大きい、と読み替えられる）。だから、つながった結合状態の方が低く、節を持つ反結合状態の方が高い——形の違いが、そのままエネルギーの高低になる。これを式で確かめよう。</span></p>
+        <p><span class="i18n-en">Write the energy of the isolated orbital as $\varepsilon_0$, and the effect of hopping to a neighbor as $-t$ (with $t>0$). Then on the left state act both “its own energy $\varepsilon_0$” and “the effect of hopping to the right, $-t$,” and the same for the right state.</span><span class="i18n-ja">孤立した軌道のエネルギーを $\varepsilon_0$、隣へ飛び移る効果を $-t$（$t>0$）と書く。すると、左の状態には「自分のエネルギー $\varepsilon_0$」と「右へ飛び移る効果 $-t$」が働き、右の状態にも同じことが働く。</span></p>
+        <p class="eq-block">$$|A\rangle \to \varepsilon_0|A\rangle - t|B\rangle, \qquad |B\rangle \to \varepsilon_0|B\rangle - t|A\rangle$$</p>
+        <p><span class="i18n-en">Apply this to the same-sign $|\psi_+\rangle$ and add the two together.</span><span class="i18n-ja">これを同符号の $|\psi_+\rangle$ に当てはめ、二つを足してみよう。</span></p>
+        <p class="eq-block">$$(\varepsilon_0|A\rangle - t|B\rangle) + (\varepsilon_0|B\rangle - t|A\rangle) = (\varepsilon_0 - t)(|A\rangle + |B\rangle)$$</p>
+        <p><span class="i18n-en">The original shape $(|A\rangle+|B\rangle)$ survives intact, with $(\varepsilon_0-t)$ factored out in front. That coefficient is the energy of the bonding state. Do the same for the opposite-sign $|\psi_-\rangle$ and $(\varepsilon_0+t)$ comes out. So</span><span class="i18n-ja">もとの状態の形 $(|A\rangle+|B\rangle)$ は崩れないまま、全体に $(\varepsilon_0-t)$ がくくり出される。この係数こそ結合状態のエネルギーだ。逆符号の $|\psi_-\rangle$ で同じことをすれば、$(\varepsilon_0+t)$ が出てくる。つまり</span></p>
+        <p class="eq-block">$$E_+ = \varepsilon_0 - t, \qquad E_- = \varepsilon_0 + t$$</p>
+        <p><span class="i18n-en">Just as the intuition said, the connected state is lower and the cut state is higher. We call the lower one the <b>bonding</b> state and the higher one the <b>antibonding</b> state. Their separation is $E_- - E_+ = 2t$.</span><span class="i18n-ja">直感のとおり、つながった状態が低く、切れた状態が高い。低い方を結合状態、高い方を反結合状態と呼ぶ。間隔は $E_- - E_+ = 2t$。</span></p>
+        <p><span class="i18n-en">Let us gather up what just happened. One atom with one orbital: one level. Two identical atoms far apart: the same level, twice over. Bring them close so the electron can hop, and at once one drops (bonding) and one rises (antibonding).</span><span class="i18n-ja">ここで起きたことをまとめよう。原子一個・軌道一つなら準位は一つ。離れた同種二原子なら、同じ準位が二つ。近づけて飛び移れるようにした途端、一つは下（結合）へ、一つは上（反結合）へと割れる。</span></p>
+        <p><span class="i18n-en">This “splitting” is no fiction. For graphene's $p_z$ orbitals, the strength of hopping to a neighboring carbon is written $t$ in exactly the same way, and is typically about $2.8\ \mathrm{eV}$. But what we have learned here is not yet whether a current flows. What we have learned is that when atoms join, the seat for an electron cannot stay single: it splits into a bonding and an antibonding state. Gather many atoms and this small splitting becomes a band; whether a current flows is then decided by how far that band fills.</span><span class="i18n-ja">この「割れ」は絵空事ではない。グラフェンの $p_z$ 軌道でも、隣の炭素へ飛び移る強さは同じ考え方で $t$ と書かれ、代表的には約 $2.8\ \mathrm{eV}$ である。ただし、ここで分かったのは「電気を流すかどうか」そのものではない。分かったのは、原子がつながると電子の席が一つのままではいられず、結合状態と反結合状態に割れる、ということだ。この小さな割れが、たくさんの原子で集まるとバンドになり、電気を流すかどうかは、次にそのバンドがどこまで埋まるかで決まる。</span></p>
+        <p><span class="i18n-en">So what happens if, instead of two atoms, we line up many more? What kind of seats come crowding in between the two that split apart, up and down?</span><span class="i18n-ja">では、原子を二個でなく、もっと並べたらどうなるだろう。上下に割れた席の間には、どんな席が入り込んでくるのだろうか。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 01 — The chain ═══════ -->
+  <!-- ═══════ §01 — From two to many ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">01 — From two to many</span><span class="i18n-ja">01 — 2個から大勢へ</span></span>
-      <h2><span class="i18n-en">As atoms multiply, the levels become a band</span><span class="i18n-ja">原子が増えると、準位はバンドになる</span></h2>
-      <p><span class="i18n-en">With two atoms, the two atomic orbitals gave two states: one with the left and right orbitals in the same phase, one in the opposite phase, their energies pushed apart by hopping. So what happens as we add more atoms? Lay the atoms in a row, each linked only to its immediate neighbors, and — so we need not worry about the ends — join the two ends of the row into a ring. On a ring, every atom has exactly one neighbor on the right and one on the left; not a single atom is special.</span><span class="i18n-ja">原子が二個のとき、二つの原子軌道から二つの状態ができた。左右の軌道を同じ位相で重ねた状態と、逆の位相で重ねた状態である。そして、二つの状態のエネルギーは、ホッピングによって上下に分かれた。では、原子の数を増やしたらどうなるだろうか。原子を一列に並べ、それぞれの原子が両隣とだけつながっているとする。端の影響を考えなくてよいように、ここでは列の両端をつないで輪にしておこう。輪にすると、どの原子にも右隣と左隣が一個ずつある。特別な原子は一個もない。</span></p>
+      <span class="demo-num"><span class="i18n-en">01 — From two to many</span><span class="i18n-ja">01 — 二個から大勢へ</span></span>
+      <h2><span class="i18n-en">From two to many: the levels become a band</span><span class="i18n-ja">二個から大勢へ：準位がバンドになる</span></h2>
+      <p><span class="i18n-en">Two atoms gave two states. Three give three, ten give ten — with one orbital per atom, there are as many states as there are atoms. So when we raise the count steeply, how do those many levels arrange themselves?</span><span class="i18n-ja">原子二個から状態が二つできた。三個なら三つ、十個なら十個——原子一個につき軌道一つを考えるなら、状態の数は原子の数だけある。では、原子をうんと増やすと、その大量の準位はどう並ぶのか。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c2-chain" style="height:340px;"></canvas>
-        <div class="me-controls">
-          <div class="me-slider">
-            <label for="s2-n"><span class="i18n-en">Number of atoms N</span><span class="i18n-ja">原子の数 N</span></label>
-            <input type="range" id="s2-n" min="2" max="48" step="2" value="8" aria-label="Number of atoms">
-            <output id="v2-n">8</output>
-          </div>
-        </div>
+      <div class="me-prose">
+        <p><span class="i18n-en">Line the atoms up in a row, each connected only to its two neighbors. The ends are an awkward special case, so join the two ends of the row into a ring. Now every atom has exactly one neighbor to the right and one to the left, and not a single atom is special.</span><span class="i18n-ja">原子を一列に並べ、それぞれが両隣とだけつながるとする。端の原子だけ事情が違うと面倒なので、列の両端をつないで輪にしておこう。こうすれば、どの原子にも右隣と左隣が一個ずつあり、特別な原子は一つもない。</span></p>
+        <p><span class="i18n-en">Number the atoms $0,1,\dots,N-1$ and write the amplitude on atom $n$ as $c_n$. On a ring, shifting everything by one atom leaves the arrangement completely unchanged. So the allowed states are restricted to those that merely pick up a common phase when shifted. Consider, then, a state whose phase advances by a fixed amount $\phi$ with each step to the next atom:</span><span class="i18n-ja">原子に $0,1,\dots,N-1$ と番号を付け、各原子上の振幅を $c_n$ とする。輪では、全体を原子一個分ずらしても並びがまったく変わらない。だから許される状態も、ずらしたら全体に同じ位相が掛かるだけ、というものに限られる。そこで、隣へ進むたびに位相が一定量 $\phi$ ずつ進む状態を考える。</span></p>
+        <p class="eq-block">$$c_n = C\,e^{in\phi}$$</p>
+        <p><span class="i18n-en">Going $N$ steps once around the ring must return the amplitude to its starting value, so $e^{iN\phi}=1$ — that is, $\phi = 2\pi m/N$ ($m=0,\dots,N-1$), just $N$ values allowed. The phase step cannot be chosen freely.</span><span class="i18n-ja">輪を一周して $N$ 個進めば、もとの振幅に戻らねばならない。だから $e^{iN\phi}=1$、すなわち $\phi = 2\pi m/N$（$m=0,\dots,N-1$）の $N$ 通りだけが許される。位相の進み方は、好き勝手には選べないのである。</span></p>
+        <p><span class="i18n-en">What, then, is the energy at each $\phi$? On atom $n$, the amplitude gets its own energy $\varepsilon_0$ plus the hops from its right and left neighbors.</span><span class="i18n-ja">では、それぞれの $\phi$ でエネルギーはいくらか。原子 $n$ の振幅には、自分のエネルギー $\varepsilon_0$ に、右隣と左隣からの飛び移りが加わる。</span></p>
+        <p class="eq-block">$$E\,c_n = \varepsilon_0 c_n - t\,c_{n+1} - t\,c_{n-1}$$</p>
+        <p><span class="i18n-en">Substituting $c_{n\pm 1}=e^{\pm i\phi}c_n$ and using $e^{i\phi}+e^{-i\phi}=2\cos\phi$,</span><span class="i18n-ja">$c_{n\pm 1}=e^{\pm i\phi}c_n$ を入れ、$e^{i\phi}+e^{-i\phi}=2\cos\phi$ を使えば、</span></p>
+        <p class="eq-block">$$E(\phi) = \varepsilon_0 - 2t\cos\phi$$</p>
+        <p><span class="i18n-en">At $\phi=0$ every atom's amplitude has the same sign, in phase everywhere, and the energy is lowest ($\varepsilon_0-2t$). If $N$ is even, $\phi=\pi$ is also allowed; the amplitude alternates in sign, every bond out of phase, and the energy is highest ($\varepsilon_0+2t$). In between, a whole row of states with intermediate phase steps lines up.</span><span class="i18n-ja">$\phi=0$ では全原子の振幅が同符号で、どこも同位相、最低（$\varepsilon_0-2t$）。$N$ が偶数なら $\phi=\pi$ も許され、振幅が交互に符号を変え、どの結合も逆位相、最高（$\varepsilon_0+2t$）。その間に、中間の位相を持つ状態がずらりと並ぶ。</span></p>
+        <p><span class="i18n-en">In the figure below, raise the number of atoms $N$. The seats, discrete at first, crowd together as $N$ grows until they become a single band.</span><span class="i18n-ja">下の図で原子の数 $N$ を増やしてみよう。最初はとびとびだった席が、$N$ とともに詰まって、やがて一本の帯になっていく。</span></p>
       </div>
-      <p class="me-cap"><span class="i18n-en">The allowed states of an $N$-atom ring, plotted as energy versus the phase step $\varphi$ between neighbors. Filled dots: occupied by electrons (one electron per atom, two per state). Drag $N$ up and watch discrete levels crowd into a continuous <b>band</b>.</span><span class="i18n-ja">原子 $N$ 個の輪が許す状態を、隣との位相差 $\varphi$ に対するエネルギーとして描いたもの。塗りつぶした点は電子で埋まった状態（原子1個につき電子1個、1状態に2個まで）。$N$ を増やすと、飛び飛びの準位が連続な<b>バンド</b>へと密集していく。</span></p>
+
+      <!-- [図F2：N個の輪→バンド] -->
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="gv-bar">
+          <span class="gv-bar-t"><span class="i18n-en">Allowed states of an $N$-ring on the curve $E(\phi)=\varepsilon_0-2t\cos\phi$.</span><span class="i18n-ja">曲線 $E(\phi)=\varepsilon_0-2t\cos\phi$ 上に並ぶ、$N$個の輪の許容状態。</span></span>
+          <button class="gv-reset" type="button" data-reset="f2"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+        </div>
+        <div class="gv-fig" id="gv-f2"></div>
+        <div class="gv-controls"><div class="me-controls">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="f2-n"><span class="i18n-en">Number of atoms&nbsp;$N$</span><span class="i18n-ja">原子の数&nbsp;$N$</span></label>
+            <input type="range" id="f2-n" min="0" max="6" step="1" value="2" aria-label="number of atoms N">
+            <output id="f2-n-o">8</output>
+          </div>
+        </div></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">A ring is the model that removes the ends; as $N$ grows the seats pack into a band. The two extreme seats are exactly the bonding and antibonding states of the two-atom case ($\phi=0$ and $\phi=\pi$).</span><span class="i18n-ja">端をなくすため輪にした模型。$N$ で席が詰まり帯になる。両端＝二原子の結合（$\phi=0$）／反結合（$\phi=\pi$）の席である。</span></p>
 
       <div class="me-prose">
-        <p><span class="i18n-en">Let there be $N$ atoms, numbered $0, 1, 2, \ldots, N-1$, and write $c_n$ for the amplitude of the wavefunction on atom $n$. On this ring, shifting everything along by one atom leaves the arrangement of atoms completely unchanged.</span><span class="i18n-ja">原子の数を $N$ 個とし、原子に $0, 1, 2, \ldots, N-1$ と番号を付ける。それぞれの原子上での波動関数の振幅を $c_n$ と書こう。この輪では、全体を原子一個分だけずらしても、原子の並び方はまったく変わらない。</span></p>
-        <p><span class="i18n-en">So the electron's state, too, can hardly turn into something entirely different under a shift of just one atom. All that is allowed is for every amplitude to pick up the same phase factor. So consider a state whose phase advances by a fixed amount $\varphi$ with each step to the next atom:</span><span class="i18n-ja">したがって、電子の状態も、原子一個分ずらしただけでまったく別の形になるとは考えにくい。許されるのは、すべての振幅に同じ位相が掛かることだけである。そこで、隣の原子へ進むたびに、位相が一定量 $\varphi$ だけ進む状態を考える。</span></p>
-        <p class="eq-block">$$c_n = C\, e^{in\varphi}$$</p>
-        <p><span class="i18n-en">Each step to the next atom multiplies by $e^{i\varphi}$. After going $N$ steps once around the ring, the amplitude must return to its starting value, so we need</span><span class="i18n-ja">原子を一個進むたびに $e^{i\varphi}$ が一回掛かる。輪を一周して $N$ 個進んだときには、もとの振幅に戻らなければならない。したがって、</span></p>
-        <p class="eq-block">$$e^{iN\varphi} = 1$$</p>
-        <p><span class="i18n-en">This forces $N\varphi = 2\pi m$ — that is, the phase step is restricted to the $N$ values</span><span class="i18n-ja">でなければならない。これは $N\varphi = 2\pi m$、すなわち位相の進み方が次の $N$ 通りに限られることを意味する。</span></p>
-        <p class="eq-block">$$\varphi = \frac{2\pi m}{N}, \qquad m = 0, 1, \ldots, N-1$$</p>
-        <p><span class="i18n-en">The phase step cannot be chosen freely; only these $N$ values are allowed.</span><span class="i18n-ja">位相の進み方は自由に選べるわけではなく、$N$ 通りの値だけが許されるのである。</span></p>
-        <p><span class="i18n-en">What, then, is the energy for each phase? Let the energy of a single isolated atomic orbital be $\varepsilon_0$, and write the hop to a neighboring atom as $-t$. For the amplitude on atom $n$, the original orbital energy together with the hops from its right and left neighbors gives</span><span class="i18n-ja">では、それぞれの位相に対して、エネルギーはいくらになるだろうか。一個の孤立した原子軌道のエネルギーを $\varepsilon_0$ とする。また、隣の原子へのホッピングを $-t$ と書く。原子 $n$ 上の振幅には、もとの原子軌道のエネルギーに加えて、右隣と左隣からのホッピングが加わる。そのため、</span></p>
-        <p class="eq-block">$$E\, c_n = \varepsilon_0\, c_n - t\, c_{n+1} - t\, c_{n-1}$$</p>
-        <p><span class="i18n-en">Substituting the neighbor relations $c_{n+1} = e^{i\varphi}c_n$ and $c_{n-1} = e^{-i\varphi}c_n$ gives</span><span class="i18n-ja">となる。ここに、$c_{n+1} = e^{i\varphi}c_n$ と $c_{n-1} = e^{-i\varphi}c_n$ を代入すると、</span></p>
-        <p class="eq-block">$$E\, c_n = \left[\,\varepsilon_0 - t\left(e^{i\varphi} + e^{-i\varphi}\right)\right] c_n$$</p>
-        <p><span class="i18n-en">Since $e^{i\varphi} + e^{-i\varphi} = 2\cos\varphi$, the energy as a function of the phase is</span><span class="i18n-ja">となる。$e^{i\varphi} + e^{-i\varphi} = 2\cos\varphi$ なので、エネルギーは位相 $\varphi$ の関数として、</span></p>
-        <p class="eq-block">$$E(\varphi) = \varepsilon_0 - 2t\cos\varphi$$</p>
-        <p><span class="i18n-en">At $\varphi = 0$, every atom's amplitude has the same sign. Neighboring orbitals connect in the same phase everywhere, and the energy is lowest.</span><span class="i18n-ja">を得る。$\varphi = 0$ では、すべての原子上の振幅が同じ符号を持つ。隣り合う軌道はどこでも同じ位相でつながり、エネルギーは最も低くなる。</span></p>
-        <p class="eq-block">$$E(0) = \varepsilon_0 - 2t$$</p>
-        <p><span class="i18n-en">If $N$ is even, $\varphi = \pi$ is also allowed. Then neighboring amplitudes alternate in sign; every bond is in opposite phase, and the energy is highest.</span><span class="i18n-ja">一方、$N$ が偶数なら、$\varphi = \pi$ も許される。このとき、隣り合う原子上の振幅は交互に符号を変える。どの結合も逆位相となり、エネルギーは最も高くなる。</span></p>
-        <p class="eq-block">$$E(\pi) = \varepsilon_0 + 2t$$</p>
-        <p><span class="i18n-en">In between lie states whose phase steps differ little by little. With only two atoms there were just the in-phase and the opposite-phase states; as the number of atoms grows, states of intermediate phase keep filling in between them.</span><span class="i18n-ja">その間にも、位相のずれ方が少しずつ異なる状態が並んでいる。原子が二個しかなければ、同位相と逆位相の二つだけだった。原子の数が増えると、その中間の位相を持つ状態が次々と入ってくるのである。</span></p>
-        <p><span class="i18n-en">When $N$ becomes very large, the spacing between the allowed $\varphi$ becomes very fine. The corresponding energies crowd together too, until they can no longer be told apart as individual levels. In this way a single continuous band appears. This is an energy band.</span><span class="i18n-ja">$N$ が非常に大きくなると、許される $\varphi$ の間隔は非常に細かくなる。それぞれに対応するエネルギーも密に並び、もはや一本ずつの準位としては見分けられなくなる。こうして、一つの連続した帯が現れる。これがエネルギーバンドである。</span></p>
-        <p><span class="i18n-en">A band is nothing but the span between the bonding and antibonding states of the two-atom case, filled in by a multitude of states.</span><span class="i18n-ja">バンドとは、原子二個で見た結合状態と反結合状態の間を、多数の状態が埋めたものなのである。</span></p>
+        <p><span class="i18n-en">When $N$ becomes very large, the spacing of the allowed $\phi$ becomes very fine, the corresponding energies pack densely, and they can no longer be told apart as individual levels. A continuous band appears. This is an energy band — nothing but the span between the bonding and antibonding states of the two-atom case, filled in by a multitude of states.</span><span class="i18n-ja">$N$ が非常に大きくなると、許される $\phi$ の間隔は非常に細かくなり、対応するエネルギーも密に並んで、もはや一本ずつの準位としては見分けられない。こうして連続した帯ができる。これがエネルギーバンドである。バンドとは、原子二個で見た結合状態と反結合状態の間を、無数の状態が埋めたものにすぎない。</span></p>
 
         <h3><span class="i18n-en">Filling the band with electrons</span><span class="i18n-ja">バンドに電子を入れる</span></h3>
-        <p><span class="i18n-en">What we have found so far are the states an electron can occupy. To decide whether a current actually flows, we also have to ask how far those states are filled with electrons.</span><span class="i18n-ja">ここまで求めたのは、電子が入ることのできる状態である。実際に電気を流すかどうかを考えるには、その状態が電子によってどこまで埋まっているかも調べなければならない。</span></p>
-        <p><span class="i18n-en">Because electrons carry spin, each spatial state can hold up to two electrons, of opposite spin. This chain has $N$ spatial states, so the whole band can hold at most $2N$ electrons.</span><span class="i18n-ja">電子にはスピンがあるため、同じ空間的な状態には、スピンの異なる電子を二個まで入れることができる。この鎖には空間的な状態が $N$ 個あるので、バンド全体には最大で $2N$ 個の電子を入れられる。</span></p>
-        <p><span class="i18n-en">If each atom contributes one electron to this band, the total number of electrons is $N$. So $N$ electrons go into $2N$ available seats, and the band is filled halfway.</span><span class="i18n-ja">各原子がこのバンドに電子を一個ずつ出すとすれば、電子の総数は $N$ 個である。したがって、$2N$ 個分の席に $N$ 個の電子が入り、バンドは半分まで埋まる。</span></p>
-        <p><span class="i18n-en">Electrons fill the states from the lowest energy upward. So in a half-filled band, just above the occupied states there are states still empty. Apply an electric field, and an electron can move into a nearby empty state. The motion of the electrons becomes lopsided, and a current flows.</span><span class="i18n-ja">電子はエネルギーの低い状態から順に入っていく。そのため、半分まで埋まったバンドでは、電子が入っている状態のすぐ上に、まだ空いている状態がある。電場をかけると、電子はその近くの空いた状態へ移ることができる。こうして電子の運動に偏りが生まれ、電流が流れる。</span></p>
-        <p><span class="i18n-en">In this simple model, a half-filled band makes a metal.</span><span class="i18n-ja">この単純な模型では、半分だけ埋まったバンドは金属になる。</span></p>
-        <p><span class="i18n-en">Consider instead a band that is completely full. Within it, no empty state remains for an electron to move into. The next empty states lie in another band, and if there is an energy separation between them, a weak field cannot move electrons across it.</span><span class="i18n-ja">反対に、あるバンドが完全に埋まっている場合を考えよう。バンドの中には、電子が移ることのできる空いた状態が残っていない。次に空いている状態が別のバンドにあり、その間にエネルギーの隔たりがあれば、弱い電場では電子をそこまで移すことができない。</span></p>
-        <p><span class="i18n-en">This separation is the <b>band gap</b>.</span><span class="i18n-ja">この隔たりが<b>バンドギャップ</b>である。</span></p>
-        <p><span class="i18n-en">So, within this simple band picture, we reach the following outlook:</span><span class="i18n-ja">したがって、単純なバンド模型の範囲では、次の見通しが得られる。</span></p>
-        <ul>
-          <li><span class="i18n-en">A partly filled band tends to make a metal.</span><span class="i18n-ja">バンドが途中まで埋まっていれば金属になりやすい。</span></li>
-          <li><span class="i18n-en">A completely filled band, separated by a gap from the empty band above it, makes an insulator.</span><span class="i18n-ja">バンドが完全に埋まり、その上の空いたバンドとの間にギャップがあれば絶縁体になる。</span></li>
-        </ul>
-        <p><span class="i18n-en">The crucial point is that a completely filled band does not by itself guarantee an insulator. If the filled band and the empty band touch somewhere, there is no gap. This exception is exactly what graphene is about to show.</span><span class="i18n-ja">ここで重要なのは、バンドが完全に埋まっただけでは、まだ絶縁体とは限らないことである。満たされたバンドと空のバンドがどこかで接していれば、ギャップは存在しない。この例外が、これからグラフェンで現れる。</span></p>
+        <p><span class="i18n-en">What we have found so far are the seats an electron can occupy. Whether a current actually flows depends on how far those seats are filled with electrons.</span><span class="i18n-ja">ここまで求めたのは「電子が入れる席」だ。実際に電気を流すかどうかは、その席が電子でどこまで埋まっているかで決まる。</span></p>
+        <p><span class="i18n-en">Electrons carry spin, so up to two fit in each spatial state. With $N$ seats, the whole band holds at most $2N$. If each atom contributes one electron, the total is $N$ — and $N$ electrons in $2N$ seats fills the band exactly halfway.</span><span class="i18n-ja">電子にはスピンがあり、同じ空間的な状態に二個まで入れる。席は $N$ 個だから、バンド全体には最大 $2N$ 個。各原子が電子を一個ずつ出すなら総数は $N$ 個で、$2N$ の席に $N$ 個——ちょうど半分まで埋まる。</span></p>
+        <p><span class="i18n-en">Electrons fill the seats from the lowest energy upward. In a half-filled band there are empty seats just above the filled ones. Apply a field and the electron sea can use those nearby empty seats to tilt its total momentum slightly to one side, making a one-way flow. A current flows. In this simple single-band model, at least, a half-filled band makes a metal.</span><span class="i18n-ja">電子はエネルギーの低い席から順に詰まる。半分まで埋まったバンドでは、埋まった席のすぐ上に空席がある。電場をかければ、電子の集団は近くの空席を使って、全体の運動量をわずかに片側へ偏らせ、片向きの流れを作れる。こうして電流が流れる。少なくともこの単純な一バンド模型では、半分だけ埋まったバンドは金属になる。</span></p>
+        <p><span class="i18n-en">Now suppose instead a band is completely full. Inside it there are no empty seats to move into. The next empty seats lie in another band, and if there is an energy separation across to them, a weak field cannot lift electrons that far. This separation is the <b>band gap</b>, and then the material is an insulator.</span><span class="i18n-ja">反対に、あるバンドが完全に埋まっていたらどうか。中には動ける空席がない。次の空席が別のバンドにあり、その間にエネルギーの隔たりがあれば、弱い電場では電子をそこまで持ち上げられない。この隔たりがバンドギャップで、こうなると絶縁体である。</span></p>
+        <p><span class="i18n-en">One caution here, which will matter later: a “completely full band” does not by itself make an insulator. If the full band and the empty band touch somewhere, the gap is zero. This very exception is what is about to happen in graphene — the lower band is full, yet it does not become an insulator.</span><span class="i18n-ja">ここで一つ、後で効く注意をしておく。「バンドが完全に埋まった」だけでは、まだ絶縁体とは限らない。埋まったバンドと空のバンドがどこかで接していれば、ギャップはゼロだからだ。この例外こそ、これからグラフェンで——下のバンドが満席なのに絶縁体にならない、という形で——起こることである。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 02 — The honeycomb ═══════ -->
+  <!-- ═══════ §02 — Enter the honeycomb  〔LOCKED VERBATIM〕 ═══════ -->
   <section class="demo">
     <div class="demo-head">
       <span class="demo-num"><span class="i18n-en">02 — Enter the honeycomb</span><span class="i18n-ja">02 — 蜂の巣、登場</span></span>
-      <h2><span class="i18n-en">The orbital graphene uses</span><span class="i18n-ja">グラフェンで使う軌道</span></h2>
-      <p><span class="i18n-en">From here we extend the chain of atoms to graphene. In graphene, each carbon atom forms strong bonds with three carbon atoms in the same plane, and those three bonds use orbitals that lie mainly in the plane. As a result, one orbital per carbon is left over: the $p_z$ orbital, reaching out perpendicular to the sheet. Electrons in this $p_z$ orbital build graphene's low-energy electronic structure. So here too we may take one orbital per atom — the model we used in §00 and §01 carries straight over to the honeycomb lattice. The honeycomb, however, has a feature the chain did not.</span><span class="i18n-ja">ここから、原子の鎖をグラフェンへ拡張しよう。グラフェンでは、一個の炭素原子が同じ面内にある三個の炭素原子と強い結合を作っている。この三本の結合には、主に面内に広がる軌道が使われる。その結果、一個の炭素原子につき一つ、シートに垂直な方向へ伸びた $p_z$ 軌道が残る。この $p_z$ 軌道に入った電子が、グラフェンの低エネルギーの電子構造を作る。したがって、ここでも一個の原子につき一つの軌道を考えればよい。§00と§01で使った模型を、そのまま蜂の巣格子へ広げられるのである。ただし、蜂の巣格子には、原子の鎖にはなかった特徴がある。</span></p>
+      <h2><span class="i18n-en">Enter the honeycomb</span><span class="i18n-ja">蜂の巣、登場</span></h2>
+      <p><span class="i18n-en">In a chain, an atom's partners were only its left and right neighbors. In the honeycomb, an A atom has three B atoms around it. So we just add up the “single bond” story of §00 three times over.</span><span class="i18n-ja">鎖では、一個の原子の相手は左隣と右隣の二つだけだった。しかし蜂の巣では、A原子のまわりにB原子が三つある。だから §00 の「結合一本」の話を、三本ぶん足し合わせればよい。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c2-lattice" style="height:320px;"></canvas>
-      </div>
-      <p class="me-cap"><span class="i18n-en">The honeycomb is two interlocking triangular sublattices: <b style="color:#ef4444">A</b> (red) and <b style="color:#3b82f6">B</b> (blue). Every A atom bonds to exactly three B atoms, along the three arrows $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$, and never to another A. The repeating unit (dashed) contains one atom of each kind.</span><span class="i18n-ja">蜂の巣は、互いに入れ子になった2枚の三角格子（<b style="color:#ef4444">A</b>（赤）と <b style="color:#3b82f6">B</b>（青））でできている。どのA原子も、3本の矢印 $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$ に沿ってちょうど3個のB原子と結合し、A同士は決して結合しない。繰り返し単位（破線）にはAとBが1個ずつ入る。</span></p>
-
       <div class="me-prose">
-        <h3><span class="i18n-en">Two atoms in one unit cell</span><span class="i18n-ja">一つの単位胞に原子が二個ある</span></h3>
-        <p><span class="i18n-en">Look at the honeycomb lattice and every carbon atom looks the same. Yet to reproduce that arrangement by translation alone, one unit cell has to contain two atoms.</span><span class="i18n-ja">蜂の巣格子を見ると、すべての炭素原子が同じように見える。しかし、同じ並び方を平行移動だけで繰り返すには、一つの単位胞の中に二個の原子を含めなければならない。</span></p>
-        <p><span class="i18n-en">Call these two kinds of site A and B. An A atom has three B atoms as neighbors, and a B atom has three A atoms; A is never joined to A, nor B to B, as nearest neighbors.</span><span class="i18n-ja">この二種類の位置を、AとBと呼ぶ。A原子の隣には三個のB原子があり、B原子の隣には三個のA原子がある。A同士やB同士は、最近接原子としてはつながっていない。</span></p>
-        <p><span class="i18n-en">Because there are two orbitals per unit cell, even for the same $\mathbf{k}$ we must determine two quantities: the amplitude on A and the amplitude on B. This is the starting point for graphene's two bands.</span><span class="i18n-ja">一つの単位胞に軌道が二つあるため、同じ $\mathbf{k}$ に対しても、A上の振幅とB上の振幅という二つの量を決めなければならない。これが、グラフェンに二本のバンドが現れる出発点である。</span></p>
+        <h3><span class="i18n-en">Three neighbors at once</span><span class="i18n-ja">三つの隣を一度に</span></h3>
+        <p><span class="i18n-en">Call the real-space vectors from an A atom to its three B atoms $\delta_1, \delta_2, \delta_3$. These are the actual directions joining the carbons, opened $120^\circ$ apart from one another (coordinates in the appendix). For now it is enough to see that there are three paths along which the electron can hop from A to B.</span><span class="i18n-ja">A原子から三つのB原子へ向かう実空間のベクトルを $\delta_1, \delta_2, \delta_3$ と呼ぶ。これは炭素どうしを結ぶ実際の方向で、互いに $120^\circ$ 開いている（座標は付録）。いまは「AからBへ跳び移れる道が三本ある」とだけ見ておけばよい。</span></p>
+        <p><span class="i18n-en">The electron sits in the $p_z$ orbital of each carbon and hops to a neighbor with $-t$ (the same convention as §00). For a stationary state of energy $E$, the amplitude $a(R)$ on an A atom is fixed by the sum of the contributions arriving from its three B neighbors.</span><span class="i18n-ja">電子は各炭素の $p_z$ 軌道にいて、隣へ $-t$ で飛び移る（§00 と同じ約束だ）。エネルギー $E$ の定常状態を考えると、A原子上の振幅 $a(R)$ は、三つの隣のBから来る寄与の合計で決まる。</span></p>
+        <p class="eq-block">$$E\,a(R) = -t\big[\,b(R+\delta_1) + b(R+\delta_2) + b(R+\delta_3)\,\big]$$</p>
+        <p><span class="i18n-en">B is the same, now fixed by its three A neighbors. Here is the one thing to notice: A's amplitude is set by B, and B's amplitude is set by A. So the core of the problem is not “countless atoms” but how the “pair of A and B” is linked. (Building states from each atom's orbital and the hops to its neighbors alone is the approximation called the <b>tight-binding model</b>.)</span><span class="i18n-ja">B側も同じで、今度は三つの隣のAから決まる。──ここで見てほしいのは一つだけだ。Aの振幅はBで決まり、Bの振幅はAで決まる。だから問題の芯は「無数の原子」ではなく、「AとBの二つ組」がどう結びつくかにある。（各原子の軌道と隣への飛び移りだけで状態を組むこの近似を、タイトバインディング模型と呼ぶ。）</span></p>
 
-        <h3><span class="i18n-en">Hopping in three directions</span><span class="i18n-ja">三方向へのホッピング</span></h3>
-        <p><span class="i18n-en">Write the vectors from an A atom to its three neighboring B atoms as $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$. With graphene's lattice constant $a = 2.46\ \text{Å}$ and a suitable choice of coordinates, they are</span><span class="i18n-ja">A原子から三個の隣接するB原子へ向かうベクトルを $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$ と書こう。グラフェンの格子定数を $a = 2.46\ \text{Å}$ とし、座標を一つ選べば、次のように表せる。</span></p>
-        <p class="eq-block">$$\boldsymbol{\delta}_1 = \tfrac{a}{\sqrt{3}}(0,\,1), \quad \boldsymbol{\delta}_2 = \tfrac{a}{\sqrt{3}}\!\left(-\tfrac{\sqrt{3}}{2},\,-\tfrac{1}{2}\right), \quad \boldsymbol{\delta}_3 = \tfrac{a}{\sqrt{3}}\!\left(\tfrac{\sqrt{3}}{2},\,-\tfrac{1}{2}\right)$$</p>
-        <p><span class="i18n-en">If an A atom sits at $\mathbf{R}$, its three neighboring B atoms are at $\mathbf{R}+\boldsymbol{\delta}_j$. Write the amplitude on the A atom as $a(\mathbf{R})$ and that on the B atom as $b(\mathbf{r})$. Taking the energy of an isolated $p_z$ orbital as the zero of reference and keeping only nearest-neighbor hopping,</span><span class="i18n-ja">A原子の位置を $\mathbf{R}$ とすれば、三個の隣接するB原子は $\mathbf{R}+\boldsymbol{\delta}_j$ にある。A原子上の振幅を $a(\mathbf{R})$、B原子上の振幅を $b(\mathbf{r})$ と書こう。孤立した $p_z$ 軌道のエネルギーを基準のゼロに取り、最近接原子間のホッピングだけを考えると、</span></p>
-        <p class="eq-block">$$E\, a(\mathbf{R}) = -t \sum_{j=1}^{3} b(\mathbf{R} + \boldsymbol{\delta}_j)$$</p>
-        <p><span class="i18n-en">The left side is the energy $E$ times the amplitude on the A atom; the right side sums the hopping contributions reaching the A atom from its three neighboring B atoms. In the same way, on a B atom,</span><span class="i18n-ja">となる。左辺は、A原子上の振幅にエネルギー $E$ を掛けたものである。右辺は、隣接する三個のB原子からA原子へ加わるホッピングの寄与を足したものである。同じように、B原子上では、</span></p>
-        <p class="eq-block">$$E\, b(\mathbf{r}) = -t \sum_{j=1}^{3} a(\mathbf{r} - \boldsymbol{\delta}_j)$$</p>
-        <p><span class="i18n-en">The rule we are using is the same as before: an electron sits in the $p_z$ orbital of each atom and hops to a neighboring atom with amplitude $-t$. Building electronic states from atomic orbitals and inter-atomic hopping in this way is called the <b>tight-binding model</b>.</span><span class="i18n-ja">となる。ここでも使っている規則は、これまでと同じである。電子は各原子の $p_z$ 軌道に存在し、隣接する原子へホッピング $-t$ で移る。このように、原子軌道と原子間のホッピングから電子状態を組み立てる方法を、<b>タイトバインディング模型</b>と呼ぶ。</span></p>
+        <h3><span class="i18n-en">The chain's $\phi$, taken into two dimensions</span><span class="i18n-ja">鎖の $\phi$ を二次元へ</span></h3>
+        <p><span class="i18n-en">On the chain we said “each step to a neighbor advances the phase by $\phi$.” In two dimensions there is more than one direction to move in: right, or either of two diagonals. So the phase advance is given a direction too, written as a vector $k$. Shift by one unit cell $R$, and the amplitude picks up a phase $e^{ik\cdot R}$ — the two-dimensional version of the chain's $e^{i\phi}$ (this is called <b>Bloch's theorem</b>).</span><span class="i18n-ja">鎖では「隣へ一つ進むごとに位相が $\phi$ 進む」と考えた。二次元では進む向きが一つではない。右へも、二通りの斜めへも進める。だから位相の進み方にも向きを持たせ、それをベクトル $k$ で表す。単位胞を $R$ だけずらすと、振幅は $e^{ik\cdot R}$ だけ位相をもらう——鎖の $e^{i\phi}$ の二次元版だ（これをブロッホの定理と呼ぶ）。</span></p>
+        <p><span class="i18n-en">The honeycomb has one more feature. A single unit cell holds two seats, A and B, so even after fixing the same $k$, the weights on the A seat and the B seat remain separate. So set</span><span class="i18n-ja">蜂の巣には、もう一つ事情がある。一つの単位胞にAとBの「二つの席」があるので、同じ $k$ を選んでも、A席とB席の重みは別々に残る。そこで</span></p>
+        <p class="eq-block">$$a(R) = u_A\,e^{ik\cdot R}, \qquad b(r) = u_B\,e^{ik\cdot r}$$</p>
+        <p><span class="i18n-en">putting the unit-cell position $R$ into A and the actual position $r$ into B. We are not using two different rules: both simply use “its own true spatial coordinate,” and that is the point.</span><span class="i18n-ja">とおく。Aには単位胞の位置 $R$ を、Bには実際の位置 $r$ を入れている。別のルールを使い分けているわけではなく、どちらも「自分自身の本当の空間座標」を素直に使っているのがポイントだ。</span></p>
+        <p><span class="i18n-en">Substitute this into the equation just above. The three B atoms neighboring an A sit at the actual positions $r = R+\delta_j$, so</span><span class="i18n-ja">これをさっきの式に代入してみよう。Aの隣にある三つのBは、実際の位置が $r = R+\delta_j$ だから、</span></p>
+        <p class="eq-block">$$E\,u_A\,e^{ik\cdot R} = -t\,u_B\big(e^{ik\cdot(R+\delta_1)} + e^{ik\cdot(R+\delta_2)} + e^{ik\cdot(R+\delta_3)}\big)$$</p>
+        <p><span class="i18n-en">Here $e^{ik\cdot(R+\delta_j)} = e^{ik\cdot R}\,e^{ik\cdot\delta_j}$ splits apart, so the common $e^{ik\cdot R}$ drops cleanly from both sides. What survives is only the phase $e^{ik\cdot\delta_j}$ born of the offset $\delta_j$. The problem of countless lattice points has shrunk to one of fixing just the two numbers $u_A$ and $u_B$.</span><span class="i18n-ja">ここで $e^{ik\cdot(R+\delta_j)} = e^{ik\cdot R}\,e^{ik\cdot\delta_j}$ と分けられるので、両辺に共通の $e^{ik\cdot R}$ がスパッと落ちる。生き残るのは、位置のずれ $\delta_j$ が生んだ位相 $e^{ik\cdot\delta_j}$ だけだ。こうして、無数の格子点の問題が、$u_A$ と $u_B$ の二つを決めるだけの問題に縮む。</span></p>
 
-        <h3><span class="i18n-en">How the phase advances in two dimensions</span><span class="i18n-ja">二次元での位相の進み方</span></h3>
-        <p><span class="i18n-en">On the chain, we wrote the phase step for each move to a neighbor as $\varphi$. In two dimensions there is more than one direction to move in: how the phase advances depends on which way, and how far, you go. The vector $\mathbf{k}$ packages all of that information.</span><span class="i18n-ja">原子の鎖では、隣へ一個進むごとの位相差を $\varphi$ で表した。二次元では、進む方向が一つではない。どの方向へどれだけ移動したかによって、位相の進み方が変わる。その情報をまとめて表すのが、ベクトル $\mathbf{k}$ である。</span></p>
-        <p><span class="i18n-en">Consider a state whose phase changes by $e^{i\mathbf{k}\cdot\mathbf{R}}$ when you move by a lattice vector $\mathbf{R}$. Write the A and B amplitudes as</span><span class="i18n-ja">格子ベクトル $\mathbf{R}$ だけ移動したときに、位相が $e^{i\mathbf{k}\cdot\mathbf{R}}$ だけ変化する状態を考える。AとBの振幅を、次のように書こう。</span></p>
-        <p class="eq-block">$$a(\mathbf{R}) = u_A\, e^{i\mathbf{k}\cdot\mathbf{R}}, \qquad b(\mathbf{r}) = u_B\, e^{i\mathbf{k}\cdot\mathbf{r}}$$</p>
-        <p><span class="i18n-en">Here $u_A$ and $u_B$ say how much amplitude rides on A and on B within a single cell, while $e^{i\mathbf{k}\cdot\mathbf{R}}$ gives the change in phase from one cell to the next. That, in a periodic crystal, the amplitudes of every cell can be written in this form is the content of <b>Bloch's theorem</b>.</span><span class="i18n-ja">$u_A$ と $u_B$ は、同じ単位胞の中でAとBにどれだけの振幅が乗るかを表している。一方、$e^{i\mathbf{k}\cdot\mathbf{R}}$ は、単位胞から単位胞へ移ったときの位相の変化を表している。周期的な結晶で、各単位胞の振幅がこの形に書けるという事実が、<b>ブロッホの定理</b>の内容である。</span></p>
-        <p><span class="i18n-en">Substitute this form into the two equations above. The amplitude on a B atom neighboring an A atom becomes</span><span class="i18n-ja">この形を先ほどの二本の式に代入してみよう。A原子の隣にあるB原子上の振幅は、</span></p>
-        <p class="eq-block">$$b(\mathbf{R}+\boldsymbol{\delta}_j) = u_B\, e^{i\mathbf{k}\cdot\mathbf{R}}\, e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$$</p>
-        <p><span class="i18n-en">and the factor $e^{i\mathbf{k}\cdot\mathbf{R}}$, common to every term, cancels from both sides. What was an equation over an enormous number of atoms collapses into a problem for just the two amplitudes on A and B.</span><span class="i18n-ja">となる。すべての項に共通する $e^{i\mathbf{k}\cdot\mathbf{R}}$ は、式の両辺から消える。その結果、膨大な数の原子についての方程式は、AとBの二つの振幅だけを求める問題になる。</span></p>
-        <p class="eq-block">$$\begin{pmatrix} 0 & -t\,f(\mathbf{k}) \\ -t\,f(\mathbf{k})^{*} & 0 \end{pmatrix}\!\begin{pmatrix} u_A \\ u_B \end{pmatrix} = E \begin{pmatrix} u_A \\ u_B \end{pmatrix}$$</p>
-        <p><span class="i18n-en">where $f(\mathbf{k})$ is defined by</span><span class="i18n-ja">ただし、$f(\mathbf{k})$ は次で定義される。</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = \sum_{j=1}^{3} e^{\,i\mathbf{k}\cdot\boldsymbol{\delta}_j}$$</p>
-        <p><span class="i18n-en">Because there are two orbitals per unit cell, what remains is a $2\times 2$ problem.</span><span class="i18n-ja">一つの単位胞に軌道が二つあるため、最後に残るのは $2\times2$ の問題である。</span></p>
-
-        <h3><span class="i18n-en">Three arrows</span><span class="i18n-ja">三本の矢印</span></h3>
-        <p><span class="i18n-en">Each $e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$ that appears here is a complex number of modulus 1 — in the complex plane, an arrow of length 1, whose direction is set by $\mathbf{k}\cdot\boldsymbol{\delta}_j$. So $f(\mathbf{k})$ is the sum of three arrows, one for each of the three hopping directions.</span><span class="i18n-ja">ここで現れた $e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$ は、絶対値が1の複素数である。複素平面上では、長さ1の矢印として表せる。その向きは、$\mathbf{k}\cdot\boldsymbol{\delta}_j$ によって決まる。したがって、$f(\mathbf{k})$ は、三方向へのホッピングに対応する三本の矢印を足したものと考えられる。</span></p>
-        <p><span class="i18n-en">Solving the matrix for the energy gives $E^2 = t^2|f(\mathbf{k})|^2$, so the two bands are</span><span class="i18n-ja">行列からエネルギーを求めると、$E^2 = t^2|f(\mathbf{k})|^2$ となる。したがって、二本のバンドは、</span></p>
-        <p class="eq-block">$$E_{\mathrm{lower}}(\mathbf{k}) = -t\,|f(\mathbf{k})|, \qquad E_{\mathrm{upper}}(\mathbf{k}) = +t\,|f(\mathbf{k})|$$</p>
-        <p><span class="i18n-en">In the two-atom system of §00, the energies split into $-t$ and $+t$. In graphene the same kind of split happens at every $\mathbf{k}$, except that the bond strength is no longer a constant $t$ but $t|f(\mathbf{k})|$. So changing $\mathbf{k}$ changes the phase relationship among the three hopping paths, and with it the spacing between the upper and lower bands.</span><span class="i18n-ja">である。§00の二原子系では、エネルギーは $-t$ と $+t$ に分かれた。グラフェンでも、それぞれの $\mathbf{k}$ に対して同じ形の分裂が起きている。ただし、結合の強さが一定の $t$ ではなく、$t|f(\mathbf{k})|$ へ置き換わっている。つまり、$\mathbf{k}$ を変えると、三本のホッピング経路の位相関係が変わり、上下のバンドの間隔も変わるのである。</span></p>
-        <p><span class="i18n-en">When the three arrows point the same way, $|f(\mathbf{k})| = 3$ and the gap between the bands is largest. When they cancel one another, $|f(\mathbf{k})| = 0$ and the two bands meet at the same energy. But does such a $\mathbf{k}$ really exist?</span><span class="i18n-ja">三本の矢印が同じ方向を向けば、$|f(\mathbf{k})| = 3$ となり、二本のバンドの間隔は最も大きくなる。反対に、三本の矢印が互いに打ち消し合えば、$|f(\mathbf{k})| = 0$ となり、二本のバンドは同じエネルギーになる。では、そのような $\mathbf{k}$ は本当に存在するのだろうか。</span></p>
+        <h3><span class="i18n-en">Three paths, added up with their phases</span><span class="i18n-ja">三本の道は、位相つきで足される</span></h3>
+        <p><span class="i18n-en">What we want to know is how the link between A and B changes with $k$ — does it strengthen, weaken, vanish? Knowing that tells us where the upper and lower bands open and where they touch.</span><span class="i18n-ja">ここで知りたいのは、AとBの結びつきが $k$ によってどう変わるかだ。強まるのか、弱まるのか、消えるのか。それが分かれば、上下のバンドがどこで開き、どこで接するかが分かる。</span></p>
+        <p><span class="i18n-en">That link is captured by the sum of the surviving phases,</span><span class="i18n-ja">その結びつきをまとめたのが、いま生き残った位相の和</span></p>
+        <p class="eq-block">$$f(k) = e^{ik\cdot\delta_1} + e^{ik\cdot\delta_2} + e^{ik\cdot\delta_3}$$</p>
+        <p><span class="i18n-en">This is the crux, so do not mistake it for the $\delta$ themselves. The $\delta_1, \delta_2, \delta_3$ are real-space bond directions, opened $120^\circ$ apart for every $k$. They never vanish. What we are adding here is the complex-plane phase arrows $e^{ik\cdot\delta_j}$ riding on top of them. Move $k$ and these arrows turn; line them up and they reinforce, scatter them neatly into three directions and they cancel. What vanishes is not the bonds but the sum of the phase-weighted contributions.</span><span class="i18n-ja">である。ここが肝心なので、$\delta$ そのものと取り違えないでほしい。$\delta_1, \delta_2, \delta_3$ は実空間の結合方向で、$k$ によらず常に $120^\circ$ 開いている。決して消えない。いま足しているのは、その上に乗った複素平面の位相の矢印 $e^{ik\cdot\delta_j}$ の方だ。$k$ を動かすとこの矢印たちの向きが回り、そろえば強め合い、うまく三方向に散れば打ち消し合う。消えるのは結合ではなく、位相つき寄与の合計のほうである。</span></p>
+        <p><span class="i18n-en">Writing the B side the same way and collecting into a matrix, we have to solve</span><span class="i18n-ja">B側も同じように書いて行列にまとめると、</span></p>
+        <p class="eq-block">$$\begin{pmatrix} 0 & -t\,f(k) \\ -t\,f(k)^* & 0 \end{pmatrix}\begin{pmatrix} u_A \\ u_B \end{pmatrix} = E\begin{pmatrix} u_A \\ u_B \end{pmatrix}$$</p>
+        <p><span class="i18n-en">The lower-left entry is the complex conjugate $(*)$ because the hop from B to A traces the reverse $-\delta$: the phase becomes $e^{-ik\cdot\delta}$ rather than $e^{ik\cdot\delta}$, and its sum is exactly the complex conjugate of $f(k)$. The physical fact that the phase turns the opposite way on the return trip is right there in the form of the equation.</span><span class="i18n-ja">を解けばよい。左下が複素共役 $(*)$ になるのは、BからAへは逆向きの $-\delta$ をたどるからだ。位相が $e^{ik\cdot\delta}$ ではなく $e^{-ik\cdot\delta}$ になり、その和がちょうど $f(k)$ の複素共役になる。行きと帰りで位相が逆に回るという物理の事実が、ちゃんと式の形に現れているわけだ。</span></p>
+        <p><span class="i18n-en">Finding this matrix's eigenvalues is not hard (the diagonal is zero, so multiplying across the diagonal gives $f\cdot f^* = |f|^2$). The energy is</span><span class="i18n-ja">この行列の固有値を求めるのは難しくない（対角成分がゼロなので、斜めに掛け合わせて $f\cdot f^* = |f|^2$ となることを使えばすぐだ）。エネルギーは</span></p>
+        <p class="eq-block">$$E(k) = \pm\,t\,|f(k)|$$</p>
+        <p><span class="i18n-en">So the effective strength tying A to B is not a constant $t$ but $t\,|f(k)|$. At $k$ where the phases line up, the upper and lower bands pull far apart; at $k$ where they cancel, that splitting closes.</span><span class="i18n-ja">となる。AとBを結ぶ実効的な強さが、一定の $t$ ではなく $t\,|f(k)|$ になっているわけだ。位相がそろう $k$ では上下のバンドが大きく離れ、位相が打ち消し合う $k$ では、その分裂が閉じる。</span></p>
+        <p><span class="i18n-en">So is there really a $k$ at which $|f(k)|$ becomes zero? If there is, the upper and lower bands touch there exactly. The secret of why graphene is not an ordinary insulator is hidden right there.</span><span class="i18n-ja">では、$|f(k)|$ が本当にゼロになる $k$ はあるのだろうか。もしあれば、上下のバンドはそこでピタリと接してしまう。グラフェンが普通の絶縁体にならない秘密は、そこに隠れている。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 03 — The hunt ═══════ -->
+  <!-- ═══════ §03 — Where the three arrows vanish ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">03 — The hunt</span><span class="i18n-ja">03 — 狩り</span></span>
-      <h2><span class="i18n-en">Where the three arrows cancel</span><span class="i18n-ja">三本の矢印が消える場所</span></h2>
-      <p><span class="i18n-en">How can three arrows of equal length add up to zero? Their three directions have to sit $120^\circ$ apart. In graphene, that condition is met at the corners of the Brillouin zone. (Below, drag the marker over the zone — Γ at the center, M at an edge midpoint, K at a corner — and watch the three arrows on the right and the splitting they produce.)</span><span class="i18n-ja">長さが等しい三本の矢印を足して、合計をゼロにするにはどうすればよいだろうか。三本の向きが互いに $120^\circ$ ずつずれていればよい。グラフェンでは、この条件がブリルアンゾーンの角で実現する。（下のパネルでマーカーをゾーン上で動かしてみよう ―― 中心が Γ、辺の中点が M、角が K ―― 右側の三本の矢印と、それが生む分裂が見える。）</span></p>
+      <span class="demo-num"><span class="i18n-en">03 — Where the arrows vanish</span><span class="i18n-ja">03 — 三本の矢印が消える場所</span></span>
+      <h2><span class="i18n-en">Where the three arrows vanish</span><span class="i18n-ja">三本の矢印が消える場所</span></h2>
+      <p><span class="i18n-en">In §02 we found that the spacing of the two bands is set by $t|f(k)|$, and that where $f(k)$ becomes zero the two bands touch. One question remains: is there really a $k$ at which the three phase arrows $e^{ik\cdot\delta_j}$ cancel exactly, so that $f(k)=0$?</span><span class="i18n-ja">§02 で、上下のバンドの間隔は $t|f(k)|$ で決まり、$f(k)$ がゼロになれば二本のバンドが接する、と分かった。残る問いはただ一つ——三本の位相の矢印 $e^{ik\cdot\delta_j}$ が、ちょうど打ち消し合って $f(k)=0$ になる $k$ は、本当にあるのか。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <canvas id="c2-bz" style="height:320px;"></canvas>
-          <canvas id="c2-ph" style="height:320px;"></canvas>
-        </div>
-        <div class="btn-row" style="margin-top:12px">
-          <button class="demo-btn" id="b2-goG">Γ</button>
-          <button class="demo-btn" id="b2-goM">M</button>
-          <button class="demo-btn" id="b2-goK">K</button>
-        </div>
+      <div class="me-prose">
+        <p><span class="i18n-en">How can three arrows of equal length add up to zero? They have to open $120^\circ$ apart from each other and scatter neatly into three directions — a configuration where the three balance and, added together, return exactly to the origin.</span><span class="i18n-ja">長さの等しい三本の矢印を足してゼロにするには、どうすればよいか。三本が互いに $120^\circ$ ずつ開いて、きれいに三方向へ散ればよい。三本がバランスして、足し合わせるとちょうど原点に戻る——そんな配置である。</span></p>
+        <p><span class="i18n-en">The trouble is that what sets the directions of the phase arrows is $k$. Can a good choice of $k$ open the three out to $120^\circ$ apart? To hunt for the answer, play with the figure below. Move $k$ inside the hexagon (the Brillouin zone): the real-space bonds (left) never move, but the phase arrows in the complex plane (right) turn like clock hands. Where do the three arrows sum to zero, and the energy splitting vanish?</span><span class="i18n-ja">問題は、位相の矢印の向きを決めるのは $k$ だということだ。$k$ をうまく選べば、三本を $120^\circ$ ずつに開かせられるのか。答えを探すために、下の図を触ってみよう。六角形（ブリルアンゾーン）の中で $k$ を動かすと、実空間の結合（左）は決して動かないが、複素平面の位相の矢印（右）は時計の針のように回る。三本の矢印の和がゼロになり、エネルギーの割れが消える場所はどこだろうか。</span></p>
       </div>
-      <p class="me-cap"><span class="i18n-en"><b>Left:</b> the Brillouin zone; drag the white marker (Γ = center, M = edge midpoint, K = corner). <b>Right:</b> the three phase arrows $e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$ added tip to tail; the heavy arrow is their sum $f(\mathbf{k})$, and the ladder shows the resulting levels $\pm t|f(\mathbf{k})|$.</span><span class="i18n-ja"><b>左:</b> ブリルアンゾーン。白いマーカーをドラッグできる（中心が Γ、辺の中点が M、角が K）。<b>右:</b> 3本の位相矢印 $e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$ をしっぽから先端へつないだもの。太い矢印が合計 $f(\mathbf{k})$ で、右のはしごはそこから生じる準位 $\pm t|f(\mathbf{k})|$。</span></p>
+
+      <!-- [図F3：k→三本の矢印→f(k)→分裂。デフォルトは Γ 点] -->
+      <div class="anim-card pv-bunchin mat-sunezu gv-toastwrap">
+        <div class="gv-bar">
+          <span class="gv-bar-t"><span class="i18n-en">Drag $k$ in the zone. One input, three synced results: the bonds stay put, the phase arrows turn, the levels split.</span><span class="i18n-ja">ゾーン内で $k$ をドラッグ。操作は一つ、結果は三つ連動：結合は不動、位相の矢印は回り、準位は割れる。</span></span>
+          <button class="gv-reset" type="button" data-reset="f3"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+        </div>
+        <div class="gv-fig" id="gv-f3"></div>
+        <div class="gv-controls">
+          <div class="gv-hs" id="f3-hs" role="group" aria-label="high-symmetry points">
+            <button class="demo-btn" type="button" data-hs="G">Γ</button>
+            <button class="demo-btn" type="button" data-hs="M">M</button>
+            <button class="demo-btn" type="button" data-hs="K">K</button>
+            <button class="demo-btn" type="button" data-hs="Kp">K′</button>
+            <span class="gv-aux"><span class="i18n-en">Drag the marker, use ← → ↑ ↓, or jump to a corner.</span><span class="i18n-ja">マーカーをドラッグ／← → ↑ ↓ で移動／角へジャンプ。</span></span>
+          </div>
+        </div>
+        <div class="gv-toast" id="f3-toast" role="status" aria-live="polite"></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">Left, the real-space honeycomb: the bonds $\delta_1,\delta_2,\delta_3$ are rigid and never rotate. Right, the complex plane: the arrows $e^{ik\cdot\delta_j}$ do the turning. At a corner the three arrows split $120^\circ$ apart and their sum hits the origin — the splitting $2t|f|$ closes.</span><span class="i18n-ja">左の実空間ハニカム：結合 $\delta_1,\delta_2,\delta_3$ は剛体で、決して回らない。右の複素平面：回るのは位相の矢印 $e^{ik\cdot\delta_j}$ の方。角では三本が $120^\circ$ ずつ開き、和が原点に届く——分裂 $2t|f|$ が閉じる。</span></p>
 
       <div class="me-prose">
-        <p><span class="i18n-en">The Brillouin zone is a hexagon, and its six corners fall into two kinds, called K and K′. The six are not all independent: by the periodicity of the crystal, only two of them — K and K′ — are genuinely distinct.</span><span class="i18n-ja">ブリルアンゾーンは六角形をしており、その六個の角はK点とK′点の二種類に分けられる。六個すべてが独立なのではなく、結晶の周期性を考えると、互いに異なるものはKとK′の二点である。</span></p>
-        <p><span class="i18n-en">At a K point, writing the three phase factors in a suitable order gives</span><span class="i18n-ja">K点では、三本の位相因子を適切な順序で書けば、次のようになる。</span></p>
-        <p class="eq-block">$$f(\mathbf{K}) = 1 + e^{2\pi i/3} + e^{4\pi i/3} = 0$$</p>
-        <p><span class="i18n-en">It is not that the hopping in the three directions has gone away. Each path still carries a hop of the same size; but because the amplitudes arriving along the three paths have different phases, their sum comes out exactly zero.</span><span class="i18n-ja">三方向へのホッピングそのものが消えたわけではない。一つ一つの経路には同じ大きさのホッピングが存在している。しかし、それぞれの経路から来る振幅の位相が異なるため、三つを足すとちょうどゼロになるのである。</span></p>
-        <p><span class="i18n-en">As a result, the effective coupling $t|f(\mathbf{K})|$ that ties A to B also vanishes, and the lower band and the upper band touch at the same energy.</span><span class="i18n-ja">その結果、AとBを結び付ける実効的な結合 $t|f(\mathbf{K})|$ もゼロになり、下のバンドと上のバンドが同じエネルギーで接する。</span></p>
-        <p class="eq-block">$$E_{\mathrm{lower}}(\mathbf{K}) = E_{\mathrm{upper}}(\mathbf{K}) = 0$$</p>
-        <p><span class="i18n-en">With two atoms, hopping always split the two levels apart, one up and one down. In graphene, though, there are places where the hopping in the three directions cancels — and at those places alone, the split between bonding and antibonding disappears.</span><span class="i18n-ja">原子二個のときには、ホッピングによって二つの準位は必ず上下に分かれた。しかしグラフェンでは、三方向へのホッピングが互いに打ち消し合う場所が存在する。その場所だけでは、結合状態と反結合状態の分裂が消えてしまうのである。</span></p>
-        <p><span class="i18n-en">This is not the result of any special tuning of the hopping. It comes from the geometry of the lattice: the honeycomb has three equivalent bonds, and at a K point their phases sit $120^\circ$ apart.</span><span class="i18n-ja">これは、ホッピングの値を特別に調整した結果ではない。蜂の巣格子に三本の等価な結合があり、それらの位相がK点で $120^\circ$ ずつずれるという、格子の幾何学から生じている。</span></p>
-        <p><span class="i18n-en">As long as the equivalence of A and B and the symmetry of the lattice are preserved, a small distortion does not immediately remove this touching: the contact point may move, but a gap does not open at once. In this sense, the band touching at K and K′ is protected by the crystal's symmetry.</span><span class="i18n-ja">AとBの等価性や格子の対称性が保たれている限り、小さな変形を加えても、この接触はすぐには消えない。接触する位置が移動することはあっても、ただちにギャップが開くわけではない。この意味で、K点とK′点でのバンドの接触は、結晶の対称性に守られている。</span></p>
+        <p><span class="i18n-en">The answer is: yes, it can be done. And the place where it happens is fixed — at the corners of the Brillouin zone.</span><span class="i18n-ja">答えは「開かせられる」。そして、それが起こる場所は決まっている——ブリルアンゾーンの角である。</span></p>
+        <p><span class="i18n-en">The Brillouin zone is a hexagon, and its six corners split into two kinds, K and K′. Not all six are independent: given the periodicity of the crystal, the genuinely distinct ones are just the two points K and K′.</span><span class="i18n-ja">ブリルアンゾーンは六角形で、六つの角は K 点と K′ 点の二種類に分けられる。六個すべてが独立なのではなく、結晶の周期性を考えると、役割の違うものは K と K′ の二点だけである。</span></p>
+        <p><span class="i18n-en">Choose a K point and the phases brought by the three paths sit exactly $120^\circ$ apart from one another. (Rotating all three together by the same amount does not change whether the sum is zero, so the overall orientation is up to the choice of coordinates; only the relative offsets matter.) Taking one as the reference ($0$), the other two are offset by $2\pi/3$ and $4\pi/3$. So in a representative choice,</span><span class="i18n-ja">K 点を選ぶと、三本の経路がもたらす位相は、互いにちょうど $120^\circ$ ずつずれる。（三本全部を同じ向きにまとめて回しても、和がゼロかどうかは変わらない。だから全体の向きは座標の取り方しだいでよく、効くのは相対的なずれだけだ。）一本を基準（$0$）にとれば、残り二本が $2\pi/3$、$4\pi/3$ ずれる。だから、代表的な取り方では</span></p>
+        <p class="eq-block">$$f(K) = 1 + e^{2\pi i/3} + e^{4\pi i/3} = 0$$</p>
+        <p><span class="i18n-en">The three arrows open $120^\circ$ apart in the complex plane and their sum is exactly zero.</span><span class="i18n-ja">となる。三本の矢印が複素平面で $120^\circ$ ずつ開き、和がぴたりとゼロになっている。</span></p>
+        <p><span class="i18n-en">Do not misread this. The hopping in the three directions has not gone away. Each individual path still carries a hop of the same size. What vanished is the “phase-aligned sum” of the amplitudes arriving from the three paths: each points a slightly different way, and added together they cancel — the very distinction stressed in §02, now doing its work.</span><span class="i18n-ja">ここで取り違えないでほしい。三方向へのホッピングそのものが消えたわけではない。一本一本の経路には、相変わらず同じ大きさの飛び移りがある。消えたのは、三つの経路から届く振幅の「位相をそろえた和」だ。それぞれが少しずつ違う向きを向いていて、足すと打ち消し合う——§02 で念を押した、あの区別がそのまま効いている。</span></p>
+        <p><span class="i18n-en">As a result the effective strength $t|f(K)|$ tying A to B also goes to zero, and the lower and upper bands touch at the same energy.</span><span class="i18n-ja">その結果、AとBを結ぶ実効的な強さ $t|f(K)|$ もゼロになり、下のバンドと上のバンドが同じエネルギーで接する。</span></p>
+        <p class="eq-block">$$E_{\text{下}}(K) = E_{\text{上}}(K) = 0$$</p>
+        <p><span class="i18n-en">(Because we took the original energy $\varepsilon_0$ of each atom as the zero in §00, this touching height comes out exactly at zero.) With two atoms, as long as there was any hopping the two levels always split apart, up and down. But graphene has places where the hopping in three directions cancels out — and there, and only there, the split between bonding and antibonding disappears.</span><span class="i18n-ja">（§00 で各原子の元のエネルギー $\varepsilon_0$ を基準にゼロと取っているので、この接する高さがちょうどゼロになる。）原子二個のときは、飛び移りがある限り、二つの準位は必ず上下に割れた。ところがグラフェンには、三方向のホッピングが互いに打ち消し合う場所がある。そこだけは、結合状態と反結合状態の割れが消えてしまうのである。</span></p>
+
+        <h3><span class="i18n-en">Why only graphene is special</span><span class="i18n-ja">なぜグラフェンだけが特別なのか</span></h3>
+        <p><span class="i18n-en">This is not the result of tuning the value of $t$. It comes purely from the shape of the lattice: the honeycomb has three equivalent bonds, and their phases sit $120^\circ$ apart at a K point.</span><span class="i18n-ja">これは $t$ の値をうまく調整した結果ではない。蜂の巣に三本の等価な結合があり、その位相が K 点で $120^\circ$ ずつずれる、という格子の形だけから出てくる。</span></p>
+        <p><span class="i18n-en">The word “equivalent” is doing the work here. In §00 we set each atom's original energy to $\varepsilon_0$. In graphene A and B are both the same carbon, so this “own original energy” is equal on the two seats. To the electron, sitting on the A seat or the B seat is sitting on the same carbon seat. So no energy difference distinguishing the two seats enters, and we could take the diagonal of the §02 matrix to a common reference (zero).</span><span class="i18n-ja">ここで「等価な」が効いている。§00 で各原子の元のエネルギーを $\varepsilon_0$ と置いた。グラフェンでは A も B も同じ炭素だから、この「自分の元のエネルギー」が二つの席で等しい。電子から見れば、A席に座ってもB席に座っても同じ炭素の席なのだ。だから二つの席を区別するエネルギー差は入らず、§02 の行列の対角を共通の基準（ゼロ）に取れた。</span></p>
+        <p><span class="i18n-en">What if A and B were different atoms? Then the “original energy” would differ on the A seat and the B seat — the two seats would feel different to the electron. That is, the two diagonal entries of the matrix would carry separate values, $\varepsilon_A$ and $\varepsilon_B$. Unless the two are equal, the diagonal cannot be brought to a common reference. Even if the three phase-weighted hops cancel, the two bands no longer touch completely: a gap of $(\varepsilon_A-\varepsilon_B)$ opens.</span><span class="i18n-ja">もし A と B が違う原子だったらどうなるか。A席とB席で「元のエネルギー」がずれる——電子にとって二つの席の居心地が違う。つまり、行列の二つの対角成分に、それぞれ $\varepsilon_A$ と $\varepsilon_B$ という別々の値が入ってくる。二つが等しくないと、対角を同じ基準に揃えられない。たとえ三本の位相つきホッピングが打ち消し合っても、二本のバンドは完全には接さず、その差（$\varepsilon_A-\varepsilon_B$）のぶんだけギャップが開く。</span></p>
+        <p><span class="i18n-en">This is not hypothetical. With the very same honeycomb as graphene but boron and nitrogen alternating, h-BN (boron nitride) has two seats that are not equivalent. So h-BN becomes an insulator with a large gap. Even on the same honeycomb, whether the A seat and the B seat are the same decides whether you go toward a closed gap, or toward an insulator with a gap.</span><span class="i18n-ja">これは空想ではない。グラフェンと同じ蜂の巣をしていても、ホウ素と窒素が交互に並ぶ h-BN（窒化ホウ素）では、二つの席が等価ではない。だから h-BN は大きなギャップを持つ絶縁体になる。同じ蜂の巣でも、A席とB席が同じかどうかで、ギャップが閉じる側へ行くか、ギャップを持つ絶縁体の側へ行くかが分かれるのである。</span></p>
+        <p><span class="i18n-en">In the figure below, drag the energy difference $\Delta_{AB}$ between the A seat and the B seat. In graphene, with $\Delta_{AB}=0$, the upper and lower bands touch at their tips; increase $\Delta_{AB}$ (= making A and B different atoms) and the tips split apart, opening a gap.</span><span class="i18n-ja">下の図で、A席とB席のエネルギー差 $\Delta_{AB}$ を動かしてみよう。$\Delta_{AB}=0$ のグラフェンでは上下のバンドが先端で接しているが、$\Delta_{AB}$ を増やす（＝A と B を別の原子にする）と、先端が割れてギャップが開いていく。</span></p>
+      </div>
+
+      <!-- [図F5：ギャップ・スライダ Δ_AB。デフォルトは Δ_AB=0] -->
+      <div class="anim-card pv-bunchin mat-sunezu" id="fig-gap">
+        <div class="gv-bar">
+          <span class="gv-bar-t"><span class="i18n-en">The seat-energy difference $\Delta_{AB}$ is shown by color only — the honeycomb is never spatially distorted.</span><span class="i18n-ja">席の高さの差 $\Delta_{AB}$ は色だけで表す——格子は空間的に歪ませない。</span></span>
+          <button class="gv-reset" type="button" data-reset="f5"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+        </div>
+        <div class="gv-fig" id="gv-f5"></div>
+        <div class="gv-controls"><div class="me-controls">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="f5-d"><span class="i18n-en">Seat-height difference&nbsp;$\Delta_{AB}$</span><span class="i18n-ja">A/Bの席の高さの差&nbsp;$\Delta_{AB}$</span></label>
+            <input type="range" id="f5-d" min="0" max="1" step="0.02" value="0" aria-label="A/B seat energy difference">
+            <output id="f5-d-o">0.00 eV</output>
+          </div>
+        </div>
+        <div class="gv-aux"><button class="gv-link" type="button" id="f5-eqbtn"><span class="i18n-en">Show the formula</span><span class="i18n-ja">式を見る</span></button></div>
+        <div class="gv-eq" id="f5-eq">
+          <p class="eq-block">$$m=\tfrac{\Delta_{AB}}{2},\qquad E_\pm(q)=\pm\sqrt{(\hbar v_F q)^2+m^2},\qquad \text{gap}=|\Delta_{AB}|$$</p>
+        </div>
+        </div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">At $\Delta_{AB}=0$ the two branches meet in straight lines (the Dirac crossing). Turn $\Delta_{AB}$ up and they split into hyperbolas whose asymptotes are still the linear dispersion; the gap equals $|\Delta_{AB}|$. The faint dashed parabola is an ordinary semiconductor, gapped from the start, for contrast.</span><span class="i18n-ja">$\Delta_{AB}=0$ では二本が直線で出会う（ディラック交差）。$\Delta_{AB}$ を上げると双曲線に割れるが、その漸近線はやはり線形分散で、ギャップは $|\Delta_{AB}|$ に等しい。薄い破線は比較用の、最初からギャップを持つふつうの半導体（放物線）。</span></p>
+
+      <div class="me-prose">
+        <p><span class="i18n-en">Put the other way round, this does not mean “no gap can ever open.” As long as you add no term distinguishing the A seat from the B seat, and the three hops are not pushed too far out of balance, the contact point may shift a little but does not immediately turn into a gap — in that limited sense, the touching at K and K′ is protected by the symmetry of the lattice.</span><span class="i18n-ja">逆に言えば、これは「何をしてもギャップが開かない」という意味ではない。A席とB席を区別するような項を入れず、三本のホッピングが極端には崩れない範囲では、接触点は少し動いてもすぐにはギャップにならない——そういう限定された意味で、K 点と K′ 点での接触は、格子の対称性に守られている。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 04 — The verdict ═══════ -->
+  <!-- ═══════ §04 — Metal or insulator? ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">04 — The verdict</span><span class="i18n-ja">04 — 判決</span></span>
+      <span class="demo-num"><span class="i18n-en">04 — Metal or insulator?</span><span class="i18n-ja">04 — 金属か絶縁体か</span></span>
       <h2><span class="i18n-en">Is graphene a metal or an insulator?</span><span class="i18n-ja">グラフェンは金属か、絶縁体か</span></h2>
-      <p><span class="i18n-en">Now we are ready to answer the question we began with. One unit cell of graphene holds two carbon atoms, one A and one B. Each carbon contributes one electron to the $p_z$ band, so there are two electrons per unit cell. (The plots show the two bands over the whole Brillouin zone; drag the surface to see where they meet.)</span><span class="i18n-ja">これで、最初の問いに答える準備ができた。グラフェンの一つの単位胞には、A原子とB原子が一個ずつ、合計二個の炭素原子がある。それぞれの炭素原子は、$p_z$ 軌道のバンドに電子を一個ずつ出す。したがって、一つの単位胞あたり、電子は二個である。（下の図は二本のバンドをブリルアンゾーン全域で描いたもの。曲面をドラッグすると、どこで接するかが見える。）</span></p>
+      <p><span class="i18n-en">Now we are ready to answer the question we began with.</span><span class="i18n-ja">これで、最初の問いに答える準備ができた。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <div class="top-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <canvas id="c2-bands" style="height:360px;"></canvas>
-          <canvas id="c2-surf" style="height:360px;"></canvas>
-        </div>
-        <div class="btn-row" style="margin-top:12px">
-          <button class="demo-btn active" id="b2-spin"><span class="i18n-en">Auto-rotate</span><span class="i18n-ja">自動回転</span></button>
-          <button class="demo-btn" id="b2-rst"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
-        </div>
+      <div class="me-prose">
+        <p><span class="i18n-en">One unit cell of graphene holds one A atom and one B atom, two carbons in all. Each contributes one electron from its $p_z$ orbital, so there are two electrons per unit cell. On the other side, two $p_z$ orbitals per cell make two bands, and each band holds, spin included, up to two electrons per cell. So filling two electrons from the bottom up makes the lower band full and the upper band empty.</span><span class="i18n-ja">グラフェンの一つの単位胞には、A原子とB原子が一個ずつ、合わせて二個の炭素がある。それぞれが $p_z$ 軌道から電子を一個ずつ出すので、単位胞あたりの電子は二個。一方、単位胞に $p_z$ 軌道が二つあるからバンドは二本で、各バンドにはスピン込みで単位胞あたり二個まで入る。だから電子二個を低い方から詰めると、下のバンドは満席、上のバンドは空になる。</span></p>
       </div>
-      <p class="me-cap"><span class="i18n-en"><b>Left:</b> the two bands along the standard tour Γ→M→K→Γ of the Brillouin zone; the shaded lower band is completely full, and the dashed line is the Fermi level. <b>Right:</b> the full surfaces $E_\pm(k_x,k_y)$ (drag to rotate); they touch only at the six corners.</span><span class="i18n-ja"><b>左:</b> ブリルアンゾーンの定番コース Γ→M→K→Γ に沿った2本のバンド。塗りつぶした下のバンドは完全に満席で、破線がフェルミ準位。<b>右:</b> 曲面 $E_\pm(k_x,k_y)$ の全体（ドラッグで回転）。2枚は6つの角でだけ接する。</span></p>
+
+      <!-- [図F4：Γ→M→K→Γ 断面（静止図）] -->
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="gv-fig" id="gv-f4"></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">The two bands $E=\pm t|f(k)|$ along the standard tour $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$. The shaded lower band is completely full; the upper band is empty; they touch only at K (and K′). The dashed line is the Fermi level, sitting exactly at the touching point.</span><span class="i18n-ja">標準コース $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$ に沿った二本のバンド $E=\pm t|f(k)|$。塗りつぶした下のバンドは完全に満席、上のバンドは空で、K（と K′）でのみ接する。破線はフェルミ準位で、ちょうど接点にある。</span></p>
 
       <div class="me-prose">
-        <p><span class="i18n-en">On the other hand, with two $p_z$ orbitals per unit cell there are two bands, and counting spin, each band can hold two electrons per unit cell. So putting two electrons in from the bottom up fills the lower band completely and leaves the upper band empty.</span><span class="i18n-ja">一方、一つの単位胞に $p_z$ 軌道が二つあるため、バンドも二本できる。それぞれのバンドには、スピンを含めると、一つの単位胞あたり電子を二個まで入れられる。したがって、電子二個をエネルギーの低い方から入れると、下のバンドは完全に埋まり、上のバンドは空になる。</span></p>
-        <p><span class="i18n-en">On this evidence alone, graphene looks like an insulator: if there were a gap between the full lower band and the empty upper band, a weak field could not lift electrons into the upper band.</span><span class="i18n-ja">ここだけを見ると、絶縁体のように思える。完全に埋まった下のバンドと、空の上のバンドの間にギャップがあれば、電子は弱い電場では上のバンドへ移れないからである。</span></p>
-        <p><span class="i18n-en">But in graphene, at the K and K′ points $E_{\mathrm{lower}} = E_{\mathrm{upper}}$. There is no gap between the lower and upper bands; the two touch exactly, at K and K′.</span><span class="i18n-ja">しかし、グラフェンではK点とK′点で $E_{\mathrm{lower}} = E_{\mathrm{upper}}$ となる。下のバンドと上のバンドの間には、ギャップがない。二本のバンドは、K点とK′点でちょうど接している。</span></p>
-        <p><span class="i18n-en">At the same time, the Fermi energy does not cut across the middle of a band the way it does in an ordinary metal. In an ordinary two-dimensional metal, the states at the Fermi energy trace out a line in $\mathbf{k}$-space; in graphene, that line has shrunk to the isolated points K and K′.</span><span class="i18n-ja">その一方で、普通の金属のように、フェルミエネルギーがバンドの途中を横切っているわけでもない。二次元の普通の金属では、フェルミエネルギーを持つ状態が、$\mathbf{k}$ 空間の中で一本の線を作る。グラフェンでは、その線がK点とK′点という孤立した点にまで縮んでいる。</span></p>
-        <p><span class="i18n-en">So graphene is not an ordinary metal. But because there is no band gap either, it is not an insulator.</span><span class="i18n-ja">したがって、グラフェンは普通の金属ではない。しかし、バンドギャップも存在しないため、絶縁体でもない。</span></p>
-        <p><span class="i18n-en">Graphene sits right at the boundary between metal and insulator. A material with an electronic structure like this is called a <b>semimetal</b>, or equivalently a <b>zero-gap semiconductor</b>.</span><span class="i18n-ja">グラフェンは、金属と絶縁体の境目にある物質である。このような電子構造を持つ物質を、<b>半金属</b>、あるいは<b>ゼロギャップ半導体</b>と呼ぶ。</span></p>
-        <p><span class="i18n-en">The reason the answer to our opening question came out as “neither” is that the honeycomb's hopping in three directions cancels completely at the K and K′ points.</span><span class="i18n-ja">最初の問いに対する答えが「どちらでもない」となった理由は、蜂の巣格子の三方向へのホッピングが、K点とK′点で完全に打ち消し合うからなのである。</span></p>
+        <p><span class="i18n-en">Just on this evidence it looks like an insulator. The lower band is full and the upper empty, and if there were a gap between them, a weak field could not move electrons up.</span><span class="i18n-ja">ここだけ見れば、絶縁体のようだ。下が埋まり上が空で、その間にギャップがあれば、電子は弱い電場では上へ移れないからである。</span></p>
+        <p><span class="i18n-en">But as we saw in §03, in graphene $E_{\text{下}} = E_{\text{上}}$ at the K and K′ points. There is no gap between the lower and upper bands; the two touch each other exactly there.</span><span class="i18n-ja">ところが、§03 で見たように、グラフェンでは K 点と K′ 点で $E_{\text{下}} = E_{\text{上}}$ となる。下のバンドと上のバンドの間にギャップはない。二本は、その点でちょうど触れ合っている。</span></p>
+        <p><span class="i18n-en">Is it then an ordinary metal? Not that either. In an ordinary two-dimensional metal, the states at the Fermi level form not a point but a continuous line or loop in $k$-space. In neutral, ideal graphene, the seats that land exactly on the Fermi level are confined to the isolated points K and K′. The seats that carry current are not a surface, not a line, but only a countable handful of points.</span><span class="i18n-ja">では普通の金属かというと、それも違う。普通の二次元金属なら、フェルミ準位にある状態が $k$ 空間で点ではなく、連続した線や輪を作る。中性で理想的なグラフェンでは、フェルミ準位にちょうど乗る席が、K 点と K′ 点という孤立した点に限られる。電気を流す席が、面でも線でもなく、数えるほどの点しかないのである。</span></p>
+        <p><span class="i18n-en">So graphene is not an ordinary metal. But with no gap either, it is not an insulator. It is a material right at the boundary between metal and insulator. A material with an electronic structure like this is called a <b>semimetal</b>, or a <b>zero-gap semiconductor</b>. So graphene differs both from a freely conducting metal and from a cleanly blocking semiconductor.</span><span class="i18n-ja">だからグラフェンは、普通の金属ではない。しかしギャップもないので、絶縁体でもない。金属と絶縁体の、ちょうど境目にある物質である。このような電子構造を持つ物質を、半金属、あるいはゼロギャップ半導体と呼ぶ。だからグラフェンは、よく流れる金属とも、きっぱり止まる半導体とも違う。</span></p>
+        <p><span class="i18n-en">The reason the answer to our opening question came out as “neither” all traces back to one point — that the honeycomb's hopping in three directions cancels completely at the K and K′ points.</span><span class="i18n-ja">最初の問いの答えが「どちらでもない」になった理由は、すべて一点に行き着く——蜂の巣の三方向ホッピングが、K 点と K′ 点で完全に打ち消し合うからである。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ Module 05 — On the cone ═══════ -->
+  <!-- ═══════ §05 — The Dirac cone ═══════ -->
   <section class="demo">
     <div class="demo-head">
-      <span class="demo-num"><span class="i18n-en">05 — Life on the knife edge</span><span class="i18n-ja">05 — 刃の上の暮らし</span></span>
+      <span class="demo-num"><span class="i18n-en">05 — The Dirac cone</span><span class="i18n-ja">05 — ディラック錐</span></span>
       <h2><span class="i18n-en">The Dirac cone</span><span class="i18n-ja">ディラック錐</span></h2>
-      <p><span class="i18n-en">Finally, let us look at the shape of the bands right next to a K point. (The figure shows a cross-section through K: graphene's bands run dead straight, while an ordinary semiconductor's are parabolic and gapped.)</span><span class="i18n-ja">最後に、K点のすぐ近くでバンドがどのような形をしているかを調べよう。（下の図はK点を通る断面で、グラフェンのバンドは直線、ふつうの半導体は放物線でギャップがある。）</span></p>
+      <p><span class="i18n-en">We have the touching point. So just next to that K point, what shape do the bands take? In an ordinary semiconductor, the bottom of a band is a round, bowl-like parabola. Is graphene's touching point that shape too, seen up close?</span><span class="i18n-ja">接触点があるのは分かった。では、その K 点のすぐ近くで、バンドはどんな形をしているのか。普通の半導体では、バンドの底は丸いお椀のような放物線になっている。グラフェンの接触点も、近くで見ればそんな形なのだろうか。</span></p>
     </div>
     <div class="demo-stage">
-      <div class="anim-card pv-bunchin mat-sunezu">
-        <canvas id="c2-cone" style="height:320px;"></canvas>
-      </div>
-      <p class="me-cap"><span class="i18n-en">Cross-section of the bands near a corner K. Solid: graphene, dead straight, a perfect cone. Dashed: the parabolic bands of an ordinary semiconductor, for comparison (it also has a gap; graphene's bands meet at a point).</span><span class="i18n-ja">角 K の近くでのバンドの断面図。実線がグラフェン：完全な直線で、回せば円錐になる。破線は比較用の、ふつうの半導体の放物線バンド（こちらはギャップも開いている。グラフェンのバンドは一点で出会う）。</span></p>
-
       <div class="me-prose">
-        <h3><span class="i18n-en">Zooming in on the contact point</span><span class="i18n-ja">接触点を拡大する</span></h3>
-        <p><span class="i18n-en">Split $\mathbf{k}$ into the K point plus a small offset from it.</span><span class="i18n-ja">$\mathbf{k}$ をK点と、そこからの小さなずれに分ける。</span></p>
-        <p class="eq-block">$$\mathbf{k} = \mathbf{K} + \mathbf{q}$$</p>
-        <p><span class="i18n-en">Here $\mathbf{q}$ is a small vector giving the direction and distance away from the K point. At the K point itself, $f(\mathbf{K}) = 0$. So when $f(\mathbf{k})$ is expanded near K, the first surviving term is proportional to $\mathbf{q}$, and the energy near K becomes</span><span class="i18n-ja">ここで、$\mathbf{q}$ はK点からどの方向へ、どれだけ離れたかを表す小さなベクトルである。K点そのものでは、$f(\mathbf{K}) = 0$ だった。そのため、K点の近くで $f(\mathbf{k})$ を展開すると、最初に残るのは $\mathbf{q}$ に比例する項である。その結果、K点近傍のエネルギーは、次のようになる。</span></p>
-        <p class="eq-block">$$E_{\pm}(\mathbf{q}) = \pm\,\hbar v_F\,|\mathbf{q}|$$</p>
-        <p><span class="i18n-en">where $v_F$ is a speed, the Fermi velocity,</span><span class="i18n-ja">ここで、$v_F$ は次の速さ（フェルミ速度）である。</span></p>
-        <p class="eq-block">$$v_F = \frac{\sqrt{3}\,t\,a}{2\hbar} \approx 1\times 10^{6}\ \mathrm{m/s}$$</p>
-        <p><span class="i18n-en">The energy rises and falls in proportion to the distance $|\mathbf{q}|$ from the K point. Plotted over the two-dimensional $\mathbf{q}$-space, the upper and lower bands each become a cone, and the two cones touch at their tips. This shape is called the <b>Dirac cone</b>.</span><span class="i18n-ja">エネルギーは、K点からの距離 $|\mathbf{q}|$ に比例して増減する。これを二次元の $\mathbf{q}$ 空間の上に描くと、上のバンドと下のバンドは、それぞれ円錐になる。二つの円錐は、先端で接している。この形を<b>ディラック錐</b>と呼ぶ。</span></p>
+        <p><span class="i18n-en">To find out, split $k$ into the K point and a small offset from it.</span><span class="i18n-ja">調べるには、$k$ を K 点と、そこからの小さなずれに分ける。</span></p>
+        <p class="eq-block">$$k = K + q$$</p>
+        <p><span class="i18n-en">Here $q$ is a small vector for which way and how far you have moved off the K point. Since $f(K)=0$ at the K point, expanding $f(k)$ nearby leaves, first of all, a term proportional to $q$ (with the constant term gone, the leading effect of a small shift is the first-order change). Because the energy was $\pm t|f|$, near the K point</span><span class="i18n-ja">$q$ は K 点からどの向きへどれだけ離れたかを表す小さなベクトルだ。K 点では $f(K)=0$ だったから、その近くで $f(k)$ を展開すると、まず生き残るのは $q$ に比例する項である（定数項がゼロなので、少しずらしたとき最初に効くのは一次の変化だ）。エネルギーは $\pm t|f|$ だったから、K 点の近くでは</span></p>
+        <p class="eq-block">$$E_\pm(q) = \pm\,\hbar v_F\,|q|, \qquad v_F = \frac{\sqrt{3}\,t\,a}{2\hbar} \approx 1\times 10^6\ \mathrm{m/s}$$</p>
+        <p><span class="i18n-en">Here $\hbar$ is Planck's constant divided by $2\pi$, and $a$ is graphene's lattice constant, the period for stepping to the next hexagon (about $2.46\ \text{Å}$ — not the C–C bond length itself). $v_F$ is the coefficient for the slope of this cone, corresponding near the K point to the speed at which the electron's wave packet travels. The factor $\sqrt{3}/2$ comes out of the geometry of the honeycomb, with its three bonds opened $120^\circ$ apart. Rather than the detailed derivation, the thing to see here is that the slope of the band near K is set by $t$ and the lattice constant $a$.</span><span class="i18n-ja">ここで $\hbar$ はプランク定数を $2\pi$ で割った定数、$a$ はグラフェンの格子定数で、隣の六角形へ進む周期の長さ（約 $2.46\ \text{Å}$、C–C 結合長そのものではない）。$v_F$ はこの円錐の傾きを表す係数で、K 点近くでは電子の波束が進む速さに対応する。$\sqrt{3}/2$ という係数は、三本の結合が $120^\circ$ ずつ開いた蜂の巣の幾何から出てくる。ここでは細かい導出よりも、K 点近くのバンドの傾きが $t$ と格子定数 $a$ で決まる、という点を見ておけばよい。</span></p>
+        <p><span class="i18n-en">This is the decisive difference from an ordinary semiconductor. A parabola gives $E \propto |q|^2$, but graphene gives $E \propto |q|$ — the energy is proportional “straight” to distance. Drawn over the two-dimensional $q$-space, the upper and lower bands each become a cone, and the two cones touch exactly at their tips. This shape is called the <b>Dirac cone</b>.</span><span class="i18n-ja">ここが普通の半導体と決定的に違うところだ。放物線なら $E \propto |q|^2$ だが、グラフェンは $E \propto |q|$——エネルギーが距離に「真っ直ぐ」比例する。これを二次元の $q$ 空間に描くと、上下のバンドはそれぞれ円錐になり、二つの円錐が先端でちょうど触れ合う。この形をディラック錐と呼ぶ。</span></p>
 
         <h3><span class="i18n-en">Why it is called “massless”</span><span class="i18n-ja">なぜ「質量ゼロ」と呼ばれるのか</span></h3>
-        <p><span class="i18n-en">For an ordinary free electron, the energy is proportional to the square of the momentum.</span><span class="i18n-ja">普通の自由電子では、エネルギーは運動量の二乗に比例する。</span></p>
-        <p class="eq-block">$$E \propto p^2$$</p>
-        <p><span class="i18n-en">Near graphene's K point, by contrast, the energy goes as</span><span class="i18n-ja">ところが、グラフェンのK点近傍では、エネルギーは</span></p>
-        <p class="eq-block">$$E \propto |\mathbf{q}|$$</p>
-        <p><span class="i18n-en">— linear in $|\mathbf{q}|$. This is very like the relation for a massless relativistic particle,</span><span class="i18n-ja">のように、一次に比例している。この形は、質量を持たない相対論的粒子の関係、</span></p>
-        <p class="eq-block">$$E = c\,|\mathbf{p}|$$</p>
-        <p><span class="i18n-en">and so the low-energy electrons and holes in graphene are said to behave like massless Dirac particles. Of course, the electron's own rest mass has not disappeared. The point is that, as it moves through graphene's periodic lattice, its energy–momentum relation takes the same form as that of a massless particle.</span><span class="i18n-ja">とよく似ている。そのため、グラフェン中の低エネルギーの電子や正孔は、質量ゼロのディラック粒子のように振る舞うと表現される。もちろん、電子そのものの静止質量が消えたわけではない。グラフェンの周期的な格子の中で運動するとき、そのエネルギーと運動量の関係が、質量ゼロの粒子と同じ形になるという意味である。</span></p>
-        <p><span class="i18n-en">The slope of a band sets the group velocity of a wave packet built from electrons,</span><span class="i18n-ja">バンドの傾きは、電子から作った波束の群速度を決める。</span></p>
-        <p class="eq-block">$$\mathbf{v} = \frac{1}{\hbar}\nabla_{\mathbf{k}} E$$</p>
-        <p><span class="i18n-en">Because the slope of the Dirac cone has a constant magnitude, the group velocity near K is close to $v_F$. This is one reason carriers in graphene can move so fast.</span><span class="i18n-ja">ディラック錐では傾きの大きさが一定なので、K点近傍の群速度の大きさは、ほぼ $v_F$ となる。これが、グラフェン中のキャリアが非常に速く移動できる理由の一つである。</span></p>
-
-        <h3><span class="i18n-en">Switching between electrons and holes with a gate voltage</span><span class="i18n-ja">ゲート電圧で電子と正孔を切り替える</span></h3>
-        <p><span class="i18n-en">At the tip of the Dirac cone, the number of available electron states also approaches zero. The reason can be read off from the shape of the cone.</span><span class="i18n-ja">ディラック錐の先端では、電子が取れる状態の数もゼロへ近づく。その理由は、円錐の形から理解できる。</span></p>
-        <p><span class="i18n-en">States within an energy $E$ of the tip lie inside a circle of radius $|\mathbf{q}|$ in $\mathbf{q}$-space. The area of the circle goes as $|\mathbf{q}|^2$, and the energy goes as $|\mathbf{q}|$, so the number of states up to energy $E$ goes as $E^2$. The number of states per unit energy therefore falls toward zero as you approach the tip.</span><span class="i18n-ja">エネルギーが先端から $E$ 以内にある状態は、$\mathbf{q}$ 空間では半径 $|\mathbf{q}|$ の円の内側にある。円の面積は $|\mathbf{q}|^2$ に比例し、エネルギーは $|\mathbf{q}|$ に比例する。したがって、エネルギー $E$ までに含まれる状態の数は $E^2$ に比例する。そのため、単位エネルギーあたりの状態数は、先端へ近づくにつれてゼロへ減っていく。</span></p>
-        <p><span class="i18n-en">In ideal, neutral graphene, the Fermi energy sits right at the tip of the Dirac cone.</span><span class="i18n-ja">理想的な中性グラフェンでは、フェルミエネルギーはディラック錐の先端にある。</span></p>
-        <p><span class="i18n-en">Apply a gate voltage to raise the Fermi energy a little, and electrons enter the upper band; lower it a little, and empty seats appear in the lower band. Such an empty seat behaves like a positively charged particle and is called a <b>hole</b>.</span><span class="i18n-ja">ゲート電圧をかけてフェルミエネルギーを少し上げると、上のバンドに電子が入る。反対に少し下げると、下のバンドに空席ができる。この空席は、正の電荷を持つ粒子のように振る舞い、<b>正孔</b>と呼ばれる。</span></p>
-        <p><span class="i18n-en">So a gate voltage can switch continuously between conduction by electrons and conduction by holes. This is one of graphene's defining features.</span><span class="i18n-ja">したがって、ゲート電圧によって、電子による伝導と正孔による伝導を連続的に切り替えることができる。これは、グラフェンの大きな特徴である。</span></p>
-        <p><span class="i18n-en">But the same property is also a weakness. With no gap between the upper and lower bands, it is hard to switch the current fully off the way an ordinary semiconductor can. Cutting graphene into narrow <a href="/learn/graphene-nanoribbons/">nanoribbons</a> to open a band gap is an attempt to solve exactly this problem.</span><span class="i18n-ja">しかし、同じ性質は弱点にもなる。上のバンドと下のバンドの間にギャップがないため、普通の半導体のように電流を完全に止めることが難しい。グラフェンを細い<a href="/learn/graphene-nanoribbons/">ナノリボン</a>に切り出してバンドギャップを作ろうとするのは、この問題を解決するためである。</span></p>
-      </div>
-      <div class="callout recap cv-daikake">
-        <span class="co-label"><span class="i18n-en">The thread so far</span><span class="i18n-ja">ここまでの流れ</span></span>
-        <p><span class="i18n-en">With two atoms, two states form — one in phase, one in opposite phase — and their energies split apart. String many atoms together and a multitude of states, with phase steps differing little by little, fill in to make a band.</span><span class="i18n-ja">原子が二個なら、同位相と逆位相の二つの状態ができ、エネルギーは上下に分かれる。原子を多数並べると、位相のずれ方が少しずつ異なる多数の状態が生まれ、それらがバンドを作る。</span></p>
-        <p><span class="i18n-en">In graphene, each unit cell holds two atoms, A and B, with three hopping paths running from A to B. The amplitudes along those three paths cancel completely at the K and K′ points, so the two bands touch there and the gap is zero. Near that contact point, the bands take the shape of a cone.</span><span class="i18n-ja">グラフェンでは、一つの単位胞にAとBの二個の原子があり、AからBへ向かう三本のホッピング経路がある。三本の経路から来る振幅は、K点とK′点で完全に打ち消し合う。そのため、上下の二本のバンドはそこで接し、ギャップがゼロになる。さらに、その接触点の近くでは、バンドは円錐形になる。</span></p>
-        <p><span class="i18n-en">Graphene is neither an ordinary metal nor an insulator but a semimetal — a zero-gap semiconductor — and the reason traces back entirely to the geometry of the honeycomb lattice.</span><span class="i18n-ja">グラフェンが普通の金属でも絶縁体でもなく、半金属あるいはゼロギャップ半導体となる理由は、すべてこの蜂の巣格子の幾何学から生まれている。</span></p>
+        <p><span class="i18n-en">For an ordinary free electron the energy is proportional to the square of the momentum ($E \propto p^2$). Near graphene's K point, by contrast, $E \propto |q|$ — linear.</span><span class="i18n-ja">普通の自由電子では、エネルギーは運動量の二乗に比例する（$E \propto p^2$）。ところがグラフェンの K 点近傍では $E \propto |q|$ と一次だ。</span></p>
+        <p><span class="i18n-en">Let us look at the link to “mass” here. In an ordinary semiconductor the band bottom is a parabola, and its curvature sets the electron's <b>effective mass</b> in the crystal. But near graphene's tip the shape is a straight line, not a parabola. A straight line has no curvature, so the usual view of “parabola's curvature = mass” does not apply as is. Instead, look at the energy–momentum relation itself. The momentum corresponding to $q$ is $\hbar q$, so $E = \hbar v_F|q|$ reads, in form, as $E = v_F|p|$. This is exactly the same form as the relation $E = c|p|$ for a massless relativistic particle. That is why graphene's low-energy electrons and holes are said to “behave like massless Dirac particles.”</span><span class="i18n-ja">ここで「質量」とのつながりを見ておこう。普通の半導体では、バンドの底は放物線で、その曲がり具合が結晶中での電子の「有効質量」を決めている。ところがグラフェンの先端近くは、放物線ではなく直線だ。直線には曲がりがないので、ふつうの「放物線の曲がり＝質量」という見方が、そのままでは当てはまらない。代わりに、エネルギーと運動量の関係そのものを見よう。$q$ に対応する運動量は $\hbar q$ だから、$E = \hbar v_F|q|$ は、形だけ見れば $E = v_F|p|$ と読める。これは、質量を持たない相対論的な粒子の関係 $E = c|p|$ とそっくり同じ形だ。だから、グラフェンの低エネルギーの電子や正孔は「質量ゼロのディラック粒子のように振る舞う」と言われる。</span></p>
+        <p><span class="i18n-en">Of course the electron's own rest mass has not vanished. The meaning is that, as it moves through the periodic honeycomb lattice, its energy–momentum relation happens to take the same form as that of a massless particle. With the slope constant, the speed at which a wave packet travels (the group velocity) is also a constant $v_F$, about $10^6\ \mathrm{m/s}$ — roughly one three-hundredth of the speed of light. This large slope is the starting point for why electrons in graphene are said to move so easily.</span><span class="i18n-ja">もちろん、電子そのものの静止質量が消えたわけではない。蜂の巣という周期的な格子の中を動くとき、そのエネルギーと運動量の関係が、たまたま質量ゼロの粒子と同じ形になる、という意味である。傾きが一定なので、波束の進む速さ（群速度）も一定の $v_F$ になり、その値は約 $10^6\ \mathrm{m/s}$——光速のおよそ三百分の一である。この大きな傾きが、グラフェン中の電子が動きやすいと言われる理由の出発点になる。</span></p>
       </div>
     </div>
   </section>
 
-  <!-- See also -->
+  <!-- ═══════ §06 — Measurement and applications ═══════ -->
   <section class="demo">
-    <div class="demo-stage" style="max-width:var(--measure)">
+    <div class="demo-head">
+      <span class="demo-num"><span class="i18n-en">06 — Measurement & uses</span><span class="i18n-ja">06 — 測定と応用</span></span>
+      <h2><span class="i18n-en">Measurement and applications</span><span class="i18n-ja">測定と応用</span></h2>
+      <p><span class="i18n-en">So far it has been a story on paper. But the structure we arrived at — “the bands touch at K, and become a cone nearby” — can really be measured, really be moved, and yet is hard to stop. Let us take these in turn.</span><span class="i18n-ja">ここまでは紙の上の話だった。だが、そこで出てきた「K 点でバンドが接し、その近くで円錐になる」という構造は、現実に測れて、動かせて、しかし止めにくい。順に見ていこう。</span></p>
+    </div>
+    <div class="demo-stage">
+      <div class="me-prose">
+        <h3><span class="i18n-en">Measuring — seeing the cone with ARPES</span><span class="i18n-ja">測る——ARPESで錐を見る</span></h3>
+        <p><span class="i18n-en">The $E$–$k$ relation we built up is not imagined. ARPES (angle-resolved photoemission spectroscopy) measures the energy and momentum an electron carried, letting you trace the shape of the occupied bands directly. Graphene's Dirac cone has indeed been observed this way.</span><span class="i18n-ja">ここで組み立てた $E$ と $k$ の関係は、空想ではない。ARPES（角度分解光電子分光）では、電子が持っていたエネルギーと運動量を測ることで、占有されたバンドの形を直接たどれる。グラフェンのディラック錐も、こうして実際に観測されている。</span></p>
+
+        <h3><span class="i18n-en">Moving — switching electrons and holes with a gate voltage</span><span class="i18n-ja">動かす——ゲート電圧で電子と正孔を切り替える</span></h3>
+        <p><span class="i18n-en">This cone shape also bears on “how many states are filled.” Count the seats from the tip up to an energy magnitude $|E|$. The larger $|E|$, the further out into a circle of radius $|q|$ in $q$-space you are counting, and that area goes as $|q|^2$. Meanwhile, on a Dirac cone $|E|$ is proportional to $|q|$, so the total number of seats from the tip up to $|E|$ grows as $E^2$. Since the density of states is “how many seats appear when you raise the energy a little,” that rate of increase is proportional to $|E|$. So the closer you get to the Dirac point, the smaller the density of states, ideally reaching exactly zero at the tip. (In a real sample, impurities and the substrate keep it from being a perfect zero, but in the ideal band it is.)</span><span class="i18n-ja">この円錐形は、「どれだけ状態が詰まっているか」にも効いてくる。先端からエネルギーの大きさ $|E|$ までにある席を数えてみよう。$|E|$ が大きくなるほど、$q$ 空間では半径 $|q|$ の円の内側まで席を数えることになり、その面積は $|q|^2$ に比例する。一方ディラック錐では $|E|$ は $|q|$ に比例するので、先端から $|E|$ までに含まれる席の総数は $E^2$ に比例して増える。状態密度とは「エネルギーを少し増やすと席がどれだけ増えるか」だから、その増え方は $|E|$ に比例する。だからディラック点に近づくほど状態密度は小さくなり、理想的には先端でちょうどゼロになる。（実際の試料では不純物や基板の影響で完全なゼロにはならないが、理想的なバンドではそうなる。）</span></p>
+        <p><span class="i18n-en">In ideal, neutral graphene the Fermi energy sits right at this tip. Apply a gate voltage to raise it a little and electrons enter the upper cone — electron conduction. Lower it a little and empty seats appear in the lower band; seen as positively charged particles (holes), that is hole conduction. With a single voltage knob you switch continuously between electrons and holes. This is one of graphene's great features.</span><span class="i18n-ja">理想的な中性のグラフェンでは、フェルミエネルギーはこの先端にある。そこにゲート電圧をかけてフェルミエネルギーを少し上げると、上の円錐に電子が入って電子伝導になる。少し下げると、下のバンドに空席ができ、それを正の電荷を持つ粒子（正孔）として見れば正孔伝導になる。ひとつの電圧つまみで、電子と正孔を連続的に切り替えられるわけである。これはグラフェンの大きな特徴だ。</span></p>
+      </div>
+
+      <!-- [図F6：フェルミ準位スライダ。デフォルトは E_F=0] -->
+      <div class="anim-card pv-bunchin mat-sunezu">
+        <div class="gv-bar">
+          <span class="gv-bar-t"><span class="i18n-en">One knob, $E_F$: fill the upper cone (electrons) or empty the lower (holes), and read the density of states.</span><span class="i18n-ja">つまみは $E_F$ 一つ：上の錐を埋め（電子）／下を空け（正孔）、状態密度を読む。</span></span>
+          <button class="gv-reset" type="button" data-reset="f6"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+        </div>
+        <div class="gv-fig" id="gv-f6"></div>
+        <div class="gv-controls"><div class="me-controls">
+          <div class="me-slider" style="flex:1 1 100%">
+            <label for="f6-ef"><span class="i18n-en">Fermi energy&nbsp;$E_F$</span><span class="i18n-ja">フェルミ準位&nbsp;$E_F$</span></label>
+            <input type="range" id="f6-ef" min="-0.5" max="0.5" step="0.01" value="0" aria-label="Fermi energy">
+            <output id="f6-ef-o">0.00 eV</output>
+          </div>
+        </div></div>
+      </div>
+      <p class="me-cap"><span class="i18n-en">At the tip the density of states is zero — carriers run dry. Sweeping $E_F$ switches continuously between electrons and holes; a hole is an empty seat that behaves like a positive charge.</span><span class="i18n-ja">先端で状態密度ゼロ＝キャリアが枯れる。$E_F$ で電子↔正孔が連続切替。正孔＝正電荷のように振る舞う空席。</span></p>
+
+      <div class="me-prose">
+        <h3><span class="i18n-en">Hard to stop — the price of having no gap</span><span class="i18n-ja">止めにくい——ギャップがないことの代償</span></h3>
+        <p><span class="i18n-en">But this is a strength and a weakness at once. In graphene the upper and lower bands touch at the tip, with no clear gap like an ordinary semiconductor's. So used as a transistor, it is hard to make a clean “off” that cuts the current completely. Cutting graphene into narrow <a href="/learn/graphene-nanoribbons/">nanoribbons</a> to open a gap on purpose by quantum confinement is an attempt to patch exactly this weakness. Having no gap is interesting as physics, but awkward for a transistor.</span><span class="i18n-ja">ただし、これは長所であると同時に弱点でもある。グラフェンは先端で上下のバンドが接していて、普通の半導体のようなはっきりしたギャップがない。そのため、トランジスタとして使うと、電流を完全に切る「オフ」が作りにくい。グラフェンを細い<a href="/learn/graphene-nanoribbons/">ナノリボン</a>に切り出して、量子閉じ込めでわざわざギャップを開こうとするのは、この弱点を補うためだ。ギャップを持たないことは、物理としては面白いが、トランジスタとしては扱いにくい。</span></p>
+      </div>
+
       <div class="callout recap cv-daikake">
-        <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
-        <p><span class="i18n-en">To go deeper into the Dirac cone and what “massless” really means, continue to <a href="/learn/graphene/">Electronic Structure of Graphene</a>. How cutting graphene into narrow strips opens a band gap is taken up in <a href="/learn/graphene-nanoribbons/">Graphene Nanoribbons</a>. The link between graphene's lattice vibrations and its Raman spectrum is covered in <a href="/learn/graphene-raman/">Raman Spectroscopy of Graphene</a>. And if you would like to firm up lattice vectors, unit cells, the reciprocal lattice, and the Brillouin zone first, go back to <a href="/learn/crystal-structure-v2/">Crystal Structure Ⅱ</a>.</span><span class="i18n-ja">ディラック錐と「質量ゼロ」の意味をさらに詳しく調べるなら、「<a href="/learn/graphene/">グラフェンの電子構造</a>」へ進む。グラフェンを細く切ることでバンドギャップが生まれる仕組みは、「<a href="/learn/graphene-nanoribbons/">グラフェンナノリボン</a>」で扱う。グラフェンの格子振動とラマンスペクトルの関係は、「<a href="/learn/graphene-raman/">グラフェンのラマン分光</a>」で扱う。格子ベクトル、単位胞、逆格子、ブリルアンゾーンを先に確認したい場合は、「<a href="/learn/crystal-structure-v2/">結晶構造の基礎 Ⅱ</a>」へ戻るとよい。</span></p>
+        <span class="co-label"><span class="i18n-en">Related reading</span><span class="i18n-ja">関連記事</span></span>
+        <p><span class="i18n-en">For more on the Dirac cone and what “massless” really means, go to <a href="/learn/graphene/">Electronic Structure of Graphene</a>. For cutting graphene thin to make a gap, see <a href="/learn/graphene-nanoribbons/">Graphene Nanoribbons</a>. For lattice vibrations and the Raman spectrum, see <a href="/learn/graphene-raman/">Raman Spectroscopy of Graphene</a>. And to review lattice vectors, the unit cell, the reciprocal lattice, and the Brillouin zone, go back to <a href="/learn/crystal-structure-v2/">Crystal Structure Ⅱ</a>.</span><span class="i18n-ja">ディラック錐と「質量ゼロ」の意味をさらに詳しく → 「<a href="/learn/graphene/">グラフェンの電子構造</a>」／ 細く切ってギャップを作る話 → 「<a href="/learn/graphene-nanoribbons/">グラフェンナノリボン</a>」／ 格子振動とラマンスペクトル → 「<a href="/learn/graphene-raman/">グラフェンのラマン分光</a>」／ 格子ベクトル・単位胞・逆格子・ブリルアンゾーンの復習 → 「<a href="/learn/crystal-structure-v2/">結晶構造の基礎 Ⅱ</a>」</span></p>
       </div>
     </div>
   </section>
@@ -414,9 +413,11 @@
   <footer class="site-footer">
     <div class="foot">
       <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
-      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
   </footer>
 
+  <script src="/assets/js/graphene-v2-physics.js"></script>
   <script src="/assets/js/graphene-v2.js"></script>
 </body>
 </html>
