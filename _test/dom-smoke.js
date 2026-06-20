@@ -53,7 +53,7 @@ function reg(id, props) { var e = makeEl('div'); e.setAttribute('id', id); Objec
 ['gv-f1', 'gv-f2', 'gv-f3', 'gv-f4', 'gv-f5', 'gv-f6', 'gv-fmap', 'f3-hs', 'f5-eq', 'fig-gap'].forEach(function (id) { reg(id); });
 var sliders = { 'f1-t': '0.4', 'f2-n': '2', 'f5-d': '0', 'f6-ef': '0' };
 Object.keys(sliders).forEach(function (id) { reg(id, { value: sliders[id] }); });
-['f1-t-o', 'f2-n-o', 'f5-d-o', 'f6-ef-o', 'f3-toast', 'f5-eqbtn'].forEach(function (id) { reg(id); });
+['f1-t-o', 'f2-n-o', 'f5-d-o', 'f6-ef-o', 'f3-toast', 'f5-eqbtn', 'f5-cmp'].forEach(function (id) { reg(id); });
 
 function query(sel) {
   if (sel === '#f3-hs .demo-btn') {
@@ -95,6 +95,13 @@ try {
   // exercise interactions
   ['f1-t', 'f2-n', 'f5-d', 'f6-ef'].forEach(function (id) { byId[id].dispatch('input', {}); });
   console.log('  ✓ slider input handlers ran (F1,F2,F5,F6)');
+
+  // exercise the gapped / electron / hole / comparison branches
+  byId['f5-d'].value = '0.5'; byId['f5-d'].dispatch('input', {});
+  byId['f6-ef'].value = '0.3'; byId['f6-ef'].dispatch('input', {});
+  byId['f6-ef'].value = '-0.3'; byId['f6-ef'].dispatch('input', {});
+  if (byId['f5-cmp']) { byId['f5-cmp'].checked = true; byId['f5-cmp'].dispatch('change', {}); }
+  console.log('  ✓ exercised gapped / electron / hole / comparison branches');
 
   // F3 drag + key + buttons + tab
   var bzStage = null;
