@@ -50,7 +50,7 @@ card.querySelector = function (sel) { return fakeButton(sel); };
 /* a registry of elements with ids */
 var byId = {};
 function reg(id, props) { var e = makeEl('div'); e.setAttribute('id', id); Object.assign(e, props || {}); byId[id] = e; return e; }
-['gv-f1', 'gv-f2', 'gv-f3', 'gv-f4', 'gv-f5', 'gv-f6', 'f3-hs', 'f5-eq', 'fig-gap'].forEach(function (id) { reg(id); });
+['gv-f1', 'gv-f2', 'gv-f3', 'gv-f4', 'gv-f5', 'gv-f6', 'gv-fmap', 'f3-hs', 'f5-eq', 'fig-gap'].forEach(function (id) { reg(id); });
 var sliders = { 'f1-t': '0.4', 'f2-n': '2', 'f5-d': '0', 'f6-ef': '0' };
 Object.keys(sliders).forEach(function (id) { reg(id, { value: sliders[id] }); });
 ['f1-t-o', 'f2-n-o', 'f5-d-o', 'f6-ef-o', 'f3-toast', 'f5-eqbtn'].forEach(function (id) { reg(id); });
