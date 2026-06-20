@@ -46,7 +46,7 @@
   gap: 12px; margin: 0 2px 10px;
 }
 .gv-bar .gv-bar-t {
-  font-size: .8rem; color: #d6d3d1; line-height: 1.4;
+  font-size: .8rem; color: #ece8e1; line-height: 1.4;   /* raised contrast (no longer sinks into the card) */
 }
 .gv-reset {
   flex: 0 0 auto; appearance: none; cursor: pointer;
@@ -73,15 +73,15 @@
 .gv-tag {
   position: absolute; top: 8px; left: 11px; right: 11px;
   display: flex; align-items: baseline; gap: 7px;
-  font-size: .68rem; letter-spacing: .02em; color: #a8a29e;
+  font-size: .68rem; letter-spacing: .02em; color: #b8b2a8;
   pointer-events: none;
 }
 .gv-tag .gv-kind {
   flex: 0 0 auto; font-size: .62rem; letter-spacing: .06em;
-  color: #8a8377; border: 1px solid rgba(255,255,255,.14);
+  color: #a89f90; border: 1px solid rgba(255,255,255,.18);
   border-radius: 4px; padding: 1px 5px;
 }
-.gv-tag .gv-name { color: #cfcbc5; font-weight: 600; }
+.gv-tag .gv-name { color: #ded9d1; font-weight: 600; }
 
 /* ── KaTeX / text labels layered over the SVG ── */
 .gv-lab {
@@ -89,7 +89,7 @@
   pointer-events: none; white-space: nowrap;
   font-size: .8rem; line-height: 1.05; color: #e7e5e4;
 }
-.gv-lab.gv-mut  { color: #a8a29e; font-size: .72rem; }
+.gv-lab.gv-mut  { color: #bcb6ab; font-size: .72rem; }
 .gv-lab.gv-num  { font-variant-numeric: tabular-nums; color: #7dd3fc; font-size: .76rem; }
 .gv-lab.gv-tl   { transform: translate(0, 0); }            /* top-left anchored  */
 .gv-lab.gv-al   { transform: translate(0, -50%); }         /* left, v-centred    */
@@ -147,6 +147,8 @@
   appearance: none; background: none; border: none; cursor: pointer;
   color: #7dd3fc; font: inherit; text-decoration: underline; text-underline-offset: 2px; padding: 0;
 }
+.gv-check { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: #cfcbc5; }
+.gv-check input { accent-color: var(--accent); cursor: pointer; }
 
 /* legend reused look (round chips, but allow square/line swatches for shapes) */
 .gv-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font-size: .76rem; color: #a8a29e; }

@@ -26,6 +26,7 @@
     d1: '#5fb7b0', d2: '#d8a25c', d3: '#a78fd0', sum: '#f4efe6',
     A: '#d98c6a', B: '#6fa8d6', bond: '#5fb7b0', anti: '#d8a25c',
     elec: '#6fb7d6', hole: '#d98c6a', semi: 'rgba(245,245,244,.34)',
+    band: '#9c958b',
     grid: 'rgba(255,255,255,.07)', grid2: 'rgba(255,255,255,.16)',
     axis: 'rgba(255,255,255,.34)', axlab: 'rgba(245,245,244,.62)',
     fermi: '#e7e5e4', zone: '#cdb78a', snap: '#e0584c',
@@ -79,8 +80,8 @@
   function panel(parent, kind, nameEn, nameJa) {
     var el0 = htm('div', 'gv-panel', parent);
     if (kind) {
-      var kEn = kind === 'schematic' ? 'schematic' : 'quantitative';
-      var kJa = kind === 'schematic' ? '模式図' : '定量';
+      var kEn = kind === 'schematic' ? 'schematic' : (kind === 'rel' ? 'relative' : 'quantitative');
+      var kJa = kind === 'schematic' ? '模式図' : (kind === 'rel' ? '相対値' : '定量');
       var tag = htm('div', 'gv-tag', el0);
       tag.innerHTML = '<span class="gv-kind">〔' + bi(kEn, kJa) + '〕</span>' +
         '<span class="gv-name">' + bi(nameEn, nameJa) + '</span>';
@@ -244,7 +245,7 @@
         var r = p.svg.getBoundingClientRect();
         var kx = (ev.clientX - r.left - cx) / s, ky = -(ev.clientY - r.top - cy) / s;
         var c = clampK(kx, ky);
-        var hs = snapTargets(px), bestD = 15 * 15, best = null, mp = px(c[0], c[1]);
+        var hs = snapTargets(px), bestD = 22 * 22, best = null, mp = px(c[0], c[1]);
         hs.forEach(function (t) { var d = (t.p[0] - mp[0]) * (t.p[0] - mp[0]) + (t.p[1] - mp[1]) * (t.p[1] - mp[1]); if (d < bestD) { bestD = d; best = t.k; } });
         k = best || c; render();
       }
@@ -276,6 +277,9 @@
         el('line', { x1: cx - 3.2 * u, y1: cy + g * u, x2: cx + 3.2 * u, y2: cy + g * u, stroke: g === 0 ? COL.axis : COL.grid }, p.svg);
       }
       el('circle', { cx: cx, cy: cy, r: u, fill: 'none', stroke: COL.grid2, 'stroke-dasharray': '3 3' }, p.svg);
+      el('circle', { cx: cx, cy: cy, r: 3 * u, fill: 'none', stroke: COL.grid, 'stroke-dasharray': '2 4' }, p.svg);
+      label(p.stage, cx + u, cy + 12, '$1$', 'gv-mut');
+      label(p.stage, cx + 3 * u, cy + 12, '$3$', 'gv-mut');
       label(p.stage, cx + 3.2 * u - 4, cy - 11, '$\\mathrm{Re}$', 'gv-mut');
       label(p.stage, cx + 13, cy - 3.2 * u + 6, '$\\mathrm{Im}$', 'gv-mut');
       p.chain = el('polyline', { points: '', fill: 'none', stroke: 'rgba(244,239,230,.28)', 'stroke-width': 1, 'stroke-dasharray': '2 3' }, p.svg);
@@ -318,17 +322,21 @@
     /* ---- splitting ladder ---- */
     function drawLadder(p) {
       var W = stageW(p); if (!W) return; var H = Math.min(W, 250); size(p, W, H);
-      var cx = W / 2, cy = H / 2, mTop = 26, sE = (H / 2 - mTop) / (3 * T_EV), bw = Math.min(W * 0.34, 70);
+      var cx = W / 2, cy = H / 2, mTop = 26, sE = (H / 2 - mTop) / (3 * T_EV), bw = Math.min(W * 0.28, 56);
       p.cx = cx; p.cy = cy; p.sE = sE; p.bw = bw;
       el('line', { x1: cx, y1: mTop, x2: cx, y2: H - mTop, stroke: COL.axis }, p.svg);
       el('line', { x1: cx - bw, y1: cy, x2: cx + bw, y2: cy, stroke: COL.grid2, 'stroke-dasharray': '4 3' }, p.svg);
       label(p.stage, cx, mTop - 12, '$E$', 'gv-mut');
-      label(p.stage, cx + bw + 6, cy, '$\\varepsilon_0$', 'gv-mut');
+      // ε0 and the ±t|f| bar labels on the LEFT; the gap (bracket + 2t|f|) on the RIGHT — never collide
+      p.e0 = label(p.stage, cx - bw - 8, cy, '$\\varepsilon_0$', 'gv-mut'); p.e0.style.transform = 'translate(-100%,-50%)';
       p.barU = el('line', { x1: cx - bw, x2: cx + bw, stroke: COL.anti, 'stroke-width': 4, 'stroke-linecap': 'round' }, p.svg);
       p.barL = el('line', { x1: cx - bw, x2: cx + bw, stroke: COL.bond, 'stroke-width': 4, 'stroke-linecap': 'round' }, p.svg);
-      p.labU = label(p.stage, cx - bw - 6, cy, '$+t|f|$', 'gv-mut'); p.labU.style.transform = 'translate(-100%,-50%)';
-      p.labL = label(p.stage, cx - bw - 6, cy, '$-t|f|$', 'gv-mut'); p.labL.style.transform = 'translate(-100%,-50%)';
-      p.gap = label(p.stage, cx + bw + 8, cy, '$2t|f|=$&nbsp;<span class="num">16.8</span>&nbsp;eV', 'gv-num gv-al');
+      p.labU = label(p.stage, cx - bw - 8, cy, '$+t|f|$', 'gv-mut'); p.labU.style.transform = 'translate(-100%,-50%)';
+      p.labL = label(p.stage, cx - bw - 8, cy, '$-t|f|$', 'gv-mut'); p.labL.style.transform = 'translate(-100%,-50%)';
+      p.gapBr = el('line', { x1: cx + bw + 12, x2: cx + bw + 12, stroke: COL.faint, 'stroke-width': 1.4 }, p.svg);
+      p.gapF = label(p.stage, cx + bw + 18, cy, '$2t|f|$', 'gv-mut gv-al');
+      p.gap = label(p.stage, cx + bw + 18, cy + 14, '<span class="num">16.8</span>&nbsp;eV', 'gv-num gv-al'); p.gap.style.fontSize = '.68rem';
+      htm('div', 'gv-pin', p.panel).innerHTML = bi('positions $\\pm t|f|$ · spacing $2t|f|$', '上下 $\\pm t|f|$ ／ 間隔 $2t|f|$');
     }
 
     /* ---- update everything from k ---- */
@@ -338,11 +346,13 @@
       if (P.bz.px) { var m = P.bz.px(k[0], k[1]); P.bz.dot.setAttribute('cx', m[0]); P.bz.dot.setAttribute('cy', m[1]); P.bz.dotHalo.setAttribute('cx', m[0]); P.bz.dotHalo.setAttribute('cy', m[1]); }
       var c = P.cplx;
       if (c && c.cx != null) {
-        var O = [c.cx, c.cy], u = c.u, tip = [O[0], O[1]], chain = [O[0].toFixed(1) + ',' + O[1].toFixed(1)];
+        var O = [c.cx, c.cy], u = c.u, tip = [O[0], O[1]], chain = [O[0].toFixed(1) + ',' + O[1].toFixed(1)], FAN = 3.4;
         for (var j = 0; j < 3; j++) {
-          var vx = Math.cos(ph[j]) * u, vy = -Math.sin(ph[j]) * u;
-          c.nd[j].set(O[0], O[1], O[0] + vx, O[1] + vy);
-          tip = [tip[0] + vx, tip[1] + vy]; chain.push(tip[0].toFixed(1) + ',' + tip[1].toFixed(1));
+          var dx = Math.cos(ph[j]) * u, dy = -Math.sin(ph[j]) * u;
+          // splay the bases slightly along each arrow's perpendicular, so the three stay visible even when parallel (Γ)
+          var bx = O[0] + (-dy / u) * (j - 1) * FAN, by = O[1] + (dx / u) * (j - 1) * FAN;
+          c.nd[j].set(bx, by, bx + dx, by + dy);
+          tip = [tip[0] + dx, tip[1] + dy]; chain.push(tip[0].toFixed(1) + ',' + tip[1].toFixed(1));
         }
         c.chain.setAttribute('points', chain.join(' '));
         var fx = O[0] + f.re * u, fy = O[1] - f.im * u;
@@ -357,8 +367,10 @@
         L.barU.setAttribute('y1', yU); L.barU.setAttribute('y2', yU);
         L.barL.setAttribute('y1', yL); L.barL.setAttribute('y2', yL);
         L.labU.style.top = yU + 'px'; L.labL.style.top = yL + 'px';
-        L.gap.style.top = L.cy + 'px';
+        L.gapBr.setAttribute('y1', yU); L.gapBr.setAttribute('y2', yL);
         L.gap.querySelector('.num').textContent = (2 * Eu).toFixed(2);
+        var faded = f.mod < 0.06;                 // at K the ±t|f| labels collapse onto ε0 — fade them
+        L.labU.style.opacity = L.labL.style.opacity = faded ? '0.2' : '1';
       }
       var small = f.mod < 0.15;
       if (small && !toastShown) { toastShown = true; fireToast(); }
@@ -408,56 +420,61 @@
     var card = root.closest('.anim-card');
     var slider = document.getElementById('f5-d'), out = document.getElementById('f5-d-o');
     var eqBtn = document.getElementById('f5-eqbtn'), eqBox = document.getElementById('f5-eq');
+    var cmp = document.getElementById('f5-cmp');
     var delta = parseFloat(slider.value);
-    var HVF = 0.9, QMAX = 1, EMAX = 1.18, P = {};
+    var HVF = 0.9, QMAX = 1, EMAX = 1.18, P = {}, cmpOn = false;
 
     function build() {
       clear(root);
       var row = htm('div', 'gv-row gv-one', root);
-      var p = panel(row, 'quant', 'Bands near K', 'K点近傍のバンド');
+      var p = panel(row, 'rel', 'Bands near K', 'K点近傍のバンド');
       var W = stageW(p); if (!W) { P = {}; return; }
       var H = Math.max(210, Math.min(W * 0.5, 280)); size(p, W, H);
-      var padL = 40, padR = 18, padT = 16, padB = 30, cx = (padL + W - padR) / 2, cy = (padT + H - padB) / 2;
+      var padL = 40, padR = 18, padT = 18, padB = 30, cx = (padL + W - padR) / 2, cy = (padT + H - padB) / 2;
       var sx = (W - padL - padR) / 2 / QMAX, sy = (H - padT - padB) / 2 / EMAX;
       function X(q) { return cx + q * sx; } function Y(E) { return cy - E * sy; }
-      P = { p: p, X: X, Y: Y, cx: cx, cy: cy, padT: padT };
+      P = { p: p, X: X, Y: Y, cx: cx, cy: cy };
 
       el('line', { x1: padL, y1: cy, x2: W - padR, y2: cy, stroke: COL.axis }, p.svg);
       el('line', { x1: cx, y1: padT, x2: cx, y2: H - padB, stroke: COL.grid2 }, p.svg);
       label(p.stage, W - padR, cy + 13, '$q$', 'gv-mut');
       label(p.stage, cx - 4, padT - 1, '$E$', 'gv-mut');
-      label(p.stage, cx, H - padB + 14, '$K$', 'gv-mut');
+      label(p.stage, cx + 9, H - padB + 13, '$K$', 'gv-mut gv-tl');
 
+      // comparison: an ordinary gapped (parabolic) semiconductor — hidden until the checkbox is on
       function para(sgn) {
         var d = []; for (var i = 0; i <= 40; i++) { var q = -QMAX + 2 * QMAX * i / 40; d.push((i ? 'L' : 'M') + X(q).toFixed(1) + ' ' + Y(sgn * (0.34 + 0.62 * q * q)).toFixed(1)); }
         return d.join(' ');
       }
-      el('path', { d: para(1), fill: 'none', stroke: COL.semi, 'stroke-width': 1.3, 'stroke-dasharray': '4 4' }, p.svg);
-      el('path', { d: para(-1), fill: 'none', stroke: COL.semi, 'stroke-width': 1.3, 'stroke-dasharray': '4 4' }, p.svg);
-
-      P.asy = [
-        el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(HVF * QMAX), stroke: 'rgba(245,245,244,.22)', 'stroke-dasharray': '2 3' }, p.svg),
-        el('line', { x1: X(0), y1: Y(0), x2: X(-QMAX), y2: Y(HVF * QMAX), stroke: 'rgba(245,245,244,.22)', 'stroke-dasharray': '2 3' }, p.svg),
-        el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(-HVF * QMAX), stroke: 'rgba(245,245,244,.22)', 'stroke-dasharray': '2 3' }, p.svg),
-        el('line', { x1: X(0), y1: Y(0), x2: X(-QMAX), y2: Y(-HVF * QMAX), stroke: 'rgba(245,245,244,.22)', 'stroke-dasharray': '2 3' }, p.svg)
+      P.semi = [
+        el('path', { d: para(1), fill: 'none', stroke: COL.semi, 'stroke-width': 1.2, 'stroke-dasharray': '4 4' }, p.svg),
+        el('path', { d: para(-1), fill: 'none', stroke: COL.semi, 'stroke-width': 1.2, 'stroke-dasharray': '4 4' }, p.svg)
       ];
 
       P.up = el('path', { d: '', fill: 'none', stroke: COL.anti, 'stroke-width': 2.4 }, p.svg);
       P.lo = el('path', { d: '', fill: 'none', stroke: COL.bond, 'stroke-width': 2.4 }, p.svg);
       P.gapline = el('line', { stroke: COL.snap, 'stroke-width': 1.4, 'stroke-dasharray': '3 2' }, p.svg);
-      P.gapTxt = label(p.stage, X(0) + 8, cy, '', 'gv-num gv-al');
+      P.gapTxt = label(p.stage, padL + 2, padT + 2, '', 'gv-num gv-tl');
 
-      P.insA = el('circle', { cx: W - padR - 30, r: 4.5, fill: COL.A }, p.svg);
-      P.insB = el('circle', { cx: W - padR - 12, r: 4.5, fill: COL.B }, p.svg);
-      label(p.stage, W - padR - 21, padT + 2, bi('A / B seats', 'A / B 席'), 'gv-mut');
-
-      var lg = htm('div', 'gv-legend', root);
-      lg.innerHTML =
-        '<span><i style="background:' + COL.anti + '"></i><i style="background:' + COL.bond + '"></i>' + bi('graphene', 'グラフェン') + '</span>' +
-        '<span><i style="background:' + COL.semi + '"></i>' + bi('ordinary semiconductor (parabolic, gapped)', 'ふつうの半導体（放物線・ギャップ）') + '</span>';
+      P.lg = htm('div', 'gv-legend', root);
 
       whenKatex(function () { renderMath(root); });
+      setCompare(cmpOn);
       render();
+    }
+
+    function updateLegend() {
+      if (!P.lg) return;
+      var name = delta < 1e-6 ? bi('graphene (A = B)', 'グラフェン（A＝B）') : bi('A/B-inequivalent honeycomb', 'A/B非等価な蜂の巣');
+      var html = '<span><i style="background:' + COL.anti + '"></i><i style="background:' + COL.bond + '"></i>' + name + '</span>';
+      if (cmpOn) html += '<span><i style="background:' + COL.semi + '"></i>' + bi('comparison: parabolic semiconductor', '比較用：放物線型半導体') + '</span>';
+      P.lg.innerHTML = html;
+      whenKatex(function () { renderMath(P.lg); });
+    }
+    function setCompare(on) {
+      cmpOn = on;
+      if (P.semi) P.semi.forEach(function (s) { s.style.display = on ? '' : 'none'; });
+      updateLegend();
     }
 
     function render() {
@@ -474,21 +491,18 @@
       P.up.setAttribute('d', path(1));
       P.lo.setAttribute('d', path(-1));
       var gapped = delta > 1e-6;
-      P.asy.forEach(function (a) { a.style.display = gapped ? '' : 'none'; });
       P.gapline.setAttribute('x1', X(0)); P.gapline.setAttribute('x2', X(0));
       P.gapline.setAttribute('y1', Y(m)); P.gapline.setAttribute('y2', Y(-m));
       P.gapline.style.display = gapped ? '' : 'none';
-      P.gapTxt.style.top = P.cy + 'px';
-      P.gapTxt.innerHTML = '$\\mathrm{gap}=$&nbsp;<span class="num">' + delta.toFixed(2) + '</span>&nbsp;eV';
+      P.gapTxt.innerHTML = bi('gap', 'ギャップ') + '&nbsp;$=|\\Delta_{AB}|=$&nbsp;<span class="num">' + delta.toFixed(2) + '</span>&nbsp;eV';
       whenKatex(function () { renderMath(P.gapTxt); });
-      var off = delta * 9;
-      P.insA.setAttribute('cy', P.padT + 12 + off / 2);
-      P.insB.setAttribute('cy', P.padT + 12 - off / 2);
+      updateLegend();
     }
 
     slider.addEventListener('input', function () { delta = parseFloat(slider.value); out.textContent = delta.toFixed(2) + ' eV'; render(); });
+    if (cmp) cmp.addEventListener('change', function () { setCompare(cmp.checked); });
     eqBtn.onclick = function () { eqBox.classList.toggle('is-open'); eqBtn.innerHTML = eqBox.classList.contains('is-open') ? bi('Hide the formula', '式を隠す') : bi('Show the formula', '式を見る'); };
-    if (card) { var rb = card.querySelector('[data-reset="f5"]'); if (rb) rb.onclick = function () { delta = 0; slider.value = '0'; out.textContent = '0.00 eV'; render(); }; }
+    if (card) { var rb = card.querySelector('[data-reset="f5"]'); if (rb) rb.onclick = function () { delta = 0; slider.value = '0'; out.textContent = '0.00 eV'; if (cmp) { cmp.checked = false; } setCompare(false); render(); }; }
     onResize(root, build);
     build();
   })();
@@ -517,19 +531,22 @@
       P = { p: p, X: X, Y: Y };
 
       el('line', { x1: x0, y1: Y(0), x2: x1, y2: Y(0), stroke: COL.grid2 }, p.svg);
+      el('line', { x1: x0, y1: Y(amp), x2: x1, y2: Y(amp), stroke: COL.grid, 'stroke-dasharray': '4 4' }, p.svg);
+      el('line', { x1: x0, y1: Y(-amp), x2: x1, y2: Y(-amp), stroke: COL.grid, 'stroke-dasharray': '4 4' }, p.svg);
       el('line', { x1: x0, y1: y1, x2: x0, y2: y0, stroke: COL.axis }, p.svg);
       ['0', '\\pi', '2\\pi'].forEach(function (tx, i) { label(p.stage, X(i * Math.PI), y0 + 12, '$' + tx + '$', 'gv-mut'); });
       label(p.stage, (x0 + x1) / 2, y0 + 24, '$\\phi$', 'gv-mut');
-      label(p.stage, x0 - 7, y1 + 4, '$E$', 'gv-mut');
-      label(p.stage, x0 - 26, Y(amp), '$\\varepsilon_0\\!+\\!2t$', 'gv-mut');
-      label(p.stage, x0 - 26, Y(-amp), '$\\varepsilon_0\\!-\\!2t$', 'gv-mut');
+      label(p.stage, x0 + 10, y1 + 2, '$E$', 'gv-mut gv-tl');
+      label(p.stage, x1 + 6, Y(amp), '$\\varepsilon_0\\!+\\!2t$', 'gv-mut gv-al');
+      label(p.stage, x1 + 6, Y(-amp), '$\\varepsilon_0\\!-\\!2t$', 'gv-mut gv-al');
 
       var d = [];
       for (var i = 0; i <= 120; i++) { var phi = 2 * Math.PI * i / 120; d.push((i ? 'L' : 'M') + X(phi).toFixed(1) + ' ' + Y(PH.chainE(phi, T_EV, 0)).toFixed(1)); }
       el('path', { d: d.join(' '), fill: 'none', stroke: 'rgba(245,245,244,.28)', 'stroke-width': 1.4 }, p.svg);
 
-      el('line', { x1: x1 + 16, y1: Y(amp), x2: x1 + 16, y2: Y(-amp), stroke: COL.grid2 }, p.svg);
-      label(p.stage, x1 + 32, (Y(amp) + Y(-amp)) / 2, bi('band', 'バンド'), 'gv-mut');
+      // φ = 2π marks the same state as φ = 0 — drawn hollow so it is not counted twice
+      el('circle', { cx: X(2 * Math.PI), cy: Y(PH.chainE(0, T_EV, 0)), r: 4.2, fill: 'none', stroke: COL.faint, 'stroke-width': 1, 'stroke-dasharray': '2 2' }, p.svg);
+      label(p.stage, X(2 * Math.PI), Y(PH.chainE(0, T_EV, 0)) - 12, '$\\equiv 0$', 'gv-mut');
 
       P.layer = el('g', {}, p.svg);
       pts = [];
@@ -543,8 +560,10 @@
       pts.forEach(function (c) { c.style.transition = REDUCED ? '' : 'opacity .32s ease'; c.style.opacity = '0'; setTimeout(function () { if (c.parentNode) c.parentNode.removeChild(c); }, REDUCED ? 0 : 340); });
       pts = [];
       allowed.forEach(function (phi) {
-        var col = lerpHex(COL.elec, COL.snap, (1 - Math.cos(phi)) / 2);
-        var c = el('circle', { cx: X(phi), cy: Y(PH.chainE(phi, T_EV, 0)), r: 4.2, fill: col, stroke: 'rgba(0,0,0,.25)', 'stroke-width': .6 }, P.layer);
+        var near0 = Math.min(phi, 2 * Math.PI - phi) < 1e-6;
+        var nearPi = Math.abs(phi - Math.PI) < 1e-6;
+        var col = near0 ? COL.bond : (nearPi ? COL.anti : COL.elec);
+        var c = el('circle', { cx: X(phi), cy: Y(PH.chainE(phi, T_EV, 0)), r: (near0 || nearPi) ? 5.2 : 4.2, fill: col, stroke: 'rgba(0,0,0,.25)', 'stroke-width': .6 }, P.layer);
         if (!REDUCED && !initial) { c.style.opacity = '0'; c.style.transition = 'opacity .34s ease'; requestAnimationFrame(function () { c.style.opacity = '1'; }); }
         pts.push(c);
       });
@@ -571,53 +590,54 @@
       var row = htm('div', 'gv-row gv6', root);
       var cone = panel(row, 'quant', 'Dirac cone (cross-section)', 'ディラック錐（断面）');
       var dos = panel(row, 'quant', 'Density of states', '状態密度');
-      drawCone(cone); drawDOS(dos);
+      var H = Math.max(200, Math.min(stageW(cone) || 240, 250));   // shared E-axis height → E_F lines up
+      drawCone(cone, H); drawDOS(dos, H);
       P = { cone: cone, dos: dos };
       var lg = htm('div', 'gv-legend', root);
       lg.innerHTML = '<span><i class="dot" style="background:' + COL.elec + '"></i>' + bi('electrons (filled)', '電子（占有）') + '</span>' +
-        '<span><i class="dot" style="background:' + COL.hole + '"></i>' + bi('holes (empty seats)', '正孔（空席）') + '</span>';
+        '<span><i class="dot" style="background:' + COL.hole + '"></i>' + bi('holes (empty seats)', '正孔（空席）') + '</span>' +
+        '<span><i style="background:' + COL.band + '"></i>' + bi('bands &amp; $D(E)$', 'バンド／$D(E)$') + '</span>';
       whenKatex(function () { renderMath(root); });
       render();
     }
 
-    function drawCone(p) {
+    function drawCone(p, H) {
       var W = stageW(p); if (!W) { p.X = null; return; }
-      var H = Math.max(200, Math.min(W, 250)); size(p, W, H);
+      size(p, W, H);
       var padL = 34, padR = 16, padT = 16, padB = 28, cx = (padL + W - padR) / 2, cy = (padT + H - padB) / 2;
       var sx = (W - padL - padR) / 2 / QMAX, sy = (H - padT - padB) / 2 / EMAX;
       function X(q) { return cx + q * sx; } function Y(E) { return cy - E * sy; }
       p.X = X; p.Y = Y; p.cx = cx; p.cy = cy; p.padL = padL;
       el('line', { x1: padL, y1: cy, x2: W - padR, y2: cy, stroke: COL.grid2 }, p.svg);
-      el('line', { x1: cx, y1: padT, x2: cx, y2: H - padB, stroke: COL.grid2 }, p.svg);
+      el('line', { x1: cx, y1: padT, x2: cx, y2: H - padB, stroke: COL.grid }, p.svg);
       label(p.stage, W - padR, cy + 13, '$q$', 'gv-mut');
       label(p.stage, cx - 4, padT - 1, '$E$', 'gv-mut');
       p.fill = el('polygon', { points: '', opacity: .5 }, p.svg);
-      el('line', { x1: X(-QMAX), y1: Y(VF * QMAX), x2: X(0), y2: Y(0), stroke: COL.anti, 'stroke-width': 2.2 }, p.svg);
-      el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(VF * QMAX), stroke: COL.anti, 'stroke-width': 2.2 }, p.svg);
-      el('line', { x1: X(-QMAX), y1: Y(-VF * QMAX), x2: X(0), y2: Y(0), stroke: COL.bond, 'stroke-width': 2.2 }, p.svg);
-      el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(-VF * QMAX), stroke: COL.bond, 'stroke-width': 2.2 }, p.svg);
+      // neutral band lines — colour is reserved for carriers (electrons / holes)
+      el('line', { x1: X(-QMAX), y1: Y(VF * QMAX), x2: X(0), y2: Y(0), stroke: COL.band, 'stroke-width': 2.2 }, p.svg);
+      el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(VF * QMAX), stroke: COL.band, 'stroke-width': 2.2 }, p.svg);
+      el('line', { x1: X(-QMAX), y1: Y(-VF * QMAX), x2: X(0), y2: Y(0), stroke: COL.band, 'stroke-width': 2.2 }, p.svg);
+      el('line', { x1: X(0), y1: Y(0), x2: X(QMAX), y2: Y(-VF * QMAX), stroke: COL.band, 'stroke-width': 2.2 }, p.svg);
       p.ef = el('line', { x1: padL, x2: W - padR, stroke: COL.fermi, 'stroke-width': 1.5, 'stroke-dasharray': '5 3' }, p.svg);
       p.efLab = label(p.stage, padL + 2, Y(0), '$E_F$', 'gv-mut'); p.efLab.style.transform = 'translateY(-50%)';
     }
-    function drawDOS(p) {
-      // conventional graphene DOS: E on the horizontal axis, D(E) (states per
-      // unit energy) on the vertical — a V with its zero at the Dirac point.
+    function drawDOS(p, H) {
+      // D(E) ∝ |E| drawn with E on the VERTICAL axis (matching the cone panel),
+      // so the E_F dashed line is one horizontal level read across both panels.
       var W = stageW(p); if (!W) { p.X = null; return; }
-      var H = Math.max(200, Math.min(W, 250)); size(p, W, H);
-      var padL = 30, padR = 16, padT = 18, padB = 30, x0 = padL, x1 = W - padR, y0 = H - padB, yT = padT, cE = (x0 + x1) / 2;
-      var DMAX = EMAX, sX = (x1 - x0) / 2 / EMAX, sY = (y0 - yT) / DMAX;
-      function Xe(E) { return cE + E * sX; } function Yd(D) { return y0 - D * sY; }
-      p.Xe = Xe; p.Yd = Yd; p.cE = cE; p.X = Xe;
-      el('line', { x1: x0, y1: y0, x2: x1, y2: y0, stroke: COL.axis }, p.svg);     // E axis (D = 0)
-      el('line', { x1: cE, y1: yT, x2: cE, y2: y0, stroke: COL.grid }, p.svg);      // E = 0 guide
-      label(p.stage, x1, y0 + 13, '$E$', 'gv-mut');
-      label(p.stage, x0 + 9, yT + 2, '$D(E)$', 'gv-mut gv-tl');
-      label(p.stage, cE, y0 + 13, '$0$', 'gv-mut');
-      el('path', { d: 'M' + Xe(-EMAX) + ' ' + Yd(EMAX) + ' L' + Xe(0) + ' ' + Yd(0), fill: 'none', stroke: COL.bond, 'stroke-width': 2.2 }, p.svg);
-      el('path', { d: 'M' + Xe(0) + ' ' + Yd(0) + ' L' + Xe(EMAX) + ' ' + Yd(EMAX), fill: 'none', stroke: COL.anti, 'stroke-width': 2.2 }, p.svg);
-      p.efLine = el('line', { y1: yT, y2: y0, stroke: COL.fermi, 'stroke-width': 1.4, 'stroke-dasharray': '5 3' }, p.svg);   // vertical at E_F
+      size(p, W, H);
+      var padL = 30, padR = 18, padT = 16, padB = 28, x0 = padL, xR = W - padR, cyE = (padT + H - padB) / 2;
+      var sE = (H - padT - padB) / 2 / EMAX, sD = (xR - x0) / EMAX;
+      function Y(E) { return cyE - E * sE; } function Xd(D) { return x0 + D * sD; }
+      p.Y = Y; p.Xd = Xd; p.x0 = x0; p.cyE = cyE; p.X = Xd;
+      el('line', { x1: x0, y1: padT, x2: x0, y2: H - padB, stroke: COL.axis }, p.svg);   // E axis (vertical)
+      el('line', { x1: x0, y1: cyE, x2: xR, y2: cyE, stroke: COL.grid }, p.svg);          // E = 0
+      label(p.stage, x0 - 4, padT - 1, '$E$', 'gv-mut');
+      label(p.stage, xR, H - padB + 13, '$D(E)$', 'gv-mut');
+      el('path', { d: 'M' + Xd(EMAX).toFixed(1) + ' ' + Y(EMAX).toFixed(1) + ' L' + x0 + ' ' + Y(0).toFixed(1) + ' L' + Xd(EMAX).toFixed(1) + ' ' + Y(-EMAX).toFixed(1), fill: 'none', stroke: COL.band, 'stroke-width': 2.2 }, p.svg);
+      p.efLine = el('line', { x1: x0, x2: xR, stroke: COL.fermi, 'stroke-width': 1.4, 'stroke-dasharray': '5 3' }, p.svg);   // horizontal at E_F
       p.efMark = el('circle', { r: 4, fill: COL.snap }, p.svg);
-      p.dval = label(p.stage, x0 + 9, yT + 18, '', 'gv-num gv-tl');
+      p.dval = label(p.stage, xR - 2, padT + 2, '', 'gv-num'); p.dval.style.transform = 'translate(-100%,0)';
     }
 
     function render() {
@@ -635,10 +655,13 @@
         c.fill.setAttribute('fill', COL.hole);
       }
       c.fill.style.display = Math.abs(EF) < 1e-3 ? 'none' : '';
-      var d = P.dos, xef = d.Xe(EF), Dv = PH.diracDOS(EF, 1);
-      d.efLine.setAttribute('x1', xef); d.efLine.setAttribute('x2', xef);
-      d.efMark.setAttribute('cx', xef); d.efMark.setAttribute('cy', d.Yd(Dv));
-      d.dval.innerHTML = '$D(E_F)=$&nbsp;<span class="num">' + Dv.toFixed(2) + '</span>' + (Math.abs(EF) < 1e-3 ? '&nbsp;(=0)' : '');
+      var d = P.dos, yef = d.Y(EF), Dv = PH.diracDOS(EF, 1);
+      d.efLine.setAttribute('y1', yef); d.efLine.setAttribute('y2', yef);
+      d.efMark.setAttribute('cx', d.Xd(Dv)); d.efMark.setAttribute('cy', yef);
+      d.efMark.setAttribute('fill', EF >= 0 ? COL.elec : COL.hole);
+      d.dval.innerHTML = Math.abs(EF) < 1e-3
+        ? bi('$D(E_F)=0$ (ideal)', '理想で $D(E_F)=0$')
+        : '$D(E_F)=$&nbsp;<span class="num">' + Dv.toFixed(2) + '</span>';
       whenKatex(function () { renderMath(d.dval); });
     }
 
@@ -662,8 +685,8 @@
       clear(root);
       var row = htm('div', 'gv-row gv1', root);
       var orb = panel(row, 'schematic', 'Two orbitals', '二つの軌道');
-      var wav = panel(row, 'quant', 'Amplitudes', '振幅の形');
-      var lev = panel(row, 'quant', 'Energy levels', 'エネルギー準位');
+      var wav = panel(row, 'rel', 'Amplitudes', '振幅の形');
+      var lev = panel(row, 'rel', 'Energy levels', 'エネルギー準位');
       drawOrb(orb); drawWav(wav); drawLev(lev);
       P = { lev: lev };
       whenKatex(function () { renderMath(root); });
@@ -672,57 +695,73 @@
 
     function drawOrb(p) {
       var W = stageW(p); if (!W) return; var H = Math.max(150, Math.min(W * 0.9, 190)); size(p, W, H);
-      var cy = H / 2, xA = W * 0.32, xB = W * 0.68, r = Math.min(W, H) * 0.17;
+      var cy = H / 2, xA = W * 0.32, xB = W * 0.68, r = Math.min(W, H) * 0.17, neutral = '#cfcbc5';
       el('ellipse', { cx: (xA + xB) / 2, cy: cy, rx: (xB - xA) / 2 + r, ry: r * 0.9, fill: 'rgba(245,245,244,.05)' }, p.svg);
-      el('circle', { cx: xA, cy: cy, r: r, fill: 'none', stroke: COL.A, 'stroke-width': 2 }, p.svg);
-      el('circle', { cx: xB, cy: cy, r: r, fill: 'none', stroke: COL.B, 'stroke-width': 2 }, p.svg);
-      el('circle', { cx: xA, cy: cy, r: 3, fill: COL.A }, p.svg);
-      el('circle', { cx: xB, cy: cy, r: 3, fill: COL.B }, p.svg);
+      // the bare orbitals are achromatic — colour is saved for the mixed bonding/antibonding states
+      el('circle', { cx: xA, cy: cy, r: r, fill: 'none', stroke: neutral, 'stroke-width': 2 }, p.svg);
+      el('circle', { cx: xB, cy: cy, r: r, fill: 'none', stroke: neutral, 'stroke-width': 2 }, p.svg);
+      el('circle', { cx: xA, cy: cy, r: 3, fill: neutral }, p.svg);
+      el('circle', { cx: xB, cy: cy, r: 3, fill: neutral }, p.svg);
       label(p.stage, xA, cy + r + 12, '$|A\\rangle$', 'gv-mut');
       label(p.stage, xB, cy + r + 12, '$|B\\rangle$', 'gv-mut');
-      htm('div', 'gv-pin', p.panel).innerHTML = bi('overlap lets the electron hop with $t$', '重なりで電子が $t$ で飛び移る');
+      htm('div', 'gv-pin', p.panel).innerHTML = bi('orbital overlap gives the hopping $t$', '軌道の重なりが、飛び移りやすさ $t$ を生む');
     }
 
     function drawWav(p) {
       var W = stageW(p); if (!W) return; var H = Math.max(170, Math.min(W * 0.9, 210)); size(p, W, H);
-      var xA = W * 0.30, xB = W * 0.70, sp = (xB - xA), midY1 = H * 0.30, midY2 = H * 0.74, amp = H * 0.14;
-      function wave(yc, anti) {
-        var d = [], n = 80;
+      var xA = W * 0.30, xB = W * 0.70, mid = (xA + xB) / 2, sp = (xB - xA), x0 = W * 0.12, x1 = W * 0.88;
+      var midY1 = H * 0.30, midY2 = H * 0.74, amp = H * 0.14;
+      function antiWave(yc) {                 // odd: gA − gB → node exactly at the midpoint
+        var d = [], n = 90;
         for (var i = 0; i <= n; i++) {
-          var x = W * 0.12 + (W * 0.76) * i / n;
-          var gA = Math.exp(-Math.pow((x - xA) / (sp * 0.34), 2));
-          var gB = Math.exp(-Math.pow((x - xB) / (sp * 0.34), 2)) * (anti ? -1 : 1);
-          d.push((i ? 'L' : 'M') + x.toFixed(1) + ' ' + (yc - (gA + gB) * amp).toFixed(1));
+          var x = x0 + (x1 - x0) * i / n;
+          var gA = Math.exp(-Math.pow((x - xA) / (sp * 0.30), 2)), gB = Math.exp(-Math.pow((x - xB) / (sp * 0.30), 2));
+          d.push((i ? 'L' : 'M') + x.toFixed(1) + ' ' + (yc - (gA - gB) * amp).toFixed(1));
         }
         return d.join(' ');
       }
-      // antibonding (1 node) on TOP — higher energy, lined up with the level diagram
-      el('line', { x1: W * 0.1, y1: midY1, x2: W * 0.9, y2: midY1, stroke: COL.grid }, p.svg);
-      el('path', { d: wave(midY1, true), fill: 'none', stroke: COL.anti, 'stroke-width': 2.4 }, p.svg);
-      el('circle', { cx: (xA + xB) / 2, cy: midY1, r: 2.6, fill: COL.snap }, p.svg);
-      label(p.stage, (xA + xB) / 2, midY1 + amp + 9, bi('node', '節'), 'gv-mut');
-      label(p.stage, W * 0.16, midY1 - amp - 7, bi('antibonding · 1 node', '反結合・節1'), 'gv-mut');
-      // bonding (no node) on BOTTOM — lower energy
-      el('line', { x1: W * 0.1, y1: midY2, x2: W * 0.9, y2: midY2, stroke: COL.grid }, p.svg);
-      el('path', { d: wave(midY2, false), fill: 'none', stroke: COL.bond, 'stroke-width': 2.4 }, p.svg);
-      label(p.stage, W * 0.14, midY2 - amp - 7, bi('bonding · 0 nodes', '結合・節0'), 'gv-mut');
-      [xA, xB].forEach(function (x) { el('line', { x1: x, y1: midY2 + amp + 3, x2: x, y2: midY2 + amp + 8, stroke: COL.faint }, p.svg); });
+      function bondWave(yc) {                  // one broad arch — never dips to zero in the middle
+        var d = [], n = 90;
+        for (var i = 0; i <= n; i++) {
+          var x = x0 + (x1 - x0) * i / n, g = Math.exp(-Math.pow((x - mid) / (sp * 0.62), 2));
+          d.push((i ? 'L' : 'M') + x.toFixed(1) + ' ' + (yc - g * amp).toFixed(1));
+        }
+        return d.join(' ');
+      }
+      // faint vertical guides dropped from the A and B sites (node sits midway between them)
+      [xA, xB].forEach(function (x) { el('line', { x1: x, y1: H * 0.15, x2: x, y2: H * 0.9, stroke: COL.grid, 'stroke-dasharray': '2 3' }, p.svg); });
+      label(p.stage, xA, H * 0.9 + 8, '$A$', 'gv-mut');
+      label(p.stage, xB, H * 0.9 + 8, '$B$', 'gv-mut');
+      // antibonding (opposite sign · node) on TOP
+      el('line', { x1: x0, y1: midY1, x2: x1, y2: midY1, stroke: COL.grid }, p.svg);
+      el('path', { d: antiWave(midY1), fill: 'none', stroke: COL.anti, 'stroke-width': 2.4 }, p.svg);
+      el('circle', { cx: mid, cy: midY1, r: 2.8, fill: COL.snap }, p.svg);
+      label(p.stage, x0 + 2, midY1 - amp - 8, bi('antibonding (opposite sign · node)', '反結合（逆符号・節あり）'), 'gv-mut gv-tl');
+      // bonding (same sign · no node) on BOTTOM
+      el('line', { x1: x0, y1: midY2, x2: x1, y2: midY2, stroke: COL.grid }, p.svg);
+      el('path', { d: bondWave(midY2), fill: 'none', stroke: COL.bond, 'stroke-width': 2.4 }, p.svg);
+      label(p.stage, x0 + 2, midY2 - amp - 8, bi('bonding (same sign · no node)', '結合（同符号・節なし）'), 'gv-mut gv-tl');
     }
 
     function drawLev(p) {
       var W = stageW(p); if (!W) return; var H = Math.max(170, Math.min(W * 1.1, 210)); size(p, W, H);
-      var cx = W / 2, cy = H / 2, bw = Math.min(W * 0.32, 64), sE = (H / 2 - 34) / 1;
+      var cx = W / 2, cy = H / 2, bw = Math.min(W * 0.30, 56), sE = (H / 2 - 36) / 1;
       p.cx = cx; p.cy = cy; p.bw = bw; p.sE = sE;
       el('line', { x1: cx, y1: 18, x2: cx, y2: H - 18, stroke: COL.axis }, p.svg);
       el('line', { x1: cx - bw, y1: cy, x2: cx + bw, y2: cy, stroke: COL.grid2, 'stroke-dasharray': '4 3' }, p.svg);
       label(p.stage, cx, 7, '$E$', 'gv-mut');
-      label(p.stage, cx + bw + 6, cy, '$\\varepsilon_0$', 'gv-mut');
+      p.e0 = label(p.stage, cx - bw - 8, cy, '$\\varepsilon_0$', 'gv-mut'); p.e0.style.transform = 'translate(-100%,-50%)';
       p.barU = el('line', { x1: cx - bw, x2: cx + bw, stroke: COL.anti, 'stroke-width': 4, 'stroke-linecap': 'round' }, p.svg);
       p.barL = el('line', { x1: cx - bw, x2: cx + bw, stroke: COL.bond, 'stroke-width': 4, 'stroke-linecap': 'round' }, p.svg);
-      p.labU = label(p.stage, cx - bw - 6, cy, '$\\varepsilon_0+t$', 'gv-mut'); p.labU.style.transform = 'translate(-100%,-50%)';
-      p.labL = label(p.stage, cx - bw - 6, cy, '$\\varepsilon_0-t$', 'gv-mut'); p.labL.style.transform = 'translate(-100%,-50%)';
-      p.gap = label(p.stage, cx + bw + 6, cy, '$2t$', 'gv-mut');
-      p.far = label(p.stage, cx, cy - 14, bi('far apart (degenerate)', '離れている（縮退）'), 'gv-mut');
+      p.labU = label(p.stage, cx - bw - 8, cy, '$\\varepsilon_0+t$', 'gv-mut'); p.labU.style.transform = 'translate(-100%,-50%)';
+      p.labL = label(p.stage, cx - bw - 8, cy, '$\\varepsilon_0-t$', 'gv-mut'); p.labL.style.transform = 'translate(-100%,-50%)';
+      // 2t as a double-ended bracket between the two levels (right side)
+      var bx = cx + bw + 14;
+      p.br = el('line', { x1: bx, x2: bx, stroke: COL.faint, 'stroke-width': 1.4 }, p.svg);
+      p.brU = el('line', { x1: bx - 4, x2: bx + 4, stroke: COL.faint, 'stroke-width': 1.4 }, p.svg);
+      p.brL = el('line', { x1: bx - 4, x2: bx + 4, stroke: COL.faint, 'stroke-width': 1.4 }, p.svg);
+      p.gap = label(p.stage, bx + 7, cy, '$2t$', 'gv-mut gv-al');
+      p.far = label(p.stage, cx, cy - 16, bi('far apart (degenerate)', '離れている（縮退）'), 'gv-mut');
       p.far.style.display = 'none';
     }
 
@@ -732,14 +771,18 @@
       p.barU.setAttribute('y1', yU); p.barU.setAttribute('y2', yU);
       p.barL.setAttribute('y1', yL); p.barL.setAttribute('y2', yL);
       p.labU.style.top = yU + 'px'; p.labL.style.top = yL + 'px';
+      p.br.setAttribute('y1', yU); p.br.setAttribute('y2', yL);
+      p.brU.setAttribute('y1', yU); p.brU.setAttribute('y2', yU);
+      p.brL.setAttribute('y1', yL); p.brL.setAttribute('y2', yL);
       p.gap.style.top = p.cy + 'px';
       var deg = t < 0.04;
       p.far.style.display = deg ? '' : 'none';
       p.labU.style.opacity = p.labL.style.opacity = deg ? '0.25' : '1';
+      p.br.style.opacity = p.brU.style.opacity = p.brL.style.opacity = p.gap.style.opacity = deg ? '0.25' : '1';
     }
 
-    slider.addEventListener('input', function () { t = parseFloat(slider.value); out.textContent = t.toFixed(2); render(); });
-    if (card) { var rb = card.querySelector('[data-reset="f1"]'); if (rb) rb.onclick = function () { t = 0.4; slider.value = '0.4'; out.textContent = '0.40'; render(); }; }
+    slider.addEventListener('input', function () { t = parseFloat(slider.value); out.textContent = 't = ' + t.toFixed(2); render(); });
+    if (card) { var rb = card.querySelector('[data-reset="f1"]'); if (rb) rb.onclick = function () { t = 0.4; slider.value = '0.4'; out.textContent = 't = 0.40'; render(); }; }
     onResize(root, build);
     build();
   })();
@@ -778,7 +821,7 @@
 
       var lowPath = samples.map(function (s, i) { return (i ? 'L' : 'M') + s.x.toFixed(1) + ' ' + Y(-T_EV * s.m).toFixed(1); }).join(' ');
       var fill = lowPath + ' L' + x1.toFixed(1) + ' ' + (H - padB).toFixed(1) + ' L' + x0.toFixed(1) + ' ' + (H - padB).toFixed(1) + ' Z';
-      el('path', { d: fill, fill: 'rgba(95,183,176,.16)', stroke: 'none' }, p.svg);
+      el('path', { d: fill, fill: 'rgba(95,183,176,.09)', stroke: 'none' }, p.svg);
 
       el('line', { x1: x0, y1: padT, x2: x0, y2: H - padB, stroke: COL.axis }, p.svg);
       el('line', { x1: x0, y1: Y(0), x2: x1, y2: Y(0), stroke: COL.grid2, 'stroke-dasharray': '5 3' }, p.svg);
@@ -793,8 +836,8 @@
         el('line', { x1: X(fr), y1: padT, x2: X(fr), y2: H - padB, stroke: COL.grid }, p.svg);
         label(p.stage, X(fr), H - padB + 13, names[i], 'gv-mut');
       });
-      el('circle', { cx: X(marks[2]), cy: Y(0), r: 4, fill: COL.snap }, p.svg);
-      label(p.stage, X(marks[2]), Y(0) + 16, bi('$K,K^{\\prime}$: touch', '$K,K^{\\prime}$：接触'), 'gv-mut');
+      el('circle', { cx: X(marks[2]), cy: Y(0), r: 4.5, fill: COL.snap }, p.svg);
+      label(p.stage, X(marks[2]), Y(0) + 16, bi('$K$: touch', '$K$：接触'), 'gv-mut');
       label(p.stage, X(0.06), Y(2.5 * T_EV), bi('upper (empty)', '上（空）'), 'gv-mut');
       label(p.stage, X(0.06), Y(-2.5 * T_EV), bi('lower (full)', '下（満席）'), 'gv-mut');
 
@@ -816,36 +859,52 @@
       var row = htm('div', 'gv-row gv-one', root);
       var p = panel(row, 'schematic', 'Symbol map', '記号の地図');
       var W = stageW(p); if (!W) return;
-      var H = Math.max(220, Math.min(W * 0.6, 290)); size(p, W, H);
-      var cx = W * 0.46, cy = H * 0.60, L = Math.min(W, H) * 0.26, sd = L * PH.SQRT3;
-      function px(x, y) { return [cx + x * sd, cy - y * sd]; }
+      var H = Math.max(232, Math.min(W * 0.6, 320)); size(p, W, H);
       var a1 = [0.5, PH.SQRT3 / 2], a2 = [-0.5, PH.SQRT3 / 2];
+      var oy = H * 0.56;
+      var sd = Math.min(W * 0.205, (oy - 30) / PH.SQRT3);
+      var ox = Math.max(W * 0.11, W / 2 - 0.85 * sd);   // centre the motif (no empty right margin on wide screens)
+      function Lp(x, y) { return [ox + x * sd, oy - y * sd]; }   // lattice (cartesian) → px
+      var O = Lp(0, 0), homeA = Lp(1, 0), nbrA = Lp(1.5, PH.SQRT3 / 2);   // R = (1,0); R' = home + a1
+      var B1 = Lp(1 + PH.DELTA[0][0], PH.DELTA[0][1]);                    // the cell's own B (= home + δ1)
+      function cellPoly() {
+        return [Lp(1, 0), Lp(1 + a1[0], a1[1]), Lp(1 + a1[0] + a2[0], a1[1] + a2[1]), Lp(1 + a2[0], a2[1])]
+          .map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
+      }
 
-      // unit cell parallelogram (spanned by a1,a2 from A; holds A and the δ1 B)
-      var c0 = px(0, 0), c1 = px(a1[0], a1[1]), c2 = px(a1[0] + a2[0], a1[1] + a2[1]), c3 = px(a2[0], a2[1]);
-      el('polygon', { points: [c0, c1, c2, c3].map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '),
-        fill: 'rgba(205,183,138,.05)', stroke: COL.zone, 'stroke-width': 1.3, 'stroke-dasharray': '5 4' }, p.svg);
-      label(p.stage, (c2[0] + c3[0]) / 2 - 6, (c2[1] + c3[1]) / 2 - 8, bi('unit cell', '単位胞'), 'gv-mut');
+      // faint neighbour cell A (different address) — drawn first, sits under everything
+      el('circle', { cx: nbrA[0], cy: nbrA[1], r: 5, fill: 'rgba(217,140,106,.45)' }, p.svg);
+      // home unit cell (dashed parallelogram) + a faint capsule grouping the cell's A and B
+      el('polygon', { points: cellPoly(), fill: 'rgba(205,183,138,.06)', stroke: COL.zone, 'stroke-width': 1.4, 'stroke-dasharray': '5 4' }, p.svg);
+      el('ellipse', { cx: (homeA[0] + B1[0]) / 2, cy: (homeA[1] + B1[1]) / 2, rx: 13, ry: Math.abs(homeA[1] - B1[1]) / 2 + 11, fill: 'rgba(255,255,255,.05)', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1 }, p.svg);
 
-      // three δ rods + B atoms
-      var A0 = px(0, 0);
+      // position vectors (arrows): R' and r faint, R bright — drawn before the atoms so the heads tuck under them
+      mkArrow(p.svg, 'rgba(255,255,255,.32)', 1.4, 6).set(O[0], O[1], nbrA[0], nbrA[1]);   // R'
+      mkArrow(p.svg, 'rgba(255,255,255,.32)', 1.4, 6).set(O[0], O[1], B1[0], B1[1]);        // r (triangle O→A→B)
+      mkArrow(p.svg, COL.ink, 2, 7).set(O[0], O[1], homeA[0], homeA[1]);                    // R
+
+      // three δ rods + B atoms (around the home A)
       PH.DELTA.forEach(function (d, j) {
-        var B = px(d[0], d[1]);
-        el('line', { x1: A0[0], y1: A0[1], x2: B[0], y2: B[1], stroke: [COL.d1, COL.d2, COL.d3][j], 'stroke-width': 5, 'stroke-linecap': 'round' }, p.svg);
+        var B = Lp(1 + d[0], d[1]);
+        el('line', { x1: homeA[0], y1: homeA[1], x2: B[0], y2: B[1], stroke: [COL.d1, COL.d2, COL.d3][j], 'stroke-width': 5, 'stroke-linecap': 'round' }, p.svg);
         el('circle', { cx: B[0], cy: B[1], r: 6, fill: COL.B }, p.svg);
-        var mid = [A0[0] + (B[0] - A0[0]) * 0.5, A0[1] + (B[1] - A0[1]) * 0.5];
-        label(p.stage, mid[0] + (j === 0 ? 14 : (j === 1 ? -14 : 14)), mid[1], '$\\delta_' + (j + 1) + '$', 'gv-mut');
+        var mid = [homeA[0] + (B[0] - homeA[0]) * 0.55, homeA[1] + (B[1] - homeA[1]) * 0.55];
+        label(p.stage, mid[0] + (j === 2 ? 13 : -13), mid[1] + (j === 0 ? 0 : 3), '$\\delta_' + (j + 1) + '$', 'gv-mut');
       });
-      el('circle', { cx: A0[0], cy: A0[1], r: 7, fill: COL.A }, p.svg);
-      label(p.stage, A0[0] - 13, A0[1] + 13, '$A$', 'gv-mut');
-      label(p.stage, A0[0] + 14, A0[1] + 13, '$R$', 'gv-mut');
+      el('circle', { cx: homeA[0], cy: homeA[1], r: 7, fill: COL.A }, p.svg);
+      el('circle', { cx: O[0], cy: O[1], r: 3.6, fill: 'none', stroke: COL.ink, 'stroke-width': 1.6 }, p.svg);
 
-      // the δ1 B (up) is the one inside the cell: label it B and r = R+δ
-      var Bup = px(PH.DELTA[0][0], PH.DELTA[0][1]);
-      label(p.stage, Bup[0] + 16, Bup[1] - 8, '$B$', 'gv-mut');
-      label(p.stage, Bup[0] + 30, Bup[1] + 9, '$r=R+\\delta$', 'gv-mut');
+      // labels (A and R kept apart; δ near the rods; r as the triangle's hypotenuse)
+      label(p.stage, O[0] - 11, O[1] + 12, '$O$', 'gv-mut');
+      label(p.stage, (O[0] + homeA[0]) / 2, oy - 11, '$R$', 'gv-mut');
+      label(p.stage, (O[0] + nbrA[0]) / 2 - 4, (O[1] + nbrA[1]) / 2 - 10, '$R^{\\prime}$', 'gv-mut');
+      label(p.stage, homeA[0], homeA[1] + 17, '$A$', 'gv-mut');
+      label(p.stage, B1[0] + 12, B1[1] - 7, '$B$', 'gv-mut');
+      label(p.stage, B1[0] + 17, B1[1] + 11, '$r=R+\\delta_1$', 'gv-mut');
+      var ctop = Lp(1, PH.SQRT3);
+      label(p.stage, ctop[0] + 8, ctop[1] + 8, bi('unit cell', '単位胞'), 'gv-mut gv-tl');
 
-      htm('div', 'gv-pin', p.panel).innerHTML = bi('$\\delta$ are real-space bonds — they do not turn with $k$.', '$\\delta$ は実空間の結合——$k$ で回らない。');
+      htm('div', 'gv-pin', p.panel).innerHTML = bi('$\\delta$ fixed (real-space bonds) · $R$ = cell address', '$\\delta$ は固定（実空間の結合）／$R$ は単位胞の住所');
       whenKatex(function () { renderMath(root); });
     }
     onResize(root, build);

@@ -112,13 +112,13 @@
         <div class="gv-fig" id="gv-f1"></div>
         <div class="gv-controls"><div class="me-controls">
           <div class="me-slider" style="flex:1 1 100%">
-            <label for="f1-t"><span class="i18n-en">Ease of hopping&nbsp;$t$</span><span class="i18n-ja">飛び移りやすさ&nbsp;$t$</span></label>
+            <label for="f1-t"><span class="i18n-en">Ease of hopping&nbsp;$t$ (relative)</span><span class="i18n-ja">飛び移りやすさ&nbsp;$t$（相対値）</span></label>
             <input type="range" id="f1-t" min="0" max="1" step="0.05" value="0.4" aria-label="hopping t">
-            <output id="f1-t-o">0.40</output>
+            <output id="f1-t-o">t = 0.40</output>
           </div>
         </div></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">The node is the shape of the opposite-sign combination itself — it is not produced by $t$. Turning $t$ up only widens the split: bonding ($\varepsilon_0-t$) drops, antibonding ($\varepsilon_0+t$) rises. The middle panel puts antibonding (with a node) on top and bonding (no node) below, matching the up/down of the level diagram on the right.</span><span class="i18n-ja">節は逆符号の組み合わせの形そのものであって、$t$ が作るのではない。$t$ は分裂幅を広げる量で、結合（$\varepsilon_0-t$）は下がり、反結合（$\varepsilon_0+t$）は上がる。中央のパネルは、上が反結合（節あり）・下が結合（節なし）で、右の準位図の上下と同じ並びにしてある。</span></p>
+      <p class="me-cap"><span class="i18n-en">Antibonding on top, bonding below. The node is a shape the opposite-sign combination has — it is not made by $t$. Turning $t$ up only widens the energy difference $2t$ between the two states.</span><span class="i18n-ja">上が反結合、下が結合。節は逆符号の組み合わせが持つ形であって、$t$ が作るのではない。$t$ を大きくすると二つの状態のエネルギー差 $2t$ が広がる。</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">So how does this difference in shape act on the energy? Here is the intuition first. The bonding state has its amplitude joined up smoothly between the atoms, and the shape of that amplitude varies only gently overall. The antibonding state has a node in the middle, and there the shape of the amplitude turns sharply around. In quantum mechanics, the more sharply an amplitude changes, the more it costs in energy (a larger curvature of the amplitude reads as a larger momentum). So the connected bonding state lies lower and the noded antibonding state lies higher — the difference in shape becomes, directly, a difference in energy. Let us confirm this with algebra.</span><span class="i18n-ja">では、この形の違いはエネルギーにどう効くのか。直感を先に言っておこう。原子間で振幅がなめらかにつながった結合状態では、その振幅の形が全体としてゆるやかにしか変化しない。中央に節を持つ反結合状態では、その節のところで振幅の形が急に向きを変える。量子力学では、振幅が急に変化するほどエネルギーが高くつく（振幅の曲がりが大きい＝運動量が大きい、と読み替えられる）。だから、つながった結合状態の方が低く、節を持つ反結合状態の方が高い——形の違いが、そのままエネルギーの高低になる。これを式で確かめよう。</span></p>
@@ -172,7 +172,7 @@
           </div>
         </div></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">A ring is the model that removes the ends; as $N$ grows the seats pack into a band. The two extreme seats are exactly the bonding and antibonding states of the two-atom case ($\phi=0$ and $\phi=\pi$).</span><span class="i18n-ja">端をなくすため輪にした模型。$N$ で席が詰まり帯になる。両端＝二原子の結合（$\phi=0$）／反結合（$\phi=\pi$）の席である。</span></p>
+      <p class="me-cap"><span class="i18n-en">On the ring, the allowed phases $\phi=2\pi m/N$ sit as points on the curve. Raise $N$ and the points crowd together, so the one-by-one levels start to look like a band. The bottom point is $\phi=0$ (all atoms the same sign), the top is $\phi=\pi$ (neighbors opposite sign, when $N$ is even); $\phi=0$ and $2\pi$ are the same state, so they are not counted twice.</span><span class="i18n-ja">輪では許される位相 $\phi=2\pi m/N$ が曲線上の点として並ぶ。$N$ を増やすと点が詰まり、一本ずつの準位が帯として見えてくる。下端は全原子が同符号の $\phi=0$、上端は隣どうしが逆符号の $\phi=\pi$（$N$ が偶数のとき）で、$\phi=0$ と $2\pi$ は同じ状態だから二重には数えない。</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">When $N$ becomes very large, the spacing of the allowed $\phi$ becomes very fine, the corresponding energies pack densely, and they can no longer be told apart as individual levels. A continuous band appears. This is an energy band — nothing but the span between the bonding and antibonding states of the two-atom case, filled in by a multitude of states.</span><span class="i18n-ja">$N$ が非常に大きくなると、許される $\phi$ の間隔は非常に細かくなり、対応するエネルギーも密に並んで、もはや一本ずつの準位としては見分けられない。こうして連続した帯ができる。これがエネルギーバンドである。バンドとは、原子二個で見た結合状態と反結合状態の間を、無数の状態が埋めたものにすぎない。</span></p>
@@ -205,7 +205,7 @@
       <div class="anim-card pv-bunchin mat-sunezu">
         <div class="gv-fig" id="gv-fmap"></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">A map of the symbols (a still picture). At the center is an A atom; around it, three B atoms. The thick rods are the bond directions $\delta_1,\delta_2,\delta_3$ — real-space directions, so they do not turn when $k$ moves. The dashed frame is the unit cell (one A + one B); its position is the address $R$, and a neighboring B sits at $r=R+\delta_j$. In figure F3 you will move $k$ over this very map to check it.</span><span class="i18n-ja">記号の地図（静止画）。中心がA原子、まわりの三つがB原子。太い棒が結合方向 $\delta_1,\delta_2,\delta_3$ で、これは実空間の向きだから $k$ を動かしても回らない。破線の枠が単位胞（A＋B のひと組）、その位置が住所 $R$、隣のB原子は $r=R+\delta_j$ にいる。次の図 F3 では、この同じ地図の上で $k$ を動かして確かめる。</span></p>
+      <p class="me-cap"><span class="i18n-en">At the center is an A atom; around it, three nearest-neighbor B atoms. The thick rods are the bond directions $\delta_1,\delta_2,\delta_3$; being real-space directions, they do not turn when $k$ moves. The dashed parallelogram is the unit cell (one A + one B); the arrow from the origin $O$ to it is the address $R$, and a neighboring B sits at $r=R+\delta_j$ (the triangle $O\to A\to B$). $R'$ is a neighboring cell's address — the address changes from cell to cell.</span><span class="i18n-ja">中心がA原子、まわりの三つが最近接B原子。太い棒が結合方向 $\delta_1,\delta_2,\delta_3$ で、これは実空間の向きだから $k$ を動かしても回らない。破線の平行四辺形が単位胞（A＋Bのひと組）、原点 $O$ からその住所までが $R$、隣のB原子は $r=R+\delta_j$ にいる（三角形 $O\to A\to B$）。$R'$ は隣の単位胞の住所で、住所がセルごとに変わることを示す。</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">The electron sits in the $p_z$ orbital of each carbon and hops to a neighbor with $-t$ (the same convention as §00). In a stationary state of energy $E$, the amplitude $a(R)$ on an A atom is fixed by the sum of the contributions arriving from its three B neighbors.</span><span class="i18n-ja">電子は各炭素の $p_z$ 軌道にいて、隣へ $-t$ で飛び移る（§00 と同じ約束だ）。エネルギー $E$ の定常状態では、A原子の上の振幅 $a(R)$ は、三つの隣のB原子から届く寄与の合計で決まる。</span></p>
@@ -268,7 +268,7 @@
         </div>
         <div class="gv-toast" id="f3-toast" role="status" aria-live="polite"></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">Left, the real-space honeycomb: the bonds $\delta_1,\delta_2,\delta_3$ are rigid and never rotate. Right, the complex plane: the arrows $e^{ik\cdot\delta_j}$ do the turning. At a corner the three arrows split $120^\circ$ apart and their sum hits the origin — the splitting $2t|f|$ closes.</span><span class="i18n-ja">左の実空間ハニカム：結合 $\delta_1,\delta_2,\delta_3$ は剛体で、決して回らない。右の複素平面：回るのは位相の矢印 $e^{ik\cdot\delta_j}$ の方。角では三本が $120^\circ$ ずつ開き、和が原点に届く——分裂 $2t|f|$ が閉じる。</span></p>
+      <p class="me-cap"><span class="i18n-en">The real-space bond directions $\delta_1,\delta_2,\delta_3$ are fixed and never turn. What turns are the three phase arrows $e^{ik\cdot\delta_j}$ in the complex plane. At a K point the three open $120^\circ$ apart, the resultant $f(k)$ reaches zero, and the splitting $2t|f|$ closes.</span><span class="i18n-ja">実空間の結合方向 $\delta_1,\delta_2,\delta_3$ は固定で回らない。回るのは複素平面の三本の位相矢印 $e^{ik\cdot\delta_j}$ の方。K点では三本が $120^\circ$ ずつ開き、合成矢印 $f(k)$ がゼロになって分裂 $2t|f|$ が閉じる。</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">Move $k$ in the figure to a corner of the hexagon (a K point) and the three phase arrows open out exactly $120^\circ$ apart, their sum dropping right onto the origin; the splitting closes. The place we were hunting for turns out to be a corner of the Brillouin zone.</span><span class="i18n-ja">図で $k$ を六角形の角（K 点）へ動かすと、三本の位相の矢印がちょうど $120^\circ$ ずつに開き、その和がぴたりと原点に落ちて、割れが消える。探していた場所は、ブリルアンゾーンの角だったのだ。</span></p>
@@ -298,18 +298,18 @@
         <div class="gv-fig" id="gv-f5"></div>
         <div class="gv-controls"><div class="me-controls">
           <div class="me-slider" style="flex:1 1 100%">
-            <label for="f5-d"><span class="i18n-en">Seat-height difference&nbsp;$\Delta_{AB}$</span><span class="i18n-ja">A/Bの席の高さの差&nbsp;$\Delta_{AB}$</span></label>
+            <label for="f5-d"><span class="i18n-en">Size of the seat-height difference&nbsp;$|\Delta_{AB}|$</span><span class="i18n-ja">A/Bの席の高さの差の大きさ&nbsp;$|\Delta_{AB}|$</span></label>
             <input type="range" id="f5-d" min="0" max="1" step="0.02" value="0" aria-label="A/B seat energy difference">
             <output id="f5-d-o">0.00 eV</output>
           </div>
         </div>
-        <div class="gv-aux"><button class="gv-link" type="button" id="f5-eqbtn"><span class="i18n-en">Show the formula</span><span class="i18n-ja">式を見る</span></button></div>
+        <div class="gv-aux"><button class="gv-link" type="button" id="f5-eqbtn"><span class="i18n-en">Show the formula</span><span class="i18n-ja">式を見る</span></button><label class="gv-check"><input type="checkbox" id="f5-cmp"><span class="i18n-en">Show comparison</span><span class="i18n-ja">比較を表示</span></label></div>
         <div class="gv-eq" id="f5-eq">
           <p class="eq-block">$$m=\tfrac{\Delta_{AB}}{2},\qquad E_\pm(q)=\pm\sqrt{(\hbar v_F q)^2+m^2},\qquad \text{gap}=|\Delta_{AB}|$$</p>
         </div>
         </div>
       </div>
-      <p class="me-cap"><span class="i18n-en">At $\Delta_{AB}=0$ the two branches meet in straight lines (the Dirac crossing). Turn $\Delta_{AB}$ up and they split into hyperbolas whose asymptotes are still the linear dispersion; the gap equals $|\Delta_{AB}|$. The faint dashed parabola is an ordinary semiconductor, gapped from the start, for contrast.</span><span class="i18n-ja">$\Delta_{AB}=0$ では二本が直線で出会う（ディラック交差）。$\Delta_{AB}$ を上げると双曲線に割れるが、その漸近線はやはり線形分散で、ギャップは $|\Delta_{AB}|$ に等しい。薄い破線は比較用の、最初からギャップを持つふつうの半導体（放物線）。</span></p>
+      <p class="me-cap"><span class="i18n-en">At $\Delta_{AB}=0$ the A and B seats are equivalent and the two bands touch at K. Give them a difference and the tips split apart, opening a gap $|\Delta_{AB}|$. This is not a distortion of the lattice — it changes the energy difference between the two seats. (Tick “show comparison” to overlay an ordinary gapped semiconductor.)</span><span class="i18n-ja">$\Delta_{AB}=0$ ではA席とB席が等価で、上下のバンドはK点で接する。差をつけると先端が割れてギャップ $|\Delta_{AB}|$ が開く。これは格子を歪ませる操作ではなく、二つの席のエネルギー差を変える操作だ。（「比較を表示」で、ふつうのギャップ付き半導体を重ねられる。）</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">Put the other way round, this does not mean “no gap can ever open.” As long as you add no term distinguishing the A seat from the B seat, and the three hops are not pushed too far out of balance, the contact point may shift a little but does not immediately turn into a gap — in that limited sense, the touching at K and K′ is protected by the symmetry of the lattice.</span><span class="i18n-ja">逆に言えば、これは「何をしてもギャップが開かない」という意味ではない。A席とB席を区別するような項を入れず、三本のホッピングが極端には崩れない範囲では、接触点は少し動いてもすぐにはギャップにならない——そういう限定された意味で、K 点と K′ 点での接触は、格子の対称性に守られている。</span></p>
@@ -334,7 +334,7 @@
       <div class="anim-card pv-bunchin mat-sunezu">
         <div class="gv-fig" id="gv-f4"></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">The two bands $E=\pm t|f(k)|$ along the standard tour $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$. The shaded lower band is completely full; the upper band is empty; they touch only at K (and K′). The dashed line is the Fermi level, sitting exactly at the touching point.</span><span class="i18n-ja">標準コース $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$ に沿った二本のバンド $E=\pm t|f(k)|$。塗りつぶした下のバンドは完全に満席、上のバンドは空で、K（と K′）でのみ接する。破線はフェルミ準位で、ちょうど接点にある。</span></p>
+      <p class="me-cap"><span class="i18n-en">The two bands $E=\pm t|f(k)|$ along the standard tour $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$. In this cut the upper and lower bands touch at K, and the Fermi level (dashed) sits at that height. They also touch at K′, an equivalent corner.</span><span class="i18n-ja">標準コース $\Gamma\!\to\!M\!\to\!K\!\to\!\Gamma$ に沿った二本のバンド $E=\pm t|f(k)|$。この断面では K で上下のバンドが接し、フェルミ準位（破線）はその高さにある。等価な別の角では K′ でも接する。</span></p>
 
       <div class="me-prose">
         <p><span class="i18n-en">Just on this evidence it looks like an insulator. The lower band is full and the upper empty, and if there were a gap between them, a weak field could not move electrons up.</span><span class="i18n-ja">ここだけ見れば、絶縁体のようだ。下が埋まり上が空で、その間にギャップがあれば、電子は弱い電場では上へ移れないからである。</span></p>
@@ -405,7 +405,7 @@
           </div>
         </div></div>
       </div>
-      <p class="me-cap"><span class="i18n-en">At the tip the density of states is zero — carriers run dry. Sweeping $E_F$ switches continuously between electrons and holes; a hole is an empty seat that behaves like a positive charge.</span><span class="i18n-ja">先端で状態密度ゼロ＝キャリアが枯れる。$E_F$ で電子↔正孔が連続切替。正孔＝正電荷のように振る舞う空席。</span></p>
+      <p class="me-cap"><span class="i18n-en">Raise the Fermi level $E_F$ and electrons enter the upper cone; lower it and empty seats (holes) appear in the lower band. At the ideal Dirac point $D(E_F)=0$, though in a real sample impurities and the substrate keep it from being exactly zero.</span><span class="i18n-ja">フェルミ準位 $E_F$ を上げると上の錐に電子が入り、下げると下のバンドに空席（正孔）ができる。理想的なディラック点では $D(E_F)=0$ だが、実試料では不純物や基板の影響で完全なゼロにはならない。</span></p>
 
       <div class="me-prose">
         <h3><span class="i18n-en">Hard to stop — the price of having no gap</span><span class="i18n-ja">止めにくい——ギャップがないことの代償</span></h3>
