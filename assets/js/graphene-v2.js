@@ -307,9 +307,11 @@
         el('circle', { cx: B[0], cy: B[1], r: 6, fill: COL.B }, p.svg);
         var lx = A0[0] + (B[0] - A0[0]) * 0.6 + (j === 0 ? 13 : 0), ly = A0[1] + (B[1] - A0[1]) * 0.6 + (j === 0 ? 0 : -2);
         label(p.stage, lx, ly, '$\\delta_' + (j + 1) + '$', 'gv-mut');
+        if (j === 0) label(p.stage, B[0] + 13, B[1] - 8, '$r=R+\\delta$', 'gv-mut');
       });
       el('circle', { cx: A0[0], cy: A0[1], r: 7, fill: COL.A }, p.svg);
       label(p.stage, A0[0] - 13, A0[1] + 11, '$A$', 'gv-mut');
+      label(p.stage, A0[0] + 14, A0[1] + 12, '$R$', 'gv-mut');
       htm('div', 'gv-pin', p.panel).innerHTML = bi('$\\delta$: fixed (never rotates)', '$\\delta$：固定（回らない）');
     }
 
@@ -694,15 +696,17 @@
         }
         return d.join(' ');
       }
+      // antibonding (1 node) on TOP — higher energy, lined up with the level diagram
       el('line', { x1: W * 0.1, y1: midY1, x2: W * 0.9, y2: midY1, stroke: COL.grid }, p.svg);
-      el('path', { d: wave(midY1, false), fill: 'none', stroke: COL.bond, 'stroke-width': 2.4 }, p.svg);
-      label(p.stage, W * 0.14, midY1 - amp - 7, bi('bonding · 0 nodes', '結合・節0'), 'gv-mut');
+      el('path', { d: wave(midY1, true), fill: 'none', stroke: COL.anti, 'stroke-width': 2.4 }, p.svg);
+      el('circle', { cx: (xA + xB) / 2, cy: midY1, r: 2.6, fill: COL.snap }, p.svg);
+      label(p.stage, (xA + xB) / 2, midY1 + amp + 9, bi('node', '節'), 'gv-mut');
+      label(p.stage, W * 0.16, midY1 - amp - 7, bi('antibonding · 1 node', '反結合・節1'), 'gv-mut');
+      // bonding (no node) on BOTTOM — lower energy
       el('line', { x1: W * 0.1, y1: midY2, x2: W * 0.9, y2: midY2, stroke: COL.grid }, p.svg);
-      el('path', { d: wave(midY2, true), fill: 'none', stroke: COL.anti, 'stroke-width': 2.4 }, p.svg);
-      el('circle', { cx: (xA + xB) / 2, cy: midY2, r: 2.6, fill: COL.snap }, p.svg);
-      label(p.stage, (xA + xB) / 2, midY2 + amp + 9, bi('node', '節'), 'gv-mut');
-      label(p.stage, W * 0.16, midY2 - amp - 7, bi('antibonding · 1 node', '反結合・節1'), 'gv-mut');
-      [xA, xB].forEach(function (x) { el('line', { x1: x, y1: midY1 + amp + 3, x2: x, y2: midY1 + amp + 8, stroke: COL.faint }, p.svg); });
+      el('path', { d: wave(midY2, false), fill: 'none', stroke: COL.bond, 'stroke-width': 2.4 }, p.svg);
+      label(p.stage, W * 0.14, midY2 - amp - 7, bi('bonding · 0 nodes', '結合・節0'), 'gv-mut');
+      [xA, xB].forEach(function (x) { el('line', { x1: x, y1: midY2 + amp + 3, x2: x, y2: midY2 + amp + 8, stroke: COL.faint }, p.svg); });
     }
 
     function drawLev(p) {
@@ -794,6 +798,54 @@
       label(p.stage, X(0.06), Y(2.5 * T_EV), bi('upper (empty)', '上（空）'), 'gv-mut');
       label(p.stage, X(0.06), Y(-2.5 * T_EV), bi('lower (full)', '下（満席）'), 'gv-mut');
 
+      whenKatex(function () { renderMath(root); });
+    }
+    onResize(root, build);
+    build();
+  })();
+
+  /* ══════════════════════════════════════════════════════════════════
+     §02 symbol map — A, three B, three δ, the unit cell, R and r  (static)
+     ══════════════════════════════════════════════════════════════════ */
+  (function FMAP() {
+    var root = document.getElementById('gv-fmap');
+    if (!root) return;
+
+    function build() {
+      clear(root);
+      var row = htm('div', 'gv-row gv-one', root);
+      var p = panel(row, 'schematic', 'Symbol map', '記号の地図');
+      var W = stageW(p); if (!W) return;
+      var H = Math.max(220, Math.min(W * 0.6, 290)); size(p, W, H);
+      var cx = W * 0.46, cy = H * 0.60, L = Math.min(W, H) * 0.26, sd = L * PH.SQRT3;
+      function px(x, y) { return [cx + x * sd, cy - y * sd]; }
+      var a1 = [0.5, PH.SQRT3 / 2], a2 = [-0.5, PH.SQRT3 / 2];
+
+      // unit cell parallelogram (spanned by a1,a2 from A; holds A and the δ1 B)
+      var c0 = px(0, 0), c1 = px(a1[0], a1[1]), c2 = px(a1[0] + a2[0], a1[1] + a2[1]), c3 = px(a2[0], a2[1]);
+      el('polygon', { points: [c0, c1, c2, c3].map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '),
+        fill: 'rgba(205,183,138,.05)', stroke: COL.zone, 'stroke-width': 1.3, 'stroke-dasharray': '5 4' }, p.svg);
+      label(p.stage, (c2[0] + c3[0]) / 2 - 6, (c2[1] + c3[1]) / 2 - 8, bi('unit cell', '単位胞'), 'gv-mut');
+
+      // three δ rods + B atoms
+      var A0 = px(0, 0);
+      PH.DELTA.forEach(function (d, j) {
+        var B = px(d[0], d[1]);
+        el('line', { x1: A0[0], y1: A0[1], x2: B[0], y2: B[1], stroke: [COL.d1, COL.d2, COL.d3][j], 'stroke-width': 5, 'stroke-linecap': 'round' }, p.svg);
+        el('circle', { cx: B[0], cy: B[1], r: 6, fill: COL.B }, p.svg);
+        var mid = [A0[0] + (B[0] - A0[0]) * 0.5, A0[1] + (B[1] - A0[1]) * 0.5];
+        label(p.stage, mid[0] + (j === 0 ? 14 : (j === 1 ? -14 : 14)), mid[1], '$\\delta_' + (j + 1) + '$', 'gv-mut');
+      });
+      el('circle', { cx: A0[0], cy: A0[1], r: 7, fill: COL.A }, p.svg);
+      label(p.stage, A0[0] - 13, A0[1] + 13, '$A$', 'gv-mut');
+      label(p.stage, A0[0] + 14, A0[1] + 13, '$R$', 'gv-mut');
+
+      // the δ1 B (up) is the one inside the cell: label it B and r = R+δ
+      var Bup = px(PH.DELTA[0][0], PH.DELTA[0][1]);
+      label(p.stage, Bup[0] + 16, Bup[1] - 8, '$B$', 'gv-mut');
+      label(p.stage, Bup[0] + 30, Bup[1] + 9, '$r=R+\\delta$', 'gv-mut');
+
+      htm('div', 'gv-pin', p.panel).innerHTML = bi('$\\delta$ are real-space bonds — they do not turn with $k$.', '$\\delta$ は実空間の結合——$k$ で回らない。');
       whenKatex(function () { renderMath(root); });
     }
     onResize(root, build);
