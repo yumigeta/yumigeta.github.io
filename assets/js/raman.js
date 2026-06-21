@@ -578,7 +578,7 @@ function fitCanvas(cv) {
     if (!MODES[mode].raman) {
       g.ctx.fillStyle = 'rgba(167,139,250,0.95)';
       g.ctx.font = '11px DM Sans, sans-serif'; g.ctx.textAlign = 'right'; g.ctx.textBaseline = 'top';
-      g.ctx.fillText('no ωᵥ modulation — Raman-inactive', g.w - 6, 4);
+      g.ctx.fillText('no ωₖ modulation — Raman-inactive', g.w - 6, 4);
     }
 
     // p(t): induced dipole (a real field — oscillates +/−), with modulation envelope
@@ -637,6 +637,7 @@ function fitCanvas(cv) {
   // ── Spectrum ──
   function drawSpectrum() {
     const { ctx, w, h } = fitCanvas(cSpec);
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
     const pad = 28, baseY = h - 22, topY = 14, Hfull = baseY - topY;
     ctx.strokeStyle = COL.axis; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(pad, baseY); ctx.lineTo(w - 8, baseY); ctx.stroke();
@@ -664,12 +665,13 @@ function fitCanvas(cv) {
       ctx.beginPath(); ctx.arc(b.x, baseY - b.H, 3.5, 0, TAU); ctx.fill();
     }
     ctx.font = '10px DM Sans, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#a8a29e';
-    ctx.fillText('ω₀', cx2, baseY + 14);
+    ctx.fillText('ωᵢ', cx2, baseY + 14);
     if (fundH >= 1) {
-      ctx.fillText('ω₀−ωᵥ', cx2 - off1, baseY + 14);
-      ctx.fillText('ω₀+ωᵥ', cx2 + off1, baseY + 14);
+      ctx.fillText('ωᵢ−ωₖ', cx2 - off1, baseY + 14);
+      ctx.fillText('ωᵢ+ωₖ', cx2 + off1, baseY + 14);
     }
-    ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left'; ctx.fillText('intensity', 6, topY + 2);
+    ctx.fillStyle = '#a8a29e'; ctx.textAlign = 'left';
+    ctx.fillText(lang === 'ja' ? '双極子振幅 μ' : 'dipole amplitude μ', 6, topY + 2);
 
   }
 
@@ -688,6 +690,9 @@ function fitCanvas(cv) {
   });
 
   setMode('sym');
+  // the loop() redraws everything except the static spectrum; redraw it when the
+  // page language toggles so the canvas axis label ("dipole amplitude μ") follows.
+  new MutationObserver(drawSpectrum).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
   drawMolecule(); drawAlphaQ(); drawTraces(); drawDecomp();
   loop();
 })();
