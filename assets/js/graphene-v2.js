@@ -859,50 +859,44 @@
       var row = htm('div', 'gv-row gv-one', root);
       var p = panel(row, 'schematic', 'Symbol map', '記号の地図');
       var W = stageW(p); if (!W) return;
-      var H = Math.max(232, Math.min(W * 0.6, 320)); size(p, W, H);
-      var a1 = [0.5, PH.SQRT3 / 2], a2 = [-0.5, PH.SQRT3 / 2];
-      var oy = H * 0.56;
-      var sd = Math.min(W * 0.205, (oy - 30) / PH.SQRT3);
-      var ox = Math.max(W * 0.11, W / 2 - 0.85 * sd);   // centre the motif (no empty right margin on wide screens)
-      function Lp(x, y) { return [ox + x * sd, oy - y * sd]; }   // lattice (cartesian) → px
-      var O = Lp(0, 0), homeA = Lp(1, 0), nbrA = Lp(1.5, PH.SQRT3 / 2);   // R = (1,0); R' = home + a1
-      var B1 = Lp(1 + PH.DELTA[0][0], PH.DELTA[0][1]);                    // the cell's own B (= home + δ1)
-      function cellPoly() {
-        return [Lp(1, 0), Lp(1 + a1[0], a1[1]), Lp(1 + a1[0] + a2[0], a1[1] + a2[1]), Lp(1 + a2[0], a2[1])]
-          .map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
-      }
+      var H = Math.max(236, Math.min(W * 0.6, 320)); size(p, W, H);
+      var INV3 = 1 / PH.SQRT3;
+      var oy = H * 0.62;
+      var sd = Math.min((oy - 28) / PH.SQRT3, W * 0.16);
+      var ox = Math.max(W * 0.11, W / 2 - 1.25 * sd);     // centre the whole motif
+      function L(x, y) { return [ox + x * sd, oy - y * sd]; }
+      var O = L(0, 0), A = L(1, 0), B1 = L(1, INV3), nbrA = L(2.5, PH.SQRT3 / 2);
 
-      // faint neighbour cell A (different address) — drawn first, sits under everything
-      el('circle', { cx: nbrA[0], cy: nbrA[1], r: 5, fill: 'rgba(217,140,106,.45)' }, p.svg);
-      // home unit cell (dashed parallelogram) + a faint capsule grouping the cell's A and B
-      el('polygon', { points: cellPoly(), fill: 'rgba(205,183,138,.06)', stroke: COL.zone, 'stroke-width': 1.4, 'stroke-dasharray': '5 4' }, p.svg);
-      el('ellipse', { cx: (homeA[0] + B1[0]) / 2, cy: (homeA[1] + B1[1]) / 2, rx: 13, ry: Math.abs(homeA[1] - B1[1]) / 2 + 11, fill: 'rgba(255,255,255,.05)', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1 }, p.svg);
+      // home unit cell (dashed rhombus a1×a2 anchored at A; it holds A and B1)
+      var cell = [L(1, 0), L(1.5, PH.SQRT3 / 2), L(1, PH.SQRT3), L(0.5, PH.SQRT3 / 2)];
+      el('polygon', { points: cell.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '),
+        fill: 'rgba(205,183,138,.07)', stroke: COL.zone, 'stroke-width': 1.4, 'stroke-dasharray': '5 4' }, p.svg);
 
-      // position vectors (arrows): R' and r faint, R bright — drawn before the atoms so the heads tuck under them
-      mkArrow(p.svg, 'rgba(255,255,255,.32)', 1.4, 6).set(O[0], O[1], nbrA[0], nbrA[1]);   // R'
-      mkArrow(p.svg, 'rgba(255,255,255,.32)', 1.4, 6).set(O[0], O[1], B1[0], B1[1]);        // r (triangle O→A→B)
-      mkArrow(p.svg, COL.ink, 2, 7).set(O[0], O[1], homeA[0], homeA[1]);                    // R
+      // position vectors (drawn first so the heads tuck under the atoms): R' & r faint, R bright
+      mkArrow(p.svg, 'rgba(255,255,255,.28)', 1.4, 6).set(O[0], O[1], nbrA[0], nbrA[1]);   // R'
+      mkArrow(p.svg, 'rgba(255,255,255,.36)', 1.5, 6).set(O[0], O[1], B1[0], B1[1]);        // r  (triangle O→A→B)
+      mkArrow(p.svg, COL.ink, 2, 7).set(O[0], O[1], A[0], A[1]);                            // R
 
-      // three δ rods + B atoms (around the home A)
+      // three δ rods + B atoms around the home A
       PH.DELTA.forEach(function (d, j) {
-        var B = Lp(1 + d[0], d[1]);
-        el('line', { x1: homeA[0], y1: homeA[1], x2: B[0], y2: B[1], stroke: [COL.d1, COL.d2, COL.d3][j], 'stroke-width': 5, 'stroke-linecap': 'round' }, p.svg);
+        var B = L(1 + d[0], d[1]);
+        el('line', { x1: A[0], y1: A[1], x2: B[0], y2: B[1], stroke: [COL.d1, COL.d2, COL.d3][j], 'stroke-width': 5, 'stroke-linecap': 'round' }, p.svg);
         el('circle', { cx: B[0], cy: B[1], r: 6, fill: COL.B }, p.svg);
-        var mid = [homeA[0] + (B[0] - homeA[0]) * 0.55, homeA[1] + (B[1] - homeA[1]) * 0.55];
-        label(p.stage, mid[0] + (j === 2 ? 13 : -13), mid[1] + (j === 0 ? 0 : 3), '$\\delta_' + (j + 1) + '$', 'gv-mut');
+        var mid = [A[0] + (B[0] - A[0]) * 0.5, A[1] + (B[1] - A[1]) * 0.5];
+        label(p.stage, mid[0] + (j === 1 ? -13 : 13), mid[1] + (j === 0 ? 0 : 3), '$\\delta_' + (j + 1) + '$', 'gv-mut');
       });
-      el('circle', { cx: homeA[0], cy: homeA[1], r: 7, fill: COL.A }, p.svg);
+      el('circle', { cx: nbrA[0], cy: nbrA[1], r: 5, fill: 'rgba(217,140,106,.5)' }, p.svg);   // another cell's A
+      el('circle', { cx: A[0], cy: A[1], r: 7, fill: COL.A }, p.svg);
       el('circle', { cx: O[0], cy: O[1], r: 3.6, fill: 'none', stroke: COL.ink, 'stroke-width': 1.6 }, p.svg);
 
-      // labels (A and R kept apart; δ near the rods; r as the triangle's hypotenuse)
-      label(p.stage, O[0] - 11, O[1] + 12, '$O$', 'gv-mut');
-      label(p.stage, (O[0] + homeA[0]) / 2, oy - 11, '$R$', 'gv-mut');
-      label(p.stage, (O[0] + nbrA[0]) / 2 - 4, (O[1] + nbrA[1]) / 2 - 10, '$R^{\\prime}$', 'gv-mut');
-      label(p.stage, homeA[0], homeA[1] + 17, '$A$', 'gv-mut');
-      label(p.stage, B1[0] + 12, B1[1] - 7, '$B$', 'gv-mut');
-      label(p.stage, B1[0] + 17, B1[1] + 11, '$r=R+\\delta_1$', 'gv-mut');
-      var ctop = Lp(1, PH.SQRT3);
-      label(p.stage, ctop[0] + 8, ctop[1] + 8, bi('unit cell', '単位胞'), 'gv-mut gv-tl');
+      // labels — spread out so nothing stacks in the B column
+      label(p.stage, O[0] - 12, O[1] + 13, '$O$', 'gv-mut');
+      label(p.stage, (O[0] + A[0]) / 2, A[1] - 11, '$R$', 'gv-mut');
+      label(p.stage, A[0] + 3, A[1] + 16, '$A$', 'gv-mut');
+      label(p.stage, B1[0] + 12, B1[1] - 5, '$B$', 'gv-mut');
+      label(p.stage, O[0] + (B1[0] - O[0]) * 0.42, O[1] + (B1[1] - O[1]) * 0.42 - 9, '$r=R+\\delta_1$', 'gv-mut');
+      label(p.stage, O[0] + (nbrA[0] - O[0]) * 0.62, O[1] + (nbrA[1] - O[1]) * 0.62 - 9, '$R^{\\prime}$', 'gv-mut');
+      var ul = label(p.stage, cell[3][0] - 7, cell[3][1] - 2, bi('unit cell', '単位胞'), 'gv-mut'); ul.style.transform = 'translate(-100%,-50%)';
 
       htm('div', 'gv-pin', p.panel).innerHTML = bi('$\\delta$ fixed (real-space bonds) · $R$ = cell address', '$\\delta$ は固定（実空間の結合）／$R$ は単位胞の住所');
       whenKatex(function () { renderMath(root); });
