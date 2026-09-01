@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Graphene — Topic Hub | Kentaro Yumigeta</title>
+  <meta name="description" content="A guided, non-linear map of graphene: its crystal lattice, the Dirac-cone band structure, nanoribbon confinement, and how Raman light reads its layers, strain, and defects.">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/hubs/graphene/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="hubs/graphene">
+<script src="/assets/js/lang-toggle.js"></script>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+      <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+      <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+      <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/#cv">CV</a>
+    </nav>
+    <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="phead-top">
+      <div class="crumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+        <span><span class="i18n-en">Understanding Graphene</span><span class="i18n-ja">グラフェンを理解する</span></span>
+      </div>
+      <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+    </div>
+    <div class="ptop">
+      <h1><span class="i18n-en">Understanding Graphene</span><span class="i18n-ja">グラフェンを理解する</span></h1>
+    </div>
+    <p class="pintro">
+      <span class="i18n-en">A guided way through graphene. Pick where to start. Each page stands on its own, but this map shows how its lattice, its electrons, and the light we shine on it fit together.</span>
+      <span class="i18n-ja">グラフェンを案内する地図です。どこから読み始めてもかまいません。各ページは単独でも読めますが、ここでは「格子」「電子」「当てる光」がどうつながるかを示します。</span>
+    </p>
+  </div>
+</div>
+
+<div class="callout">
+  <span class="co-label"><span class="i18n-en">The question</span><span class="i18n-ja">問い</span></span>
+  <p>
+    <span class="i18n-en">A single sheet of carbon, one atom thick. Why does it behave like nothing else, a metal that is also almost an insulator?</span>
+    <span class="i18n-ja">炭素原子一枚ぶんの厚さのシートが、なぜ他のどんな物質とも違う振る舞いをするのか。金属でありながら、ほぼ絶縁体でもあるとは？</span>
+  </p>
+</div>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">01</span>
+    <h2><span class="i18n-en">Build the foundation</span><span class="i18n-ja">土台を作る</span></h2>
+    <span class="r-sub"><span class="i18n-en">Start here</span><span class="i18n-ja">まず読む</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/crystal-structure/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Crystal Structure in 2D</span><span class="i18n-ja">2次元の結晶構造</span></div>
+        <div class="rs-desc"><span class="i18n-en">Lattices, reciprocal space, and the Brillouin zone. The hexagonal stage where graphene lives.</span><span class="i18n-ja">格子・逆格子・ブリルアンゾーン。グラフェンが棲む六角形の舞台。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Intro · 18 min</span><span class="i18n-ja">入門 · 18分</span></span>
+    </a></li>
+    <li><a href="/learn/graphene/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Electronic Structure of Graphene</span><span class="i18n-ja">グラフェンの電子構造</span></div>
+        <div class="rs-desc"><span class="i18n-en">A tight-binding derivation that produces the Dirac cones at K and the massless electrons.</span><span class="i18n-ja">タイトバインディングでK点のディラック錐と質量ゼロの電子を導く。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 20 min</span><span class="i18n-ja">標準 · 20分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">02</span>
+    <h2><span class="i18n-en">Reshape it</span><span class="i18n-ja">形を変えてみる</span></h2>
+    <span class="r-sub"><span class="i18n-en">Go further</span><span class="i18n-ja">さらに進む</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/graphene-nanoribbons/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Graphene Nanoribbons</span><span class="i18n-ja">グラフェンナノリボン</span></div>
+        <div class="rs-desc"><span class="i18n-en">Cut graphene into a narrow ribbon and a band gap opens. Quantum confinement and edge states.</span><span class="i18n-ja">細い帯に切るとギャップが開く。量子閉じ込めとエッジ状態。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advancing · 15 min</span><span class="i18n-ja">やや発展 · 15分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">03</span>
+    <h2><span class="i18n-en">See it with light</span><span class="i18n-ja">光で観る</span></h2>
+    <span class="r-sub"><span class="i18n-en">Measure it</span><span class="i18n-ja">測る</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/graphene-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Raman Spectroscopy of Graphene</span><span class="i18n-ja">グラフェンのラマン分光</span></div>
+        <div class="rs-desc"><span class="i18n-en">Read layer number, defects, strain, and doping from the G, D, and 2D bands.</span><span class="i18n-ja">G・D・2Dバンドから層数・欠陥・ひずみ・ドーピングを読む。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 18 min</span><span class="i18n-ja">標準 · 18分</span></span>
+    </a></li>
+    <li><a href="/learn/angle-resolved-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Angle-Resolved Raman</span><span class="i18n-ja">角度分解ラマン</span></div>
+        <div class="rs-desc"><span class="i18n-en">Polarization-resolved intensity reads out crystal symmetry and orientation.</span><span class="i18n-ja">偏光分解した強度から結晶対称性と方位を読み出す。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advanced · 12 min</span><span class="i18n-ja">発展 · 12分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">04</span>
+    <h2><span class="i18n-en">Frontier</span><span class="i18n-ja">発展</span></h2>
+    <span class="r-sub"><span class="i18n-en">If you're curious</span><span class="i18n-ja">興味があれば</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/graphene-phonon-emission/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Stimulated Phonon Emission in Graphene</span><span class="i18n-ja">グラフェン中のフォノン誘導放出</span></div>
+        <div class="rs-desc"><span class="i18n-en">A plain DC current can amplify sound in graphene. The seed of a SASER.</span><span class="i18n-ja">直流電流だけで音を増幅できる。音のレーザー（SASER）の種。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advanced · 18 min</span><span class="i18n-ja">発展 · 18分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<footer class="site-footer">
+  <div class="foot">
+    <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+    <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+  </div>
+</footer>
+
+<script src="/assets/js/article-shell.js"></script>
+</body>
+</html>

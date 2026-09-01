@@ -338,10 +338,10 @@
       $('st-prec').textContent = fmt(spread, 4);
       const accGood = offset < 0.12, precGood = spread < 0.16;
       let cls, msg;
-      if (accGood && precGood) { cls = 'good'; msg = t('Accurate & precise — the ideal measurement.', '正確かつ精密 — 理想的な測定。'); }
-      else if (!accGood && precGood) { cls = 'mid'; msg = t('Precise but inaccurate — a systematic error. Averaging will NOT fix this.', '精密だが不正確 — 系統誤差。平均をとっても直らない。'); }
-      else if (accGood && !precGood) { cls = 'mid'; msg = t('Accurate but imprecise — random error. Averaging more shots WILL help.', '正確だが精密でない — 偶然誤差。測定を増やせば改善する。'); }
-      else { cls = 'bad'; msg = t('Neither accurate nor precise — both error types present.', '不正確かつ精密でない — 両方の誤差が存在。'); }
+      if (accGood && precGood) { cls = 'good'; msg = t('Accurate & precise: the ideal measurement.', '正確かつ精密：理想的な測定。'); }
+      else if (!accGood && precGood) { cls = 'mid'; msg = t('Precise but inaccurate: a systematic error. Averaging will NOT fix this.', '精密だが不正確：系統誤差。平均をとっても直らない。'); }
+      else if (accGood && !precGood) { cls = 'mid'; msg = t('Accurate but imprecise: random error. Averaging more shots WILL help.', '正確だが精密でない：偶然誤差。測定を増やせば改善する。'); }
+      else { cls = 'bad'; msg = t('Neither accurate nor precise: both error types present.', '不正確かつ精密でない：両方の誤差が存在。'); }
       el.innerHTML = '<span class="me-verdict ' + cls + '">' + msg + '</span>';
     }
 
@@ -501,8 +501,8 @@
       exprInput.style.borderColor = compiled ? '' : 'var(--accent)';
       if (!compiled || vars.length === 0) {
         $('prop-result').innerHTML = '<small style="color:#fda4af">' +
-          t('Invalid formula — use x, y, z and the allowed functions.',
-            '式が無効です — x, y, z と許可された関数を使ってください。') + '</small>';
+          t('Invalid formula: use x, y, z and the allowed functions.',
+            '式が無効です：x, y, z と許可された関数を使ってください。') + '</small>';
         ['c-prop-bars', 'c-prop-mc'].forEach(id => { const c = $(id), o = fitCanvas(c); o.ctx.clearRect(0, 0, o.w, o.h); });
         $('prop-df-a').textContent = '—'; $('prop-df-mc').textContent = '—'; $('prop-agree').textContent = '—';
         return;
@@ -987,8 +987,8 @@
     if (pauseBtn) pauseBtn.addEventListener('click', () => {
       paused = !paused;
       pauseBtn.innerHTML = paused
-        ? '<span class="i18n-en">▶ Resume</span><span class="i18n-ja">▶ 再開</span>'
-        : '<span class="i18n-en">❚❚ Pause</span><span class="i18n-ja">❚❚ 一時停止</span>';
+        ? '<svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4v16l13 -8l-13 -8"/></svg><span class="i18n-en">Resume</span><span class="i18n-ja">再開</span>'
+        : '<svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12"/></svg><span class="i18n-en">Pause</span><span class="i18n-ja">一時停止</span>';
       paused ? stop() : start();
     });
     window.addEventListener('resize', () => { drawStrip(); drawDist(); });

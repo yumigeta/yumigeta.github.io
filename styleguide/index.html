@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Template Audit — Style Guide | Kentaro Yumigeta</title>
+  <meta name="description" content="Internal catalog of every reusable design template used on the site, tagged by source, for auditing which to keep or delete.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/measurement-error.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <style>
+    /* ── Style-guide chrome (this page only) — uses the site's own tokens ── */
+    .sg-wrap { max-width: 1120px; margin: 0 auto; padding: 32px 24px 140px; }
+    .sg-title { font-family: var(--mincho); font-size: clamp(30px,5vw,48px); font-weight: 800; line-height: 1; letter-spacing: -.02em; }
+    .sg-sub { margin-top: 12px; color: var(--soft); font-size: 16px; line-height: 1.6; max-width: 70ch; }
+    .sg-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; }
+    .sg-toc { margin: 26px 0 0; padding: 16px 18px; border: 1px dashed var(--rule); border-radius: 6px; background: var(--bg-soft); }
+    .sg-toc-lab { font-family: var(--gothic); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+    .sg-toc ol { margin: 0; padding-left: 1.4em; columns: 2; font-size: 14px; line-height: 1.8; }
+    .sg-toc a { color: var(--ink-2); } .sg-toc a:hover { color: var(--accent); }
+
+    .sg-sec { margin: 56px 0 0; scroll-margin-top: 16px; }
+    .sg-sec > h2 { font-family: var(--mincho); font-size: clamp(22px,3vw,30px); font-weight: 700; line-height: 1.1; padding-bottom: 10px; border-bottom: 2px solid var(--ink); margin-bottom: 6px; }
+    .sg-sec > .sg-secnote { color: var(--soft); font-size: 14.5px; line-height: 1.6; margin: 8px 0 4px; max-width: 74ch; }
+
+    .sg-item { margin: 20px 0; border: 1px dashed var(--rule); border-radius: 6px; overflow: hidden; }
+    .sg-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 9px 13px; background: var(--bg-soft); border-bottom: 1px dashed var(--rule); }
+    .sg-name { font-family: var(--gothic); font-size: 13px; font-weight: 700; color: var(--ink); }
+    .sg-name code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; background: rgba(0,0,0,.05); padding: 1px 6px; border-radius: 3px; }
+    .sg-note { font-family: var(--gothic); font-size: 12.5px; color: var(--soft); flex: 1 1 240px; }
+    .sg-demo { padding: 22px; background: var(--paper); }
+    .sg-demo.dark { background: var(--stage); }
+    .sg-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+
+    .sg-badge { font-family: var(--gothic); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 2px 9px; border-radius: 980px; white-space: nowrap; }
+    .sg-badge.site   { background: color-mix(in srgb,#2a7a3b 14%, #fff); color:#2a7a3b; border:1px solid color-mix(in srgb,#2a7a3b 30%,transparent); }
+    .sg-badge.add    { background: color-mix(in srgb,#3f6f8c 14%, #fff); color:#33617c; border:1px solid color-mix(in srgb,#3f6f8c 30%,transparent); }
+    .sg-badge.dupe   { background: color-mix(in srgb,#b06a2c 16%, #fff); color:#a05e22; border:1px solid color-mix(in srgb,#b06a2c 34%,transparent); }
+    .sg-badge.legacy { background: color-mix(in srgb,#bf2f25 14%, #fff); color:#bf2f25; border:1px solid color-mix(in srgb,#bf2f25 30%,transparent); }
+
+    /* swatches & samples */
+    .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; }
+    .sg-sw { border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; font-size: 11.5px; }
+    .sg-sw .chip { height: 56px; } .sg-sw .lab { padding: 7px 9px; font-family: ui-monospace,monospace; color: var(--ink-2); background:#fff; }
+    .sg-radii { display: flex; gap: 18px; align-items: flex-end; flex-wrap: wrap; }
+    .sg-radii div { width: 96px; height: 64px; background: #fff; border: 1px solid var(--rule); box-shadow: var(--shadow-card); display:flex; align-items:flex-end; justify-content:center; font-size:11px; color:var(--soft); padding-bottom:5px; }
+    .sg-shadows { display:flex; gap:24px; flex-wrap:wrap; }
+    .sg-shadows div { width:140px; height:72px; background:#fff; border-radius:var(--r); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--soft); }
+    .sg-pick { margin: 10px 0 0; font-family: var(--gothic); font-size: 13px; color: var(--ink); background: color-mix(in srgb,#2a7a3b 8%,#fff); border-left: 3px solid #2a7a3b; padding: 8px 12px; border-radius: 3px; }
+
+    /* ── keep/delete selection ── */
+    .sg-keep { display: inline-flex; align-items: center; gap: 5px; margin-right: 4px;
+      font-family: var(--gothic); font-size: 11px; font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--soft); cursor: pointer; user-select: none; }
+    .sg-keep input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; margin: 0; }
+    .sg-item.tpl-drop { opacity: .5; }
+    .sg-item.tpl-drop .sg-demo { filter: grayscale(.7); }
+    .sg-item.tpl-drop .sg-keep { color: var(--accent); }
+
+    /* per-variant ("each theme") corner checkbox */
+    [data-tpl] { position: relative; }
+    .sg-cb { position: absolute; top: 6px; right: 6px; z-index: 8;
+      display: inline-flex; align-items: center; gap: 4px;
+      background: color-mix(in srgb, var(--paper) 86%, transparent);
+      -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+      border: 1px solid var(--rule); border-radius: 980px; padding: 2px 8px 2px 6px;
+      font: 700 10px/1 var(--gothic); letter-spacing: .04em; text-transform: uppercase; color: var(--soft);
+      cursor: pointer; user-select: none; }
+    .sg-cb input { width: 13px; height: 13px; accent-color: var(--accent); cursor: pointer; margin: 0; }
+    [data-tpl].tpl-drop { opacity: .4; filter: grayscale(.75); }
+    [data-tpl].tpl-drop .sg-cb { opacity: 1; filter: none; color: var(--accent); border-color: var(--accent); }
+
+    .sg-actions { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+      background: color-mix(in srgb, var(--paper) 90%, transparent);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid var(--rule); box-shadow: 0 -8px 24px -14px rgba(0,0,0,.35); }
+    .sg-actions .in { max-width: 1120px; margin: 0 auto; padding: 11px 24px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .sg-actions .count { font-family: var(--gothic); font-size: 13px; color: var(--ink); margin-right: auto; }
+    .sg-actions .count b { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .sg-act-btn { font-family: var(--gothic); font-size: 12.5px; font-weight: 700;
+      padding: 7px 14px; border: 1px solid var(--rule-2); border-radius: 3px;
+      background: var(--paper); color: var(--ink); cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+    .sg-act-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .sg-act-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sg-act-btn.primary:hover { filter: brightness(1.1); background: var(--accent); color:#fff; }
+    .sg-out { max-width: 1120px; margin: 0 auto; padding: 0 24px 14px; display: none; }
+    .sg-out.show { display: block; }
+    .sg-out .sg-out-hint { font-family: var(--gothic); font-size: 12px; color: var(--soft); margin: 0 0 6px; }
+    .sg-out textarea { width: 100%; height: 200px; box-sizing: border-box;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; line-height: 1.5;
+      border: 1px solid var(--rule); border-radius: 4px; padding: 10px; background: var(--bg-soft); color: var(--ink); resize: vertical; }
+  </style>
+  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/learn/dev/">Dev</a>
+      <a href="/styleguide/" aria-current="page">Styleguide</a>
+    </nav>
+    <a class="end" href="/#contact">Contact</a>
+  </div>
+</header>
+
+<main class="sg-wrap">
+  <div class="sg-title">Design Template Audit</div>
+  <p class="sg-sub">Every reusable design template on the site, rendered live and tagged by source. Use it to decide which templates to keep and which to delete. Per-page interactive/demo CSS (e.g. <code>measurement-error.css</code>, <code>gnr-variants.css</code>) is page-specific and intentionally excluded, only shared templates appear here.</p>
+
+  <div class="sg-legend">
+    <span class="sg-badge site">site · style.css</span>
+    <span class="sg-badge add">added · article-shell.css</span>
+    <span class="sg-badge dupe">overlap · pick one</span>
+    <span class="sg-badge legacy">legacy · likely dead</span>
+  </div>
+
+  <nav class="sg-toc">
+    <div class="sg-toc-lab">Contents</div>
+    <ol>
+      <li><a href="#wafu">★ 和風 callout &amp; panel variants (gnr-variants.css)</a></li>
+      <li><a href="#learncomp">★ Canonical Learn components (measurement-error.css)</a></li>
+      <li><a href="#tokens">Design tokens</a></li>
+      <li><a href="#type">Typography</a></li>
+      <li><a href="#overlaps">⚠ Overlapping templates (decide)</a></li>
+      <li><a href="#nav">Navigation &amp; page chrome</a></li>
+      <li><a href="#cards">Cards</a></li>
+      <li><a href="#asides">Editorial asides / callouts</a></li>
+      <li><a href="#lists">Lists of pages</a></li>
+      <li><a href="#buttons">Buttons &amp; controls</a></li>
+      <li><a href="#tags">Tags / pills / status</a></li>
+      <li><a href="#navboard">Right navboard (article-shell)</a></li>
+      <li><a href="#shelf">Left shelf (article-shell)</a></li>
+      <li><a href="#hubs">Hub spotlight (article-shell)</a></li>
+      <li><a href="#sections">Homepage section patterns</a></li>
+      <li><a href="#legacy">Legacy / deletion candidates</a></li>
+      <li><a href="#tooling">Tooling UI (proofread.css)</a></li>
+      <li><a href="#ledger">Coverage ledger (everything else)</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ WAFU VARIANT SYSTEM (gnr-variants.css) ============ -->
+  <section class="sg-sec" id="wafu">
+    <h2>★ 和風 callout &amp; panel variants <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">— gnr-variants.css</span></h2>
+    <p class="sg-secnote">The site's switchable 和風 design system (washi 和紙 · sumi 墨 · vermilion 朱), loaded on every Learn page. <strong>Type is told by the label text, never by colour.</strong> This is the canonical callout/panel look; the asides I added should follow these, not the plainer base <code>.callout</code>.</p>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Callout spines — <code>.callout.cv-*</code> (柱 family, ×8)</span><span class="sg-badge site">site</span><span class="sg-note">washi gradient · 7px radius · dark Mincho label · one vermilion mark</span></div>
+      <div class="sg-demo">
+        <div class="callout cv-hashira" data-tpl="cv-hashira"><span class="co-label">柱 Hashira</span><p>Fine sumi hairline spine — the quiet original.</p></div>
+        <div class="callout cv-futo" data-tpl="cv-futo"><span class="co-label">太柱 Futobashira</span><p>Heavier solid sumi spine — more authority.</p></div>
+        <div class="callout cv-shu" data-tpl="cv-shu"><span class="co-label">朱柱 Shubashira</span><p>The spine itself is vermilion; no marker.</p></div>
+        <div class="callout cv-soe" data-tpl="cv-soe"><span class="co-label">添柱 Soebashira</span><p>A double sumi spine (solid + hairline).</p></div>
+        <div class="callout cv-ten" data-tpl="cv-ten"><span class="co-label">点柱 Tenbashira</span><p>A dashed sumi spine — a stitched margin rule.</p></div>
+        <div class="callout cv-kake" data-tpl="cv-kake"><span class="co-label">掛柱 Kake</span><p>Sumi spine + a title-height vermilion bar.</p></div>
+        <div class="callout cv-shirube" data-tpl="cv-shirube"><span class="co-label">標 Shirube</span><p>Only the aligned vermilion title-bar — no body spine.</p></div>
+        <div class="callout cv-daikake" data-tpl="cv-daikake"><span class="co-label">題掛 Daikake</span><p>★ The masthead in your screenshot: vermilion title-bar + a sumi rule trailing off to the right of the heading.</p></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Light panel grounds — <code>.demo-stage.pv-*</code> (×7)</span><span class="sg-badge site">site</span><span class="sg-note">figure-panel framing (add <code>.pv-light</code>)</span></div>
+      <div class="sg-demo sg-row">
+        <div class="demo-stage pv-light pv-washi" data-tpl="pv-washi" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">和紙 .pv-washi</span></div>
+        <div class="demo-stage pv-light pv-torinoko" data-tpl="pv-torinoko" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">鳥の子 .pv-torinoko</span></div>
+        <div class="demo-stage pv-light pv-ginnezu" data-tpl="pv-ginnezu" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">銀鼠 .pv-ginnezu</span></div>
+        <div class="demo-stage pv-light pv-kinari" data-tpl="pv-kinari" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">生成 .pv-kinari</span></div>
+        <div class="demo-stage pv-light pv-hyoso" data-tpl="pv-hyoso" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">表装 .pv-hyoso</span></div>
+        <div class="demo-stage pv-light pv-hanada" data-tpl="pv-hanada" style="min-height:80px;flex:1 1 200px;display:flex;align-items:center;justify-content:center"><span class="cap">縹 .pv-hanada</span></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">習字 Shūji felt panels — <code>.demo-stage.pv-bunchin</code> etc. (×6)</span><span class="sg-badge site">site</span><span class="sg-note">felt mat colour via <code>--mat</code> / <code>.mat-*</code></span></div>
+      <div class="sg-demo sg-row">
+        <div class="demo-stage pv-light pv-bunchin mat-sunezu" data-tpl="pv-bunchin mat-sunezu" style="min-height:90px;flex:1 1 240px;display:flex;align-items:center;justify-content:center"><span class="cap">.pv-bunchin .mat-sunezu</span><div class="shuji-deco"><div class="sj-frame"></div><div class="sj-seal"></div></div></div>
+        <div class="demo-stage pv-light pv-bunchin mat-rikyu" data-tpl="pv-bunchin mat-rikyu" style="min-height:90px;flex:1 1 240px;display:flex;align-items:center;justify-content:center"><span class="cap">.pv-bunchin .mat-rikyu</span><div class="shuji-deco"><div class="sj-frame"></div><div class="sj-seal"></div></div></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Figure plates / borders / felt colours — reference</span><span class="sg-badge site">site</span><span class="sg-note">canvas grounds switched via the Tweaks panel</span></div>
+      <div class="sg-demo" style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.9;color:var(--ink-2)">
+        <div><strong style="font-family:var(--gothic)">plate-* (17):</strong> shiro · shironeri · zoge · kinari · unohana · torinoko2 · suna · sunakabe · namakabe · haijiro · hougan · bokashi · aizumi · sumi · sumijiro · tetsu · callout</div>
+        <div style="margin-top:6px"><strong style="font-family:var(--gothic)">pb-* (6):</strong> sumi · usuzumi · shu · kincha · ai · rikyu</div>
+        <div style="margin-top:6px"><strong style="font-family:var(--gothic)">mat-* (14):</strong> sumi · keshizumi · chuzumi · nibi · usuzumi · hai · hatoba · sunezu · ainezu · konnezu · kurumi · kobicha · rikyu · rikyucha</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CANONICAL LEARN COMPONENTS (measurement-error.css) ============ -->
+  <section class="sg-sec" id="learncomp">
+    <h2>★ Canonical Learn components <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">— measurement-error.css (reference page)</span></h2>
+    <p class="sg-secnote">The interactive component set CLAUDE.md names as the template for every Learn explainer. I had excluded <code>measurement-error.css</code> as "page-specific": it is actually the reference component library.</p>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.demo</code> / <code>.demo-head</code> / <code>.demo-num</code></span><span class="sg-badge site">site</span><span class="sg-note">section structure</span></div>
+      <div class="sg-demo"><div class="demo-head"><span class="demo-num">00 — section label</span><h2>Section title</h2><p>Section intro paragraph that sits under the demo number and heading.</p></div></div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.me-prose</code> · <code>.eq-block</code> · <code>.recall</code></span><span class="sg-badge site">site</span><span class="sg-note">prose / KaTeX equation / collapsible</span></div>
+      <div class="sg-demo">
+        <div class="me-prose"><h3>Prose subheading (.me-prose h3)</h3><p>Body prose inside <code>.me-prose</code> — the reading block used throughout Learn pages.</p></div>
+        <p class="eq-block">$$\delta f=\sqrt{\sum_i\left(\frac{\partial f}{\partial x_i}\right)^{2}\delta x_i^{2}}$$</p>
+        <details class="recall" open><summary><span class="i18n-en">Recall — a collapsible aside</span><span class="i18n-ja">復習 — 折りたたみ</span></summary><div><p>Hidden detail revealed on toggle.</p></div></details>
+      </div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.anim-card</code> + <code>.me-controls</code>/<code>.me-slider</code>/<code>.me-stats</code>/<code>.me-stat</code>/<code>.me-legend</code>/<code>.me-cap</code></span><span class="sg-badge site">site</span><span class="sg-note">interactive demo card (canonical: <code>.anim-card.pv-bunchin.mat-sunezu</code>)</span></div>
+      <div class="sg-demo">
+        <div class="anim-card pv-bunchin mat-sunezu" style="padding:20px 18px">
+          <div class="me-controls">
+            <div class="me-slider"><label>Systematic error</label><input type="range" min="0" max="1" step="0.01" value="0.3"><output>0.30</output></div>
+            <div class="me-slider"><label>Random error σ</label><input type="range" min="0" max="1" step="0.01" value="0.15"><output>0.15</output></div>
+            <div class="btn-row"><button class="demo-btn">Fire 30 shots</button><button class="demo-btn">Reset</button></div>
+          </div>
+          <div class="me-stats"><div class="me-stat"><span class="k">Accuracy</span><span class="v">good</span></div><div class="me-stat"><span class="k">Precision</span><span class="v">poor</span></div></div>
+          <div class="me-legend"><span><i style="background:rgba(206,30,30,.55)"></i>shots</span><span><i style="background:#fbbf24"></i>mean</span><span><i style="border:2px solid #1b1916;background:#e9e2d0"></i>true</span></div>
+        </div>
+        <p class="me-cap">.me-cap — caption beneath the interactive card.</p>
+      </div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.gnr-controls</code> bar · <code>.ctl-label</code>/<code>.ctl-value</code></span><span class="sg-badge site">site</span><span class="sg-note">compact inline control bar (gnr-variants)</span></div>
+      <div class="sg-demo dark"><div class="gnr-controls"><div class="ctl-inline"><span class="ctl-label">Width <em>N</em></span><input type="range" min="1" max="9" value="5"><span class="ctl-value">5</span></div><div class="ctl-inline"><span class="ctl-label">Edge</span><div class="segmented"><button class="seg active">AC</button><button class="seg">ZZ</button></div></div></div></div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.comparison-table</code></span><span class="sg-badge site">site</span><span class="sg-note">data table (gnr-variants / graphene-raman)</span></div>
+      <div class="sg-demo"><table class="comparison-table"><thead><tr><th>Band</th><th>Origin</th><th>~cm⁻¹</th></tr></thead><tbody><tr><td>G</td><td>E₂g zone-centre phonon</td><td>1580</td></tr><tr><td>2D</td><td>double resonance</td><td>2680</td></tr></tbody></table></div></div>
+  </section>
+
+  <!-- ============ TOKENS ============ -->
+  <section class="sg-sec" id="tokens">
+    <h2>1 · Design tokens</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Core colors <code>:root</code></span><span class="sg-badge site">site</span><span class="sg-note">paper / ink / accent &amp; rules</span></div>
+      <div class="sg-demo">
+        <div class="sg-swatches">
+          <div class="sg-sw"><div class="chip" style="background:var(--paper)"></div><div class="lab">--paper #fefefc</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--paper-tint)"></div><div class="lab">--paper-tint</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--ink)"></div><div class="lab">--ink</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--ink-2)"></div><div class="lab">--ink-2</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--ink-3)"></div><div class="lab">--ink-3</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--accent)"></div><div class="lab">--accent #bf2f25</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--rule)"></div><div class="lab">--rule</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Category colors <code>:root</code></span><span class="sg-badge add">added</span><span class="sg-note">used as text accents on Learn pages (always with a label)</span></div>
+      <div class="sg-demo">
+        <div class="sg-swatches">
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-foundation)"></div><div class="lab">--cat-foundation</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-material)"></div><div class="lab">--cat-material</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-optical)"></div><div class="lab">--cat-optical</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-device)"></div><div class="lab">--cat-device</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-reference)"></div><div class="lab">--cat-reference</div></div>
+          <div class="sg-sw"><div class="chip" style="background:var(--cat-frontier)"></div><div class="lab">--cat-frontier</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Type families</span><span class="sg-badge site">site</span><span class="sg-note">--mincho (headings) · --gothic (body/labels)</span></div>
+      <div class="sg-demo">
+        <p style="font-family:var(--mincho);font-size:30px;font-weight:700;margin-bottom:6px">明朝 Shippori Mincho — 見出し・番号</p>
+        <p style="font-family:var(--gothic);font-size:18px">ゴシック Zen Kaku Gothic New — 本文・ラベル / body &amp; labels</p>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Radii &amp; shadows</span><span class="sg-badge site">site</span><span class="sg-note">only 20px / 3px / 980px are legal panel radii</span></div>
+      <div class="sg-demo">
+        <div class="sg-radii">
+          <div style="border-radius:var(--r)">20px var(--r)</div>
+          <div style="border-radius:3px">3px callout</div>
+          <div style="border-radius:980px;width:120px">980px pill</div>
+        </div>
+        <div class="sg-shadows" style="margin-top:22px">
+          <div style="box-shadow:var(--shadow-card)">--shadow-card</div>
+          <div style="box-shadow:var(--shadow-card-h)">--shadow-card-h</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="sg-sec" id="type">
+    <h2>2 · Typography</h2>
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Heading scale</span><span class="sg-badge site">site</span><span class="sg-note">editorial titles are Mincho 700</span></div>
+      <div class="sg-demo">
+        <div class="ptop" style="display:block"><h1 style="font-size:48px">Page title — <code style="font:inherit">.ptop h1</code> (Mincho 700)</h1></div>
+        <h2 style="font-family:var(--mincho);font-size:28px;font-weight:700;margin-top:18px">Section H2 — Mincho 700</h2>
+        <span class="eyebrow">.eyebrow — gothic label</span>
+        <p class="pintro" style="margin-top:10px">Lead paragraph <code>.pintro</code> — gothic, soft, <em>accented em</em>.</p>
+        <p style="margin-top:10px;max-width:70ch">Body paragraph — gothic, 16px, line-height 1.72. The quick brown fox。日本語の本文サンプル。</p>
+      </div>
+    </div>
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Card heading font inconsistency</span><span class="sg-badge dupe">overlap</span><span class="sg-note">site mixes Gothic (.card/.hub-card h3) and Mincho (.ed-tools .et h3) for card titles — pick one rule</span></div>
+      <div class="sg-demo sg-row">
+        <h3 style="font-family:var(--gothic);font-weight:600;font-size:22px">Gothic 600 — .card h3 / .hub-card h3</h3>
+        <h3 style="font-family:var(--mincho);font-weight:700;font-size:22px">Mincho 700 — .ed-tools .et h3</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OVERLAPS ============ -->
+  <section class="sg-sec" id="overlaps">
+    <h2>3 · ⚠ Overlapping templates — decide which to keep</h2>
+    <p class="sg-secnote">Multiple templates do the same job. These are the most likely sources of misuse. For each group, tell me which one to keep; I'll delete the rest and migrate usages.</p>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Content card</span><span class="sg-badge dupe">overlap ×4</span><span class="sg-note"><code>.card</code> · <code>.tool</code> · <code>.hub-card</code> · <code>.hubcard</code></span></div>
+      <div class="sg-demo sg-row">
+        <div class="card" data-tpl="card" style="max-width:230px"><span class="n">.card</span><h3>Research card</h3><p>style.css · radius 20px</p></div>
+        <a class="hub-card is-live" data-tpl="hub-card" style="max-width:230px"><div class="hub-body"><span class="hub-status live">live</span><h3>.hub-card</h3><p>style.css · radius 20px</p></div></a>
+        <a class="hubcard" data-color="material" data-tpl="hubcard" style="max-width:230px"><span class="hc-kicker">Topic Hub</span><h3>.hubcard</h3><p class="hc-q">article-shell · radius 20px</p><span class="hc-go">Enter →</span></a>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Editorial aside</span><span class="sg-badge dupe">overlap ×6</span><span class="sg-note"><code>.callout</code> · <code>.prereq</code> · <code>.takeaways</code> · <code>.hub-question</code> · <code>.nb-pos</code> · <code>.expnote</code></span></div>
+      <div class="sg-demo">
+        <div class="callout point" data-tpl="callout"><div class="co-label">.callout.point</div><p>style.css canonical aside — washi bg, 2px left accent, 3px radius, Mincho lozenge label.</p></div>
+        <div class="takeaways" data-tpl="takeaways" style="--acc:var(--cat-material)"><div class="tk-lab">.takeaways</div><p>article-shell — same callout idiom.</p></div>
+        <div class="hub-question" data-tpl="hub-question" style="--acc:var(--cat-optical)"><div class="hq-lab">.hub-question</div><p>Same idiom, larger Mincho quote.</p></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">List of pages</span><span class="sg-badge dupe">overlap ×3</span><span class="sg-note"><code>.ed-tools .et</code> · <code>.route-steps</code> · <code>.nextcard</code></span></div>
+      <div class="sg-demo">
+        <div class="ed-tools" data-tpl="ed-tools" style="margin-bottom:18px">
+          <a class="et"><div><h3>.ed-tools .et</h3><p>style.css — bottom-ruled list row, Mincho title.</p></div></a>
+        </div>
+        <div class="nextcard" data-tpl="nextcard" style="--acc:var(--cat-device);margin:0"><div class="nc-lab">.nextcard</div><div class="nextcard-grid"><a class="nc-item"><span class="nc-kind">Read next</span><span class="nc-title">article-shell — same list idiom</span></a></div></div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Primary nav</span><span class="sg-badge dupe">overlap</span><span class="sg-note"><code>header.site-nav</code> (current) vs <code>.navbar/.nav-menu/.hamburger</code> (legacy)</span></div>
+      <div class="sg-demo"><p style="font-size:14px;color:var(--soft)">Current = <code>header.site-nav</code> (top of this page). Legacy = <code>.navbar</code> — see §14.</p></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Footer · Sub-page header · Category nav</span><span class="sg-badge dupe">overlap</span><span class="sg-note"><code>.site-footer</code> vs <code>.footer</code> · <code>.phead</code> vs <code>.page-hero</code> · <code>.ed-index</code> vs <code>.rail-left</code> shelf</span></div>
+      <div class="sg-demo"><p style="font-size:14px;color:var(--soft)">Each pair below in §4 / §11 / §14. Keep one per pair.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ NAV ============ -->
+  <section class="sg-sec" id="nav">
+    <h2>4 · Navigation &amp; page chrome</h2>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>header.site-nav</code></span><span class="sg-badge site">site</span><span class="sg-note">current sticky nav (shown at top of page)</span></div>
+      <div class="sg-demo"><p style="font-size:14px;color:var(--soft)">Rendered as this page's header.</p></div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.phead</code> editorial header</span><span class="sg-badge site">site</span><span class="sg-note">breadcrumb + big number + Mincho title + intro</span></div>
+      <div class="sg-demo">
+        <div class="phead" style="border:0;padding:0"><div class="container" style="padding:0;max-width:none">
+          <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><span>Learn</span></div><button class="lang-btn"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+          <div class="ptop"><span class="no">04</span><h1>Learn the Basics</h1><span class="meta">Open science</span></div>
+          <p class="pintro">Intro paragraph with an <em>accent</em>.</p>
+        </div></div>
+      </div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.crumb</code> · <code>.lang-btn</code> · <code>.back-home</code></span><span class="sg-badge site">site</span></div>
+      <div class="sg-demo sg-row">
+        <div class="crumb" style="margin:0"><a href="/">Home</a><span class="sep">/</span><span>Topic</span></div>
+        <button class="lang-btn"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+        <a class="back-home">← Back to Learn</a>
+      </div></div>
+
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.page-hero</code></span><span class="sg-badge dupe">overlap</span><span class="sg-note">older centered sub-page hero — overlaps with .phead</span></div>
+      <div class="sg-demo" style="padding:0"><div class="page-hero" style="padding:40px 28px"><span class="eyebrow">Eyebrow</span><h1>.page-hero title</h1><p>Centered hero — competes with .phead.</p></div></div></div>
+  </section>
+
+  <!-- ============ CARDS ============ -->
+  <section class="sg-sec" id="cards">
+    <h2>5 · Cards</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.card</code> / <code>.card.dark</code></span><span class="sg-badge site">site</span><span class="sg-note">homepage research grid</span></div>
+      <div class="sg-demo sg-row">
+        <div class="card" style="max-width:240px"><span class="n">01</span><h3>Card</h3><p>White, radius 20px, shadow.</p></div>
+        <div class="card dark" style="max-width:240px"><span class="n">02</span><h3>Card dark</h3><p>Dark stage variant.</p></div>
+      </div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.tool</code></span><span class="sg-badge site">site</span><span class="sg-note">software list cards</span></div>
+      <div class="sg-demo"><div class="tool" style="max-width:340px"><div class="th"><span class="name">.tool</span><span class="badge">badge</span></div><p>Software card with actions.</p><div class="acts"><a class="primary">Open</a><a>Docs</a></div></div></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.hub-card</code></span><span class="sg-badge site">site</span><span class="sg-note">grid hub cards (Gothic h3)</span></div>
+      <div class="sg-demo"><a class="hub-card is-live" style="max-width:280px"><div class="hub-thumb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg></div><div class="hub-body"><span class="hub-status live">Live</span><h3>.hub-card</h3><p>Thumb + body.</p><span class="hub-arrow">Open →</span></div></a></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.hubcard</code></span><span class="sg-badge add">added</span><span class="sg-note">Learn hub spotlight (Mincho h3)</span></div>
+      <div class="sg-demo sg-row">
+        <a class="hubcard" data-color="material" style="max-width:250px"><span class="hc-kicker">Topic Hub</span><h3>Understanding Graphene</h3><p class="hc-q">The question…</p><span class="hc-go">Enter →</span></a>
+        <a class="hubcard" data-color="optical" style="max-width:250px"><span class="hc-kicker">Topic Hub</span><h3>Understanding Raman</h3><p class="hc-q">The question…</p><span class="hc-go">Enter →</span></a>
+      </div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.soft-card</code></span><span class="sg-badge site">site</span><span class="sg-note">software list rows</span></div>
+      <div class="sg-demo"><div class="soft-card" style="border:0"><div class="soft-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" fill="currentColor"/></svg></div><div class="soft-info"><h3>.soft-card</h3><p>Icon + info row.</p><div class="soft-tags"><span>tag</span></div></div></div></div></div>
+  </section>
+
+  <!-- ============ ASIDES ============ -->
+  <section class="sg-sec" id="asides">
+    <h2>6 · Editorial asides / callouts</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.callout</code> — 4 variants</span><span class="sg-badge site">site</span><span class="sg-note">the canonical aside</span></div>
+      <div class="sg-demo">
+        <div class="callout intuition"><div class="co-label">.intuition 直感</div><p>Dusty indigo.</p></div>
+        <div class="callout point"><div class="co-label">.point 要点</div><p>Vermilion.</p></div>
+        <div class="callout misconception"><div class="co-label">.misconception 誤解</div><p>Red ochre.</p></div>
+        <div class="callout recap"><div class="co-label">.recap まとめ</div><p>Sumi gray.</p></div>
+      </div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.prereq</code></span><span class="sg-badge site">site</span><span class="sg-note">inline prerequisite line (Mincho)</span></div>
+      <div class="sg-demo"><p class="prereq">先に読むと良い: <a href="#">フォノンとは何か</a></p></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.takeaways</code> · <code>.expnote</code> · <code>.hub-question</code> · <code>.nb-pos</code></span><span class="sg-badge add">added</span><span class="sg-note">all follow the .callout idiom</span></div>
+      <div class="sg-demo">
+        <div class="takeaways" style="--acc:var(--cat-material)"><div class="tk-lab">このページでわかること</div><p>Key takeaways.</p></div>
+        <div class="expnote"><div class="ex-lab">実験メモ</div>From the bench.</div>
+        <div class="hub-question" style="--acc:var(--cat-optical)"><div class="hq-lab">問い</div><p>A guiding question rendered in Mincho.</p></div>
+        <div style="max-width:300px;margin-top:16px"><div class="nb-pos" style="--acc:var(--cat-device)"><div class="nb-cat">Devices</div><dl class="nb-meta"><dt>Theme</dt><dd>schottky</dd><dt>Level</dt><dd>Advanced</dd></dl><p class="nb-summary">.nb-pos positioning card.</p></div></div>
+      </div></div>
+  </section>
+
+  <!-- ============ LISTS ============ -->
+  <section class="sg-sec" id="lists">
+    <h2>7 · Lists of pages</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.ed-tools .et</code></span><span class="sg-badge site">site</span><span class="sg-note">canonical page list (+ .et-coming-soon)</span></div>
+      <div class="sg-demo"><div class="ed-tools">
+        <a class="et"><div><h3>List row <span class="dev-status dev-status--wip">Dev</span></h3><p>Mincho title + gothic description, bottom rule.</p></div></a>
+        <a class="et"><div><h3>Second row</h3><p>Hover tints with bg-soft.</p></div></a>
+      </div></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.route</code> / <code>.route-steps</code></span><span class="sg-badge add">added</span><span class="sg-note">hub learning route (numbered)</span></div>
+      <div class="sg-demo"><section class="route" style="margin:0"><div class="route-hd"><span class="r-no">01</span><h2>Route heading</h2><span class="r-sub">Start here</span></div>
+        <ol class="route-steps"><li><a><div><div class="rs-title">Step title</div><div class="rs-desc">Short description.</div></div><span class="rs-meta">Intro · 18 min</span></a></li></ol></section></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.nextcard</code> / <code>.nc-item</code></span><span class="sg-badge add">added</span><span class="sg-note">end-of-article "read next"</span></div>
+      <div class="sg-demo"><div class="nextcard" style="--acc:var(--cat-optical);margin:0"><div class="nc-lab">Read next</div><div class="nextcard-grid">
+        <a class="nc-item"><span class="nc-kind">Go deeper</span><span class="nc-title">Quantum Picture of Raman</span></a>
+        <a class="nc-item"><span class="nc-kind">Apply it</span><span class="nc-title">Graphene Raman</span></a>
+      </div></div></div></div>
+  </section>
+
+  <!-- ============ BUTTONS ============ -->
+  <section class="sg-sec" id="buttons">
+    <h2>8 · Buttons &amp; controls</h2>
+    <p class="sg-secnote">These live on the dark <code>.demo-stage</code>, so they are shown on a dark panel.</p>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.demo-btn</code> · <code>.segmented</code> · <code>.stepper</code> · range</span><span class="sg-badge site">site</span></div>
+      <div class="sg-demo dark">
+        <div class="btn-row" style="margin-bottom:16px"><button class="demo-btn">Default</button><button class="demo-btn active">Active</button><button class="demo-btn primary">Primary</button></div>
+        <div class="segmented" style="margin-bottom:16px"><button class="seg active">One</button><button class="seg">Two</button><button class="seg">Three</button></div>
+        <div class="controls"><div class="control"><label>Slider <span class="val">42</span></label><input type="range" min="0" max="100" value="42"></div>
+          <span class="stepper">−</span><span class="stepper">+</span></div>
+        <p class="cap" style="margin-top:14px">.cap caption text on the dark stage.</p>
+      </div></div>
+  </section>
+
+  <!-- ============ TAGS ============ -->
+  <section class="sg-sec" id="tags">
+    <h2>9 · Tags / pills / status</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.dev-status</code> · <code>.hub-status</code> · <code>.et-tag</code> · <code>.nb-tags</code> · <code>.chips</code></span><span class="sg-badge site">site</span><span class="sg-note">.nb-tags = added</span></div>
+      <div class="sg-demo sg-row" style="align-items:center">
+        <span class="dev-status dev-status--live">Live</span>
+        <span class="dev-status dev-status--wip">Dev</span>
+        <span class="hub-status live">live</span>
+        <span class="hub-status soon">soon</span>
+        <span class="et-tag">.et-tag</span>
+        <div class="nb-tags"><span>#Graphene</span><span>#Raman</span></div>
+        <div class="chips" style="margin:0"><span>chip</span></div>
+      </div></div>
+  </section>
+
+  <!-- ============ NAVBOARD ============ -->
+  <section class="sg-sec" id="navboard">
+    <h2>10 · Right navboard (article-shell)</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.nbblock</code> · <code>.nb-toc</code> · <code>.nb-links</code> · <code>.nb-next-grp</code></span><span class="sg-badge add">added</span><span class="sg-note">per-page sidebar blocks</span></div>
+      <div class="sg-demo" style="--acc:var(--cat-optical);max-width:300px">
+        <div class="nbblock"><div class="nbblock-hd">On this page</div><ol class="nb-toc"><li><a class="is-active">Active section</a></li><li><a>Second section</a></li></ol></div>
+        <div class="nbblock"><div class="nbblock-hd">Helpful background</div><ul class="nb-links"><li><a>Classical Raman Theory</a></li></ul></div>
+        <div class="nbblock"><div class="nbblock-hd">Concepts used here</div><ul class="nb-links"><li><span class="nb-item">Polarizability tensor</span></li></ul></div>
+        <div class="nbblock"><div class="nbblock-hd">Read next</div><div class="nb-next-grp"><div class="nb-next-lab">Go deeper</div><ul class="nb-links"><li><a>Quantum Raman</a></li></ul></div></div>
+      </div></div>
+  </section>
+
+  <!-- ============ SHELF ============ -->
+  <section class="sg-sec" id="shelf">
+    <h2>11 · Left shelf (article-shell)</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.rail-left</code> / <code>.ashelf-routes</code> / <code>.ashelf-pillar</code> / <code>.ashelf-grp</code></span><span class="sg-badge add">added</span><span class="sg-note">routes (compact top) + 2-level accordion; grouping from pages.json <code>categories[].groups</code></span></div>
+      <div class="sg-demo" style="max-width:240px">
+        <nav class="ashelf-routes" data-cat="routes"><div class="ashelf-routes-hd">Routes &amp; Guides</div><ul class="ashelf-list"><li><a class="is-current">How to Use This Site</a></li><li><a>The Graphene Route <span class="wip">dev</span></a></li></ul></nav>
+        <details class="ashelf-pillar" data-cat="concepts" open><summary class="ashelf-pillar-hd">How Matter Works<span class="ashelf-caret" aria-hidden="true">&#9656;</span></summary>
+          <details class="ashelf-grp" open><summary class="ashelf-grp-hd">Electronic States<span class="ashelf-caret" aria-hidden="true">&#9656;</span></summary><ul class="ashelf-list"><li><span class="ashelf-soon">The Fermi Level <span class="wip wip-soon">準備中</span></span></li></ul></details>
+        </details>
+        <details class="ashelf-pillar" data-cat="themes"><summary class="ashelf-pillar-hd">Materials &amp; Devices<span class="ashelf-caret" aria-hidden="true">&#9656;</span></summary><ul class="ashelf-list ashelf-ungrouped"><li><a>Graphene <span class="wip">dev</span></a></li></ul></details>
+      </div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.ed-index</code> / <code>.ed-ix</code></span><span class="sg-badge dupe">overlap</span><span class="sg-note">category quick-nav grid — overlaps the shelf</span></div>
+      <div class="sg-demo"><nav class="ed-index" style="border:0;padding:0;background:none"><div class="container" style="padding:0;max-width:none"><div class="ed-index-grid"><a class="ed-ix"><span class="ed-ix-no">Ⅰ</span><span class="ed-ix-name">Routes &amp; Guides</span></a><a class="ed-ix"><span class="ed-ix-no">Ⅱ</span><span class="ed-ix-name">Concept Library</span></a></div></div></nav></div></div>
+  </section>
+
+  <!-- ============ HUBS ============ -->
+  <section class="sg-sec" id="hubs">
+    <h2>12 · Hub spotlight (article-shell)</h2>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.hub-spot-lab</code> / <code>.hubcards</code></span><span class="sg-badge add">added</span><span class="sg-note">top of the Learn index</span></div>
+      <div class="sg-demo"><div class="hub-spot-lab">Start from a theme</div><div class="hubcards">
+        <a class="hubcard" data-color="material"><span class="hc-kicker">Topic Hub</span><h3>Understanding Graphene</h3><p class="hc-q">Why does one sheet of carbon behave like nothing else?</p><span class="hc-go">Enter →</span></a>
+        <a class="hubcard" data-color="device"><span class="hc-kicker">Topic Hub</span><h3>Understanding 2D FETs</h3><p class="hc-q">What limits an atomically-thin transistor?</p><span class="hc-go">Enter →</span></a>
+      </div></div></div>
+  </section>
+
+  <!-- ============ SECTIONS ============ -->
+  <section class="sg-sec" id="sections">
+    <h2>13 · Homepage section patterns</h2>
+    <p class="sg-secnote">Page-level layout blocks used on <code>index.html</code>. Listed for completeness; not used on Learn pages.</p>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.sh</code> section header</span><span class="sg-badge site">site</span></div>
+      <div class="sg-demo"><div class="sh" style="padding:0;max-width:none"><span class="eyebrow">Eyebrow</span><h2>Section heading</h2><p class="intro">Section intro.</p></div></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.news</code> · <code>.pub</code> · <code>.cv-row</code></span><span class="sg-badge site">site</span><span class="sg-note">list rows</span></div>
+      <div class="sg-demo">
+        <div class="news"><div class="item" style="max-width:none"><span class="dt">2026</span><span class="bd">.news item — <em>highlight</em></span></div></div>
+        <div class="pubs"><div class="pub"><span class="yr">2026</span><div><span class="t">.pub title</span><div class="a">Authors</div></div><span class="meta"><b>Journal</b></span></div></div>
+        <div class="cv" style="margin-top:8px"><div class="cv-row" style="max-width:none"><span class="w">2024–</span><span class="d">.cv-row entry</span></div></div>
+      </div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.hero .stage</code> · <code>.contact .stage</code></span><span class="sg-badge site">site</span><span class="sg-note">dark hero/contact stages</span></div>
+      <div class="sg-demo" style="padding:0"><div class="stage" style="min-height:120px;display:flex;align-items:center;justify-content:center;color:#fff"><span style="position:relative;z-index:2">.stage (dark, rounded)</span><div class="glow"></div></div></div></div>
+  </section>
+
+  <!-- ============ LEGACY ============ -->
+  <section class="sg-sec" id="legacy">
+    <h2>14 · Legacy / deletion candidates</h2>
+    <p class="sg-secnote">These appear superseded. Confirm nothing still uses them, then delete.</p>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.navbar</code> / <code>.nav-menu</code> / <code>.hamburger</code></span><span class="sg-badge legacy">legacy</span><span class="sg-note">old nav, replaced by header.site-nav</span></div>
+      <div class="sg-demo"><nav class="navbar" style="position:static"><div class="nav-inner"><a class="nav-name">.navbar</a><ul class="nav-menu" style="position:static;display:flex"><li><a>Item</a></li></ul><button class="hamburger"><span></span><span></span></button></div></nav></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.footer</code> (legacy)</span><span class="sg-badge legacy">legacy</span><span class="sg-note">replaced by .site-footer</span></div>
+      <div class="sg-demo"><footer class="footer" style="padding:14px 0"><p>.footer — legacy</p></footer></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.hub</code> / <code>.hub-grid</code></span><span class="sg-badge legacy">legacy?</span><span class="sg-note">grid hub layout — confirm if any page still uses it vs .ed-tools / hub spotlight</span></div>
+      <div class="sg-demo"><p style="font-size:14px;color:var(--soft)">Used by? Confirm before deleting.</p></div></div>
+  </section>
+
+  <!-- ============ TOOLING ============ -->
+  <section class="sg-sec" id="tooling">
+    <h2>15 · Tooling UI — proofread.css <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">(.pf-*)</span></h2>
+    <p class="sg-secnote">The in-browser proofreading ("校正") layer auto-loaded on unpublished Learn pages. It is dev tooling, not a content template, listed here for completeness. Rendered live only in review mode (Alt+R / <code>?review</code>).</p>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.pf-*</code> family (~38 classes)</span><span class="sg-badge add">tool</span></div>
+      <div class="sg-demo" style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.9;color:var(--ink-2)">
+        <strong style="font-family:var(--gothic)">launch/bar:</strong> .pf-launch · .pf-bar · .pf-btn(.--accent) · .pf-count · .pf-view · .pf-pen<br>
+        <strong style="font-family:var(--gothic)">marks:</strong> .pf-del · .pf-ins · .pf-comment · .pf-cmt(-num/-quote/-note) · .pf-markpop · .pf-pop<br>
+        <strong style="font-family:var(--gothic)">panel/modal:</strong> .pf-panel(-hd/-body/-empty) · .pf-modal(-foot) · .pf-card · .pf-field-lab · .pf-input(-row/-lab) · .pf-toast · .pf-flash · .pf-help-list
+      </div></div>
+  </section>
+
+  <!-- ============ COVERAGE LEDGER ============ -->
+  <section class="sg-sec" id="ledger">
+    <h2>16 · Coverage ledger — everything else, accounted for</h2>
+    <p class="sg-secnote">After missing <code>gnr-variants.css</code> and <code>measurement-error.css</code> earlier, this ledger lists every remaining class so nothing is silently omitted. None of these are reusable content templates; they are page-specific demo internals, states, or layout scaffold.</p>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name">Homepage sections (shown in §13)</span><span class="sg-badge site">site</span></div>
+      <div class="sg-demo" style="font-size:13px;line-height:1.8;color:var(--ink-2)"><code>.hero/.hero-inner/.hero-center/.hero-chips/.hero-meta</code> · <code>.about/.lead/.say/.chips</code> · <code>.news/.item</code> · <code>.pub/.cover-badge/.pub-cover</code> · <code>.tools/.tool</code> · <code>.cv/.cv-row/.cv-group</code> · <code>.contact/.glow2/.more-link</code> — full layouts live on <code>index.html</code>.</div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name">Page-specific demo internals (per-page CSS + gnr-variants)</span><span class="sg-badge dupe">page-scoped</span><span class="sg-note">not templates — scoped to one page's interactive figure</span></div>
+      <div class="sg-demo" style="font-size:13px;line-height:1.8;color:var(--ink-2)">graphene: <code>.gr-panel/.gr-bands/.gr-list/.gr-info/.gr-view-group/.gr-toggle(-track/-thumb)/.gr-3d-wrap/.gr-3d-hint/.gr-canvas-wide</code> · measurement: <code>.sf-out/.sf-result/.sf-rule/.digit-sig/.trace-label/.trace-op/.me-field</code> · misc: <code>.atom-legend/.atom-slider/.branch-legend/.diag-card/.decomp-label/.physics-note/.mode-explain/.panel-label/.shuji-deco/.sj-frame/.sj-seal/.target-card/.target-figure/.target-side</code></div></div>
+    <div class="sg-item"><div class="sg-meta"><span class="sg-name">States · utilities · layout scaffold</span><span class="sg-badge site">—</span><span class="sg-note">modifiers, not standalone templates</span></div>
+      <div class="sg-demo" style="font-size:13px;line-height:1.8;color:var(--ink-2)"><code>.is-current/.is-active/.is-open/.is-soon/.is-live/.active/.open/.in/.rv/.reveal-on/.hidden</code> · scaffold: <code>.article-layout/.learn-layout/.learn-main/.rail-center/.rail-left/.rail-right/.nb-relocated/.shell-bare/.shell-anchor/.nb-toc-wrap/.container/.wrap/.band</code></div></div>
+    <div class="sg-pick">Result: every class in style.css · gnr-variants.css · measurement-error.css · article-shell.css · proofread.css is now either rendered above or listed here. Per-page CSS beyond the reference page contains only page-local demo styling (same families as listed).</div>
+  </section>
+
+  <footer class="site-footer" style="margin-top:60px">
+    <div class="foot"><span class="foot-l">&copy; 2026 Kentaro Yumigeta — styleguide</span><img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true"></div>
+  </footer>
+</main>
+
+<!-- selection / export bar -->
+<div class="sg-actions" id="sg-actions">
+  <div class="sg-out" id="sg-out">
+    <p class="sg-out-hint">Save this as <code>styleguide/decisions.json</code> and tell me “apply the styleguide decisions”, or paste it back to me.</p>
+    <textarea id="sg-out-text" readonly spellcheck="false"></textarea>
+  </div>
+  <div class="in">
+    <span class="count" id="sg-count">— keep · — delete</span>
+    <button class="sg-act-btn" id="sg-all">Keep all</button>
+    <button class="sg-act-btn" id="sg-none">Uncheck all</button>
+    <button class="sg-act-btn" id="sg-reset">Reset</button>
+    <button class="sg-act-btn" id="sg-copy">Copy JSON</button>
+    <button class="sg-act-btn" id="sg-download">Download .json</button>
+    <button class="sg-act-btn primary" id="sg-export">Export selection ▸</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var SKIP = { tokens: 1, type: 1, ledger: 1 };          // sections without keep/delete
+  var KEY = 'yumigeta-styleguide-decisions-v1';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+
+  var items = [];
+  function secOf(el) { var s = el.closest('.sg-sec'); var h = s && s.querySelector('h2'); return h ? h.textContent.replace(/\s+/g, ' ').trim() : (s ? s.id : ''); }
+  function srcOf(el) { var it = el.closest('.sg-item'); var b = it && it.querySelector('.sg-badge'); return b ? b.textContent.replace(/\s+/g, ' ').trim() : 'variant'; }
+  function addUnit(rec, onToggle) {
+    rec.apply = onToggle;
+    rec.cb.checked = (rec.id in saved) ? !!saved[rec.id] : true;
+    onToggle(rec.cb.checked);
+    rec.cb.addEventListener('change', function () { saved[rec.id] = rec.cb.checked; persist(); onToggle(rec.cb.checked); refresh(); });
+    items.push(rec);
+  }
+
+  // ── per-variant ("each theme") units: every element carrying data-tpl ──
+  document.querySelectorAll('[data-tpl]').forEach(function (el) {
+    if (el.closest('.sg-sec') && SKIP[el.closest('.sg-sec').id]) return;
+    var tpl = el.getAttribute('data-tpl').trim();
+    var id = secOf(el) + ' :: .' + tpl.replace(/\s+/g, '.');
+    var lab = document.createElement('label'); lab.className = 'sg-cb'; lab.title = 'Keep .' + tpl;
+    var cb = document.createElement('input'); cb.type = 'checkbox';
+    lab.appendChild(cb); lab.appendChild(document.createTextNode('Keep'));
+    el.appendChild(lab);
+    addUnit(
+      { id: id, section: secOf(el), name: '.' + tpl.replace(/\s+/g, '.'), classes: tpl.split(/\s+/).map(function (c) { return '.' + c; }), source: srcOf(el), cb: cb },
+      function (keep) { el.classList.toggle('tpl-drop', !keep); }
+    );
+  });
+
+  // ── item-level units: only .sg-items that have NO per-variant checkbox ──
+  document.querySelectorAll('.sg-sec').forEach(function (sec) {
+    if (SKIP[sec.id]) return;
+    var secTitle = secOf(sec);
+    sec.querySelectorAll('.sg-item').forEach(function (item, i) {
+      if (item.querySelector('[data-tpl]')) return;       // already covered per-variant
+      var nameEl = item.querySelector('.sg-name');
+      var name = nameEl ? nameEl.textContent.replace(/\s+/g, ' ').trim() : (sec.id + ' item ' + (i + 1));
+      var id = sec.id + ' :: ' + name;
+      var classes = Array.prototype.map.call(item.querySelectorAll('.sg-name code'), function (c) { return c.textContent.trim(); });
+      var badgeEl = item.querySelector('.sg-badge');
+      var source = badgeEl ? badgeEl.textContent.replace(/\s+/g, ' ').trim() : '';
+      var lab = document.createElement('label'); lab.className = 'sg-keep'; lab.title = 'Keep this template';
+      var cb = document.createElement('input'); cb.type = 'checkbox';
+      lab.appendChild(cb); lab.appendChild(document.createTextNode('Keep'));
+      var meta = item.querySelector('.sg-meta'); if (meta) meta.insertBefore(lab, meta.firstChild);
+      addUnit(
+        { id: id, section: secTitle, name: name, classes: classes, source: source, cb: cb },
+        function (keep) { item.classList.toggle('tpl-drop', !keep); }
+      );
+    });
+  });
+
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+
+  function buildPayload() {
+    var decisions = items.map(function (it) {
+      return { section: it.section, name: it.name, classes: it.classes, source: it.source,
+               decision: it.cb.checked ? 'keep' : 'delete' };
+    });
+    return {
+      schema: 'yumigeta-styleguide/v1',
+      total: decisions.length,
+      keep: decisions.filter(function (d) { return d.decision === 'keep'; }).length,
+      'delete': decisions.filter(function (d) { return d.decision === 'delete'; }).length,
+      toDelete: decisions.filter(function (d) { return d.decision === 'delete'; }),
+      decisions: decisions
+    };
+  }
+  function payloadText() { return JSON.stringify(buildPayload(), null, 2); }
+
+  var countEl = document.getElementById('sg-count');
+  var outBox = document.getElementById('sg-out');
+  var outText = document.getElementById('sg-out-text');
+  function refresh() {
+    var del = items.filter(function (it) { return !it.cb.checked; }).length;
+    countEl.innerHTML = '<b>' + (items.length - del) + '</b> keep · <b>' + del + '</b> delete';
+    if (outBox.classList.contains('show')) outText.value = payloadText();
+  }
+
+  function setAll(v) { items.forEach(function (it) { it.cb.checked = v; saved[it.id] = v; it.apply(v); }); persist(); refresh(); }
+  document.getElementById('sg-all').onclick = function () { setAll(true); };
+  document.getElementById('sg-none').onclick = function () { setAll(false); };
+  document.getElementById('sg-reset').onclick = function () { saved = {}; try { localStorage.removeItem(KEY); } catch (e) {} items.forEach(function (it) { it.cb.checked = true; it.apply(true); }); refresh(); };
+  document.getElementById('sg-export').onclick = function () { outBox.classList.toggle('show'); outText.value = payloadText(); if (outBox.classList.contains('show')) outText.focus(); };
+  document.getElementById('sg-copy').onclick = function () {
+    outText.value = payloadText(); outBox.classList.add('show');
+    outText.select();
+    if (navigator.clipboard) navigator.clipboard.writeText(outText.value);
+    else document.execCommand('copy');
+    this.textContent = 'Copied ✓'; var b = this; setTimeout(function () { b.textContent = 'Copy JSON'; }, 1400);
+  };
+  document.getElementById('sg-download').onclick = function () {
+    var blob = new Blob([payloadText()], { type: 'application/json' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'styleguide-decisions.json'; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+  };
+
+  refresh();
+})();
+</script>
+<script src="/assets/js/lang-toggle.js"></script>
+</body>
+</html>

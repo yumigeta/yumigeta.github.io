@@ -202,26 +202,27 @@
 }
 .ray-fig figcaption b { color: var(--soft); }
 
-.derivation { display: flex; flex-direction: column; gap: 4px; }
+.derivation { display: block; }
 .derivation h3 {
   font-family: var(--mincho);
-  font-size: 0.95rem; font-weight: 700; color: var(--ink);
-  margin: 22px 0 4px; padding-bottom: 6px;
+  font-size: 1.18rem; font-weight: 700; color: var(--ink);
+  margin: 1.9rem 0 0.7rem; padding-bottom: 6px;
   border-bottom: 1px solid var(--rule);
+  letter-spacing: -.01em;
 }
-.derivation h3:first-child { margin-top: 4px; }
+.derivation h3:first-child { margin-top: 0.3rem; }
 .derivation p {
-  font-size: 0.9rem; color: var(--soft); line-height: 1.75; margin: 10px 0;
+  font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 1.1rem;
+  max-width: var(--read-measure);
 }
+.derivation p:last-child { margin-bottom: 0; }
 .derivation p b { color: var(--ink); }
 .derivation .eq-block {
-  margin: 8px 0; padding: 4px 0; overflow-x: auto;
+  margin: 0 0 1.1rem; padding: 4px 0; overflow-x: auto;
+  /* equations inherit the prose measure (72ch) from `.derivation p`: long ones
+     are WRAPPED to fit (e.g. eq 11), never allowed to widen the column. */
 }
 
-/* ── Coming-soon badge — uses the shared .callout (cv-daikake) styling;
-   only the label is shown (no body), so trim the label's bottom margin. ── */
-.coming-soon { margin-top: 18px; }
-.coming-soon .co-label { margin-bottom: 0; }
 
 .recall {
   margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px;
@@ -234,7 +235,11 @@
 }
 .recall > summary::-webkit-details-marker { display: none; }
 .recall > summary::before {
-  content: "\25B8"; color: var(--faint); transition: transform .15s ease;
+  content: ""; flex: none; width: 15px; height: 15px;
+  background-color: currentColor;
+  -webkit-mask: var(--ti-chevron-right) center / contain no-repeat;
+          mask: var(--ti-chevron-right) center / contain no-repeat;
+  transition: transform .15s ease;
 }
 .recall[open] > summary::before { transform: rotate(90deg); }
 .recall[open] > summary { border-bottom: 1px solid var(--rule); }
@@ -242,7 +247,8 @@
 .recall > div {
   padding: 6px 16px 12px;
 }
-.recall p { font-size: 0.82rem; color: var(--soft); line-height: 1.65; margin: 8px 0; }
+.recall p { font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 0.9rem; }
+.recall p:last-child { margin-bottom: 0; }
 
 /* ── Polarizability demo: α slider, mode toggle, legend ── */
 .atom-controls {
@@ -284,11 +290,12 @@
 
 /* ── In-section sub-demo heading (e.g. CO2 demo inside the classical theory) ── */
 .demo-sub {
-  font-size: 1rem; font-weight: 700; color: var(--ink);
-  margin: 28px 0 6px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--rule);
+  font-family: var(--mincho);
+  font-size: 1.18rem; font-weight: 700; color: var(--ink);
+  margin: 2.2rem 0 0.7rem; padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule); letter-spacing: -.01em;
 }
-.demo-sub-p { font-size: 0.86rem; color: var(--soft); line-height: 1.7; margin: 6px 0 14px; }
+.demo-sub-p { font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 1.1rem; max-width: var(--read-measure); }
 
 /* ── Taylor reminder: sin x animation ── */
 .taylor-canvas {
@@ -351,3 +358,32 @@
   display: inline-block; width: 11px; height: 11px; border-radius: 2px;
   vertical-align: middle; margin-right: 4px;
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   Unified reading rhythm — one body size, one leading, ONE column width.
+   Running prose = 1rem / 1.7, all capped at the SAME measure the shell
+   gives the intro (72ch), so body text lines up with the lead instead of
+   running the full ~820px center column. Figures (.anim-card) stay wide.
+   Previously font sizes jumped 13–16px, leading 1.55–1.75, and the body
+   ran full-width while the intro sat at 72ch — that mismatch is the fix.
+   ══════════════════════════════════════════════════════════════════ */
+:root { --read-measure: 72ch; }            /* page-scoped (raman.css only loads here) */
+
+/* Shell width is no longer page-scoped here — the whole site shares one outer
+   width (--maxw, 1190px) from style.css :root, so raman, every other Learn page,
+   and the nav all line up. The reading column is still kept tidy by the
+   --read-measure / 72ch caps below (text, equations and figures share one
+   measure); the shell just no longer needs its own width override. */
+
+.pintro { font-size: 1rem; line-height: 1.7; }
+.demo-head p { font-size: 1rem; line-height: 1.7; }
+
+/* every prose block + its captioned asides share the one reading measure.
+   Equations are NOT capped here — a few (e.g. the wide tensor sum) need the
+   full column; they stay centered within it rather than scroll. */
+.recall, .callout,
+p.cap { max-width: var(--read-measure); }
+
+/* figure / spectrum captions — single secondary size & leading */
+.cap,
+.spectrum-wrap .cap, .jab-cap { font-size: 0.875rem; line-height: 1.6; }

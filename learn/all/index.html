@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Articles — Learn | Kentaro Yumigeta</title>
+  <meta name="description" content="A complete index of every Learn article, browsable by category, by name, and by tag.">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/all/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <style>
+    /* Page-specific: the index controls (restrained — typographic active states,
+       hairline borders, no tinted highlight boxes). */
+    .lall-controls { max-width: var(--maxw); margin: 0 0 28px; }
+    .lall-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 12px; }
+    .lall-tagrow { padding-top: 12px; border-top: 1px solid var(--line); }
+    .lall-lab {
+      font-family: var(--gothic); font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--soft); margin-right: 4px;
+    }
+    .lall-sort {
+      background: none; border: 0; cursor: pointer; padding: 2px 0;
+      font-family: var(--gothic); font-size: 13.5px; color: var(--ink-2);
+    }
+    .lall-sort:hover { color: var(--ink); }
+    .lall-sort.is-on { color: var(--accent); font-weight: 700; }
+    .lall-sort + .lall-sort { border-left: 1px solid var(--line); padding-left: 12px; margin-left: 4px; }
+    .lall-tag {
+      background: none; border: 1px solid var(--rule); border-radius: 980px; cursor: pointer;
+      font-family: var(--gothic); font-size: 11px; font-weight: 600; color: var(--soft); padding: 3px 11px;
+      transition: color .15s, border-color .15s;
+    }
+    .lall-tag:hover { color: var(--ink); }
+    .lall-tag.is-on { color: var(--accent); border-color: var(--accent); font-weight: 700; }
+    .lall-clear { border-style: dashed; color: var(--ink-3); }
+    .lall-empty { color: var(--soft); font-family: var(--gothic); padding: 24px 0; }
+  </style>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body>
+<script src="/assets/js/lang-toggle.js"></script>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+      <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+      <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+      <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/#cv">CV</a>
+    </nav>
+    <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="phead-top">
+      <div class="crumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+        <span><span class="i18n-en">All Articles</span><span class="i18n-ja">全記事索引</span></span>
+      </div>
+      <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+    </div>
+    <div class="ptop">
+      <h1><span class="i18n-en">All Articles</span><span class="i18n-ja">全記事索引</span></h1>
+    </div>
+    <p class="pintro">
+      <span class="i18n-en">Every page in Learn, in one place. Browse by category, sort by name, or filter by tag. Nothing stays hidden.</span>
+      <span class="i18n-ja">Learn のすべてのページを一覧できます。カテゴリで眺め、名前で並べ替え、タグで絞り込めます。隠れたページは作りません。</span>
+    </p>
+  </div>
+</div>
+
+<section class="band">
+  <div class="container">
+    <div class="lall-controls" id="learn-all-controls"></div>
+    <div id="learn-all"></div>
+  </div>
+</section>
+
+<div class="backrow">
+  <div class="container">
+    <a class="back-home" href="/learn/">
+      <span class="i18n-en">&larr; Back to Learn</span>
+      <span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span>
+    </a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot">
+    <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+    <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+  </div>
+</footer>
+
+<script src="/assets/js/learn-all.js"></script>
+<script>window.initLearnAll();</script>
+</body>
+</html>

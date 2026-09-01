@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Experimental Data — Topic Hub | Kentaro Yumigeta</title>
+  <meta name="description" content="A toolbox for reading measurements honestly: what a number with error bars claims, how noise sets the limit of what you can see, and how acquisition and fitting decide whether a result is real.">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/hubs/measurement/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="hubs/measurement">
+<script src="/assets/js/lang-toggle.js"></script>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+      <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+      <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+      <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/#cv">CV</a>
+    </nav>
+    <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="phead-top">
+      <div class="crumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+        <span><span class="i18n-en">Reading Data</span><span class="i18n-ja">実験データの読み方</span></span>
+      </div>
+      <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+    </div>
+    <div class="ptop">
+      <h1><span class="i18n-en">Reading Experimental Data</span><span class="i18n-ja">実験データの読み方</span></h1>
+    </div>
+    <p class="pintro">
+      <span class="i18n-en">A toolbox, not a course. Reach for these when you need them. What a number really claims, where noise sets the limit, and how to read a spectrum without fooling yourself.</span>
+      <span class="i18n-ja">講座ではなく道具箱です。必要なときに取り出してください。数値が本当は何を主張しているのか、ノイズが限界をどこに引くのか、そして自分をだまさずにスペクトルを読む方法。</span>
+    </p>
+  </div>
+</div>
+
+<div class="callout">
+  <span class="co-label"><span class="i18n-en">The question</span><span class="i18n-ja">問い</span></span>
+  <p>
+    <span class="i18n-en">When is a bump in your data a real signal, and when is it just noise you are fooling yourself with?</span>
+    <span class="i18n-ja">データの山は、本物の信号か。それとも自分をだましているだけのノイズか？</span>
+  </p>
+</div>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">01</span>
+    <h2><span class="i18n-en">What a number means</span><span class="i18n-ja">数値の意味を知る</span></h2>
+    <span class="r-sub"><span class="i18n-en">Foundations</span><span class="i18n-ja">基礎</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/measurement-error/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Measurement, Error & Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析</span></div>
+        <div class="rs-desc"><span class="i18n-en">Accuracy vs precision, significant figures, error propagation, and the 1/√n rule.</span><span class="i18n-ja">正確さと精密さ、有効数字、誤差伝播、そして 1/√n 則。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Reference · 25 min</span><span class="i18n-ja">リファレンス · 25分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">02</span>
+    <h2><span class="i18n-en">Fight the noise</span><span class="i18n-ja">ノイズと戦う</span></h2>
+    <span class="r-sub"><span class="i18n-en">Acquisition</span><span class="i18n-ja">取得</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/spectral-noise/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Noisy Spectra: Acquisition vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算</span></div>
+        <div class="rs-desc"><span class="i18n-en">Shot, dark, and read noise; one long acquisition vs many short ones; cosmic-ray rejection.</span><span class="i18n-ja">ショット・ダーク・読み出しノイズ、長時間1回か短時間多数か、宇宙線除去。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Reference · 15 min</span><span class="i18n-ja">リファレンス · 15分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">03</span>
+    <h2><span class="i18n-en">Read a spectrum</span><span class="i18n-ja">スペクトルを読む</span></h2>
+    <span class="r-sub"><span class="i18n-en">In practice</span><span class="i18n-ja">実践</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/angle-resolved-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Angle-Resolved Raman</span><span class="i18n-ja">角度分解ラマン</span></div>
+        <div class="rs-desc"><span class="i18n-en">How to read polar plots, and how the measurement geometry shapes them.</span><span class="i18n-ja">極座標プロットの読み方と、測定配置がそれをどう作るか。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advanced · 12 min</span><span class="i18n-ja">発展 · 12分</span></span>
+    </a></li>
+    <li><a href="/learn/graphene-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Raman Spectroscopy of Graphene</span><span class="i18n-ja">グラフェンのラマン分光</span></div>
+        <div class="rs-desc"><span class="i18n-en">A worked example: extract layer number, defects, and strain from real peaks.</span><span class="i18n-ja">実例：本物のピークから層数・欠陥・ひずみを取り出す。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 18 min</span><span class="i18n-ja">標準 · 18分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<footer class="site-footer">
+  <div class="foot">
+    <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+    <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+  </div>
+</footer>
+
+<script src="/assets/js/article-shell.js"></script>
+</body>
+</html>

@@ -13,7 +13,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <script src="/assets/js/analytics.js"></script>
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <style>
+    .learn-quick { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 16px; }
+    .learn-quick-a { display: inline-flex; align-items: baseline; gap: 8px;
+      font-family: var(--gothic); font-size: 14px; font-weight: 700; color: var(--ink); }
+    .learn-quick-a:hover { color: var(--accent); }
+    .learn-quick-a .lq-k { color: var(--accent); font-size: 12px; }
+  </style>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
 <body>
 <script src="/assets/js/lang-toggle.js"></script>
@@ -31,32 +39,32 @@
   </div>
 </header>
 
-<!-- PAGE HEADER (editorial) -->
-<div class="phead">
-  <div class="container">
-    <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
-    <div class="ptop">
-      <span class="no">04</span>
-      <h1><span class="i18n-en">Learn the Basics</span><span class="i18n-ja">基礎から学ぶ</span></h1>
-      <span class="meta"><span class="i18n-en">Open science</span><span class="i18n-ja">オープンサイエンス</span></span>
+<!-- LEARN MAP: left knowledge-map shelf + main (phead runs beside the shelf, like article pages) -->
+<div class="learn-layout">
+  <aside class="rail-left" id="learn-shelf"></aside>
+  <div class="learn-main">
+    <!-- PAGE HEADER (editorial) -->
+    <div class="phead">
+      <div class="container">
+        <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+        <div class="ptop">
+          <span class="no">04</span>
+          <h1><span class="i18n-en">Learn the Basics</span><span class="i18n-ja">基礎から学ぶ</span></h1>
+          <span class="meta"><span class="i18n-en">Open science</span><span class="i18n-ja">オープンサイエンス</span></span>
+        </div>
+        <p class="pintro"><span class="i18n-en">Browser-based interactive explainers and visualizations, built for <em>teaching</em>, learning, and open science.</span><span class="i18n-ja">ブラウザ上で動く対話的な解説と可視化。<em>教育</em>、学習、オープンサイエンスのために作られています。</span></p>
+        <p style="margin-top:14px;padding:10px 14px;border:1px dashed var(--line);border-radius:4px;font-family:var(--gothic);font-size:13px;color:var(--soft);background:rgba(0,0,0,.02)"><strong>⚙︎ <span class="i18n-en">Development index</span><span class="i18n-ja">開発用目次</span></strong>: <span class="i18n-en">includes work-in-progress pages, all links active. Not linked from the public site.</span><span class="i18n-ja">作成中のページも含め、すべてのリンクが有効です。公開サイトからはリンクされていません。</span></p>
+        <div class="learn-quick">
+          <a class="learn-quick-a" href="/learn/start/"><span class="lq-k" aria-hidden="true">▸</span><span><span class="i18n-en">How to use this site</span><span class="i18n-ja">このサイトの読み方</span></span></a>
+          <a class="learn-quick-a" href="/learn/all/"><span class="lq-k" aria-hidden="true">▤</span><span><span class="i18n-en">All articles &amp; tags</span><span class="i18n-ja">全記事索引・タグ</span></span></a>
+        </div>
+      </div>
     </div>
-    <p class="pintro"><span class="i18n-en">Browser-based interactive explainers and visualizations, built for <em>teaching</em>, learning, and open science.</span><span class="i18n-ja">ブラウザ上で動く対話的な解説と可視化。<em>教育</em>、学習、オープンサイエンスのために作られています。</span></p>
-    <p style="margin-top:14px;padding:10px 14px;border:1px dashed var(--line);border-radius:4px;font-family:var(--gothic);font-size:13px;color:var(--soft);background:rgba(0,0,0,.02)"><strong>⚙︎ <span class="i18n-en">Development index</span><span class="i18n-ja">開発用目次</span></strong>: <span class="i18n-en">includes work-in-progress pages, all links active. Not linked from the public site.</span><span class="i18n-ja">作成中のページも含め、すべてのリンクが有効です。公開サイトからはリンクされていません。</span></p>
+    <section class="band" id="categories">
+      <div id="learn-sections"></div>
+    </section>
   </div>
 </div>
-
-<!-- CATEGORY INDEX (目次) -->
-<nav class="ed-index" id="categories" aria-label="Categories / カテゴリ一覧">
-  <div class="container">
-    <div class="ed-index-lab"><span class="i18n-en">Categories</span><span class="i18n-ja">カテゴリ一覧</span></div>
-    <div class="ed-index-grid" id="learn-nav-grid"></div>
-  </div>
-</nav>
-
-<!-- INTERACTIVE TOOLS -->
-<section class="band">
-  <div class="container" id="learn-sections"></div>
-</section>
 
 <div class="backrow">
   <div class="container">
@@ -72,6 +80,6 @@
 </footer>
 
 <script src="/assets/js/learn-index.js"></script>
-<script>window.initLearnIndex(false);</script>
+<script>window.initLearnIndex({ publishedOnly: false, showStatus: true });</script>
 </body>
 </html>

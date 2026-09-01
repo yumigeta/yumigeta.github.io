@@ -83,8 +83,8 @@ function label(ctx, text, x, y, opts = {}) {
            ja: '<b>吸収：</b>光子が消滅し、原子が励起状態へ遷移します。速度 $\\propto N_1\\,\\rho(\\nu)$。' },
     sp:  { en: '<b>Spontaneous emission:</b> the excited atom decays and emits a photon in a random direction and with random phase. Rate $\\propto N_2$ (field-independent).',
            ja: '<b>自然放出：</b>励起原子が崩壊し、ランダムな方向とランダムな位相で光子を放出します。速度 $\\propto N_2$（場に無依存）。' },
-    st:  { en: '<b>Stimulated emission:</b> an incoming photon triggers the excited atom to emit an <em>identical</em> photon — same direction, phase, frequency, and polarisation. Rate $\\propto N_2\\,\\rho(\\nu)$.',
-           ja: '<b>誘導放出：</b>入射光子が励起原子を誘導し、<em>同一の</em>光子を放出させます — 同じ方向、位相、周波数、偏光。速度 $\\propto N_2\\,\\rho(\\nu)$。' },
+    st:  { en: '<b>Stimulated emission:</b> an incoming photon triggers the excited atom to emit an <em>identical</em> photon: same direction, phase, frequency, and polarisation. Rate $\\propto N_2\\,\\rho(\\nu)$.',
+           ja: '<b>誘導放出：</b>入射光子が励起原子を誘導し、<em>同一の</em>光子を放出させます：同じ方向、位相、周波数、偏光。速度 $\\propto N_2\\,\\rho(\\nu)$。' },
   };
 
   function updateCap() {
@@ -304,8 +304,8 @@ function label(ctx, text, x, y, opts = {}) {
               ja: '<b>2準位</b>系では、どれだけ強くポンプしても反転数 $\\Delta N = N_2 - N_1$ が正になることはありません。' },
     '3lvl': { en: 'In a <b>3-level</b> system the lower laser level is the ground state, so inversion ($\\Delta N > 0$) requires pumping more than half the atoms.',
               ja: '<b>3準位</b>系では下レーザー準位が基底状態なので、原子の半数以上をポンプしなければ反転（$\\Delta N > 0$）が達成できません。' },
-    '4lvl': { en: 'In a <b>4-level</b> system the lower laser level is rapidly emptied, so inversion occurs immediately above threshold — much easier than 3-level.',
-              ja: '<b>4準位</b>系では下レーザー準位が高速に空にされるため、ごく低いポンプ速度でも反転が達成されます — 3準位系より大幅に低い閾値。' },
+    '4lvl': { en: 'In a <b>4-level</b> system the lower laser level is rapidly emptied, so inversion occurs immediately above threshold, much easier than 3-level.',
+              ja: '<b>4準位</b>系では下レーザー準位が高速に空にされるため、ごく低いポンプ速度でも反転が達成されます。3準位系より大幅に低い閾値。' },
   };
 
   function updatePopCap() {

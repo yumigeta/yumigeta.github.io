@@ -29,4 +29,20 @@
     s.src = '/assets/js/proofread.js';
     document.head.appendChild(s);
   })();
+
+  // ── Dev-only "Organize" shelf editor (LOCALHOST ONLY) ─────────────────
+  // Lets the author flip a page's published state and drag pages between
+  // categories straight from the left panel. NEVER ships to production:
+  // gated to localhost, so the live site never loads it.
+  (function(){
+    if(!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
+    if(location.pathname.indexOf('/learn/') !== 0) return;   // Learn pages only
+    if(!document.querySelector('meta[name="robots"][content*="noindex"]')) return; // DEV surfaces only — never the public /learn/ landing or published pages
+    var css = document.createElement('link');
+    css.rel = 'stylesheet'; css.href = '/assets/css/learn-organize.css';
+    document.head.appendChild(css);
+    var s = document.createElement('script');
+    s.src = '/assets/js/learn-organize.js';
+    document.head.appendChild(s);
+  })();
 })();

@@ -1140,15 +1140,15 @@
       var gapHalf = isZig ? 0 : agnrGap(N);
       var nmC = nm.charAt(0).toUpperCase() + nm.slice(1);
       var tag = metallic
-        ? '<b style="color:#6ee7b7">Metallic</b> — a band reaches the Fermi level (zero gap).'
-        : '<b style="color:#fbbf24">Semiconducting</b> — the lowest subband opens a gap E<sub>g</sub> ≈ '
+        ? '<b style="color:#6ee7b7">Metallic</b>: a band reaches the Fermi level (zero gap).'
+        : '<b style="color:#fbbf24">Semiconducting</b>: the lowest subband opens a gap E<sub>g</sub> ≈ '
           + (2*gapHalf).toFixed(2) + ' eV at Γ.';
       var bc = ' Hard-wall BC: ' + N + ' transverse modes n = 1…' + N +
                ' (k<sub>⊥</sub> = ' + (isZig ? 'nπ' : '2nπ') + '/(' + N + '+1))' +
-               ' — the wavefunction vanishes at missing atom sites beyond each edge.';
+               '; the wavefunction vanishes at missing atom sites beyond each edge.';
       var detail = isZig
-        ? ' Zigzag ribbons carry <b style="color:#6ee7b7">edge states</b> — a flat E≈0 band for ' +
-          'k between 2π/3 and Z — so they are always metallic (hard-wall edges, ' +
+        ? ' Zigzag ribbons carry <b style="color:#6ee7b7">edge states</b>, a flat E≈0 band for ' +
+          'k between 2π/3 and Z, so they are always metallic (hard-wall edges, ' +
           'invisible to zone-folding).'
         : ' Armchair ribbons are metallic only when <b>N = 3m+2</b>; the gap closes at Γ.';
       var Ndesc = isZig ? N + ' chains' : N;

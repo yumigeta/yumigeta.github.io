@@ -45,12 +45,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/measurement-error.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="crystal-structure-v2">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -196,7 +198,7 @@
         </div>
         <div class="btn-row" style="margin-top:8px">
           <button class="demo-btn" id="b5-all"><span class="i18n-en">Select all spots</span><span class="i18n-ja">全Bragg点を選択</span></button>
-          <button class="demo-btn active" id="b5-pen"><span class="i18n-en">✎ Pen</span><span class="i18n-ja">✎ ペン</span></button>
+          <button class="demo-btn active" id="b5-pen"><svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4M13.5 6.5l4 4"/></svg><span class="i18n-en">Pen</span><span class="i18n-ja">ペン</span></button>
           <button class="demo-btn" id="b5-ers"><span class="i18n-en">◌ Eraser</span><span class="i18n-ja">◌ 消しゴム</span></button>
           <button class="demo-btn" id="b5-clr"><span class="i18n-en">Clear</span><span class="i18n-ja">選択／マスクを消す</span></button>
           <button class="demo-btn" id="b5-zin"><span class="i18n-en">Zoom +</span><span class="i18n-ja">拡大 ＋</span></button>
@@ -249,7 +251,7 @@
       <div class="anim-card pv-bunchin mat-sunezu">
         <canvas id="c4-strobe" style="height:300px;"></canvas>
         <div class="btn-row" style="margin-top:12px">
-          <button class="demo-btn active" id="b4-play"><span class="i18n-en">&#9654; Run</span><span class="i18n-ja">&#9654; 再生</span></button>
+          <button class="demo-btn active" id="b4-play"><svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4v16l13 -8l-13 -8"/></svg><span class="i18n-en">Run</span><span class="i18n-ja">再生</span></button>
         </div>
         <div class="me-controls">
           <div class="me-slider">
@@ -300,7 +302,7 @@
 
       <div class="me-prose">
         <p><span class="i18n-en">Scaling up to two or three dimensions costs nothing, because §01 already did the work. Shift a resident wave's wavevector by some $\Delta\mathbf{k}$, and no atom anywhere notices precisely when $e^{i\Delta\mathbf{k}\cdot\mathbf{R}} = 1$ at every lattice site, which is, word for word, the condition of §01. The very same reciprocal lattice vectors $\mathbf{G}$ return in a second role: for the probing wave from outside they were the <em>momentum transfers that reinforce</em>; for the waves living inside they are the <em>shifts that are invisible</em>. One ledger, two readings.</span><span class="i18n-ja">2次元・3次元への拡張は、ただ同然で済む。§01が、すでに下準備を終えてくれているからだ。住人の波の波数ベクトルをある $\Delta\mathbf{k}$ だけずらしたとき、どこの原子にもいっさい気づかれないのは、すべての格子点で $e^{i\Delta\mathbf{k}\cdot\mathbf{R}} = 1$ となるときである。これは一言一句、§01で見たあの条件そのものだ。まったく同じ逆格子ベクトル $\mathbf{G}$ たちが、ここで二役目を演じる。外から探りを入れる波にとっては<em>強め合う運動量移行</em>だったものが、中に住む波にとっては<em>感じ取れないずらし幅</em>になるのだ。同じひとつの結論を、裏と表から読んでいるだけ、というわけである。</span></p>
-        <h3><span class="i18n-en">Electing representatives: the first Brillouin zone</span><span class="i18n-ja">代表を1つ選ぶ ― 第一ブリルアンゾーン</span></h3>
+        <h3><span class="i18n-en">Electing representatives: the first Brillouin zone</span><span class="i18n-ja">代表を1つ選ぶ：第一ブリルアンゾーン</span></h3>
         <p><span class="i18n-en">Time to collect the prize. Every wavevector $\mathbf{k}$ now drags behind it an infinite gang of aliases $\mathbf{k} + \mathbf{G}$, all physically identical. To catalog the genuinely distinct waves, pick one representative per gang, and the natural choice is the same one the chain made a moment ago: <b>the member closest to zero</b>, the gentlest wiggle in the family. The set of all such representatives is a single finite tile of $k$-space around the origin: the <b>first Brillouin zone</b>. Its shape follows from the recipe “closer to the origin than to any other reciprocal lattice point”, so the zone is simply the territory of the origin in the reciprocal lattice, and its shape changes with the lattice you started from. The recipe is dimension-blind: in three dimensions it carves out a polyhedron: for the fcc lattice of silicon or copper, a truncated octahedron.</span><span class="i18n-ja">いよいよ、ごほうびを受け取りに行こう。いまや、どの波数ベクトル $\mathbf{k}$ も、物理的にはまったく同じ仲間 $\mathbf{k} + \mathbf{G}$ を無限に引き連れている。本当に異なる波の一覧表をつくるには、この仲間うちから代表を1つずつ選んでやればよい。自然な選び方は、さっき1次元の鎖でやったのと同じだ。<b>ゼロにいちばん近い者</b>、すなわち、その一族のなかで最も穏やかにうねる波を選ぶ。こうして選ばれた代表をすべて集めると、原点のまわりにある $k$ 空間の、有限な1枚のタイルになる。これが<b>第一ブリルアンゾーン</b>だ。選び方の基準は「ほかのどの逆格子点よりも原点に近いこと」だったから、このゾーンは要するに、逆格子のなかで原点が支配する「縄張り」にほかならない。その形は、出発点に選んだ格子しだいで変わる。この手続きは次元を選ばない。3次元では多面体が切り出され、シリコンや銅のような面心立方（fcc）格子なら、切頂八面体になる。</span></p>
       </div>
 
@@ -333,7 +335,7 @@
     </div>
     <div class="demo-stage">
       <div class="me-prose">
-        <p><span class="i18n-en">So here is the handover. Graphene is the triangular lattice with a two-atom basis (§00). Its Brillouin zone is the hexagon you manufactured in §03. On the companion page, electrons hop across that two-atom basis, their states are cataloged by this very hexagon, and at its six corners, three interfering hopping paths cancel exactly, with consequences strange enough to earn a Nobel Prize. The stage is yours: <a href="/learn/graphene-v2/"><b>Electronic Structure of Graphene Ⅱ: From a Single Bond to the Dirac Cone</b></a>. And with that, the loop back to this page's opening closes: the companion page begins with the very same riddle  (diamond and pencil lead, one element, two materials) and shows, for one particular arrangement of carbon, exactly how the arrangement dictates what the electrons may do.</span><span class="i18n-ja">それでは、いよいよ受け渡しである。グラフェンとは、2原子の基底を載せた三角格子のことだった（§00）。そのブリルアンゾーンは、§03であなた自身が組み上げた、あの六角形である。姉妹ページでは、電子がこの2原子の基底の上を飛び移っていく。その状態たちは、まさにこの六角形の上に整理され、しかも六角形の6つの角では、3本の干渉しあうホッピング経路が、きっかり打ち消し合う。その帰結は、ノーベル賞に値するほど奇妙なものだ。舞台はもう、あなたのものである。「<a href="/learn/graphene-v2/"><b>グラフェンの電子構造 Ⅱ ― 結合1本からディラック錐へ</b></a>」へどうぞ。これで、このページの冒頭へとぐるりと輪がつながる。姉妹ページもまた、まったく同じ謎（ダイヤモンドと鉛筆の芯、同じ元素なのに別々の材料）から幕を開け、炭素のあるひとつの並び方について、その並び方が電子に何を許すのかを、最後まで見届けるのである。</span></p>
+        <p><span class="i18n-en">So here is the handover. Graphene is the triangular lattice with a two-atom basis (§00). Its Brillouin zone is the hexagon you manufactured in §03. On the companion page, electrons hop across that two-atom basis, their states are cataloged by this very hexagon, and at its six corners, three interfering hopping paths cancel exactly, with consequences strange enough to earn a Nobel Prize. The stage is yours: <a href="/learn/graphene-v2/"><b>Electronic Structure of Graphene Ⅱ: From a Single Bond to the Dirac Cone</b></a>. And with that, the loop back to this page's opening closes: the companion page begins with the very same riddle  (diamond and pencil lead, one element, two materials) and shows, for one particular arrangement of carbon, exactly how the arrangement dictates what the electrons may do.</span><span class="i18n-ja">それでは、いよいよ受け渡しである。グラフェンとは、2原子の基底を載せた三角格子のことだった（§00）。そのブリルアンゾーンは、§03であなた自身が組み上げた、あの六角形である。姉妹ページでは、電子がこの2原子の基底の上を飛び移っていく。その状態たちは、まさにこの六角形の上に整理され、しかも六角形の6つの角では、3本の干渉しあうホッピング経路が、きっかり打ち消し合う。その帰結は、ノーベル賞に値するほど奇妙なものだ。舞台はもう、あなたのものである。「<a href="/learn/graphene-v2/"><b>グラフェンの電子構造 Ⅱ — 結合1本からディラック錐へ</b></a>」へどうぞ。これで、このページの冒頭へとぐるりと輪がつながる。姉妹ページもまた、まったく同じ謎（ダイヤモンドと鉛筆の芯、同じ元素なのに別々の材料）から幕を開け、炭素のあるひとつの並び方について、その並び方が電子に何を許すのかを、最後まで見届けるのである。</span></p>
       </div>
       <div class="callout recap cv-daikake">
         <span class="co-label"><span class="i18n-en">The ledger of this page, in three lines</span><span class="i18n-ja">このページの要点を、3行で</span></span>
@@ -364,6 +366,7 @@
       <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/crystal-structure-v2.js"></script>
 </body>
 </html>

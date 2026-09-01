@@ -7,21 +7,21 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stimulated Phonon Emission in Graphene — Interactive Guide</title>
+  <title>Stimulated Phonon Emission in Graphene</title>
   <meta name="description" content="A beginner-friendly, essay-style sequel to the laser page. In graphene, electrons can be pushed faster than the speed of sound in the crystal; when they break the sound barrier, they start cloning acoustic phonons by stimulated emission. The physics of phonon amplification, the Cherenkov condition, and the road toward a laser of sound, with interactive animations.">
   <meta name="keywords" content="graphene, phonon, stimulated emission, acoustic phonon, phonon amplification, acoustoelectric effect, Cherenkov, SASER, phonon laser, drift velocity, sound velocity, carrier mobility, interactive physics, beginner">
   <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-phonon-emission/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Stimulated Phonon Emission in Graphene — Interactive Guide">
+  <meta property="og:title" content="Stimulated Phonon Emission in Graphene">
   <meta property="og:description" content="What happens when electrons in graphene break the sound barrier of their own crystal? An essay-style walk from the laser's cloning trick to phonon amplification and the dream of a laser of sound.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-phonon-emission/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stimulated Phonon Emission in Graphene — Interactive Guide">
+  <meta name="twitter:title" content="Stimulated Phonon Emission in Graphene">
   <meta name="twitter:description" content="Electrons in graphene can outrun the crystal's own sound. When they do, they start cloning phonons: the seed of a laser of sound.">
 
   <!-- Structured data -->
@@ -29,7 +29,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Stimulated Phonon Emission in Graphene — Interactive Guide",
+    "name": "Stimulated Phonon Emission in Graphene",
     "description": "A beginner-friendly, essay-style interactive tutorial explaining how a DC current in graphene can amplify acoustic phonons by stimulated emission, covering phonons as quanta of sound, the Einstein bookkeeping for electron–phonon scattering, the supersonic-drift (Cherenkov) condition, why graphene's extreme carrier mobility makes it the ideal stage, and the threshold for a phonon avalanche.",
     "url": "https://yumigeta.github.io/learn/graphene-phonon-emission/",
     "author": {
@@ -67,12 +67,14 @@
   <link rel="stylesheet" href="/assets/css/laser.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/css/graphene-phonon-emission.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="graphene-phonon-emission">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -394,8 +396,8 @@
       </div>
 
       <!-- Final summary -->
-      <div class="laser-summary">
-        <div class="sum-title"><span class="i18n-en">The laser, translated into sound</span><span class="i18n-ja">レーザーを音に翻訳する</span></div>
+      <div class="callout">
+        <span class="co-label"><span class="i18n-en">The laser, translated into sound</span><span class="i18n-ja">レーザーを音に翻訳する</span></span>
         <ol>
           <li><span class="i18n-en"><b>Photon → acoustic phonon.</b> Both are bosons, so the $(n_q+1)$-versus-$n_q$ bookkeeping (spontaneous emission, stimulated emission, absorption) transfers word for word.</span><span class="i18n-ja"><b>光子 → 音響フォノン。</b>どちらもボース粒子なので、$(n_q+1)$ 対 $n_q$ の帳簿（自然放出・誘導放出・吸収）は一語一句そのまま移し替えられる。</span></li>
           <li><span class="i18n-en"><b>Gain medium → the drifting Dirac sea.</b> The atoms' role is played by graphene's conduction electrons; the pump lamp is replaced by an ordinary DC current.</span><span class="i18n-ja"><b>利得媒質 → ドリフトするディラックの海。</b>原子の役はグラフェンの伝導電子が演じ、励起ランプはただの直流電流に置き換わる。</span></li>
@@ -423,6 +425,7 @@
     </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/graphene-phonon-emission.js"></script>
 </body>
 </html>

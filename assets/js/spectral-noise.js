@@ -204,8 +204,8 @@
       const satEl = $('st-sat0');
       if (satEl) {
         satEl.textContent = saturated
-          ? t('⚠ Saturated — peak clipped (t too long)', '⚠ 飽和 — ピークがクリップされています（t が長すぎる）')
-          : t('OK — within detector range', 'OK — 検出器の範囲内');
+          ? t('⚠ Saturated: peak clipped (t too long)', '⚠ 飽和：ピークがクリップされています（t が長すぎる）')
+          : t('OK: within detector range', 'OK：検出器の範囲内');
         satEl.style.color = saturated ? '#fb7185' : '#86efac';
       }
     }
@@ -264,24 +264,24 @@
       let cls, msg;
       if (long.saturated && !many.saturated) {
         cls = 'bad';
-        msg = t('⚠ Long acquisition saturates the detector — the peak is clipped and data is lost. Use more, shorter accumulations.',
-                '⚠ 長時間取得で検出器がサチュレーション — ピークがクリップされデータが失われます。短い積算回数に分けてください。');
+        msg = t('⚠ Long acquisition saturates the detector: the peak is clipped and data is lost. Use more, shorter accumulations.',
+                '⚠ 長時間取得で検出器がサチュレーション：ピークがクリップされデータが失われます。短い積算回数に分けてください。');
       } else if (long.saturated && many.saturated) {
         cls = 'bad';
-        msg = t('⚠ Both strategies saturate — reduce acquisition time t (increase N) or lower the source brightness.',
-                '⚠ 両方の方法でサチュレーション — 取得時間 t を短くする（N を増やす）か、光源の明るさを下げてください。');
+        msg = t('⚠ Both strategies saturate: reduce acquisition time t (increase N) or lower the source brightness.',
+                '⚠ 両方の方法でサチュレーション：取得時間 t を短くする（N を増やす）か、光源の明るさを下げてください。');
       } else if (readShare < 0.1) {
         cls = 'good';
-        msg = t('Shot-noise-limited — the split barely changes SNR. Accumulate freely for spike rejection & saturation headroom.',
-                'ショットノイズ律速 — 分け方はSN比をほとんど変えない。スパイク除去と飽和マージンのため積算を活用してよい。');
+        msg = t('Shot-noise-limited: the split barely changes SNR. Accumulate freely for spike rejection & saturation headroom.',
+                'ショットノイズ律速：分け方はSN比をほとんど変えない。スパイク除去と飽和マージンのため積算を活用してよい。');
       } else if (readShare < 0.4) {
         cls = 'mid';
-        msg = t('Mixed regime — read noise is starting to bite. Lean toward longer acquisitions.',
-                '中間領域 — 読み出しノイズが効き始めている。やや長めの取得時間が有利。');
+        msg = t('Mixed regime: read noise is starting to bite. Lean toward longer acquisitions.',
+                '中間領域：読み出しノイズが効き始めている。やや長めの取得時間が有利。');
       } else {
         cls = 'bad';
-        msg = t('Read-noise-limited — fewer, longer acquisitions clearly win. Reduce N.',
-                '読み出しノイズ律速 — 少数・長時間の取得が明確に有利。N を減らそう。');
+        msg = t('Read-noise-limited: fewer, longer acquisitions clearly win. Reduce N.',
+                '読み出しノイズ律速：少数・長時間の取得が明確に有利。N を減らそう。');
       }
       el.innerHTML = '<span class="me-verdict ' + cls + '">' + msg + '</span>';
     }
@@ -355,7 +355,7 @@
     function clearPanels() {
       [cv, cvFrm].forEach(c => { const { ctx, w, h } = fitCanvas(c); ctx.clearRect(0, 0, w, h); });
       const fcEl = $('spk-frame-count');
-      if (fcEl) fcEl.textContent = t('Press ▶ Start measurement', '▶ 測定開始 を押してください');
+      if (fcEl) fcEl.textContent = t('Press “Start measurement”', '「測定開始」を押してください');
       $('spk-verdict').innerHTML = '';
       const lbl = $('spk-frame-label');
       const N = currentFrames.length || '—';
@@ -406,7 +406,7 @@
           fcEl.textContent = t('Acquiring frame ', 'フレーム取得中 ') + k + ' / ' + N
                            + '  (' + Math.round(k / N * 100) + '%)';
         } else {
-          fcEl.textContent = t('Complete — ' + N + ' frames', '完了 — ' + N + ' フレーム');
+          fcEl.textContent = t('Complete: ' + N + ' frames', '完了：' + N + ' フレーム');
         }
       }
 
@@ -414,7 +414,7 @@
       const el = $('spk-verdict');
       if (k >= N) {
         el.innerHTML = mode === 'sum'
-          ? '<span class="me-verdict bad">'  + t('Summing keeps every cosmic-ray spike — they masquerade as sharp peaks.', '単純加算はすべての宇宙線スパイクを残す — 鋭いピークに化けてしまう。') + '</span>'
+          ? '<span class="me-verdict bad">'  + t('Summing keeps every cosmic-ray spike; they masquerade as sharp peaks.', '単純加算はすべての宇宙線スパイクを残す。鋭いピークに化けてしまう。') + '</span>'
           : '<span class="me-verdict good">' + t('Median across frames rejects the spikes while preserving the real signal.', 'フレーム間の中央値がスパイクを除去し、本物の信号は保たれる。') + '</span>';
       } else {
         el.innerHTML = '';

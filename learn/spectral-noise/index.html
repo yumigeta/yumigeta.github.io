@@ -7,13 +7,13 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide</title>
+  <title>Noisy Spectra: Acquisition Time vs Accumulation</title>
   <meta name="description" content="How acquisition time and accumulation count shape the signal-to-noise ratio of a spectrum. Shot, dark, and read noise; why SNR scales as the square root of total exposure; when to use a long single acquisition versus many short accumulations; cosmic-ray rejection and saturation.">
   <meta name="keywords" content="signal-to-noise ratio, SNR, Raman spectroscopy noise, acquisition time, accumulation, averaging, shot noise, read noise, dark current, cosmic ray rejection, detector saturation, spectroscopy, CCD, signal averaging">
   <link rel="canonical" href="https://yumigeta.github.io/learn/spectral-noise/">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide">
+  <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation">
   <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations: an interactive guide.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/spectral-noise/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
@@ -25,7 +25,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Noisy Spectra: Acquisition Time vs Accumulation — Interactive Guide",
+    "name": "Noisy Spectra: Acquisition Time vs Accumulation",
     "description": "An interactive tutorial on the signal-to-noise ratio of spectroscopic measurements: shot, dark and read noise, the square-root-of-time scaling, and the trade-off between long single acquisitions and many short accumulations.",
     "url": "https://yumigeta.github.io/learn/spectral-noise/",
     "author": {
@@ -48,12 +48,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/spectral-noise.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="spectral-noise">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -203,7 +205,7 @@
             <button class="demo-btn" data-mode="median"><span class="i18n-en">Median rejection</span><span class="i18n-ja">中央値除去</span></button>
           </div>
           <div class="btn-row">
-            <button class="demo-btn primary" id="btn-spk-start"><span class="i18n-en">▶ Start measurement</span><span class="i18n-ja">▶ 測定開始</span></button>
+            <button class="demo-btn primary" id="btn-spk-start"><svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4v16l13 -8l-13 -8"/></svg><span class="i18n-en">Start measurement</span><span class="i18n-ja">測定開始</span></button>
             <button class="demo-btn" id="btn-spk-roll"><span class="i18n-en">Re-roll spikes</span><span class="i18n-ja">スパイク再生成</span></button>
           </div>
         </div>
@@ -276,6 +278,7 @@
       <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/spectral-noise.js"></script>
 </body>
 </html>

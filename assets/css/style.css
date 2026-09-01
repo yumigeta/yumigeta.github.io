@@ -1,5 +1,5 @@
 :root {
-  --paper: #fefefc;
+  --paper: #fefefc;   /* warm paper off-white */
   --paper-tint: #f3f2ec;
   --ink: rgb(30,25,19);
   --ink-2: rgb(99,90,76);
@@ -7,8 +7,20 @@
   --ink-rgb: 30,25,19;
   --rule: rgba(30,25,19,.16);
   --rule-2: rgba(30,25,19,.32);
-  --seal: #bf2f25;
-  --accent: #bf2f25;
+  /* ── Unified palette: 蘇芳-anchored, muted split-complementary family.
+        ONE source of truth for site chrome AND every figure (figures read these
+        same tokens via getComputedStyle). All auxiliaries share 蘇芳's muted tone;
+        no vivid colours. ── */
+  --color-accent-suo: #bf2f25;   /* 蘇芳 — primary accent (seal, rules, headings, figure marks) */
+  --color-teal:       #3e6f6b;   /* deep muted teal — split-complement */
+  --color-sage:       #708a5c;   /* muted sage — split-complement */
+  --color-terracotta: #b27a4d;   /* muted terracotta — analogous warm */
+  --color-neutral:    #8a7d70;   /* warm taupe-gray — axes, rules, grids, structure */
+  --color-text:       #1e1913;   /* warm near-black — body, labels */
+  --color-bg:         #fefefc;   /* paper off-white */
+  --color-plate:      #f8f5ee;   /* figure plate — warm cream, a touch deeper than the page so panels read as paper cards (figure-only token; site bg untouched) */
+  --seal: var(--color-accent-suo);
+  --accent: var(--color-accent-suo);
   --accent-soft: color-mix(in srgb, var(--accent) 12%, #fff);
   --mincho: "Shippori Mincho", serif;
   --gothic: "Zen Kaku Gothic New", system-ui, sans-serif;
@@ -22,8 +34,15 @@
   --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 8px 26px -12px rgba(0,0,0,.14);
   --shadow-card-h: 0 4px 10px rgba(0,0,0,.05), 0 20px 46px -18px rgba(0,0,0,.22);
   --shadow-stage: 0 32px 74px -34px rgba(0,0,0,.55);
-  --maxw: 1020px;
-  --measure: 880px;
+  /* ── Page-width system — the ONE site-wide source of truth for layout widths.
+     Every page (landing, publications, CV, and the Learn shell + nav) uses the
+     SAME outer width AND gutter, so the menu bar and page edges line up
+     identically everywhere. Nothing should redefine widths locally; change them
+     here and the whole site follows. --measure (reading column) is independent. */
+  --maxw: 1190px;             /* THE one outer width, site-wide                      */
+  --measure: 880px;           /* reading measure (prose column) — independent        */
+  --shell-maxw: var(--maxw);  /* Learn shell + nav track the one width               */
+  --shell-pad: var(--gutter); /* Learn shell + nav track the one gutter              */
   --r: 20px;
   --sec-pad: clamp(28px, 3.5vw, 48px);
   --head-mb: 28px;
@@ -33,7 +52,7 @@
   --lead: clamp(23px, 3.1vw, 33px);
   --hero-min: 480px;
   --card-pad: 28px;
-  --gutter: clamp(24px,5vw,80px);
+  --gutter: clamp(16px, 3vw, 40px);  /* THE one gutter, site-wide (nav + shell) */
   --band-deep: #1b1711;
 }
 
@@ -100,58 +119,109 @@ header.site-nav::after {
 }
 .nav .end:hover { color: var(--ink); }
 .nav .end:hover::after { right: 0; }
-@media (max-width: 880px) {
-  /* keep the menu reachable: brand + Contact on row 1, links wrap to row 2 */
-  .nav {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    height: auto; padding-top: 10px; padding-bottom: 10px; gap: 6px 16px;
+/* ── Narrow screens: the menu bar stays ONE line ────────────────────────────
+   The bar needs 532px for seal + five links + Contact. Below 560px they no
+   longer fit, so rather than wrapping onto a second row they collapse into a
+   Menu button + dropdown panel (injected by site-nav.js — the page markup is
+   untouched). Above the breakpoint .nav-panel is `display: contents`, so the
+   original 3-column grid below is exactly as it was. */
+.nav-panel { display: contents; }
+.nav-toggle { display: none; }
+
+@media (max-width: 559px) {
+  .nav { grid-template-columns: auto 1fr; height: 60px; gap: 12px; }
+
+  .nav-toggle {
+    display: inline-flex; align-items: center; gap: 10px;
+    justify-self: end; background: none; border: 0; cursor: pointer;
+    padding: 8px 0; color: var(--ink-2);
+    font-family: var(--gothic); font-size: 12px;
+    letter-spacing: .14em; text-transform: uppercase;
+    transition: color .3s cubic-bezier(.16,1,.3,1);
   }
-  .nav .links {
-    order: 3; width: 100%;
-    flex-wrap: wrap; justify-content: center; gap: 10px 18px;
+  /* Menu / close: Tabler (tabler.io) menu-2 and x, swapped by opacity so the
+     button never changes width. Replaces the three hand-built 1px bars. */
+  .nav-toggle-i { position: relative; display: block; width: 20px; height: 20px; flex: none; }
+  .nav-toggle-i .ti { position: absolute; inset: 0; width: 20px; height: 20px; }
+  .nav-toggle-i .ti:last-child { opacity: 0; }
+  header.site-nav.nav-open .nav-toggle { color: var(--ink); }
+  header.site-nav.nav-open .nav-toggle-i .ti:first-child { opacity: 0; }
+  header.site-nav.nav-open .nav-toggle-i .ti:last-child { opacity: 1; }
+
+  .nav-panel {
+    display: block; position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    box-shadow: 0 20px 34px -26px rgba(var(--ink-rgb), .55);
+    max-height: 0; overflow: hidden; visibility: hidden;
+    transition: max-height .3s cubic-bezier(.16,1,.3,1), visibility .3s;
   }
+  header.site-nav.nav-open .nav-panel {
+    max-height: 70vh; overflow-y: auto; visibility: visible;
+  }
+  .nav-panel .links {
+    display: flex; flex-direction: column; align-items: stretch;
+    width: 100%; gap: 0; padding: 2px var(--gutter) 0;
+  }
+  .nav-panel .links a { padding: 13px 0; border-bottom: 1px solid var(--rule); }
+  .nav-panel .end { display: block; width: 100%; padding: 13px var(--gutter) 16px; }
+  .nav-panel .end::after { display: none; }
 }
 
-/* legacy nav (sub-pages still using old structure) */
-.navbar {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--line);
-  transition: transform .3s;
-}
-.navbar.hidden { transform: translateY(-100%); }
+/* ── Numbered display equations ─────────────────────────────────────────────
+   KaTeX pins \tag with `position:absolute; right:0` INSIDE the equation box,
+   so a formula wider than the reading column runs straight under its own
+   number (measured: up to 167px of overlap in a 420px window). No CSS alone
+   can fix it — the number sits inside the element that would have to scroll —
+   so eq-number.js lifts it into its own lane:
 
-.nav-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 28px;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 58px;
-}
-.nav-name {
-  font-size: 18px; font-weight: 600; color: var(--ink);
-  text-decoration: none; letter-spacing: -.02em;
-}
-.nav-menu { display: flex; list-style: none; gap: 26px; }
-.nav-menu a {
-  text-decoration: none; font-size: 14px; font-weight: 400;
-  color: var(--soft); transition: color .2s;
-}
-.nav-menu a:hover { color: var(--ink); }
-.nav-menu a[aria-current="page"] { color: var(--ink); }
+       .katex-display > .eq-row > [ .eq-body | .eq-num ]
 
-.hamburger {
-  display: none; background: none; border: none; cursor: pointer;
-  width: 28px; height: 28px; position: relative;
+   The formula keeps the width left over, stays centred in it, and scrolls
+   inside it when it is too long. The number stays on the SAME line, vertically
+   centred with the formula, and the two can never meet. The .tag rule below is
+   the no-JS fallback: it drops the number onto its own line rather than
+   letting it be overrun. */
+.eq-row { display: flex; align-items: center; gap: 1.1em; width: 100%; }
+.eq-row > .eq-body {
+  flex: 1 1 auto; min-width: 0;
+  overflow-x: auto; overflow-y: hidden; padding: 2px 0 4px;
 }
-.hamburger span {
-  position: absolute; left: 4px; width: 20px; height: 1.5px;
-  background: var(--ink); transition: transform .3s, opacity .3s;
+/* Wrapping the formula breaks KaTeX's own `.katex-display > .katex` rule, so
+   .katex would fall back to inline and pick up a line box — 28px of phantom
+   leading that pushed the number below the formula's optical centre. Restore
+   the three properties that rule carried. */
+.eq-row > .eq-body > .katex { display: block; text-align: center; white-space: nowrap; }
+/* The number left KaTeX's subtree, so it also left KaTeX's typography — it was
+   rendering in the page's gothic UI face beside the math. Restore the exact
+   font, size and leading `.katex` carries, and let it take the equation's own
+   colour, so it reads as part of the formula again. */
+.eq-row > .eq-num {
+  flex: none;
+  font: normal 1.21em KaTeX_Main, "Times New Roman", serif;
+  line-height: 1.2;
 }
-.hamburger span:first-child { top: 10px; }
-.hamburger span:last-child { top: 17px; }
-.hamburger.open span:first-child { transform: translateY(3.5px) rotate(45deg); }
-.hamburger.open span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+.eq-row > .eq-num > .tag { position: static; display: block; }
+
+/* ── Tabler icons used from CSS ─────────────────────────────────────────────
+   Where an icon has to come from a ::before (no element to hang an <svg> on),
+   the Tabler path is carried as a mask rather than as a font glyph, so it
+   still takes currentColor and keeps the 24×24 / stroke-2 geometry. Paths are
+   Tabler's (tabler.io), verbatim. */
+:root {
+  --ti-chevron-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6l-6 6'/%3E%3C/svg%3E");
+}
+.ti { flex: none; }
+.ti.ti-in  { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -.18em; }
+.ti.ti-btn { display: inline-block; width: 1.15em; height: 1.15em; vertical-align: -.2em; margin-right: .45em; }
+.star .ti      { width: .8em; height: .8em; vertical-align: -.04em; }   /* highlight mark sits with the title, not over it */
+
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0 6px; }
+.katex-display[data-eqnum] { overflow: visible; padding: 0; }
+.katex-display > .katex > .katex-html > span.tag {
+  position: static; display: block;
+  text-align: right; margin-top: .35em;
+  color: var(--ink-2);
+}
 
 /* ── Hero (index) ── */
 .hero { padding: 12px; }
@@ -265,32 +335,6 @@ section.band.soft { background: var(--bg-soft); }
   max-width: var(--maxw); margin: 0 auto; padding: 0 28px;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
 }
-.card {
-  background: var(--bg); border-radius: var(--r); padding: var(--card-pad);
-  box-shadow: var(--shadow-card);
-  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
-}
-section.soft .card { background: #fff; }
-.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-h); }
-.card .n { font-size: 13px; font-weight: 600; color: var(--accent); }
-.card h3 {
-  font-size: clamp(19px,2.2vw,23px); font-weight: 600; line-height: 1.18;
-  letter-spacing: -.02em; margin: 12px 0 9px;
-}
-.card p { color: var(--soft); font-size: 16px; line-height: 1.5; }
-.card.dark {
-  background: var(--stage); color: #fff; box-shadow: var(--shadow-stage);
-  position: relative; overflow: hidden;
-}
-.card.dark::after {
-  content: ""; position: absolute; right: -50px; top: -50px;
-  width: 240px; height: 240px; border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 60%, transparent), transparent 70%);
-  opacity: .7;
-}
-.card.dark .n { color: color-mix(in srgb, var(--accent) 38%, #fff); position: relative; }
-.card.dark h3, .card.dark p { position: relative; }
-.card.dark p { color: rgba(255,255,255,.74); }
 @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
 
 /* publications */
@@ -335,36 +379,6 @@ section.soft .card { background: #fff; }
 .more-link a .a { transition: transform .2s; }
 .more-link a:hover .a { transform: translateX(4px); }
 
-/* software tools (index, 2-col) */
-.tools {
-  max-width: var(--maxw); margin: 0 auto; padding: 0 28px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-}
-.tool {
-  background: #fff; border-radius: var(--r); padding: var(--card-pad);
-  box-shadow: var(--shadow-card); display: flex; flex-direction: column;
-  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
-}
-.tool:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-h); }
-.tool .th { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.tool .name { font-size: 21px; font-weight: 600; letter-spacing: -.02em; }
-.tool .badge {
-  font-size: 11.5px; font-weight: 600; color: var(--accent);
-  background: var(--accent-soft); border-radius: 980px;
-  padding: 4px 11px; white-space: nowrap;
-}
-.tool p { color: var(--soft); font-size: 16px; line-height: 1.5; margin-top: 11px; flex: 1; }
-.tool .stack { font-size: 13px; color: var(--faint); margin-top: 14px; font-weight: 500; }
-.tool .acts { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; align-items: center; }
-.tool .acts a {
-  font-size: 14px; font-weight: 500; color: var(--accent);
-  transition: opacity .2s; display: inline-flex; align-items: center; gap: 5px;
-}
-.tool .acts a:hover { opacity: .65; }
-.tool .acts a.primary {
-  color: #fff; background: var(--accent); padding: 8px 16px; border-radius: 980px;
-}
-@media (max-width: 680px) { .tools { grid-template-columns: 1fr; } }
 
 /* cv */
 #cv .sh { max-width: var(--maxw); }
@@ -426,9 +440,6 @@ section.soft .card { background: #fff; }
 .site-footer .foot .foot-l { justify-self: start; }
 .site-footer .foot .foot-r { justify-self: end; text-align: right; }
 
-/* legacy footer (sub-pages) */
-.footer { text-align: center; padding: 24px 0; border-top: 1px solid var(--line); }
-.footer p { font-size: 12.5px; color: var(--faint); }
 
 /* scroll reveal */
 body.reveal-on .rv {
@@ -436,92 +447,6 @@ body.reveal-on .rv {
   transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
 }
 body.reveal-on .rv.in { opacity: 1; transform: none; }
-
-/* ── Sub-page hero ── */
-.page-hero {
-  padding: 120px 28px 48px; text-align: center; background: var(--bg);
-}
-.page-hero .eyebrow { margin-bottom: 14px; display: block; }
-.page-hero h1 {
-  font-size: clamp(26px, 4.5vw, 38px); font-weight: 600;
-  color: var(--ink); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px;
-}
-.page-hero p {
-  max-width: 620px; margin: 0 auto;
-  color: var(--soft); font-size: 17px; line-height: 1.55;
-}
-.back-link {
-  display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 24px; font-size: 15px; font-weight: 500;
-  color: var(--accent); text-decoration: none;
-}
-.back-link:hover { opacity: .7; }
-
-/* ── Hub card grid ── */
-.hub { max-width: var(--maxw); margin: 0 auto; padding: 8px 28px 80px; }
-.hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-
-.hub-card {
-  display: flex; flex-direction: column;
-  background: #fff; border-radius: var(--r);
-  overflow: hidden; text-decoration: none; color: inherit;
-  box-shadow: var(--shadow-card);
-  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
-}
-.hub-card.is-live:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-h); }
-.hub-card.is-soon { opacity: .55; cursor: default; }
-
-.hub-thumb {
-  height: 150px; display: flex; align-items: center; justify-content: center;
-  background: var(--bg-soft); color: var(--accent);
-}
-.hub-thumb svg { width: 64px; height: 64px; }
-.hub-card.is-soon .hub-thumb { color: var(--faint); }
-
-.hub-body { padding: 22px 24px 26px; flex: 1; }
-.hub-status {
-  display: inline-block; font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: .04em;
-  padding: 3px 10px; border-radius: 980px; margin-bottom: 12px;
-}
-.hub-status.live { background: color-mix(in srgb, var(--accent) 12%, #fff); color: var(--accent); }
-.hub-status.soon { background: var(--bg-soft); color: var(--faint); }
-.hub-body h3 {
-  font-size: clamp(19px,2.2vw,23px); font-weight: 600; color: var(--ink);
-  margin-bottom: 8px; line-height: 1.18; letter-spacing: -.02em;
-}
-.hub-body p { font-size: 16px; color: var(--soft); line-height: 1.5; }
-.hub-arrow {
-  display: inline-block; margin-top: 14px;
-  font-size: 15px; font-weight: 500; color: var(--accent);
-}
-
-/* ── Software list page ── */
-.soft-list { max-width: 760px; margin: 0 auto; padding: 8px 28px 80px; }
-.soft-card {
-  display: grid; grid-template-columns: 56px 1fr; gap: 20px;
-  padding: 24px 0; border-bottom: 1px solid var(--line);
-}
-.soft-card:last-child { border-bottom: none; }
-.soft-icon {
-  width: 56px; height: 56px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--accent-soft); color: var(--accent);
-}
-.soft-icon svg { width: 28px; height: 28px; }
-.soft-info h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 4px; letter-spacing: -.015em; }
-.soft-info p { font-size: 16px; color: var(--soft); line-height: 1.5; margin-bottom: 10px; }
-.soft-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.soft-tags span {
-  font-size: 12px; font-weight: 500; padding: 4px 11px; border-radius: 980px;
-  background: var(--accent-soft); color: var(--accent);
-}
-.soft-links { display: flex; gap: 16px; }
-.soft-links a {
-  font-size: 14px; font-weight: 500; color: var(--accent);
-  text-decoration: none; transition: opacity .2s;
-}
-.soft-links a:hover { opacity: .65; }
 
 /* ── Demo modules (Raman, Graphene) ── */
 .demo { max-width: var(--maxw); margin: 0 auto; padding: 48px var(--gutter); }
@@ -848,20 +773,6 @@ input[type=range]::-moz-range-thumb {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .nav-menu {
-    display: none; position: absolute; top: 58px; left: 0; right: 0;
-    background: rgba(255,255,255,.95);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    flex-direction: column; padding: 12px 28px 20px; gap: 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .nav-menu.open { display: flex; }
-  .nav-menu li a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .nav-menu li:last-child a { border-bottom: none; }
-  .hamburger { display: block; }
-
-  .hub-grid { grid-template-columns: 1fr; }
   .top-row { grid-template-columns: 1fr; }
   .control { min-width: 100%; }
 }
@@ -884,54 +795,51 @@ input[type=range]::-moz-range-thumb {
 .lang-btn:hover .l-en, .lang-btn:hover .l-ja, .lang-btn:hover .l-sep { color: var(--paper); }
 
 /* ════════════════════════════════════════════════════════════════
-   Explanatory callouts — washi-paper editorial style
-   A restrained 和 palette on a washi ground: 藍 (indigo) · 朱 (vermilion)
-   · 弁柄 (red ochre) · 墨 (sumi ink). Mincho label with a small kicker
-   line and a seal-like lozenge marker. Label text comes from the markup
-   (so it can carry i18n spans).
+   Callout — 題掛 (Daikake) is THE single callout template.
+   Washi ground · dark Mincho label · one vermilion title-bar · a fine
+   sumi rule trailing off the heading. Type is told by the label text,
+   never by colour. (The old colour variants .intuition/.point/
+   .misconception/.recap and the .cv-* spines are removed; any such
+   classes left in markup are harmless no-ops.)
    ════════════════════════════════════════════════════════════════ */
 .callout {
-  --co-accent: var(--ink-2);
+  position: relative;
   max-width: var(--measure);
   margin: 28px 0;
-  padding: 18px 24px 18px 22px;
-  background:
-    linear-gradient(color-mix(in srgb, var(--paper-tint) 50%, var(--paper)),
-                    color-mix(in srgb, var(--paper-tint) 50%, var(--paper)));
-  border: 1px solid var(--rule);
-  border-left: 2px solid var(--co-accent);
-  border-radius: 3px;
+  padding: 16px 22px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--paper-tint) 48%, var(--paper)),
+    color-mix(in srgb, var(--paper-tint) 72%, var(--paper)));
+  border: 0;
+  border-radius: 7px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 1px 2px rgba(27,23,17,.05);
   font-size: 15.5px; line-height: 1.72; color: var(--ink);
 }
 .callout .co-label {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--mincho);
-  font-size: 14.5px; font-weight: 700; letter-spacing: .14em;
-  color: var(--co-accent);
+  font-size: 14.5px; font-weight: 700; letter-spacing: .15em; line-height: 1.15;
+  color: var(--ink);
   margin-bottom: 9px;
 }
-.callout .co-label::before {
+.callout .co-label::before {          /* vermilion title-bar, height of the heading */
   content: "";
-  flex: none;
-  width: 8px; height: 8px;
-  background: var(--co-accent);
-  transform: rotate(45deg);          /* small lozenge — a quiet seal accent */
+  flex: none; align-self: stretch;
+  width: 3px;
+  background: var(--seal);
 }
-.callout .co-label::after {
+.callout .co-label::after {           /* fine sumi rule trailing off to the right */
   content: "";
-  flex: 1 1 auto;
-  height: 1px;
-  background: linear-gradient(to right,
-    color-mix(in srgb, var(--co-accent) 45%, transparent), transparent);
+  flex: 1 1 auto; align-self: center;
+  height: 1px; margin-left: 6px;
+  background: linear-gradient(to right, var(--rule-2), transparent);
 }
 .callout p { margin: 0; color: var(--ink); font-size: inherit; line-height: inherit; }
-.callout p + p { margin-top: 9px; }
+.callout p + p, .callout ol + p, .callout p + ol { margin-top: 10px; }
 .callout b { color: var(--ink); font-weight: 700; }
-
-.callout.intuition     { --co-accent: #3f5a6b; }   /* 藍鼠 — dusty indigo */
-.callout.point         { --co-accent: var(--seal); }/* 朱 — vermilion */
-.callout.misconception { --co-accent: #9c4a2f; }   /* 弁柄 — red ochre */
-.callout.recap         { --co-accent: #5a5247; }   /* 墨 — warm sumi gray */
+.callout ol, .callout ul { margin: 0; padding-left: 1.35em; }
+.callout li { margin: 0 0 5px; }
+.callout li::marker { color: var(--seal); }
 
 /* Small "prerequisite" line that links to a recommended earlier page */
 .prereq {
@@ -959,9 +867,9 @@ input[type=range]::-moz-range-thumb {
   white-space: nowrap;
 }
 .dev-status--live {
-  background: color-mix(in srgb, #2a7a3b 12%, transparent);
-  color: #2a7a3b;
-  border: 1px solid color-mix(in srgb, #2a7a3b 30%, transparent);
+  background: color-mix(in srgb, var(--color-sage) 14%, transparent);
+  color: color-mix(in srgb, var(--color-sage) 78%, #000);
+  border: 1px solid color-mix(in srgb, var(--color-sage) 34%, transparent);
 }
 .dev-status--wip {
   background: color-mix(in srgb, var(--ink-3) 15%, transparent);
