@@ -94,7 +94,7 @@
     p.svg.setAttribute('width', w); p.svg.setAttribute('height', h);
     p.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
   }
-  function stageW(p) { return p.stage.clientWidth || (p.panel.clientWidth - 24) || 0; }
+  function stageW(p) { return p.stage.clientWidth || Math.max(0, p.panel.clientWidth - 24); }
 
   /* dynamic arrow = line + filled head, both updatable */
   function mkArrow(parent, color, width, headSize) {
@@ -391,7 +391,7 @@
     }
     function fireToast() {
       if (!toast) return;
-      toast.innerHTML = bi('All three paths remain — what vanished is the phase-weighted sum.',
+      toast.innerHTML = bi('All three paths remain; what vanished is the phase-weighted sum.',
         '三本の経路は残っている。消えたのは位相つき和。');
       whenKatex(function () { renderMath(toast); });
       toast.classList.add('is-on');

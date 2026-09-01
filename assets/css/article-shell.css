@@ -1,0 +1,481 @@
+/* ════════════════════════════════════════════════════════════════════════
+   article-shell.css — 3-column "knowledge-map" layout for Learn pages
+   ----------------------------------------------------------------------
+   A non-destructive shell that article-shell.js wraps around any existing
+   Learn page:  left = site-wide shelf · center = the page · right = a
+   per-page navboard (位置づけ・前提・目次・使う基礎・次に読む・タグ).
+   Tokens & aesthetic inherit from style.css (washi paper, mincho/gothic).
+   ════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Category accent colors — muted, paired ALWAYS with a text label.
+     Chosen by content area (foundation/material/optical/device/reference/frontier). */
+  --cat-foundation: #3f6f8c;   /* 藍   blue   — basic physics            */
+  --cat-material:   #3f7a52;   /* 緑   green  — material applications    */
+  --cat-optical:    #6b4a8c;   /* 紫   purple — Raman / light & optics   */
+  --cat-device:     #b06a2c;   /* 橙   orange — devices                  */
+  --cat-reference:  #6b6256;   /* 鼠   gray   — measurement reference    */
+  --cat-frontier:   #97356e;   /* 赤紫 magenta— frontier / advanced      */
+  --cat-hub:        var(--accent); /* 朱 vermilion — hubs / navigation   */
+
+  --rail-w-l: 222px;
+  --rail-w-r: 200px;            /* thin & recessive — the reading column takes priority */
+  --rail-gap: clamp(24px, 2.6vw, 44px);
+  --rail-top: 78px;            /* sticky offset under the 60px sticky nav */
+}
+
+/* The shell width tokens (--shell-maxw / --shell-pad) are NOT defined here — they
+   live in the one site-wide width system in style.css :root, so the whole site
+   shares a single source of truth. This stylesheet (and the shared site-nav)
+   only READS them; per-page overrides set --shell-maxw on the <body>
+   (raman.css, bands-series.css) so the nav tightens with the content. */
+
+/* Fallback if pages.json can't load or the page is unknown: collapse to one column */
+.article-layout.shell-bare { display: block; }
+.article-layout.shell-bare .rail-left,
+.article-layout.shell-bare .rail-right { display: none; }
+
+/* Short page with nothing for the navboard: drop the empty right column */
+.article-layout.no-right { grid-template-columns: var(--rail-w-l) minmax(0, 1fr); }
+.article-layout.no-right .rail-right { display: none; }
+
+/* Narrow-screen in-content TOC — the only nav that survives below tablet width.
+   Starts collapsed; hairline rules (no tinted box). Hidden on desktop. */
+.mobile-toc { display: none; }
+@media (max-width: 1023px) {
+  .mobile-toc {
+    display: block; max-width: var(--measure); margin: 16px 0 6px;
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .mobile-toc > .mobile-toc-hd {
+    display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+    font-family: var(--mincho); font-size: 14px; font-weight: 700; color: var(--ink); padding: 11px 2px;
+  }
+  .mobile-toc-hd::-webkit-details-marker { display: none; }
+  .mobile-toc-list { list-style: none; margin: 0; padding: 0 2px 12px; counter-reset: mtoc; }
+  .mobile-toc-list li { margin: 0; }
+  .mobile-toc-list a {
+    display: flex; gap: 9px; padding: 5px 0;
+    font-family: var(--gothic); font-size: 13px; line-height: 1.4; color: var(--ink-2);
+  }
+  .mobile-toc-list a::before {
+    counter-increment: mtoc; content: counter(mtoc, decimal-leading-zero);
+    font-family: var(--mincho); font-size: 11px; color: var(--faint); flex: none;
+  }
+}
+
+/* Scroll anchor offset so the sticky nav doesn't cover section tops */
+.rail-center .shell-anchor { scroll-margin-top: 76px; }
+
+/* The page's chosen accent (set on .article-layout[data-color]) */
+.article-layout { --acc: var(--accent); }
+.article-layout[data-color="foundation"] { --acc: var(--cat-foundation); }
+.article-layout[data-color="material"]   { --acc: var(--cat-material); }
+.article-layout[data-color="optical"]    { --acc: var(--cat-optical); }
+.article-layout[data-color="device"]     { --acc: var(--cat-device); }
+.article-layout[data-color="reference"]  { --acc: var(--cat-reference); }
+.article-layout[data-color="frontier"]   { --acc: var(--cat-frontier); }
+.article-layout[data-color="hub"]        { --acc: var(--cat-hub); }
+
+/* ── Grid shell ─────────────────────────────────────────────────────── */
+.article-layout {
+  max-width: var(--shell-maxw);
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+  display: grid;
+  grid-template-columns: var(--rail-w-l) minmax(0, 1fr) var(--rail-w-r);
+  column-gap: var(--rail-gap);
+  align-items: start;
+}
+.rail-center { min-width: 0; }     /* allow children to shrink, no overflow */
+
+/* ── Align the shared site-nav with the Learn shell ───────────────────────
+   The global .nav is capped at --maxw (1020px) with the wide --gutter, which
+   leaves the brand/menu inset well inside the rails. On Learn pages the shell
+   is wider, so match the nav's inner width + gutter to the shell: the brand
+   lines up with the left rail and Contact with the right rail. Only kicks in
+   from 1024px up, where the multi-column shell (wider than --maxw) is shown;
+   below that the layout falls back to --gutter, which the nav already uses. */
+@media (min-width: 1024px) {
+  header.site-nav .nav {
+    max-width: var(--shell-maxw);
+    padding-left: var(--shell-pad);
+    padding-right: var(--shell-pad);
+  }
+}
+
+/* The top menu stays in English on every Learn page, even in JA mode — the nav
+   is site chrome, not reading content, so it shouldn't flip with the article's
+   language. style.css hides .i18n-en in JA mode with !important; override it for
+   the nav with higher specificity. The breadcrumb and the EN/日本語 toggle still
+   follow the chosen language. (article-shell.css loads on every Learn page.) */
+[data-lang="ja"] header.site-nav .i18n-en { display: inline !important; }
+[data-lang="ja"] header.site-nav .i18n-ja { display: none !important; }
+
+/* ── Center column: neutralize the inherited full-width container paddings
+      so existing .phead / .demo blocks fill the (narrower) center column ── */
+/* The breadcrumb (center) must sit on the SAME line as the first text in the
+   left & right rails. The rails are sticky and rest at --rail-top (78px) under
+   the 61px nav — i.e. ~17px below the layout's top edge where the center starts.
+   So pad the phead top by that gap (plus the rails' own 4px inner pad) to drop
+   the breadcrumb down onto the rails' first line. Tuned against the rails. */
+.rail-center .phead { padding-top: 18px; }
+.rail-center .phead .container,
+.rail-center .demo {
+  max-width: none;
+  margin-left: 0; margin-right: 0;
+  padding-left: 0; padding-right: 0;
+}
+.rail-center .demo { padding-top: 40px; padding-bottom: 40px; }
+.rail-center .demo:first-of-type { padding-top: 26px; }
+/* ── ONE reading measure for the center column ────────────────────────────
+   Every block in the reading column — lead, prose, equations, callouts,
+   captions, interactive panels, and the section rule — ends on the SAME
+   right edge.
+
+   The measure is declared in **px, not ch**, on purpose: `ch` resolves
+   against each element's OWN font, so "72ch" landed a 15.5px callout at
+   562px and a 16px paragraph at 581px — six different right edges across
+   the column. 581px IS 72ch at the 16px body font, so the prose measure is
+   unchanged; the panels and headings now stop there too.
+
+   Cap the container (.demo) and clear the per-element caps the page
+   stylesheets set, so nothing inside can introduce a second edge.
+   Pages that set --read-measure themselves (raman.css, bands-series.css)
+   pick up the px value here for everything inside the column. ── */
+:root { --read-measure: 581px; }   /* THE reading measure — read by the shell AND by the page stylesheets */
+.rail-center { max-width: var(--read-measure); }   /* the column IS the measure — no block inside it is wider */
+.rail-center .demo-head,
+.rail-center .demo-head p,
+.rail-center .demo-stage,
+.rail-center .me-prose,
+.rail-center .callout,
+.rail-center .recall,
+.rail-center .me-cap,
+.rail-center .cap { max-width: none; }
+.rail-center .backrow { display: none; }       /* left rail replaces the back link */
+
+/* ════════════════════════════════════════════════════════════════════
+   LEFT RAIL — site-wide shelf (the knowledge map)
+   ════════════════════════════════════════════════════════════════════ */
+.rail-left { position: sticky; top: var(--rail-top); align-self: start;
+  max-height: calc(100vh - var(--rail-top) - 16px); overflow-y: auto;
+  padding: 4px 4px 24px 0; }
+.rail-left::-webkit-scrollbar { width: 7px; }
+.rail-left::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 4px; }
+
+.ashelf-home {
+  /* block-level flex (not inline-flex) so it sits at the rail's content top
+     instead of on an inherited line-box — keeps its first line level with the
+     breadcrumb and the right rail. width:fit-content keeps the hover target tight. */
+  display: flex; width: fit-content; align-items: center; gap: 7px;
+  font-family: var(--gothic); font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--soft);
+  margin: 0 0 18px; transition: color .18s;
+}
+.ashelf-home:hover { color: var(--accent); }
+
+/* ── Icons — Tabler (tabler.io) ─────────────────────────────────────────────
+   One icon system for the whole shelf. The paths are Tabler's, unchanged, on
+   their 24×24 grid with stroke-width 2 and round caps/joins; only the rendered
+   size is set here, so the stroke lands at ~1.25–1.5px and matches the weight
+   of the type beside it. Nothing here is hand-drawn or a font glyph. */
+.ti { display: block; flex: none; }
+.ashelf-home-mark { width: 16px; height: 16px; }
+.ashelf-cat-ic    { width: 16px; height: 16px; }
+.ashelf-routes-hd .ashelf-cat-ic  { width: 14px; height: 14px; color: var(--cat-hub); }
+.ashelf-pillar-hd .ashelf-cat-ic  { color: var(--g-acc, var(--ink-3)); }
+
+
+/* — Routes: small, always-on top section (never collapses) — */
+.ashelf-routes { margin: 0 0 16px; padding: 0 0 14px; border-bottom: 1px solid var(--rule); }
+.ashelf-routes-hd {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--gothic); font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin: 0 0 5px;
+}
+.ashelf-routes .ashelf-list a { font-size: 12px; padding: 3px 0; }
+
+/* — Content pillars: a 2-level <details> accordion (keeps the shelf short) — */
+.ashelf-pillar { margin: 0; }
+.ashelf-pillar > .ashelf-pillar-hd {
+  display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+  font-family: var(--mincho); font-size: 13.5px; font-weight: 700;
+  letter-spacing: .03em; color: var(--ink);
+  padding: 9px 0; border-bottom: 1px solid var(--rule);
+}
+.ashelf-pillar-hd::-webkit-details-marker { display: none; }
+.ashelf-pillar[data-cat="concepts"] { --g-acc: var(--cat-foundation); }
+.ashelf-pillar[data-cat="themes"]   { --g-acc: var(--cat-material); }
+.ashelf-pillar[data-cat="handbook"] { --g-acc: var(--cat-reference); }
+.ashelf-pillar[data-cat="scratch"]  { --g-acc: var(--cat-reference); }
+
+/* sub-groups within a pillar */
+.ashelf-grp { margin: 0 0 0 2px; }
+/* nested sub-folders (sub-sub-folders …): indent + hairline guide per level */
+.ashelf-grp .ashelf-grp { margin-left: 9px; padding-left: 7px; border-left: 1px solid var(--rule); }
+.ashelf-grp > .ashelf-grp-hd {
+  display: flex; align-items: center; gap: 7px; cursor: pointer; list-style: none;
+  font-family: var(--gothic); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .04em; color: var(--ink-2); padding: 7px 0 5px;
+}
+.ashelf-grp-hd::-webkit-details-marker { display: none; }
+.ashelf-pillar > .ashelf-list,
+.ashelf-grp > .ashelf-list { padding: 2px 0 8px 17px; }
+.ashelf-pillar > .ashelf-ungrouped { padding-left: 15px; }
+
+/* Disclosure chevron (Tabler chevron-right, rotated 90° when open). The old
+   ▸ glyph was set at 8.5px — far too small to read as a control. */
+.ashelf-caret {
+  margin-left: auto; width: 15px; height: 15px;
+  color: var(--faint); transition: transform .18s;
+}
+details[open] > .ashelf-pillar-hd .ashelf-caret,
+details[open] > .ashelf-grp-hd .ashelf-caret,
+details[open] > .mobile-toc-hd .ashelf-caret { transform: rotate(90deg); }
+
+.ashelf-list { list-style: none; margin: 0; padding: 0; }
+.ashelf-list li { margin: 0; }
+.ashelf-list a {
+  display: block; padding: 4px 0;
+  font-family: var(--gothic); font-size: 12.5px; line-height: 1.4;
+  color: var(--ink-2); transition: color .15s;
+}
+.ashelf-list a:hover { color: var(--ink); }
+.ashelf-list a.is-current { color: var(--g-acc, var(--accent)); font-weight: 700; }
+.ashelf-list a .wip {
+  font-size: 9px; font-weight: 700; letter-spacing: .06em; color: var(--faint);
+  margin-left: 5px; vertical-align: 1px;
+}
+
+/* — Planned (準備中) items: muted non-link rows in the shelf & navboard.
+   Typographic only — no tinted highlight boxes (per the site design rule). — */
+.ashelf-soon, .nb-soon {
+  display: block; font-family: var(--gothic); line-height: 1.4;
+  color: var(--faint); cursor: default;
+}
+.ashelf-soon { padding: 4px 0; font-size: 12.5px; }
+.nb-soon { padding: 3px 0; font-size: 12.5px; }
+.wip-soon {
+  font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent); margin-left: 6px; vertical-align: 1px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   RIGHT RAIL — per-page navboard (案内板)
+   ════════════════════════════════════════════════════════════════════ */
+/* Recessive by design: lighter than body, smaller, no rules/boxes — present when
+   wanted, quiet while reading. Only the current item steps forward. */
+.rail-right { position: sticky; top: var(--rail-top); align-self: start;
+  max-height: calc(100vh - var(--rail-top) - 16px); overflow-y: auto;
+  padding: 4px 2px 28px; color: var(--ink-3); }
+.rail-right::-webkit-scrollbar { width: 7px; }
+.rail-right::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 4px; }
+
+.nbblock { margin-bottom: 20px; }
+.nbblock-hd {
+  font-family: var(--mincho); font-size: 12px; font-weight: 700;
+  letter-spacing: .04em; color: var(--ink-2);
+  margin-bottom: 6px; padding: 0;       /* no rule, no box — spacing separates blocks */
+}
+
+/* — Generic link lists in blocks — */
+.nb-links { list-style: none; margin: 0; padding: 0; }
+.nb-links li { margin: 0 0 2px; }
+.nb-links a, .nb-item {
+  display: block; padding: 3px 0;
+  font-size: 12px; line-height: 1.45; color: var(--ink-3);
+  transition: color .15s;
+}
+.nb-links a:hover { color: var(--ink); text-decoration: underline; }
+.nb-item { color: var(--ink-3); }
+
+/* — "Next to read" sub-grouping (理論を深める / 材料へ進む / 実験に使う / 発展) — */
+.nb-next-grp { margin-bottom: 11px; }
+.nb-next-grp:last-child { margin-bottom: 0; }
+.nb-next-lab {
+  font-family: var(--gothic); font-size: 10px; font-weight: 700;
+  letter-spacing: .06em; color: var(--ink-3); margin: 0 0 3px 2px;
+}
+
+/* — In-page table of contents — */
+.nb-toc { list-style: none; margin: 0; padding: 0; counter-reset: nbtoc; }
+.nb-toc li { margin: 0; }
+.nb-toc a {
+  display: flex; gap: 9px; padding: 4px 0;
+  font-size: 12px; line-height: 1.4; color: var(--ink-3);
+  transition: color .15s;
+}
+.nb-toc a::before {
+  counter-increment: nbtoc; content: counter(nbtoc, decimal-leading-zero);
+  font-family: var(--mincho); font-size: 11px; color: var(--faint); flex: none;
+}
+.nb-toc a:hover { color: var(--ink); text-decoration: underline; }
+.nb-toc a.is-active { color: var(--ink); font-weight: 700; }
+.nb-toc a.is-active::before { color: var(--ink); }
+
+/* — Tags — */
+.nb-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.nb-tags span {
+  font-family: var(--gothic); font-size: 11px; font-weight: 600; color: var(--soft);
+  background: var(--bg-soft); border: 1px solid var(--rule);
+  border-radius: 980px; padding: 3px 10px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   CENTER-COLUMN AUTHORING COMPONENTS (定型パーツ)
+   For asides, use the base .callout (題掛 Daikake) from style.css.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* 次に読む — a list of follow-ups in the body, styled like .ed-tools .et */
+.nextcard { max-width: var(--measure); margin: 40px 0 8px; }
+.nextcard .nc-lab {
+  font-family: var(--gothic); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--soft);
+  padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 0;
+}
+.nextcard-grid { display: block; }
+.nc-item {
+  display: block; padding: clamp(16px,2vw,22px) 0;
+  border-bottom: 1px solid var(--line); transition: background .18s;
+}
+.nc-item:hover { background: var(--bg-soft); }
+.nc-item .nc-kind {
+  display: block; font-family: var(--gothic); font-size: 11px; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px;
+}
+.nc-item .nc-title {
+  font-family: var(--mincho); font-size: clamp(17px,1.8vw,19px); font-weight: 700;
+  line-height: 1.25; color: var(--ink);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   HUB PAGE — learning routes (the question now uses a base .callout)
+   ════════════════════════════════════════════════════════════════════ */
+.route { max-width: var(--measure); margin: 0 0 30px; }
+.route-lead {
+  font-family: var(--gothic); font-size: 15px; line-height: 1.7; color: var(--ink-2);
+  margin: 0 0 16px;
+}
+.route-lead em { font-style: normal; font-weight: 700; color: var(--ink); }
+.route-hd {
+  display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 2px solid var(--ink);
+}
+.route-hd .r-no { font-family: var(--mincho); font-size: 20px; font-weight: 700; color: var(--acc, var(--accent)); }
+.route-hd h2 { font-family: var(--mincho); font-size: clamp(20px,2.4vw,26px); font-weight: 700; line-height: 1.2; margin: 0; }
+.route-hd .r-sub { margin-left: auto; font-family: var(--gothic); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.route-steps { list-style: none; margin: 0; padding: 0; counter-reset: rstep; }
+.route-steps li { margin: 0; }
+.route-steps a {
+  display: grid; grid-template-columns: 30px 1fr auto; align-items: baseline; gap: 14px;
+  padding: 13px 6px; border-bottom: 1px solid var(--line); transition: background .18s;
+}
+.route-steps a:hover { background: var(--bg-soft); }
+.route-steps a::before {
+  counter-increment: rstep; content: counter(rstep);
+  font-family: var(--mincho); font-size: 17px; font-weight: 700; color: var(--acc, var(--accent));
+}
+.route-steps .rs-title { font-family: var(--mincho); font-size: 17px; font-weight: 700; line-height: 1.3; color: var(--ink); }
+.route-steps .rs-desc { font-size: 13.5px; color: var(--soft); line-height: 1.5; margin-top: 2px; }
+.route-steps .rs-meta { font-family: var(--gothic); font-size: 10px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+
+/* ════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════ */
+/* The knowledge-map shelf is wrapped in a <details> that defaults to open
+   (so desktop always shows it); article-shell.js / learn-index.js close it on
+   narrow screens, where it becomes a collapsible drawer (stowed, NOT removed).
+   The toggle (summary) is hidden on desktop, shown only when narrow. */
+.ashelf-toggle { display: none; }
+
+/* Tablet: 2 columns (center + per-page navboard); the shelf drops to a
+   full-width collapsible drawer pinned at the top of the layout. */
+@media (max-width: 1239px) {
+  .article-layout { grid-template-columns: minmax(0,1fr) var(--rail-w-r); }
+
+  /* ── The reading column is centred once the shelf leaves the grid ───────
+     Below 1240px the shelf drops out of the grid into a full-width drawer,
+     and the 222px it held is released. Left-flush, ALL of that slack pools
+     on one side: a ~209px hole between the text and the navboard at 1100px,
+     and a bare ~250px right margin at ≤1023px where the navboard is hidden
+     too — a single column of text sitting off-centre, which no reading
+     surface does.
+
+     The column is the page's subject: it keeps the one measure and sits
+     centred in whatever track it is given, so the released space splits
+     evenly to BOTH sides instead of pooling. Above 1240px the track is
+     already the measure (613 vs 581), so the three-column tuning there —
+     shelf flush with the nav brand, breadcrumb on the rails' first line —
+     is left exactly as it was. ── */
+  .rail-center { max-width: var(--read-measure); margin-left: auto; margin-right: auto; }
+  /* The drawer belongs to the article block, not to the page: it takes the
+     same measure and centres with the reading column instead of stretching
+     across the whole track (1019px of bar for one short label). */
+  .rail-left {
+    position: static; max-height: none; overflow: visible;
+    grid-column: 1 / -1; margin: 0 0 18px; padding: 0;
+  }
+  /* ARTICLE SHELL ONLY. Explicit placement puts the drawer in the READING
+     track (row 1) instead of across text+navboard, so centring it there lines
+     it up with the column below — spanning 1/-1 lands it 114px off. width:100%
+     is needed because auto margins alone would shrink-wrap it to its label.
+     The Learn index has no reading column, so its shelf stays full-width. */
+  .article-layout .rail-left   { grid-column: 1; grid-row: 1; }
+  .article-layout .rail-center { grid-column: 1; grid-row: 2; }
+  .article-layout .rail-right  { grid-column: 2; grid-row: 2; }
+  .article-layout .rail-left {
+    width: 100%; max-width: var(--read-measure);
+    margin-left: auto; margin-right: auto;
+  }
+  /* Closed, this is a control, not a banner — it sizes to its label. */
+  .ashelf-toggle {
+    width: fit-content;
+    display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+    font-family: var(--mincho); font-size: 14px; font-weight: 700; color: var(--ink);
+    padding: 10px 14px; border: 1px solid var(--rule); border-radius: 4px; background: var(--bg-soft);
+  }
+  .ashelf-toggle::-webkit-details-marker { display: none; }
+  .ashelf-toggle .ashelf-arrow {
+    margin-left: auto; width: 18px; height: 18px;
+    color: var(--accent); transition: transform .2s;
+  }
+  .ashelf-collapse[open] .ashelf-toggle .ashelf-arrow { transform: rotate(180deg); }
+  .ashelf-collapse[open] > .ashelf-home { display: flex; margin-top: 12px; }
+  .ashelf-collapse[open] > .ashelf-routes,
+  .ashelf-collapse[open] > .ashelf-pillar:first-of-type { margin-top: 12px; }
+}
+
+/* Mobile/narrow: single column; article-shell.js relocates the navboard
+   to sit under the page header (前提・目次), keeping the body clean. */
+@media (max-width: 1023px) {
+  .article-layout { display: block; padding: 0 var(--gutter); }
+  .rail-right { display: none; }    /* hidden; the collapsible .mobile-toc carries the in-page nav */
+}
+
+@media (max-width: 560px) {
+  .nextcard-grid { grid-template-columns: 1fr; }
+  .nb-meta { grid-template-columns: 1fr; gap: 1px; }
+  .nb-meta dt { margin-top: 5px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   LEARN INDEX — 2-column shell (left shelf + main) so the 目次 carries the
+   same persistent knowledge-map side panel as the article pages.
+   ════════════════════════════════════════════════════════════════════ */
+.learn-layout {
+  max-width: var(--shell-maxw); margin: 0 auto; padding: 0 var(--shell-pad);
+  display: grid; grid-template-columns: var(--rail-w-l) minmax(0, 1fr);
+  column-gap: var(--rail-gap); align-items: start;
+}
+.learn-main { min-width: 0; }
+/* the phead lives in the main column (so the shelf runs beside it, like
+   article pages); fill the column and start near the top to align with the shelf */
+.learn-main .phead { padding-top: 6px; }
+.learn-main .phead .container { max-width: none; margin: 0; padding: 0; }
+.learn-main > .band { padding-top: 0; }
+@media (max-width: 1239px) {
+  .learn-layout { display: block; padding: 0 var(--gutter); }
+}

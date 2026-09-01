@@ -4,7 +4,7 @@
    Three switchable families, all in the page's 和 palette
    (washi 和紙 · sumi 墨 · vermilion 朱):
 
-   ①  .callout.cv-*    — 柱 (left-spine) annotation frames.
+   ①  .callout.cv-*    — REMOVED. Callout = base .callout (題掛 Daikake) in style.css.
    ②  .demo-stage.pv-* — light-ground (明るい地) panel framing.
    ③  .demo-stage.plate-* — the figure-plate ground (図版地), driven by
                             the CSS var --plate so every canvas follows it.
@@ -12,88 +12,11 @@
 
 
 /* ════════════════════════════════════════════════════════════════
-   ①  CALLOUT — 柱 (HASHIRA) FAMILY  ·  墨＋朱
-   A vertical accent in the left margin, a mincho label, one vermilion
-   mark. Type is told by the label text, never by colour.
+   ①  CALLOUT — removed. 題掛 (Daikake) is now the single callout
+   template, defined as the base .callout in style.css. The old .cv-*
+   spine family (hashira/futo/shu/soe/ten/kake/shirube/daikake) is gone;
+   any .cv-* class left in markup is a harmless no-op.
    ════════════════════════════════════════════════════════════════ */
-
-.callout.cv-hashira, .callout.cv-futo, .callout.cv-shu, .callout.cv-soe,
-.callout.cv-ten, .callout.cv-kake, .callout.cv-shirube, .callout.cv-daikake{
-  position:relative;
-  background:linear-gradient(180deg,
-    color-mix(in srgb, var(--paper-tint) 48%, var(--paper)),
-    color-mix(in srgb, var(--paper-tint) 72%, var(--paper)));
-  border:0; border-radius:7px;
-  padding:16px 22px 16px 22px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 1px 2px rgba(27,23,17,.05);
-}
-/* the callout body sits in fuller ink so it reads apart from the lighter
-   running text around it */
-.callout.cv-hashira p, .callout.cv-futo p, .callout.cv-shu p,
-.callout.cv-soe p, .callout.cv-ten p, .callout.cv-kake p,
-.callout.cv-shirube p, .callout.cv-daikake p{ color:var(--ink); }
-.callout.cv-hashira .co-label, .callout.cv-futo .co-label,
-.callout.cv-shu .co-label, .callout.cv-soe .co-label,
-.callout.cv-ten .co-label, .callout.cv-kake .co-label,
-.callout.cv-shirube .co-label, .callout.cv-daikake .co-label{
-  color:var(--ink); font-family:var(--mincho); font-weight:700;
-  letter-spacing:.15em; line-height:1.15;
-}
-/* hide the trailing rule by default (Daikake re-enables it) */
-.callout.cv-hashira .co-label::after, .callout.cv-futo .co-label::after,
-.callout.cv-shu .co-label::after, .callout.cv-soe .co-label::after,
-.callout.cv-ten .co-label::after, .callout.cv-kake .co-label::after,
-.callout.cv-shirube .co-label::after{ display:none; }
-
-/* — lozenge-marked spines — */
-.callout.cv-hashira .co-label::before, .callout.cv-futo .co-label::before,
-.callout.cv-soe .co-label::before, .callout.cv-ten .co-label::before{
-  width:8px;height:8px;background:var(--seal);transform:rotate(45deg);border-radius:0;
-}
-
-/* 1 ── 柱 Hashira : a fine sumi hairline spine. The quiet original. */
-.callout.cv-hashira{ border-left:1px solid var(--rule-2); }
-
-/* 2 ── 太柱 Futobashira : a heavier solid sumi spine — more authority. */
-.callout.cv-futo{ border-left:3px solid var(--ink); padding-left:24px; }
-
-/* 3 ── 朱柱 Shubashira : the spine itself is vermilion; no marker. */
-.callout.cv-shu{ border-left:2px solid var(--seal); }
-.callout.cv-shu .co-label::before{ width:0;height:0;background:transparent;margin:0; }
-
-/* 4 ── 添柱 Soebashira : a double sumi spine (solid + hairline). */
-.callout.cv-soe{ border-left:1px solid var(--ink); padding-left:25px; }
-.callout.cv-soe::before{
-  content:"";position:absolute;left:3px;top:0;bottom:0;width:1px;background:var(--rule-2);
-}
-
-/* 5 ── 点柱 Tenbashira : a dashed sumi spine — a stitched margin rule. */
-.callout.cv-ten{ border-left:1px dashed color-mix(in srgb,var(--ink) 55%,transparent); }
-
-/* — TITLE-ALIGNED accents (the vermilion bar stretches to the title's
-     line-box, so its height always matches the heading) — */
-.callout.cv-kake .co-label::before,
-.callout.cv-shirube .co-label::before,
-.callout.cv-daikake .co-label::before{
-  width:3px; height:auto; align-self:stretch; background:var(--seal);
-  transform:none; border-radius:0; flex:none;
-}
-
-/* 6 ── 掛柱 Kake : a sumi spine + a vermilion title-bar, both running with
-       the heading — the cap is exactly the height of the title. */
-.callout.cv-kake{ border-left:1px solid var(--rule-2); }
-
-/* 7 ── 標 Shirube : only the aligned vermilion title-bar — no body spine.
-       The barest mark; body indents to sit under the heading. */
-.callout.cv-shirube{ border-left:0; padding-left:18px; }
-
-/* 8 ── 題掛 Daikake : the aligned vermilion title-bar opens a masthead —
-       a fine sumi rule trails off to the right of the heading. */
-.callout.cv-daikake{ border-left:0; }
-.callout.cv-daikake .co-label::after{
-  display:block; flex:1 1 auto; height:1px; align-self:center; margin-left:6px;
-  background:linear-gradient(to right, var(--rule-2), transparent);
-}
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -117,12 +40,7 @@
 /* ── 図版枠 plate border (optional, tweakable) ─────────────────────
    Default = none (borderless, plate dissolves into the panel ground).
    A thin keyline can be added in one of several washi-friendly inks. */
-.demo-stage.pb-sumi.pv-light canvas{ border:1px solid rgba(31,27,20,.34) !important; }
 .demo-stage.pb-usuzumi.pv-light canvas{ border:1px solid rgba(31,27,20,.16) !important; }
-.demo-stage.pb-shu.pv-light canvas{ border:1px solid rgba(176,52,40,.55) !important; }
-.demo-stage.pb-kincha.pv-light canvas{ border:1px solid rgba(150,108,40,.55) !important; }
-.demo-stage.pb-ai.pv-light canvas{ border:1px solid rgba(40,66,110,.50) !important; }
-.demo-stage.pb-rikyu.pv-light canvas{ border:1px solid rgba(90,96,72,.50) !important; }
 .demo-stage.pv-light .gr-3d-wrap canvas{
   background-image:radial-gradient(120% 120% at 50% 30%,
     color-mix(in srgb,var(--plate, #322e29) 78%,#fff) 0%,
@@ -156,72 +74,6 @@
 .demo-stage.pv-light .gr-info{ display:none; }
 .demo-stage.pv-light .gr-info b{ color:#efe7d8; }
 
-/* ── grounds ──────────────────────────────────────────────────── */
-
-/* 1 ── 和紙 Washi : a warm washi sheet, fine sumi border, soft lift. */
-.demo-stage.pv-washi{
-  background:radial-gradient(130% 140% at 28% 0%,
-    color-mix(in srgb,var(--paper) 97%,#fff), var(--paper) 62%);
-  border:1px solid var(--rule-2); border-radius:6px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 0 14px rgba(0,0,0,.13);
-}
-
-/* 2 ── 鳥の子 Torinoko : ivory sheet with a fine inner keyline — formal. */
-.demo-stage.pv-torinoko{
-  position:relative; background:#f4efe2;
-  border:1px solid var(--rule-2); border-radius:4px;
-  box-shadow:0 0 14px rgba(0,0,0,.13);
-}
-.demo-stage.pv-torinoko::before{
-  content:"";position:absolute;inset:6px;pointer-events:none;z-index:6;
-  border:1px solid var(--rule); border-radius:2px;
-}
-
-/* 3 ── 銀鼠 Ginnezu : a cool silver-grey ground under one sumi top rule. */
-.demo-stage.pv-ginnezu{
-  background:#e6e4de; border:1px solid rgba(27,23,17,.18);
-  border-top:2px solid var(--ink); border-radius:3px;
-  box-shadow:0 0 14px rgba(0,0,0,.13);
-}
-
-/* 4 ── 生成 Kinari : unbleached paper, square corners, vermilion ticks. */
-.demo-stage.pv-kinari{
-  position:relative; background:var(--paper-tint);
-  border:1px solid var(--rule-2); border-radius:1px;
-  box-shadow:0 0 14px rgba(0,0,0,.13);
-}
-.demo-stage.pv-kinari::before{
-  content:"";position:absolute;inset:-8px;pointer-events:none;
-  background:
-    linear-gradient(var(--seal),var(--seal)) 0 0/14px 1.5px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 0 0/1.5px 14px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 100% 0/14px 1.5px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 100% 0/1.5px 14px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 0 100%/14px 1.5px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 0 100%/1.5px 14px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 100% 100%/14px 1.5px no-repeat,
-    linear-gradient(var(--seal),var(--seal)) 100% 100%/1.5px 14px no-repeat;
-}
-
-/* 5 ── 表装 Hyōsō : a scroll-mounting — a wide washi mat frames the field. */
-.demo-stage.pv-hyoso{
-  position:relative; background:var(--paper);
-  border:16px solid var(--paper-tint); border-radius:3px;
-  box-shadow:0 0 0 1px var(--rule-2), 0 0 14px rgba(0,0,0,.13);
-}
-.demo-stage.pv-hyoso::before{
-  content:"";position:absolute;inset:0;pointer-events:none;z-index:6;
-  box-shadow:inset 0 0 0 1px var(--rule);
-}
-
-/* 6 ── 縹 Hanada : a barely-there indigo wash over paper. */
-.demo-stage.pv-hanada{
-  background:color-mix(in srgb,#3f5a6b 7%, var(--paper));
-  border:1px solid color-mix(in srgb,#3f5a6b 24%, var(--rule)); border-radius:5px;
-  box-shadow:0 0 14px rgba(0,0,0,.13);
-}
-
-
 /* ════════════════════════════════════════════════════════════════
    ②b 習字 SHŪJI FAMILY · 下敷き(felt) + 半紙(paper) + 文鎮(bunchin)
    A calligraphy desk. Robust 3-layer build that always paints:
@@ -233,8 +85,7 @@
    the felt border holds it like a mat, the bunchin lies across the top.
    ════════════════════════════════════════════════════════════════ */
 
-.demo-stage.pv-bunchin, .demo-stage.pv-rochiku, .demo-stage.pv-sochin,
-.demo-stage.pv-tatechin, .demo-stage.pv-keihanshi, .demo-stage.pv-rakkan{
+.demo-stage.pv-bunchin{
   position:relative;
   padding:34px 18px 20px;
   background-color:#fbf8f0;                         /* hanshi sheet */
@@ -256,114 +107,21 @@
   box-shadow:0 1px 2px rgba(31,27,20,.35), inset 0 0 0 1px rgba(255,255,255,.18);
 }
 
-/* ── felt frame variants (paper / extras differ; colour follows --mat) ── */
-/* A · 文鎮 Bunchin — plain sheet + faint printed frame */
+/* ── felt panel sheet (文鎮 Bunchin) + its mat colour (素鼠 Sunezu) ── */
 .demo-stage.pv-bunchin{ background-color:#fbf8f0; }
-/* B · 老竹 Rōchiku — a hair warmer sheet */
-.demo-stage.pv-rochiku{ background-color:#fcfaf3; }
-/* C · 双鎮 Sōchin — plain sheet */
-.demo-stage.pv-sochin{ background-color:#fbf8f0; }
-/* D · 縦鎮 Tatechin — plain sheet */
-.demo-stage.pv-tatechin{ background-color:#fbf8f0; }
-/* E · 罫半紙 Keihanshi — sheet with a faint printed centre rule + frame */
-.demo-stage.pv-keihanshi{
-  background-color:#fbf8f0;
-  background-image:linear-gradient(rgba(31,27,20,.16),rgba(31,27,20,.16));
-  background-repeat:no-repeat; background-position:50% 0; background-size:1px 100%;
-}
-/* F · 落款 Rakkan — sheet + a small vermilion seal, lower-right */
-.demo-stage.pv-rakkan{ background-color:#fbf8f0; }
-
-/* ── 下敷き色 · mat colours (calm, theme-matching washi/sumi tones) ── */
-.demo-stage.mat-sumi{      --mat:#3b352e; }   /* 墨    soft charcoal      */
-.demo-stage.mat-keshizumi{ --mat:#2e2a25; }   /* 消炭  warm near-black    */
-.demo-stage.mat-rikyu{     --mat:#585b50; }   /* 利休鼠 green-grey         */
-.demo-stage.mat-ainezu{    --mat:#515b61; }   /* 藍鼠  blue-grey          */
-.demo-stage.mat-hatoba{    --mat:#595460; }   /* 鳩羽鼠 purple-grey        */
-.demo-stage.mat-konnezu{   --mat:#3c4350; }   /* 紺鼠  deep indigo-grey   */
-.demo-stage.mat-kurumi{    --mat:#5b4d3e; }   /* 胡桃  walnut brown       */
-.demo-stage.mat-kobicha{   --mat:#54492f; }   /* 媚茶  olive brown        */
-.demo-stage.mat-rikyucha{  --mat:#4e4a39; }   /* 利休茶 muted tea-olive    */
-.demo-stage.mat-nibi{      --mat:#4a4640; }   /* 鈍色  neutral warm grey  */
-/* ── 薄墨系 lighter, washed sumi greys ── */
-.demo-stage.mat-chuzumi{   --mat:#565049; }   /* 中墨  mid sumi           */
-.demo-stage.mat-usuzumi{   --mat:#6b655b; }   /* 薄墨  diluted sumi       */
-.demo-stage.mat-sunezu{    --mat:#7c766b; }   /* 素鼠  plain warm grey    */
-.demo-stage.mat-hai{       --mat:#8b8378; }   /* 灰    soft ash           */
+.demo-stage.mat-sunezu{ --mat:#7c766b; }   /* 素鼠  plain warm grey */
 
 
 /* ════════════════════════════════════════════════════════════════
-   ③  FIGURE-PLATE GROUND  ·  図版地  (the "dark part" behind the plots)
-   Sets --plate (and optional --plate-img). The drawing is light-on-dark,
-   so the plate stays dark — but its tone & texture are yours to pick.
+   ③  FIGURE-PLATE GROUND  ·  図版地 — sets --plate behind the plots.
    ════════════════════════════════════════════════════════════════ */
-
-/* 1 ── 墨 Sumi : warm graphite (default). */
-.demo-stage.plate-sumi{ --plate:#322e29; --plate-img:none; }
-
-/* 2 ── 鉄 Tetsu : a deep near-black iron ground — the most contrast. */
-.demo-stage.plate-tetsu{ --plate:#1b1815; --plate-img:none; }
-
-/* 3 ── 藍墨 Aizumi : a cool slate-indigo ground. */
-.demo-stage.plate-aizumi{ --plate:#222a30; --plate-img:none; }
-
-/* 4 ── 生壁 Namakabe : a warm taupe ground — the lightest plate. */
-.demo-stage.plate-namakabe{ --plate:#3b362d; --plate-img:none; }
-
-/* 5 ── 方眼 Hōgan : a graphite ground ruled with a faint graph-paper grid. */
-.demo-stage.plate-hougan{
-  --plate:#2b2823;
-  --plate-img:
-    repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 22px);
-  --plate-size:22px 22px;
-}
-
-/* 6 ── 暈 Bokashi : a graphite ground that deepens to a vignette at the edges. */
-.demo-stage.plate-bokashi{
-  --plate:#302c27;
-  --plate-img:radial-gradient(125% 125% at 50% 42%, transparent 48%, rgba(0,0,0,.42) 100%);
-  --plate-size:cover;
-}
-
-/* ── LIGHT plot fields ──────────────────────────────────────────
-   The figure is now drawn directly with a dark-on-light 和 theme (see
-   graphene-nanoribbons.js · window.__gnrLight), so each washi plate just
-   sets its paper colour as --plate — the 2-D figures sit on real washi
-   tones with hand-picked sumi / 朱 / 藍 lines. The 3-D viewport stays a
-   dark plate (its surface palette is tuned for dark). */
-.demo-stage.plate-kinari .gr-3d-wrap canvas, .demo-stage.plate-torinoko2 .gr-3d-wrap canvas,
-.demo-stage.plate-suna .gr-3d-wrap canvas, .demo-stage.plate-zoge .gr-3d-wrap canvas,
-.demo-stage.plate-shironeri .gr-3d-wrap canvas, .demo-stage.plate-haijiro .gr-3d-wrap canvas,
-.demo-stage.plate-sunakabe .gr-3d-wrap canvas, .demo-stage.plate-sumijiro .gr-3d-wrap canvas,
-.demo-stage.plate-callout .gr-3d-wrap canvas,
-.demo-stage.plate-shiro .gr-3d-wrap canvas, .demo-stage.plate-unohana .gr-3d-wrap canvas{
+/* 3-D viewport keeps a dark plate even on the light 白 Shiro ground */
+.demo-stage.plate-shiro .gr-3d-wrap canvas{
   background-image:radial-gradient(120% 120% at 50% 30%, #26211d 0%, #161310 70%, #100d0b 100%) !important;
   border-color:rgba(255,255,255,.08) !important;
 }
-
-/* 7 ── 生成 Kinari : unbleached warm cream. */
-.demo-stage.plate-kinari{ --plate:#f4eedd; --plate-img:none; }
-/* 8 ── 鳥の子 Torinoko : ivory / eggshell. */
-.demo-stage.plate-torinoko2{ --plate:#f6f1e3; --plate-img:none; }
-/* 9 ── 砂 Suna : light sandy beige. */
-.demo-stage.plate-suna{ --plate:#efe6d3; --plate-img:none; }
-/* 10 ── 象牙 Zōge : soft bright ivory. */
-.demo-stage.plate-zoge{ --plate:#f7f2e6; --plate-img:none; }
-/* 11 ── 白練 Shironeri : warm near-white. */
-.demo-stage.plate-shironeri{ --plate:#faf7f0; --plate-img:none; }
-/* 12 ── 灰白 Haijiro : a soft warm neutral white (matches the washi ground). */
-.demo-stage.plate-haijiro{ --plate:#f1eee5; --plate-img:none; }
-/* 13 ── 砂壁 Sunakabe : warm kraft / sand-wall. */
-.demo-stage.plate-sunakabe{ --plate:#e9e0cf; --plate-img:none; }
-/* 14 ── 墨白 Sumijiro : near-white, editorial. */
-.demo-stage.plate-sumijiro{ --plate:#f8f5ee; --plate-img:none; }
-/* 15 ── 注釈 Callout : the plot field uses the exact callout block tint. */
-.demo-stage.plate-callout{ --plate:color-mix(in srgb, var(--paper-tint) 60%, var(--paper)); --plate-img:none; }
-/* 16 ── 白 Shiro : pure white. */
+/* 白 Shiro : pure white plot field. */
 .demo-stage.plate-shiro{ --plate:#ffffff; --plate-img:none; }
-/* 17 ── 卯 Unohana : the faintest off-white (near-pure, a hair warm). */
-.demo-stage.plate-unohana{ --plate:#fcfbf8; --plate-img:none; }
 
 
 /* ════════════════════════════════════════════════════════════════

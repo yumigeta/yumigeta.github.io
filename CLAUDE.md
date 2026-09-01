@@ -14,6 +14,115 @@ Static HTML/CSS/JS — no build step, no framework.
 
 ---
 
+## Learn information architecture — module pool + routes + handbook
+
+Learn is a **module pool for non-linear readers** (most arrive from search to a
+single page), not a linear course. Adopted from a design tournament (2026-06-22):
+**flat-URL module pool + a few theme routes + an independent measurement/analysis
+handbook.** Pages are **typed and kept to one question each**; a few **routes**
+thread them into guided paths; measurement/analysis lives in its **own handbook**,
+never embedded in the theory pages. Fully data-driven.
+
+**Single source of truth: `learn/pages.json`.**
+- `categories[]` — the four content groups, in order: `routes`, `concepts`
+  (displayed **"How Matter Works" / 物質のしくみ**), `themes`, `handbook` (each: `name_en/ja`,
+  `num`, `color`). `concepts` & `themes` also carry **`groups[]`** —
+  `{name_en, name_ja, pages:[slugs]}` — the **left-shelf accordion** sub-grouping.
+  **This `groups[]` array is the one place to edit shelf grouping**: a slug may
+  appear in several groups (a page can sit in more than one); pages in a category
+  but in no group fall into a trailing ungrouped list; editing groups is
+  display-only and never moves a URL or file. `routes` and `handbook` define no
+  `groups` (rendered flat). The full-index page `all` is a separate safety-valve,
+  **not** a category.
+- `pages[]` — every Learn page, keyed by `slug`. Fields: `slug`, `category`,
+  `published`, `planned` (optional; `true` → render as a non-link 準備中
+  placeholder, no HTML file yet), `title_en/ja`, plus page-type metadata:
+  `layoutType` (`route|concept|theme|handbook`), `color`
+  (`foundation|material|optical|device|reference|frontier|hub` — a **per-page
+  accent**, orthogonal to category), `nav_en/ja` (short shelf label),
+  `level_en/ja`, `readingTime_en/ja`, `summary_en/ja`, `theme[]`,
+  `prerequisites[]` (slugs), `basicsUsed[]` (`{label_en,label_ja}`),
+  `referenceLinks[]` (slugs), `nextLinks{theory,application,experiment,frontier}`
+  (slugs), `usedBy[]` (slugs), `tags[]`. Cross-references are **slugs**, resolved
+  at render time — never hard-code titles.
+
+**The five page types** (型). Every page is exactly one:
+
+| type | category | what it is |
+|---|---|---|
+| `route`    | `routes`   | a guide that orders pages into a path (formerly "hubs") |
+| `concept`  | `concepts` | one question = one idea — crystals, electronic states, **optical response incl. Raman theory** (was foundations) |
+| `theme`    | `themes`   | a material / phenomenon / device (materials + devices + frontier) |
+| `handbook` | `handbook` | the measurement & analysis *HOW*: error, noise/SNR, accumulation, peak-fitting, angle-resolved Raman (was reference) |
+| `index`    | —          | the `all` full-index page only |
+
+**`assets/js/article-shell.js` + `assets/css/article-shell.css`** turn any page
+into the 3-column layout **without editing its body**: left = the shelf (below),
+center = the existing page, right = a deliberately **recessive** navboard limited
+to **前提 (prerequisites) · 目次 (this-page TOC) · 次に読む (read-next)** — lighter
+than the body, no rules/boxes, sticky with scroll-spy, and the reading column
+keeps priority width (`--rail-w-r` is thin). basics/ref/usedBy/tags stay in the
+data and on `all`, off the reading surface. If the navboard would be empty the
+right column is dropped (`.no-right`). It also injects an end-of-article "次に読む"
+card (except on `route` pages) and builds the TOC from headings. **Narrow
+screens**: the right rail is hidden and one collapsible TOC (`.mobile-toc`, starts
+closed) is dropped at the top of the content. Published pages link only to other
+**published** pages (no dev leakage).
+
+**Left shelf — `routes` (compact, always-on top, never collapses) + a 2-level
+accordion** of the three content pillars (How Matter Works / Materials & Devices /
+Lab & Analysis Handbook). Pillars and their `groups[]` are collapsible
+`<details>`; **pillars start open**, while groups start closed except the one
+holding the current page — so the structure shows at a glance but leaf pages stay
+tucked in collapsed groups (the shelf stays short however many pages exist).
+`planned` pages
+render as muted, non-link "準備中" rows. Re-arrange it by editing
+`categories[].groups` in pages.json — never the template (both `article-shell.js`
+and `learn-index.js` read it).
+
+**To add the shell to a page** (3 edits, nothing else):
+1. `<head>`: add `<link rel="stylesheet" href="/assets/css/article-shell.css">`
+   after the page-specific CSS (before the katex link).
+2. `<body data-learn-slug="<slug>">`.
+3. Before the page's own `<script src="/assets/js/<page>.js">`, add
+   `<script src="/assets/js/article-shell.js"></script>` (so it wraps the DOM
+   before the page's canvas-sizing JS runs).
+Then add/extend the page's entry in `learn/pages.json`.
+
+**Routes** live in `learn/hubs/<theme>/` (slug `hubs/<theme>`, kept for URL
+stability — these are the four theme routes) plus the site guide `learn/start/`
+(slug `start`). A route body is a `.callout` question + numbered `.route` sections
+(`.route-steps` of links to pages). The shell adds the route navboard
+automatically. The **full index** is `learn/all/` + `assets/js/learn-all.js`
+(reads pages.json; browse by category / name / tag). It is **not** a pages.json
+entry; link to it explicitly.
+
+**Category accent colors** (always paired with a text label): foundation=blue
+(concepts), material=green (themes), optical=purple (Raman/laser/optics),
+device=orange, reference=gray (handbook), frontier=magenta, hub=vermilion
+(routes). `color` is a **per-page** accent (set per page); the shelf-group accent
+follows the category (routes=vermilion, concepts=blue, themes=green,
+handbook=gray) via `.ashelf-group[data-cat=…]` in article-shell.css.
+
+**Tags — controlled vocabulary.** Each page's first tag is a **kind tag**
+(`#Route` / `#Concept` / `#Theme` / `#Handbook`) matching its category; the rest
+are controlled **topic tags** (CamelCase, e.g. `#Graphene`, `#BrillouinZone`,
+`#Raman`). No free text, consistent casing, never the primary navigation — the
+`all` page filters by these.
+
+**Cross-link checklist** (前提 / 横道 / 次の問い). When prose links to another
+page, carry its essence in one line first — don't dump a bare "詳しくはこちら".
+Wire the relationship in pages.json too: `prerequisites[]` (前提),
+`referenceLinks[]` (横道 = the handbook), `nextLinks{}` (次の問い), and the reverse
+`usedBy[]`.
+
+**Planned pages** (`"planned": true`) carry a full pages.json entry (so the IA and
+cross-links stay complete) but have **no HTML file** — they render as muted,
+non-link "準備中 / coming soon" rows in the shelf, navboard, landing, and `all`.
+To build one: write its HTML, then drop the `planned` flag.
+
+---
+
 ## Learn pages — canonical design
 
 **Reference implementation: `learn/measurement-error/index.html`**
@@ -226,7 +335,9 @@ The `measurement-error.css` file is the reference for what to put there:
 
 ## Search engine visibility (Learn pages)
 
-**Published** (indexed by Google): `raman/`, `measurement-error/`
+**Published** (indexed by Google): `raman/` only (now categorized under the
+`handbook`). Everything else — including the new `start/` and `all/` navigation
+pages and the four `planned` scaffolds — is dev.
 
 **Unpublished / dev** (hidden from Google): everything else under `learn/`
 
@@ -294,6 +405,52 @@ Each edit carries: `type` (`delete|replace|insert|comment`), `lang`
    EN/JA pair consistent when a change affects meaning.
 4. When applying a committed `learn/_reviews/<slug>.json`, delete that file in
    the same commit once the edits are in. Commit on the `claude/*` branch.
+
+---
+
+## Organizing the Learn IA — "整理 / Organize" (dev-only, localhost)
+
+`assets/js/learn-organize.js` + `assets/css/learn-organize.css` add an in-panel
+editor for `pages.json`, **injected by `lang-toggle.js` only on localhost DEV
+(noindex) Learn pages** — i.e. `/learn/dev/` and dev article pages, **never the
+public `/learn/` landing, published pages, or production**. A "整理 / Organize"
+pill (bottom-left) opens edit mode:
+- **Publish toggle** — ●(published)/○(hidden) per row flips `published`. (Flips
+  only the pages.json flag → shelf/index; full go-live still needs the page's
+  `noindex` removed + `robots.txt` + `sitemap.xml`.)
+- **Move between categories** — drag a page onto a category zone (柱).
+- **Move between sub-folders (groups)** — drag onto another group's list.
+- **Reorder** — drag a page above/below another (insertion line shows where); in a
+  group it reorders `group.pages`, in a flat category (routes/handbook) it reorders
+  `pages[]`.
+- **Rename a sub-folder** — ✎ on the group header (prompts JA then EN →
+  `group.name_ja/en`).
+
+Model: the editor holds a **full working draft of pages.json** in `localStorage`
+(`learn-organize/draft`); every edit mutates a deep clone and re-renders. Changes
+show **only in edit mode** (the normal shelf reads the file). **Save** writes the
+draft to the local file via the File System Access API (Chromium); **Download /
+Copy** are fallbacks; **Reset** drops the draft. The renderers are already
+array-order driven, so move/reorder/rename take effect on Save with no renderer
+change. The file is `JSON.stringify(..., null, 2)` — the first Save reformats
+whitespace (content preserved). Group rename uses `prompt()` (a nicer inline
+editor is possible later).
+
+**`/learn/` (public) vs `/learn/dev/` (dev).** `learn/index.html` renders
+`initLearnIndex({ publishedOnly: true })` — the **public index: published pages
+only**, no dev tools, no `.learn-quick` (start/all are dev nav; they return to
+`/learn/` once published). `learn/dev/index.html` renders everything
+(`publishedOnly:false, showStatus:true`) and is where the Organize tool lives
+(it's the noindex dev surface).
+
+**Preview-published switch** — a second pill, "公開版 / Preview published" (on dev
+surfaces only), sets `localStorage['learn-view']='published'` and reloads. While
+set, the renderers (`article-shell.js`, `learn-index.js`) read it (localhost only,
+via `PREVIEW_PUB`) and render the index + left panel **as the live site would**:
+published only, no dev/planned/status. A vermilion "公開版プレビュー中 / Back to dev
+view" banner shows; dev pills + `.learn-quick` are hidden. Exit clears the flag.
+This previews the published **nav** from the dev context; `/learn/` itself is the
+real published view. On production the flag is ignored (never localhost).
 
 ---
 

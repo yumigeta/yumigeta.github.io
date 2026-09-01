@@ -649,10 +649,10 @@
     wrap.className = 'pf-ui';
     wrap.innerHTML =
       '<button class="pf-launch pf-ui" type="button" aria-label="Proofread / 校正">' +
-      '<span class="pf-pen">✎</span><span class="i18n-en">Review</span><span class="i18n-ja">校正</span></button>' +
+      '<span class="pf-pen"><svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4M13.5 6.5l4 4"/></svg></span><span class="i18n-en">Review</span><span class="i18n-ja">校正</span></button>' +
 
       '<div class="pf-bar pf-ui" style="display:none">' +
-      '<span class="pf-title"><span class="pf-pen">✎</span>' +
+      '<span class="pf-title"><span class="pf-pen"><svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4M13.5 6.5l4 4"/></svg></span>' +
       '<span class="pf-title-en i18n-en">Review</span><span class="pf-title-ja i18n-ja">校正</span></span>' +
       '<div class="pf-view">' +
       '<button type="button" data-view="markup"><span class="i18n-en">Markup</span><span class="i18n-ja">校正記号</span></button>' +

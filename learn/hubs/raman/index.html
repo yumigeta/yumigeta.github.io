@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Raman Spectroscopy — Topic Hub | Kentaro Yumigeta</title>
+  <meta name="description" content="A guided, non-linear map of Raman spectroscopy: the classical and quantum origin of the scattered light, why a laser is the right probe, how to fight noise and read peaks, and what a spectrum reveals about a real material.">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/hubs/raman/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="hubs/raman">
+<script src="/assets/js/lang-toggle.js"></script>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+      <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+      <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+      <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/#cv">CV</a>
+    </nav>
+    <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="phead-top">
+      <div class="crumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+        <span><span class="i18n-en">Understanding Raman</span><span class="i18n-ja">ラマン分光を理解する</span></span>
+      </div>
+      <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+    </div>
+    <div class="ptop">
+      <h1><span class="i18n-en">Understanding Raman Spectroscopy</span><span class="i18n-ja">ラマン分光を理解する</span></h1>
+    </div>
+    <p class="pintro">
+      <span class="i18n-en">A guided way through Raman spectroscopy. Come for the physics, the lab technique, or the graphene application. Each page reads on its own, and this map shows how they connect.</span>
+      <span class="i18n-ja">ラマン分光を案内する地図です。原理から入っても、実験の手法から入っても、グラフェンへの応用から入ってもかまいません。各ページは単独で読め、ここではそれらのつながりを示します。</span>
+    </p>
+  </div>
+</div>
+
+<div class="callout">
+  <span class="co-label"><span class="i18n-en">The question</span><span class="i18n-ja">問い</span></span>
+  <p>
+    <span class="i18n-en">Just by shining light on a material, how can we learn about its atomic vibrations, its symmetry, and its defects?</span>
+    <span class="i18n-ja">光を当てるだけで、なぜ原子の振動や対称性、欠陥までわかるのか？</span>
+  </p>
+</div>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">01</span>
+    <h2><span class="i18n-en">Start with the physics</span><span class="i18n-ja">まず原理をつかむ</span></h2>
+    <span class="r-sub"><span class="i18n-en">Theory</span><span class="i18n-ja">理論</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Classical Theory of Raman Scattering</span><span class="i18n-ja">ラマン散乱の古典論</span></div>
+        <div class="rs-desc"><span class="i18n-en">A vibrating polarizability modulates the scattered light. Stokes/anti-Stokes sidebands and the selection rule.</span><span class="i18n-ja">振動する分極率が散乱光を変調する。ストークス／反ストークスと選択則。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 15 min</span><span class="i18n-ja">標準 · 15分</span></span>
+    </a></li>
+    <li><a href="/learn/raman-quantum/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Quantum Picture of Raman Scattering</span><span class="i18n-ja">ラマン散乱の量子論</span></div>
+        <div class="rs-desc"><span class="i18n-en">Photons and phonons one quantum at a time. Why anti-Stokes is weak, and resonance.</span><span class="i18n-ja">光子とフォノンを1個ずつやり取り。反ストークスが弱い理由と共鳴。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 15 min</span><span class="i18n-ja">標準 · 15分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">02</span>
+    <h2><span class="i18n-en">Take it to the lab</span><span class="i18n-ja">実験で使う</span></h2>
+    <span class="r-sub"><span class="i18n-en">Technique</span><span class="i18n-ja">手法</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/laser/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Physics of Laser Light</span><span class="i18n-ja">レーザー光の物理</span></div>
+        <div class="rs-desc"><span class="i18n-en">Why a laser (coherent, monochromatic, directional) is the right Raman probe.</span><span class="i18n-ja">なぜラマンにレーザーを使うのか（コヒーレント・単色・指向性）。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 20 min</span><span class="i18n-ja">標準 · 20分</span></span>
+    </a></li>
+    <li><a href="/learn/spectral-noise/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Noisy Spectra & SNR</span><span class="i18n-ja">ノイズとSN比</span></div>
+        <div class="rs-desc"><span class="i18n-en">Acquisition time vs accumulation, and why SNR grows as the square root of exposure.</span><span class="i18n-ja">取得時間と積算回数、そしてSN比が露光の平方根で伸びる理由。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Reference · 15 min</span><span class="i18n-ja">リファレンス · 15分</span></span>
+    </a></li>
+    <li><a href="/learn/measurement-error/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Measurement, Error & Data Analysis</span><span class="i18n-ja">測定・誤差・データ解析</span></div>
+        <div class="rs-desc"><span class="i18n-en">The groundwork for reading peak position, intensity, and width honestly.</span><span class="i18n-ja">ピーク位置・強度・幅を「正しく」読むための土台。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Reference · 25 min</span><span class="i18n-ja">リファレンス · 25分</span></span>
+    </a></li>
+    <li><a href="/learn/angle-resolved-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Angle-Resolved Raman</span><span class="i18n-ja">角度分解ラマン</span></div>
+        <div class="rs-desc"><span class="i18n-en">Rotate the polarization and read crystal symmetry from polar plots.</span><span class="i18n-ja">偏光を回して、極座標プロットから結晶対称性を読む。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advanced · 12 min</span><span class="i18n-ja">発展 · 12分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">03</span>
+    <h2><span class="i18n-en">Apply it to a material</span><span class="i18n-ja">材料に応用する</span></h2>
+    <span class="r-sub"><span class="i18n-en">Graphene</span><span class="i18n-ja">グラフェン</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/graphene-raman/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Raman Spectroscopy of Graphene</span><span class="i18n-ja">グラフェンのラマン分光</span></div>
+        <div class="rs-desc"><span class="i18n-en">The G, D, and 2D bands, double resonance, and the defect-activated D peak.</span><span class="i18n-ja">G・D・2Dバンド、二重共鳴、そして欠陥で現れるDピーク。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Standard · 18 min</span><span class="i18n-ja">標準 · 18分</span></span>
+    </a></li>
+    <li><a href="/learn/graphene-nanoribbons/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Graphene Nanoribbons</span><span class="i18n-ja">グラフェンナノリボン</span></div>
+        <div class="rs-desc"><span class="i18n-en">How confinement and zone folding reshape what a ribbon's Raman spectrum can show.</span><span class="i18n-ja">閉じ込めとゾーンフォールディングがリボンのラマンに与える効果。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advancing · 15 min</span><span class="i18n-ja">やや発展 · 15分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<section class="route">
+  <div class="route-hd">
+    <span class="r-no">04</span>
+    <h2><span class="i18n-en">Frontier</span><span class="i18n-ja">発展</span></h2>
+    <span class="r-sub"><span class="i18n-en">Beyond light</span><span class="i18n-ja">光の外へ</span></span>
+  </div>
+  <ol class="route-steps">
+    <li><a href="/learn/graphene-phonon-emission/">
+      <div>
+        <div class="rs-title"><span class="i18n-en">Stimulated Phonon Emission in Graphene</span><span class="i18n-ja">グラフェン中のフォノン誘導放出</span></div>
+        <div class="rs-desc"><span class="i18n-en">The same stimulated emission that drives a laser, but for phonons, the quanta Raman measures.</span><span class="i18n-ja">レーザーを駆動する誘導放出を、ラマンが測るフォノンへ置き換える。</span></div>
+      </div>
+      <span class="rs-meta"><span class="i18n-en">Advanced · 18 min</span><span class="i18n-ja">発展 · 18分</span></span>
+    </a></li>
+  </ol>
+</section>
+
+<footer class="site-footer">
+  <div class="foot">
+    <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+    <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+  </div>
+</footer>
+
+<script src="/assets/js/article-shell.js"></script>
+</body>
+</html>

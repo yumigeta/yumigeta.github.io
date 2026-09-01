@@ -71,16 +71,17 @@
 .recall > summary { cursor: pointer; list-style: none; padding: 10px 16px; font-size: 0.8rem;
   font-weight: 600; color: var(--faint); display: flex; align-items: center; gap: 8px; user-select: none; }
 .recall > summary::-webkit-details-marker { display: none; }
-.recall > summary::before { content: "\25B8"; color: var(--faint); transition: transform .15s ease; }
+.recall > summary::before {
+  content: ""; flex: none; width: 15px; height: 15px;
+  background-color: currentColor;
+  -webkit-mask: var(--ti-chevron-right) center / contain no-repeat;
+          mask: var(--ti-chevron-right) center / contain no-repeat;
+  transition: transform .15s ease;
+}
 .recall[open] > summary::before { transform: rotate(90deg); }
 .recall[open] > summary { border-bottom: 1px solid var(--rule); }
 .recall > summary:hover { color: var(--ink); }
 .recall > div { padding: 6px 16px 12px; }
 .recall p { font-size: 0.82rem; color: var(--soft); line-height: 1.65; margin: 8px 0; }
-
-.me-seealso { margin: 18px 0 0; padding: 14px 18px; border: 1px dashed var(--rule-2); border-radius: 10px;
-  background: var(--bg-soft); color: var(--soft); font-size: 0.88rem; line-height: 1.7; }
-.me-seealso b { color: var(--ink); }
-.me-seealso a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 
 .ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }

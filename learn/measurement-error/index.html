@@ -7,21 +7,21 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Measurement, Error &amp; Data Analysis — Interactive Guide</title>
+  <title>Measurement, Error &amp; Data Analysis</title>
   <meta name="description" content="An interactive guide to measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data, with hands-on demos for accuracy vs precision, propagation, Monte Carlo, and the central limit theorem.">
   <meta name="keywords" content="measurement uncertainty, types of error, systematic error, random error, accuracy, precision, significant figures, error propagation, propagation of uncertainty, standard deviation, standard error, central limit theorem, statistics, data analysis, experimental physics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/measurement-error/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
+  <meta property="og:title" content="Measurement, Error &amp; Data Analysis">
   <meta property="og:description" content="Types of error, significant figures, error propagation, and statistical analysis of measured data, with hands-on, interactive demos.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/measurement-error/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Measurement, Error &amp; Data Analysis — Interactive Guide">
+  <meta name="twitter:title" content="Measurement, Error &amp; Data Analysis">
   <meta name="twitter:description" content="Accuracy vs precision, significant figures, propagation of uncertainty, and the statistics of repeated measurements. Interactive.">
 
   <!-- Structured data: educational article -->
@@ -29,7 +29,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Measurement, Error & Data Analysis — Interactive Guide",
+    "name": "Measurement, Error & Data Analysis",
     "description": "An interactive tutorial on measurement uncertainty: types of error, significant figures, error propagation, and the statistical analysis of measured data.",
     "url": "https://yumigeta.github.io/learn/measurement-error/",
     "author": {
@@ -60,12 +60,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/measurement-error.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="measurement-error">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -227,7 +229,7 @@
         </div>
 
         <div class="btn-row" style="margin-top:8px;align-items:center;gap:10px">
-          <button class="demo-btn" id="btn-mc-run"><span class="i18n-en">&#9654; Run trials one by one</span><span class="i18n-ja">&#9654; 試行を1つずつ実行</span></button>
+          <button class="demo-btn" id="btn-mc-run"><svg class="ti ti-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4v16l13 -8l-13 -8"/></svg><span class="i18n-en">Run trials one by one</span><span class="i18n-ja">試行を1つずつ実行</span></button>
           <output id="mc-progress" style="font-size:0.8rem;font-variant-numeric:tabular-nums;color:#a8a29e"></output>
         </div>
         <div class="me-cap" style="margin:5px 2px 0"><span class="i18n-en">Each Monte-Carlo trial draws one random value of every input and computes f once. Watch the histogram build up trial by trial.</span><span class="i18n-ja">モンテカルロの各試行は、各入力の乱数値を1組引いて f を1回計算する。ヒストグラムが1試行ずつ積み上がる様子を見てみよう。</span></div>
@@ -565,7 +567,7 @@
     <div class="demo-stage" style="max-width:var(--measure)">
       <div class="callout recap cv-daikake">
         <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
-        <p><span class="i18n-en">These four ideas underpin every real measurement. A worked application on how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum builds directly on the random-error and averaging concepts here. <a href="/learn/">See the Learn overview &rsaquo;</a></span><span class="i18n-ja">この4つの考え方はあらゆる実測の土台である。応用編（ノイズの多いスペクトルにおいて取得時間と積算回数をSN比とどうトレードオフするか）は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="/learn/">Learn 一覧へ &rsaquo;</a></span></p>
+        <p><span class="i18n-en">These four ideas underpin every real measurement. A worked application on how acquisition time and accumulation count trade off against the signal-to-noise ratio of a noisy spectrum builds directly on the random-error and averaging concepts here. <a href="/learn/">See the Learn overview<svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6l-6 6"/></svg></a></span><span class="i18n-ja">この4つの考え方はあらゆる実測の土台である。応用編（ノイズの多いスペクトルにおいて取得時間と積算回数をSN比とどうトレードオフするか）は、ここで扱った偶然誤差と平均化の概念を直接の土台とする。<a href="/learn/">Learn 一覧へ<svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6l-6 6"/></svg></a></span></p>
       </div>
     </div>
   </section>
@@ -582,6 +584,7 @@
       <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/measurement-error.js"></script>
 </body>
 </html>

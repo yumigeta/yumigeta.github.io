@@ -7,21 +7,21 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Physics of Laser Light — Interactive Guide</title>
+  <title>Physics of Laser Light</title>
   <meta name="description" content="A personal, essay-style walk through laser physics. Why doesn't a laser beam spread out? Starting from that single question, we discover stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold, with animations to play with along the way.">
   <meta name="keywords" content="laser, stimulated emission, population inversion, optical gain, Fabry-Perot cavity, threshold condition, Einstein coefficients, three-level laser, four-level laser, rate equations, laser physics tutorial, interactive physics, beginner">
   <link rel="canonical" href="https://yumigeta.github.io/learn/laser/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Physics of Laser Light — Interactive Guide">
+  <meta property="og:title" content="Physics of Laser Light">
   <meta property="og:description" content="An essay-style, beginner-friendly walk through laser physics: stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold, with animations you can play with.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/laser/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Physics of Laser Light — Interactive Guide">
+  <meta name="twitter:title" content="Physics of Laser Light">
   <meta name="twitter:description" content="Why doesn't a laser beam spread out? An essay-style walk from that one question all the way to the lasing threshold.">
 
   <!-- Structured data -->
@@ -29,7 +29,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Physics of Laser Light — Interactive Guide",
+    "name": "Physics of Laser Light",
     "description": "A beginner-friendly, essay-style interactive tutorial explaining how lasers work: starting from why a laser beam stays so tight, then stimulated emission, population inversion, optical gain, the mirror cavity, and the lasing threshold.",
     "url": "https://yumigeta.github.io/learn/laser/",
     "author": {
@@ -66,12 +66,14 @@
   <link rel="stylesheet" href="/assets/css/raman.css">
   <link rel="stylesheet" href="/assets/css/laser.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="laser">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -468,8 +470,8 @@
       </div>
 
       <!-- Final summary -->
-      <div class="laser-summary">
-        <div class="sum-title"><span class="i18n-en">Looking back at the whole road</span><span class="i18n-ja">来た道を振り返る</span></div>
+      <div class="callout">
+        <span class="co-label"><span class="i18n-en">Looking back at the whole road</span><span class="i18n-ja">来た道を振り返る</span></span>
         <ol>
           <li><span class="i18n-en"><b>Gain medium</b>: atoms (gas, crystal, semiconductor...) whose cloning trick, stimulated emission, does the amplifying, once we beat Boltzmann with a population inversion.</span><span class="i18n-ja"><b>利得媒質</b>：クローンの技・誘導放出で増幅を担う原子たち（気体、結晶、半導体…）。ただしボルツマンに勝って粒子数反転を作ってやることが条件。</span></li>
           <li><span class="i18n-en"><b>Pump</b>: the energy source that maintains the inversion, routed through 3 or 4 levels because the head-on 2-level assault provably fails.</span><span class="i18n-ja"><b>ポンプ</b>：反転を維持するエネルギー源。2準位の正面突破は証明付きで失敗するので、3準位か4準位の搦め手を通す。</span></li>
@@ -497,6 +499,7 @@
     </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/laser.js"></script>
 </body>
 </html>

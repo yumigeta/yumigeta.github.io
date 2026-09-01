@@ -95,8 +95,8 @@ function setCap(id, en, ja) {
       ja: '$v_d = v_s$ ちょうどでは、発生源が自分の波と並走する。波面が真正面に積み重なり始める。',
     },
     super: {
-      en: '<b>Supersonic:</b> the source overtakes its own sound and the fronts pile up on a cone — the Mach cone, $\\sin\\theta_M = v_s/v_d$. Inside this wedge, emission outruns absorption: this is where phonons are amplified.',
-      ja: '<b>超音速：</b>発生源が自分の音を追い越し、波面が円錐——マッハ円錐 $\\sin\\theta_M = v_s/v_d$——の上に積み重なる。このくさびの中では放出が吸収を追い越す。フォノンが増幅されるのはここだ。',
+      en: '<b>Supersonic:</b> the source overtakes its own sound and the fronts pile up on a cone, the Mach cone, $\\sin\\theta_M = v_s/v_d$. Inside this wedge, emission outruns absorption: this is where phonons are amplified.',
+      ja: '<b>超音速：</b>発生源が自分の音を追い越し、波面がマッハ円錐 $\\sin\\theta_M = v_s/v_d$ の上に積み重なる。このくさびの中では放出が吸収を追い越す。フォノンが増幅されるのはここだ。',
     },
   };
   let capState = '';
@@ -361,8 +361,8 @@ function setCap(id, en, ja) {
       ja: '式 (8) による、前方モード（$\\theta=0$）のフォノン数 $n_q(t)$。閾値より下では、自然放出で決まる小さな定常値のあたりをうろつくだけである。',
     },
     above: {
-      en: '<b>Above threshold:</b> the current\'s gain outpays the lattice losses and $n_q$ grows exponentially — every new phonon a coherent clone of the seed. This is the phonon avalanche.',
-      ja: '<b>閾値の上：</b>電流の利得が格子損失への支払いを上回り、$n_q$ は指数関数的に育つ——新しいフォノンはどれも種のコヒーレントなクローンだ。これがフォノンの雪崩である。',
+      en: '<b>Above threshold:</b> the current\'s gain outpays the lattice losses and $n_q$ grows exponentially; every new phonon is a coherent clone of the seed. This is the phonon avalanche.',
+      ja: '<b>閾値の上：</b>電流の利得が格子損失への支払いを上回り、$n_q$ は指数関数的に育つ。新しいフォノンはどれも種のコヒーレントなクローンだ。これがフォノンの雪崩である。',
     },
   };
   let capState = '';

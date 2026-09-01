@@ -1,0 +1,161 @@
+/* ════════════════════════════════════════════════════════════════════════
+   learn-organize.css — styling for the DEV-only Learn shelf editor.
+   Loaded on localhost only (lang-toggle.js). Functional authoring affordances;
+   still leans on the site tokens (washi paper, mincho/gothic, vermilion accent).
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Dev pills (bottom-left; proofread's ✎ pill sits bottom-right) ──
+   .org-pill = enter edit mode · .org-viewpill = preview the published site ── */
+.org-pill, .org-viewpill {
+  position: fixed; left: 16px; z-index: 1200;
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--gothic); font-size: 12px; font-weight: 700; letter-spacing: .04em;
+  border: 0; border-radius: 980px; padding: 8px 15px; cursor: pointer;
+  box-shadow: 0 3px 14px rgba(30,25,19,.28); transition: background .15s, transform .15s, color .15s;
+}
+.org-pill   { bottom: 16px; color: var(--paper); background: var(--ink); }
+.org-viewpill { bottom: 58px; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); }
+.org-pill:hover { background: var(--accent); transform: translateY(-1px); }
+.org-viewpill:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
+.org-pill .org-pi, .org-viewpill .org-pi { font-size: 13px; }
+body.org-on .org-pill, body.org-on .org-viewpill { display: none; }
+
+/* ── Published-preview banner + hiding the dev affordances ── */
+.org-pubbar {
+  position: fixed; left: 16px; bottom: 16px; z-index: 1250;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--accent); color: var(--paper); border-radius: 980px;
+  padding: 7px 8px 7px 16px; box-shadow: 0 3px 14px rgba(30,25,19,.28);
+}
+.org-pubbar-lab { font-family: var(--gothic); font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.org-pubbar-exit {
+  font-family: var(--gothic); font-size: 11.5px; font-weight: 700; cursor: pointer;
+  color: var(--ink); background: var(--paper); border: 0; border-radius: 980px; padding: 5px 13px;
+}
+.org-pubbar-exit:hover { background: var(--ink); color: var(--paper); }
+body.view-published .pf-launch { display: none !important; }   /* proofread pill — hidden in the public preview */
+body.view-published .learn-quick { display: none; }            /* start / all are dev nav, not public yet */
+
+/* ── Toolbar (sticky at the top of the shelf in edit mode) ── */
+.org-bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--paper); padding: 4px 0 12px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.org-bar-hd {
+  font-family: var(--mincho); font-size: 14px; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 9px;
+}
+.org-n {
+  font-family: var(--gothic); font-size: 11px; font-weight: 700; line-height: 1;
+  color: var(--paper); background: var(--accent); border-radius: 980px; padding: 3px 7px; min-width: 10px; text-align: center;
+}
+.org-bar-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.org-b {
+  font-family: var(--gothic); font-size: 11.5px; font-weight: 700; color: var(--ink-2);
+  background: transparent; border: 1px solid var(--rule); border-radius: 4px; padding: 5px 11px; cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.org-b:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.org-b--accent { color: var(--paper); background: var(--accent); border-color: var(--accent); }
+.org-b--accent:hover { background: var(--ink); border-color: var(--ink); }
+.org-hint { margin: 10px 0 0; font-family: var(--gothic); font-size: 10.5px; line-height: 1.5; color: var(--faint); }
+
+/* ── Category dropzones ── */
+.org-zone { border: 1px solid transparent; border-radius: 5px; padding: 6px 8px; margin: 0 0 8px; }
+.org-zone-hd {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mincho); font-size: 13.5px; font-weight: 700; color: var(--ink);
+  padding: 5px 0 7px; border-bottom: 1px solid var(--rule); margin-bottom: 5px;
+}
+.org-zone-hd::before {
+  content: ""; width: 8px; height: 8px; flex: none; border-radius: 2px;
+  background: var(--g-acc, var(--ink-3)); transform: rotate(45deg);
+}
+.org-zone[data-cat="routes"]   { --g-acc: var(--cat-hub); }
+.org-zone[data-cat="concepts"] { --g-acc: var(--cat-foundation); }
+.org-zone[data-cat="themes"]   { --g-acc: var(--cat-material); }
+.org-zone[data-cat="handbook"] { --g-acc: var(--cat-reference); }
+.org-zone[data-cat="scratch"]  { --g-acc: var(--cat-reference); }
+.org-zone.org-drop {                       /* active drop target — dashed accent outline only (no tinted fill) */
+  border-color: var(--accent); border-style: dashed;
+}
+.org-zone.org-drop > .org-zone-hd { color: var(--accent); }
+/* sub-folder (incl. its header) as a drop target — outline only, no tinted fill */
+.org-grp.org-drop { outline: 1px dashed var(--accent); outline-offset: 1px; border-radius: 4px; }
+.org-grp.org-drop > .org-grp-hd { color: var(--accent); }
+
+/* sub-group (folder) header: name + rename ✎ */
+.org-grp-hd {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--gothic); font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  color: var(--ink-3); padding: 6px 0 2px 2px;
+}
+.org-rename {
+  flex: none; border: 0; background: transparent; cursor: pointer;
+  font-size: 11px; line-height: 1; color: var(--ink-3); padding: 2px 4px; border-radius: 4px;
+}
+.org-rename:hover { color: var(--accent); }
+.ashelf-list.org-ungrouped, .org-grp .ashelf-list { padding-left: 4px; min-height: 8px; }
+/* nested sub-folders (sub-sub-folders …): indent + hairline guide per level */
+.org-grp .org-grp { margin-left: 7px; padding-left: 7px; border-left: 1px solid var(--rule); }
+
+/* ── header / row action clusters: rename ✎ · add ⊞ ＋ · delete × ── */
+.org-zone-name, .org-grp-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.org-hd-acts  { flex: none; display: inline-flex; align-items: center; gap: 1px; }
+.org-row-acts { flex: none; display: inline-flex; align-items: center; gap: 1px; opacity: 0; transition: opacity .12s; }
+.org-row:hover .org-row-acts, .org-row:focus-within .org-row-acts { opacity: 1; }
+.org-act {
+  flex: none; border: 0; background: transparent; cursor: pointer;
+  font-size: 11px; line-height: 1; color: var(--ink-3); padding: 2px 4px; border-radius: 4px;
+  transition: color .12s, background .12s;
+}
+.org-act:hover { color: var(--accent); background: var(--bg-soft); }
+.org-act--del:hover { color: var(--paper); background: var(--accent); }
+
+/* New-folder button at the bottom of the editor */
+.org-addcat {
+  display: block; width: 100%; margin: 10px 0 4px;
+  font-family: var(--gothic); font-size: 11.5px; font-weight: 700; letter-spacing: .03em;
+  color: var(--ink-3); background: transparent; border: 1px dashed var(--rule); border-radius: 5px;
+  padding: 9px 8px; cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+}
+.org-addcat:hover { color: var(--accent); border-color: var(--accent); }
+
+/* drop affordances — lines & dashed outlines only, no tinted fills (design rule) */
+.org-row.org-ins-before { box-shadow: inset 0 2px 0 0 var(--accent); }
+.org-row.org-ins-after  { box-shadow: inset 0 -2px 0 0 var(--accent); }
+.ashelf-list.org-drop-list { outline: 1px dashed var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* ── Rows ── */
+.org-row {
+  display: flex; align-items: center; gap: 7px; padding: 4px 4px; border-radius: 4px;
+  cursor: grab; transition: background .12s;
+}
+.org-row:hover { background: var(--bg-soft); }
+.org-row.org-dragging { opacity: .4; }
+.org-row.is-cur .org-lab { font-weight: 700; color: var(--ink); }
+.org-grip { color: var(--ink-3); font-size: 11px; line-height: 1; cursor: grab; flex: none; }
+.org-lab {
+  flex: 1 1 auto; min-width: 0; font-family: var(--gothic); font-size: 12px; line-height: 1.35; color: var(--ink-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* publish toggle: ● live (green) · ○ hidden (faint) */
+.org-pub {
+  flex: none; width: 20px; height: 20px; padding: 0; border: 1px solid var(--rule); border-radius: 980px;
+  background: transparent; cursor: pointer; font-size: 10px; line-height: 1; color: var(--ink-3);
+  display: inline-flex; align-items: center; justify-content: center; transition: color .12s, border-color .12s;
+}
+.org-pub:hover { border-color: var(--ink-2); }
+.org-pub.is-pub { color: var(--cat-material); border-color: var(--cat-material); }
+.org-pub.org-soon { cursor: default; color: var(--faint); border-style: dashed; }
+
+/* ── Toast ── */
+.org-toast {
+  position: fixed; left: 16px; bottom: 64px; z-index: 1300; max-width: 340px;
+  font-family: var(--gothic); font-size: 12px; line-height: 1.45; color: var(--paper);
+  background: var(--ink); border-radius: 6px; padding: 9px 13px; box-shadow: 0 4px 16px rgba(30,25,19,.3);
+  opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s;
+}
+.org-toast.show { opacity: 1; transform: translateY(0); }

@@ -224,17 +224,17 @@ function fitCanvas(cv) {
     sym: {
       raman: true, a0: 0.50, c1: 0.55, c2: 0.06,
       badge: '<span class="mol-activity raman">Raman-active</span>',
-      text: '<b>Symmetric stretch</b> — both bonds breathe together, so the equilibrium slope $\\left(\\partial\\alpha/\\partial Q\\right)_0 \\neq 0$.'
+      text: '<b>Symmetric stretch</b>: both bonds breathe together, so the equilibrium slope $\\left(\\partial\\alpha/\\partial Q\\right)_0 \\neq 0$.'
     },
     asym: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Asymmetric stretch</b> — the two $\\alpha$ changes cancel, so $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
+      text: '<b>Asymmetric stretch</b>: the two $\\alpha$ changes cancel, so $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
     },
     bend: {
       raman: false, a0: 0.30, c1: 0, c2: 0.20,
       badge: '<span class="mol-activity ir">Raman-inactive (IR-active)</span>',
-      text: '<b>Bend</b> — by symmetry $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
+      text: '<b>Bend</b>: by symmetry $\\left(\\partial\\alpha/\\partial Q\\right)_0 = 0$ at equilibrium.'
     }
   };
   let mode = 'sym';
@@ -713,11 +713,11 @@ function fitCanvas(cv) {
 
   const procs = {
     rayleigh: { start: Y.v0, end: Y.v0, scattered: COL.rayleigh,
-      text: 'Rayleigh (elastic): the molecule returns to its original level — the scattered photon has the same energy. Strongest line, but carries no vibrational information.' },
+      text: 'Rayleigh (elastic): the molecule returns to its original level; the scattered photon has the same energy. Strongest line, but carries no vibrational information.' },
     stokes: { start: Y.v0, end: Y.v1, scattered: COL.stokes,
       text: 'Stokes: the molecule ends in a higher vibrational level (v=1), keeping energy ℏω<sub>v</sub>. The scattered photon is red-shifted.' },
     antistokes: { start: Y.v1, end: Y.v0, scattered: COL.anti,
-      text: 'anti-Stokes: the molecule starts at v=1, ends at v=0, giving energy ℏω<sub>v</sub> to the photon. Blue-shifted — and weaker, since few molecules start excited.' }
+      text: 'anti-Stokes: the molecule starts at v=1, ends at v=0, giving energy ℏω<sub>v</sub> to the photon. Blue-shifted, and weaker, since few molecules start excited.' }
   };
 
   const svg = document.createElementNS(SVGNS, 'svg');

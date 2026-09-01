@@ -7,14 +7,14 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Picture of Raman Scattering — Interactive Guide</title>
+  <title>Quantum Picture of Raman Scattering</title>
   <meta name="description" content="Why is the anti-Stokes line always weaker, and why does its brightness change with temperature? The quantum picture of Raman scattering: photons, phonons, Boltzmann populations, resonance enhancement, and the Jablonski diagram.">
   <meta name="keywords" content="Raman spectroscopy, quantum theory, Stokes anti-Stokes ratio, Raman thermometry, resonance Raman, Jablonski diagram, phonon, virtual state, Boltzmann distribution, spectroscopy tutorial, physics animation">
   <link rel="canonical" href="https://yumigeta.github.io/learn/raman-quantum/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Quantum Picture of Raman Scattering — Interactive Guide">
+  <meta property="og:title" content="Quantum Picture of Raman Scattering">
   <meta property="og:description" content="Photons, phonons, and Boltzmann populations: why anti-Stokes is weaker, how that ratio measures temperature, and why resonance can amplify Raman a millionfold.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/raman-quantum/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
@@ -24,7 +24,7 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Quantum Picture of Raman Scattering — Interactive Guide">
+  <meta name="twitter:title" content="Quantum Picture of Raman Scattering">
   <meta name="twitter:description" content="Why anti-Stokes is weaker, Raman thermometry, and resonance Raman, explained with photons and phonons.">
   <meta name="twitter:image" content="https://yumigeta.github.io/assets/img/og-raman.png">
 
@@ -33,7 +33,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Quantum Picture of Raman Scattering — Interactive Guide",
+    "name": "Quantum Picture of Raman Scattering",
     "description": "The quantum picture of Raman scattering: photons and phonons, Stokes/anti-Stokes Boltzmann populations, non-contact Raman thermometry, virtual states, and resonance enhancement.",
     "url": "https://yumigeta.github.io/learn/raman-quantum/",
     "author": {
@@ -68,12 +68,14 @@
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/raman.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
 </head>
-<body>
+<body data-learn-slug="raman-quantum">
   <script src="/assets/js/lang-toggle.js"></script>
   <header class="site-nav">
     <div class="nav">
@@ -299,7 +301,7 @@
 
         <div class="callout recap cv-daikake">
           <span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
-          <p><span class="i18n-en">Haven't read the prequel? The <a href="/learn/raman/">classical theory page</a> derives where the Stokes and anti-Stokes lines sit, the $\nu^4$ law, and the selection rules: the half of the story that needs no quanta. To see this page's machinery earn its keep on a real material (double resonance, the G and 2D bands, counting layers and reading strain), continue to <a href="/learn/graphene-raman/">Raman Spectroscopy of Graphene &rsaquo;</a></span><span class="i18n-ja">前日譚をまだ読んでいないなら、<a href="/learn/raman/">古典論のページ</a>へ。ストークス線・反ストークス線の位置、$\nu^4$ 則、選択則という、量子の要らない側の半分を導出している。そして本ページの道具立てが実際の物質で本領を発揮する様子、二重共鳴、Gバンドと2Dバンド、層数の数え方とひずみの読み取りは、<a href="/learn/graphene-raman/">グラフェンのラマン分光 &rsaquo;</a>に続く。</span></p>
+          <p><span class="i18n-en">Haven't read the prequel? The <a href="/learn/raman/">classical theory page</a> derives where the Stokes and anti-Stokes lines sit, the $\nu^4$ law, and the selection rules: the half of the story that needs no quanta. To see this page's machinery earn its keep on a real material (double resonance, the G and 2D bands, counting layers and reading strain), continue to <a href="/learn/graphene-raman/">Raman Spectroscopy of Graphene<svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6l-6 6"/></svg></a></span><span class="i18n-ja">前日譚をまだ読んでいないなら、<a href="/learn/raman/">古典論のページ</a>へ。ストークス線・反ストークス線の位置、$\nu^4$ 則、選択則という、量子の要らない側の半分を導出している。そして本ページの道具立てが実際の物質で本領を発揮する様子、二重共鳴、Gバンドと2Dバンド、層数の数え方とひずみの読み取りは、<a href="/learn/graphene-raman/">グラフェンのラマン分光<svg class="ti ti-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6l-6 6"/></svg></a>に続く。</span></p>
         </div>
       </div>
 
@@ -312,6 +314,7 @@
       <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
   </footer>
 
+  <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/raman-quantum.js"></script>
   <script src="/assets/js/eq-hover.js"></script>
 </body>

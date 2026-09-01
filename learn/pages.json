@@ -1,180 +1,2036 @@
 {
+  "_groups_doc": "Sub-grouping for the left-shelf accordion is DISPLAY ONLY. A page may appear in more than one group (list its slug in each). Pages in a category but in no group fall into a trailing ungrouped list. Editing groups never moves URLs/files. `routes` has no groups (rendered as a compact, non-collapsing top section); `handbook` has no groups (rendered flat). Groups may nest: a group can carry its own `groups[]` (sub-sub-folders), to any depth.",
   "categories": [
     {
-      "id": "measurement",
+      "id": "routes",
       "num": "Ⅰ",
-      "name_en": "Measurement &amp; Data Analysis",
-      "name_ja": "測定・データ解析"
+      "name_en": "Routes & Guides",
+      "name_ja": "学び方・ルート",
+      "color": "hub"
     },
     {
-      "id": "electronic-structure",
+      "id": "concepts",
       "num": "Ⅱ",
-      "name_en": "Electronic Structure &amp; 2D Materials",
-      "name_ja": "電子構造・2次元材料"
+      "name_en": "How Matter Works",
+      "name_ja": "物質のしくみ",
+      "color": "foundation",
+      "groups": [
+        {
+          "name_en": "Crystals & Lattices",
+          "name_ja": "結晶・格子",
+          "pages": [
+            "crystal-structure",
+            "crystal-structure-v2",
+            "phonon"
+          ]
+        },
+        {
+          "name_en": "Electronic States",
+          "name_ja": "電子状態",
+          "pages": [
+            "band-formation",
+            "fermi-level"
+          ]
+        },
+        {
+          "name_en": "Optical Response",
+          "name_ja": "光学応答",
+          "pages": [
+            "laser"
+          ],
+          "groups": [
+            {
+              "name_en": "Raman Scattering",
+              "name_ja": "ラマン散乱",
+              "pages": [
+                "raman",
+                "raman-quantum"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "spectroscopy",
+      "id": "themes",
       "num": "Ⅲ",
-      "name_en": "Spectroscopy",
-      "name_ja": "分光法"
+      "name_en": "Materials & Devices",
+      "name_ja": "材料・現象・デバイス",
+      "color": "material",
+      "groups": [
+        {
+          "name_en": "Physics of Graphene",
+          "name_ja": "グラフェンの物理",
+          "pages": [
+            "graphene-geometry",
+            "graphene-tight-binding",
+            "graphene-dirac-cone",
+            "graphene-raman",
+            "graphene-phonon-emission"
+          ]
+        },
+        {
+          "name_en": "Nanoribbons",
+          "name_ja": "GNR",
+          "pages": [
+            "graphene-nanoribbons"
+          ]
+        },
+        {
+          "name_en": "FETs & Contacts",
+          "name_ja": "FET・接触",
+          "pages": [
+            "schottky",
+            "gate-dielectrics",
+            "vdw-gap"
+          ]
+        }
+      ]
     },
     {
-      "id": "photonics",
+      "id": "handbook",
       "num": "Ⅳ",
-      "name_en": "Photonics &amp; Phononics",
-      "name_ja": "フォトニクス・フォノニクス"
+      "name_en": "Lab & Analysis Handbook",
+      "name_ja": "実験ノート・解析ハンドブック",
+      "color": "reference"
     },
     {
-      "id": "devices",
+      "id": "scratch",
       "num": "Ⅴ",
-      "name_en": "Devices",
-      "name_ja": "デバイス"
+      "name_en": "Scratch / Temporary",
+      "name_ja": "一時ファイル",
+      "color": "reference"
     }
   ],
   "pages": [
     {
-      "slug": "measurement-error",
-      "category": "measurement",
+      "slug": "start",
+      "category": "routes",
+      "layoutType": "route",
+      "color": "hub",
       "published": false,
-      "title_en": "Measurement, Error &amp; Data Analysis",
-      "title_ja": "測定・誤差・データ解析の基礎",
-      "desc_en": "The experimentalist's toolkit: types of error (accuracy vs precision), significant figures, propagation of uncertainty, and the statistical analysis of measured data, with hands-on demos for each.",
-      "desc_ja": "実験者の基本道具：誤差の種類（正確さと精密さ）、有効数字、誤差の伝播、測定値の統計処理を、それぞれ操作できるデモとともに解説します。"
+      "title_en": "How to Use This Site",
+      "title_ja": "このサイトの読み方",
+      "nav_en": "How to Use This Site",
+      "nav_ja": "このサイトの読み方",
+      "level_en": "Guide",
+      "level_ja": "案内",
+      "readingTime_en": "5 min",
+      "readingTime_ja": "5分",
+      "question_en": "Where should I start reading, and in what order?",
+      "question_ja": "どこから、どの順で読めばいい？",
+      "summary_en": "There is no required order. Start from a question, follow a route, and pick up only the concepts you actually need. This page explains the five kinds of pages, how to read non-linearly, and why measurement lives in its own handbook.",
+      "summary_ja": "決まった順番はありません。問いから入り、ルートをたどり、必要な概念だけを取りに行く。それがこのサイトの読み方です。5種類のページの違い、非線形な読み方、そして測定・解析を独立した「ハンドブック」に置いた理由を説明します。",
+      "theme": [
+        "guide"
+      ],
+      "tags": [
+        "#Route",
+        "#Guide"
+      ]
     },
     {
-      "slug": "spectral-noise",
-      "category": "measurement",
+      "slug": "hubs/graphene",
+      "category": "routes",
+      "layoutType": "route",
+      "color": "material",
       "published": false,
-      "title_en": "Noisy Spectra: Acquisition Time vs Accumulation",
-      "title_ja": "ノイズの多いスペクトル：取得時間と積算回数",
-      "desc_en": "Shot, dark, and read noise; why signal-to-noise scales as the square root of total exposure; and when to prefer a long single acquisition over many short accumulations, plus cosmic-ray rejection and saturation, with interactive simulators.",
-      "desc_ja": "ショット・ダーク・読み出しノイズ、SN比が総露光時間の平方根で伸びる理由、そして長時間1回の取得と多数の短時間積算のどちらが適すか。宇宙線除去や飽和も含め、対話的シミュレータで解説します。"
+      "title_en": "Understanding Graphene",
+      "title_ja": "グラフェンを理解する",
+      "nav_en": "Graphene Route",
+      "nav_ja": "グラフェンから学ぶ",
+      "level_en": "Route",
+      "level_ja": "ルート",
+      "readingTime_en": "map",
+      "readingTime_ja": "地図",
+      "question_en": "A single sheet of carbon, one atom thick. Why does it behave like nothing else, a metal that is also almost an insulator?",
+      "question_ja": "炭素原子一枚ぶんの厚さのシートが、なぜ他のどんな物質とも違う振る舞いをするのか。金属でありながら、ほぼ絶縁体でもあるとは？",
+      "summary_en": "A guided path through graphene: why its honeycomb lattice matters, the Dirac cones that make its electrons massless, how confinement turns it into a nanoribbon semiconductor, and how Raman light reads its layers, strain, and defects.",
+      "summary_ja": "グラフェンを案内する道筋：ハニカム格子がなぜ効くのか、電子を質量ゼロにするディラック錐、閉じ込めがナノリボン半導体を生む仕組み、そしてラマン光が層数・ひずみ・欠陥を読み取る方法まで。",
+      "theme": [
+        "graphene"
+      ],
+      "tags": [
+        "#Route",
+        "#Graphene",
+        "#DiracCone",
+        "#Raman",
+        "#Nanoribbon"
+      ]
     },
     {
-      "slug": "crystal-structure-v2",
-      "category": "electronic-structure",
+      "slug": "hubs/raman",
+      "category": "routes",
+      "layoutType": "route",
+      "color": "optical",
       "published": false,
-      "title_en": "Crystal Structure Ⅱ — Same Element, Different Material: Why Arrangement Decides",
-      "title_ja": "結晶構造の基礎 Ⅱ — 同じ元素から、なぜ別物の材料が生まれるのか",
-      "desc_en": "Diamond and graphite are both pure carbon, so the ingredients cannot be the culprit; the arrangement of atoms is. The grammar of arrangements (lattice &amp; basis), probing them with waves, the reciprocal lattice, diffraction, and the Brillouin zone: the hexagonal stage where the graphene story begins.",
-      "desc_ja": "ダイヤモンドも黒鉛も純粋な炭素。犯人は成分ではなく、原子の並び方だ。並び方の文法（格子と基底）、波で並びを探る方法、逆格子、回折、そしてグラフェンの物語が始まる六角形の舞台・ブリルアンゾーンへ。"
+      "title_en": "Understanding Raman Spectroscopy",
+      "title_ja": "ラマン分光を理解する",
+      "nav_en": "Raman Route",
+      "nav_ja": "ラマン分光から学ぶ",
+      "level_en": "Route",
+      "level_ja": "ルート",
+      "readingTime_en": "map",
+      "readingTime_ja": "地図",
+      "question_en": "Just by shining light on a material, how can we learn about its atomic vibrations, its symmetry, and its defects?",
+      "question_ja": "光を当てるだけで、なぜ原子の振動や対称性、欠陥までわかるのか？",
+      "summary_en": "A guided path through Raman spectroscopy: the classical and quantum origins of the scattered light, why a laser is the right probe, how to fight noise and read peaks, and what a spectrum says about a real material like graphene.",
+      "summary_ja": "ラマン分光を案内する道筋：散乱光の古典的・量子的な起源、なぜレーザーが正しいプローブなのか、ノイズと戦いピークを読む方法、そしてグラフェンのような実材料についてスペクトルが語ることまで。",
+      "theme": [
+        "raman",
+        "optics"
+      ],
+      "tags": [
+        "#Route",
+        "#Raman",
+        "#Phonon",
+        "#Spectroscopy",
+        "#Defect"
+      ]
+    },
+    {
+      "slug": "hubs/2d-fet",
+      "category": "routes",
+      "layoutType": "route",
+      "color": "device",
+      "published": false,
+      "title_en": "Understanding 2D-Material Transistors",
+      "title_ja": "低次元材料FETを理解する",
+      "nav_en": "2D-FET Route",
+      "nav_ja": "FETから学ぶ",
+      "level_en": "Route",
+      "level_ja": "ルート",
+      "readingTime_en": "map",
+      "readingTime_ja": "地図",
+      "question_en": "When a transistor is built from atomically thin materials, what ultimately decides how small, and how good, it can be?",
+      "question_ja": "原子レベルに薄い材料でトランジスタを作るとき、その大きさと性能の限界を最後に決めるのは何か？",
+      "summary_en": "A guided path through 2D-material field-effect transistors: how the gate dielectric controls the channel, why metal contacts pin and resist, and how a 1.4 Å van der Waals gap quietly caps the whole device.",
+      "summary_ja": "低次元材料の電界効果トランジスタを案内する道筋：ゲート誘電体がチャネルをどう制御するか、金属接触がなぜピン留めし抵抗を生むか、そして1.4Åのファンデルワールスギャップが静かにデバイス全体の限界を決める仕組みまで。",
+      "theme": [
+        "2d-materials",
+        "transistor",
+        "devices"
+      ],
+      "tags": [
+        "#Route",
+        "#2DMaterials",
+        "#Transistor",
+        "#Contacts",
+        "#GateDielectrics"
+      ]
+    },
+    {
+      "slug": "hubs/measurement",
+      "category": "routes",
+      "layoutType": "route",
+      "color": "reference",
+      "published": false,
+      "title_en": "Reading Experimental Data",
+      "title_ja": "実験データの読み方",
+      "nav_en": "Reading Data Route",
+      "nav_ja": "実験データを読む",
+      "level_en": "Route",
+      "level_ja": "ルート",
+      "readingTime_en": "map",
+      "readingTime_ja": "地図",
+      "question_en": "When is a bump in your data a real signal, and when is it just noise you are fooling yourself with?",
+      "question_ja": "データの山は、本物の信号か。それとも自分をだましているだけのノイズか？",
+      "summary_en": "A toolbox for reading measurements honestly: what a number with error bars actually claims, how noise sets the limit of what you can see, and how acquisition strategy and peak fitting decide whether a result is real.",
+      "summary_ja": "測定を正直に読むための道具箱：誤差つきの数値が本当は何を主張しているのか、ノイズが「見える限界」をどう決めるのか、そして取得戦略とピークフィッティングが結果の真偽をどう左右するのか。",
+      "theme": [
+        "measurement",
+        "data-analysis"
+      ],
+      "tags": [
+        "#Route",
+        "#Measurement",
+        "#Noise",
+        "#ErrorAnalysis",
+        "#Fitting"
+      ]
     },
     {
       "slug": "crystal-structure",
-      "category": "electronic-structure",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
       "published": false,
-      "title_en": "Crystal Structure in 2D",
-      "title_ja": "2次元の結晶構造",
-      "desc_en": "The language of crystals, built from zero: translations, lattice + basis, why only five Bravais lattices exist, reciprocal space, and the Brillouin zone. Ends at graphene's honeycomb, where the band-structure story begins.",
-      "desc_ja": "結晶の言葉をゼロから組み立てる：並進、格子と基底、ブラベー格子が5つしかない理由、逆空間、そしてブリルアンゾーン。終着点はグラフェンのハニカム格子、バンド構造の物語の出発点です。"
+      "title_en": "Crystal Structure in 2D: Lattices, Symmetry & the Brillouin Zone",
+      "title_ja": "2次元の結晶構造：格子・対称性・ブリルアンゾーン",
+      "nav_en": "Crystal Structure (2D)",
+      "nav_ja": "2次元の結晶構造",
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "Build the language of crystals from scratch: translation vectors, lattice plus basis, the Wigner–Seitz cell, why no crystal has five-fold symmetry, the five 2D Bravais lattices, the reciprocal lattice, and the Brillouin zone, ending at graphene's honeycomb and the Dirac points at K.",
+      "summary_ja": "結晶を語る言葉をゼロから組み立てる：並進ベクトル、格子＋基底、ウィグナー・ザイツ胞、なぜ5回対称の結晶が無いのか、2次元の5つのブラベー格子、逆格子、そしてブリルアンゾーン。終着点はグラフェンのハニカムとK点のディラック点。",
+      "theme": [
+        "crystallography",
+        "brillouin-zone",
+        "reciprocal-lattice"
+      ],
+      "prerequisites": [],
+      "basicsUsed": [
+        {
+          "label_en": "Lattice translation vector",
+          "label_ja": "格子並進ベクトル"
+        },
+        {
+          "label_en": "Lattice + basis",
+          "label_ja": "格子と基底"
+        },
+        {
+          "label_en": "Wigner–Seitz cell",
+          "label_ja": "ウィグナー・ザイツ胞"
+        },
+        {
+          "label_en": "Crystallographic restriction theorem",
+          "label_ja": "結晶学的制限定理"
+        },
+        {
+          "label_en": "Reciprocal lattice",
+          "label_ja": "逆格子"
+        },
+        {
+          "label_en": "Brillouin zone & K point",
+          "label_ja": "ブリルアンゾーンとK点"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "band-formation"
+        ],
+        "application": [
+          "graphene",
+          "graphene-nanoribbons"
+        ],
+        "experiment": [
+          "angle-resolved-raman"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene",
+        "graphene-v2",
+        "graphene-nanoribbons",
+        "raman",
+        "angle-resolved-raman",
+        "graphene-raman",
+        "band-formation",
+        "phonon"
+      ],
+      "tags": [
+        "#Concept",
+        "#Crystallography",
+        "#BravaisLattice",
+        "#BrillouinZone",
+        "#ReciprocalLattice",
+        "#Symmetry",
+        "#Graphene"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "graphene-v2",
-      "category": "electronic-structure",
+      "slug": "band-formation",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
       "published": false,
-      "title_en": "Electronic Structure of Graphene Ⅱ — From a Single Bond to the Dirac Cone",
-      "title_ja": "グラフェンの電子構造 Ⅱ — 結合一本からディラック錐へ",
-      "desc_en": "Is graphene a metal or an insulator? Starting from one chemical bond, build the bands by pure addition and discover nature's answer is \"neither\": a semimetal whose Fermi surface shrinks to six points.",
-      "desc_ja": "グラフェンは金属か絶縁体か？ 化学結合1本から足し算だけでバンドを組み上げ、自然の答えが「どちらでもない」（フェルミ面が6点に縮む半金属）であることを突き止める。"
+      "title_en": "When Atoms Line Up, a Band Forms",
+      "title_ja": "原子が一列に並ぶとバンドになる",
+      "nav_en": "How a Band Forms",
+      "nav_ja": "バンドの成り立ち",
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "Why a single atomic energy level spreads into one continuous band once atoms are arranged periodically: a 1D tight-binding derivation (LCAO, Bloch's theorem, on-site energy ε and nearest-neighbour hopping t), ending at E(k) = ε − 2t cos(ka).",
+      "summary_ja": "孤立した原子の一つの準位が、原子を1次元に周期的に並べるとなぜ1本のエネルギーバンドに広がるのか。LCAO、ブロッホの定理、オンサイトエネルギー ε と最近接ホッピング t による1次元タイトバインディングの導出で、E(k) = ε − 2t cos(ka) に至る。",
+      "theme": [
+        "band-structure",
+        "tight-binding"
+      ],
+      "prerequisites": [
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Localized orbitals & LCAO",
+          "label_ja": "局在軌道と原子軌道の線形結合（LCAO）"
+        },
+        {
+          "label_en": "Bloch's theorem & crystal momentum",
+          "label_ja": "ブロッホの定理と結晶運動量"
+        },
+        {
+          "label_en": "On-site energy & hopping",
+          "label_ja": "オンサイトエネルギーとホッピング"
+        },
+        {
+          "label_en": "Tight-binding method",
+          "label_ja": "タイトバインディング法"
+        },
+        {
+          "label_en": "Dispersion relation & energy band",
+          "label_ja": "分散関係とエネルギーバンド"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "fermi-level"
+        ],
+        "application": [
+          "graphene-geometry"
+        ],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-geometry",
+        "graphene-tight-binding",
+        "graphene",
+        "graphene-v2"
+      ],
+      "tags": [
+        "#Concept",
+        "#BandStructure",
+        "#TightBinding",
+        "#LCAO",
+        "#BlochTheorem"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "graphene",
-      "category": "electronic-structure",
+      "slug": "fermi-level",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
       "published": false,
-      "title_en": "Electronic Structure of Graphene",
-      "title_ja": "グラフェンの電子構造",
-      "desc_en": "The honeycomb lattice, its reciprocal space, and the tight-binding band structure, visualizing how Dirac cones emerge at the K points and give graphene its massless charge carriers.",
-      "desc_ja": "ハニカム格子、その逆格子空間、そして強結合バンド構造。K点でディラック錐がどのように現れ、グラフェンに質量ゼロの電荷キャリアを与えるかを可視化します。"
+      "planned": true,
+      "title_en": "What Is the Fermi Level?",
+      "title_ja": "フェルミ準位とは",
+      "nav_en": "The Fermi Level",
+      "nav_ja": "フェルミ準位とは",
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "readingTime_en": "soon",
+      "readingTime_ja": "準備中",
+      "summary_en": "What the Fermi level actually is, how band filling decides whether a material is a metal, insulator, or semimetal, and why it sits exactly at graphene's band-touching points.",
+      "summary_ja": "フェルミ準位とは何か、バンドの占有が金属・絶縁体・半金属を分ける仕組み、そしてなぜグラフェンではバンドの接点にぴたりと来るのか。",
+      "theme": [
+        "fermi-level",
+        "band-filling"
+      ],
+      "prerequisites": [
+        "band-formation"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Band filling & occupation",
+          "label_ja": "バンドの占有"
+        },
+        {
+          "label_en": "Metal / insulator / semimetal",
+          "label_ja": "金属・絶縁体・半金属"
+        },
+        {
+          "label_en": "Density of states at E_F",
+          "label_ja": "フェルミ準位での状態密度"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "graphene",
+          "graphene-v2"
+        ],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene",
+        "graphene-v2",
+        "schottky",
+        "gate-dielectrics"
+      ],
+      "tags": [
+        "#Concept",
+        "#FermiLevel",
+        "#BandFilling"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "graphene-nanoribbons",
-      "category": "electronic-structure",
+      "slug": "phonon",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
       "published": false,
-      "title_en": "Quantum Confinement and Electronic Structure of Graphene Nanoribbons",
-      "title_ja": "グラフェンナノリボンの量子閉じ込めと電子構造",
-      "desc_en": "Quantum confinement and zone folding: how cutting lines, edge orientation, and width turn graphene into a metal or a tunable-gap semiconductor, with zigzag edge states.",
-      "desc_ja": "量子閉じ込めとゾーンフォールディング：カッティングライン、エッジの向き、幅が、グラフェンを金属あるいはギャップ可変の半導体に変える仕組みを、ジグザグエッジ状態とともに解説します。"
+      "planned": true,
+      "title_en": "What Is a Phonon?",
+      "title_ja": "フォノンとは",
+      "nav_en": "What Is a Phonon",
+      "nav_ja": "フォノンとは",
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "readingTime_en": "soon",
+      "readingTime_ja": "準備中",
+      "summary_en": "Why the collective vibrations of a crystal lattice come in quanta called phonons, what a phonon dispersion curve means, and how phonons set what Raman and thermal measurements actually see.",
+      "summary_ja": "結晶格子の集団振動がなぜ「フォノン」という量子になるのか、フォノン分散曲線が何を表すのか、そしてフォノンがラマンや熱測定で実際に見えるものをどう決めるのか。",
+      "theme": [
+        "phonon",
+        "lattice-vibration"
+      ],
+      "prerequisites": [
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Normal modes of a lattice",
+          "label_ja": "格子の基準振動"
+        },
+        {
+          "label_en": "Vibrational quantum (phonon)",
+          "label_ja": "振動量子（フォノン）"
+        },
+        {
+          "label_en": "Phonon dispersion & branches",
+          "label_ja": "フォノン分散とブランチ"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "raman"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "raman",
+        "graphene-raman"
+      ],
+      "tags": [
+        "#Concept",
+        "#Phonon",
+        "#LatticeVibration",
+        "#PhononDispersion"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "raman",
-      "category": "spectroscopy",
-      "published": true,
-      "title_en": "Classical Theory of Raman Scattering",
-      "title_ja": "ラマン散乱の古典論",
-      "desc_en": "How a vibrating polarizability modulates the scattered light, producing Stokes and anti-Stokes sidebands, the $\\nu^4$ law, and the selection rule, derived step by step using classical physics only.",
-      "desc_ja": "振動する分極率が散乱光をどのように変調するか（ストークス・反ストークス側帯波、$\\nu^4$ 則、選択則）を古典物理だけで段階的に導く。"
-    },
-    {
-      "slug": "angle-resolved-raman",
-      "category": "spectroscopy",
+      "slug": "crystal-structure-v2",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
       "published": false,
-      "title_en": "Angle-Resolved Raman: Reading Crystal Symmetry",
-      "title_ja": "角度分解ラマン：結晶対称性を読む",
-      "desc_en": "How polarization-resolved Raman intensity, $|\\boldsymbol{e}_{\\mathrm{s}}\\cdot\\boldsymbol{R}\\cdot\\boldsymbol{e}_{\\mathrm{i}}|^2$, reads out crystal symmetry: the Raman tensor, parallel vs crossed setups, and polar plots for graphene, nanoribbons, silicon, and RTe$_3$.",
-      "desc_ja": "偏光分解したラマン強度 $|\\boldsymbol{e}_{\\mathrm{s}}\\cdot\\boldsymbol{R}\\cdot\\boldsymbol{e}_{\\mathrm{i}}|^2$ がどのように結晶対称性を読み出すか：ラマンテンソル、平行／直交配置、そして graphene・nanoribbon・silicon・RTe$_3$ の極座標プロット。"
-    },
-    {
-      "slug": "raman-quantum",
-      "category": "spectroscopy",
-      "published": false,
-      "title_en": "Quantum Picture of Raman Scattering",
-      "title_ja": "ラマン散乱の量子論",
-      "desc_en": "Why anti-Stokes is always weaker, how its intensity ratio reads out temperature, and why resonance boosts the signal a millionfold, explained with photons, phonons, and Boltzmann populations.",
-      "desc_ja": "反ストークスがつねに弱い理由・その強度比が温度を与える仕組み・共鳴でなぜ百万倍に増強されるのか。光子・フォノン・ボルツマン分布で説明する。"
-    },
-    {
-      "slug": "graphene-raman",
-      "category": "spectroscopy",
-      "published": false,
-      "title_en": "Raman Spectroscopy of Graphene",
-      "title_ja": "グラフェンのラマン分光",
-      "desc_en": "Phonon dispersion, G/2D/D bands, and double resonance processes: how to count layers, quantify defects, and measure strain and doping from a single Raman spectrum.",
-      "desc_ja": "フォノン分散、G/2D/Dバンド、そして二重共鳴過程：1枚のラマンスペクトルから層数を数え、欠陥を定量し、ひずみとドーピングを測定する方法。"
+      "title_en": "Crystal Structure II — Same Element, Different Material: Why Arrangement Decides",
+      "title_ja": "結晶構造の基礎 II ― 同じ元素、違う材料：並び方が決める",
+      "nav_en": "Crystal Structure II",
+      "nav_ja": "結晶構造の基礎 II",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Why the same element (diamond vs. graphite) makes utterly different materials: arrangement decides. Build the grammar of crystals, see how interference reveals the reciprocal lattice, how diffraction photographs it as a Fourier transform, and how sampling and aliasing lead to the Brillouin zone.",
+      "summary_ja": "同じ元素（ダイヤモンドと黒鉛）がまるで別物になるのはなぜか。答えは並び方だ。結晶の文法を組み立て、干渉が逆格子を映し出すこと、回折がそれをフーリエ変換として写し撮ること、そしてサンプリングと折り返しからブリルアンゾーンが導かれることを学ぶ。",
+      "theme": [
+        "crystal",
+        "reciprocal-lattice",
+        "brillouin-zone"
+      ],
+      "prerequisites": [],
+      "basicsUsed": [
+        {
+          "label_en": "Lattice and basis",
+          "label_ja": "格子と基底"
+        },
+        {
+          "label_en": "Unit cell",
+          "label_ja": "単位胞"
+        },
+        {
+          "label_en": "Reciprocal lattice vector",
+          "label_ja": "逆格子ベクトル"
+        },
+        {
+          "label_en": "Momentum transfer & interference",
+          "label_ja": "運動量移行と干渉"
+        },
+        {
+          "label_en": "Sampling & aliasing (Nyquist)",
+          "label_ja": "サンプリングと折り返し（ナイキスト）"
+        },
+        {
+          "label_en": "Brillouin zone",
+          "label_ja": "ブリルアンゾーン"
+        }
+      ],
+      "referenceLinks": [
+        "spectral-noise"
+      ],
+      "nextLinks": {
+        "theory": [
+          "graphene-v2",
+          "graphene"
+        ],
+        "application": [
+          "graphene-nanoribbons"
+        ],
+        "experiment": [
+          "angle-resolved-raman"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene",
+        "graphene-v2",
+        "graphene-nanoribbons",
+        "graphene-raman",
+        "angle-resolved-raman"
+      ],
+      "tags": [
+        "#Concept",
+        "#CrystalStructure",
+        "#Lattice",
+        "#ReciprocalLattice",
+        "#BrillouinZone",
+        "#Diffraction",
+        "#Aliasing"
+      ],
+      "isVariantOf": "crystal-structure"
     },
     {
       "slug": "laser",
-      "category": "photonics",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
       "published": false,
       "title_en": "Physics of Laser Light",
       "title_ja": "レーザー光の物理",
-      "desc_en": "From Einstein's three radiative processes (absorption, spontaneous emission, and stimulated emission) through population inversion, optical gain, and the Fabry–Pérot resonator, to the threshold condition that separates amplified spontaneous emission from coherent laser oscillation.",
-      "desc_ja": "アインシュタインの3つの輻射過程（吸収・自然放出・誘導放出）から始まり、粒子数反転・光学利得・ファブリ・ペロー共振器を経て、増幅された自然放出とコヒーレントなレーザー発振を分ける発振閾値条件まで、レーザー物理をインタラクティブなアニメーションで解説します。"
+      "nav_en": "Laser Physics",
+      "nav_ja": "レーザーの原理",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "From “why doesn't a laser beam spread out?” to the three light–matter processes (absorption, spontaneous and stimulated emission), Einstein's A/B coefficients, population inversion, optical gain and Beer's law, the mirror cavity as a direction/color filter, and the lasing threshold.",
+      "summary_ja": "「なぜレーザー光は広がらないのか」から出発し、光と物質の3つの過程（吸収・自然放出・誘導放出）、アインシュタインのA/B係数、粒子数反転、光学利得とビールの法則、方向と色のフィルターとしての鏡共振器、そして発振閾値まで。",
+      "theme": [
+        "laser",
+        "stimulated-emission",
+        "light-matter"
+      ],
+      "prerequisites": [],
+      "basicsUsed": [
+        {
+          "label_en": "Stimulated emission",
+          "label_ja": "誘導放出"
+        },
+        {
+          "label_en": "Spontaneous emission",
+          "label_ja": "自然放出"
+        },
+        {
+          "label_en": "Einstein A and B coefficients",
+          "label_ja": "アインシュタインのA・B係数"
+        },
+        {
+          "label_en": "Population inversion",
+          "label_ja": "粒子数反転"
+        },
+        {
+          "label_en": "Boltzmann distribution",
+          "label_ja": "ボルツマン分布"
+        },
+        {
+          "label_en": "Optical gain (Beer's law)",
+          "label_ja": "光学利得（ビールの法則）"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "raman-quantum"
+        ],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "angle-resolved-raman"
+        ],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "graphene-phonon-emission",
+        "raman-quantum"
+      ],
+      "tags": [
+        "#Concept",
+        "#Laser",
+        "#StimulatedEmission",
+        "#PopulationInversion",
+        "#OpticalGain",
+        "#Cavity",
+        "#LightMatter"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "graphene-phonon-emission",
-      "category": "photonics",
+      "slug": "graphene-geometry",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
       "published": false,
-      "title_en": "Stimulated Phonon Emission in Graphene",
-      "title_ja": "グラフェン中のフォノン誘導放出",
-      "desc_en": "Take the stimulated emission that drives a laser and replace photons with acoustic phonons. In graphene, drifting electrons can amplify lattice vibrations the same way an excited medium amplifies light: the seed of coherent sound. Built step by step from the same Einstein rate equations, with the Dirac carriers and phonon modes of graphene as the stage.",
-      "desc_ja": "レーザーを駆動する誘導放出を、光子から音響フォノンへ置き換える。グラフェンでは、ドリフトする電子が格子振動を増幅できる。励起された媒質が光を増幅するのとちょうど同じように。これがコヒーレントな音の種となる。レーザーと同じアインシュタイン速度方程式から段階的に構築し、グラフェンのディラック電子とフォノンモードを舞台に解説する。"
+      "title_en": "The Geometry of Graphene, Before Any Electrons",
+      "title_ja": "電子を乗せる前のグラフェンの幾何",
+      "nav_en": "Graphene Geometry",
+      "nav_ja": "グラフェンの幾何",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "The real- and reciprocal-space geometry to prepare before putting electrons on graphene: the honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors δ, the reciprocal lattice, and the hexagonal Brillouin zone with Γ, M, K, K′.",
+      "summary_ja": "電子を乗せる前に用意すべき、グラフェンの実空間・逆空間の幾何。蜂の巣格子を三角ブラベー格子＋A/B二原子基底として見る見方、三つの最近接ベクトル δ、逆格子、そして Γ・M・K・K′ を持つ六角形ブリルアンゾーン。",
+      "theme": [
+        "graphene",
+        "crystallography",
+        "brillouin-zone"
+      ],
+      "prerequisites": [
+        "band-formation",
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Honeycomb lattice & two-atom basis",
+          "label_ja": "蜂の巣格子と2原子基底"
+        },
+        {
+          "label_en": "Triangular Bravais lattice & sublattices",
+          "label_ja": "三角ブラベー格子と副格子"
+        },
+        {
+          "label_en": "Primitive & nearest-neighbour vectors",
+          "label_ja": "基本ベクトルと最近接ベクトル"
+        },
+        {
+          "label_en": "Reciprocal lattice",
+          "label_ja": "逆格子"
+        },
+        {
+          "label_en": "Brillouin zone & K/K′ points",
+          "label_ja": "ブリルアンゾーンとK/K′点"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-tight-binding"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-tight-binding"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#HoneycombLattice",
+        "#BravaisLattice",
+        "#BrillouinZone",
+        "#ReciprocalLattice"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "gate-dielectrics",
-      "category": "devices",
+      "slug": "graphene-tight-binding",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
       "published": false,
-      "title_en": "Gate Dielectrics and Transistor Performance",
-      "title_ja": "ゲート誘電体とトランジスタ性能",
-      "desc_en": "Starting from what a dielectric even is (polarization and bound charge) and how it controls a transistor: capacitance and EOT, leakage and the high-κ trade-off, interface traps, subthreshold swing, and mobility, ending with hysteresis: how the loop's direction (clockwise vs counterclockwise) identifies its cause, from charge trapping and adsorbates to mobile ions and ferroelectric polarization.",
-      "desc_ja": "そもそも誘電体とは何か（分極と束縛電荷）から出発し、ゲート誘電体がトランジスタをどう支配するか（容量とEOT、リークとhigh-κのトレードオフ、界面トラップ、サブスレッショルドスイング、移動度）を解説。最後はヒステリシスへ。ループの向き（時計回りか反時計回りか）が、電荷捕獲・吸着分子から可動イオン・強誘電分極まで、原因をどう特定するかを学びます。"
+      "title_en": "Graphene's Tight-Binding Bands",
+      "title_ja": "グラフェンのtight-bindingバンド",
+      "nav_en": "Graphene Tight-Binding",
+      "nav_ja": "グラフェンのTBバンド",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Putting tight-binding on graphene's honeycomb lattice: the A/B Bloch state, the three-term structure factor f(k), the 2×2 Hamiltonian, the bands E±(k) = ±t|f(k)|, why they touch only at the K and K′ corners, and why graphene is a semimetal.",
+      "summary_ja": "グラフェンの蜂の巣格子にタイトバインディングを載せる：A/Bのブロッホ状態、三項からなる構造因子 f(k)、2×2ハミルトニアン、バンド E±(k)=±t|f(k)|、なぜK・K′の角だけで接するのか、そしてなぜグラフェンが半金属なのか。",
+      "theme": [
+        "graphene",
+        "tight-binding",
+        "band-structure"
+      ],
+      "prerequisites": [
+        "graphene-geometry",
+        "band-formation"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Two-component (A/B) Bloch state",
+          "label_ja": "二成分（A/B）ブロッホ状態"
+        },
+        {
+          "label_en": "Structure factor f(k)",
+          "label_ja": "構造因子 f(k)"
+        },
+        {
+          "label_en": "2×2 tight-binding Hamiltonian",
+          "label_ja": "2×2タイトバインディング・ハミルトニアン"
+        },
+        {
+          "label_en": "Eigenvalues & determinant condition",
+          "label_ja": "固有値と行列式の条件"
+        },
+        {
+          "label_en": "Fermi level & band filling",
+          "label_ja": "フェルミ準位とバンドの占有"
+        },
+        {
+          "label_en": "Semimetal & density of states",
+          "label_ja": "半金属と状態密度"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-dirac-cone"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-dirac-cone"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#TightBinding",
+        "#StructureFactor",
+        "#BandStructure",
+        "#Semimetal"
+      ],
+      "isVariantOf": ""
     },
     {
-      "slug": "vdw-gap",
-      "category": "devices",
+      "slug": "graphene-dirac-cone",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
       "published": false,
-      "title_en": "The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors",
-      "title_ja": "ファンデルワールスギャップ — 2次元トランジスタの限界を握る1.4Åの真空",
-      "desc_en": "Wherever a 2D semiconductor meets an insulator or a metal, a 1.4 Å sliver of near-vacuum remains, suppressing gate leakage 260-fold, yet taxing the EOT budget and choking contact resistance. A guided tour of Pourfath &amp; Grasser (Science 2026), from scaling targets to the zipper-like interfaces that may close the gap.",
-      "desc_ja": "2次元半導体が絶縁体や金属と接するところには、必ず1.4Åのほぼ真空の隙間が残る。ゲートリークを260分の1に抑える一方で、EOT予算に課税し、接触抵抗の喉元を絞める。Pourfath &amp; Grasser（Science 2026）の解説。スケーリング目標から、ギャップを閉じるジッパー型界面まで。"
+      "title_en": "Zooming In on K: The Dirac Cone",
+      "title_ja": "K点を拡大する：ディラックコーン",
+      "nav_en": "Dirac Cone",
+      "nav_ja": "ディラックコーン",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "Expanding graphene's bands right next to the K point: f(K+q) to first order, the linear dispersion E± ≈ ±ħv_F|q|, the Dirac cone, the Fermi velocity v_F = 3ta/2ħ ≈ 10⁶ m/s, zero effective mass, and electron–hole symmetry.",
+      "summary_ja": "K点のすぐ近くでグラフェンのバンドを展開する：f(K+q) の一次近似、線形分散 E± ≈ ±ħv_F|q|、ディラックコーン、フェルミ速度 v_F = 3ta/2ħ ≈ 10⁶ m/s、有効質量ゼロ、そして電子正孔対称性。",
+      "theme": [
+        "graphene",
+        "dirac-cone",
+        "band-structure"
+      ],
+      "prerequisites": [
+        "graphene-tight-binding"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Linearization (tangent approximation)",
+          "label_ja": "線形化（接線近似）"
+        },
+        {
+          "label_en": "Structure factor near K",
+          "label_ja": "K点近くの構造因子"
+        },
+        {
+          "label_en": "Dirac cone & linear dispersion",
+          "label_ja": "ディラックコーンと線形分散"
+        },
+        {
+          "label_en": "Fermi velocity",
+          "label_ja": "フェルミ速度"
+        },
+        {
+          "label_en": "Effective mass = band curvature",
+          "label_ja": "有効質量＝バンドの曲率"
+        },
+        {
+          "label_en": "Electron–hole symmetry",
+          "label_ja": "電子正孔対称性"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-v2"
+        ],
+        "application": [
+          "graphene-nanoribbons"
+        ],
+        "experiment": [],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#DiracCone",
+        "#LinearDispersion",
+        "#FermiVelocity",
+        "#MasslessDirac"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "graphene-nanoribbons",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Quantum Confinement & Electronic Structure of Graphene Nanoribbons",
+      "title_ja": "グラフェンナノリボンの量子閉じ込めと電子構造",
+      "nav_en": "Graphene Nanoribbons",
+      "nav_ja": "グラフェンナノリボン",
+      "level_en": "Advancing",
+      "level_ja": "やや発展",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "How cutting graphene into a narrow ribbon confines the transverse momentum into discrete cutting lines, folding the Dirac cones into 1-D subbands. See how edge orientation (armchair vs zigzag) and width set whether a ribbon is metallic or semiconducting, and why zigzag ribbons stay metallic through edge states.",
+      "summary_ja": "グラフェンを細い帯に切ると幅方向の運動量が離散的なカッティングラインに固定され、ディラック錐が1次元サブバンドに折りたたまれる仕組み。エッジの向き（アームチェア／ジグザグ）と幅がリボンの金属・半導体性を決めること、ジグザグがエッジ状態により常に金属であることを学ぶ。",
+      "theme": [
+        "graphene",
+        "nanoribbon",
+        "quantum-confinement"
+      ],
+      "prerequisites": [
+        "graphene",
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Dirac cones / Dirac points",
+          "label_ja": "ディラック錐・ディラック点"
+        },
+        {
+          "label_en": "Brillouin zone & K/K′ points",
+          "label_ja": "ブリルアンゾーンとK/K′点"
+        },
+        {
+          "label_en": "Quantum confinement (standing waves)",
+          "label_ja": "量子閉じ込め（定在波）"
+        },
+        {
+          "label_en": "Zone folding & cutting lines",
+          "label_ja": "ゾーンフォールディングとカッティングライン"
+        },
+        {
+          "label_en": "Tight-binding dispersion",
+          "label_ja": "強結合分散"
+        },
+        {
+          "label_en": "Edge states",
+          "label_ja": "エッジ状態"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-v2",
+          "crystal-structure-v2"
+        ],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#GNR",
+        "#QuantumConfinement",
+        "#ZoneFolding",
+        "#EdgeStates",
+        "#BandGap"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "graphene-raman",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Raman Spectroscopy of Graphene",
+      "title_ja": "グラフェンのラマン分光",
+      "nav_en": "Graphene Raman",
+      "nav_ja": "グラフェンのラマン分光",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "How the G, 2D, and D bands arise from graphene's phonon dispersion, how double resonance and defect activation explain them, and how to read layer number, defect density, strain, and doping from a single spectrum, extended to nanoribbons via zone folding.",
+      "summary_ja": "グラフェンのフォノン分散からG・2D・Dバンドがどう生じるか、二重共鳴と欠陥活性化による説明、そして1枚のスペクトルから層数・欠陥密度・ひずみ・ドーピングを読み取る方法。ゾーンフォールディングを通じてナノリボンへも拡張する。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene",
+        "raman",
+        "phonon"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Phonon dispersion & branches (iTO/iLO/LA)",
+          "label_ja": "フォノン分散とブランチ（iTO/iLO/LA）"
+        },
+        {
+          "label_en": "Brillouin zone, Γ and K points",
+          "label_ja": "ブリルアンゾーン、Γ点とK点"
+        },
+        {
+          "label_en": "Momentum conservation & inter/intra-valley scattering",
+          "label_ja": "運動量保存と谷間・谷内散乱"
+        },
+        {
+          "label_en": "Double resonance Raman",
+          "label_ja": "二重共鳴ラマン"
+        },
+        {
+          "label_en": "Electron–phonon coupling / Kohn anomaly",
+          "label_ja": "電子-フォノン結合・コーン異常"
+        },
+        {
+          "label_en": "Zone folding & quantum confinement",
+          "label_ja": "ゾーンフォールディングと量子閉じ込め"
+        }
+      ],
+      "referenceLinks": [
+        "spectral-noise",
+        "measurement-error",
+        "peak-fitting"
+      ],
+      "nextLinks": {
+        "theory": [
+          "raman-quantum"
+        ],
+        "application": [
+          "graphene-nanoribbons"
+        ],
+        "experiment": [
+          "angle-resolved-raman",
+          "spectral-noise"
+        ],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "graphene-nanoribbons"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman",
+        "#PhononDispersion",
+        "#DoubleResonance",
+        "#Defects",
+        "#StrainDoping"
+      ],
+      "isVariantOf": ""
     },
     {
       "slug": "schottky",
-      "category": "devices",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "device",
       "published": false,
       "title_en": "The Schottky Junction and Fermi Level Pinning",
       "title_ja": "ショットキー接合とフェルミ準位ピニング",
-      "desc_en": "Why a metal–semiconductor contact rectifies, why the barrier refuses to follow the Schottky–Mott rule (interface states, MIGS, bond polarization, and the charge neutrality level), and how thermionic emission measures the barrier, with interactive band diagrams.",
-      "desc_ja": "金属–半導体接合はなぜ整流するのか、なぜ障壁はショットキー・モット則に従わないのか（界面準位、MIGS、結合分極、電荷中性準位）、そして熱電子放出による障壁の測定まで、操作できるバンド図とともに解説します。"
+      "nav_en": "Schottky Junction",
+      "nav_ja": "ショットキー接合",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "25 min",
+      "readingTime_ja": "25分",
+      "summary_en": "How a Schottky barrier forms at a metal–semiconductor contact: band bending and the depletion layer, the Schottky–Mott rule, why real junctions disobey it (Fermi level pinning, the pinning factor S, and CNL), the microscopic origins of pinning (MIGS, bond polarization), and how the barrier is measured by thermionic-emission I–V and C–V profiling.",
+      "summary_ja": "金属と半導体の接合にショットキー障壁ができる仕組み。バンドの曲がりと空乏層、ショットキー・モット則、現実の接合がそれに従わない理由（フェルミ準位ピニング、ピニング因子S、CNL）、ピニングのミクロな起源（MIGS・結合分極）、そして熱電子放出I–VとC–Vによる障壁の測り方。",
+      "theme": [
+        "schottky",
+        "metal-semiconductor",
+        "fermi-level-pinning"
+      ],
+      "prerequisites": [
+        "gate-dielectrics",
+        "fermi-level"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Work function & electron affinity",
+          "label_ja": "仕事関数と電子親和力"
+        },
+        {
+          "label_en": "Fermi level alignment in equilibrium",
+          "label_ja": "平衡でのフェルミ準位の一致"
+        },
+        {
+          "label_en": "Band bending & depletion layer",
+          "label_ja": "バンドの曲がりと空乏層"
+        },
+        {
+          "label_en": "Interface states & charge neutrality level",
+          "label_ja": "界面準位と電荷中性準位"
+        },
+        {
+          "label_en": "Thermionic emission & diode equation",
+          "label_ja": "熱電子放出とダイオード方程式"
+        },
+        {
+          "label_en": "Depletion capacitance (C–V)",
+          "label_ja": "空乏層容量（C–V）"
+        }
+      ],
+      "referenceLinks": [
+        "measurement-error"
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "gate-dielectrics",
+          "vdw-gap"
+        ],
+        "experiment": [
+          "measurement-error"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "vdw-gap"
+      ],
+      "tags": [
+        "#Theme",
+        "#Schottky",
+        "#FermiLevelPinning",
+        "#MIGS",
+        "#Contacts",
+        "#ThermionicEmission",
+        "#BandDiagram"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "gate-dielectrics",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "device",
+      "published": false,
+      "title_en": "Gate Dielectrics and Transistor Performance",
+      "title_ja": "ゲート誘電体とトランジスタ性能",
+      "nav_en": "Gate Dielectrics",
+      "nav_ja": "ゲート誘電体",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "25 min",
+      "readingTime_ja": "25分",
+      "summary_en": "Build the physics of the gate dielectric from one capacitor formula: gate capacitance and EOT, the high-κ trade against tunneling leakage, interface traps and subthreshold swing, mobility degradation, and threshold shifts, ending by reading transfer-curve hysteresis, where the loop's direction names the microscopic culprit.",
+      "summary_ja": "ゲート誘電体の物理を1本のコンデンサの式から組み立てる。ゲート容量とEOT、トンネルリークに対するhigh-κの取引、界面トラップとサブスレッショルドスイング、移動度劣化、閾値シフト。最後は伝達特性のヒステリシスを読み解き、ループの向きが微視的な犯人を告げることを学ぶ。",
+      "theme": [
+        "gate-dielectrics",
+        "transistors",
+        "high-k",
+        "hysteresis"
+      ],
+      "prerequisites": [
+        "crystal-structure",
+        "fermi-level"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Dielectric polarization & bound charge",
+          "label_ja": "誘電分極と束縛電荷"
+        },
+        {
+          "label_en": "Parallel-plate capacitance",
+          "label_ja": "平行平板コンデンサの容量"
+        },
+        {
+          "label_en": "Quantum tunneling through a barrier",
+          "label_ja": "障壁の量子トンネリング"
+        },
+        {
+          "label_en": "Interface states / traps in the gap",
+          "label_ja": "バンドギャップ中の界面準位・トラップ"
+        },
+        {
+          "label_en": "Carrier mobility & scattering",
+          "label_ja": "キャリア移動度と散乱"
+        },
+        {
+          "label_en": "Field-effect transistor operation",
+          "label_ja": "電界効果トランジスタの動作"
+        }
+      ],
+      "referenceLinks": [
+        "measurement-error"
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "vdw-gap"
+        ],
+        "experiment": [
+          "measurement-error"
+        ],
+        "frontier": [
+          "schottky"
+        ]
+      },
+      "usedBy": [
+        "vdw-gap",
+        "schottky"
+      ],
+      "tags": [
+        "#Theme",
+        "#GateDielectrics",
+        "#Transistors",
+        "#HighK",
+        "#EOT",
+        "#Hysteresis",
+        "#InterfaceTraps"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "vdw-gap",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "device",
+      "published": false,
+      "title_en": "The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors",
+      "title_ja": "ファンデルワールスギャップ：2次元トランジスタの限界を握る1.4Åの真空",
+      "nav_en": "van der Waals Gap",
+      "nav_ja": "vdWギャップ",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "How the ~1.4 Å near-vacuum gap that forms at every 2D-semiconductor interface acts as both a leakage-blocking tunnel barrier and a low-κ series capacitor that taxes the EOT budget and inflates contact resistance, and why zipper-like quasi-covalent interfaces can close it. Based on Pourfath & Grasser, Science 2026.",
+      "summary_ja": "2次元半導体のあらゆる界面に生じる約1.4Åのほぼ真空の隙間が、リークを抑えるトンネル障壁であると同時に、EOT予算を食いつぶし接触抵抗を増大させる低κの直列コンデンサでもあること、そしてそれを閉じるジッパー型の準共有結合界面を学ぶ。Pourfath & Grasser, Science 2026 の解説。",
+      "theme": [
+        "2d-materials",
+        "transistor-scaling",
+        "interfaces"
+      ],
+      "prerequisites": [
+        "gate-dielectrics",
+        "schottky"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Equivalent oxide thickness (EOT)",
+          "label_ja": "等価酸化膜厚（EOT）"
+        },
+        {
+          "label_en": "Gate capacitance & series capacitors",
+          "label_ja": "ゲート容量と直列コンデンサ"
+        },
+        {
+          "label_en": "Quantum tunneling (WKB)",
+          "label_ja": "量子トンネル効果（WKB）"
+        },
+        {
+          "label_en": "Dielectric constant & high-κ insulators",
+          "label_ja": "誘電率とhigh-κ絶縁体"
+        },
+        {
+          "label_en": "Contact resistance / quantum limit",
+          "label_ja": "接触抵抗と量子限界"
+        },
+        {
+          "label_en": "van der Waals vs covalent bonding",
+          "label_ja": "ファンデルワールス結合と共有結合"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "crystal-structure"
+        ],
+        "application": [
+          "graphene"
+        ],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#vdWGap",
+        "#2DMaterials",
+        "#TransistorScaling",
+        "#EOT",
+        "#ContactResistance",
+        "#GateDielectrics"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "graphene-phonon-emission",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "frontier",
+      "published": false,
+      "title_en": "Stimulated Phonon Emission in Graphene",
+      "title_ja": "グラフェン中のフォノン誘導放出",
+      "nav_en": "Phonon Emission in Graphene",
+      "nav_ja": "グラフェンのフォノン誘導放出",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "How a plain DC current in graphene can push the electron sea faster than the crystal's own speed of sound, flipping phonon absorption into stimulated emission. The Einstein (n_q+1)/n_q bookkeeping for phonons, the supersonic Cherenkov gain condition, why graphene's mobility makes the threshold trivially low, and the phonon-avalanche threshold toward a SASER.",
+      "summary_ja": "グラフェンに直流電流を流すだけで電子の海を結晶中の音速より速く走らせ、フォノンの吸収を誘導放出へ裏返せる仕組み。フォノン版のアインシュタイン (n_q+1)/n_q 帳簿、超音速チェレンコフ利得条件、グラフェンの移動度ゆえに閾値が極めて低い理由、そして音のレーザー（SASER）へ向かうフォノン雪崩の閾値まで。",
+      "theme": [
+        "graphene",
+        "phonon",
+        "stimulated-emission",
+        "saser"
+      ],
+      "prerequisites": [
+        "laser",
+        "graphene",
+        "phonon"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Acoustic phonons",
+          "label_ja": "音響フォノン"
+        },
+        {
+          "label_en": "Stimulated emission & Einstein rate equations",
+          "label_ja": "誘導放出とアインシュタインの速度方程式"
+        },
+        {
+          "label_en": "Electron–phonon coupling",
+          "label_ja": "電子・フォノン結合"
+        },
+        {
+          "label_en": "Population inversion, gain vs loss",
+          "label_ja": "粒子数反転・利得対損失"
+        },
+        {
+          "label_en": "Drift velocity, mobility & Fermi velocity",
+          "label_ja": "ドリフト速度・移動度・フェルミ速度"
+        },
+        {
+          "label_en": "Cherenkov condition",
+          "label_ja": "チェレンコフ条件"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "laser"
+        ],
+        "application": [
+          "graphene",
+          "graphene-raman"
+        ],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Frontier",
+        "#Graphene",
+        "#Phonon",
+        "#StimulatedEmission",
+        "#SASER",
+        "#Cherenkov"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "raman",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": true,
+      "title_en": "Classical Theory of Raman Scattering",
+      "title_ja": "ラマン散乱の古典論",
+      "nav_en": "Classical Raman Theory",
+      "nav_ja": "ラマン古典論",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "A step-by-step classical derivation of Raman scattering: how a vibrating polarizability amplitude-modulates the scattered light into Stokes and anti-Stokes sidebands, why intensity scales as ω⁴, and how the Raman tensor sets the selection rule for which vibrations are visible.",
+      "summary_ja": "ラマン散乱の古典的導出を段階的に学ぶ。振動する分極率が散乱光を振幅変調してストークス／反ストークスの側帯波を生む仕組み、強度がω⁴に比例する理由、そしてラマンテンソルが「どの振動が見えるか」を決める選択則。",
+      "theme": [
+        "raman",
+        "optics",
+        "light-matter"
+      ],
+      "prerequisites": [
+        "laser",
+        "phonon"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Polarizability tensor",
+          "label_ja": "分極率テンソル"
+        },
+        {
+          "label_en": "Induced dipole",
+          "label_ja": "誘起双極子"
+        },
+        {
+          "label_en": "Plane electromagnetic wave",
+          "label_ja": "平面電磁波"
+        },
+        {
+          "label_en": "Normal modes & phonons (Γ point)",
+          "label_ja": "基準振動・フォノン（Γ点）"
+        },
+        {
+          "label_en": "Taylor expansion",
+          "label_ja": "テイラー展開"
+        },
+        {
+          "label_en": "Dipole radiation (ω⁴ law)",
+          "label_ja": "双極子放射（ω⁴則）"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "raman-quantum"
+        ],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "angle-resolved-raman"
+        ],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "raman-quantum",
+        "angle-resolved-raman",
+        "graphene-raman"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Polarizability",
+        "#StokesAntiStokes",
+        "#SelectionRule",
+        "#RamanTensor",
+        "#Phonons"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "raman-quantum",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": false,
+      "title_en": "Quantum Picture of Raman Scattering",
+      "title_ja": "ラマン散乱の量子論",
+      "nav_en": "Quantum Raman Theory",
+      "nav_ja": "ラマン量子論",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "The quantum story of Raman scattering: photons and phonons exchanged one quantum at a time, why Boltzmann populations make anti-Stokes weak (turning the Stokes/anti-Stokes ratio into a non-contact thermometer), virtual states and the Jablonski diagram, and how resonance boosts the signal a millionfold.",
+      "summary_ja": "ラマン散乱を量子で語り直す：光子とフォノンをちょうど1個ずつやり取りする取引、ボルツマン分布が反ストークスを弱くする理由（とストークス／反ストークス比による非接触温度計）、仮想状態とヤブロンスキー図、そして共鳴が信号を百万倍に増強する仕組み。",
+      "theme": [
+        "raman",
+        "quantum",
+        "optical"
+      ],
+      "prerequisites": [
+        "raman",
+        "phonon"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Photon energy quantum",
+          "label_ja": "光子のエネルギー量子"
+        },
+        {
+          "label_en": "Phonon (vibrational quantum)",
+          "label_ja": "フォノン（振動量子）"
+        },
+        {
+          "label_en": "Energy conservation in scattering",
+          "label_ja": "散乱のエネルギー保存"
+        },
+        {
+          "label_en": "Boltzmann / Bose–Einstein population",
+          "label_ja": "ボルツマン・ボース-アインシュタイン分布"
+        },
+        {
+          "label_en": "Virtual state & energy–time uncertainty",
+          "label_ja": "仮想状態とエネルギー・時間不確定性"
+        },
+        {
+          "label_en": "Resonance enhancement (KHD)",
+          "label_ja": "共鳴増強（KHD）"
+        }
+      ],
+      "referenceLinks": [
+        "spectral-noise",
+        "measurement-error"
+      ],
+      "nextLinks": {
+        "theory": [
+          "raman",
+          "laser"
+        ],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "angle-resolved-raman",
+          "spectral-noise"
+        ],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "graphene-raman",
+        "angle-resolved-raman",
+        "graphene-phonon-emission"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Quantum",
+        "#StokesAntiStokes",
+        "#RamanThermometry",
+        "#ResonanceRaman",
+        "#Phonon"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "measurement-error",
+      "category": "handbook",
+      "layoutType": "handbook",
+      "color": "reference",
+      "published": false,
+      "title_en": "Measurement, Error & Data Analysis",
+      "title_ja": "測定・誤差・データ解析の基礎",
+      "nav_en": "Measurement & Error",
+      "nav_ja": "測定と誤差",
+      "level_en": "Reference",
+      "level_ja": "リファレンス",
+      "readingTime_en": "25 min",
+      "readingTime_ja": "25分",
+      "summary_en": "What a measured value actually claims: systematic vs random error (accuracy vs precision), how many significant figures you may keep, how uncertainties propagate through a formula (quadrature and the relative-error shortcuts), and how repeated measurement shrinks the standard error as 1/√n via the Central Limit Theorem.",
+      "summary_ja": "測定値が本当は何を主張しているのか：系統誤差と偶然誤差の違い（正確さと精密さ）、有効数字を何桁まで残せるか、不確かさが式の中をどう伝播するか（二乗和と相対誤差の近道）、そして繰り返し測定が中心極限定理によって標準誤差を1/√nで縮める仕組み。",
+      "theme": [
+        "measurement",
+        "error-analysis",
+        "statistics"
+      ],
+      "prerequisites": [],
+      "basicsUsed": [
+        {
+          "label_en": "Systematic vs random error",
+          "label_ja": "系統誤差と偶然誤差"
+        },
+        {
+          "label_en": "Accuracy and precision",
+          "label_ja": "正確さと精密さ"
+        },
+        {
+          "label_en": "Significant figures",
+          "label_ja": "有効数字"
+        },
+        {
+          "label_en": "Propagation of uncertainty (quadrature)",
+          "label_ja": "誤差の伝播（二乗和）"
+        },
+        {
+          "label_en": "Standard deviation & standard error",
+          "label_ja": "標準偏差と標準誤差"
+        },
+        {
+          "label_en": "Central Limit Theorem",
+          "label_ja": "中心極限定理"
+        }
+      ],
+      "referenceLinks": [
+        "spectral-noise",
+        "peak-fitting"
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [
+          "spectral-noise",
+          "peak-fitting",
+          "angle-resolved-raman"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "spectral-noise",
+        "peak-fitting",
+        "angle-resolved-raman",
+        "graphene-raman",
+        "gate-dielectrics",
+        "schottky"
+      ],
+      "tags": [
+        "#Handbook",
+        "#Measurement",
+        "#ErrorAnalysis",
+        "#Statistics",
+        "#Uncertainty",
+        "#SignificantFigures",
+        "#DataAnalysis"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "spectral-noise",
+      "category": "handbook",
+      "layoutType": "handbook",
+      "color": "reference",
+      "published": false,
+      "title_en": "Noisy Spectra: Acquisition Time vs Accumulation",
+      "title_ja": "ノイズの多いスペクトル：取得時間と積算回数",
+      "nav_en": "Noisy Spectra & SNR",
+      "nav_ja": "ノイズとSN比",
+      "level_en": "Reference",
+      "level_ja": "リファレンス",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "How acquisition time and accumulation count shape a spectrum's signal-to-noise ratio: the three noise sources (shot, dark, read), why SNR scales as the square root of total exposure, and when to prefer one long acquisition versus many short accumulations for cosmic-ray rejection and saturation headroom.",
+      "summary_ja": "取得時間と積算回数がスペクトルのSN比をどう決めるか。3つのノイズ源（ショット・ダーク・読み出し）、SN比が総露光時間の平方根に比例する理由、そして宇宙線除去と飽和マージンのために「1回の長時間取得」と「多数の短時間積算」をどう使い分けるか。",
+      "theme": [
+        "snr",
+        "noise"
+      ],
+      "prerequisites": [
+        "measurement-error"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Signal-to-noise ratio (SNR)",
+          "label_ja": "信号対雑音比（SN比）"
+        },
+        {
+          "label_en": "Shot noise / Poisson statistics",
+          "label_ja": "ショットノイズ・ポアソン統計"
+        },
+        {
+          "label_en": "Read noise & dark current",
+          "label_ja": "読み出しノイズとダーク電流"
+        },
+        {
+          "label_en": "Quadrature noise addition",
+          "label_ja": "二乗和でのノイズ合成"
+        },
+        {
+          "label_en": "1/√N averaging law",
+          "label_ja": "1/√N の平均化則"
+        },
+        {
+          "label_en": "Median rejection / cosmic-ray spikes",
+          "label_ja": "中央値除去・宇宙線スパイク"
+        }
+      ],
+      "referenceLinks": [
+        "measurement-error",
+        "peak-fitting"
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "measurement-error",
+          "peak-fitting",
+          "angle-resolved-raman"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman",
+        "angle-resolved-raman",
+        "peak-fitting"
+      ],
+      "tags": [
+        "#Handbook",
+        "#SNR",
+        "#Noise",
+        "#ShotNoise",
+        "#Spectroscopy",
+        "#CCD",
+        "#SignalAveraging"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "peak-fitting",
+      "category": "handbook",
+      "layoutType": "handbook",
+      "color": "reference",
+      "published": false,
+      "planned": true,
+      "title_en": "What Peak Fitting Assumes",
+      "title_ja": "ピーク解析・フィッティングの前提",
+      "nav_en": "What Peak Fitting Assumes",
+      "nav_ja": "ピーク解析の前提",
+      "level_en": "Reference",
+      "level_ja": "リファレンス",
+      "readingTime_en": "soon",
+      "readingTime_ja": "準備中",
+      "summary_en": "Every peak fit smuggles in assumptions: a line shape (Lorentzian vs Gaussian vs Voigt), a baseline, and a noise model. What those assumptions are, when they break, and how to tell a real peak from a fitted artifact.",
+      "summary_ja": "どんなピークフィットも、暗黙の仮定を持ち込んでいる。線形（ローレンツ／ガウス／フォークト）、ベースライン、ノイズモデル。その仮定が何であり、いつ破れ、本物のピークとフィットが生んだ虚像をどう見分けるか。",
+      "theme": [
+        "fitting",
+        "data-analysis"
+      ],
+      "prerequisites": [
+        "measurement-error",
+        "spectral-noise"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Line shapes (Lorentzian / Gaussian / Voigt)",
+          "label_ja": "線形（ローレンツ・ガウス・フォークト）"
+        },
+        {
+          "label_en": "Baseline & background subtraction",
+          "label_ja": "ベースライン・背景の差し引き"
+        },
+        {
+          "label_en": "Least squares & residuals",
+          "label_ja": "最小二乗と残差"
+        },
+        {
+          "label_en": "Goodness of fit / overfitting",
+          "label_ja": "適合度・過剰適合"
+        }
+      ],
+      "referenceLinks": [
+        "measurement-error",
+        "spectral-noise"
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "spectral-noise",
+          "measurement-error"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman"
+      ],
+      "tags": [
+        "#Handbook",
+        "#Fitting",
+        "#PeakAnalysis",
+        "#DataAnalysis",
+        "#LineShape"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "graphene",
+      "category": "scratch",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Electronic Structure of Graphene",
+      "title_ja": "グラフェンの電子構造",
+      "nav_en": "Graphene Electronic Structure",
+      "nav_ja": "グラフェンの電子構造",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Build graphene's band structure from scratch: a tight-binding derivation on the honeycomb lattice that produces the Dirac cones at K, explains why the Fermi level sits exactly at the band-touching points, and reveals what “massless” electrons actually means.",
+      "summary_ja": "ハニカム格子上のタイトバインディング計算でグラフェンのバンド構造をゼロから組み立て、K点のディラック錐、フェルミ準位が接点にぴったり来る理由、そして「質量ゼロ」電子の正体（質量＝バンドの曲率、擬スピン）を解き明かす。",
+      "theme": [
+        "graphene",
+        "band-structure",
+        "tight-binding",
+        "dirac-cone"
+      ],
+      "prerequisites": [
+        "crystal-structure",
+        "band-formation",
+        "fermi-level"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Honeycomb lattice & two-atom basis",
+          "label_ja": "ハニカム格子と2原子基底"
+        },
+        {
+          "label_en": "Unit cell & lattice vectors",
+          "label_ja": "単位胞と格子ベクトル"
+        },
+        {
+          "label_en": "Brillouin zone & crystal momentum k",
+          "label_ja": "ブリルアンゾーンと結晶運動量 k"
+        },
+        {
+          "label_en": "Bloch's theorem",
+          "label_ja": "ブロッホの定理"
+        },
+        {
+          "label_en": "Tight-binding / hopping energy",
+          "label_ja": "タイトバインディング・ホッピング"
+        },
+        {
+          "label_en": "Fermi level & band filling",
+          "label_ja": "フェルミ準位とバンドの占有"
+        },
+        {
+          "label_en": "Effective mass = band curvature",
+          "label_ja": "有効質量＝バンドの曲率"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-v2"
+        ],
+        "application": [
+          "graphene-nanoribbons",
+          "graphene-raman"
+        ],
+        "experiment": [],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "graphene-nanoribbons",
+        "graphene-raman",
+        "graphene-phonon-emission"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#BandStructure",
+        "#DiracCone",
+        "#TightBinding",
+        "#BrillouinZone",
+        "#EffectiveMass"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "angle-resolved-raman",
+      "category": "scratch",
+      "layoutType": "handbook",
+      "color": "optical",
+      "published": false,
+      "title_en": "Angle-Resolved Raman: Reading Crystal Symmetry",
+      "title_ja": "角度分解ラマン：結晶対称性を読む",
+      "nav_en": "Angle-Resolved Raman",
+      "nav_ja": "角度分解ラマン",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "How polarization-resolved Raman intensity reads out crystal symmetry: the Raman tensor, parallel vs crossed measurement geometries (Type I/II), worked polar plots for graphene, nanoribbons, silicon, and RTe₃, and how to find the tensor form for any space group.",
+      "summary_ja": "偏光分解ラマン強度から結晶対称性を読み取る方法：ラマンテンソル、平行／直交配置（タイプI／II）、graphene・nanoribbon・silicon・RTe₃ の極座標プロット、そして任意の空間群でテンソルの形を求める方法。",
+      "theme": [
+        "raman",
+        "symmetry",
+        "polarization"
+      ],
+      "prerequisites": [
+        "raman",
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Raman tensor",
+          "label_ja": "ラマンテンソル"
+        },
+        {
+          "label_en": "Polarization selection rules",
+          "label_ja": "偏光選択則"
+        },
+        {
+          "label_en": "Point group / crystal symmetry",
+          "label_ja": "点群・結晶対称性"
+        },
+        {
+          "label_en": "Phonon modes & irreducible representations",
+          "label_ja": "フォノンモードと既約表現"
+        },
+        {
+          "label_en": "Mode degeneracy (E, F irreps)",
+          "label_ja": "モード縮退（E・F 表現）"
+        },
+        {
+          "label_en": "Brillouin zone / Γ point",
+          "label_ja": "ブリルアンゾーン・Γ点"
+        }
+      ],
+      "referenceLinks": [
+        "spectral-noise",
+        "measurement-error"
+      ],
+      "nextLinks": {
+        "theory": [
+          "raman",
+          "raman-quantum"
+        ],
+        "application": [
+          "graphene-raman",
+          "graphene-nanoribbons"
+        ],
+        "experiment": [
+          "spectral-noise",
+          "measurement-error"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman",
+        "graphene-nanoribbons"
+      ],
+      "tags": [
+        "#Handbook",
+        "#Raman",
+        "#CrystalSymmetry",
+        "#RamanTensor",
+        "#Polarization",
+        "#PolarPlot",
+        "#PointGroup"
+      ],
+      "isVariantOf": ""
+    },
+    {
+      "slug": "graphene-v2",
+      "category": "scratch",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone",
+      "title_ja": "グラフェンの電子構造 II — 結合一本からディラック錐まで",
+      "nav_en": "Why Graphene Is a Semimetal",
+      "nav_ja": "なぜ金属でも絶縁体でもないのか",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Build graphene's band structure by pure addition (one bond splitting into bonding/antibonding, a ring of atoms becoming a band, the honeycomb's three phase arrows, the tight-binding derivation) to see why graphene is neither metal nor insulator but a semimetal with Dirac cones at K and K′.",
+      "summary_ja": "結合一本が結合・反結合に割れるところから、原子の輪がバンドになり、蜂の巣の三本の位相矢印、そしてタイトバインディングの導出まで、足し算だけでグラフェンのバンド構造を組み上げる。なぜ金属でも絶縁体でもなく、K・K′点にディラック錐を持つ半金属になるのかがわかる。",
+      "theme": [
+        "graphene",
+        "band-structure",
+        "tight-binding",
+        "dirac-cone"
+      ],
+      "prerequisites": [
+        "graphene",
+        "band-formation",
+        "fermi-level"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Tight-binding model",
+          "label_ja": "タイトバインディング模型"
+        },
+        {
+          "label_en": "Bonding & antibonding states",
+          "label_ja": "結合・反結合状態"
+        },
+        {
+          "label_en": "Bloch's theorem",
+          "label_ja": "ブロッホの定理"
+        },
+        {
+          "label_en": "Brillouin zone & K point",
+          "label_ja": "ブリルアンゾーンとK点"
+        },
+        {
+          "label_en": "Energy bands & band filling",
+          "label_ja": "エネルギーバンドとバンド充填"
+        },
+        {
+          "label_en": "Dirac cone / massless dispersion",
+          "label_ja": "ディラック錐・質量ゼロ分散"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-nanoribbons"
+        ],
+        "application": [
+          "graphene-raman"
+        ],
+        "experiment": [
+          "angle-resolved-raman"
+        ],
+        "frontier": [
+          "graphene-phonon-emission"
+        ]
+      },
+      "usedBy": [
+        "graphene-nanoribbons",
+        "graphene-raman",
+        "graphene-phonon-emission"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Semimetal",
+        "#BandStructure",
+        "#TightBinding",
+        "#DiracCone",
+        "#BrillouinZone"
+      ],
+      "isVariantOf": ""
     }
   ]
 }

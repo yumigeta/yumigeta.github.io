@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zooming In on K: The Dirac Cone</title>
+  <meta name="description" content="Expanding graphene's tight-binding bands right next to the K point: f(K+q) to first order, the linear dispersion E± ≈ ±ħv_F|q|, the Dirac cone, the Fermi velocity v_F = 3ta/2ħ ≈ 10⁶ m/s, zero effective mass, and electron–hole symmetry.">
+  <meta name="keywords" content="graphene, Dirac cone, linear dispersion, Fermi velocity, massless Dirac fermion, effective mass, K point, low-energy approximation, electron-hole symmetry">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-dirac-cone/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Zooming In on K: The Dirac Cone">
+  <meta property="og:description" content="The K-point expansion: f(K+q) to first order, the linear dispersion E± ≈ ±ħv_F|q|, the Dirac cone, and why graphene's electrons look massless.">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-dirac-cone/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Zooming In on K: The Dirac Cone">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Zooming In on K: The Dirac Cone",
+    "description": "Expanding graphene's bands near the K point: f(K+q) to first order, the linear dispersion E± ≈ ±ħv_F|q|, the Dirac cone, the Fermi velocity, zero effective mass, and electron–hole symmetry.",
+    "url": "https://yumigeta.github.io/learn/graphene-dirac-cone/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Tutorial",
+    "teaches": ["Dirac cone", "Linear dispersion", "Fermi velocity", "Massless Dirac fermions", "Effective mass", "Electron-hole symmetry"],
+    "inLanguage": ["ja", "en"],
+    "isAccessibleForFree": true,
+    "interactivityType": "expositive"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/bands-series.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="graphene-dirac-cone">
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Dirac Cone</span><span class="i18n-ja">ディラックコーン</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Zooming In on K: The Dirac Cone</span><span class="i18n-ja">K点を拡大する：ディラックコーン</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en"><span class="cq-label">Central question:</span> When we zoom in on the bands right next to the K point, why do graphene's electrons look like massless particles?</span><span class="i18n-ja"><span class="cq-label">中心の問い：</span>K点のすぐ近くでバンドを拡大すると、なぜグラフェンの電子は質量ゼロの粒子のように見えるのか。</span></p>
+      <p class="pintro"><span class="i18n-en">We have learned that graphene's bands touch at the K and K′ points. The bottom or top of an ordinary band is a parabola, and one is tempted to expect the same near the contact point. But at the contact point the structure factor rises from zero, so it is not necessarily a parabola. So, when we zoom in right next to the contact point, in what form does the energy grow with the deviation of the wavevector? We read this question in local coordinates near the contact point.</span><span class="i18n-ja">グラフェンのバンドはK点とK′点で接する、とわかった。普通のバンドの底や頂は放物線であり、接点の近くもそうだろうと予想したくなる。しかし接点では構造因子がゼロから立ち上がるため、放物線になるとは限らない。では、接点のすぐ近くを拡大すると、エネルギーは波数のずれに対してどんな形で増えるのか。この問いを、接点近傍の局所座標で読む。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ 01 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">01</span>
+      <h2><span class="i18n-en">The whole band carries too much information</span><span class="i18n-ja">バンド全体は情報が多すぎる</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">On the previous page, we looked at graphene's π and π* bands over the whole first Brillouin zone. Looking at the whole, we can tell where the bands separate and where they touch. But what determines the low-energy properties of neutral graphene is not the whole.</span><span class="i18n-ja">前のページでは、グラフェンの$\pi$バンドと$\pi^{*}$バンドを第一ブリルアンゾーン全体で見た。全体を見ると、バンドがどこで離れ、どこで接するかが分かる。しかし、中性グラフェンの低エネルギーの性質を決めるのは、全体ではない。</span></p>
+        <p><span class="i18n-en">The Fermi energy passes through the contact points at K and K′. So to know how electrons behave right next to the Fermi energy, it suffices to look only right next to the K and K′ points. The band shapes at the distant Γ and M points are needed as high-energy information, but they are too much for reading the low-energy shape.</span><span class="i18n-ja">フェルミエネルギーはK点とK′点の接点を通る。したがって、フェルミエネルギーのすぐ近くで電子がどのように振る舞うかを知るには、K点とK′点のすぐ近くだけを見ればよい。遠くの $\Gamma$ 点や $M$ 点のバンド形状は、高いエネルギーの情報としては必要だが、低エネルギーの形を読むには多すぎる。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-zoomK" role="img" aria-label="A cut of the two bands through the K point; a zoom control magnifies the neighbourhood of K until the rounded crossing reads as two straight lines"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-slider">
+              <label><span class="i18n-en">zoom on K</span><span class="i18n-ja">K を拡大</span></label>
+              <input id="c41-z" type="range" min="0" max="1" step="0.002" value="0.1" aria-label="zoom on K">
+              <output id="c41-z-o">×1</output>
+            </div>
+            <span class="gfig-hint"><span class="i18n-en">zoom from the whole band into K and the rounded crossing straightens into two lines</span><span class="i18n-ja">全体バンドから K へ拡大すると、丸い交差が二本の直線に伸びる</span></span>
+          </div>
+        </figure>
+        <p><span class="i18n-en">On this page, we stop following the whole first Brillouin zone. We re-take coordinates near the K point and read only what shape the bands appear to have there.</span><span class="i18n-ja">このページでは、第一ブリルアンゾーン全体を追うのをやめる。K点の近くに座標を取り直し、そこでバンドがどんな形に見えるかだけを読む。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 02 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">02</span>
+      <h2><span class="i18n-en">Measuring small deviations from K</span><span class="i18n-ja">K点からの小さなずれを測る</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">To read the neighbourhood of the K point, it is better to use, rather than the wavevector $\mathbf{k}$ itself, a quantity expressing how far one has deviated from the K point. We write that deviation $\mathbf{q}$. The definition is</span><span class="i18n-ja">K点の近くを読むには、波数 $\mathbf{k}$ そのものではなく、K点からどれだけずれたかを表す量を使う方がよい。そのずれを $\mathbf{q}$ と書く。定義は</span></p>
+        <p class="eq-block">$$\mathbf{k} = \mathbf{K} + \mathbf{q}$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">Here $\mathbf{q}$ is not a large wavevector ranging over the whole Brillouin zone. It is a local wavevector with the K point as its origin. Written in components, $\mathbf{q} = (q_x, q_y)$, and we take $|\mathbf{q}|$ to be small.</span><span class="i18n-ja">ここで $\mathbf{q}$ は、ブリルアンゾーン全体の中を動く大きな波数ではない。K点を原点にした局所的な波数である。成分で書けば、$\mathbf{q} = (q_x, q_y)$ であり、$|\mathbf{q}|$ は小さいとする。</span></p>
+        <p><span class="i18n-en">The meaning of this substitution is simple. What we are about to read is not all of $E_{\pm}(\mathbf{k})$, but the part of $E_{\pm}(\mathbf{K}+\mathbf{q})$ in which $\mathbf{q}$ is small. We are zooming in only on the surroundings of the K point.</span><span class="i18n-ja">この置き換えの意味は単純である。今から読むのは $E_{\pm}(\mathbf{k})$ 全体ではなく、$E_{\pm}(\mathbf{K}+\mathbf{q})$ のうち、$\mathbf{q}$ が小さい範囲である。K点の周囲だけを拡大している。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 03 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03</span>
+      <h2><span class="i18n-en">Replacing the band with its tangent</span><span class="i18n-ja">バンドをその接線の形で置き換える</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">What we need near the K point is the form of the structure factor $f(\mathbf{K}+\mathbf{q})$. On the previous page we saw that the bands are determined by $E_{\pm}(\mathbf{k}) = \pm t\,|f(\mathbf{k})|$. So to read the bands near the K point, it suffices to read $f$ near the K point.</span><span class="i18n-ja">K点の近くで必要なのは、構造因子 $f(\mathbf{K}+\mathbf{q})$ の形である。前のページで、バンドは $E_{\pm}(\mathbf{k}) = \pm t\,|f(\mathbf{k})|$ で決まることを見た。したがって、K点近くのバンドを読むには、K点近くの $f$ を読めばよい。</span></p>
+        <p><span class="i18n-en">At the K point, $f(\mathbf{K}) = 0$. So we look at how $f$ rises from 0 when one deviates a little from the K point.</span><span class="i18n-ja">K点では $f(\mathbf{K}) = 0$ である。そこで、K点から少しずれたときに $f$ がどのように0から立ち上がるかを見る。</span></p>
+        <p><span class="i18n-en">When you look at a curve near a point, near that point the curve coincides with its tangent line. Likewise, when you look at a surface near a point, near that point it can be replaced by its tangent plane. The approximation we make here is this tangent approximation. Right next to the K point, we replace the variation of $f$ by a first-order form proportional to $\mathbf{q}$.</span><span class="i18n-ja">曲線を一点の近くで見ると、その点の近くでは曲線が接線に重なる。同じように、曲面を一点の近くで見ると、その点の近くでは接平面で置き換えられる。ここで行う近似は、この接線の近似である。K点のすぐ近くでは、$f$ の変化を、$\mathbf{q}$ に比例する一次の形で置き換える。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-tangent" role="img" aria-label="The true band along a cut through K and its straight tangent approximation; a marker at distance |q| shows the two coincide near K and part as |q| grows"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-slider">
+              <label><span class="i18n-en">distance</span><span class="i18n-ja">距離</span> |q|</label>
+              <input id="c42-q" type="range" min="0.02" max="1" step="0.002" value="0.34" aria-label="distance from K">
+              <output id="c42-q-o">|q|</output>
+            </div>
+            <span class="gfig-hint"><span class="i18n-en">the straight tangent hugs the band near K and parts from it as |q| grows</span><span class="i18n-ja">直線の接線は K 近傍でバンドに重なり、|q| が増すと離れる</span></span>
+          </div>
+        </figure>
+        <p><span class="i18n-en">Actually, into the previous page's structure factor</span><span class="i18n-ja">実際に、前のページの構造因子</span></p>
+        <p class="eq-block">$$f(\mathbf{k}) = e^{i\mathbf{k}\cdot\boldsymbol{\delta}_1} + e^{i\mathbf{k}\cdot\boldsymbol{\delta}_2} + e^{i\mathbf{k}\cdot\boldsymbol{\delta}_3}$$</p>
+        <p><span class="i18n-en">we insert $\mathbf{k} = \mathbf{K} + \mathbf{q}$.</span><span class="i18n-ja">へ $\mathbf{k} = \mathbf{K} + \mathbf{q}$ を入れる。</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) = e^{i(\mathbf{K}+\mathbf{q})\cdot\boldsymbol{\delta}_1} + e^{i(\mathbf{K}+\mathbf{q})\cdot\boldsymbol{\delta}_2} + e^{i(\mathbf{K}+\mathbf{q})\cdot\boldsymbol{\delta}_3}$$</p>
+        <p><span class="i18n-en">Splitting the exponents,</span><span class="i18n-ja">指数の中を分けると、</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) = e^{i\mathbf{K}\cdot\boldsymbol{\delta}_1}e^{i\mathbf{q}\cdot\boldsymbol{\delta}_1} + e^{i\mathbf{K}\cdot\boldsymbol{\delta}_2}e^{i\mathbf{q}\cdot\boldsymbol{\delta}_2} + e^{i\mathbf{K}\cdot\boldsymbol{\delta}_3}e^{i\mathbf{q}\cdot\boldsymbol{\delta}_3}$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">When $\mathbf{q}$ is small, each factor $e^{i\mathbf{q}\cdot\boldsymbol{\delta}_j}$ is close to 1. In the tangent approximation, we keep only the deviation from 1,</span><span class="i18n-ja">$\mathbf{q}$ が小さいとき、各因子 $e^{i\mathbf{q}\cdot\boldsymbol{\delta}_j}$ は1に近い。接線近似では、1からのずれだけを残し、</span></p>
+        <p class="eq-block">$$e^{i\mathbf{q}\cdot\boldsymbol{\delta}_j} \approx 1 + i\,\mathbf{q}\cdot\boldsymbol{\delta}_j$$</p>
+        <p><span class="i18n-en">. Then</span><span class="i18n-ja">と置く。すると</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx \sum_{j=1}^{3} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_j}\big(1 + i\,\mathbf{q}\cdot\boldsymbol{\delta}_j\big)$$</p>
+        <p><span class="i18n-en">. Splitting the sum in two,</span><span class="i18n-ja">となる。和を二つに分けると、</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx \sum_{j=1}^{3} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_j} + i\sum_{j=1}^{3} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_j}\,(\mathbf{q}\cdot\boldsymbol{\delta}_j)$$</p>
+        <p><span class="i18n-en">. The first term is</span><span class="i18n-ja">である。第一項は</span></p>
+        <p class="eq-block">$$\sum_{j=1}^{3} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_j} = f(\mathbf{K}) = 0$$</p>
+        <p><span class="i18n-en">, so it vanishes. Therefore</span><span class="i18n-ja">だから消える。したがって</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx i\sum_{j=1}^{3} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_j}\,(\mathbf{q}\cdot\boldsymbol{\delta}_j)$$</p>
+        <p><span class="i18n-en">is all that remains.</span><span class="i18n-ja">だけが残る。</span></p>
+        <p><span class="i18n-en">We compute this sum in the coordinates set earlier. The K point is $\mathbf{K} = \left(\dfrac{4\pi}{3\sqrt{3}\,a},\ 0\right)$, and the nearest-neighbour vectors are</span><span class="i18n-ja">この和を、前に置いた座標で計算する。K点は $\mathbf{K} = \left(\dfrac{4\pi}{3\sqrt{3}\,a},\ 0\right)$ であり、最近接ベクトルは</span></p>
+        <p class="eq-block">$$\begin{aligned} \boldsymbol{\delta}_1 &= a(0,\ 1) \\ \boldsymbol{\delta}_2 &= a\!\left(\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \\ \boldsymbol{\delta}_3 &= a\!\left(-\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \end{aligned}$$</p>
+        <p><span class="i18n-en">. First we compute the phases.</span><span class="i18n-ja">であった。まず位相を計算する。</span></p>
+        <p class="eq-block">$$\begin{aligned} \mathbf{K}\cdot\boldsymbol{\delta}_1 &= 0 \\ \mathbf{K}\cdot\boldsymbol{\delta}_2 &= \frac{4\pi}{3\sqrt{3}\,a}\cdot\frac{\sqrt{3}\,a}{2} = \frac{2\pi}{3} \\ \mathbf{K}\cdot\boldsymbol{\delta}_3 &= \frac{4\pi}{3\sqrt{3}\,a}\cdot\left(-\frac{\sqrt{3}\,a}{2}\right) = -\frac{2\pi}{3} \end{aligned}$$</p>
+        <p><span class="i18n-en">Therefore</span><span class="i18n-ja">したがって</span></p>
+        <p class="eq-block">$$\begin{aligned} e^{i\mathbf{K}\cdot\boldsymbol{\delta}_1} &= 1 \\ e^{i\mathbf{K}\cdot\boldsymbol{\delta}_2} &= e^{i 2\pi/3} \\ e^{i\mathbf{K}\cdot\boldsymbol{\delta}_3} &= e^{-i 2\pi/3} \end{aligned}$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">Next,</span><span class="i18n-ja">次に、</span></p>
+        <p class="eq-block">$$\begin{aligned} \mathbf{q}\cdot\boldsymbol{\delta}_1 &= a\,q_y \\ \mathbf{q}\cdot\boldsymbol{\delta}_2 &= a\!\left(\tfrac{\sqrt{3}}{2}\,q_x - \tfrac{1}{2}\,q_y\right) \\ \mathbf{q}\cdot\boldsymbol{\delta}_3 &= a\!\left(-\tfrac{\sqrt{3}}{2}\,q_x - \tfrac{1}{2}\,q_y\right) \end{aligned}$$</p>
+        <p><span class="i18n-en">. Putting these into the sum,</span><span class="i18n-ja">である。これを和に入れると、</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx i\left[a\,q_y + e^{i 2\pi/3}\,a\!\left(\tfrac{\sqrt{3}}{2}\,q_x - \tfrac{1}{2}\,q_y\right) + e^{-i 2\pi/3}\,a\!\left(-\tfrac{\sqrt{3}}{2}\,q_x - \tfrac{1}{2}\,q_y\right)\right]$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">となる。</span></p>
+        <p><span class="i18n-en">Collecting only the coefficient of $q_x$,</span><span class="i18n-ja">$q_x$ の係数だけを集めると、</span></p>
+        <p class="eq-block">$$i\,a\,\tfrac{\sqrt{3}}{2}\left(e^{i 2\pi/3} - e^{-i 2\pi/3}\right) q_x$$</p>
+        <p><span class="i18n-en">. Here</span><span class="i18n-ja">である。ここで</span></p>
+        <p class="eq-block">$$e^{i 2\pi/3} - e^{-i 2\pi/3} = 2i\sin(2\pi/3) = i\sqrt{3}$$</p>
+        <p><span class="i18n-en">, so</span><span class="i18n-ja">だから、</span></p>
+        <p class="eq-block">$$i\,a\,\tfrac{\sqrt{3}}{2}\,(i\sqrt{3})\,q_x = -\tfrac{3a}{2}\,q_x$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">となる。</span></p>
+        <p><span class="i18n-en">Next, collecting the coefficient of $q_y$,</span><span class="i18n-ja">次に $q_y$ の係数を集めると、</span></p>
+        <p class="eq-block">$$i\,a\left[1 - \tfrac{1}{2} e^{i 2\pi/3} - \tfrac{1}{2} e^{-i 2\pi/3}\right] q_y$$</p>
+        <p><span class="i18n-en">. The bracket is</span><span class="i18n-ja">である。括弧の中は</span></p>
+        <p class="eq-block">$$1 - \tfrac{1}{2}\left(e^{i 2\pi/3} + e^{-i 2\pi/3}\right) = 1 - \cos(2\pi/3)$$</p>
+        <p><span class="i18n-en">. Since $\cos(2\pi/3) = -1/2$,</span><span class="i18n-ja">である。$\cos(2\pi/3) = -1/2$ なので、</span></p>
+        <p class="eq-block">$$1 - \cos(2\pi/3) = 1 + \tfrac{1}{2} = \tfrac{3}{2}$$</p>
+        <p><span class="i18n-en">. So the coefficient of $q_y$ is $i\,(3a/2)\,q_y$.</span><span class="i18n-ja">である。したがって $q_y$ の係数は $i\,(3a/2)\,q_y$ となる。</span></p>
+        <p><span class="i18n-en">From all of the above,</span><span class="i18n-ja">以上より、</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx -\tfrac{3a}{2}\,q_x + i\,\tfrac{3a}{2}\,q_y$$</p>
+        <p><span class="i18n-en">, and</span><span class="i18n-ja">であり、</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx -\tfrac{3a}{2}\,(q_x - i\,q_y)$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">Near the K′ point the form corresponds to the complex conjugate, and the sign correspondence swaps. Written together, near the K and K′ points,</span><span class="i18n-ja">K′点の近くでは複素共役に対応する形になり、符号の対応が入れ替わる。まとめて書けば、K点とK′点の近くでは</span></p>
+        <p class="eq-block">$$f(\mathbf{K}+\mathbf{q}) \approx c\,(q_x \pm i\,q_y)$$</p>
+        <p><span class="i18n-en">takes this form. The magnitude of the coefficient $c$ is $|c| = 3a/2$. So, at either contact point,</span><span class="i18n-ja">という形になる。係数 $c$ の大きさは $|c| = 3a/2$ である。したがって、どちらの接点でも</span></p>
+        <p class="eq-block">$$|f(\mathbf{K}+\mathbf{q})| \approx \tfrac{3a}{2}\sqrt{q_x^2 + q_y^2} = \tfrac{3a}{2}\,|\mathbf{q}|$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">となる。</span></p>
+        <p><span class="i18n-en">This says that near the K point the magnitude of the structure factor is proportional to the distance $|\mathbf{q}|$ from the K point.</span><span class="i18n-ja">これは、K点の近くでは構造因子の大きさが、K点からの距離 $|\mathbf{q}|$ に比例することを言っている。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 04 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">04</span>
+      <h2><span class="i18n-en">The energy is proportional to the distance from K</span><span class="i18n-ja">エネルギーがKからの距離に比例する</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">The previous page's band formula was $E_{\pm}(\mathbf{k}) = \pm t\,|f(\mathbf{k})|$. Near the K point we write $\mathbf{k} = \mathbf{K} + \mathbf{q}$ and substitute $|f(\mathbf{K}+\mathbf{q})| \approx (3a/2)\,|\mathbf{q}|$. Then</span><span class="i18n-ja">前のページのバンド式は $E_{\pm}(\mathbf{k}) = \pm t\,|f(\mathbf{k})|$ であった。K点の近くでは $\mathbf{k} = \mathbf{K} + \mathbf{q}$ と書き、$|f(\mathbf{K}+\mathbf{q})| \approx (3a/2)\,|\mathbf{q}|$ を代入する。すると</span></p>
+        <p class="eq-block">$$E_{\pm}(\mathbf{K}+\mathbf{q}) \approx \pm\,t\,\tfrac{3a}{2}\,|\mathbf{q}|$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">We write this as $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$. To do so, we define</span><span class="i18n-ja">この式を $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$ と書く。そのために</span></p>
+        <p class="eq-block">$$\hbar v_F = \frac{3ta}{2}$$</p>
+        <p><span class="i18n-en">. Therefore</span><span class="i18n-ja">と定義する。したがって</span></p>
+        <p class="eq-block">$$v_F = \frac{3ta}{2\hbar}$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
+        <p><span class="i18n-en">With this, the energy near the K point becomes</span><span class="i18n-ja">これで、K点の近くのエネルギーは</span></p>
+        <p class="eq-block">$$E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$$</p>
+        <p><span class="i18n-en">.</span><span class="i18n-ja">となった。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-cone" role="img" aria-label="The Dirac cones E = ±ħv_F|q| above and below the K point, with the small wavevector q on the floor and a parabolic dispersion shown faintly for contrast; rotate, set the slope v_F, and open a gap"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-btns">
+              <button class="gfig-btn" id="cone-spin" type="button"><span class="i18n-en">auto-rotate</span><span class="i18n-ja">自動回転</span></button>
+              <button class="gfig-btn" id="cone-para" type="button"><span class="i18n-en">parabola</span><span class="i18n-ja">放物線</span></button>
+              <button class="gfig-btn" id="cone-reset" type="button"><span class="i18n-en">reset</span><span class="i18n-ja">リセット</span></button>
+            </div>
+            <div class="gfig-slider">
+              <label><span class="i18n-en">slope</span><span class="i18n-ja">傾き</span> v_F</label>
+              <input id="c43-v" type="range" min="0.4" max="1.6" step="0.01" value="1" aria-label="Fermi velocity (cone slope)">
+              <output id="c43-v-o">1.00</output>
+            </div>
+            <div class="gfig-slider">
+              <label><span class="i18n-en">gap</span><span class="i18n-ja">ギャップ</span> Δ</label>
+              <input id="c43-g" type="range" min="0" max="1" step="0.005" value="0" aria-label="gap (diagonal difference)">
+              <output id="c43-g-o">0.00</output>
+            </div>
+            <span class="gfig-hint"><span class="i18n-en">drag to rotate · wheel-drag to pan · Δ &gt; 0 splits the apex into a gap</span><span class="i18n-ja">ドラッグで回転・ホイールドラッグで平行移動・Δ &gt; 0 で頂点が割れて隙間が開く</span></span>
+          </div>
+        </figure>
+        <p><span class="i18n-en">This formula says that the energy grows in proportion to the distance from the K point. The upper band extends upward as $+\hbar v_F\,|\mathbf{q}|$, the lower band downward as $-\hbar v_F\,|\mathbf{q}|$. On the two-dimensional $\mathbf{q}$ plane, drawing a height proportional to distance gives a cone. This cone is called a Dirac cone. The linear dispersion that forms the cone is called linear dispersion.</span><span class="i18n-ja">この式は、エネルギーがK点からの距離に比例して増えることを言っている。上側のバンドは $+\hbar v_F\,|\mathbf{q}|$ で上へ伸び、下側のバンドは $-\hbar v_F\,|\mathbf{q}|$ で下へ伸びる。二次元の $\mathbf{q}$ 平面の上で、距離に比例する高さを描くと円錐になる。この円錐をディラックコーンと呼ぶ。円錐を作っている線形の分散を線形分散と呼ぶ。</span></p>
+        <p><span class="i18n-en">At an ordinary band edge, the energy often rises in proportion to the square of the deviation of the wavevector. In that case, the cross-section is a parabola. At graphene's K point, the cross-section is not a parabola but a straight line. Near the band-contact point, instead of a curved bottom or top, a sharp cone appears.</span><span class="i18n-ja">普通のバンド端では、エネルギーは波数のずれの二乗に比例する形で立ち上がることが多い。その場合、断面は放物線になる。グラフェンのK点では、断面は放物線ではなく直線である。バンド接触点の近くで、曲がった底や頂上ではなく、尖った円錐が現れる。</span></p>
+        <p><span class="i18n-en">A model that extracts only this nearby shape is called the low-energy approximation. We have not thrown away the bands over the whole first Brillouin zone. We have extracted, in tangent form, only the part that matters near the Fermi energy.</span><span class="i18n-ja">この近くの形だけを取り出した模型を、低エネルギー近似と呼ぶ。第一ブリルアンゾーン全体のバンドを捨てたわけではない。フェルミエネルギー近くで効く部分だけを、接線の形で取り出したのである。</span></p>
+        <p><span class="i18n-en">In this approximation, the two-component Hamiltonian also takes a simple form. Near the K point,</span><span class="i18n-ja">この近似では、二成分ハミルトニアンも簡単な形になる。K点の近くでは</span></p>
+        <p class="eq-block">$$-t\,f(\mathbf{K}+\mathbf{q}) \approx \tfrac{3ta}{2}(q_x - i\,q_y) = \hbar v_F\,(q_x - i\,q_y)$$</p>
+        <p><span class="i18n-en">. Therefore the effective Hamiltonian near the K point can be written</span><span class="i18n-ja">である。したがって、K点近傍の有効ハミルトニアンは</span></p>
+        <p class="eq-block">$$H_{\mathbf{K}}(\mathbf{q}) \approx \hbar v_F \begin{pmatrix} 0 & q_x - i\,q_y \\ q_x + i\,q_y & 0 \end{pmatrix}$$</p>
+        <p><span class="i18n-en">. This expression, keeping the A/B two components, looks only at the low energy near the K point.</span><span class="i18n-ja">と書ける。この式は、A/Bの二成分を保ったまま、K点近くの低エネルギーだけを見ている。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 05 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">05</span>
+      <h2><span class="i18n-en">The slope is the Fermi velocity</span><span class="i18n-ja">傾きがフェルミ速度</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">In the linear dispersion $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$, the slope of the energy is constant. Taking the slope of the upper band along the $|\mathbf{q}|$ direction,</span><span class="i18n-ja">線形分散 $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$ では、エネルギーの傾きが一定である。上側のバンドで、$|\mathbf{q}|$ 方向に沿って傾きを取ると、</span></p>
+        <p class="eq-block">$$\frac{dE_{+}}{d|\mathbf{q}|} = \hbar v_F$$</p>
+        <p><span class="i18n-en">. Therefore</span><span class="i18n-ja">である。したがって</span></p>
+        <p class="eq-block">$$v_F = \frac{1}{\hbar}\frac{dE_{+}}{d|\mathbf{q}|}$$</p>
+        <p><span class="i18n-en">can be read off. For the lower band the sign is reversed, but the magnitude of the slope is the same.</span><span class="i18n-ja">と読める。下側のバンドでは符号が反対になるが、傾きの大きさは同じである。</span></p>
+        <p><span class="i18n-en">We call this $v_F$ the Fermi velocity. The velocity here does not come directly from the sense of a classical particle running at constant speed in real space. It is a quantity defined from the slope of the band. It corresponds to the group velocity when one forms a wave packet, but here we first read it as the slope of the dispersion relation.</span><span class="i18n-ja">この $v_F$ をフェルミ速度と呼ぶ。ここでの速度は、古典的な粒子が実空間で一定速度で走るという意味から直接出てきたものではない。バンドの傾きから定義される量である。波束を作ったときの群速度に対応するが、ここでは、まず分散関係の傾きとして読む。</span></p>
+        <p><span class="i18n-en">Written in terms of the tight-binding parameters,</span><span class="i18n-ja">tight-bindingのパラメータで書けば、</span></p>
+        <p class="eq-block">$$v_F = \frac{3ta}{2\hbar}$$</p>
+        <p><span class="i18n-en">. Here $t$ is the nearest-neighbour hopping and $a$ is the nearest-neighbour distance between carbons. Putting in the representative values $t \approx 2.7$ eV, $a \approx 0.142$ nm,</span><span class="i18n-ja">である。ここで $t$ は最近接ホッピング、$a$ は炭素間の最近接距離である。代表的な値として $t \approx 2.7$ eV, $a \approx 0.142$ nm を入れると、</span></p>
+        <p class="eq-block">$$v_F \approx 1.0\times 10^{6}\ \text{m/s}$$</p>
+        <p><span class="i18n-en">. This is about 1/300 of the speed of light.</span><span class="i18n-ja">となる。これは光速の約 1/300 である。</span></p>
+        <p><span class="i18n-en">That the Fermi velocity is constant is the same as the slope of the Dirac cone being constant. In a parabolic band, the slope changes the farther one goes from the vertex. Near graphene's K point, because the energy is proportional to distance, the magnitude of the slope is constant on the same cone.</span><span class="i18n-ja">フェルミ速度が一定であることは、ディラックコーンの傾きが一定であることと同じである。放物線のバンドでは、傾きは頂点から離れるほど変わる。グラフェンのK点近くでは、エネルギーが距離に比例するため、同じ円錐上では傾きの大きさが一定になる。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 06 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">06</span>
+      <h2><span class="i18n-en">The meaning of zero mass, and electron–hole symmetry</span><span class="i18n-ja">質量ゼロの意味と電子正孔対称性</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">In an ordinary parabolic band, the energy has the form</span><span class="i18n-ja">通常の放物線型のバンドでは、エネルギーは</span></p>
+        <p class="eq-block">$$E = \frac{\hbar^2 q^2}{2m}$$</p>
+        <p><span class="i18n-en">. In this formula, the curvature determines the mass. The larger the mass $m$, the flatter the parabola; the smaller the mass, the more strongly it curves.</span><span class="i18n-ja">の形を持つ。この式では、曲率が質量を決める。質量 $m$ が大きいほど放物線は平らになり、質量が小さいほど強く曲がる。</span></p>
+        <p><span class="i18n-en">Near graphene's K point, the energy is $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$. This is not a parabola proportional to $q^2$. The usual view of reading the band-edge mass from the curvature cannot be used as it stands at this contact point. Instead, using the momentum deviation $\mathbf{p} = \hbar\mathbf{q}$,</span><span class="i18n-ja">グラフェンのK点近くでは、エネルギーは $E_{\pm} \approx \pm\,\hbar v_F\,|\mathbf{q}|$ である。これは $q^2$ に比例する放物線ではない。曲率でバンド端の質量を読む通常の見方は、この接点ではそのまま使えない。代わりに、運動量のずれ $\mathbf{p} = \hbar\mathbf{q}$ を使うと、</span></p>
+        <p class="eq-block">$$E_{\pm} \approx \pm\,v_F\,|\mathbf{p}|$$</p>
+        <p><span class="i18n-en">can be written.</span><span class="i18n-ja">と書ける。</span></p>
+        <p><span class="i18n-en">This is the same form as the energy of a massless particle being proportional to the magnitude of the momentum. For a relativistic particle with mass, a constant term corresponding to the mass enters the energy. But the low-energy formula obtained here has no such term. So the electrons near graphene's K point are said to have a dispersion like that of a massless particle.</span><span class="i18n-ja">これは、質量を持たない粒子のエネルギーが運動量の大きさに比例する形と同じである。質量を持つ相対論的粒子なら、エネルギーには質量に対応する定数項が入る。しかし、ここで得た低エネルギー式にはその項がない。したがって、グラフェンのK点近くの電子は、質量ゼロの粒子のような分散を持つと言われる。</span></p>
+        <p><span class="i18n-en">One of the effective masses used in transport can be written, from the energy and velocity scales near the Fermi energy, as</span><span class="i18n-ja">輸送で使われる有効質量の一つは、フェルミエネルギー近くのエネルギーと速度スケールから</span></p>
+        <p class="eq-block">$$m_c = \frac{|E|}{v_F^2}$$</p>
+        <p><span class="i18n-en">. Since this quantity has $E \to 0$ as one approaches the contact point, $m_c \to 0$. In this sense, the low-energy electrons at the contact point are treated as having zero effective mass.</span><span class="i18n-ja">と書ける。この量は接点へ近づくと $E \to 0$ なので、$m_c \to 0$ となる。この意味で、接点の低エネルギー電子は有効質量ゼロとして扱われる。</span></p>
+        <p><span class="i18n-en">Also, the upper and lower bands are</span><span class="i18n-ja">また、上下のバンドは</span></p>
+        <p class="eq-block">$$\begin{aligned} E_{+}(\mathbf{K}+\mathbf{q}) &= +\,\hbar v_F\,|\mathbf{q}| \\ E_{-}(\mathbf{K}+\mathbf{q}) &= -\,\hbar v_F\,|\mathbf{q}| \end{aligned}$$</p>
+        <p><span class="i18n-en">, symmetric across the Fermi energy. This is the local appearance, near the K point, of the electron–hole symmetry seen on the previous page. The electron states on the upper cone and the hole states as empty holes on the lower cone correspond with the same slope.</span><span class="i18n-ja">であり、フェルミエネルギーを挟んで対称である。これは前のページで見た電子正孔対称性の、K点近くでの局所的な現れである。上の円錐にいる電子状態と、下の円錐に空いた穴としての正孔状態が、同じ傾きで対応する。</span></p>
+        <p><span class="i18n-en">Finally, let us see why there is no mass term at this contact point, going back to the tight-binding form. The reason we could make the diagonal components 0 on the previous page is that the A site and the B site are the same carbon atom and their on-site energies were equal. As a result, the 2×2 Hamiltonian has no diagonal difference distinguishing A and B, and no gap opened at the K point.</span><span class="i18n-ja">最後に、なぜこの接点に質量項がないのかを、tight-bindingの形に戻って見る。前ページで対角成分を0にできたのは、AサイトとBサイトが同じ炭素原子であり、オンサイトエネルギーが等しかったからである。その結果、2×2ハミルトニアンにはAとBを区別する対角の差がなく、K点でギャップが開かなかった。</span></p>
+        <p><span class="i18n-en">If A and B were different atoms with different on-site energies, a difference would enter the diagonal components. That difference would separate the upper and lower bands at the K point, opening a gap. This gap corresponds, in the language of low energy, to a mass term. The reason graphene's nearest-neighbour tight-binding gives a massless-like dispersion is a reflection of the symmetry that A and B are the same carbon.</span><span class="i18n-ja">もしAとBが異なる原子で、オンサイトエネルギーが違えば、対角成分に差が入る。その差はK点で上下のバンドを離し、ギャップを開く。このギャップは、低エネルギーの言葉では質量項に対応する。グラフェンの最近接tight-bindingで質量ゼロのような分散が出るのは、AとBが同じ炭素であるという対称性の反映である。</span></p>
+        <p><span class="i18n-en">We have now read, within the scope of nearest-neighbour tight-binding, from graphene's Dirac cone near the K point through the linear dispersion, the Fermi velocity, and electron–hole symmetry. In real graphene, this simple picture is departed from by next-nearest-neighbour hopping, the substrate, strain, spin–orbit interaction, Landau levels in a magnetic field, and the effects of cutting it into a ribbon. Those departures are treated on other pages, taking the minimal model obtained here as the reference.</span><span class="i18n-ja">ここまでで、最近接tight-bindingの範囲から、グラフェンのK点近傍のディラックコーン、線形分散、フェルミ速度、電子正孔対称性までを読んだ。現実のグラフェンでは、次近接ホッピング、基板、歪み、スピン軌道相互作用、磁場中のランダウ準位、リボン状に切ったときの効果によって、この単純な絵からずれる。そのずれは、ここで得た最小模型を基準にして別のページで扱う。</span></p>
+        <nav class="series-nav">
+          <a class="series-prev" href="/learn/graphene-tight-binding/"><span class="sn-k"><span class="i18n-en">Previous</span><span class="i18n-ja">この連載の前へ</span></span><span class="i18n-en">&larr; Graphene's tight-binding bands</span><span class="i18n-ja">&larr; グラフェンのtight-bindingバンド</span></a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/">
+        <span class="i18n-en">&larr; Back to Learn</span>
+        <span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
+  </footer>
+
+  <script src="/assets/js/article-shell.js"></script>
+  <script src="/assets/js/graphene-figures.js"></script>
+</body>
+</html>

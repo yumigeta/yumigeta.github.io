@@ -190,8 +190,8 @@
     const ja = lang() === 'ja';
     const nbarTxt = nbar < 0.01 ? nbar.toExponential(2) : nbar.toFixed(3);
     readout.innerHTML = ja
-      ? `<b>T = ${temp} K</b>、フォノン ${nuK} cm⁻¹（532 nm 励起）：平均フォノン数 <b>n̄ = ${nbarTxt}</b>、強度比 <b>I<sub>AS</sub>/I<sub>S</sub> = ${fmtRatio(r)}</b> — この比を式(7)に入れれば温度が読み返せる。`
-      : `<b>T = ${temp} K</b>, phonon at ${nuK} cm⁻¹ (532 nm excitation): mean phonon number <b>n̄ = ${nbarTxt}</b>, intensity ratio <b>I<sub>AS</sub>/I<sub>S</sub> = ${fmtRatio(r)}</b> — feed this ratio into Eq. (7) and the temperature comes back out.`;
+      ? `<b>T = ${temp} K</b>、フォノン ${nuK} cm⁻¹（532 nm 励起）：平均フォノン数 <b>n̄ = ${nbarTxt}</b>、強度比 <b>I<sub>AS</sub>/I<sub>S</sub> = ${fmtRatio(r)}</b>。この比を式(7)に入れれば温度が読み返せる。`
+      : `<b>T = ${temp} K</b>, phonon at ${nuK} cm⁻¹ (532 nm excitation): mean phonon number <b>n̄ = ${nbarTxt}</b>, intensity ratio <b>I<sub>AS</sub>/I<sub>S</sub> = ${fmtRatio(r)}</b>. Feed this ratio into Eq. (7) and the temperature comes back out.`;
   }
 
   function redraw() {

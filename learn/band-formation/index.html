@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When Atoms Line Up, a Band Forms: Tight-Binding in 1D</title>
+  <meta name="description" content="Why a single atomic energy level spreads into one continuous energy band when atoms are arranged periodically: a step-by-step 1D tight-binding derivation (LCAO, Bloch's theorem, on-site energy and hopping) ending at E(k) = ε − 2t cos(ka).">
+  <meta name="keywords" content="tight-binding, LCAO, Bloch's theorem, energy band, dispersion relation, on-site energy, hopping, one-dimensional chain, band structure">
+  <link rel="canonical" href="https://yumigeta.github.io/learn/band-formation/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="When Atoms Line Up, a Band Forms">
+  <meta property="og:description" content="A 1D tight-binding derivation: how one atomic level spreads into a band, E(k) = ε − 2t cos(ka).">
+  <meta property="og:url" content="https://yumigeta.github.io/learn/band-formation/">
+  <meta property="og:site_name" content="Kentaro Yumigeta">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="When Atoms Line Up, a Band Forms">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "When Atoms Line Up, a Band Forms",
+    "description": "A step-by-step one-dimensional tight-binding derivation: LCAO, Bloch's theorem, on-site energy and hopping, ending at the dispersion E(k) = ε − 2t cos(ka).",
+    "url": "https://yumigeta.github.io/learn/band-formation/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.github.io",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Tutorial",
+    "teaches": ["Tight-binding model", "LCAO", "Bloch's theorem", "Energy band", "Dispersion relation"],
+    "inLanguage": ["ja", "en"],
+    "isAccessibleForFree": true,
+    "interactivityType": "expositive"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/bands-series.css">
+  <link rel="stylesheet" href="/assets/css/gnr-variants.css">
+  <link rel="stylesheet" href="/assets/css/article-shell.css">
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="band-formation">
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta, home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">How a Band Forms</span><span class="i18n-ja">バンドの成り立ち</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">When Atoms Line Up, a Band Forms</span><span class="i18n-ja">原子が一列に並ぶとバンドになる</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">If an isolated atom has a single energy level, then no matter how many identical atoms you line up, it looks as though that level is merely copied as many times as there are atoms, each keeping the same value. Since every atom is the same, only the electron's whereabouts differ, and there seems to be no reason for the energy itself to change. Yet the tail of an atomic orbital spreads a little outside the atom, and if a neighbouring atom is close, the tails overlap. If they overlap, the electron should not be able to remain confined to a single atom. Even so, does the level still stay at one value?</span><span class="i18n-ja">孤立した原子に一つのエネルギー準位があるなら、同じ原子をいくら並べても、同じ値の準位が原子の数だけ複製されるだけに見える。どの原子も同じなのだから、電子の居場所が違うだけで、エネルギーまで変わる理由が見当たらない。ただ、原子軌道の裾は原子の外へわずかに広がっていて、隣の原子が近くにあれば裾どうしが重なる。重なっていれば、電子は一つの原子に閉じ込められたままではいられないはずだ。そうなってもなお、準位は一つの値のまま残るのだろうか。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ 01 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">01</span>
+      <h2><span class="i18n-en">An isolated atom</span><span class="i18n-ja">孤立した原子</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">First, take out just one atom and consider it. The electron occupies an orbital localized around that atom. A real atom has several orbitals, but what we want to know now is what happens to a single level when the atoms are lined up, not how many levels there are. So one orbital is enough. We proceed with the simplest atom, one that has just one localized orbital and just one corresponding level, and we write the energy of that level as $\varepsilon$.</span><span class="i18n-ja">まず、原子を一つだけ取り出して考える。電子は、その原子のまわりに局在した軌道に入っている。実際の原子には軌道がいくつもあるが、いま知りたいのは一本の準位が原子を並べたときにどうなるかであって、準位が何本あるかではない。だから軌道は一つあれば足りる。一つの原子に局在軌道が一つだけあり、対応する準位も一つだけ、という一番単純な原子で話を進めることにして、その準位のエネルギーを $\varepsilon$ と書く。</span></p>
+        <p><span class="i18n-en">If there were only one atom, the story would end here. The electron is in that orbital, its energy is $\varepsilon$, and nothing more remains to be decided.</span><span class="i18n-ja">原子が一つきりであれば、これで話は終わってしまう。電子はその軌道に入っていて、エネルギーは $\varepsilon$ であり、それ以上に決めるべきことが何も残っていない。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 02 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">02</span>
+      <h2><span class="i18n-en">Two atoms: the level splits into two</span><span class="i18n-ja">原子が二つ:準位が二本に割れる</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">So we bring up one more identical atom, to a distance $a$. Because the tail of a localized orbital spreads outside the atom, if $a$ is small enough the tails of the left and right orbitals overlap, and the amplitude of the electron that should have been in the left orbital shows up on the right orbital as well. The electron has become able to travel back and forth between the left and right atoms.</span><span class="i18n-ja">そこで、同じ原子をもう一つ、距離 $a$ のところまで近づける。局在軌道の裾は原子の外へ広がっているから、$a$ が十分小さければ左右の軌道の裾が重なり合って、左の軌道にいたはずの電子の振幅が右の軌道の上にも顔を出す。電子は左右の原子を行き来できるようになったわけだ。</span></p>
+        <p><span class="i18n-en">Now the state cannot be pinned down just by saying "the electron is on the left atom." We write the amplitude on the left orbital as $c_1$ and the amplitude on the right orbital as $c_2$, and specify the electron state by this pair of numbers.</span><span class="i18n-ja">こうなると「電子は左の原子にいる」という言い方だけでは状態を言い切れない。左の軌道の上の振幅を $c_1$、右の軌道の上の振幅を $c_2$ と書いて、この二つの数の組で電子状態を指定することにする。</span></p>
+        <p><span class="i18n-en">What we want is the energy of this state. If the electron sits in the left orbital, the energy is the isolated-atom level $\varepsilon$; and since the two atoms are identical, sitting on the right also gives the same $\varepsilon$. Naively, since it is $\varepsilon$ wherever it sits, the resulting energy seems unlikely to be anything but $\varepsilon$. The overlap of the tails only makes the electron travel from side to side, and it does not look as though it brings in a new energy value from anywhere.</span><span class="i18n-ja">知りたいのはこの状態のエネルギーである。電子が左の軌道に居座っていればエネルギーは孤立原子の準位 $\varepsilon$ であり、原子は二つとも同じものだから、右に居座っても同じ $\varepsilon$ である。普通に考えれば、どちらにいても $\varepsilon$ なのだから、出てくるエネルギーも $\varepsilon$ 以外にはなさそうである。裾の重なりは電子を左右に行き来させるだけで、新しいエネルギーの値をどこかから持ってくるようには見えない。</span></p>
+        <p><span class="i18n-en">In the eigenvalue equation, the effect of this travel enters as a coupling between the left and right amplitudes. We write the strength of this coupling as $t$ and call it the hopping: the strength of the path by which the electron passes from one atom to the other. The eigenvalue equation for the amplitudes is</span><span class="i18n-ja">行き来の効果は、固有値方程式の中では、左右の振幅が互いに結びつくという形で入ってくる。この結びつきの強さを $t$ と書いて、ホッピングと呼ぶことにする。電子が一方の原子から他方へ渡る、通り道の強さである。振幅に対する固有値方程式は</span></p>
+        <p class="eq-block">$$\begin{aligned} E\,c_1 &= \varepsilon\,c_1 - t\,c_2 \\ E\,c_2 &= \varepsilon\,c_2 - t\,c_1 \end{aligned}$$</p>
+        <p><span class="i18n-en">. The first term on the right is the component in which the electron stays on the same atom, and the second term is the component flowing in from the other side. Writing the sign as $-t$ is a convention; here we take $t > 0$.</span><span class="i18n-ja">となる。右辺の第一項が電子が同じ原子に居座る成分で、第二項が相手側から流れ込んでくる成分である。符号を $-t$ と書いたのは慣習であり、ここでは $t > 0$ としておく。</span></p>
+        <p><span class="i18n-en">We want to determine $E$ from the two equations. Since $c_2$ is in the way, we eliminate it and reduce to a condition on $E$ alone. Rearranging the first equation gives</span><span class="i18n-ja">二本の式から $E$ を決めたい。$c_2$ が邪魔なので、これを消して $E$ だけの条件に直す。第一式を変形すると</span></p>
+        <p class="eq-block">$$(E - \varepsilon)\,c_1 = -t\,c_2$$</p>
+        <p><span class="i18n-en">, and the second equation is</span><span class="i18n-ja">であり、第二式は</span></p>
+        <p class="eq-block">$$(E - \varepsilon)\,c_2 = -t\,c_1$$</p>
+        <p><span class="i18n-en">. Multiplying both sides of the first equation by $(E - \varepsilon)$, and substituting the second equation into the $(E - \varepsilon)\,c_2$ that appears on the right,</span><span class="i18n-ja">である。第一式の両辺に $(E - \varepsilon)$ を掛けて、右辺に現れた $(E - \varepsilon)\,c_2$ のところへ第二式を代入すると</span></p>
+        <p class="eq-block">$$(E - \varepsilon)^2\,c_1 = -t\,(E - \varepsilon)\,c_2 = t^2\,c_1$$</p>
+        <p><span class="i18n-en">. Here, if $c_1 = 0$, then the second equation would also give $c_2 = 0$, which would mean the electron is nowhere. So $c_1 \neq 0$, and we may divide both sides by $c_1$.</span><span class="i18n-ja">となる。ここでもし $c_1 = 0$ だとすると、第二式から $c_2 = 0$ にもなって、電子がどこにもいないことになってしまう。だから $c_1 \neq 0$ であり、両辺を $c_1$ で割ってよい。</span></p>
+        <p class="eq-block">$$(E - \varepsilon)^2 = t^2$$</p>
+        <p><span class="i18n-en">Therefore</span><span class="i18n-ja">したがって</span></p>
+        <p class="eq-block"><span class="i18n-en">$$E = \varepsilon - t \quad\text{or}\quad E = \varepsilon + t$$</span><span class="i18n-ja">$$E = \varepsilon - t \quad\text{または}\quad E = \varepsilon + t$$</span></p>
+        <p><span class="i18n-en">. Although the energy was supposed to be the same $\varepsilon$ on either atom, merely by being able to travel back and forth, the overall energy has split into two: a value lower than $\varepsilon$ and a value higher than it.</span><span class="i18n-ja">である。どちらの原子の上にいてもエネルギーは同じ $\varepsilon$ のはずだったのに、行き来できるというだけで、全体のエネルギーは $\varepsilon$ より低い値と高い値の二本に割れた。</span></p>
+        <p><span class="i18n-en">What the two split states are can be seen from the amplitudes. Putting $E = \varepsilon - t$ back into $(E - \varepsilon)\,c_1 = -t\,c_2$ gives $-t\,c_1 = -t\,c_2$, so</span><span class="i18n-ja">割れた二つの状態が何者なのかは、振幅を見れば分かる。$E = \varepsilon - t$ を $(E - \varepsilon)\,c_1 = -t\,c_2$ に戻すと $-t\,c_1 = -t\,c_2$ となるから</span></p>
+        <p class="eq-block">$$c_2 = c_1$$</p>
+        <p><span class="i18n-en">, and in the lower solution the amplitudes of the two orbitals line up in the same direction. For $E = \varepsilon + t$, likewise,</span><span class="i18n-ja">であり、低い方の解では二つの軌道の振幅が同じ向きにそろっている。$E = \varepsilon + t$ の方は同様にして</span></p>
+        <p class="eq-block">$$c_2 = -c_1$$</p>
+        <p><span class="i18n-en">, and here the amplitudes point in opposite directions.</span><span class="i18n-ja">となり、こちらでは振幅が互いに逆向きである。</span></p>
+        <p><span class="i18n-en">The combination lined up in the same direction is called the bonding state, and the combination in opposite directions the antibonding state. In the bonding state the amplitude survives without cancelling even in the region between the two atoms, so the electron can spread across both atoms, and the energy is lowered by that much. In the antibonding state the two amplitudes cancel in the middle, and the electron is shut out of the region between the atoms, so the energy is raised by that much. It is not that the travel brought in a new energy value; rather, the difference in how the electron spreads has become the energy difference itself. The conventional sign written as $-t$ is what matters here: the equation is built so that the lined-up combination is the lower one.</span><span class="i18n-ja">同じ向きにそろった組み合わせを結合状態と呼び、逆向きの組み合わせを反結合状態と呼ぶ。結合状態では振幅が二つの原子の間の領域でも打ち消されずに残るから、電子は二つの原子にまたがって広がることができて、その分だけエネルギーが下がる。反結合状態では二つの振幅が真ん中で打ち消し合って、電子は原子の間の領域から締め出されるので、その分だけエネルギーが上がる。行き来が新しいエネルギーの値を持ち込んだのではなく、広がり方の違いがそのままエネルギーの差になったのである。$-t$ と書いた慣習の符号はここで効いていて、そろった方が低くなるという向きに式ができている。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-twoatom" role="img" aria-label="Two atoms whose localized orbital tails overlap, beside a level diagram in which the single level splits into a lower bonding level and an upper antibonding level, their separation set by the hopping"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-slider"><label><span class="gv">t</span></label><input id="c12-t" type="range" min="0" max="2" step="0.05" value="1" aria-label="hopping t"><output id="c12-t-o">1.00 eV</output></div>
+          </div>
+        </figure>
+        <p><span class="i18n-en">In this way, the level $\varepsilon$, a single level when isolated, split into the two levels $\varepsilon - t$ and $\varepsilon + t$ as soon as one more atom arrived. The spacing is $2t$, and what sets the size of the split is the strength $t$ of the tail overlap. The opening question has already been answered as early as when there are two atoms: the level is not copied while keeping the same value.</span><span class="i18n-ja">こうして、孤立していたときには一本だった準位 $\varepsilon$ は、もう一つ原子が来ただけで $\varepsilon - t$ と $\varepsilon + t$ の二本に割れた。間隔は $2t$ であり、割れ幅を決めているのは裾の重なりの強さ $t$ である。冒頭の疑問には、原子が二つの時点で早くも答えが出てしまったことになる。準位は、同じ値のまま複製されはしない。</span></p>
+        <p><span class="i18n-en">Then what happens with three atoms? The amplitudes become the three $c_1, c_2, c_3$, and the eigenvalue equation becomes a system of three. Since two split into two, it is natural to think that three give three, and $N$ give $N$. But what we want is the case of a crystal in which $N$ is enormous, and writing down $N$ simultaneous equations and eliminating the $c$ one by one, by hand, no longer works. We come to want a way of writing that handles the whole list of $N$ amplitudes at once.</span><span class="i18n-ja">それなら、原子が三つになったらどうなるのか。振幅は $c_1, c_2, c_3$ の三つになり、固有値方程式も三本の連立になる。二つで二本に割れたのだから、三つなら三本、$N$ 個なら $N$ 本に割れると考えるのが自然だろう。しかし知りたいのは $N$ が莫大な結晶の場合であって、$N$ 本の連立方程式を書き下ろして $c$ を一つずつ消していくような手作業は、もう通用しない。$N$ 個の振幅の列を、まとめて扱える書き方が欲しくなる。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 03 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">03</span>
+      <h2><span class="i18n-en">LCAO (linear combination of atomic orbitals)</span><span class="i18n-ja">LCAO(原子軌道の線形結合)</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">Line up $N$ identical atoms in a row with spacing $a$. Number the atoms with integers from left to right, and call atom number $n$ site $n$. A site is the place in the crystal where a localized orbital sits. The position of site $n$ is</span><span class="i18n-ja">同じ原子を $N$ 個、間隔 $a$ で一列に並べる。原子には左から右へ整数の番号を付けて、番号 $n$ の原子をサイト $n$ と呼ぶことにする。サイトとは、結晶の中で局在軌道が置かれている場所のことである。サイト $n$ の位置は</span></p>
+        <p class="eq-block">$$x_n = na$$</p>
+        <p><span class="i18n-en">, and we write the isolated atom's localized orbital shifted to that position as $|n\rangle$. This $|n\rangle$ is the symbol for the state in which the electron is in the atomic orbital at site $n$.</span><span class="i18n-ja">であり、孤立原子の局在軌道をこの位置へ移したものを $|n\rangle$ と書く。$|n\rangle$ は、電子がサイト $n$ の原子軌道にいる状態を表す記号である。</span></p>
+        <p><span class="i18n-en">Since the electron can pass to a neighbour, the state cannot be written with a single $|n\rangle$. For the same reason that the pair $c_1$ and $c_2$ was needed for two atoms, now amplitudes for every site are needed. So we write the electron state in the crystal as</span><span class="i18n-ja">電子が隣へ渡れる以上、状態は一つの $|n\rangle$ だけでは書けない。二原子のときに $c_1$ と $c_2$ の組が必要だったのと同じ事情で、今度は全サイト分の振幅が必要になる。そこで結晶中の電子状態を</span></p>
+        <p class="eq-block">$$|\psi\rangle = \sum_n c_n\,|n\rangle$$</p>
+        <p><span class="i18n-en">. This way of writing is called LCAO, short for Linear Combination of Atomic Orbitals, meaning a linear combination of atomic orbitals. Rather than bringing in a new orbital out of thin air, its content is to add up, with coefficients, the localized orbitals that each atom already had; the coefficient $c_n$ represents how much amplitude the electron state has on the orbital at site $n$. In other words, this expression makes one physical claim: an electron state in a crystal can be represented as the list of amplitudes on each atom.</span><span class="i18n-ja">と書く。この書き方は LCAO と呼ばれる。Linear Combination of Atomic Orbitals の略で、原子軌道の線形結合という意味である。新しい軌道を空から持ち込むのではなく、各原子にもとからあった局在軌道を係数付きで足し合わせるのがこの書き方の中身であり、係数 $c_n$ は、電子状態がサイト $n$ の軌道にどれだけ振幅を持つかを表している。つまりこの式は、結晶中の電子状態は各原子の上の振幅の列として表せる、という一つの物理的な主張をしている。</span></p>
+        <p><span class="i18n-en">However, the form of the coefficient sequence $c_n$ is not yet determined at all. There are $N$ unknowns, effectively infinitely many for a crystal, and the by-hand approach of eliminating $c_2$ as with two atoms does not work. We need some strong clue that ties down the whole sequence at once.</span><span class="i18n-ja">ただし、係数列 $c_n$ の形はまだ何も決まっていない。未知数は $N$ 個、結晶なら事実上無限個もあって、二原子で $c_2$ を消したような手作業は通用しない。列の全体を一気に縛ってくれる、何か強い手がかりが要る。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 04 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">04</span>
+      <h2><span class="i18n-en">Bloch's theorem fixes the form of the coefficients</span><span class="i18n-ja">Blochの定理で係数の形が決まる</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">That clue is the periodicity of this chain. Shifting the whole chain by one site to the right leaves it indistinguishable from the original. That is, this is a crystal of period $a$, and Bloch's theorem can be used. A state in the crystal has a form that changes by the same phase factor each time it moves from one site to the next. In the language of the coefficient sequence, this is the requirement</span><span class="i18n-ja">その手がかりが、この鎖の周期性である。鎖全体を一サイト分だけ右へずらしても、元の鎖と見分けが付かない。つまりこれは周期 $a$ の結晶であり、Blochの定理が使える。結晶中の状態は、一つのサイトから隣のサイトへ移るごとに、同じ位相因子だけ変わる形を持つ。係数列の言葉で言えば、これは</span></p>
+        <p class="eq-block">$$c_{n+1} = e^{ika}\,c_n$$</p>
+        <p><span class="i18n-en">. Here $k$ is the wavenumber. Each time we advance one site to the neighbour, the magnitude of the amplitude is unchanged, and only the phase advances by $ka$.</span><span class="i18n-ja">という要求になる。$k$ は波数である。隣へ一つ進むたびに、振幅の大きさは変わらず、位相だけが $ka$ ずつ進んでいく。</span></p>
+        <p><span class="i18n-en">Using this relation repeatedly,</span><span class="i18n-ja">この関係を繰り返し使うと</span></p>
+        <p class="eq-block">$$\begin{aligned} c_1 &= e^{ika}\,c_0 \\ c_2 &= e^{ika}\,c_1 = e^{i2ka}\,c_0 \\ c_3 &= e^{ika}\,c_2 = e^{i3ka}\,c_0 \end{aligned}$$</p>
+        <p><span class="i18n-en">and so on, and in general</span><span class="i18n-ja">となっていき、一般には</span></p>
+        <p class="eq-block">$$c_n = c_0\,e^{ikna}$$</p>
+        <p><span class="i18n-en">. The overall magnitude of the coefficients is fixed only by normalization, so writing $c_0 = C$,</span><span class="i18n-ja">である。係数全体の大きさは規格化で決まるだけなので、$c_0 = C$ と書いてしまえば</span></p>
+        <p class="eq-block">$$c_n = C\,e^{ikna}$$</p>
+        <p><span class="i18n-en">. With this, the state in the crystal can be written</span><span class="i18n-ja">となる。これで結晶中の状態は</span></p>
+        <p class="eq-block">$$|\psi_k\rangle = \sum_n C\,e^{ikna}\,|n\rangle$$</p>
+        <p><span class="i18n-en">. The subscript $k$ shows that this state is a Bloch state with wavenumber $k$.</span><span class="i18n-ja">と書けた。添字の $k$ は、この状態が波数 $k$ を持つBloch状態であることを表している。</span></p>
+        <p><span class="i18n-en">The coefficients had looked as though there was nothing to do but fix the $N$ of them one by one, but by using periodicity just once, the whole sequence can be specified by a single number $k$. The unknowns, which should have been infinitely many, have been folded into a single wavenumber.</span><span class="i18n-ja">係数は $N$ 個を一つずつ決めるしかないように見えていたが、周期性を一つ使っただけで、列の全体がたった一つの数 $k$ で指定できることになった。無限個あったはずの未知数が、一つの波数に畳まれたのである。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 05 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">05</span>
+      <h2><span class="i18n-en">The eigenvalue equation for the chain</span><span class="i18n-ja">鎖の固有値方程式</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">The remaining task is to fix the energy, and the ingredients are the same as for two atoms. The component riding on the orbital at site $n$ carries the isolated-atom level $\varepsilon$, and this is the same value on every site. In the sense of an energy that rides on the site, we call this the on-site energy. The other ingredient is the tail overlap, and only here is there a slight difference from the two-atom case. A site $n$ in the chain has two neighbours, on the left and right, so the amplitude at site $n$ couples with the amplitudes of both the right neighbour $n+1$ and the left neighbour $n-1$, each with strength $t$.</span><span class="i18n-ja">残る仕事はエネルギーを決めることだが、材料は二原子のときと同じでよい。サイト $n$ の軌道に乗っている成分には孤立原子の準位 $\varepsilon$ が付き、これはどのサイトでも同じ値である。サイトの上に乗っているエネルギーという意味で、これをオンサイトエネルギーと呼ぶ。もう一つの材料は裾の重なりで、ここだけが二原子と少し違う。鎖の中のサイト $n$ には隣が左右に二つあるので、サイト $n$ の振幅は、右隣 $n+1$ と左隣 $n-1$ の両方の振幅と、それぞれ強さ $t$ で結びつくことになる。</span></p>
+        <p><span class="i18n-en">The overlap with more distant atoms is not exactly zero either, but the tail of a localized orbital falls off rapidly with distance. So we keep only the largest, nearest-neighbour overlap and throw the rest away. This minimal construction, keeping on top of the localized orbitals only the on-site energy and the nearest-neighbour hopping, is called the tight-binding method. Under this approximation, the eigenvalue equation for the coefficient at each site is</span><span class="i18n-ja">もっと遠くの原子との重なりも厳密にはゼロではないが、局在軌道の裾は距離とともに急速に落ちていく。そこで一番大きい最近接の重なりだけを残して、あとは捨てる。局在軌道の上にオンサイトエネルギーと最近接ホッピングだけを残すこの最小の作り方を、tight-binding法と呼ぶ。この近似のもとで、各サイトの係数に対する固有値方程式は</span></p>
+        <p class="eq-block">$$E\,c_n = \varepsilon\,c_n - t\,c_{n+1} - t\,c_{n-1}$$</p>
+        <p><span class="i18n-en">. Setting it beside the two-atom equation, we see that it is the same way of keeping the books. The only difference is that the partners have grown from one to two. The problem of an infinitely long chain has been contained in a relation of just three terms, of the same form no matter which site you look at.</span><span class="i18n-ja">となる。二原子の式と並べて見比べると、これが同じ帳簿のつけ方であることが分かる。相手が一人から二人に増えた、それだけの違いである。無限に長い鎖の問題が、どのサイトで見ても同じ形の、三項だけの関係式に収まっている。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 06 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">06</span>
+      <h2><span class="i18n-en">A band appears</span><span class="i18n-ja">バンドが現れる</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">Into this eigenvalue equation we put the coefficients fixed by Bloch's theorem,</span><span class="i18n-ja">この固有値方程式に、Blochの定理で決まった係数</span></p>
+        <p class="eq-block">$$c_n = C\,e^{ikna}$$</p>
+        <p><span class="i18n-en">. The aim is to fold an expression containing the site number $n$ into a single expression in $k$ that does not depend on $n$. The starting point is</span><span class="i18n-ja">を入れる。狙いは、サイト番号 $n$ を含んだ式を、$n$ によらない一つの $k$ の式に畳むことである。出発点は</span></p>
+        <p class="eq-block">$$E\,c_n = \varepsilon\,c_n - t\,c_{n+1} - t\,c_{n-1}$$</p>
+        <p><span class="i18n-en">, and into it, substituting</span><span class="i18n-ja">であり、ここへ</span></p>
+        <p class="eq-block">$$\begin{aligned} c_n &= C\,e^{ikna} \\ c_{n+1} &= C\,e^{ik(n+1)a} \\ c_{n-1} &= C\,e^{ik(n-1)a} \end{aligned}$$</p>
+        <p><span class="i18n-en">gives</span><span class="i18n-ja">を代入すると</span></p>
+        <p class="eq-block">$$E\,C e^{ikna} = \varepsilon\,C e^{ikna} - t\,C e^{ik(n+1)a} - t\,C e^{ik(n-1)a}$$</p>
+        <p><span class="i18n-en">. Every term contains $C e^{ikna}$, so if we cancel this common factor, $n$ should disappear from the equation. To do so, we split the exponents,</span><span class="i18n-ja">となる。すべての項に $C e^{ikna}$ が含まれているから、この共通因子を消してしまえば $n$ は式から消えるはずである。そのために指数を分けると</span></p>
+        <p class="eq-block">$$\begin{aligned} e^{ik(n+1)a} &= e^{ikna}\,e^{ika} \\ e^{ik(n-1)a} &= e^{ikna}\,e^{-ika} \end{aligned}$$</p>
+        <p><span class="i18n-en">so</span><span class="i18n-ja">であるから</span></p>
+        <p class="eq-block">$$E\,C e^{ikna} = \varepsilon\,C e^{ikna} - t\,C e^{ikna} e^{ika} - t\,C e^{ikna} e^{-ika}$$</p>
+        <p><span class="i18n-en">, and dividing both sides by $C e^{ikna}$,</span><span class="i18n-ja">となり、両辺を $C e^{ikna}$ で割ると</span></p>
+        <p class="eq-block">$$E = \varepsilon - t\,e^{ika} - t\,e^{-ika}$$</p>
+        <p><span class="i18n-en">remains. As intended, the site number has vanished and it has become an expression in $k$ alone. The sum of exponentials</span><span class="i18n-ja">が残る。狙いどおり、サイト番号が消えて $k$ だけの式になった。指数関数の和は</span></p>
+        <p class="eq-block">$$e^{ika} + e^{-ika} = 2\cos(ka)$$</p>
+        <p><span class="i18n-en">lets us rewrite it as a cosine, so in the end</span><span class="i18n-ja">を使って余弦に直せるから、結局</span></p>
+        <p class="eq-block">$$E(k) = \varepsilon - 2t\cos(ka)$$</p>
+        <p><span class="i18n-en">is obtained. A relation of this form, expressing how the energy of a state with wavenumber $k$ varies with $k$, is called a dispersion relation.</span><span class="i18n-ja">が得られる。波数 $k$ を持つ状態のエネルギーが $k$ によってどう変わるかを表す、この形の関係を分散関係と呼ぶ。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-bandcurve" role="img" aria-label="1D tight-binding band curve E(k) = ε − 2t cos(ka)"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-slider"><label><span class="gv">t</span></label><input id="bc-t" type="range" min="0" max="3" step="0.05" value="2" aria-label="hopping t"><output id="bc-t-o">2.00 eV</output></div>
+            <div class="gfig-slider"><label><span class="gv">ε</span></label><input id="bc-e" type="range" min="-2.5" max="2.5" step="0.1" value="0" aria-label="on-site energy epsilon"><output id="bc-e-o">0.0 eV</output></div>
+          </div>
+        </figure>
+        <p><span class="i18n-en">What was a single level $\varepsilon$ for an isolated atom became the two levels $\varepsilon - t$ and $\varepsilon + t$ for two atoms, and lined up without limit it spread into a continuous band filling the space between, in step with $\cos(ka)$ moving continuously from $-1$ to $1$. One level split into two, and the two filled into a band. This spread-out band of energies is called an energy band.</span><span class="i18n-ja">孤立原子では $\varepsilon$ の一本だったものが、原子が二つになると $\varepsilon - t$ と $\varepsilon + t$ の二本になり、無限に並べると、$\cos(ka)$ が $-1$ から $1$ まで連続に動くのに合わせて、その間を埋める連続の帯にまで広がった。一本が二本に割れ、二本が帯に埋まったのである。この広がったエネルギーの帯をエネルギーバンドと呼ぶ。</span></p>
+        <p><span class="i18n-en">The width of the band can also be read from the formula. For $t > 0$,</span><span class="i18n-ja">帯の幅も式から読める。$t > 0$ のとき</span></p>
+        <p class="eq-block">$$\begin{aligned} E_{\min} &= \varepsilon - 2t \\ E_{\max} &= \varepsilon + 2t \end{aligned}$$</p>
+        <p><span class="i18n-en">, so the width is</span><span class="i18n-ja">であるから、幅は</span></p>
+        <p class="eq-block">$$E_{\max} - E_{\min} = (\varepsilon + 2t) - (\varepsilon - 2t) = 4t$$</p>
+        <p><span class="i18n-en">. Allowing $t$ to have either sign in general, the bandwidth is $4|t|$. That the two-atom split of $2t$ has become $4t$ in the chain can be read as the extra amount from the coupled neighbours growing from one to two. In both cases, what sets the width is the strength $t$ of the overlap.</span><span class="i18n-ja">となる。$t$ の符号を一般に許せば、帯域幅は $4|t|$ である。二原子の割れ幅が $2t$ だったのに対して鎖では $4t$ になっているのは、結びつく隣が一つから二つに増えた分だと読める。どちらの場合も、幅を決めているのは重なりの強さ $t$ である。</span></p>
+        <p><span class="i18n-en">What states the two ends of the band are can also be read by extending the two-atom picture directly. At $k = 0$, $c_n = C$, and the amplitudes on all sites line up in the same direction, so this is the two-atom bonding state stretched over the whole chain, and the energy is the lowest, $\varepsilon - 2t$. At $k = \pm\pi/a$, $e^{ikna} = (-1)^n$, and the amplitude flips every other site, so it is the chain version of the antibonding state in which every pair of neighbours is necessarily opposite, and the energy is the highest, $\varepsilon + 2t$. The bottom and top of the band lie directly along the extension of the bonding and antibonding states seen for two atoms.</span><span class="i18n-ja">帯の両端がどんな状態なのかも、二原子の絵をそのまま延長して読める。$k = 0$ では $c_n = C$ となって全サイトの振幅が同じ向きにそろうから、これは二原子の結合状態を鎖全体に引き伸ばした形であり、エネルギーは最低の $\varepsilon - 2t$ になる。$k = \pm\pi/a$ では $e^{ikna} = (-1)^n$ となって振幅が一つおきに反転するから、どの隣どうしも必ず逆向きという反結合状態の鎖版であり、エネルギーは最高の $\varepsilon + 2t$ になる。バンドの下端と上端は、二原子で見た結合と反結合の、そのままの延長線上にある。</span></p>
+        <p><span class="i18n-en">Setting $t = 0$, the formula becomes $E(k) = \varepsilon$, the same energy for every $k$, and the band collapses to a single level. If the atoms are not connected, we return to a mere collection of isolated atoms, an answer that does not contradict the starting point.</span><span class="i18n-ja">$t = 0$ と置くと式は $E(k) = \varepsilon$ となって、どの $k$ でも同じエネルギーになり、帯は一本の準位に潰れる。原子どうしがつながっていなければ、ただの孤立原子の集まりに戻るという、出発点と矛盾しない答えである。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 07 ═══════ -->
+  <section class="demo">
+    <div class="demo-head">
+      <span class="demo-num">07</span>
+      <h2><span class="i18n-en">What this simple model gives, and what is still missing</span><span class="i18n-ja">この単純模型が与えるものと、まだ無いもの</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">Now the minimal parts of the tight-binding method are in place. Place a localized atomic orbital on each site and add them up with LCAO. The periodicity of the crystal forces the coefficient sequence into the form of a Bloch phase. The effect of the electron staying on the same site enters as the on-site energy $\varepsilon$, and the effect of passing to a neighbour enters as the nearest-neighbour hopping $t$. With just those parts, a single isolated level became</span><span class="i18n-ja">これで tight-binding法の最小の部品がそろった。局在原子軌道を各サイトに置き、それらをLCAOで足し合わせる。結晶の周期性が、係数列にBloch位相の形を強制する。電子が同じサイトに居座る効果はオンサイトエネルギー $\varepsilon$ として入り、隣へ渡る効果は最近接ホッピング $t$ として入る。それだけの部品で、一本の孤立準位は</span></p>
+        <p class="eq-block">$$E(k) = \varepsilon - 2t\cos(ka)$$</p>
+        <p><span class="i18n-en">, one single energy band.</span><span class="i18n-ja">という一本のエネルギーバンドになった。</span></p>
+        <p><span class="i18n-en">This chain was one-dimensional, with just one atom in the unit cell and just one orbital. So only one coefficient was needed for each $k$, and only one band came out. Then what happens for a lattice with two atoms in the unit cell? Since two coefficients are needed for each $k$, by the same line of reasoning as the two-atom split into two levels, the bands too look likely to split into two. To confirm that, we need a real lattice that has several sublattices in its unit cell. Before putting any electrons on it, we must first set up the geometry of that lattice correctly.</span><span class="i18n-ja">この鎖は、1次元で、単位胞に原子が一つだけあり、軌道も一つだけの場合だった。だから各 $k$ に対して必要な係数は一つだけで、出てきたバンドも一本だった。それでは、単位胞の中に原子が二つある格子ではどうなるのか。各 $k$ に係数が二つ必要になるのだから、二原子で準位が二本に割れたのと同じ筋で、バンドも二本に分かれそうである。それを確かめるには、単位胞に複数の副格子を持つ実在の格子が要る。電子を乗せる前に、まず、その格子の幾何を正しく用意しなければならない。</span></p>
+        <nav class="series-nav">
+          <a class="series-next" href="/learn/graphene-geometry/"><span class="sn-k"><span class="i18n-en">Next in the series</span><span class="i18n-ja">この連載の次へ</span></span><span class="i18n-en">The geometry of graphene, before any electrons &rarr;</span><span class="i18n-ja">電子を乗せる前のグラフェンの幾何 &rarr;</span></a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/">
+        <span class="i18n-en">&larr; Back to Learn</span>
+        <span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
+  </footer>
+
+  <script src="/assets/js/article-shell.js"></script>
+  <script src="/assets/js/graphene-figures.js"></script>
+</body>
+</html>

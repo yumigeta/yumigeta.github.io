@@ -1,0 +1,200 @@
+/* ════════════════════════════════════════════════════════════════════════
+   bands-series.css — shared stylesheet for the four-part electronic-structure
+   series (band-formation → graphene-geometry → graphene-tight-binding →
+   graphene-dirac-cone). These are prose + display-equation pages with NO
+   interactive canvases, so they reuse the calm reading rhythm proven on
+   raman.css (one body size, one leading, one column width) and add two new
+   components: a figure placeholder (.fig-ph) and a prev/next series nav
+   (.series-nav). Loaded in <head> on all four pages in the page-CSS slot.
+   ════════════════════════════════════════════════════════════════════════ */
+
+:root { --read-measure: 72ch; }   /* matches the shell's intro cap */
+
+/* ── Shell width is no longer page-scoped here — the whole site shares one outer
+      width (--maxw, 1190px) from style.css :root, so these four pages, every
+      other Learn page, and the nav all line up. The reading column stays tidy via
+      the --read-measure / 72ch caps below (text, equations and figures share one
+      measure); the shell no longer needs its own width override. ── */
+
+/* ── Section stage: these pages are prose, not dark interactive cards, so the
+      stage carries no card background of its own (mirrors raman). ── */
+.demo-stage { background: transparent; padding: 0; border-radius: 0; color: var(--ink); max-width: none; }
+.demo-head h2 { font-family: var(--mincho); }
+
+/* ── Lead: central question + intro paragraph, same reading rhythm as body. ── */
+.pintro { font-size: 1rem; line-height: 1.7; max-width: var(--read-measure); }
+.pintro + .pintro { margin-top: 0.9rem; }
+.pintro .cq-label { font-family: var(--mincho); font-weight: 700; color: var(--accent); }
+
+/* ── Central question lifted into the RIGHT RAIL (article-shell.js moves the .pintro that
+      carries .cq-label here) — the rail's lead callout: recessive size, the accent label as
+      its heading, a hairline setting it off from the blocks (前提 / 目次 / 次に読む) below. ── */
+.nb-cq { margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+.nb-cq .pintro { font-size: 0.9rem; line-height: 1.56; max-width: none; margin: 0; color: var(--ink-2); }
+.nb-cq .cq-label { display: block; font-size: 0.8rem; letter-spacing: .03em; margin-bottom: 0.3rem; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   Running prose — one body size, one leading, all capped at the same measure
+   the shell gives the intro (72ch), so body lines up with the lead instead of
+   running the full ~820px center column. (Same standard as raman.css.)
+   ════════════════════════════════════════════════════════════════════════ */
+.derivation { display: block; }
+.derivation h3 {
+  font-family: var(--mincho);
+  font-size: 1.18rem; font-weight: 700; color: var(--ink);
+  margin: 1.9rem 0 0.7rem; padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+  letter-spacing: -.01em;
+  max-width: var(--read-measure);
+}
+.derivation h3:first-child { margin-top: 0.3rem; }
+.derivation p {
+  font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 1.1rem;
+  max-width: var(--read-measure);
+}
+.derivation p:last-child { margin-bottom: 0; }
+.derivation p b { color: var(--ink); }
+
+/* Display equations inherit the prose measure; long ones WRAP to fit, never
+   widen the column. Centered within the reading column. */
+.derivation .eq-block,
+.eq-block {
+  text-align: center; margin: 0 0 1.1rem; padding: 4px 0;
+  overflow-x: auto; max-width: var(--read-measure);
+  color: var(--ink);
+}
+.eq-block .katex-display { margin: 0.3em 0; }
+
+/* Figure / inline captions — single secondary size & leading (rarely used here
+   since placeholders carry no reader caption, but kept for consistency). */
+.cap { font-size: 0.875rem; line-height: 1.6; color: var(--faint); max-width: var(--read-measure); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   Figure placeholder — an empty framed slot where a figure will later be
+   dropped in. Flat, hairline dashed border, NO tinted fill (house rule).
+   It carries the author's memo (the bracketed description from the draft) for
+   whoever makes the figure; this is NOT a reader-facing caption.
+   ════════════════════════════════════════════════════════════════════════ */
+.fig-ph {
+  margin: 1.5rem 0; max-width: var(--read-measure);
+  border: 1px dashed var(--rule); border-radius: 4px;   /* barely-rounded rectangle — unified corner language */
+  background: transparent;
+  padding: 24px 22px; min-height: 150px;
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+}
+.fig-ph-tag {
+  font-family: var(--mincho); font-weight: 700; font-size: 0.92rem;
+  color: var(--accent); letter-spacing: .04em;
+}
+.fig-ph-state {
+  font-family: var(--gothic); font-size: 0.78rem; letter-spacing: .04em;
+  color: var(--ink-3, var(--faint));
+}
+.fig-ph-note {
+  font-family: var(--gothic); font-size: 0.82rem; line-height: 1.6;
+  color: var(--soft);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Prev / next nav for the four-part series — typographic only, no boxes or
+   tinted fills (house rule); a single hairline rule above.
+   ════════════════════════════════════════════════════════════════════════ */
+.series-nav {
+  display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+  max-width: var(--read-measure); margin: 2.4rem 0 0;
+  padding-top: 18px; border-top: 1px solid var(--rule);
+}
+.series-nav a { font-family: var(--gothic); font-weight: 700; font-size: 0.92rem; color: var(--ink); }
+.series-nav a:hover { color: var(--accent); }
+.series-nav .sn-k {
+  display: block; font-family: var(--gothic); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px;
+}
+.series-next { margin-left: auto; text-align: right; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   Interactive figures (graphene series) — one shared visual language across
+   all figure types: a warm paper plate, a muted earth-tone palette, thin
+   neutral axes, serif math labels, and a controls strip kept VISUALLY
+   SEPARATE below the figure (never overlapping the drawing or the prose).
+   Quality from palette + whitespace + line + type, not effects.
+   ════════════════════════════════════════════════════════════════════════ */
+/* The whole figure (drawing + controls) is ONE near-white plate, lifted off the
+   page's warm paper by a brighter ground + a single soft hairline (no heavy box,
+   no control-panel frame). The earth-tone drawing pops against the bright plate. */
+.gfig {
+  margin: 1.9rem 0; max-width: var(--read-measure);
+  background: var(--color-plate);            /* warm cream plate — figure-only token, a touch deeper than the page */
+  border: 1px solid rgba(120,98,58,0.11);    /* one soft hairline, not a frame */
+  border-radius: 4px;                        /* barely-rounded rectangle — square-based UI, no pill/round language */
+  padding: 14px 18px 12px;
+}
+.gfig-stage { position: relative; width: 100%; background: transparent; }
+.gfig-stage canvas { width: 100%; display: block; touch-action: none; }
+.gfig.is-grab .gfig-stage canvas { cursor: grab; }
+.gfig.is-grab .gfig-stage canvas:active { cursor: grabbing; }
+
+/* inline italic-serif math variable, used in figure controls/captions */
+.gfig .gv { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 1.04em; color: var(--ink); }
+
+/* Controls — same bright plate, set off only by a faint hairline + spacing. */
+.gfig-controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 26px;
+  margin-top: 12px; padding-top: 16px;
+  border-top: 1px solid rgba(120,98,58,0.10);
+}
+
+/* ── Sliders: a flat earth-tone draughtsman's HANDLE — a slim vertical bar with
+      barely-rounded corners (not a round knob), thin paper track, row-end value.
+      Rectangle-based so it reads as a grippable drafting control, not web-app UI. ── */
+/* One clean row per slider: [label] [——track——] [value]. Robust at any value. */
+.gfig-slider { display: flex; align-items: center; gap: 11px; flex: 1 1 250px; min-width: 224px; }
+.gfig-slider > label { font-family: var(--gothic); font-size: 0.85rem; color: var(--soft); min-width: 1.2em; text-align: center; }
+.gfig-slider input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  flex: 1 1 auto; min-width: 80px; height: 18px; margin: 0; background: transparent; cursor: pointer;
+}
+.gfig-slider input[type="range"]::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--color-neutral) 40%, transparent); }
+.gfig-slider input[type="range"]::-moz-range-track { height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--color-neutral) 40%, transparent); }
+.gfig-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 8px; height: 18px; border-radius: 2px;
+  background: color-mix(in srgb, var(--color-terracotta) 80%, var(--color-text));                       /* deep terracotta, flat — a vertical bar handle */
+  border: none; box-shadow: none; margin-top: -8px;
+}
+.gfig-slider input[type="range"]::-moz-range-thumb {
+  width: 8px; height: 18px; border-radius: 2px;
+  background: color-mix(in srgb, var(--color-terracotta) 80%, var(--color-text)); border: none; box-shadow: none;
+}
+.gfig-slider input[type="range"]:focus { outline: none; }
+.gfig-slider input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px rgba(156,90,51,0.3); }
+.gfig-slider output {
+  font-family: var(--gothic); font-size: 0.8rem; color: color-mix(in srgb, var(--color-terracotta) 70%, var(--color-text));
+  font-variant-numeric: tabular-nums; min-width: 76px; text-align: right;
+}
+
+.gfig-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.gfig-btn {
+  font-family: var(--gothic); font-size: 0.78rem; font-weight: 600;
+  color: var(--soft); background: transparent;
+  border: 1px solid rgba(120,98,58,0.28); border-radius: 3px;   /* barely-rounded rectangle, not a pill */
+  padding: 6px 14px; cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+}
+.gfig-btn:hover { color: var(--ink); border-color: rgba(120,98,58,0.5); }
+.gfig-btn.active { color: color-mix(in srgb, var(--color-terracotta) 72%, var(--color-text)); border-color: var(--color-terracotta); background: color-mix(in srgb, var(--color-terracotta) 14%, transparent); }
+.gfig-hint {
+  font-family: var(--gothic); font-size: 0.74rem; color: var(--faint);
+  letter-spacing: .02em;
+}
+.gfig-status {
+  font-family: var(--mincho); font-size: 0.86rem; color: var(--ink);
+  font-weight: 600; flex: 1 1 100%;
+}
+.gfig-status .sok { color: var(--color-sage); }                                  /* maps onto itself */
+.gfig-status .sno { color: color-mix(in srgb, var(--color-terracotta) 84%, var(--color-text)); }   /* does not map */
+
+/* Optional minimal, number-less caption — used sparingly (most figures none). */
+.gfig-cap {
+  font-family: var(--gothic); font-size: 0.85rem; line-height: 1.6;
+  color: var(--soft); max-width: var(--read-measure); margin: 0.7rem 0 0;
+}
