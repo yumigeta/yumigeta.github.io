@@ -1,0 +1,109 @@
+/* ── raman-washi.css ── load AFTER gnr-variants.css on /learn/raman/
+   Colour + type only. Layout, markup and JS structure untouched. ── */
+
+:root{
+  --w-panel:#f8f5ee; --w-rule:#e3ddd0; --w-ink:#4a4038; --w-mute:#9a9288;
+  --w-red:#b5452f; --w-teal:#3d6b68; --w-tan:#a67c52; --w-grey:#8f8579;
+  --w-amber:#d08a3c;   /* 誘起双極子 μ — raman.js の COL.dipole と同値 */
+  --w-serif:Georgia, 'Times New Roman', 'Shippori Mincho', serif;
+}
+
+/* card: 生成り一色、細い1px線（フェルト縁・半紙の重ね影を外す） */
+.anim-card,
+.anim-card.pv-bunchin{
+  background:var(--w-panel) !important;
+  border:1px solid var(--w-rule) !important;
+  border-radius:10px !important;
+  box-shadow:none !important;
+  color:var(--w-ink);
+}
+.anim-card .shuji-deco{ display:none; }
+
+/* 図版地 = パネル地（キャンバスは透明に） */
+.anim-card canvas,
+.pv-bunchin:not(.pv-light) .anim-card canvas,
+.anim-card .atom-canvas,
+.anim-card .mol-panel canvas, .anim-card .aq-panel canvas,
+.anim-card .trace-cell canvas, .anim-card .decomp-row canvas,
+.anim-card .spectrum-wrap canvas{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+
+/* 文字色 */
+.anim-card .atom-slider label,
+.anim-card .trace-label,
+.anim-card .trace-label b{ color:var(--w-ink); }
+.anim-card .trace-label .eq,
+.anim-card .atom-legend,
+.anim-card .legend,
+.anim-card .decomp-label,
+.anim-card .mode-explain,
+.anim-card .spectrum-wrap .cap{ color:var(--w-mute); }
+.anim-card .trace-op{ color:#a89e92; font-family:var(--w-serif); font-weight:400; }
+.anim-card .atom-slider output,
+.anim-card.pv-bunchin:not(.pv-light) .atom-slider output{
+  color:var(--w-mute) !important; font-family:var(--w-serif); font-style:normal; font-size:0.95rem;
+}
+.anim-card .atom-slider output i{ font-style:italic; }
+.anim-card .atom-slider output sub{ font-size:0.7em; font-style:normal;
+}
+.anim-card .trace-label b{ font-weight:500; font-size:0.82rem; }
+.anim-card .trace-label .eq{ font-family:var(--w-serif); font-style:italic; font-size:0.88rem; }
+.anim-card .decomp-label{ font-weight:500; letter-spacing:0.04em; text-transform:none; font-size:0.78rem; }
+.anim-card .legend{ font-size:0.78rem; }
+
+/* 凡例スウォッチ（HTMLのインライン色を位置で置換） */
+/* 分極率パネルの凡例は図中ラベルに置き換えたため通常は非表示。ただしキャンバスが
+   狭く図中ラベルが左端から見切れる幅では、raman.js が実測して .atom-labels-out を
+   付けるので、そのときだけ凡例に戻す（判定は JS の一箇所だけが持つ）。 */
+.anim-card .atom-legend{ display:none; }
+.anim-card.atom-labels-out .atom-legend{ display:flex; }
+.anim-card .atom-legend span:nth-child(1) i{ background:var(--w-teal)  !important; }
+.anim-card .atom-legend span:nth-child(2) i{ background:var(--w-red)   !important; }
+.anim-card .atom-legend span:nth-child(3) i{ background:var(--w-amber) !important; }
+.anim-card .legend span:nth-child(1) i{ background:var(--w-grey) !important; }
+.anim-card .legend span:nth-child(2) i{ background:var(--w-red)  !important; }
+.anim-card .legend span:nth-child(3) i{ background:var(--w-teal) !important; }
+.anim-card .decomp-row:nth-child(1) .decomp-tag{ color:var(--w-grey) !important; }
+.anim-card .decomp-row:nth-child(2) .decomp-tag{ color:var(--w-red)  !important; }
+.anim-card .decomp-row:nth-child(3) .decomp-tag{ color:var(--w-teal) !important; }
+/* Rayleigh / Stokes / anti-Stokes は現象の固有名なので立体。斜体にするのは
+   KaTeX が組む量記号だけでよい（ISO 80000-2）。 */
+.anim-card .decomp-tag{ font-family:var(--w-serif); font-style:normal; font-weight:500; }
+
+/* Raman-active / inactive バッジ */
+.anim-card .mode-explain .mol-activity.raman{ background:#e3ebe8; color:var(--w-teal); }
+.anim-card .mode-explain .mol-activity.ir   { background:#f1e3dc; color:var(--w-red); }
+
+/* ボタン：角の立った白地・太字（参考画像） */
+#atom-mode .demo-btn, #mol-btns .demo-btn,
+.anim-card.pv-bunchin:not(.pv-light) .demo-btn,
+.anim-card .demo-btn{
+  background:#fdfcf8 !important; color:var(--w-ink) !important;
+  border:1px solid #c9bfae !important; border-radius:4px !important;
+  font-weight:700 !important; box-shadow:none !important;
+}
+#atom-mode .demo-btn:hover, #mol-btns .demo-btn:hover,
+.anim-card.pv-bunchin:not(.pv-light) .demo-btn:hover,
+.anim-card .demo-btn:hover{ color:var(--w-ink) !important; border-color:var(--w-tan) !important; background:#f4ecdd !important; }
+#atom-mode .demo-btn.active, #mol-btns .demo-btn.active,
+.anim-card.pv-bunchin:not(.pv-light) .demo-btn.active,
+.anim-card .demo-btn.active{
+  background:#e8dcc6 !important; color:var(--w-ink) !important; border-color:#a58a5f !important; box-shadow:none !important;
+}
+
+/* スライダー：細い線 + 縦長の茶色つまみ */
+.anim-card.pv-bunchin:not(.pv-light) input[type=range],
+.anim-card input[type=range]{
+  height:2px; border-radius:1px; background:#c9bfae; accent-color:var(--w-tan);
+}
+.anim-card.pv-bunchin:not(.pv-light) input[type=range]::-webkit-slider-thumb,
+.anim-card input[type=range]::-webkit-slider-thumb{
+  width:12px; height:26px; border-radius:3px; background:var(--w-tan); border:none; box-shadow:none;
+}
+.anim-card.pv-bunchin:not(.pv-light) input[type=range]::-moz-range-thumb,
+.anim-card input[type=range]::-moz-range-thumb{
+  width:12px; height:26px; border-radius:3px; background:var(--w-tan); border:none; box-shadow:none;
+}
