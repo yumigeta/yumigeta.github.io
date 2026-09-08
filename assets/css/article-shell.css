@@ -430,19 +430,16 @@ details[open] > .mobile-toc-hd .ashelf-caret { transform: rotate(90deg); }
     width: 100%; max-width: var(--read-measure);
     margin-left: auto; margin-right: auto;
   }
-  /* Closed, this is a control, not a banner — it sizes to its label. */
+  /* Set exactly like the in-page contents row (.mobile-toc-hd): a typographic
+     line closed by a single hairline, no fill and no boxed button, so the two
+     collapsibles a narrow screen shows read as one pair. */
   .ashelf-toggle {
-    width: fit-content;
     display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
     font-family: var(--mincho); font-size: 14px; font-weight: 700; color: var(--ink);
-    padding: 10px 14px; border: 1px solid var(--rule); border-radius: 4px; background: var(--bg-soft);
+    padding: 11px 2px; border-bottom: 1px solid var(--rule);
   }
   .ashelf-toggle::-webkit-details-marker { display: none; }
-  .ashelf-toggle .ashelf-arrow {
-    margin-left: auto; width: 18px; height: 18px;
-    color: var(--accent); transition: transform .2s;
-  }
-  .ashelf-collapse[open] .ashelf-toggle .ashelf-arrow { transform: rotate(180deg); }
+  .ashelf-collapse[open] > .ashelf-toggle .ashelf-caret { transform: rotate(90deg); }
   .ashelf-collapse[open] > .ashelf-home { display: flex; margin-top: 12px; }
   .ashelf-collapse[open] > .ashelf-routes,
   .ashelf-collapse[open] > .ashelf-pillar:first-of-type { margin-top: 12px; }

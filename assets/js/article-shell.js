@@ -167,7 +167,7 @@
 
     left.innerHTML = '<details class="ashelf-collapse" open><summary class="ashelf-toggle">' +
       L('Browse all topics', 'トピック一覧') +
-      '' + icon("chevron-down", "ashelf-arrow") + '</summary>' +
+      '' + icon("chevron-right", "ashelf-caret") + '</summary>' +
       shelf + '</details>';
     syncShelfDrawer(left.querySelector('.ashelf-collapse'));
 

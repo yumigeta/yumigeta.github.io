@@ -1,6 +1,7 @@
 (function(){
   var lang = localStorage.getItem('lang') || 'en';
   document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
 
   document.addEventListener('DOMContentLoaded', function(){
     var btn = document.querySelector('.lang-btn');
@@ -10,6 +11,7 @@
     btn.addEventListener('click', function(){
       lang = lang === 'en' ? 'ja' : 'en';
       document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.setAttribute('lang', lang);
       localStorage.setItem('lang', lang);
     });
   });

@@ -1,0 +1,35 @@
+/* Independent choices in the wave figure, and the optional geometry reference. */
+.gfig-choice { flex: 1 1 100%; min-width: 0; margin: 0; padding: 0; border: 0; }
+.gfig-choice legend { margin-bottom: 8px; padding: 0; font: 500 .8rem var(--gothic); color: var(--ink-2); }
+.gfig-choice + .gfig-choice { padding-top: 12px; border-top: 1px solid rgba(120,98,58,.1); }
+.gfig-choice .gfig-slider { margin-top: 12px; }
+.bz-reference { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(120,98,58,.16); }
+.bz-reference summary { cursor: pointer; color: var(--ink-2); font: 500 .9rem var(--gothic); }
+.bz-reference[open] summary { margin-bottom: 18px; }
+.bz-reference label { display: block; margin: 14px 0 8px; font: 500 .8rem var(--gothic); }
+.bz-reference select { max-width: 100%; padding: 8px 10px; background: var(--paper); color: var(--ink); border: 1px solid rgba(120,98,58,.3); border-radius: 3px; font: .85rem var(--gothic); }
+.bz-reference .bz-measurement { display: block; margin: 8px 0 18px; font: 500 .9rem var(--gothic); color: var(--ink); }
+.bz-reference p { font-size: .9rem; }
+.bz-table-wrap { overflow-x: auto; margin: 16px 0; }
+.bz-reference table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.bz-reference caption { text-align: left; padding-bottom: 8px; color: var(--ink); font-weight: 600; }
+.bz-reference th, .bz-reference td { padding: 9px 8px; text-align: left; border-bottom: 1px solid rgba(120,98,58,.14); }
+.bz-reference thead th { color: var(--ink-2); font-family: var(--gothic); font-size: .78rem; }
+.bz-reference tbody th { font-weight: 500; }
+.bz-reference td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bz-reference .katex { font-size: 1.08em; }
+.bz-reference .bz-source { font-size: .8rem; color: var(--ink-2); }
+.kw-panels { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 14px; margin-top: 12px; }
+.kw-status { display: block; margin-top: 8px; color: var(--ink); font: 500 .85rem/1.7 var(--gothic); font-variant-numeric: tabular-nums; }
+#fig-kmap { cursor: crosshair; }
+#fig-krows { margin-top: 12px; }
+.kw-row-choice { margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(120,98,58,.1); }
+.kw-details { border-top: 1px solid rgba(120,98,58,.1); padding-top: 10px; }
+.kw-details summary { cursor: pointer; color: var(--ink-2); font: 500 .8rem var(--gothic); }
+@media (max-width: 680px) {
+  .kw-panels { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+@media (max-width: 480px) {
+  .gfig-choice .gfig-btn { padding: 7px 10px; }
+  .bz-reference th, .bz-reference td { padding: 8px 6px; }
+}
