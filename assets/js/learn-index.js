@@ -115,7 +115,7 @@ window.initLearnIndex = function (opts) {
         });
         shelfHost.innerHTML = '<details class="ashelf-collapse" open><summary class="ashelf-toggle">' +
           i18('Browse all topics', 'トピック一覧') +
-          '' + icon("chevron-down", "ashelf-arrow") + '</summary>' +
+          '' + icon("chevron-right", "ashelf-caret") + '</summary>' +
           shelf + '</details>';
         (function (det) {
           if (!det) return;

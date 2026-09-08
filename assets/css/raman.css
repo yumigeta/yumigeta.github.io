@@ -271,23 +271,6 @@
 .atom-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .atom-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 
-/* ── Equation references: hover to preview the equation ── */
-.eqref {
-  border-bottom: 1px dotted currentColor; cursor: help;
-  white-space: nowrap; text-underline-offset: 2px;
-}
-.eqref:hover { color: var(--accent); }
-.eq-tip {
-  position: fixed; z-index: 1000; max-width: min(92vw, 560px);
-  background: var(--paper); border: 1px solid var(--rule-2);
-  border-radius: 8px; padding: 4px 16px;
-  box-shadow: var(--shadow-card-h);
-  pointer-events: none; opacity: 0; transition: opacity .12s ease;
-  overflow-x: auto;
-}
-.eq-tip.show { opacity: 1; }
-.eq-tip .katex-display { margin: 6px 0; }
-
 /* ── In-section sub-demo heading (e.g. CO2 demo inside the classical theory) ── */
 .demo-sub {
   font-family: var(--mincho);

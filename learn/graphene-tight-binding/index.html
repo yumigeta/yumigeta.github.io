@@ -2,48 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Graphene's Tight-Binding Bands — Why a Semimetal</title>
-  <meta name="description" content="Putting tight-binding on graphene's honeycomb lattice: the A/B Bloch state, the three-term structure factor f(k), the 2×2 Hamiltonian, the bands E±(k) = ±t|f(k)|, why they touch only at the K and K′ corners, and why graphene is a semimetal.">
-  <meta name="keywords" content="graphene, tight-binding, structure factor, 2x2 Hamiltonian, pi band, dispersion, Brillouin zone corner, semimetal, electron-hole symmetry, density of states">
-  <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-tight-binding/">
+  <title>Tight-Binding Model of Graphene</title>
+  <meta name="description" content="How graphene’s two orbital amplitudes and three nearest-neighbour hoppings produce two bands that touch at K and K′. Follow the phase sum, band surfaces and neutral band filling.">
+  <meta name="keywords" content="graphene, tight-binding, structure factor, pi band, dispersion, Brillouin zone corner, semimetal, electron-hole symmetry, density of states">
+  <link rel="canonical" href="https://yumigeta.com/learn/graphene-tight-binding/">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Graphene's Tight-Binding Bands">
-  <meta property="og:description" content="From the A/B Bloch state and the structure factor to E±(k) = ±t|f(k)|, the band touching at K, and why graphene is a semimetal.">
-  <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-tight-binding/">
+  <meta property="og:title" content="Tight-Binding Model of Graphene">
+  <meta property="og:description" content="How graphene’s two orbital amplitudes and three nearest-neighbour hoppings produce two bands that touch at K and K′. Follow the phase sum, band surfaces and neutral band filling.">
+  <meta property="og:url" content="https://yumigeta.com/learn/graphene-tight-binding/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Graphene's Tight-Binding Bands">
+  <meta name="twitter:title" content="Tight-Binding Model of Graphene">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LearningResource",
-    "name": "Graphene's Tight-Binding Bands",
-    "description": "A tight-binding derivation of graphene's bands: the A/B Bloch state, the structure factor f(k), the 2×2 Hamiltonian, E±(k) = ±t|f(k)|, band touching at the Brillouin zone corners, and why graphene is a semimetal.",
-    "url": "https://yumigeta.github.io/learn/graphene-tight-binding/",
-    "author": {
-      "@type": "Person",
-      "name": "Kentaro Yumigeta",
-      "url": "https://yumigeta.github.io",
-      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
-    },
-    "educationalLevel": "Undergraduate",
-    "learningResourceType": "Tutorial",
-    "teaches": ["Tight-binding model", "Structure factor", "2x2 Hamiltonian", "Band structure", "Semimetal", "Electron-hole symmetry"],
-    "inLanguage": ["ja", "en"],
-    "isAccessibleForFree": true,
-    "interactivityType": "expositive"
-  }
-  </script>
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Tight-Binding Model of Graphene",
+  "description": "How graphene’s two orbital amplitudes and three nearest-neighbour hoppings produce two bands that touch at K and K′. Follow the phase sum, band surfaces and neutral band filling.",
+  "url": "https://yumigeta.com/learn/graphene-tight-binding/",
+  "author": {
+    "@type": "Person",
+    "name": "Kentaro Yumigeta",
+    "url": "https://yumigeta.com",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "University of Arizona"
+    }
+  },
+  "educationalLevel": "Undergraduate",
+  "learningResourceType": "Tutorial",
+  "teaches": [
+    "Graphene nearest-neighbour model",
+    "A/B orbital amplitudes",
+    "Structure factor",
+    "Band touching at K and K-prime",
+    "Neutral graphene band filling"
+  ],
+  "inLanguage": [
+    "ja",
+    "en"
+  ],
+  "isAccessibleForFree": true,
+  "interactivityType": "mixed"
+}
+</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/bands-series.css">
+  <link rel="stylesheet" href="/assets/css/graphene-tight-binding.css">
+  <link rel="stylesheet" href="/assets/css/eq-hover.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
@@ -70,240 +83,176 @@
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Tight-Binding</span><span class="i18n-ja">グラフェンのTBバンド</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Tight-Binding</span><span class="i18n-ja">グラフェンのTBモデル</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">Graphene's Tight-Binding Bands</span><span class="i18n-ja">グラフェンのtight-bindingバンド</span></h1>
+        <h1><span class="i18n-en">Tight-Binding Model of Graphene</span><span class="i18n-ja">グラフェンのtight-bindingモデル</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en"><span class="cq-label">Central question:</span> When the one-dimensional tight-binding is placed on the graphene lattice of the previous page, what shape do graphene's electronic bands take, and why is it neither a metal nor an insulator?</span><span class="i18n-ja"><span class="cq-label">中心の問い：</span>1次元のtight-bindingを前ページのグラフェン格子に載せると、グラフェンの電子バンドはどんな形になり、なぜ金属でも絶縁体でもないのか。</span></p>
-      <p class="pintro"><span class="i18n-en">The map of the lattice is in place. Real space has the two A/B sublattices and three nearest-neighbour directions; reciprocal space has the hexagonal first Brillouin zone and the K and K′ points. Put tight-binding on top of this, and because there are two atoms in the unit cell, two bands rather than one should appear. The question is what shape those two bands take, whether they separate or touch at the K and K′ points, and, as a result, whether graphene is a metal, an insulator, or something that fits neither.</span><span class="i18n-ja">格子の地図はそろった。実空間にはA/Bの二つの副格子と三つの最近接方向があり、逆空間には六角形の第一ブリルアンゾーンとK点、K′点がある。この上にtight-bindingを載せれば、単位胞に二つの原子があるため、一本ではなく二本のバンドが現れるはずである。問題は、その二本のバンドがどんな形を取り、K点とK′点で離れるのか接するのか、そしてその結果としてグラフェンが金属なのか絶縁体なのか、それともどちらにも入りきらないのかである。</span></p>
+      <p class="pintro"><span class="i18n-en">An electron bound to a single carbon atom has only certain allowed energies. What happens when many carbon atoms join into a sheet? Electron waves spread across neighbouring atoms, and their energies spread into ranges called <b>bands</b>. The gaps and contacts between these bands help determine how a material conducts electricity. To calculate them for graphene, we can start with the honeycomb: two atoms, A and B, in each repeating unit, and three bonds from every atom. The <b>tight-binding model</b> describes electronic states using atomic orbitals and their coupling to neighbours. Let us see what bands these connections produce.</span><span class="i18n-ja">炭素原子に束縛された電子のエネルギーは、飛び飛びの値を取る。その原子をたくさんつないで一枚のシートにしたら、どうなるだろう。電子の波は隣の原子にも広がり、取れるエネルギーには幅が生まれる。この帯が<b>バンド</b>だ。帯どうしの隙間や接し方は、物質の電気の流れ方に関わっている。グラフェンでこれを計算する手がかりは、蜂の巣の中にある。繰り返しの単位はAとBの二原子で、それぞれが三つの隣と結びつく。このつながりは、どんなバンドを生むだろう。各原子の電子の波と、隣との結びつきから組み立てる<b>tight-bindingモデル</b>で調べてみよう。</span></p>
     </div>
   </div>
 
-  <!-- ═══════ 01 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">01</span>
-      <h2><span class="i18n-en">One amplitude per unit cell is not enough</span><span class="i18n-ja">単位胞に1つの振幅では足りない</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">In the one-dimensional chain, there was just one localized orbital in the unit cell. So once the wavevector $\mathbf{k}$ was fixed, only one amplitude needed to be fixed within the unit cell.</span><span class="i18n-ja">1次元鎖では、単位胞に局在軌道が一つだけあった。そのため、波数 $\mathbf{k}$ を決めれば、単位胞の中で決めるべき振幅は一つだけだった。</span></p>
-        <p><span class="i18n-en">In graphene, there are an A site and a B site in the unit cell. So even for a state with the same wavevector $\mathbf{k}$, one must separately fix how much amplitude it has on the A site and how much on the B site.</span><span class="i18n-ja">グラフェンでは、単位胞の中にAサイトとBサイトがある。したがって、同じ波数 $\mathbf{k}$ を持つ状態でも、Aサイトにどれだけ振幅を持つかと、Bサイトにどれだけ振幅を持つかを別々に決めなければならない。</span></p>
-        <p><span class="i18n-en">We write these two coefficients $\psi_A, \psi_B$. Bundled together as</span><span class="i18n-ja">その二つの係数を $\psi_A$, $\psi_B$ と書く。まとめて</span></p>
-        <p class="eq-block">$$(\psi_A,\ \psi_B)^{\top}$$</p>
-        <p><span class="i18n-en">, this is the two-component coefficient vector in the A/B basis.</span><span class="i18n-ja">と書けば、これはA/B基底における二成分の係数ベクトルである。</span></p>
-        <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-cells" role="img" aria-label="The one-site unit cell of a 1D chain (one coefficient) beside graphene's A/B two-site unit cell (two coefficients)"></canvas></div>
+    <div class="demo-head"><span class="demo-num">01</span><h2><span class="i18n-en">From one bond to three neighbours</span><span class="i18n-ja">一本の結合から、三つの隣へ</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">To describe graphene’s electronic states, first identify which atomic orbitals matter. An <b>atomic orbital</b> gives the shape of an electron wave around an atom. Carbon has four valence electrons. In graphene, three take part in the strong bonds within the sheet. The remaining one occupies the <b>$p_z$ orbital</b>, whose lobes extend above and below the sheet.</span><span class="i18n-ja">グラフェンの電子の状態を調べるには、まず各原子のどの軌道が関わるかを知りたい。<b>原子軌道</b>は、原子の周りに広がる電子の波の形を表す。炭素には結合に関わる電子が四つあり、グラフェンでは三つが面内の強い結合を作る。残る一つが入るのは、シートの上下に広がる<b>$p_z$軌道</b>だ。</span></p>
+        <p><span class="i18n-en">Conduction involves states near the boundary between filled and empty states. In graphene, these come mainly from $p_z$ orbitals. The occupied states of the in-plane bonds lie much lower in energy. We therefore describe the states relevant to conduction by combining one $p_z$ orbital from each carbon.</span><span class="i18n-ja">電流に関わるのは、電子で埋まった状態と空いた状態の境目付近だ。グラフェンでは、この付近の状態を主に $p_z$ 軌道が作る。面内の結合を担う埋まった状態は、もっと低いエネルギーにある。そこで、炭素一個につき一つある $p_z$ 軌道を組み合わせて、電流に関わる電子の状態を表す。</span></p>
+        <p><span class="i18n-en">Neighbouring orbitals extend into the same region of space and couple to each other. Their tails become smaller farther from the atom, so direct coupling to distant atoms is generally weaker. Keeping only the bonds between the closest atoms is the <b>nearest-neighbour approximation</b>.</span><span class="i18n-ja">隣り合う原子の軌道は同じ空間にも広がり、互いに結びつく。原子から遠ざかると軌道の裾は小さくなり、遠い原子との直接の結びつきは一般に弱くなる。いちばん近い原子同士の結合を残す<b>最近接近似</b>で考えよう。</span></p>
+        <h3><span class="i18n-en">What does one bond do to the energies?</span><span class="i18n-ja">一本の結合で、エネルギーはどう変わるか</span></h3>
+        <p><span class="i18n-en">First keep just one bond between neighbouring A and B carbons. Write the <b>$p_z$ orbital wavefunctions</b> localized near the two atoms as $\varphi_A$ and $\varphi_B$. With the coupling switched off in this model, each has the same definite energy. Take this common orbital energy as the reference zero.</span><span class="i18n-ja">まず、隣り合うAとBの一本の結合だけを残してみよう。各原子の近くに局在する<b>$p_z$軌道の波動関数</b>を $\varphi_A,\varphi_B$ とする。このモデルで結合を切ると、それぞれのエネルギーは同じ値に決まる。この共通の軌道エネルギーを、基準の0に取る。</span></p>
+        <p><span class="i18n-en">With the bond present, an electron initially localized on A develops a probability of being found on B as well. To describe states of the coupled pair, include both orbitals. Write the electron's wavefunction using unknown coefficients:</span><span class="i18n-ja">結合があると、初めにAだけに局在していた電子も、時間がたつとB側で見つかる確率が生じる。結合した二原子の状態を表すには、両方の軌道が必要だ。係数を未知数として、電子の波動関数を</span></p>
+        <p class="eq-block">$$\psi=c_A\varphi_A+c_B\varphi_B.$$</p>
+        <p><span class="i18n-en">This is a <b>linear combination</b> of orbitals. The coefficients are <b>complex probability amplitudes</b>: $c_j=|c_j|e^{i\theta_j}$ specifies the magnitude $|c_j|$ and phase $\theta_j$ with which each orbital contributes.</span><span class="i18n-ja">と表そう。この表し方が<b>線形結合</b>だ。係数は<b>複素数の確率振幅</b>で、$c_j=|c_j|e^{i\theta_j}$ と書けば、各軌道が加わる大きさ $|c_j|$ と位相 $\theta_j$ を表せる。</span></p>
+        <p><span class="i18n-en">A state whose energy measurement has a single definite outcome $E$ is an <b>energy eigenstate</b>. Its wavefunction satisfies the <b>Schrödinger equation</b>:</span><span class="i18n-ja">エネルギーを測ると必ず同じ値 $E$ が得られる状態を<b>エネルギーの固有状態</b>と呼ぶ。その波動関数が満たす条件が、<b>シュレーディンガー方程式</b>だ。</span></p>
+        <p class="eq-block" id="eqenergy">$$H\psi=E\psi.$$</p>
+        <p><span class="i18n-en">The <b>Hamiltonian</b> $H$ determines the electron's allowed energies and how its wavefunction changes with time. For an energy eigenstate, the two coefficients acquire only a common phase as time passes. Their magnitudes and relative phase stay fixed, so <b>the probability distribution for finding the electron remains unchanged</b>.</span><span class="i18n-ja">$H$ は、電子の取り得るエネルギーと波動関数の時間変化を定める<b>ハミルトニアン</b>だ。<button type="button" class="eqref" data-eq="energy">上の式</button>を満たす固有状態では、時間とともに変わるのは、二つの係数に共通する位相だけになる。大きさと互いの位相差が保たれるので、<b>電子を見つける確率の分布も変わらない</b>。</span></p>
+        <p><span class="i18n-en">Call the Hamiltonian of the two-orbital model $H_2$, and write the coupling coefficient as $-t$, with $t>0$. Its action on each orbital is</span><span class="i18n-ja">この二軌道モデルのハミルトニアンを $H_2$ とし、結合を表す係数を $-t$（$t>0$）と置こう。各軌道への作用は、</span></p>
+        <p class="eq-block">$$\begin{aligned}H_2\varphi_A&=0\varphi_A-t\varphi_B,\\H_2\varphi_B&=0\varphi_B-t\varphi_A.\end{aligned}$$</p>
+        <p><span class="i18n-en">The zero multiplying the original orbital is its energy before coupling. The term on the other orbital expresses the A–B coupling. Its coefficient $-t$ is the <b>hopping matrix element</b>, a quantity with units of energy.</span><span class="i18n-ja">と書ける。元の軌道に掛かる0が結合前の軌道エネルギーで、相手の軌道の項がAとBの結合を表す。その係数 $-t$ が<b>ホッピング行列要素</b>で、エネルギーの単位を持つ。</span></p>
+        <p><span class="i18n-en">With $\psi=\varphi_A$ alone, the left side contains the B orbital and cannot equal $E\varphi_A$ on the right. We therefore try the sum and the difference, which remain proportional to their original combinations when A and B are exchanged:</span><span class="i18n-ja">$\varphi_A$ だけでは、$H_2$ を作用させた左辺に $\varphi_B$ が現れ、右辺の $E\varphi_A$ と一致しない。そこで、AとBを入れ替えた後も元の組み合わせに比例する和と差を試そう。</span></p>
+        <p class="eq-block">$$\begin{aligned}H_2(\varphi_A+\varphi_B)&=-t(\varphi_A+\varphi_B),\\H_2(\varphi_A-\varphi_B)&=+t(\varphi_A-\varphi_B).\end{aligned}$$</p>
+        <p><span class="i18n-en">The sum $\varphi_A+\varphi_B$, with matching phases, and the difference $\varphi_A-\varphi_B$, with opposite phases, both satisfy $H\psi=E\psi$. <b>These are the two energy eigenstates of the coupled pair</b>, with energies $-t$ and $+t$, respectively. Without coupling, both orbital energies were zero. The bond splits them into two eigenenergies separated by <b>$2t$</b>. A larger $t$ produces a larger energy separation between the two combinations.</span><span class="i18n-ja">位相をそろえた和 $\varphi_A+\varphi_B$ と、逆にした差 $\varphi_A-\varphi_B$ は、どちらも $H\psi=E\psi$ を満たす。<b>この二つが結合した二原子の固有状態</b>で、エネルギーはそれぞれ $-t,+t$ だ。結合がなければ、ともに0だったエネルギーが二つに分かれ、その間隔は<b>$2t$</b>だ。$t$ が大きいほど、この二つの組み合わせのエネルギー差が大きくなる。</span></p>
+        <h3><span class="i18n-en">Add the other two neighbours</span><span class="i18n-ja">残り二つの隣とも結ぶ</span></h3>
+        <p><span class="i18n-en">In graphene's honeycomb, each A has three B neighbours. Restore the other two bonds and label the neighbours B₁, B₂ and B₃. The three bonds are equivalent in the regular sheet, so they share the same $t$.</span><span class="i18n-ja">グラフェンの蜂の巣では、一つのAに三つのBが隣り合っている。残り二本の結合も戻して、隣をB₁、B₂、B₃と呼ぼう。整ったシートでは三本の結合が同等なので、同じ $t$ を使う。</span></p>
+        <figure class="gfig"><div class="gfig-stage"><canvas id="fig-tb-neighbours" role="img" aria-label="An A atom and its three neighbouring B atoms, with equal hopping minus t along the three bond directions"></canvas></div></figure>
+        <p><span class="i18n-en">Let $c_1,c_2,c_3$ be the coefficients of the orbitals $\varphi_{B_1},\varphi_{B_2},\varphi_{B_3}$. The wavefunction extending across the crystal is</span><span class="i18n-ja">三つの軌道 $\varphi_{B_1},\varphi_{B_2},\varphi_{B_3}$ に掛かる係数を $c_1,c_2,c_3$ と書く。結晶に広がる電子の波動関数は、</span></p>
+        <p class="eq-block">$$\begin{aligned}\psi={}&c_A\varphi_A+c_1\varphi_{B_1}\\&+c_2\varphi_{B_2}+c_3\varphi_{B_3}+\cdots.\end{aligned}$$</p>
+        <p><span class="i18n-en">The dots include the orbitals of all the other atoms. Call the crystal's Hamiltonian $H$ and substitute this $\psi$ into the left side of $H\psi=E\psi$. Applying $H$ to each orbital term and adding gives</span><span class="i18n-ja">点々には、その先の原子の軌道もすべて含まれる。結晶全体のハミルトニアンを $H$ として、$H\psi=E\psi$ の左辺に、この $\psi$ を入れてみよう。各軌道の項に $H$ を作用させて足すと、</span></p>
+        <p class="eq-block" id="eqhamiltonian-expansion">$$\begin{aligned}H\psi&=H\bigl(c_A\varphi_A+c_1\varphi_{B_1}+c_2\varphi_{B_2}+c_3\varphi_{B_3}+\cdots\bigr)\\&=H(c_A\varphi_A)+H(c_1\varphi_{B_1})\\&\quad+H(c_2\varphi_{B_2})+H(c_3\varphi_{B_3})+\cdots.\end{aligned}$$</p>
+        <p><span class="i18n-en">First collect the terms multiplying the central A orbital, $\varphi_A$. In the nearest-neighbour approximation, this A couples directly to B₁, B₂ and B₃, so we examine the contributions from these three neighbours.</span><span class="i18n-ja">まず、中央のAの軌道 $\varphi_A$ に掛かる項を集めよう。最近接近似では、このAと直接結びつくのはB₁・B₂・B₃なので、三つのBからの寄与を調べる。</span></p>
+        <p><span class="i18n-en">The B₁→A bond contributes $-t\varphi_A$ to $H\varphi_{B_1}$. For the term $c_1\varphi_{B_1}$ in $\psi$, the same coefficient $c_1$ multiplies the result:</span><span class="i18n-ja">B₁→Aの結合によって、$H\varphi_{B_1}$ には $-t\varphi_A$ の項が現れる。$\psi$ に含まれる $c_1\varphi_{B_1}$ については、作用させた結果にも同じ $c_1$ が掛かる。</span></p>
+        <p class="eq-block">$$\begin{aligned}H(c_1\varphi_{B_1})&=c_1H\varphi_{B_1}\\&=-tc_1\varphi_A+\cdots.\end{aligned}$$</p>
+        <p><span class="i18n-en">Applying $H$ to the B₂ and B₃ terms gives $-tc_2\varphi_A$ and $-tc_3\varphi_A$. These contributions all contain the same $\varphi_A$, so their coefficients <b>add</b>. The on-site part is $0\times c_A$, leaving</span><span class="i18n-ja">B₂とB₃の項からも、それぞれ $-tc_2\varphi_A$、$-tc_3\varphi_A$ が現れる。同じ $\varphi_A$ に掛かる係数をまとめると、三つの寄与の<b>足し算</b>になる。A自身の軌道から来る分は $0\times c_A$ なので、</span></p>
+        <p class="eq-block">$$H\psi=-t(c_1+c_2+c_3)\varphi_A+\cdots.$$</p>
+        <p><span class="i18n-en">On the right, $E\psi$ multiplies every coefficient by $E$. The condition $H\psi=E\psi$ requires <b>the coefficient of every atomic orbital to match on the two sides</b>. For the A orbital, the right-hand coefficient is $Ec_A$, giving</span><span class="i18n-ja">右辺の $E\psi$ では、すべての係数が $E$ 倍される。<b>各原子の軌道に掛かる係数が、左右でそれぞれ一致する</b>のが、$H\psi=E\psi$ の条件だ。Aの軌道では右辺の係数が $Ec_A$ なので、</span></p>
+        <p class="eq-block" id="eqlocal-a">$$-t(c_1+c_2+c_3)=Ec_A.$$</p>
+        <p><span class="i18n-en">Next compare the coefficients of $\varphi_{B_1}$ in the same equation $H\psi=E\psi$. B₁ has three A neighbours: the central A and two more atoms. Label the latter A₂ and A₃, with orbital coefficients $c_{A_2}$ and $c_{A_3}$. Their contributions give</span><span class="i18n-ja">次は、同じ $H\psi=E\psi$ の $\varphi_{B_1}$ に掛かる係数を比べよう。B₁に隣り合うのは、中央のAと、さらに二つのA原子だ。その二つをA₂・A₃、軌道の係数を $c_{A_2},c_{A_3}$ と書くと、</span></p>
+        <p class="eq-block" id="eqlocal-b1">$$-t(c_A+c_{A_2}+c_{A_3})=Ec_1.$$</p>
+        <p><span class="i18n-en">B₂ and B₃ have <button type="button" class="eqref" data-eq="local-b1">equations of the same form</button>, each involving their own three A neighbours. The energy $E$ belongs to one electronic state extending across the crystal, so it is common to <button type="button" class="eqref" data-eq="local-a local-b1">all these equations</button>. We seek coefficients that satisfy them together.</span><span class="i18n-ja">となる。B₂やB₃でも、それぞれに隣り合う三つのAを使って、<button type="button" class="eqref" data-eq="local-b1">同じ形の式</button>ができる。$E$ は結晶に広がる一つの電子状態のエネルギーなので、<button type="button" class="eqref" data-eq="local-a local-b1">すべての式</button>で共通だ。これらを同時に満たす係数の並びを求めよう。</span></p>
+    </div></div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-head"><span class="demo-num">02</span><h2><span class="i18n-en">The sum changes with wavevector</span><span class="i18n-ja">三つの寄与の和は、波数で変わる</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">In §01, each atom had a coefficient and <button type="button" class="eqref" data-eq="local-a local-b1">an equation to satisfy</button>. The repeating lattice gives us a way to relate these coefficients.</span><span class="i18n-ja">前節では、原子ごとに係数を置き、<button type="button" class="eqref" data-eq="local-a local-b1">それらが満たす方程式</button>を作った。すべての係数を別々に求める代わりに、結晶の繰り返しを使おう。</span></p>
+        <p><span class="i18n-en">In a periodic crystal, we can find electronic states as <b>Bloch waves</b>, which change only by a phase factor under a lattice translation. The wavevector $\mathbf k$ specifies this phase change. Once one A coefficient is known, translation gives the coefficients on the other A sites; the same holds for B. <b>At a given wavevector, only two coefficients, one for A and one for B, remain to be found.</b></span><span class="i18n-ja">周期的な結晶では、格子の繰り返しだけずらすと位相だけが変わる、<b>ブロッホ波</b>として電子の状態を調べられる。この位相の変わり方を指定するのが、波数 $\mathbf k$ だ。あるAの係数が分かれば、格子をどれだけずらすかに応じた位相を掛けて、ほかのAの係数も書ける。Bどうしも同じだ。<b>一つの波数について、A用とB用の二つの係数を求めればよくなる。</b></span></p>
+        <p><span class="i18n-en">Put the central A at the origin. Its three B neighbours are at the bond vectors $\boldsymbol\delta_1,\boldsymbol\delta_2,\boldsymbol\delta_3$. Lattice translations take these B sites into one another, so their coefficients share a common factor $u_B$:</span><span class="i18n-ja">中央のAを原点に置くと、三つのBの位置は、結合の矢印 $\boldsymbol\delta_1,\boldsymbol\delta_2,\boldsymbol\delta_3$ になる。三つのBは格子の並進で互いに重なる位置なので、その係数は、共通する部分を $u_B$ として、</span></p>
+        <p class="eq-block" id="eq1">$$\begin{aligned}c_1&=u_Be^{i\mathbf k\cdot\boldsymbol\delta_1},\\c_2&=u_Be^{i\mathbf k\cdot\boldsymbol\delta_2},\\c_3&=u_Be^{i\mathbf k\cdot\boldsymbol\delta_3}.\end{aligned} \tag{1}$$</p>
+        <p><span class="i18n-en">$u_B$ is a complex coefficient containing both magnitude and phase. Each exponential is a <b>phase factor of magnitude 1</b>, so all three coefficients have magnitude $|u_B|$. The A sites have their own common coefficient $u_A$. At the central A, the position-dependent phase factor is 1, giving $c_A=u_A$.</span><span class="i18n-ja">と書ける。$u_B$ は大きさと位相を含む複素数の係数で、指数関数の部分は<b>大きさ1の位相因子</b>だ。したがって、三つの係数の大きさは共通して $|u_B|$ になる。A側にも共通する係数 $u_A$ があり、中央のAは原点なので、$c_A=u_A$ だ。</span></p>
+        <p><span class="i18n-en">In the figure, move the wavevector from the centre $\Gamma$ to the right-hand corner $K$. This horizontal wavevector gives phase 0 at the upper B₁ and phases $\theta,-\theta$ at the right and left B sites.</span><span class="i18n-ja">下の図では、波数を第一ブリルアンゾーンの中心 $\Gamma$ から右端の角 $K$ へ動かせる。波数が横向きなので、真上のB₁に付く位相は0、右のB₂と左のB₃に付く位相は、それぞれ $\theta$ と $-\theta$ になる。</span></p>
+        <p><span class="i18n-en">The crests and troughs over the atoms show $\cos(k_xx)$, the <b>real part of the phase factor</b> after removing $u_B$. In the complex plane, these same factors are arrows of length 1. Joining the three arrows head to tail gives their sum.</span><span class="i18n-ja">原子に重ねた山と谷は、$u_B$ をくくった後の<b>位相因子の実部</b> $\cos(k_xx)$ を表す。複素平面では、同じ位相因子を長さ1の矢印として表している。三本を先端から順につなぐと、その和が求まる。</span></p>
+        <figure class="gfig" id="tb-bond-phase-figure">
+          <div class="gfig-stage"><canvas id="fig-tb-bond-phase" role="img" aria-label="Wavevector on the Gamma to K line, crests and troughs of the real part of its phase factor at the atoms, and the sum of the three complex phase factors"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-slider"><label for="tb-bond-phase"><span class="i18n-en">Wavevector</span><span class="i18n-ja">波数</span> $\mathbf k$</label><input id="tb-bond-phase" type="range" min="0" max="120" step="1" value="60"><output id="tb-bond-phase-output" for="tb-bond-phase">0.50 K</output></div>
+          </div>
+          <figcaption class="gfig-cap"><span class="i18n-en">Sum of phase factors</span><span class="i18n-ja">位相因子の和</span> = <output id="tb-bond-phase-sum" for="tb-bond-phase">2.00</output></figcaption>
         </figure>
-        <p><span class="i18n-en">The reason these two components appear is not that there are two kinds of electron. It is that there are two geometrically distinct places in the unit cell. Unless we specify which of A and B the weight is on, graphene's Bloch state is not determined.</span><span class="i18n-ja">この二成分が出てくる理由は、電子が二種類あるからではない。単位胞の中に、幾何的に区別される二つの場所があるからである。AとBのどちらに重みを持つかを指定しないかぎり、グラフェンのBloch状態は決まらない。</span></p>
-      </div>
-    </div>
+        <p><span class="i18n-en">At $\Gamma$, the three arrows point the same way and add to 3. As the wavevector moves, the arrows separate in direction and their sum changes. To use this in <button type="button" class="eqref" data-eq="local-a">the equation from §01</button>, factor $u_B$ out of the three coefficients:</span><span class="i18n-ja">$\Gamma$ では三本とも同じ向きで、和は3だ。波数を動かすと矢印の向きが分かれ、その和も変わっていく。この和を<button type="button" class="eqref" data-eq="local-a">前節の式</button>に入れよう。三つの係数から $u_B$ をくくると、</span></p>
+        <p class="eq-block" id="eq2">$$\begin{gathered}c_1+c_2+c_3\\=u_B\bigl(e^{i\mathbf k\cdot\boldsymbol\delta_1}+e^{i\mathbf k\cdot\boldsymbol\delta_2}+e^{i\mathbf k\cdot\boldsymbol\delta_3}\bigr).\end{gathered} \tag{2}$$</p>
+        <p><span class="i18n-en">Call the sum of the three phase factors in parentheses the <b>structure factor</b> $f(\mathbf k)$:</span><span class="i18n-ja">括弧の中に残った、三方向の位相因子の和を<b>構造因子</b> $f(\mathbf k)$ と呼ぼう。</span></p>
+        <p class="eq-block" id="eq3">$$f(\mathbf k)=\sum_{j=1}^3e^{i\mathbf k\cdot\boldsymbol\delta_j}. \tag{3}$$</p>
+        <p><span class="i18n-en">Now $c_1+c_2+c_3=u_Bf(\mathbf k)$. Substitute this and $c_A=u_A$ into <button type="button" class="eqref" data-eq="local-a">the A equation</button>.</span><span class="i18n-ja">これで $c_1+c_2+c_3=u_Bf(\mathbf k)$ と書ける。<button type="button" class="eqref" data-eq="local-a">Aの式</button>には、この和と $c_A=u_A$ を代入する。</span></p>
+        <p><span class="i18n-en">Next, write <button type="button" class="eqref" data-eq="local-b1">the equation at B₁</button>. B₁ is at $\boldsymbol\delta_1$, and the vectors from it to its three A neighbours are $-\boldsymbol\delta_j$ $(j=1,2,3)$. Adding the starting position and the displacement gives each A position as $\boldsymbol\delta_1-\boldsymbol\delta_j$. For $j=1$, this is the A at the origin.</span><span class="i18n-ja">次は<button type="button" class="eqref" data-eq="local-b1">B₁の式</button>を作ろう。B₁の位置は $\boldsymbol\delta_1$ で、そこから隣のAへ向かう矢印は $-\boldsymbol\delta_j$ $(j=1,2,3)$ だ。<b>出発点の位置に移動の矢印を足す</b>と、各Aの位置は $\boldsymbol\delta_1-\boldsymbol\delta_j$ になる。$j=1$ なら位置は0で、原点のAに戻る。</span></p>
+        <p><span class="i18n-en">Using this position in the Bloch phase gives each A coefficient as $u_Ae^{i\mathbf k\cdot(\boldsymbol\delta_1-\boldsymbol\delta_j)}$. The B₁ coefficient is $c_1=u_Be^{i\mathbf k\cdot\boldsymbol\delta_1}$ from <button type="button" class="eqref" data-eq="1">Eq. (1)</button>. Substitute these coefficients into <button type="button" class="eqref" data-eq="local-b1">the B₁ equation from §01</button>:</span><span class="i18n-ja">この位置を位相に入れるので、各Aの係数は $u_Ae^{i\mathbf k\cdot(\boldsymbol\delta_1-\boldsymbol\delta_j)}$ だ。一方、B₁自身の係数は、<button type="button" class="eqref" data-eq="1">式(1)</button>の $c_1=u_Be^{i\mathbf k\cdot\boldsymbol\delta_1}$ になる。<button type="button" class="eqref" data-eq="local-b1">前節の方程式</button>に、これらの係数を入れると、</span></p>
+        <p class="eq-block" id="eqbloch-b1">$$\begin{gathered}E u_Be^{i\mathbf k\cdot\boldsymbol\delta_1}\\=-t\sum_{j=1}^3u_Ae^{i\mathbf k\cdot(\boldsymbol\delta_1-\boldsymbol\delta_j)}\\=-t u_Ae^{i\mathbf k\cdot\boldsymbol\delta_1}\sum_{j=1}^3e^{-i\mathbf k\cdot\boldsymbol\delta_j}.\end{gathered}$$</p>
+        <p><span class="i18n-en">In <button type="button" class="eqref" data-eq="bloch-b1">the last line</button>, factor out $u_Ae^{i\mathbf k\cdot\boldsymbol\delta_1}$, which is common to all three terms. The remaining sum reverses the signs of the phases in <button type="button" class="eqref" data-eq="3">Eq. (3)</button>, so it is the complex conjugate $f^*(\mathbf k)$. Cancel the common phase factor $e^{i\mathbf k\cdot\boldsymbol\delta_1}$ from the two sides. Together with <button type="button" class="eqref" data-eq="local-a">the A equation</button>, this gives</span><span class="i18n-ja"><button type="button" class="eqref" data-eq="bloch-b1">最後の行</button>では、三つの項に共通する $u_Ae^{i\mathbf k\cdot\boldsymbol\delta_1}$ をくくり出した。残った和は、<button type="button" class="eqref" data-eq="3">式(3)</button>の位相の符号をすべて逆にしたものなので、複素共役 $f^*(\mathbf k)$ になる。両辺の共通因子 $e^{i\mathbf k\cdot\boldsymbol\delta_1}$ を取り除き、<button type="button" class="eqref" data-eq="local-a">Aの式</button>と並べると、</span></p>
+        <p class="eq-block" id="eq4">$$\begin{aligned}Eu_A&=-tf(\mathbf k)u_B,\\Eu_B&=-tf^*(\mathbf k)u_A.\end{aligned} \tag{4}$$</p>
+    </div></div>
   </section>
 
-  <!-- ═══════ 02 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">02</span>
-      <h2><span class="i18n-en">The Bloch state on the A/B lattice</span><span class="i18n-ja">A/B格子の上のBloch状態</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">We write graphene's Bloch state on the triangular Bravais lattice built on the previous page. We write a Bravais lattice point as</span><span class="i18n-ja">グラフェンのBloch状態を、前ページで作った三角Bravais格子の上に書く。Bravais格子点を</span></p>
-        <p class="eq-block">$$\mathbf{R} = m\,\mathbf{a}_1 + n\,\mathbf{a}_2$$</p>
-        <p><span class="i18n-en">. Each unit cell has an A site and a B site. We write the A orbital of site $\mathbf{R}$ as $|\mathbf{R}, A\rangle$ and the B orbital as $|\mathbf{R}, B\rangle$.</span><span class="i18n-ja">とする。各単位胞にはAサイトとBサイトがある。サイト $\mathbf{R}$ のA軌道を $|\mathbf{R}, A\rangle$、B軌道を $|\mathbf{R}, B\rangle$ と書く。</span></p>
-        <p><span class="i18n-en">Here we extract just one $p_z$ orbital, perpendicular to the plane, from each carbon atom. We treat the electron states formed by these orbitals as π-electron states. We do not go into the detailed chemistry of $sp^2$ bonding or σ bonds.</span><span class="i18n-ja">ここでは、各炭素原子から面に垂直な $p_z$ 軌道を一つだけ取り出す。この軌道が作る電子状態を$\pi$電子の状態として扱う。$sp^2$結合や$\sigma$結合の詳しい化学には立ち入らない。</span></p>
-        <p><span class="i18n-en">In a Bloch state, the part that moves from unit cell to unit cell is carried by the Bloch phase. The weights placed on A and B within the unit cell, on the other hand, are carried by the two coefficients $\psi_A, \psi_B$. So we write the state as</span><span class="i18n-ja">Bloch状態では、単位胞から単位胞へ移る部分はBloch位相が担う。一方、単位胞の中でAとBにどれだけ重みを置くかは、二つの係数 $\psi_A$, $\psi_B$ が担う。したがって状態を</span></p>
-        <p class="eq-block">$$|\psi_{\mathbf{k}}\rangle = \frac{1}{\sqrt{N}}\sum_{\mathbf{R}} e^{i\mathbf{k}\cdot\mathbf{R}}\big(\psi_A\,|\mathbf{R}, A\rangle + \psi_B\,|\mathbf{R}, B\rangle\big)$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">と書く。</span></p>
-        <p><span class="i18n-en">Here $N$ is the number of unit cells, and $1/\sqrt{N}$ is inserted for overall normalization. The heart of the expression is not the normalization. The heart is the division of two roles.</span><span class="i18n-ja">ここで $N$ は単位胞の数であり、$1/\sqrt{N}$ は全体の規格化のために入れている。式の中心は規格化ではない。中心は、二つの役割分担である。</span></p>
-        <p><span class="i18n-en">The repetition between unit cells is represented by $e^{i\mathbf{k}\cdot\mathbf{R}}$. The A/B weights within a unit cell are represented by $(\psi_A, \psi_B)$. Graphene's tight-binding becomes an eigenvalue problem for these two components.</span><span class="i18n-ja">単位胞間の繰り返しは $e^{i\mathbf{k}\cdot\mathbf{R}}$ が表す。単位胞内のA/Bの重みは $(\psi_A, \psi_B)$ が表す。グラフェンのtight-bindingは、この二成分に対する固有値問題になる。</span></p>
-      </div>
-    </div>
+    <div class="demo-head"><span class="demo-num">03</span><h2><span class="i18n-en">Two ways of combining A and B give two bands</span><span class="i18n-ja">波の重ね方が、二本のバンドを作る</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">In §01, coupling two orbitals through $-t$ split their energies according to how the orbitals combined. Here the A and B coefficients are coupled through $-tf(\mathbf k)$, which collects the three bond contributions. How far apart does this put the energies?</span><span class="i18n-ja">§01では、二つの軌道を一本の結合 $-t$ で結ぶと、重ね方に応じてエネルギーが分かれた。いまAとBの係数を結ぶのは、三方向の寄与をまとめた $-tf(\mathbf k)$ だ。これは、エネルギーをどれだけ分けるのだろう。</span></p>
+
+        <p><span class="i18n-en">Multiply <button type="button" class="eqref" data-eq="4">the A equation from §02</button> by $E$, then use <button type="button" class="eqref" data-eq="4">the B equation</button> to replace $Eu_B$:</span><span class="i18n-ja">前節の<button type="button" class="eqref" data-eq="4">Aの式</button>の両辺に $E$ を掛け、出てきた $Eu_B$ を<button type="button" class="eqref" data-eq="4">Bの式</button>で置き換えると、</span></p>
+        <p class="eq-block">$$\begin{aligned}E^2u_A&=-tf(Eu_B)\\&=t^2ff^*u_A=t^2|f|^2u_A.\end{aligned}$$</p>
+        <p><span class="i18n-en">Starting with B gives the same relation for $u_B$. An electron state requires at least one of $u_A,u_B$ to be nonzero, so $E^2=t^2|f|^2$. Here we used $ff^*=|f|^2$, the product of a complex number and its conjugate. Thus</span><span class="i18n-ja">Bから始めても、$u_B$ について同じ関係が得られる。電子の状態を表すには、$u_A,u_B$ の少なくとも一方がゼロでないので、$E^2=t^2|f|^2$ が必要だ。ここでは、複素数とその複素共役の積が、大きさの二乗になることを使った。したがって、</span></p>
+        <p class="eq-block" id="eq5">$$\boxed{E_\pm(\mathbf k)=\pm t|f(\mathbf k)|}. \tag{5}$$</p>
+        <p><span class="i18n-en">The two energies correspond to different combinations of the A and B components. At $\Gamma$, the three bond phases match and $f=3$, so <button type="button" class="eqref" data-eq="4">Eq. (4)</button> gives</span><span class="i18n-ja">二つのエネルギーには、AとBの成分の異なる重ね方が対応する。たとえば、三方向の位相がそろう $\Gamma$ では $f=3$ なので、<button type="button" class="eqref" data-eq="4">式(4)</button>から、</span></p>
+        <p class="eq-block">$$\begin{aligned}E=-3t&:\quad u_B=u_A,\\E=+3t&:\quad u_B=-u_A.\end{aligned}$$</p>
+        <p><span class="i18n-en">At $\Gamma$, equal A and B magnitudes with matching phases give the lower eigenstate; opposite phases give the upper eigenstate. The sum and difference from §01 now describe states extending across the crystal.</span><span class="i18n-ja">この $\Gamma$ では、AとBの成分を同じ大きさ・同じ位相で重ねるのが下側の固有状態、同じ大きさ・逆の位相で重ねるのが上側の固有状態だ。§01の二軌道で見た和と差が、結晶全体に広がる状態として現れている。</span></p>
+        <p><span class="i18n-en">Following each eigenenergy as the wavevector changes gives two <b>bands</b>: the lower <b>π band</b> and the upper <b>π* band</b>.</span><span class="i18n-ja">波数を変えながら、それぞれの固有エネルギーをつないだものが、二本の<b>バンド</b>になる。下側が<b>$\pi$バンド</b>、上側が<b>$\pi^*$バンド</b>だ。</span></p>
+        <p><span class="i18n-en">Their separation is $2t|f(\mathbf k)|$. Each bond has the same $t$, but the phase-factor sum changes the splitting. At $\Gamma$ the sum has its largest magnitude, giving a separation of $6t$. Where the sum is zero, the bands meet.</span><span class="i18n-ja">二本の間隔は $2t|f(\mathbf k)|$。一本あたりの結合 $t$ は同じでも、三方向の位相因子の和によって、エネルギーの分かれ方が変わる。和の大きさが最大の $\Gamma$ では間隔は $6t$、和が0になる波数では二本が接する。</span></p>
+    </div></div>
   </section>
 
-  <!-- ═══════ 03 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">03</span>
-      <h2><span class="i18n-en">Three hoppings become one structure factor</span><span class="i18n-ja">3つのホッピングが1つの構造因子になる</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">Next we see how the A and B amplitudes are coupled. If we keep only the nearest neighbours, an electron on an A site can move to three B sites. We wrote those three displacements on the previous page as $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$.</span><span class="i18n-ja">次に、AとBの振幅がどう結びつくかを見る。最近接だけを残すなら、Aサイトから電子が移れる先は三つのBサイトである。その三つの変位は、前ページで $\boldsymbol{\delta}_1$, $\boldsymbol{\delta}_2$, $\boldsymbol{\delta}_3$ と書いた。</span></p>
-        <p><span class="i18n-en">The amplitude on a single A site is coupled to the amplitudes coming from three B sites. In a Bloch state, a different location means a different phase. So the three paths have the same magnitude of hopping $t$, but are summed each with a different Bloch phase.</span><span class="i18n-ja">一つのAサイトにいる振幅は、三つのBサイトから来る振幅と結びつく。Bloch状態では、場所が違えば位相が違う。したがって三つの経路は、同じ大きさのホッピング $t$ を持つが、それぞれ違うBloch位相を持って足し合わされる。</span></p>
-        <p><span class="i18n-en">To gather the three contributions from A to B into a single function of $\mathbf{k}$, we write</span><span class="i18n-ja">AからBへの三つの寄与を一つの $\mathbf{k}$ の関数にまとめるために、</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = \sum_{j=1}^{3} e^{i\mathbf{k}\cdot\boldsymbol{\delta}_j}$$</p>
-        <p><span class="i18n-en">. That is,</span><span class="i18n-ja">と書く。つまり</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = e^{i\mathbf{k}\cdot\boldsymbol{\delta}_1} + e^{i\mathbf{k}\cdot\boldsymbol{\delta}_2} + e^{i\mathbf{k}\cdot\boldsymbol{\delta}_3}$$</p>
-        <p><span class="i18n-en">. We call this $f(\mathbf{k})$ the structure factor.</span><span class="i18n-ja">である。この $f(\mathbf{k})$ を構造因子と呼ぶ。</span></p>
+    <div class="demo-head"><span class="demo-num">04</span><h2><span class="i18n-en">Why the three contributions cancel at K</span><span class="i18n-ja">Kでは三つの寄与が打ち消し合う</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">The bands meet at wavevectors where $f(\mathbf k)=0$. In the figure below, move through the hexagon to find where the sum of phase factors vanishes.</span><span class="i18n-ja">二本のバンドが接するのは、$f(\mathbf k)=0$ となる波数だ。下の図で六角形の中の波数を動かし、位相因子の和が0になる位置を探してみよう。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-phase" role="img" aria-label="The three Bloch phase factors for the hopping paths, summed tip-to-tail into the structure factor f(k); at K they cancel"></canvas></div>
+          <figcaption class="gfig-cap"><span class="i18n-en">Choose k on the hexagon. Arrows 1–3 represent the three terms in f; the red arrow is their sum.</span><span class="i18n-ja">六角形の上で波数を選ぶ。矢印1〜3が f の三つの項、赤い矢印がその和を表す。</span></figcaption>
+          <div class="gfig-stage"><canvas id="fig-phase" data-phase-sum data-graphene-tb role="img" aria-label="The three Bloch phase factors for the hopping paths, summed tip-to-tail into the structure factor f(k); at K they cancel"></canvas></div>
           <div class="gfig-controls">
             <div class="gfig-btns">
-              <button class="gfig-btn" id="ph-toG" type="button"><span class="i18n-en">k → Γ</span><span class="i18n-ja">k を Γ へ</span></button>
-              <button class="gfig-btn" id="ph-toK" type="button"><span class="i18n-en">k → K</span><span class="i18n-ja">k を K へ</span></button>
+              <button class="gfig-btn" id="ph-toG" type="button"><span class="i18n-en">Γ</span><span class="i18n-ja">Γ</span></button>
+              <button class="gfig-btn" id="ph-toK" type="button"><span class="i18n-en">K</span><span class="i18n-ja">K</span></button>
+              <button class="gfig-btn" id="ph-toKprime" type="button">K′</button>
             </div>
-            <span class="gfig-hint"><span class="i18n-en">drag k in the zone; at K the three phasors close up and f = 0</span><span class="i18n-ja">ゾーン内で k をドラッグ。K で三つの位相因子が閉じて f = 0</span></span>
           </div>
         </figure>
-        <p><span class="i18n-en">The structure factor is the doorway through which graphene's geometry enters the electron's energy. Because there are three nearest-neighbour directions, three phase factors are summed. If that sum is large, A and B mix strongly; if the sum cancels, the effect that couples A and B disappears.</span><span class="i18n-ja">構造因子は、グラフェンの幾何が電子のエネルギーへ入る入口である。三つの最近接方向があるために、三つの位相因子が足し合わされる。その和が大きければAとBは強く混ざり、和が打ち消せばAとBを結びつける効果が消える。</span></p>
-        <p><span class="i18n-en">Using the nearest-neighbour vectors chosen on the previous page,</span><span class="i18n-ja">前ページで選んだ最近接ベクトルを使うと、</span></p>
-        <p class="eq-block">$$\begin{aligned} \boldsymbol{\delta}_1 &= a(0,\ 1) \\ \boldsymbol{\delta}_2 &= a\!\left(\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \\ \boldsymbol{\delta}_3 &= a\!\left(-\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">. Therefore</span><span class="i18n-ja">である。したがって</span></p>
-        <p class="eq-block">$$\begin{aligned} \mathbf{k}\cdot\boldsymbol{\delta}_1 &= a\,k_y \\ \mathbf{k}\cdot\boldsymbol{\delta}_2 &= a\!\left(\tfrac{\sqrt{3}}{2}\,k_x - \tfrac{1}{2}\,k_y\right) \\ \mathbf{k}\cdot\boldsymbol{\delta}_3 &= a\!\left(-\tfrac{\sqrt{3}}{2}\,k_x - \tfrac{1}{2}\,k_y\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">. Putting these into $f(\mathbf{k})$,</span><span class="i18n-ja">となる。これを $f(\mathbf{k})$ に入れると、</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = e^{i a k_y} + e^{i a\left(\frac{\sqrt{3}}{2}k_x - \frac{1}{2}k_y\right)} + e^{i a\left(-\frac{\sqrt{3}}{2}k_x - \frac{1}{2}k_y\right)}$$</p>
-        <p><span class="i18n-en">. The latter two terms have a common factor $e^{-i a k_y/2}$, so</span><span class="i18n-ja">である。後ろ二つの項は共通因子 $e^{-i a k_y/2}$ を持つので、</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = e^{i a k_y} + e^{-i a k_y/2}\left(e^{i\sqrt{3} a k_x/2} + e^{-i\sqrt{3} a k_x/2}\right)$$</p>
-        <p><span class="i18n-en">. Turning the bracket into a cosine,</span><span class="i18n-ja">となる。括弧の中を余弦に直すと、</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = e^{i a k_y} + 2\,e^{-i a k_y/2}\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right)$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
-        <p><span class="i18n-en">Looking at this form, we see that graphene's $\mathbf{k}$ dependence resides in the summation of the Bloch phases of the three directions.</span><span class="i18n-ja">この形を見ると、グラフェンの $\mathbf{k}$ 依存性は、三方向のBloch位相の足し合わせに入っていることが分かる。</span></p>
-      </div>
-    </div>
+        <p><span class="i18n-en">At the right-hand corner $\mathbf K=(4\pi/(3\sqrt3a),0)$, the three phases are $0,2\pi/3,-2\pi/3$. The arrows differ in direction by 120° and close into an equilateral triangle. In equations,</span><span class="i18n-ja">右端の角 $\mathbf K=(4\pi/(3\sqrt3a),0)$ では、三つの位相は $0,2\pi/3,-2\pi/3$ になる。矢印の向きが120°ずつ違うため、先端から順につなぐと正三角形が閉じる。式でも、</span></p>
+        <p class="eq-block" id="eq6">$$\begin{aligned}f(\mathbf K)&=1+e^{i2\pi/3}+e^{-i2\pi/3}\\&=1+2\cos\frac{2\pi}{3}=0.\end{aligned} \tag{6}$$</p>
+        <p><span class="i18n-en">Return to <button type="button" class="eqref" data-eq="local-a">the A equation from §01</button>. The three contributions multiplying the same A orbital in $H\psi$ become</span><span class="i18n-ja">となる。この打ち消しを、<button type="button" class="eqref" data-eq="local-a">§01で作ったAの式</button>に戻してみよう。$H\psi$ の中で、同じAの軌道に掛かっていた三つの寄与は、</span></p>
+        <p class="eq-block">$$\begin{gathered}-t(c_1+c_2+c_3)\varphi_A\\=-tu_Bf(\mathbf K)\varphi_A=0.\end{gathered}$$</p>
+        <p><span class="i18n-en"><b>The three B components give contributions to the same A orbital that cancel.</b> On the B side, $f^*(\mathbf K)=0$ as well. Both eigenenergies are therefore zero at this wavevector, and the bands meet.</span><span class="i18n-ja">になる。<b>三つのB成分から生じる、同じA軌道への寄与が打ち消し合っている。</b>B側でも $f^*(\mathbf K)=0$ となる。そのため、この波数では二つの固有エネルギーがともに0になり、バンドが接する。</span></p>
+        <p><span class="i18n-en">At the opposite corner $\mathbf K^{\prime}=-\mathbf K$, the three phases reverse sign and again sum to zero. Reciprocal lattice vectors relate the six corners in two groups of three, represented by $K$ and $K^{\prime}$. All six corners are band contacts.</span><span class="i18n-ja">向かい側の $\mathbf K^{\prime}=-\mathbf K$ では、三つの位相の符号が反転し、やはり和は0になる。六つの角は、逆格子ベクトルで結ばれた三つずつの二組に分かれ、その代表が $K$ と $K^{\prime}$ だ。いずれの角もバンドの接点になる。</span></p>
+        <details class="tb-reference"><summary><span class="i18n-en">Bond coordinates and the full dispersion</span><span class="i18n-ja">結合の座標と分散式を開く</span></summary>
+        <p><span class="i18n-en">With carbon–carbon distance $a$, the bond vectors are $\boldsymbol\delta_1=a(0,1)$ and $\boldsymbol\delta_{2,3}=a(\pm\sqrt3/2,-1/2)$. Substitution gives</span><span class="i18n-ja">炭素間距離を $a$ とすると、結合の矢印は $\boldsymbol\delta_1=a(0,1)$、$\boldsymbol\delta_{2,3}=a(\pm\sqrt3/2,-1/2)$ だ。これを<button type="button" class="eqref" data-eq="3">式(3)</button>に入れると、</span></p>
+        <p class="eq-block">$$f=e^{iak_y}+2e^{-iak_y/2}\cos\frac{\sqrt3ak_x}{2}$$</p>
+        <p class="eq-block">$$\begin{aligned}|f|^2={}&1+4\cos^2\frac{\sqrt3ak_x}{2}\\&+4\cos\frac{\sqrt3ak_x}{2}\cos\frac{3ak_y}{2}.\end{aligned}$$</p>
+        <p><span class="i18n-en">The condition $f=0$ becomes $e^{i3ak_y/2}=-2\cos(\sqrt3ak_x/2)$. The right side is real, so in the first zone the possible heights are $k_y=0,\pm2\pi/(3a)$. At height 0 the roots are $k_x=\pm4\pi/(3\sqrt3a)$; at each of the other heights they are $k_x=\pm2\pi/(3\sqrt3a)$. These are precisely the six corners.</span><span class="i18n-ja">$f=0$ の条件は $e^{i3ak_y/2}=-2\cos(\sqrt3ak_x/2)$。右辺が実数なので、第一ブリルアンゾーン内で候補になる高さは $k_y=0,\pm2\pi/(3a)$ に限られる。高さ0では $k_x=\pm4\pi/(3\sqrt3a)$、上下の高さでは $k_x=\pm2\pi/(3\sqrt3a)$ が解になる。これが六つの角で、内側には接点がない。</span></p>
+        <p><span class="i18n-en">The axes here follow the geometry page.</span><span class="i18n-ja">座標軸は幾何のページに合わせている。</span></p>
+        </details>
+    </div></div>
   </section>
 
-  <!-- ═══════ 04 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">04</span>
-      <h2><span class="i18n-en">The 2×2 Hamiltonian</span><span class="i18n-ja">2×2ハミルトニアン</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">To fix the energy of the two components $(\psi_A, \psi_B)^{\top}$, we need a Hamiltonian acting on these two components. Since there are two basis states A and B in the unit cell, the Hamiltonian is a 2×2 matrix.</span><span class="i18n-ja">二成分 $(\psi_A, \psi_B)^{\top}$ のエネルギーを決めるには、この二成分に作用するハミルトニアンが必要である。単位胞内にAとBの二つの基底があるので、ハミルトニアンは2×2行列になる。</span></p>
-        <p><span class="i18n-en">The diagonal components are the term returning the amplitude on A to A and the term returning the amplitude on B to B. Since the A site and the B site are the same carbon atom, the on-site energies are equal. If we take that common value as the origin of energy, the diagonal components can be made 0.</span><span class="i18n-ja">対角成分は、Aにいる振幅をAに戻す項、Bにいる振幅をBに戻す項である。AサイトもBサイトも同じ炭素原子なので、オンサイトエネルギーは等しい。その共通の値をエネルギーの原点に取れば、対角成分は0にできる。</span></p>
-        <p><span class="i18n-en">The off-diagonal components are the terms coupling A and B. In nearest-neighbour hopping there is no term that moves directly within the same sublattice, from A to A or from B to B. A couples to B, and B couples to A. Into that coupling enters the structure factor from before.</span><span class="i18n-ja">非対角成分は、AとBを結びつける項である。最近接ホッピングでは、同じ副格子内のAからA、BからBへ直接移る項はない。AはBと結びつき、BはAと結びつく。その結びつきに、さきほどの構造因子が入る。</span></p>
-        <p><span class="i18n-en">Therefore the Hamiltonian in the A/B basis is</span><span class="i18n-ja">したがって、A/B基底でのハミルトニアンは</span></p>
-        <p class="eq-block">$$H(\mathbf{k}) = \begin{pmatrix} 0 & -t\,f(\mathbf{k}) \\ -t\,f^{*}(\mathbf{k}) & 0 \end{pmatrix}$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
-        <p><span class="i18n-en">This matrix looks short, but each component has a meaning. The diagonal 0 expresses that the on-site energies of A and B are the same and that their common value has been taken as the origin. The upper-right $-t\,f(\mathbf{k})$ represents the sum of the three hoppings entering the A component from the B component. The lower-left $-t\,f^{*}(\mathbf{k})$ represents the reverse process. Its being the complex conjugate is the symmetry required for the energy eigenvalues of the Hamiltonian to be real.</span><span class="i18n-ja">この行列は、見た目には短い。しかし、各成分には意味がある。対角の0は、AとBのオンサイトエネルギーが同じで、その共通値を原点に取ったことを表す。右上の $-t\,f(\mathbf{k})$ は、B成分からA成分へ入ってくる三つのホッピングの和を表す。左下の $-t\,f^{*}(\mathbf{k})$ は、その逆向きの過程を表す。複素共役になっているのは、ハミルトニアンのエネルギー固有値が実数になるために必要な対称性である。</span></p>
-        <p><span class="i18n-en">The eigenvalue equation is</span><span class="i18n-ja">固有値方程式は</span></p>
-        <p class="eq-block">$$H(\mathbf{k})\begin{pmatrix}\psi_A \\ \psi_B\end{pmatrix} = E\begin{pmatrix}\psi_A \\ \psi_B\end{pmatrix}$$</p>
-        <p><span class="i18n-en">. Written in components,</span><span class="i18n-ja">である。成分で書けば、</span></p>
-        <p class="eq-block">$$\begin{aligned} -t\,f(\mathbf{k})\,\psi_B &= E\,\psi_A \\ -t\,f^{*}(\mathbf{k})\,\psi_A &= E\,\psi_B \end{aligned}$$</p>
-        <p><span class="i18n-en">. The A component couples to the B component, and the B component to the A component. It is the nearest-neighbour coupling between A and B, not within the same sublattice, that makes the bands.</span><span class="i18n-ja">となる。A成分はB成分と結びつき、B成分はA成分と結びつく。同じ副格子内ではなく、AとBの間の最近接結合がバンドを作る。</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ 05 ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">05</span>
-      <h2><span class="i18n-en">Solving the matrix gives two bands</span><span class="i18n-ja">行列を解くと2本のバンド</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">To find the eigenvalues, we use the condition that</span><span class="i18n-ja">固有値を求めるには、</span></p>
-        <p class="eq-block">$$\big[\,H(\mathbf{k}) - E\,I\,\big]\begin{pmatrix}\psi_A \\ \psi_B\end{pmatrix} = 0$$</p>
-        <p><span class="i18n-en">has a nonzero solution. Here $I$ is the 2×2 identity matrix.</span><span class="i18n-ja">が、ゼロでない解を持つ条件を使う。ここで $I$ は2×2の単位行列である。</span></p>
-        <p><span class="i18n-en">First,</span><span class="i18n-ja">まず</span></p>
-        <p class="eq-block">$$H(\mathbf{k}) - E\,I = \begin{pmatrix} 0 & -t\,f(\mathbf{k}) \\ -t\,f^{*}(\mathbf{k}) & 0 \end{pmatrix} - \begin{pmatrix} E & 0 \\ 0 & E \end{pmatrix}$$</p>
-        <p><span class="i18n-en">so</span><span class="i18n-ja">だから、</span></p>
-        <p class="eq-block">$$H(\mathbf{k}) - E\,I = \begin{pmatrix} -E & -t\,f(\mathbf{k}) \\ -t\,f^{*}(\mathbf{k}) & -E \end{pmatrix}$$</p>
-        <p><span class="i18n-en">. For a nonzero solution to exist, the determinant of this matrix must be 0.</span><span class="i18n-ja">である。ゼロでない解があるためには、この行列の行列式が0でなければならない。</span></p>
-        <p class="eq-block">$$\det\begin{pmatrix} -E & -t\,f(\mathbf{k}) \\ -t\,f^{*}(\mathbf{k}) & -E \end{pmatrix} = 0$$</p>
-        <p><span class="i18n-en">Computing the determinant of the 2×2 matrix,</span><span class="i18n-ja">2×2行列の行列式を計算すると、</span></p>
-        <p class="eq-block">$$(-E)(-E) - [-t\,f(\mathbf{k})][-t\,f^{*}(\mathbf{k})] = 0$$</p>
-        <p><span class="i18n-en">. The first term is $(-E)(-E) = E^2$, and the second term is</span><span class="i18n-ja">である。第一項は $(-E)(-E) = E^2$ であり、第二項は</span></p>
-        <p class="eq-block">$$[-t\,f(\mathbf{k})][-t\,f^{*}(\mathbf{k})] = t^2 f(\mathbf{k})f^{*}(\mathbf{k}) = t^2 |f(\mathbf{k})|^2$$</p>
-        <p><span class="i18n-en">. Therefore</span><span class="i18n-ja">である。したがって</span></p>
-        <p class="eq-block">$$E^2 - t^2 |f(\mathbf{k})|^2 = 0$$</p>
-        <p><span class="i18n-en">. Rearranging,</span><span class="i18n-ja">となる。これを移項すると、</span></p>
-        <p class="eq-block">$$E^2 = t^2 |f(\mathbf{k})|^2$$</p>
-        <p><span class="i18n-en">. Taking the square root of both sides,</span><span class="i18n-ja">両辺の平方根を取ると、</span></p>
-        <p class="eq-block">$$E_{\pm}(\mathbf{k}) = \pm\,t\,|f(\mathbf{k})|$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
-        <p><span class="i18n-en">Two bands have now emerged. We call the lower band the π band and the upper band the π* band. The names here are to distinguish the two bands, bonding and antibonding, formed from carbon's $p_z$ orbitals.</span><span class="i18n-ja">これで二本のバンドが出た。下側のバンドを$\pi$バンド、上側のバンドを$\pi^{*}$バンドと呼ぶ。ここでの呼び名は、炭素の $p_z$ 軌道からできる結合性と反結合性の二つのバンドを区別するためのものである。</span></p>
-        <p><span class="i18n-en">This formula says that the upper–lower splitting is determined by the magnitude of the structure factor. If $|f(\mathbf{k})|$ is large, the upper and lower bands separate widely. If $|f(\mathbf{k})| = 0$, then</span><span class="i18n-ja">この式は、上下の分裂が構造因子の大きさで決まることを言っている。もし $|f(\mathbf{k})|$ が大きければ、上下のバンドは大きく離れる。もし $|f(\mathbf{k})| = 0$ なら、</span></p>
-        <p class="eq-block">$$E_{+}(\mathbf{k}) = E_{-}(\mathbf{k}) = 0$$</p>
-        <p><span class="i18n-en">, and the two bands touch.</span><span class="i18n-ja">となり、二本のバンドは接する。</span></p>
-        <p><span class="i18n-en">Also, the energies, across 0, satisfy</span><span class="i18n-ja">また、エネルギーは0を挟んで</span></p>
-        <p class="eq-block">$$E_{+}(\mathbf{k}) = -E_{-}(\mathbf{k})$$</p>
-        <p><span class="i18n-en">. The upper band and the lower band are mirror images. In this nearest-neighbour tight-binding, this symmetry is called electron–hole symmetry.</span><span class="i18n-ja">になっている。上のバンドと下のバンドが鏡映の形になっている。この最近接tight-bindingでは、この対称性を電子正孔対称性と呼ぶ。</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ 06 ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">06</span>
-      <h2><span class="i18n-en">Reading the band structure</span><span class="i18n-ja">バンド構造を読む</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">From the formula</span><span class="i18n-ja">式</span></p>
-        <p class="eq-block">$$E_{\pm}(\mathbf{k}) = \pm\,t\,|f(\mathbf{k})|$$</p>
-        <p><span class="i18n-en">we can draw graphene's bands. First, we read along the high-symmetry line within the first Brillouin zone, the path from Γ to K, M, and back to Γ.</span><span class="i18n-ja">から、グラフェンのバンドを描ける。まず、第一ブリルアンゾーン内の高対称線 $\Gamma$ から $K$、$M$、そして $\Gamma$ へ戻る経路に沿って読む。</span></p>
+    <div class="demo-head"><span class="demo-num">05</span><h2><span class="i18n-en">Turn the wavevector map into an energy surface</span><span class="i18n-ja">波数の地図にエネルギーを描く</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">How does the splitting change away from a contact? Choose a route in wavevector space from the centre $\Gamma$ to the corner $K$, then the edge midpoint $M$, and back to $\Gamma$.</span><span class="i18n-ja">接点から離れると、二本の間隔はどう変わるだろう。波数空間で、中心 $\Gamma$ から角の $K$、辺の中点 $M$ を通り、$\Gamma$ へ戻る経路を選ぼう。</span></p>
+        <p><span class="i18n-en">The <b>horizontal axis is the distance travelled along this route in wavevector space</b>. The vertical axis gives the two energies divided by $t$. The small hexagon shows the wavevector currently selected on the graph.</span><span class="i18n-ja">下のグラフでは、<b>横軸を、この経路に沿って進んだ波数空間での距離</b>に取っている。縦軸は、その波数での二つのエネルギーを $t$ で割った値だ。小さな六角形には、グラフで調べている波数の位置を示している。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-pathband" role="img" aria-label="The pi and pi-star bands along Gamma to K to M to Gamma, touching at K"></canvas></div>
+          <div class="gfig-stage"><canvas id="fig-pathband" data-graphene-tb role="img" aria-label="The pi and pi-star bands along Gamma to K to M to Gamma, touching at K"></canvas></div>
           <div class="gfig-controls">
             <div class="gfig-slider"><label><span class="i18n-en">path</span><span class="i18n-ja">経路</span></label><input id="c33-p" type="range" min="0" max="1" step="0.002" value="0.16" aria-label="position along the high-symmetry path"><output id="c33-p-o">Γ–K</output></div>
-            <span class="gfig-hint"><span class="i18n-en">move the marker along Γ → K → M → Γ</span><span class="i18n-ja">マーカーを Γ → K → M → Γ に沿って動かす</span></span>
           </div>
         </figure>
-        <p><span class="i18n-en">In this figure, the two bands are separated in most places. But only at the K point do the upper and lower come to the same energy 0. This means that $|f(\mathbf{k})| = 0$ there.</span><span class="i18n-ja">この図では、二本のバンドは多くの場所で離れている。しかしK点でだけ、上側と下側が同じエネルギー0に来る。これは、そこで $|f(\mathbf{k})| = 0$ になることを意味する。</span></p>
-        <p><span class="i18n-en">Let us see directly from the formula where $|f(\mathbf{k})| = 0$. The structure factor was</span><span class="i18n-ja">どこで $|f(\mathbf{k})| = 0$ になるかを、式から直接見る。構造因子は</span></p>
-        <p class="eq-block">$$f(\mathbf{k}) = e^{i a k_y} + 2\,e^{-i a k_y/2}\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right)$$</p>
-        <p><span class="i18n-en">. To make it 0, multiply the whole thing by $e^{i a k_y/2}$. Since this factor is never 0, the places where it becomes 0 do not change. Then</span><span class="i18n-ja">であった。これを0にするために、全体に $e^{i a k_y/2}$ を掛ける。この因子は0にならないので、0になる場所は変わらない。すると</span></p>
-        <p class="eq-block">$$e^{i a k_y/2} f(\mathbf{k}) = e^{i 3 a k_y/2} + 2\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right)$$</p>
-        <p><span class="i18n-en">. So the condition is</span><span class="i18n-ja">である。したがって条件は</span></p>
-        <p class="eq-block">$$e^{i 3 a k_y/2} + 2\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right) = 0$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">となる。</span></p>
-        <p><span class="i18n-en">The second term is real. The first term is complex, with absolute value 1. For the two to sum to 0, the first term must also be real. So the first term is 1 or −1.</span><span class="i18n-ja">第二項は実数である。第一項は複素数で、絶対値が1である。二つの和が0になるには、第一項も実数でなければならない。したがって、第一項は 1 または −1 である。</span></p>
-        <p><span class="i18n-en">As one solution, take $k_y = 0$. Then $e^{i 3 a k_y/2} = 1$, so the condition is</span><span class="i18n-ja">一つの解として $k_y = 0$ を取る。このとき $e^{i 3 a k_y/2} = 1$ なので、条件は</span></p>
-        <p class="eq-block">$$1 + 2\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right) = 0$$</p>
-        <p><span class="i18n-en">. That is,</span><span class="i18n-ja">となる。つまり</span></p>
-        <p class="eq-block">$$\cos\!\left(\frac{\sqrt{3}\,a\,k_x}{2}\right) = -\frac{1}{2}$$</p>
-        <p><span class="i18n-en">. Within the first Brillouin zone,</span><span class="i18n-ja">である。第一ブリルアンゾーンの中では、</span></p>
-        <p class="eq-block">$$\frac{\sqrt{3}\,a\,k_x}{2} = \pm\frac{2\pi}{3}$$</p>
-        <p><span class="i18n-en">corresponds. Therefore</span><span class="i18n-ja">が対応する。したがって</span></p>
-        <p class="eq-block">$$k_x = \pm\frac{4\pi}{3\sqrt{3}\,a}$$</p>
-        <p><span class="i18n-en">. These are what we placed on the previous page,</span><span class="i18n-ja">となる。これは前ページで置いた</span></p>
-        <p class="eq-block">$$\begin{aligned} \mathbf{K} &= \left(\frac{4\pi}{3\sqrt{3}\,a},\ 0\right) \\ \mathbf{K}' &= \left(-\frac{4\pi}{3\sqrt{3}\,a},\ 0\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">. The other corners also appear as equivalent points shifted only by a reciprocal lattice vector. So $|f(\mathbf{k})| = 0$ holds at the corners of the hexagonal Brillouin zone.</span><span class="i18n-ja">である。他の角も逆格子ベクトルだけずれた同等な点として現れる。したがって、$|f(\mathbf{k})| = 0$ になるのは、六角形ブリルアンゾーンの角である。</span></p>
-        <p><span class="i18n-en">Looking at only the high-symmetry line, we can tell that they touch at the K point. But it is hard to see that the touching place is isolated as a point within the plane. So we draw the upper and lower band surfaces over the whole first Brillouin zone.</span><span class="i18n-ja">高対称線だけを見ると、K点で接していることは分かる。しかし、接している場所が面の中で点として孤立していることは見えにくい。そこで、第一ブリルアンゾーン全体で上下のバンド面を描く。</span></p>
+        <p><span class="i18n-en">Starting at $\pm3t$ at $\Gamma$, the two bands meet at zero at $K$, then separate to $\pm t$ at $M$. The final $\Gamma$ returns to the starting wavevector.</span><span class="i18n-ja">$\Gamma$ で $\pm3t$ にあった二本は、$K$ では0で接し、$M$ では $\pm t$ に離れる。最後の $\Gamma$ は、波数空間の出発点へ戻ったところだ。</span></p>
+        <p><span class="i18n-en">Now assign energies to every wavevector in the hexagon. With $k_x,k_y$ as the two horizontal axes and energy as height, the lower band forms one surface and the upper band another.</span><span class="i18n-ja">今度は、この経路だけでなく、六角形の中のすべての波数にエネルギーの高さを付けてみよう。横の二軸を $k_x,k_y$、高さをエネルギーに取ると、下側のバンドは一枚の面になり、上側のバンドはもう一枚の面になる。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-band3d" role="img" aria-label="3D energy surface E(k) of graphene over the hexagonal Brillouin zone, with Dirac cones touching at the K and K-prime corners"></canvas></div>
+          <div class="gfig-stage"><canvas id="fig-band3d" data-graphene-tb role="img" aria-label="3D energy surface E(k) of graphene over the hexagonal Brillouin zone, with Dirac cones touching at the K and K-prime corners"></canvas></div>
           <div class="gfig-controls">
             <div class="gfig-btns">
-              <button class="gfig-btn active" id="b3-rot" type="button"><span class="i18n-en">Auto-rotate</span><span class="i18n-ja">自動回転</span></button>
-              <button class="gfig-btn" id="b3-ef" type="button"><span class="i18n-en"><span class="gv">E</span><sub>F</sub> = 0 plane</span><span class="i18n-ja"><span class="gv">E</span><sub>F</sub>=0 面</span></button>
+              <button class="gfig-btn" id="b3-rot" type="button"><span class="i18n-en">Auto-rotate</span><span class="i18n-ja">自動回転</span></button>
+              <button class="gfig-btn" id="b3-ef" type="button"><span class="i18n-en">E = 0 plane</span><span class="i18n-ja">E = 0 の面</span></button>
               <button class="gfig-btn" id="b3-reset" type="button"><span class="i18n-en">Reset view</span><span class="i18n-ja">視点リセット</span></button>
             </div>
-            <span class="gfig-hint"><span class="i18n-en">drag to rotate · scroll to zoom · middle-drag to pan</span><span class="i18n-ja">ドラッグで回転・スクロールでズーム・ホイールドラッグで移動</span></span>
+            <span class="gfig-hint"><span class="i18n-en">Drag to rotate</span><span class="i18n-ja">ドラッグで回転</span></span>
           </div>
         </figure>
-        <p><span class="i18n-en">Seen over the whole surface, the π band and the π* band are separated over a wide range. And they touch only at the points corresponding to the corners of the hexagon. That is, graphene's band contact occurs not along a line but at isolated points.</span><span class="i18n-ja">面全体で見ると、$\pi$バンドと$\pi^{*}$バンドは広い範囲で離れている。そして、六角形の角に対応する点でだけ接している。つまり、グラフェンのバンド接触は線ではなく、孤立した点で起こる。</span></p>
-        <p><span class="i18n-en">On the previous page we placed the K and K′ points as mere points on a map. Those points have now appeared here as the contact points of the electronic bands.</span><span class="i18n-ja">前ページでK点とK′点を、単なる地図上の点として置いた。その点がここで電子バンドの接触点として現れた。</span></p>
-      </div>
-    </div>
+        <p><span class="i18n-en">The two surfaces touch at the six corners belonging to $K$ and $K^{\prime}$. The three bond directions and the wavevector-dependent phases have given us the full band shape.</span><span class="i18n-ja">二枚の面が接するのは、$K$ と $K^{\prime}$ に対応する六つの角だ。三方向の結合と、波数による位相の違いから、グラフェンのバンド全体の形が得られた。</span></p>
+    </div></div>
   </section>
 
-  <!-- ═══════ 07 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">07</span>
-      <h2><span class="i18n-en">Neither an ordinary metal nor an insulator</span><span class="i18n-ja">普通の金属でも絶縁体でもない</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">If a solid is an insulator, there is a gap at the Fermi energy. Try to move an electron a little, and there is no empty state nearby. In an ordinary metal, the states crossing the Fermi energy spread out as a surface. In three dimensions this appears as a Fermi surface; in two dimensions, a Fermi line.</span><span class="i18n-ja">固体が絶縁体なら、フェルミエネルギーのところにギャップがある。電子を少し動かそうとしても、近くに空いた状態がない。普通の金属なら、フェルミエネルギーを横切る状態が面として広がっている。三次元ならフェルミ面、二次元ならフェルミ線として現れる。</span></p>
-        <p><span class="i18n-en">Graphene fits neither of these as it stands.</span><span class="i18n-ja">グラフェンは、そのどちらにもそのまま入らない。</span></p>
-        <p><span class="i18n-en">From a single carbon atom, one electron enters the $p_z$ orbital we are treating here. Since there are two carbon atoms in the unit cell, there are two π electrons per unit cell. On the other hand, one band, counting the spin doubling, can hold two electrons per unit cell. So in neutral graphene the lower π band is exactly filled and the upper π* band is empty.</span><span class="i18n-ja">炭素原子一個から、ここで扱っている $p_z$ 軌道に電子が一個入る。単位胞には炭素原子が二個あるので、単位胞あたり$\pi$電子は二個である。一方、一つのバンドは、スピンの二重性を含めると単位胞あたり二個の電子を収容できる。したがって、中性のグラフェンでは下側の$\pi$バンドがちょうど満杯になり、上側の$\pi^{*}$バンドは空になる。</span></p>
-        <p><span class="i18n-en">That boundary is the Fermi energy. Since in nearest-neighbour tight-binding we have taken the origin of energy at the band-contact point, $E_F = 0$. The Fermi energy passes through the point where the π band and the π* band touch.</span><span class="i18n-ja">その境目がフェルミエネルギーである。最近接tight-bindingでエネルギーの原点をバンド接触点に取っているので、$E_F = 0$ である。フェルミエネルギーは、$\pi$バンドと$\pi^{*}$バンドが接する点を通る。</span></p>
-        <p><span class="i18n-en">There is no gap here, because $E_{+}(\mathbf{K}) = E_{-}(\mathbf{K}) = 0$ and the upper and lower bands touch at the K point. So it is not an insulator.</span><span class="i18n-ja">ここでギャップはない。なぜなら、$E_{+}(\mathbf{K}) = E_{-}(\mathbf{K}) = 0$ であり、K点で上と下のバンドが接しているからである。したがって、絶縁体ではない。</span></p>
-        <p><span class="i18n-en">But neither do the states at the Fermi energy form a broad line or surface as in an ordinary metal. The states allowed at the Fermi energy are limited, within the first Brillouin zone, to the K and K′ points. The places where states exist are not an extended region but isolated points. Hence the density of states at the Fermi energy is 0.</span><span class="i18n-ja">しかし、普通の金属のようにフェルミエネルギー上の状態が広い線や面を作るわけでもない。フェルミエネルギーで許される状態は、第一ブリルアンゾーンの中ではK点とK′点に限られる。状態がある場所は広がった領域ではなく、孤立した点である。そのため、フェルミエネルギーでの状態密度は0になる。</span></p>
-        <p><span class="i18n-en">Graphene, with this property, is called a semimetal. There is no gap, but the states at the Fermi energy have shrunk to points.</span><span class="i18n-ja">この性質を持つグラフェンは、半金属と呼ばれる。ギャップはないが、フェルミエネルギーでの状態は点に縮んでいる。</span></p>
-        <p><span class="i18n-en">We have now learned that graphene's bands touch at the K and K′ points. But just saying &ldquo;they touch&rdquo; does not yet let us read off the properties of the low-energy electrons. We need to zoom in and read how the energy grows near the contact point.</span><span class="i18n-ja">ここまでで、グラフェンのバンドがK点とK′点で接することは分かった。しかし、「接する」というだけでは、低エネルギーの電子の性質はまだ読めない。接点の近くでエネルギーがどのように増えるのかを拡大して読む必要がある。</span></p>
-        <nav class="series-nav">
-          <a class="series-prev" href="/learn/graphene-geometry/"><span class="sn-k"><span class="i18n-en">Previous</span><span class="i18n-ja">この連載の前へ</span></span><span class="i18n-en">&larr; The geometry of graphene</span><span class="i18n-ja">&larr; 電子を乗せる前のグラフェンの幾何</span></a>
-          <a class="series-next" href="/learn/graphene-dirac-cone/"><span class="sn-k"><span class="i18n-en">Next in the series</span><span class="i18n-ja">この連載の次へ</span></span><span class="i18n-en">Zooming in on K: the Dirac cone &rarr;</span><span class="i18n-ja">K点を拡大する：ディラックコーン &rarr;</span></a>
-        </nav>
-      </div>
-    </div>
+    <div class="demo-head"><span class="demo-num">06</span><h2><span class="i18n-en">Fill the bands with graphene’s electrons</span><span class="i18n-ja">グラフェンの電子をバンドに入れる</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">The bands tell us the energies available to an electron. If graphene receives a little energy, which empty states could its electrons reach? To answer this, distinguish <b>occupied and empty states</b>. Start at zero temperature, with electrons filling the lowest energies first.</span><span class="i18n-ja">二本のバンドから、電子が取れるエネルギーが分かった。グラフェンに少しエネルギーを与えたら、電子はどの空いた状態へ移れるだろう。それを知るには、<b>電子が入っている状態と、空いている状態</b>を区別したい。まず温度0で、電子をエネルギーの低い状態から順に入れていく。</span></p>
+        <p><span class="i18n-en">Count the states of a periodic crystal using 100 unit cells. First, <b>count each spatial wavefunction as one state, before including spin</b>.</span><span class="i18n-ja">周期的な結晶の状態数を、単位胞100個分で数えよう。ここではまず、<b>スピンを区別せず、電子の波の形を一状態として数える。</b></span></p>
+        <p><span class="i18n-en">There are 100 A and 100 B atoms, giving 200 $p_z$ orbitals. Coupling changes the wave shapes and energies while leaving 200 independent states that can be represented by these orbitals.</span><span class="i18n-ja">AとBの原子は100個ずつあるので、$p_z$ 軌道は計200個だ。結合によって波の形とエネルギーは変わるが、この200個の軌道から表せる独立な状態の数は、200個のままだ。</span></p>
+        <p><span class="i18n-en">Each wavevector has a pair of states, corresponding to the upper and lower bands. At a contact their energies coincide, and they still count as two independent states. The 200 states therefore divide equally: <b>100 states in each band</b>.</span><span class="i18n-ja">一つの波数には、上下のバンドに対応する状態が一つずつある。接点でエネルギーが同じになっても、独立な二状態として数える。したがって200状態は二本に等分され、<b>各バンドに100状態ずつ</b>ある。</span></p>
+        <p><span class="i18n-en">Including spin, each spatial state holds two electrons, one for each spin orientation. The lower band can therefore hold 200 electrons.</span><span class="i18n-ja">スピンを含めると、同じ波の形には、スピンの異なる電子が一個ずつ、計二個入れる。下のバンドには、100状態に二個ずつ、計200個の電子が入る。</span></p>
+        <p><span class="i18n-en">In <b>neutral graphene</b>, each carbon contributes one electron to the $p_z$ states. These 100 unit cells supply 200 electrons, exactly the number needed to fill the lower band.</span><span class="i18n-ja">一方、電荷を加えていない<b>中性のグラフェン</b>では、炭素一個につき $p_z$ の電子が一個ある。単位胞100個分なら、電子は200個だ。これは、下のバンドをちょうど満たす数になる。</span></p>
+        <p><span class="i18n-en">At zero temperature, states with $E&lt;0$ are occupied and those with $E&gt;0$ are empty. The energy separating occupied and empty states is the <b>Fermi energy</b>, here $E_F=0$. In the surface plot, the $E=0$ plane meets the bands at the contacts belonging to $K$ and $K^{\prime}$. Neutral graphene is a <b>semimetal</b>, with occupied and empty bands touching at points.</span><span class="i18n-ja">したがって、温度0では $E&lt;0$ の状態が埋まり、$E&gt;0$ の状態は空になる。埋まった状態と空いた状態の境目のエネルギーを<b>フェルミエネルギー</b>といい、ここでは $E_F=0$ だ。立体図で $E=0$ の面を表示すると、バンドと出会うのは $K$ と $K^{\prime}$ に対応する接点になる。このように、埋まったバンドと空のバンドが点で接する中性のグラフェンは、<b>半金属</b>と呼ばれる。</span></p>
+        <p><span class="i18n-en">As the wavevector approaches a contact, the separation $2t|f(\mathbf k)|$ between the lower and upper states becomes smaller. An empty state lies just above an occupied one. To find which empty states an electron can reach with a small amount of energy, we therefore look near $K$ and $K^{\prime}$.</span><span class="i18n-ja">接点に近い波数では、下の状態と上の状態のエネルギー差 $2t|f(\mathbf k)|$ が小さくなる。つまり、埋まった状態のすぐ上に、空いた状態がある。少しのエネルギーで電子が移れる先を調べるには、$K$ と $K^{\prime}$ の近くを見ることになる。</span></p>
+        <div class="callout recap cv-daikake"><span class="co-label"><span class="i18n-en">Where this leads</span><span class="i18n-ja">この先へ</span></span>
+        <p><span class="i18n-en">The three neighbouring contributions cancel at $K$, where the two bands meet. In the surface plot, they meet at pointed, cone-like tips.</span><span class="i18n-ja">三つの隣からの寄与が打ち消し合い、$K$ 点で二本のバンドが接した。立体図を見ると、二枚の面は円錐の先端のようにとがって接している。</span></p>
+        <p><span class="i18n-en">Following this shape more closely leads to a surprising description: near the contact, electrons <b>behave like particles with no mass</b>. How can arranging carbon atoms in a honeycomb lead to that? On the next page, we zoom in on the contact and follow the connection from the band shape to the electrons' behaviour.</span><span class="i18n-ja">この形を詳しく調べると、接点の近くの電子が<b>「質量のない粒子のように振る舞う」</b>という話が出てくる。炭素原子を蜂の巣に並べたことから、なぜそんな性質が生まれるのだろう。次は、この接点を拡大して、バンドの形と電子の振る舞いのつながりをたどってみよう。</span></p>
+        </div>
+    </div></div>
   </section>
 
   <div class="backrow">
@@ -324,5 +273,7 @@
 
   <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/graphene-figures.js"></script>
+  <script src="/assets/js/graphene-tight-binding.js"></script>
+  <script src="/assets/js/eq-hover.js"></script>
 </body>
 </html>

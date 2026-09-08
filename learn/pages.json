@@ -690,26 +690,23 @@
       "category": "themes",
       "layoutType": "theme",
       "color": "material",
-      "published": false,
-      "title_en": "The Geometry of Graphene, Before Any Electrons",
-      "title_ja": "電子を乗せる前のグラフェンの幾何",
+      "published": true,
+      "title_en": "The Geometry of Graphene",
+      "title_ja": "グラフェンの幾何",
       "nav_en": "Graphene Geometry",
       "nav_ja": "グラフェンの幾何",
       "level_en": "Standard",
       "level_ja": "標準",
-      "readingTime_en": "15 min",
-      "readingTime_ja": "15分",
-      "summary_en": "The real- and reciprocal-space geometry to prepare before putting electrons on graphene: the honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors δ, the reciprocal lattice, and the hexagonal Brillouin zone with Γ, M, K, K′.",
-      "summary_ja": "電子を乗せる前に用意すべき、グラフェンの実空間・逆空間の幾何。蜂の巣格子を三角ブラベー格子＋A/B二原子基底として見る見方、三つの最近接ベクトル δ、逆格子、そして Γ・M・K・K′ を持つ六角形ブリルアンゾーン。",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Build the honeycomb with a two-dot stamp, construct its hexagonal wavevector map, and see the real-space waves at Γ, M, K and K′.",
+      "summary_ja": "二点の判子で蜂の巣を作り、波数をまとめる六角形を描く。Γ・M・K・K′を選んで、実空間の波の模様と原子ごとの位相を比べる。",
       "theme": [
         "graphene",
         "crystallography",
         "brillouin-zone"
       ],
-      "prerequisites": [
-        "band-formation",
-        "crystal-structure"
-      ],
+      "prerequisites": [],
       "basicsUsed": [
         {
           "label_en": "Honeycomb lattice & two-atom basis",
@@ -734,16 +731,12 @@
       ],
       "referenceLinks": [],
       "nextLinks": {
-        "theory": [
-          "graphene-tight-binding"
-        ],
+        "theory": [],
         "application": [],
         "experiment": [],
         "frontier": []
       },
-      "usedBy": [
-        "graphene-tight-binding"
-      ],
+      "usedBy": [],
       "tags": [
         "#Theme",
         "#Graphene",
@@ -759,25 +752,24 @@
       "category": "themes",
       "layoutType": "theme",
       "color": "material",
-      "published": false,
-      "title_en": "Graphene's Tight-Binding Bands",
-      "title_ja": "グラフェンのtight-bindingバンド",
-      "nav_en": "Graphene Tight-Binding",
-      "nav_ja": "グラフェンのTBバンド",
+      "published": true,
+      "title_en": "Tight-Binding Model of Graphene",
+      "title_ja": "グラフェンのtight-bindingモデル",
+      "nav_en": "Graphene Tight-Binding Model",
+      "nav_ja": "グラフェンのTBモデル",
       "level_en": "Standard",
       "level_ja": "標準",
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
-      "summary_en": "Putting tight-binding on graphene's honeycomb lattice: the A/B Bloch state, the three-term structure factor f(k), the 2×2 Hamiltonian, the bands E±(k) = ±t|f(k)|, why they touch only at the K and K′ corners, and why graphene is a semimetal.",
-      "summary_ja": "グラフェンの蜂の巣格子にタイトバインディングを載せる：A/Bのブロッホ状態、三項からなる構造因子 f(k)、2×2ハミルトニアン、バンド E±(k)=±t|f(k)|、なぜK・K′の角だけで接するのか、そしてなぜグラフェンが半金属なのか。",
+      "summary_en": "How graphene’s two orbital amplitudes and three nearest-neighbour hoppings produce two bands that touch at K and K′. Follow the phase sum, band surfaces and neutral band filling.",
+      "summary_ja": "A・Bの二つの振幅と、三つの隣への移動からグラフェンのバンドを求める。位相の打ち消しがK・K′で接点を作る理由と、中性での電子の入り方を追う。",
       "theme": [
         "graphene",
         "tight-binding",
         "band-structure"
       ],
       "prerequisites": [
-        "graphene-geometry",
-        "band-formation"
+        "graphene-geometry"
       ],
       "basicsUsed": [
         {
@@ -789,27 +781,17 @@
           "label_ja": "構造因子 f(k)"
         },
         {
-          "label_en": "2×2 tight-binding Hamiltonian",
-          "label_ja": "2×2タイトバインディング・ハミルトニアン"
-        },
-        {
-          "label_en": "Eigenvalues & determinant condition",
-          "label_ja": "固有値と行列式の条件"
-        },
-        {
           "label_en": "Fermi level & band filling",
           "label_ja": "フェルミ準位とバンドの占有"
         },
         {
-          "label_en": "Semimetal & density of states",
-          "label_ja": "半金属と状態密度"
+          "label_en": "Semimetal & band contact",
+          "label_ja": "半金属とバンド接触"
         }
       ],
       "referenceLinks": [],
       "nextLinks": {
-        "theory": [
-          "graphene-dirac-cone"
-        ],
+        "theory": [],
         "application": [],
         "experiment": [],
         "frontier": []
