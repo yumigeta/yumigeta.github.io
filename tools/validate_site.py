@@ -72,6 +72,17 @@ def validate():
     ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9', 'x': 'http://www.w3.org/1999/xhtml'}
     sitemap = ET.parse(OUTPUT / 'sitemap.xml')
     entries = sitemap.getroot().findall('s:url', ns)
+    check(not (ROOT / 'sitemap.xml').exists(), 'Source sitemap must not exist')
+    site_pages = json.loads((ROOT / 'site/pages.json').read_text(encoding='utf-8'))['pages']
+    expected = {ORIGIN + p['path']: p.get('lastmod') for p in site_pages}
+    for path in paths:
+        article = next((p for p in articles if path == '/learn/' + p['slug'] + '/'), None)
+        lastmod = article.get('lastmod') if article else registry.get('index_lastmod')
+        for lang in ('en', 'ja'):
+            expected[ORIGIN + localized(path, lang)] = lastmod
+    actual = {n.findtext('s:loc', namespaces=ns): n.findtext('s:lastmod', namespaces=ns) for n in entries}
+    check(actual == expected and len(entries) == len(expected), 'Sitemap page metadata or dates incorrect')
+
     learn = [n for n in entries if '/learn/' in n.findtext('s:loc', namespaces=ns)]
     check({n.findtext('s:loc', namespaces=ns) for n in learn}
           == {ORIGIN + localized(p, lang) for p in paths for lang in ('en', 'ja')}, 'Sitemap routes incorrect')

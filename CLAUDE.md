@@ -343,6 +343,10 @@ The build generates English at /learn/<slug>/ and Japanese at
 /ja/learn/<slug>/ for published articles plus the Learn index. It generates
 localized titles/descriptions, self canonicals, reciprocal hreflang, and the
 public sitemap. Draft articles retain noindex,nofollow and are not localized.
+There is no source sitemap.xml. Learn dates live in learn/pages.json (lastmod on
+articles; index_lastmod for the index). Other public pages/dates live in
+site/pages.json. The sole sitemap is generated at _site/sitemap.xml. Keep dates
+in YYYY-MM-DD format and change them for substantive page updates.
 
 When publishing an article, update its registry flag and remove its noindex
 meta tag together, then build and validate. The build rejects inconsistent
@@ -416,7 +420,7 @@ public `/learn/` landing, published pages, or production**. A "整理 / Organize
 pill (bottom-left) opens edit mode:
 - **Publish toggle** — ●(published)/○(hidden) per row flips `published`. (Flips
   only the pages.json flag → shelf/index; full go-live still needs the page's
-  `noindex` removed + `robots.txt` + `sitemap.xml`.)
+  noindex removed; the next build generates the sitemap from page metadata.)
 - **Move between categories** — drag a page onto a category zone (柱).
 - **Move between sub-folders (groups)** — drag onto another group's list.
 - **Reorder** — drag a page above/below another (insertion line shows where); in a
