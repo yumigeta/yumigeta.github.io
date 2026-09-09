@@ -1,3 +1,6 @@
+  function learnURL(slug) {
+    return window.learnHref ? window.learnHref(slug) : '/learn/' + (slug ? slug + '/' : '');
+  }
 // Renders the Learn index from /learn/pages.json as a hub-and-spoke map.
 //   initLearnIndex(true)                  → published only, with status tags
 //   initLearnIndex(false)                 → show everything, with status tags
@@ -51,7 +54,7 @@ window.initLearnIndex = function (opts) {
               '<span class="wip wip-soon">' + i18('soon', '準備中') + '</span></span></li>';
           }
           var wip = (showStatus && !p.published) ? '<span class="wip">dev</span>' : '';
-          return '<li><a href="/learn/' + p.slug + '/">' + lab + wip + '</a></li>';
+          return '<li><a href="' + learnURL(p.slug) + '">' + lab + wip + '</a></li>';
         };
   /* ── Icons — Tabler (tabler.io), used verbatim ──────────────────────────
      Tabler's spec is a 24×24 grid, stroke-width 2, round caps and joins, no
@@ -157,7 +160,7 @@ window.initLearnIndex = function (opts) {
                 '<p>' + i18(de, dj) + '</p>' +
               '</div></div>';
           }
-          return '<a href="/learn/' + p.slug + '/" class="et"><div>' +
+          return '<a href="' + learnURL(p.slug) + '" class="et"><div>' +
               '<h3>' + i18(p.title_en, p.title_ja) + statusTag(p) + '</h3>' +
               '<p>' + i18(de, dj) + '</p>' +
             '</div></a>';

@@ -111,6 +111,9 @@
    follow the chosen language. (article-shell.css loads on every Learn page.) */
 [data-lang="ja"] header.site-nav .i18n-en { display: inline !important; }
 [data-lang="ja"] header.site-nav .i18n-ja { display: none !important; }
+/* Generated Japanese pages contain Japanese navigation in their initial HTML. */
+[data-page-lang="ja"] header.site-nav .i18n-ja { display: inline !important; }
+
 
 /* ── Center column: neutralize the inherited full-width container paddings
       so existing .phead / .demo blocks fill the (narrower) center column ── */
