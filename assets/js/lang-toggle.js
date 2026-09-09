@@ -1,18 +1,53 @@
 (function(){
-  var lang = localStorage.getItem('lang') || 'en';
+  // Generated pages use the URL language, regardless of saved preferences.
+  var pageLang = document.documentElement.getAttribute('data-page-lang');
+  var savedLang;
+  try { savedLang = localStorage.getItem('lang'); } catch (e) {}
+  var lang = pageLang || (savedLang === 'ja' ? 'ja' : 'en');
+  function saveLang(value) { try { localStorage.setItem('lang', value); } catch (e) {} }
+  if (pageLang) saveLang(lang);
   document.documentElement.setAttribute('data-lang', lang);
-  document.documentElement.setAttribute('lang', lang);
+  if (!document.documentElement.hasAttribute('data-learn-entry')) {
+    document.documentElement.setAttribute('lang', lang);
+  }
+
+  // Shared by the index, sidebar, and related articles. Only published routes have JA versions.
+  window.learnHref = function (slug) {
+    var path = '/learn/' + (slug ? slug + '/' : '');
+    return lang === 'ja' && window.learnRoutes && window.learnRoutes.indexOf(path) !== -1
+      ? '/ja' + path : path;
+  };
+
+  function updateLearnLinks() {
+    if (!window.learnRoutes) return; // The authoring preview has no generated /ja/ files.
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      if (a.classList.contains('lang-btn')) return;
+      var href = a.getAttribute('href');
+      if (!/^\/(?:ja\/)?learn\//.test(href)) return;
+      var url = new URL(href, location.href);
+      var path = url.pathname.replace(/^\/ja\//, '/');
+      if (window.learnRoutes.indexOf(path) === -1) return;
+      a.setAttribute('href', (lang === 'ja' ? '/ja' : '') + path + url.search + url.hash);
+    });
+  }
 
   document.addEventListener('DOMContentLoaded', function(){
+    updateLearnLinks();
     var btn = document.querySelector('.lang-btn');
     if(!btn) return;
+    if (pageLang) {
+      // A real alternate-language link also works when JavaScript is disabled.
+      btn.addEventListener('click', function(){ saveLang(lang === 'en' ? 'ja' : 'en'); });
+      return;
+    }
     // The button shows a static "EN / 日本語" segmented label; CSS highlights
     // the active language from the <html data-lang> attribute.
     btn.addEventListener('click', function(){
       lang = lang === 'en' ? 'ja' : 'en';
       document.documentElement.setAttribute('data-lang', lang);
       document.documentElement.setAttribute('lang', lang);
-      localStorage.setItem('lang', lang);
+      saveLang(lang);
+      updateLearnLinks();
     });
   });
 

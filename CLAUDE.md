@@ -3,7 +3,10 @@
 ## Repository overview
 
 Personal academic website for Kentaro Yumigeta (University of Arizona).
-Static HTML/CSS/JS — no build step, no framework.
+Static HTML/CSS/JS, no framework. Public Learn pages are generated from the
+existing bilingual sources with python tools/build_site.py; validate with
+python tools/validate_site.py. Publish _site/, not the source tree.
+See README.md. Merges to main automatically build, validate, and publish via GitHub Actions.
 
 - `index.html` — main landing page
 - `learn/` — interactive Learn explainer pages (one subdirectory per topic)
@@ -335,24 +338,20 @@ The `measurement-error.css` file is the reference for what to put there:
 
 ## Search engine visibility (Learn pages)
 
-**Published** (indexed by Google): `raman/` only (now categorized under the
-`handbook`). Everything else — including the new `start/` and `all/` navigation
-pages and the four `planned` scaffolds — is dev.
+The authoritative publication flag is published in learn/pages.json.
+The build generates English at /learn/<slug>/ and Japanese at
+/ja/learn/<slug>/ for published articles plus the Learn index. It generates
+localized titles/descriptions, self canonicals, reciprocal hreflang, and the
+public sitemap. Draft articles retain noindex,nofollow and are not localized.
 
-**Unpublished / dev** (hidden from Google): everything else under `learn/`
+When publishing an article, update its registry flag and remove its noindex
+meta tag together, then build and validate. The build rejects inconsistent
+published/noindex settings. Crawling must remain allowed so Google can read
+noindex; do not add robots.txt Disallow rules for draft articles.
 
-When a page is still in development:
-1. Add `<meta name="robots" content="noindex,nofollow">` right after `<meta charset="UTF-8">` in its `<head>`
-2. Add `Disallow: /learn/[slug]/` to `robots.txt`
-3. Do NOT add it to `sitemap.xml`
-4. Add it to `learn/dev/index.html` only — **never** to `learn/index.html`
-
-When a page is ready to publish (go live):
-1. Remove the `<meta name="robots" ...>` noindex line from its `index.html`
-2. Remove its `Disallow` line from `robots.txt`
-3. Add it to `sitemap.xml`
-4. Add it to `learn/index.html` (public index)
-5. Remove it from `learn/dev/index.html`
+Edit the bilingual source HTML and registry, never the generated _site/
+copies. Japanese navigation must keep /ja/learn/ URLs. The user accepts
+resetting figures and scroll position when switching languages.
 
 **IMPORTANT**: New Learn pages must NEVER be added to `learn/index.html` until explicitly told to publish. Always use `learn/dev/index.html` during development.
 

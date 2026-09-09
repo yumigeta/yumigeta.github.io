@@ -1,3 +1,6 @@
+  function learnURL(slug) {
+    return window.learnHref ? window.learnHref(slug) : '/learn/' + (slug ? slug + '/' : '');
+  }
 // Renders /learn/all/ — the full article index (the "no hidden pages" safety valve).
 // Browsable by category, by tag (controlled vocabulary), and by A→Z / あ→わ order.
 // Single source: /learn/pages.json. Planned pages show as non-link "準備中" rows.
@@ -69,7 +72,7 @@ window.initLearnAll = function () {
             '<h3>' + i18(p.title_en, p.title_ja) + '</h3>' +
             '<p>' + i18(de, dj) + '</p></div></div>';
         }
-        return '<a href="/learn/' + p.slug + '/" class="et"><div>' +
+        return '<a href="' + learnURL(p.slug) + '" class="et"><div>' +
           '<h3>' + i18(p.title_en, p.title_ja) + '</h3>' +
           '<p>' + i18(de, dj) + '</p></div></a>';
       }

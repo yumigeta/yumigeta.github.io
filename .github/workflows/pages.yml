@@ -1,0 +1,54 @@
+name: Build and publish bilingual site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Generate English and Japanese pages
+        run: python3 tools/build_site.py
+      - name: Validate languages, links and search metadata
+        run: python3 tools/validate_site.py
+      - name: Check navigation scripts
+        run: |
+          node --check assets/js/lang-toggle.js
+          node --check assets/js/article-shell.js
+          node --check assets/js/learn-index.js
+          node --check assets/js/learn-all.js
+      - name: Upload site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Publish generated site
+        id: deployment
+        uses: actions/deploy-pages@v4
