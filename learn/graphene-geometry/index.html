@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Geometry of Graphene, Before Any Electrons</title>
-  <meta name="description" content="Before computing graphene's bands: the real-space honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors, the reciprocal lattice, and the hexagonal Brillouin zone with Γ, M, K, K′.">
+  <title>Geometry of Graphene</title>
+  <meta name="description" content="Graphene's honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors, the reciprocal lattice from phase factors under lattice translations, and the hexagonal Brillouin zone with Γ, M, K, K′.">
   <meta name="keywords" content="graphene, honeycomb lattice, Bravais lattice, sublattice, A B sites, primitive vectors, reciprocal lattice, Brillouin zone, K point, nearest neighbour">
-  <link rel="canonical" href="https://yumigeta.github.io/learn/graphene-geometry/">
+  <link rel="canonical" href="https://yumigeta.com/learn/graphene-geometry/">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="The Geometry of Graphene, Before Any Electrons">
-  <meta property="og:description" content="The real- and reciprocal-space geometry you must prepare before putting electrons on graphene: A/B sublattices, the δ vectors, and the hexagonal Brillouin zone.">
-  <meta property="og:url" content="https://yumigeta.github.io/learn/graphene-geometry/">
+  <meta property="og:title" content="Geometry of Graphene">
+  <meta property="og:description" content="Graphene's honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors, the reciprocal lattice from phase factors under lattice translations, and the hexagonal Brillouin zone with Γ, M, K, K′.">
+  <meta property="og:url" content="https://yumigeta.com/learn/graphene-geometry/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="The Geometry of Graphene, Before Any Electrons">
+  <meta name="twitter:title" content="Geometry of Graphene">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "The Geometry of Graphene, Before Any Electrons",
-    "description": "The real-space and reciprocal-space geometry of graphene: triangular Bravais lattice with an A/B basis, the three nearest-neighbour vectors, the reciprocal lattice, and the hexagonal Brillouin zone with Γ, M, K, K′.",
-    "url": "https://yumigeta.github.io/learn/graphene-geometry/",
+    "name": "Geometry of Graphene",
+    "description": "Graphene's honeycomb as a triangular Bravais lattice with an A/B two-atom basis, the three nearest-neighbour vectors, the reciprocal lattice from phase factors under lattice translations, and the hexagonal Brillouin zone with Γ, M, K, K′.",
+    "url": "https://yumigeta.com/learn/graphene-geometry/",
     "author": {
       "@type": "Person",
       "name": "Kentaro Yumigeta",
-      "url": "https://yumigeta.github.io",
+      "url": "https://yumigeta.com",
       "affiliation": { "@type": "Organization", "name": "University of Arizona" }
     },
     "educationalLevel": "Undergraduate",
@@ -44,6 +43,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/bands-series.css">
+  <link rel="stylesheet" href="/assets/css/graphene-geometry.css">
   <link rel="stylesheet" href="/assets/css/gnr-variants.css">
   <link rel="stylesheet" href="/assets/css/article-shell.css">
   <link rel="stylesheet" href="/assets/vendor/katex.min.css">
@@ -51,6 +51,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
   <script defer src="/assets/js/eq-number.js"></script>
   <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+  <link rel="stylesheet" href="/assets/css/eq-hover.css">
 </head>
 <body data-learn-slug="graphene-geometry">
   <script src="/assets/js/lang-toggle.js"></script>
@@ -70,166 +71,261 @@
 
   <div class="phead">
     <div class="container">
-      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Geometry</span><span class="i18n-ja">グラフェンの幾何</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Graphene Geometry</span><span class="i18n-ja">グラフェンの幾何学</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">The Geometry of Graphene, Before Any Electrons</span><span class="i18n-ja">電子を乗せる前のグラフェンの幾何</span></h1>
+        <h1><span class="i18n-en">Geometry of Graphene</span><span class="i18n-ja">グラフェンの幾何学</span></h1>
       </div>
-      <p class="pintro"><span class="i18n-en"><span class="cq-label">Central question:</span> Before building graphene's electronic bands, which real-space and reciprocal-space geometry must be prepared? We do not put any electrons on yet.</span><span class="i18n-ja"><span class="cq-label">中心の問い：</span>グラフェンの電子バンドを作る前に、どの実空間・逆空間の幾何を準備しなければならないのか。電子はまだ乗せない。</span></p>
-      <p class="pintro"><span class="i18n-en">Carbon is a commonplace element that can become pencil lead or diamond. A honeycomb sheet of that carbon thinned to a single atom's thickness is graphene, and a single sheet was first isolated in 2004. For a long time it was thought that a one-atom-thick crystal could not exist stably. The electrons of this single-atomic-layer sheet, as we are about to see, behave unlike those of an ordinary metal or a semiconductor. Before examining that electronic structure, we first set up the geometry of graphene's lattice without putting any electrons on it. In real space we organize the A/B sublattices and the three nearest-neighbour directions; in reciprocal space, the hexagonal Brillouin zone and K/K′.</span><span class="i18n-ja">炭素は鉛筆の芯にもダイヤモンドにもなる、ありふれた元素だ。その炭素を一原子の厚みまで薄くした蜂の巣状のシートがグラフェンであり、一枚だけ取り出せたのは2004年である。長く、一原子層の結晶は安定して存在し得ないと思われていた。この一原子層のシートの電子が、これから見るように、普通の金属とも半導体とも違う振る舞いを見せる。その電子構造を調べる前に、まず電子を乗せずに、グラフェンの格子の幾何を用意する。実空間ではA/Bの副格子と三つの最近接方向を、逆空間では六角形のブリルアンゾーンとK/K′を整理する。</span></p>
+      <p class="pintro"><span class="i18n-en">Graphite, the material used in pencil lead, has a structure consisting of multiple stacked layers of carbon atom sheets. Graphene is a single, atom-thick layer extracted from this material. Within this extremely thin sheet obtained from such a familiar substance, low-energy electrons behave as if they are massless particles. Why does this property emerge from a single sheet of carbon?</span><span class="i18n-ja">鉛筆の芯である黒鉛は、炭素原子のシートが何層も積み重なった構造を持っている。そのたった一層、厚さ原子1個分の薄膜を取り出したものがグラフェンである。このような身近な物質から得られる極薄のシートの中で、低いエネルギーを持つ電子は、まるで質量を持たない粒子のように振る舞う。なぜ、たった一枚の炭素シートから、これほど不思議な性質が生まれるのだろうか。</span></p>
+      <p class="pintro"><span class="i18n-en">The wave-like behavior of electrons is strongly influenced by how the atoms are bonded together. In graphene, each carbon atom bonds with three neighboring carbon atoms, forming a honeycomb structure. Expressing this atomic arrangement and its periodic regularity mathematically is the first step toward calculating electron waves and energies. Let us begin by unraveling the geometric structure of this honeycomb lattice.</span><span class="i18n-ja">電子の波としての性質は、原子同士がどのように結びついているかに強く左右される。グラフェンでは、1つの炭素原子が隣り合う3つの炭素原子と結合し、美しい蜂の巣状のハニカム構造を形作っている。この原子の配置と繰り返しの規則性を数式で表すことこそが、電子の波やエネルギーを計算するための第一歩となる。まずは、この蜂の巣格子の幾何学的な構造を解き明かすことから始めよう。</span></p>
     </div>
   </div>
 
-  <!-- ═══════ 01 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">01</span>
-      <h2><span class="i18n-en">A one-dimensional chain is not enough</span><span class="i18n-ja">1次元鎖では足りない</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">The one-dimensional chain of the previous page had one neighbour on the left and one on the right, and just one localized orbital in the unit cell. So only one coefficient needed to be fixed within the Bloch state.</span><span class="i18n-ja">前のページの1次元鎖は、隣が左と右に一つずつあり、単位胞には局在軌道が一つだけあった。そのため、Bloch状態の中で決めるべき係数も一つで済んだ。</span></p>
-        <p><span class="i18n-en">In graphene, the carbon atoms are arranged in a two-dimensional honeycomb. It looks like a simple hexagonal mesh, but it cannot be treated as it stands as a lattice of a single atom repeating periodically. The number of neighbours is not one either: each carbon atom has three nearest-neighbour carbon atoms. Moreover, a view that places only one atom in the unit cell cannot correctly represent the repetition of the whole lattice.</span><span class="i18n-ja">グラフェンでは、炭素原子は二次元の蜂の巣状に並ぶ。見た目は単純な六角形の網目だが、これをそのまま一つの原子が周期的に並ぶ格子として扱うことはできない。隣の数も一つではなく、各炭素原子は三つの最近接炭素原子を持つ。さらに、単位胞の中に一つの原子だけを置く見方では、格子全体の繰り返しを正しく表せない。</span></p>
-        <p><span class="i18n-en">Here we do not yet place any electrons. We consider neither hopping nor bands. What is needed first is to make a map of graphene's real space and reciprocal space. The previous page left a shortfall: we need a real lattice with several sublattices. Graphene takes that up as the minimal example.</span><span class="i18n-ja">ここではまだ電子を置かない。ホッピングもバンドも考えない。まず必要なのは、グラフェンの実空間と逆空間の地図を作ることである。前のページで残った「複数の副格子を持つ実在格子が要る」という不足を、グラフェンが最小の例として引き受ける。</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ 02 ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">02</span>
-      <h2><span class="i18n-en">The honeycomb is not a Bravais lattice</span><span class="i18n-ja">蜂の巣はBravais格子ではない</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">In a Bravais lattice, whichever lattice point you choose as the origin, the same set of translations maps the whole lattice onto itself. In the honeycomb lattice, however, if you take one carbon atom as the origin and translate to a neighbouring carbon atom, the whole lattice does not map onto itself with the same orientation: the direction of the bonds is reversed.</span><span class="i18n-ja">Bravais格子では、どの格子点を原点に選んでも、同じ平行移動の組で格子全体が重なる。ところが蜂の巣格子では、一つの炭素原子を原点にして、隣の炭素原子へ平行移動すると、格子全体は同じ向きには重ならない。結合の向きが反転する。</span></p>
-        <p><span class="i18n-en">This means the honeycomb must not be viewed as a Bravais lattice made of a single kind of lattice point. The correct view is to place two atoms on each lattice point of a triangular Bravais lattice. We call these two atoms the A site and the B site.</span><span class="i18n-ja">これは、蜂の巣を一種類の格子点だけでできたBravais格子として見てはいけないことを意味する。正しい見方は、三角Bravais格子の各格子点に二つの原子を置くことである。この二つの原子をAサイトとBサイトと呼ぶ。</span></p>
-        <p><span class="i18n-en">A and B here do not yet carry any electronic meaning. They are simply labels for distinguishing two geometric positions within the same unit cell. Together these two labels are called the sublattices. The honeycomb lattice can be represented as the A sublattice and the B sublattice superimposed.</span><span class="i18n-ja">AとBは、ここでは電子的な意味をまだ持たない。単に、同じ単位胞の中にある二つの幾何的な位置を区別するためのラベルである。この二つのラベルを合わせて、副格子と呼ぶ。蜂の巣格子は、A副格子とB副格子を重ねたものとして表せる。</span></p>
-        <p><span class="i18n-en">From this page on, we write $a$ for the distance between neighbouring carbon atoms. We take the primitive vectors of the triangular Bravais lattice to be</span><span class="i18n-ja">このページ以降では、隣り合う炭素原子の距離を $a$ と書く。三角Bravais格子の基本ベクトルを</span></p>
-        <p class="eq-block">$$\begin{aligned} \mathbf{a}_1 &= a\!\left(\tfrac{\sqrt{3}}{2},\ \tfrac{3}{2}\right) \\ \mathbf{a}_2 &= a\!\left(-\tfrac{\sqrt{3}}{2},\ \tfrac{3}{2}\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">. Adding integer multiples of these two vectors builds the triangular Bravais lattice that takes one A site to another A site. We write a Bravais lattice point as</span><span class="i18n-ja">と取る。この二つのベクトルを整数倍して足し合わせると、Aサイトから別のAサイトへ移る三角Bravais格子が作られる。Bravais格子点を</span></p>
-        <p class="eq-block">$$\mathbf{R} = m\,\mathbf{a}_1 + n\,\mathbf{a}_2$$</p>
-        <p><span class="i18n-en">. Here $m, n$ are integers. For each $\mathbf{R}$, there are two atoms in the unit cell, an A site and a B site.</span><span class="i18n-ja">と書く。ここで $m, n$ は整数である。一つの $\mathbf{R}$ に対して、単位胞の中にはAサイトとBサイトの二つがある。</span></p>
+    <div class="demo-head"><span class="demo-num">01</span><h2><span class="i18n-en">Shifting to a Neighboring Atom Does Not Result in Overlap</span><span class="i18n-ja">隣の原子へずらしても重ならない</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">The standard method for investigating the periodicity of a crystal is to translate the entire pattern and check whether it perfectly overlaps with the original. If the pattern overlaps completely, it means an identical atomic arrangement exists at the translated position. First, let us choose a carbon atom on the honeycomb lattice and translate the entire lattice by the carbon–carbon distance $a$ toward a neighboring atom. While half of the atoms overlap with other atomic positions, the remaining half move into the empty centers of the hexagons. Why do they not all overlap at once? By examining the three bonds extending from each atom, we find two types of atoms: those with one bond pointing upward and those with one bond pointing downward. Attempting to overlay an atom with an upward-pointing bond onto an atom with a downward-pointing bond fails to reproduce the overall pattern because the bond orientations are reversed. What happens if we translate an atom with an upward-pointing bond toward another atom that also has an upward-pointing bond? This time, the entire honeycomb pattern overlaps perfectly. Extracting only these upward-pointing atoms reveals a network formed by seamlessly tiling equilateral triangles. This is a triangular lattice. Similarly, extracting only the downward-pointing atoms yields an identical triangular lattice shifted by a small translation. Here, let us refer to the upward-pointing atoms as A-sites and the downward-pointing atoms as B-sites. Although both are carbon atoms, their surrounding environments, such as bond directions, differ. Thus, graphene is not a simple single lattice, but rather a structure where a pair of two atoms, A and B, is placed at each point of a triangular lattice.</span><span class="i18n-ja">結晶の規則性を調べる基本手法は、模様全体を平行移動させて元とぴったり重なるかを確かめることだ。もし全体が重なれば、ずらした先にも全く同じ原子の並びが存在することになる。まずは蜂の巣格子上の炭素原子を1つ選び、隣の原子に向かって、炭素間距離 $a$ だけ全体をずらしてみよう。すると、原子の半分は別の原子の位置に重なるが、残りの半分は六角形の中央の空洞へ移動してしまう。なぜ一度にすべてが重ならないのだろうか。原子から伸びる3本の結合に注目すると、1本の結合が上を向いている原子と、下を向いている原子の2種類が存在することがわかる。上向きの結合を持つ原子を、下向きの結合を持つ原子に重ねようとしても、結合の向きが逆であるため模様全体としては重なり合わないのだ。では、上向きの結合を持つ原子から、別の「上向きの結合を持つ原子」へ向かってずらすとどうなるだろうか。今度は、蜂の巣全体の模様がぴったりと重なる。この上向きの原子だけを抜き出してみると、正三角形を隙間なく敷き詰めた網目が現れる。これが三角格子である。同様に、下向きの原子だけを抜き出しても、全く同じ三角格子が少し平行移動した位置に現れる。ここで、上向きの原子をAサイト、下向きの原子をBサイトと呼ぶことにしよう。どちらも同じ炭素原子だが、周囲の結合の向きなどの環境が異なっている。つまりグラフェンは、単一のシンプルな格子ではなく、三角格子の各点にAとBという2つの原子をペアで配置した構造なのである。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-lattice" role="img" aria-label="Honeycomb lattice with triangular Bravais points, unit cell, A and B sites, and basis vectors a1, a2"></canvas></div>
+          <div class="gfig-stage"><canvas id="fig-lattice" role="img" aria-label="Honeycomb lattice showing translations from A to B and from A to A"></canvas></div>
           <div class="gfig-controls">
             <div class="gfig-btns">
-              <button class="gfig-btn" id="lat-aa" type="button"><span class="i18n-en">Translate A→A</span><span class="i18n-ja">格子ベクトルで並進（A→A）</span></button>
-              <button class="gfig-btn" id="lat-ab" type="button"><span class="i18n-en">Move A→B</span><span class="i18n-ja">隣の炭素へ並進（A→B）</span></button>
+              <button class="gfig-btn" id="lat-ab" type="button"><span class="i18n-en">To a neighbouring atom (A→B)</span><span class="i18n-ja">隣の原子へ（A→B）</span></button>
+              <button class="gfig-btn" id="lat-aa" type="button"><span class="i18n-en">To an atom with the same orientation (A→A)</span><span class="i18n-ja">同じ向きの原子へ（A→A）</span></button>
               <button class="gfig-btn" id="lat-reset" type="button"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
             </div>
             <span class="gfig-status" id="lat-status"><span class="i18n-en">&nbsp;</span><span class="i18n-ja">&nbsp;</span></span>
           </div>
         </figure>
-        <p><span class="i18n-en">In this way of seeing the figure, there is no need to make the honeycomb hexagon itself the unit cell. What carries the periodicity is the triangular Bravais lattice, with a two-point basis of A and B riding on each of its points. When we later use Bloch's theorem, the Bloch phase is applied to the translations of this triangular Bravais lattice.</span><span class="i18n-ja">この図の見方では、蜂の巣の六角形をそのまま単位胞にする必要はない。周期性を担うのは三角Bravais格子であり、その各点にAとBの二点基底が乗っている。後でBlochの定理を使うとき、Bloch位相はこの三角Bravais格子の平行移動に対して掛かる。</span></p>
-      </div>
-    </div>
+    </div></div>
   </section>
 
-  <!-- ═══════ 03 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">03</span>
-      <h2><span class="i18n-en">The three nearest neighbours</span><span class="i18n-ja">3つの最近接</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">If we are to consider later the effect of graphene's electrons moving to a neighbour, we must first decide which neighbours to count. Choose one A site, and its nearest neighbours are three B sites. We write these three directions as displacement vectors heading from A to B,</span><span class="i18n-ja">グラフェンの電子が隣へ移る効果を後で考えるなら、どの隣を数えるのかを先に決めておく必要がある。Aサイトを一つ選ぶと、その最近接には三つのBサイトがある。この三つの方向を、AからBへ向かう変位ベクトルとして</span></p>
-        <p class="eq-block">$$\begin{aligned} \boldsymbol{\delta}_1 &= a(0,\ 1) \\ \boldsymbol{\delta}_2 &= a\!\left(\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \\ \boldsymbol{\delta}_3 &= a\!\left(-\tfrac{\sqrt{3}}{2},\ -\tfrac{1}{2}\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">と書く。</span></p>
-        <p><span class="i18n-en">Here we have not yet said that the electron actually hops. All we are doing is preparing the geometry. When we later write the nearest-neighbour hopping, we will need three paths from A to B. Those three paths are exactly $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$.</span><span class="i18n-ja">ここでは、まだ電子が本当に飛び移るとは言っていない。行っているのは幾何の準備だけである。後で最近接ホッピングを書くとき、AからBへ向かう三つの道が必要になる。その三つの道が、そのまま $\boldsymbol{\delta}_1$, $\boldsymbol{\delta}_2$, $\boldsymbol{\delta}_3$ である。</span></p>
+    <div class="demo-head"><span class="demo-num">02</span><h2><span class="i18n-en">Carving Two Points on a Stamp</span><span class="i18n-ja">判子に二点を彫る</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">The entire honeycomb lattice can be constructed by repeating a pair consisting of an A-site and the B-site directly above it. To visualize this, imagine a stamp engraved with this pair of A and B sites. Every time the stamp is pressed, one pair of A and B sites is added to the paper. Starting from an A-site at the origin, let $\mathbf{a}_1$ be the vector pointing toward the upper-right A-site, and $\mathbf{a}_2$ be the vector pointing toward the upper-left A-site. We construct a rhombic stamp using these two vectors as adjacent sides. Aligning the A-mark on the stamp with each A-site and pressing it repeatedly without rotation seamlessly tiles the rhombuses, completing the entire honeycomb lattice. The positions where the stamp is applied can be specified by the number of steps taken along each of the two vectors. When moving $m$ times along $\mathbf{a}_1$ and $n$ times along $\mathbf{a}_2$ from the origin, the position $\mathbf{R}$ of the A-mark is expressed as follows:</span><span class="i18n-ja">蜂の巣格子全体は、1つのAサイトと、そのすぐ真上にある1つのBサイトをペアにして繰り返すことで作成できる。ここで、このAとBのペアを彫り込んだ判子をイメージしてみよう。判子を1回押すごとに、AとBの組が1つずつ用紙の上に増えていく。原点にあるAサイトから出発し、右上のAサイトへ向かう矢印を $\mathbf{a}_1$、左上のAサイトへ向かう矢印を $\mathbf{a}_2$ とする。この2本を隣り合う二辺とする菱形の判子を作る。この判子のAの印を各Aサイトの位置に合わせ、向きを変えずに押していくと、菱形が隙間なく敷き詰められて蜂の巣格子全体が完成する。判子を押す位置は、2本の矢印に沿ってそれぞれ何回進めたかで指定できる。原点から $\mathbf{a}_1$ の方向に $m$ 回、$\mathbf{a}_2$ の方向に $n$ 回進んだとき、判子のAの印が着く位置 $\mathbf{R}$ は、次のように書き表せる。</span></p>
+        <p class="eq-block" id="eq1">$$\mathbf{R}=m\,\mathbf{a}_1+n\,\mathbf{a}_2 \tag{1}$$</p>
+        <p><span class="i18n-en">Here, $m$ and $n$ are integers, with negative values representing movement in the opposite direction of the vectors. For example, setting $m=1$ and $n=-1$ yields $\mathbf{a}_1 - \mathbf{a}_2$, reaching the neighboring A-site located directly horizontally. Combining these two vectors alone allows us to specify the positions of all A-sites. In physics, the set of all stamp positions $\mathbf{R}$ is called a Bravais lattice, and the reference vectors $\mathbf{a}_1$ and $\mathbf{a}_2$ are called primitive translation vectors. Translating the entire crystal by a vector $\mathbf{R}$ yields a structure identical to the original arrangement; this operation is called a lattice translation. Furthermore, a group of atoms placed at each lattice point, such as the pair of A and B sites carved on the stamp, is called a basis. The smallest repeating unit area corresponding to a single stamp press is called a unit cell. In graphene, each unit cell contains one A-site and one B-site, totaling two carbon atoms. Now, let us calculate the primitive vectors $\mathbf{a}_1$ and $\mathbf{a}_2$, which form two sides of the stamp, using the carbon–carbon distance $a$.</span><span class="i18n-ja">ここで $m, n$ は整数であり、矢印と逆方向に進む場合は負の数で表す。たとえば $m=1, n=-1$ とすれば $\mathbf{a}_1 - \mathbf{a}_2$ となり、真横にある隣のAサイトへ到達する。この2本の矢印を組み合わせるだけで、すべてのAサイトの位置を指定できるのだ。このように、判子を押す位置 $\mathbf{R}$ 全体を集めた集合のことを物理ではブラベー格子と呼び、基準となる2本の矢印 $\mathbf{a}_1, \mathbf{a}_2$ を基本並進ベクトルと呼ぶ。結晶全体をベクトル $\mathbf{R}$ だけ平行移動しても元の原子配置と完全に重なるが、この移動操作を格子並進という。また、判子に彫ったAとBのペアのように、各格子点に配置する原子のグループを基底と呼ぶ。そして、判子1回分に相当する最小の繰り返し領域である菱形を単位胞と呼ぶ。グラフェンの単位胞の中には、AサイトとBサイトが1つずつ、計2個の炭素原子が含まれている。それでは、この判子の二辺である基本ベクトル $\mathbf{a}_1, \mathbf{a}_2$ を、炭素間距離 $a$ を用いて具体的に計算してみよう。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-nnvec" role="img" aria-label="An A site with the three nearest-neighbour vectors to its B sites, plus the primitive vectors a1 and a2"></canvas></div>
+          <div class="gfig-stage"><canvas id="fig-stamp" role="img" aria-label="A two-dot stamp with sides a1 and a2 is pressed on every point R of a triangular Bravais lattice to build the honeycomb"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-btns">
+              <button class="gfig-btn" id="st-press" type="button"><span class="i18n-en">Press the stamp</span><span class="i18n-ja">判子を押す</span></button>
+              <button class="gfig-btn" id="st-reset" type="button"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+            </div>
+            <span class="gfig-status" id="st-status"><span class="i18n-en">&nbsp;</span><span class="i18n-ja">&nbsp;</span></span>
+          </div>
+        </figure>
+    </div></div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-head"><span class="demo-num">03</span><h2><span class="i18n-en">Determining the Two Sides of the Stamp from Bond Vectors</span><span class="i18n-ja">結合の矢印から判子の二辺を求める</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">The primitive vectors $\mathbf{a}_1$ and $\mathbf{a}_2$ representing the two sides of the stamp point from the A-site at the origin to the upper-right and upper-left A-sites, respectively. Tracing the diagram reveals that one can reach the next A-site from an A-site by following two consecutive bonds via the B-site directly above. In other words, combining the two bond vectors for the path A $\to$ B $\to$ A yields the primitive vectors. Let the $x$-axis point to the right and the $y$-axis point upward, expressing vectors as pairs of $x$- and $y$-components. The measured carbon–carbon distance in graphene is $a = 0.142\text{ nm}$. Let $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2,$ and $\boldsymbol{\delta}_3$ be the vectors pointing from an A-site to its three adjacent B-sites. Their lengths are all $a$. From the geometric properties of a regular hexagon, these three vectors are oriented at $120^\circ$ to one another. Choosing the first vector $\boldsymbol{\delta}_1$ in the upward $+y$ direction gives:</span><span class="i18n-ja">判子の二辺を表す基本ベクトル $\mathbf{a}_1, \mathbf{a}_2$ は、原点のAサイトから、右上および左上のAサイトへ向かうベクトルであった。図を辿ると、Aサイトから真上のBサイトを経由し、結合を2本順にたどることで次のAサイトへ到達できることがわかる。つまり、A $\to$ B $\to$ A という2つの矢印を合成すれば、基本ベクトルを導出できる。$x$ 軸を右方向、$y$ 軸を上方向に取り、ベクトルを $x$ 成分と $y$ 成分の組で書き表そう。なお、グラフェンの炭素間距離の実測値は $a = 0.142\text{ nm}$ である。Aサイトから、隣接する3つのBサイトへ向かうベクトルを $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$ と置く。これらの長さはいずれも $a$ である。正六角形の内角の性質から、これら3本のベクトルは互いに $120^\circ$ ずつ開いている。1本目の $\boldsymbol{\delta}_1$ を真上の $+y$ 方向に取ると、</span></p>
+        <p class="eq-block" id="eq2">$$\boldsymbol{\delta}_1=a(0,1) \tag{2}$$</p>
+        <p><span class="i18n-en">Rotating this vector clockwise by $120^\circ$ gives $\boldsymbol{\delta}_2$, with components $a(\sin120^\circ, \cos120^\circ)$. Rotating counterclockwise yields $\boldsymbol{\delta}_3$, obtained simply by flipping the sign of the $x$-component. Substituting $\sin120^\circ=\frac{\sqrt{3}}{2}$ and $\cos120^\circ=-\frac{1}{2}$ gives the remaining two vectors:</span><span class="i18n-ja">となる。これを時計回りに $120^\circ$ 回転させると $\boldsymbol{\delta}_2$ となり、成分は $a(\sin120^\circ, \cos120^\circ)$ と書ける。反時計回りに回転させた $\boldsymbol{\delta}_3$ は、$x$ 成分の符号を反転させればよい。$\sin120^\circ=\frac{\sqrt{3}}{2}$、$\cos120^\circ=-\frac{1}{2}$ を代入すると、残りの2本は次のように求まる。</span></p>
+        <p class="eq-block" id="eq3">$$\begin{aligned} \boldsymbol{\delta}_2&=a\left(\frac{\sqrt3}{2},-\frac12\right)\\ \boldsymbol{\delta}_3&=a\left(-\frac{\sqrt3}{2},-\frac12\right) \end{aligned} \tag{3}$$</p>
+        <p><span class="i18n-en">Since $\boldsymbol{\delta}_j$ points from A to B, the vector pointing back from B to A is $-\boldsymbol{\delta}_j$. Moving from the origin A-site to the B-site directly above by $\boldsymbol{\delta}_1$, and then to the upper-right A-site by $-\boldsymbol{\delta}_3$, yields the primitive vector $\mathbf{a}_1$. Similarly, changing the second step to $-\boldsymbol{\delta}_2$ yields the primitive vector $\mathbf{a}_2$:</span><span class="i18n-ja">$\boldsymbol{\delta}_j$ はAからBへ向かう矢印なので、逆にBからAへ戻る矢印は符号を反転させた $-\boldsymbol{\delta}_j$ となる。原点のAサイトから真上のBサイトへ $\boldsymbol{\delta}_1$ だけ進み、そこから右上のAサイトへ $-\boldsymbol{\delta}_3$ だけ進むと、右上への基本ベクトル $\mathbf{a}_1$ になる。同様に、後半を $-\boldsymbol{\delta}_2$ に変えれば、左上への基本ベクトル $\mathbf{a}_2$ が得られる。</span></p>
+        <p class="eq-block" id="eq4">$$\begin{aligned} \mathbf{a}_1&=\boldsymbol{\delta}_1-\boldsymbol{\delta}_3 =a\left(\frac{\sqrt3}{2},\frac32\right)\\ \mathbf{a}_2&=\boldsymbol{\delta}_1-\boldsymbol{\delta}_2 =a\left(-\frac{\sqrt3}{2},\frac32\right) \end{aligned} \tag{4}$$</p>
+        <p><span class="i18n-en">Using Equation (4), let us calculate the magnitude of the primitive vector $\mathbf{a}_1$:</span><span class="i18n-ja">式(4)を用いて、基本ベクトル $\mathbf{a}_1$ の長さを計算してみよう。</span></p>
+        <div class="eq-block">$$\vert{}\mathbf{a}_1\vert{} =a\sqrt{\left(\frac{\sqrt3}{2}\right)^2+\left(\frac32\right)^2} =a\sqrt{\frac34+\frac94} =\sqrt3\,a$$</div>
+        <p><span class="i18n-en">This is the lattice constant of the triangular lattice, that is, the distance between neighboring lattice points. While the carbon–carbon bond length is $0.142\text{ nm}$, the lattice constant representing the minimum repeating period is slightly longer at $\sqrt{3} \times 0.142 \approx 0.246\text{ nm}$. Note that while $a$ denotes the carbon–carbon bond length in this explanation, specialized literature frequently uses $a$ to denote the lattice constant $\sqrt{3}a$. Care should be taken regarding which physical quantity $a$ represents when comparing equations across textbooks and research papers. The atomic arrangement remains completely unchanged under a translation by a lattice vector $\mathbf{R}=m\mathbf{a}_1+n\mathbf{a}_2$. How, then, does an electron wave propagating through this crystal change under such a translation?</span><span class="i18n-ja">これが三角格子の格子定数、すなわち隣り合う格子点どうしの距離である。炭素間距離が $0.142\text{ nm}$ であるのに対し、繰り返しの最小周期である格子定数は $\sqrt{3} \times 0.142 \approx 0.246\text{ nm}$ と、少し長い値になる。注意点として、本解説では記号 $a$ を炭素間の結合長として扱っているが、専門書によっては格子定数である $\sqrt{3}a$ の方を $a$ と表記している場合が多い。教科書や論文の式を比較する際は、記号 $a$ がどちらの物理量を指しているかに注意が必要だ。原子の配置は、格子並進ベクトル $\mathbf{R}=m\mathbf{a}_1+n\mathbf{a}_2$ だけ移動させても元と完全に重なる。では、この結晶の中を伝わる電子の波は、この移動によってどのように変化するのだろうか。</span></p>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-nnvec" role="img" aria-label="An A site with the three nearest-neighbour vectors to its B sites, plus the primitive vectors a1 and a2 built as two-step paths"></canvas></div>
           <div class="gfig-controls">
             <div class="gfig-btns">
               <button class="gfig-btn active" id="nn-all" type="button"><span class="i18n-en">all three</span><span class="i18n-ja">三方向</span></button>
               <button class="gfig-btn" id="nn-d1" type="button"><span class="gv">δ</span><sub>1</sub></button>
               <button class="gfig-btn" id="nn-d2" type="button"><span class="gv">δ</span><sub>2</sub></button>
               <button class="gfig-btn" id="nn-d3" type="button"><span class="gv">δ</span><sub>3</sub></button>
+              <button class="gfig-btn" id="nn-a1" type="button"><span class="gv">a</span><sub>1</sub> = <span class="gv">δ</span><sub>1</sub> − <span class="gv">δ</span><sub>3</sub></button>
+              <button class="gfig-btn" id="nn-a2" type="button"><span class="gv">a</span><sub>2</sub> = <span class="gv">δ</span><sub>1</sub> − <span class="gv">δ</span><sub>2</sub></button>
             </div>
-            <span class="gfig-hint"><span class="i18n-en">three nearest neighbours, 120° apart (length a)</span><span class="i18n-ja">最近接の三方向、互いに120°（長さ a）</span></span>
+            <span class="gfig-hint" id="nn-hint"><span class="i18n-en">three nearest neighbours, 120° apart (length a)</span><span class="i18n-ja">最近接の三方向、互いに120°（長さ a）</span></span>
           </div>
         </figure>
-        <p><span class="i18n-en">Seen from the A site, these three B sites are at the same distance $a$. So if we keep only the nearest neighbours, these three directions must be treated as equivalent. The reason the structure factor later becomes a sum of three terms is that there are these three directions.</span><span class="i18n-ja">Aサイトから見れば、この三つのBサイトは同じ距離 $a$ にある。したがって最近接だけを残すなら、この三方向は等価に扱う必要がある。後で構造因子が三つの項の和になるのは、この三つの方向があるからである。</span></p>
-      </div>
-    </div>
+    </div></div>
   </section>
 
-  <!-- ═══════ 04 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">04</span>
-      <h2><span class="i18n-en">The reciprocal lattice of the same geometry</span><span class="i18n-ja">同じ幾何の逆格子</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">Electronic bands are written as functions of the wavevector $\mathbf{k}$. So we need not only the real-space lattice but also the reciprocal-space lattice.</span><span class="i18n-ja">電子バンドは波数 $\mathbf{k}$ の関数として書かれる。したがって、実空間の格子だけでなく、逆空間の格子も必要になる。</span></p>
-        <p><span class="i18n-en">The reciprocal lattice vectors $\mathbf{b}_1, \mathbf{b}_2$ are fixed, with respect to the real-space primitive vectors $\mathbf{a}_1, \mathbf{a}_2$, so as to satisfy</span><span class="i18n-ja">逆格子ベクトル $\mathbf{b}_1$, $\mathbf{b}_2$ は、実空間基本ベクトル $\mathbf{a}_1$, $\mathbf{a}_2$ に対して</span></p>
-        <p class="eq-block">$$\mathbf{a}_i \cdot \mathbf{b}_j = 2\pi\,\delta_{ij}$$</p>
-        <p><span class="i18n-en">. Here $\delta_{ij}$ is the Kronecker delta, equal to 1 if $i = j$ and 0 if $i \ne j$.</span><span class="i18n-ja">を満たすように決める。ここで $\delta_{ij}$ はクロネッカーのデルタであり、$i = j$ なら1、$i \ne j$ なら0である。</span></p>
-        <p><span class="i18n-en">The present real-space vectors are</span><span class="i18n-ja">今の実空間ベクトルは</span></p>
-        <p class="eq-block">$$\begin{aligned} \mathbf{a}_1 &= a\!\left(\tfrac{\sqrt{3}}{2},\ \tfrac{3}{2}\right) \\ \mathbf{a}_2 &= a\!\left(-\tfrac{\sqrt{3}}{2},\ \tfrac{3}{2}\right) \end{aligned}$$</p>
-        <p><span class="i18n-en">. First set $\mathbf{b}_1 = (x, y)$. Using $\mathbf{a}_1 \cdot \mathbf{b}_1 = 2\pi$ and $\mathbf{a}_2 \cdot \mathbf{b}_1 = 0$,</span><span class="i18n-ja">であった。まず $\mathbf{b}_1 = (x, y)$ と置く。$\mathbf{a}_1 \cdot \mathbf{b}_1 = 2\pi$ と $\mathbf{a}_2 \cdot \mathbf{b}_1 = 0$ を使うと、</span></p>
-        <p class="eq-block">$$\begin{aligned} a\!\left(\tfrac{\sqrt{3}}{2}\,x + \tfrac{3}{2}\,y\right) &= 2\pi \\ a\!\left(-\tfrac{\sqrt{3}}{2}\,x + \tfrac{3}{2}\,y\right) &= 0 \end{aligned}$$</p>
-        <p><span class="i18n-en">. Adding the two equations,</span><span class="i18n-ja">である。両式を足すと、</span></p>
-        <p class="eq-block">$$3a\,y = 2\pi$$</p>
-        <p><span class="i18n-en">, hence</span><span class="i18n-ja">したがって</span></p>
-        <p class="eq-block">$$y = \frac{2\pi}{3a}$$</p>
-        <p><span class="i18n-en">. Substituting back into the second equation,</span><span class="i18n-ja">である。次に二つ目の式へ戻すと、</span></p>
-        <p class="eq-block">$$\begin{aligned} -\tfrac{\sqrt{3}}{2}\,a\,x + \tfrac{3}{2}\,a\cdot\tfrac{2\pi}{3a} &= 0 \\ -\tfrac{\sqrt{3}}{2}\,a\,x + \pi &= 0 \\ x &= \frac{2\pi}{\sqrt{3}\,a} \end{aligned}$$</p>
-        <p><span class="i18n-en">. Therefore</span><span class="i18n-ja">となる。したがって</span></p>
-        <p class="eq-block">$$\mathbf{b}_1 = \left(\frac{2\pi}{\sqrt{3}\,a},\ \frac{2\pi}{3a}\right)$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">である。</span></p>
-        <p><span class="i18n-en">Likewise, setting $\mathbf{b}_2 = (x, y)$ and using $\mathbf{a}_1 \cdot \mathbf{b}_2 = 0$, $\mathbf{a}_2 \cdot \mathbf{b}_2 = 2\pi$,</span><span class="i18n-ja">同じように $\mathbf{b}_2 = (x, y)$ と置き、$\mathbf{a}_1 \cdot \mathbf{b}_2 = 0$, $\mathbf{a}_2 \cdot \mathbf{b}_2 = 2\pi$ を使うと、</span></p>
-        <p class="eq-block">$$\mathbf{b}_2 = \left(-\frac{2\pi}{\sqrt{3}\,a},\ \frac{2\pi}{3a}\right)$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">となる。</span></p>
-        <p><span class="i18n-en">In real space, looking at only the A sites, a triangular lattice appeared. In reciprocal space too, a triangular lattice appears correspondingly. Pulled along by the look of the honeycomb, one easily pictures only the hexagon, but the Bravais lattice that underpins Bloch's theorem is triangular, and the reciprocal lattice is triangular as well.</span><span class="i18n-ja">実空間では、Aサイトだけを見れば三角格子が現れた。逆空間でも、それに対応して三角格子が現れる。蜂の巣の見た目に引きずられると六角形だけを思い浮かべやすいが、Blochの定理を支えるBravais格子は三角格子であり、逆格子も三角格子である。</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════ 05 ═══════ -->
-  <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">05</span>
-      <h2><span class="i18n-en">The hexagonal Brillouin zone</span><span class="i18n-ja">六角形のブリルアンゾーン</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">Once the reciprocal lattice is fixed, the first Brillouin zone is fixed. The first Brillouin zone is the region closest to the origin of the reciprocal lattice, and here it is a hexagon.</span><span class="i18n-ja">逆格子が決まると、第一ブリルアンゾーンが決まる。第一ブリルアンゾーンは、逆格子の原点に最も近い領域であり、ここでは六角形になる。</span></p>
-        <p><span class="i18n-en">We call the centre of the hexagon the $\Gamma$ point. We call the midpoint of an edge the $M$ point. We call the corners of the hexagon the $K$ point and the $K'$ point. With the present choice of coordinates, one of them can be taken as</span><span class="i18n-ja">六角形の中心を $\Gamma$ 点と呼ぶ。辺の中点を $M$ 点と呼ぶ。六角形の角を $K$ 点および $K'$ 点と呼ぶ。今の座標の取り方では、その一つを</span></p>
-        <p class="eq-block">$$\mathbf{K} = \left(\frac{4\pi}{3\sqrt{3}\,a},\ 0\right)$$</p>
-        <p><span class="i18n-en">. On the opposite corner there is</span><span class="i18n-ja">と取ることができる。反対側の角には</span></p>
-        <p class="eq-block">$$\mathbf{K}' = \left(-\frac{4\pi}{3\sqrt{3}\,a},\ 0\right)$$</p>
-        <p><span class="i18n-en">.</span><span class="i18n-ja">がある。</span></p>
+    <div class="demo-head"><span class="demo-num">04</span><h2><span class="i18n-en">What Happens to the Wave When Atoms Overlap?</span><span class="i18n-ja">原子が重なるとき、波はどうなるか</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">Imagine placing two floats on the surface of water and sending a straight wave toward them. Depending on their locations, the two floats might rise together, or one might rise as the other falls. The quantity that describes the timing of oscillation within a single period is the phase, and the difference in phase between two points is called the phase difference. A wave whose wavefronts propagate as parallel straight lines is called a plane wave. The form of a plane wave at a given instant can be written as $\cos(\mathbf{k}\cdot\mathbf{r})$, or using complex notation as $e^{i\mathbf{k}\cdot\mathbf{r}}$. Here, $\mathbf{r}=(x,y)$ represents the position coordinates, and $\mathbf{k}$ is the wave vector indicating the direction of propagation, with its magnitude defined in terms of the wavelength $\lambda$ as $|\mathbf{k}| = \frac{2\pi}{\lambda}$. At a position $\mathbf{r}+\mathbf{R}$, shifted from $\mathbf{r}$ by a lattice translation vector $\mathbf{R}$, the phase changes from $\mathbf{k}\cdot\mathbf{r}$ to $\mathbf{k}\cdot(\mathbf{r}+\mathbf{R})$. The difference is $\mathbf{k}\cdot\mathbf{R}$. If this phase difference is an integer multiple of $2\pi$, the peaks and troughs of the wave align perfectly before and after the translation. If it is not an integer multiple, the wave amplitude shifts even though the atomic positions overlap. Expressing this phase shift as a complex exponential $e^{i\mathbf{k}\cdot\mathbf{R}}$ yields the phase factor. Even if phase differences differ by integer multiples of $2\pi$, Euler's formula ($e^{i 2\pi n} = 1$) ensures that the phase factors remain identical. Consequently, two waves with different wavelengths or directions can produce identical phase factors for all lattice translation vectors $\mathbf{R}$. This means they are indistinguishable on the lattice points. Under what conditions for the wave vector difference $\mathbf{G}=\mathbf{k}'-\mathbf{k}$ does this phenomenon occur? Writing out the phase factors for two waves gives:</span><span class="i18n-ja">水面に浮きを2つ浮かべ、まっすぐな波を送る場面を想像してみよう。置く場所によって、2つの浮きが同時に持ち上がることもあれば、一方が上がるときに他方が下がることもある。この一周期の中での振動のタイミングを表す量が位相であり、2つの場所における位相のずれを位相差と呼ぶ。波面が平行な直線として広がる波を平面波と呼ぶ。ある時刻における平面波の形は $\cos(\mathbf{k}\cdot\mathbf{r})$、あるいは複素数表示を用いて $e^{i\mathbf{k}\cdot\mathbf{r}}$ と書ける。ここで $\mathbf{r}=(x,y)$ は位置座標、$\mathbf{k}$ は波の進行方向を指す波数ベクトルであり、その大きさは波長 $\lambda$ を用いて $\vert{}\mathbf{k}\vert{} = \frac{2\pi}{\lambda}$ と定義される。位置 $\mathbf{r}$ から格子並進ベクトル $\mathbf{R}$ だけ移動した点 $\mathbf{r}+\mathbf{R}$ では、位相は $\mathbf{k}\cdot\mathbf{r}$ から $\mathbf{k}\cdot(\mathbf{r}+\mathbf{R})$ へと変化する。その差額にあたる位相差は $\mathbf{k}\cdot\mathbf{R}$ である。もしこの位相差が $2\pi$ の整数倍であれば、移動の前後で波の山と谷は完全に一致する。逆に整数倍でなければ、原子の並び自体は重なっていても、波の振幅自体はズレてしまう。この位相のずれを複素数 $e^{i\mathbf{k}\cdot\mathbf{R}}$ で表したものを位相因子と呼ぶ。位相差が $2\pi$ の整数倍だけ異なっていても、オイラーの公式の性質 $e^{i 2\pi n} = 1$ により、位相因子自体は全く同じ値をとる。すると、波長や向きが異なる2つの波であっても、すべての格子並進 $\mathbf{R}$ に対して全く同じ位相因子を与える現象が起こり得る。これは格子点上で区別がつかないことを意味する。では、波数の差 $\mathbf{G}=\mathbf{k}'-\mathbf{k}$ がどのような値のときに、この現象が起きるのだろうか。2つの波の位相因子を書き下すと、</span></p>
+        <p class="eq-block" id="eq5">$$e^{i\mathbf{k}'\cdot\mathbf{R}} =e^{i(\mathbf{k}+\mathbf{G})\cdot\mathbf{R}} =e^{i\mathbf{k}\cdot\mathbf{R}}e^{i\mathbf{G}\cdot\mathbf{R}} \tag{5}$$</p>
+        <p><span class="i18n-en">For both factors to coincide across all lattice translations $\mathbf{R}$, the rightmost term $e^{i\mathbf{G}\cdot\mathbf{R}}$ must evaluate to $1$:</span><span class="i18n-ja">となる。すべての格子並進 $\mathbf{R}$ において両者が常に一致するには、右端の項 $e^{i\mathbf{G}\cdot\mathbf{R}}$ が常に $1$ になればよい。</span></p>
+        <p class="eq-block" id="eq6">$$e^{i\mathbf{G}\cdot\mathbf{R}}=1 \quad\text{for every }\mathbf{R} \tag{6}$$</p>
+        <p><span class="i18n-en">To visualize Condition (6), consider a wave $\cos(\mathbf{G}\cdot\mathbf{r})$ described by the wave vector difference $\mathbf{G}$. Condition (6) means that the wave peaks align precisely on every A-site lattice point. Let us search for special vectors $\mathbf{G}$ that align wave peaks across all A-sites by varying the wave orientation and wavelength. For instance, setting the wavelength to $\lambda=1.50a$ and aligning wavefronts along $\mathbf{a}_2$ causes a wave peak to intersect every row of A-sites. Let us label this wave vector difference pointing toward the upper-right as $\mathbf{b}_1$. For the wave $\cos(\mathbf{b}_1\cdot\mathbf{r})$, shifting the position by $\mathbf{a}_1$ moves to the adjacent peak, advancing the phase by one full period: $\mathbf{b}_1\cdot\mathbf{a}_1=2\pi$. Conversely, moving along $\mathbf{a}_2$ keeps the position on the same peak, yielding a phase difference of $\mathbf{b}_1\cdot\mathbf{a}_2=0$. Keeping the wavelength constant, let us switch the wave orientation along $\mathbf{a}_1$, calling this upper-left wave vector $\mathbf{b}_2$. Translating by $\mathbf{a}_1$ now remains on the same peak with zero phase shift, whereas translating by $\mathbf{a}_2$ reaches the adjacent peak with a shift of $2\pi$. Summarizing these properties using inner products yields:</span><span class="i18n-ja">この条件式(6)を視覚的に理解するために、波数の差 $\mathbf{G}$ を使って描く波 $\cos(\mathbf{G}\cdot\mathbf{r})$ を考えてみよう。式(6)は、すべてのAサイトという格子点の上に、ちょうど波の山が重なるという条件を意味している。波の向きや波長を変えながら、すべてのAサイトで山が揃う特別な $\mathbf{G}$ を探してみよう。たとえば、波長を $\lambda=1.50a$ にして、山の線を $\mathbf{a}_2$ の方向に沿わせると、すべてのAサイトの列の上に山が1本ずつ重なる。このときの右上向きの波数の差 $\mathbf{G}$ を $\mathbf{b}_1$ と名付けよう。波 $\cos(\mathbf{b}_1\cdot\mathbf{r})$ において、位置を $\mathbf{a}_1$ だけずらすと隣の山へ移るため、位相差は一周期分進んで $\mathbf{b}_1\cdot\mathbf{a}_1=2\pi$ となる。一方、$\mathbf{a}_2$ の方向に移っても同じ山の上に留まるため、位相差は $\mathbf{b}_1\cdot\mathbf{a}_2=0$ である。波長はそのままに、山の向きを $\mathbf{a}_1$ に沿う向きへ切り替え、このときの左上向きの波数を $\mathbf{b}_2$ とする。今度は $\mathbf{a}_1$ だけ移ると同じ山の上にいて位相差は $0$、$\mathbf{a}_2$ だけ移ると隣の山に着いて $2\pi$ になる。これら2つの波の性質を内積でまとめると、次の関係式が得られる。</span></p>
+        <p class="eq-block" id="eq7">$$\begin{aligned} \mathbf{b}_1\cdot\mathbf{a}_1&=2\pi, &\mathbf{b}_1\cdot\mathbf{a}_2&=0,\\ \mathbf{b}_2\cdot\mathbf{a}_1&=0, &\mathbf{b}_2\cdot\mathbf{a}_2&=2\pi \end{aligned} \tag{7}$$</p>
+        <p><span class="i18n-en">What happens if we halve the distance between peaks for the wave $\mathbf{b}_1$? An additional peak appears between original peaks, but the condition that peaks align on all A-sites remains satisfied. Because wave vector magnitude is inversely proportional to wavelength, this wave vector is expressed as $\mathbf{G}=2\mathbf{b}_1$. Thus, infinitely many vectors $\mathbf{G}$ satisfy Condition (6). To analyze the spatial relationship among these special vectors $\mathbf{G}$, let us introduce a coordinate plane with axes $G_x$ and $G_y$. This plane is called reciprocal space (or wave vector space), where the tip of each vector $\mathbf{G}$ is plotted as a point. Vectors $\mathbf{b}_1$ and $2\mathbf{b}_1$ lie along the same direction from the origin, with $2\mathbf{b}_1$ twice as far. Points farther from the origin correspond to waves with smaller peak-to-peak spacing. Plotting all vectors $\mathbf{G}$ satisfying Condition (6) on this plane forms a periodic array of points called a reciprocal lattice, and vectors extending from the origin to these points are called reciprocal lattice vectors. The vectors $\mathbf{b}_1$ and $\mathbf{b}_2$ serve as primitive vectors for this reciprocal lattice. Each reciprocal lattice point represents a wave whose peaks align perfectly across all lattice points. Conversely, selecting a wave vector off these lattice points results in phase mismatches across different lattice sites. Just as real-space positions are represented as integer combinations of $\mathbf{a}_1$ and $\mathbf{a}_2$, reciprocal lattice points can be expressed using integers $m'$ and $n'$:</span><span class="i18n-ja">波 $\mathbf{b}_1$ において、山と山の間隔を半分にするとどうなるだろうか。元の山の間に新しい山が1本ずつ増えるが、すべてのAサイトで山が揃うという条件は満たされたままである。波数の大きさは波長に反比例するため、この波数は $\mathbf{G}=2\mathbf{b}_1$ と表される。このように、式(6)を満たす $\mathbf{G}$ は無数に存在する。これらの特別な $\mathbf{G}$ の位置関係を調べるために、$G_x$ と $G_y$ を軸とする座標平面を導入しよう。この平面を逆空間、または波数空間と呼び、各 $\mathbf{G}$ の先端を点としてプロットしていく。$\mathbf{b}_1$ と $2\mathbf{b}_1$ ならば、原点から同じ向きに並び、$2\mathbf{b}_1$ の点は2倍遠くに位置する。原点から遠い点ほど、対応する波の山の間隔は狭くなる。この平面上で式(6)を満たす $\mathbf{G}$ に印をつけていくと、点が規則正しい格子状に並ぶ。この点の集まりを逆格子と呼び、原点から各点へ向かう矢印を逆格子ベクトルと呼ぶ。先ほどの $\mathbf{b}_1, \mathbf{b}_2$ は、この逆格子の基本ベクトルに相当する。逆空間の印である逆格子点の1つ1つが、すべての格子点上で波の山がぴったり揃う波に対応している。逆に、印から外れた位置の波数を選ぶと、格子点ごとに波の山から位相がズレていくことになる。実空間の位置を $\mathbf{a}_1, \mathbf{a}_2$ の整数倍で表したのと全く同様に、逆格子の点も整数 $m', n'$ を用いて次のように表すことができる。</span></p>
+        <p class="eq-block" id="eq8">$$\mathbf{G}=m'\mathbf{b}_1+n'\mathbf{b}_2 \tag{8}$$</p>
+        <p><span class="i18n-en">To determine the components of $\mathbf{b}_1=(x,y)$ for graphene, substitute the components of $\mathbf{a}_1$ and $\mathbf{a}_2$ from Equation (4) into the first row of Relation (7):</span><span class="i18n-ja">グラフェンの $\mathbf{b}_1=(x,y)$ の成分を求めるには、式(4)の $\mathbf{a}_1, \mathbf{a}_2$ の成分を関係式(7)の1行目に代入すればよい。</span></p>
+        <p class="eq-block" id="eq9">$$\begin{aligned} a\left(\frac{\sqrt3}{2}x+\frac32y\right)&=2\pi\\ a\left(-\frac{\sqrt3}{2}x+\frac32y\right)&=0 \end{aligned} \tag{9}$$</p>
+        <p><span class="i18n-en">Adding the two equations eliminates $x$, giving $3ay=2\pi$, or $y=\frac{2\pi}{3a}$. Substituting $y$ back yields $x=\frac{2\pi}{\sqrt3a}$. Performing a similar calculation for $\mathbf{b}_2$ gives:</span><span class="i18n-ja">二式を足すと $x$ の項が消去され、$3ay=2\pi$ より $y=\frac{2\pi}{3a}$ が求まる。これを二式目に代入すれば $x=\frac{2\pi}{\sqrt3a}$ が得られる。$\mathbf{b}_2$ についても同様に計算すると、以下の結果が得られる。</span></p>
+        <p class="eq-block" id="eq10">$$\begin{aligned} \mathbf{b}_1&=\left(\frac{2\pi}{\sqrt3a},\frac{2\pi}{3a}\right)\\ \mathbf{b}_2&=\left(-\frac{2\pi}{\sqrt3a},\frac{2\pi}{3a}\right) \end{aligned} \tag{10}$$</p>
+        <p><span class="i18n-en">Both vectors have equal lengths: $|\mathbf{b}_1|=|\mathbf{b}_2|=\frac{4\pi}{3a}$. The reciprocal lattice formed by these two primitive vectors is also a triangular lattice, matching the geometry of real space. Two wave vectors $\mathbf{k}$ and $\mathbf{k}+\mathbf{G}$ separated by a reciprocal lattice vector $\mathbf{G}$ produce identical phase factors under any lattice translation. Consequently, they can be grouped together as equivalent states exhibiting identical phase shifts.</span><span class="i18n-ja">2本のベクトルの長さは、ともに $\vert{}\mathbf{b}_1\vert{}=\vert{}\mathbf{b}_2\vert{}=\frac{4\pi}{3a}$ である。この2本が形成する逆格子も、実空間と同様に三角格子の構造を持っている。逆格子ベクトル $\mathbf{G}$ の分だけ離れた2つの波数 $\mathbf{k}$ と $\mathbf{k}+\mathbf{G}$ は、どの格子並進に対しても完全に同じ位相因子を与える。したがって、これらを位相のずれ方が等しい同等なグループとしてひとまとめに分類することができるのだ。</span></p>
         <figure class="gfig">
-          <div class="gfig-stage"><canvas id="fig-bz" role="img" aria-label="The hexagonal first Brillouin zone with the reciprocal lattice, and the points Gamma, M, K, K-prime"></canvas></div>
+          <div class="gfig-stage"><canvas id="fig-wavefit" role="img" aria-label="Wave cos(G dot r) on the A-site lattice, showing the carbon bond length a, the direction G, and profiles along a1 and a2."></canvas></div>
+          <div class="gfig-controls">
+            <fieldset class="gfig-choice">
+              <legend><span class="i18n-en">Crest direction: parallel to which rows?</span><span class="i18n-ja">山の線の向き — どの列に沿わせるか</span></legend>
+              <div class="gfig-btns">
+                <button class="gfig-btn active" id="wf-row2" type="button" aria-pressed="true"><span class="i18n-en">Rows along a₂</span><span class="i18n-ja">a₂ に沿う列</span></button>
+                <button class="gfig-btn" id="wf-row1" type="button" aria-pressed="false"><span class="i18n-en">Rows along a₁</span><span class="i18n-ja">a₁ に沿う列</span></button>
+              </div>
+            </fieldset>
+            <fieldset class="gfig-choice">
+              <legend><span class="i18n-en">Crest spacing: wavelength λ</span><span class="i18n-ja">山と山の間隔 — 波長 λ</span></legend>
+              <div class="gfig-slider"><label for="wf-lambda">λ</label><input id="wf-lambda" type="range" min="0.6" max="2.4" step="0.01" value="1.5"><output id="wf-lambda-out" for="wf-lambda">1.50 a</output></div>
+            </fieldset>
+            <span class="gfig-status" id="wf-status" aria-live="polite"></span>
+          </div>
         </figure>
-        <p><span class="i18n-en">Here we do not yet say why the K point is special, because we have not yet placed any electrons and have not computed any bands. At this stage, the only meaning given to the K and K′ points is that of high-symmetry points at the corners of the first Brillouin zone.</span><span class="i18n-ja">ここでは、K点がなぜ特別なのかはまだ言わない。まだ電子を置いておらず、バンドも計算していないからである。今の段階でK点とK′点に与えられている意味は、第一ブリルアンゾーンの角にある高対称点という意味だけである。</span></p>
-        <p><span class="i18n-en">When we later compute the electronic bands, we will know where to look on this map. For now, we have merely laid down the coordinates and names for that purpose.</span><span class="i18n-ja">後で電子バンドを計算すると、この地図の上でどこを見るべきかが分かる。今は、そのための座標と名前を置いたにすぎない。</span></p>
-      </div>
-    </div>
+        <figure class="gfig">
+          <div class="gfig-stage"><canvas id="fig-recip" role="img" aria-label="Select G on the reciprocal-space map; the following real-space panel shows cos(G dot r). Selecting b1 and then 2b1 doubles the distance from the origin and halves the crest spacing."></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-btns">
+              <button class="gfig-btn active" id="rc-b1" type="button"><span class="gv">b</span><sub>1</sub></button>
+              <button class="gfig-btn" id="rc-b2" type="button"><span class="gv">b</span><sub>2</sub></button>
+              <button class="gfig-btn" id="rc-double" type="button">2<span class="gv">b</span><sub>1</sub></button>
+              <button class="gfig-btn" id="rc-b12" type="button"><span class="gv">b</span><sub>1</sub> + <span class="gv">b</span><sub>2</sub></button>
+              <button class="gfig-btn" id="rc-no" type="button"><span class="i18n-en">Between lattice points</span><span class="i18n-ja">格子点の間</span></button>
+            </div>
+            <span class="gfig-hint"><span class="i18n-en">Select a position on the wavevector map</span><span class="i18n-ja">波数の地図で点を選ぶ</span></span>
+            <span class="gfig-status" id="rc-status" aria-live="polite"></span>
+          </div>
+        </figure>
+    </div></div>
   </section>
 
-  <!-- ═══════ 06 ═══════ -->
   <section class="demo">
-    <div class="demo-head">
-      <span class="demo-num">06</span>
-      <h2><span class="i18n-en">The geometry we carry into tight-binding</span><span class="i18n-ja">tight-bindingへ持ち込む幾何</span></h2>
-    </div>
-    <div class="demo-stage">
-      <div class="derivation">
-        <p><span class="i18n-en">Let us summarize what we have prepared on this page.</span><span class="i18n-ja">このページで用意したものをまとめる。</span></p>
-        <p><span class="i18n-en">In real space, we viewed graphene's honeycomb lattice as a triangular Bravais lattice with a two-point basis of an A site and a B site riding on it. The primitive vectors are $\mathbf{a}_1, \mathbf{a}_2$, and the nearest-neighbour displacements from A to B are the three $\boldsymbol{\delta}_1, \boldsymbol{\delta}_2, \boldsymbol{\delta}_3$.</span><span class="i18n-ja">実空間では、グラフェンの蜂の巣格子を、三角Bravais格子にAサイトとBサイトの二点基底を乗せたものとして見た。基本ベクトルは $\mathbf{a}_1$, $\mathbf{a}_2$ であり、AからBへの最近接変位は $\boldsymbol{\delta}_1$, $\boldsymbol{\delta}_2$, $\boldsymbol{\delta}_3$ の三つである。</span></p>
-        <p><span class="i18n-en">In reciprocal space, we built the reciprocal lattice vectors $\mathbf{b}_1, \mathbf{b}_2$ from $\mathbf{a}_1, \mathbf{a}_2$ and saw that the first Brillouin zone is a hexagon. Within it are the points $\Gamma, K, K', M$.</span><span class="i18n-ja">逆空間では、$\mathbf{a}_1$, $\mathbf{a}_2$ から逆格子ベクトル $\mathbf{b}_1$, $\mathbf{b}_2$ を作り、第一ブリルアンゾーンが六角形になることを見た。その中には $\Gamma$, $K$, $K'$, $M$ という点がある。</span></p>
-        <p><span class="i18n-en">Up to here we have still not placed any electrons. So neither energy nor bands have appeared yet. What is needed next is to put the previous page's tight-binding onto this lattice with its A/B two-point basis and three nearest-neighbour directions.</span><span class="i18n-ja">ここまで電子はまだ置いていない。したがって、まだエネルギーもバンドも出ていない。次に必要なのは、前ページのtight-bindingを、このA/Bの二点基底と三つの最近接方向を持つ格子へ載せることである。</span></p>
-        <p><span class="i18n-en">If there are two atoms in the unit cell, then two amplitudes are needed for the same wavevector $\mathbf{k}$. That is, the problem becomes one with a two-component coefficient rather than a single coefficient. As a result, two bands should emerge rather than one. The question is whether those two separate or touch at the K and K′ points.</span><span class="i18n-ja">単位胞に二つの原子があるなら、同じ波数 $\mathbf{k}$ に対して二つの振幅が必要になる。つまり、問題は一つの係数ではなく、二成分の係数を持つ問題になる。その結果、一本ではなく二本のバンドが出るはずである。問題は、その二本がK点とK′点で離れるのか、それとも接するのかである。</span></p>
-        <nav class="series-nav">
-          <a class="series-prev" href="/learn/band-formation/"><span class="sn-k"><span class="i18n-en">Previous</span><span class="i18n-ja">この連載の前へ</span></span><span class="i18n-en">&larr; When atoms line up, a band forms</span><span class="i18n-ja">&larr; 原子が一列に並ぶとバンドになる</span></a>
-          <a class="series-next" href="/learn/graphene-tight-binding/"><span class="sn-k"><span class="i18n-en">Next in the series</span><span class="i18n-ja">この連載の次へ</span></span><span class="i18n-en">Graphene's tight-binding bands &rarr;</span><span class="i18n-ja">グラフェンのtight-bindingバンド &rarr;</span></a>
-        </nav>
-      </div>
-    </div>
+    <div class="demo-head"><span class="demo-num">05</span><h2><span class="i18n-en">Mapping Wave Vectors into a Single Hexagon</span><span class="i18n-ja">波数を一つの六角形にまとめる</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">Although wave vector space extends infinitely, wave vectors separated by a reciprocal lattice vector $\mathbf{G}$ represent physically equivalent states with identical phase changes. To avoid redundant counting, we want to collect representative wave vectors by retaining only those closest to the origin from each equivalence group. For example, subtracting $\mathbf{b}_1$ from a point $\mathbf{k}$ near $\mathbf{b}_1$ translates it closer to the origin while preserving its physical properties. The boundary where the distance to the origin equals the distance to $\mathbf{b}_1$ is the perpendicular bisector of the line segment connecting the origin and $\mathbf{b}_1$. Constructing perpendicular bisectors for the six reciprocal lattice points surrounding the origin forms a regular hexagon centered at the origin. Wave vectors inside this hexagon are closer to the origin than to any other reciprocal lattice point. This region is called the first Brillouin zone. Any wave vector outside the zone can be mapped into this hexagon by subtracting an appropriate reciprocal lattice vector $\mathbf{G}$. Along the boundaries and vertices, distances to multiple reciprocal lattice points become equal. Consider the six vertices of the regular hexagon in particular. Label the rightmost vertex as the K point and translate it by reciprocal lattice vectors: adding $\mathbf{b}_2$ moves it to the upper-left vertex, and subtracting $\mathbf{b}_1$ from there moves it to the lower-left vertex. Thus, three alternating vertices belong to an equivalent group interconnected by reciprocal lattice vectors. Starting instead from the opposite vertex, the K' point, adding $\mathbf{b}_1$ leads to the upper-right vertex, and subtracting $\mathbf{b}_2$ leads to the lower-right vertex. These remaining three vertices form a second equivalent group. No integer combination of $\mathbf{b}_1$ and $\mathbf{b}_2$ connects K to K', meaning these two groups remain distinct. The former group is designated as K points and the latter as K' points. In summary, the six vertices of the first Brillouin zone divide into two fundamentally distinct groups: K and K'. The zone center $\Gamma$, the edge midpoint M, and the vertices K and K' serve as key reference points determining electron wave properties. Let us calculate the coordinates of these points: The edge midpoint M lies halfway between the origin $\Gamma$ and $\mathbf{b}_1$:</span><span class="i18n-ja">波数空間は無限に広がっているが、逆格子ベクトル $\mathbf{G}$ だけ離れた波数は、物理的に同じ位相変化をもたらす同等な状態であった。同じ性質を重複して数えるのを避けるため、各同等グループから原点に最も近い代表的な波数だけを1つずつ残して集約したい。たとえば、$\mathbf{b}_1$ の近くにある点 $\mathbf{k}$ から $\mathbf{b}_1$ を引けば、性質を保ったまま原点の近くへ平行移動できる。原点そのままの距離と $\mathbf{b}_1$ を引いた距離の境界線は、原点と $\mathbf{b}_1$ を結ぶ線分の垂直二等分線である。原点の周りを取り囲む6つの逆格子点に対して、それぞれ垂直二等分線を引いてみよう。すると、原点を中心とした美しい正六角形の領域が切り取られる。この内部にある波数は、他のどの逆格子点よりも原点に近い。この領域を第一ブリルアンゾーンと呼ぶ。ゾーン外のどんな波数であっても、適切な逆格子ベクトル $\mathbf{G}$ を引き算すれば、必ずこの六角形の中へ移すことができる。境界線や頂点の上では、複数の逆格子点からの距離が等しくなる。特に、正六角形にある6つの角の点に注目してみよう。右端の角をK点と名付け、逆格子ベクトルの分だけ移動させてみよう。$\mathbf{b}_2$ を足すと左上の角へ、そこから $\mathbf{b}_1$ を引くと左下の角へ移る。つまり、6つの角のうち1つおきに並ぶ3つの角は、逆格子ベクトルによって互いに移り変わる等価なグループである。一方、反対側の角であるK'点から出発して $\mathbf{b}_1$ を足すと右上、そこから $\mathbf{b}_2$ を引くと右下の角へ移る。こちらも残りの3つで1つのグループを作る。整数倍の $\mathbf{b}_1, \mathbf{b}_2$ をどのように組み合わせても K から K' へ到達することはできず、この2つのグループは独立したままである。前者のグループを K点、後者のグループを K'点 と呼ぶ。つまり、第一ブリルアンゾーンの6つの頂点は、K と K' という本質的に異なる2種類のグループに分かれているのだ。中心 $\Gamma$ や辺の中点 M、頂点 K, K' は、電子の波の性質を決定づける目印となる。各点の座標を計算してみよう。辺の中点 M は、原点 $\Gamma$ と $\mathbf{b}_1$ の中間地点であるため、</span></p>
+        <div class="eq-block">$$\mathbf{M}=\frac12\mathbf{b}_1
+=\left(\frac{\pi}{\sqrt3a},\frac{\pi}{3a}\right)$$</div>
+        <p><span class="i18n-en">The rightmost vertex K is equidistant from the origin $\mathbf{0}$, $\mathbf{b}_1$, and $-\mathbf{b}_2$, corresponding to the centroid of the equilateral triangle formed by these three points:</span><span class="i18n-ja">である。右端の角 K は、原点 $\mathbf{0}$、$\mathbf{b}_1$、$-\mathbf{b}_2$ の3点から等距離にあり、この3点が作る正三角形の重心に相当する。</span></p>
+        <p class="eq-block" id="eq11">$$\mathbf{K}
+=\frac{\mathbf{0}+\mathbf{b}_1-\mathbf{b}_2}{3}
+=\left(\frac{4\pi}{3\sqrt3a},0\right)
+\tag{11}$$</p>
+        <p><span class="i18n-en">The opposite vertex K' is obtained simply by reversing the sign:</span><span class="i18n-ja">反対側の角 K' は、座標の符号を反転させればよい。</span></p>
+        <p class="eq-block" id="eq12">$$\mathbf{K}'=-\mathbf{K}
+=\left(-\frac{4\pi}{3\sqrt3a},0\right)
+\tag{12}$$</p>
+        <p><span class="i18n-en">Expressing the translation vector from K to K' in terms of $\mathbf{b}_1$ and $\mathbf{b}_2$ gives:</span><span class="i18n-ja">K から K' への移動ベクトルを $\mathbf{b}_1, \mathbf{b}_2$ で表すと、</span></p>
+        <p class="eq-block" id="eq13">$$\mathbf{K}'-\mathbf{K}
+=-2\mathbf{K}
+=-\frac23\mathbf{b}_1+\frac23\mathbf{b}_2
+\tag{13}$$</p>
+        <p><span class="i18n-en">Because the coefficients $-\frac{2}{3}$ and $\frac{2}{3}$ are not integers, this displacement is not a reciprocal lattice vector. This proves that the six vertices split cleanly into two distinct equivalence groups, K and K'. Using the carbon–carbon bond length $a=0.142\text{ nm} = 1.42\text{ \AA}$, the area of the first Brillouin zone is calculated as:</span><span class="i18n-ja">となる。係数の $-\frac{2}{3}$ と $\frac{2}{3}$ は整数ではないため、この移動は逆格子ベクトルにならない。したがって、6つの角はKとK'という2つの異なる同等グループに明確に分かれることが証明される。炭素間の結合長 $a=0.142\text{ nm} = 1.42\text{ \AA}$ を用いると、この第一ブリルアンゾーンの面積は、</span></p>
+        <div class="eq-block">$$\frac{8\pi^2}{3\sqrt3a^2} \approx 753.6\text{ nm}^{-2} = 7.536\text{ \AA}^{-2}$$</div>
+        <p><span class="i18n-ja">と算出される。</span></p>
+        <figure class="gfig">
+          <figcaption class="gfig-cap"><span class="i18n-en">Bring a wavevector towards the origin, then draw the boundaries. Γ marks the origin.</span><span class="i18n-ja">波数を原点へ寄せ、残る範囲の境界を引く。Γ は原点を表す。</span></figcaption>
+          <div class="gfig-stage"><canvas id="fig-bz" role="img" aria-label="A wavevector translated by minus b1 towards the origin, and six perpendicular bisectors enclosing a hexagon"></canvas></div>
+          <div class="gfig-controls">
+            <div class="gfig-btns">
+              <button class="gfig-btn active" id="bz-fold" type="button" aria-pressed="true"><span class="i18n-en">Bring k towards the origin</span><span class="i18n-ja">k を原点の近くへ</span></button>
+              <button class="gfig-btn" id="bz-build" type="button" aria-pressed="false"><span class="i18n-en">Draw the six boundaries</span><span class="i18n-ja">六本の境界を引く</span></button>
+            </div>
+            <span class="gfig-status" id="bz-status" aria-live="polite"></span>
+          </div>
+        </figure>
+        <figure class="gfig">
+          <figcaption class="gfig-cap"><span class="i18n-en">Translate the rightmost corner K and the opposite corner −K by reciprocal lattice vectors.</span><span class="i18n-ja">右端の K と、反対側の −K を、逆格子ベクトルだけ動かす。</span></figcaption>
+          <div class="gfig-stage"><canvas id="fig-bz-corners" role="img" aria-label="Reciprocal lattice translations connect alternating corners in two separate groups, starting from K and minus K"></canvas></div>
+          <div class="gfig-controls">
+            <button class="gfig-btn" id="bz-corners-play" type="button"><span class="i18n-en">Replay the corner translations</span><span class="i18n-ja">角を移す動きを見る</span></button>
+            <span class="gfig-status" id="bz-corners-status" aria-live="polite"></span>
+          </div>
+        </figure>
+        <details class="bz-reference" id="bz-reference">
+            <summary><span class="i18n-en">Open distances and coordinates</span><span class="i18n-ja">距離・座標を開く</span></summary><label for="bz-distance"><span class="i18n-en">Segment to measure</span><span class="i18n-ja">測る区間</span></label>
+            <select id="bz-distance">
+                <option value="gm" data-en="Γ–M" data-ja="Γ–M">Γ–M</option>
+                <option value="gk" data-en="Γ–K" data-ja="Γ–K" selected>Γ–K</option>
+                <option value="mk" data-en="M–K" data-ja="M–K">M–K</option>
+                <option value="edge" data-en="Adjacent K–K′ (one edge)" data-ja="隣り合う K–K′（一辺）">Adjacent K–K′ (one edge)</option>
+                <option value="kk" data-en="K–K (same family)" data-ja="K–K（同じ組の角）">K–K (same family)</option>
+                <option value="opposite" data-en="Opposite K–K′" data-ja="向かい合う K–K′">Opposite K–K′</option>
+                <option value="gg" data-en="Nearest reciprocal lattice points" data-ja="隣り合う逆格子点">Nearest reciprocal lattice points</option>
+                <option value="bb" data-en="Between the tips of b₁ and b₂" data-ja="b₁ と b₂ の先端の間">Between the tips of b₁ and b₂</option>
+                <option value="width" data-en="Opposite edges" data-ja="向かい合う辺の間隔">Opposite edges</option>
+            </select>
+            <div class="gfig-stage"><canvas id="fig-bz-metrics" role="img" aria-label="Dimensioned first Brillouin zone: select distances between Gamma, M, K, K-prime, edges, or reciprocal lattice points."></canvas></div>
+            <output class="bz-measurement" id="bz-distance-out" for="bz-distance" aria-live="polite"></output>
+            <div class="bz-table-wrap">
+              <table>
+                <caption><span class="i18n-en">Distances in reciprocal space</span><span class="i18n-ja">逆空間の距離</span></caption>
+                <thead><tr><th scope="col"><span class="i18n-en">Segment</span><span class="i18n-ja">区間</span></th><th scope="col"><span class="i18n-en">Exact value</span><span class="i18n-ja">式</span></th><th scope="col">nm⁻¹</th><th scope="col">Å⁻¹</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row"><span class="i18n-en">Γ–M</span><span class="i18n-ja">Γ–M</span></th><td>$\frac{2\pi}{3a}$</td><td>14.75</td><td>1.475</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Γ–K</span><span class="i18n-ja">Γ–K</span></th><td>$\frac{4\pi}{3\sqrt3\,a}$</td><td>17.03</td><td>1.703</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">M–K</span><span class="i18n-ja">M–K</span></th><td>$\frac{2\pi}{3\sqrt3\,a}$</td><td>8.52</td><td>0.852</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Adjacent K–K′ (one edge)</span><span class="i18n-ja">隣り合う K–K′（一辺）</span></th><td>$\frac{4\pi}{3\sqrt3\,a}$</td><td>17.03</td><td>1.703</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">K–K (same family)</span><span class="i18n-ja">K–K（同じ組の角）</span></th><td>$\frac{4\pi}{3a}$</td><td>29.50</td><td>2.950</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Opposite K–K′</span><span class="i18n-ja">向かい合う K–K′</span></th><td>$\frac{8\pi}{3\sqrt3\,a}$</td><td>34.06</td><td>3.406</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Nearest reciprocal lattice points</span><span class="i18n-ja">隣り合う逆格子点</span></th><td>$\frac{4\pi}{3a}$</td><td>29.50</td><td>2.950</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Between the tips of b₁ and b₂</span><span class="i18n-ja">b₁ と b₂ の先端の間</span></th><td>$\frac{4\pi}{\sqrt3\,a}$</td><td>51.09</td><td>5.109</td></tr>
+                    <tr><th scope="row"><span class="i18n-en">Opposite edges</span><span class="i18n-ja">向かい合う辺の間隔</span></th><td>$\frac{4\pi}{3a}$</td><td>29.50</td><td>2.950</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p><span class="i18n-en">The hexagon has area $\dfrac{8\pi^2}{3\sqrt3\,a^2}$, approximately $753.6\,\mathrm{nm}^{-2}=7.536\,\text{Å}^{-2}$.</span><span class="i18n-ja">六角形の面積は $\dfrac{8\pi^2}{3\sqrt3\,a^2}$ で、約 $753.6\,\mathrm{nm}^{-2}=7.536\,\text{Å}^{-2}$ になる。</span></p>
+            <div class="bz-table-wrap">
+              <table>
+                <caption><span class="i18n-en">Coordinates (x to the right, y upwards)</span><span class="i18n-ja">座標（右向きが x、上向きが y）</span></caption>
+                <thead><tr><th scope="col"><span class="i18n-en">Point / vector</span><span class="i18n-ja">点・ベクトル</span></th><th scope="col">$(k_x,k_y)$</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Γ</th><td>$(0,0)$</td></tr>
+                    <tr><th scope="row">M</th><td>$\left(\frac{\pi}{\sqrt3\,a},\frac{\pi}{3a}\right)$</td></tr>
+                    <tr><th scope="row">K · 0°</th><td>$\left(\frac{4\pi}{3\sqrt3\,a},0\right)$</td></tr>
+                    <tr><th scope="row">K · 120°, 240°</th><td>$\left(-\frac{2\pi}{3\sqrt3\,a},\pm\frac{2\pi}{3a}\right)$</td></tr>
+                    <tr><th scope="row">K′ · 180°</th><td>$\left(-\frac{4\pi}{3\sqrt3\,a},0\right)$</td></tr>
+                    <tr><th scope="row">K′ · 60°, 300°</th><td>$\left(\frac{2\pi}{3\sqrt3\,a},\pm\frac{2\pi}{3a}\right)$</td></tr>
+                    <tr><th scope="row">$\mathbf b_1,\mathbf b_2$</th><td>$\left(\pm\frac{2\pi}{\sqrt3\,a},\frac{2\pi}{3a}\right)$</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="bz-source"><span class="i18n-en">Distances and coordinates follow from the basis in <button type="button" class="eqref" data-eq="10">Eq. (10)</button>.</span><span class="i18n-ja">距離と座標は、<button type="button" class="eqref" data-eq="10">式(10)</button>の基本ベクトルから求めた。</span></p>
+          </details>
+    </div></div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-head"><span class="demo-num">06</span><h2><span class="i18n-en">How Wave Behavior Changes on the Honeycomb Lattice across Γ, M, and K</span><span class="i18n-ja">Γ・M・Kを選ぶと、蜂の巣の上の波はどう変わるか</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">06 How Wave Behavior Changes on the Honeycomb Lattice across $\Gamma$, M, and KLet us vary the wave vector from the center $\Gamma$ of reciprocal space to the edge midpoint M, and then to the vertex K. Moving away from the origin $\Gamma$ increases the magnitude of the wave vector, shortening the corresponding wavelength. Changing the direction of the wave vector alters the propagation direction of the wave in real space. Superimposing these waves onto the honeycomb lattice highlights phase differences among individual carbon atoms. The contrast in wave behavior between K and K' is particularly significant. Switching the wave vector from K to K' maintains the overall spatial wavelength of the fringe pattern while exactly reversing the rotation direction of the phase along atomic rows. This property plays a key role in dictating the unique electronic states of graphene.</span><span class="i18n-ja">06 Γ・M・Kを選ぶと、蜂の巣の上の波はどう変わるか波数空間の中心 $\Gamma$ から、辺の中点 M、そして頂点 K へと波数を動かしてみよう。原点 $\Gamma$ から離れるにつれて波数は大きくなり、対応する波の波長は短くなる。また、波数の向きを変えることで、実空間を伝わる波の進行方向も変化する。これらを蜂の巣格子の上に重ね合わせると、各炭素原子における波の位相の違いが明確に描き出される。特に重要なのは K点と K'点における波の挙動の違いだ。波数を K から K' へ切り替えると、格子全体の縞模様の波長は保たれたまま、原子の並び沿った位相の回転方向がちょうど逆転する。この性質が、グラフェン特有の電子状態を決定づける鍵となる。</span></p>
+        <h3><span class="i18n-en">How Is Electron Energy Determined?</span><span class="i18n-ja">電子のエネルギーはどう決まるか</span></h3>
+        <p><span class="i18n-en">The crystal structure clarifies the relationship between the periodicity of the honeycomb lattice and the phase of electron waves. What energy, then, do electrons propagating through this lattice possess? Unraveling the phenomenon mentioned at the beginning: where electrons behave as massless particles, requires calculating the energy band structure to determine how energy evolves with the wave vector. An approximation method that starts from the atomic orbitals of individual carbon atoms and accounts for electron hopping between adjacent sites is called the tight-binding approximation. Applying this approach to the honeycomb lattice yields the energy as a function of wave vector. Examining the shape of the band structure near the Brillouin zone vertices K and K' shows why electrons in graphene behave as massless particles.</span><span class="i18n-ja">原子の結晶構造から、蜂の巣格子の周期性と電子の波の位相の関係が明らかになった。では、この格子の中を動き回る電子は、どのようなエネルギーを持つのだろうか。冒頭で触れた「電子が質量を持たない粒子のように振る舞う」という独特な性質を解き明かすには、波数を変えたときにエネルギーがどう変化するかというエネルギーバンド構造を算出する必要がある。各炭素原子の電子軌道を出発点とし、隣り合う原子間を電子が飛び移る効果を考慮する近似手法を強結合近似と呼ぶ。この手法を蜂の巣格子に適用し、波数ごとのエネルギーを求める。特に、ブリルアンゾーンの頂点である K点および K'点の近傍でそのバンド構造の形状を調べたとき、なぜグラフェンの電子が質量ゼロの粒子のように振る舞うのか、その驚くべき物理的理由が明らかになるのである。</span></p>
+        <figure class="gfig" id="kw-figure">
+          <fieldset class="gfig-choice">
+            <legend><span class="i18n-en">Choose a wavevector</span><span class="i18n-ja">波数を選ぶ</span></legend>
+            <div class="gfig-btns">
+              <button class="gfig-btn" id="kw-gamma" type="button" aria-pressed="false">Γ</button>
+              <button class="gfig-btn active" id="kw-m" type="button" aria-pressed="true">M</button>
+              <button class="gfig-btn" id="kw-k" type="button" aria-pressed="false">K</button>
+              <button class="gfig-btn" id="kw-kprime" type="button" aria-pressed="false">K′</button>
+            </div>
+          </fieldset>
+          <div class="kw-panels">
+            <div class="gfig-stage"><canvas id="fig-kmap" role="img" aria-label="Wavevector map: select Gamma, any edge midpoint M, any K or K-prime corner, or drag a point inside the first Brillouin zone."></canvas></div>
+            <div class="gfig-stage"><canvas id="fig-kwave" role="img" aria-label="The selected plane wave cos(k dot r) over the carbon lattice, with four A sites highlighted along the selected primitive vector."></canvas></div>
+          </div>
+          <fieldset class="gfig-choice kw-row-choice">
+            <legend><span class="i18n-en">A-site row to compare</span><span class="i18n-ja">位相を見るAの列</span></legend>
+            <div class="gfig-btns">
+              <button class="gfig-btn active" id="kw-row-a1" type="button" aria-pressed="true">a₁</button>
+              <button class="gfig-btn" id="kw-row-a2" type="button" aria-pressed="false">a₂</button>
+            </div>
+          </fieldset>
+          <figcaption class="gfig-cap"><span class="i18n-en">The four A sites connected on the honeycomb are laid out below. Each arrow shows the phase $\mathbf{k}\cdot\mathbf{r}$ as an angle, measured counterclockwise from the right.</span><span class="i18n-ja">蜂の巣で線を引いた四つのAを、下に並べている。矢印の角度は位相 $\mathbf{k}\cdot\mathbf{r}$ で、右向きを0として反時計回りに測る。</span></figcaption>
+          <div class="gfig-stage"><canvas id="fig-krows" role="img" aria-label="Phases at four A sites along the selected primitive vector."></canvas></div>
+          <details class="kw-details">
+            <summary><span class="i18n-en">Wavevector and wavelength values</span><span class="i18n-ja">波数・波長の数値</span></summary>
+            <output id="kw-status" class="kw-status"></output>
+          </details>
+        </figure>
+    </div></div>
   </section>
 
   <div class="backrow">
@@ -250,5 +346,7 @@
 
   <script src="/assets/js/article-shell.js"></script>
   <script src="/assets/js/graphene-figures.js"></script>
+  <script src="/assets/js/graphene-wave-map.js"></script>
+<script src="/assets/js/eq-hover.js"></script>
 </body>
 </html>

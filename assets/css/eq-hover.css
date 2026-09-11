@@ -1,0 +1,21 @@
+/* Equation previews use the same paper styling as the Raman page. */
+.eqref {
+  display: inline; padding: 0; border: 0;
+  border-bottom: 1px dotted currentColor;
+  background: transparent; color: inherit; font: inherit;
+  cursor: help; white-space: nowrap; text-underline-offset: 2px;
+}
+.eqref:hover, .eqref:focus-visible { color: var(--accent); }
+.eqref:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.eq-tip {
+  position: fixed; z-index: 1000; box-sizing: border-box;
+  max-width: min(calc(100vw - 16px), 560px);
+  max-height: calc(100vh - 16px);
+  background: var(--paper); border: 1px solid var(--rule-2);
+  border-radius: 8px; padding: 4px 16px;
+  box-shadow: var(--shadow-card-h);
+  pointer-events: none; opacity: 0; visibility: hidden;
+  overflow: auto;
+}
+.eq-tip.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.eq-tip .katex-display { margin: 6px 0; }

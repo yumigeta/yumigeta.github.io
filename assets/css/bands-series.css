@@ -55,6 +55,56 @@
 .derivation p:last-child { margin-bottom: 0; }
 .derivation p b { color: var(--ink); }
 
+/* A short reader-facing route before a dense argument.  These blocks say what
+   to look for without turning the page into a second table of contents. */
+.reader-route,
+.figure-guide,
+.takeaway {
+  max-width: var(--read-measure);
+  border-left: 3px solid color-mix(in srgb, var(--color-terracotta) 72%, transparent);
+  padding: 0.75rem 0 0.75rem 1rem;
+  margin: 1.1rem 0 1.35rem;
+}
+.reader-route { background: color-mix(in srgb, var(--color-plate) 72%, transparent); }
+.reader-route p,
+.figure-guide p,
+.takeaway p { margin: 0; }
+.reader-route ol,
+.figure-guide ol {
+  margin: 0.45rem 0 0; padding-left: 1.25rem;
+  color: var(--soft); font-size: 0.96rem; line-height: 1.7;
+}
+.reader-route li + li,
+.figure-guide li + li { margin-top: 0.28rem; }
+.reader-route .guide-k,
+.figure-guide .guide-k,
+.takeaway .guide-k {
+  display: block; margin-bottom: 0.28rem;
+  color: var(--accent); font-family: var(--gothic); font-size: 0.78rem;
+  font-weight: 700; letter-spacing: .06em;
+}
+.takeaway { border-left-color: color-mix(in srgb, var(--color-sage) 78%, transparent); }
+.takeaway p { color: var(--ink); font-weight: 600; line-height: 1.65; }
+
+/* Algebra that checks the story is available, but it no longer blocks the
+   beginner's reading path. */
+.math-note {
+  max-width: var(--read-measure); margin: 1.15rem 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 0.1rem 0;
+}
+.math-note > summary {
+  cursor: pointer; list-style: none; padding: 0.8rem 0;
+  color: var(--ink); font-family: var(--gothic); font-size: 0.9rem; font-weight: 700;
+}
+.math-note > summary::-webkit-details-marker { display: none; }
+.math-note > summary::before { content: "+"; display: inline-block; width: 1.35rem; color: var(--accent); }
+.math-note[open] > summary::before { content: "−"; }
+.math-note > .math-note-body { padding: 0.15rem 0 0.35rem 1.35rem; }
+.math-note > .math-note-body p { font-size: 0.94rem; }
+
+.term { color: var(--ink); font-weight: 700; }
+
 /* Display equations inherit the prose measure; long ones WRAP to fit, never
    widen the column. Centered within the reading column. */
 .derivation .eq-block,
@@ -150,6 +200,8 @@
 /* One clean row per slider: [label] [——track——] [value]. Robust at any value. */
 .gfig-slider { display: flex; align-items: center; gap: 11px; flex: 1 1 250px; min-width: 224px; }
 .gfig-slider > label { font-family: var(--gothic); font-size: 0.85rem; color: var(--soft); min-width: 1.2em; text-align: center; }
+.gfig-slider--full { flex-basis: 100%; }
+.gfig-slider--full > label { min-width: 7.5em; text-align: left; white-space: nowrap; }
 .gfig-slider input[type="range"] {
   -webkit-appearance: none; appearance: none;
   flex: 1 1 auto; min-width: 80px; height: 18px; margin: 0; background: transparent; cursor: pointer;
@@ -197,4 +249,11 @@
 .gfig-cap {
   font-family: var(--gothic); font-size: 0.85rem; line-height: 1.6;
   color: var(--soft); max-width: var(--read-measure); margin: 0.7rem 0 0;
+}
+
+@media (max-width: 640px) {
+  .reader-route,
+  .figure-guide,
+  .takeaway { padding-left: 0.8rem; }
+  .math-note > .math-note-body { padding-left: 0.75rem; }
 }

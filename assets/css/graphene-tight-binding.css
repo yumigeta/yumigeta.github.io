@@ -1,0 +1,9 @@
+.tb-reference { margin: 20px 0; padding: 12px 0; border-top: 1px solid rgba(120,98,58,.16); }
+.tb-reference summary { cursor: pointer; color: var(--ink-2); font: 500 .85rem var(--gothic); }
+.tb-reference[open] summary { margin-bottom: 16px; }
+.tb-reference p { font-size: .9rem; }
+#fig-phase { touch-action: none; }
+#tb-bond-phase-output, #tb-bond-phase-sum { font-variant-numeric: tabular-nums; }
+#tb-bond-phase-figure .gfig-slider > label { flex: 0 0 auto; white-space: nowrap; }
+#tb-bond-phase-output { min-width: 56px; }
+#tb-bond-phase { width: 0; }

@@ -1,3 +1,6 @@
+  function learnURL(slug) {
+    return window.learnHref ? window.learnHref(slug) : '/learn/' + (slug ? slug + '/' : '');
+  }
 /* ════════════════════════════════════════════════════════════════════════
    article-shell.js — turns an existing Learn page into the 3-column
    "knowledge-map" layout WITHOUT touching its body markup.
@@ -91,10 +94,10 @@
       }
       var cur = p.slug === SLUG ? ' is-current' : '';
       var wip = (IS_DEV && !p.published) ? '<span class="wip">dev</span>' : '';
-      return '<li><a class="' + cur.trim() + '" href="/learn/' + p.slug + '/">' + lab + wip + '</a></li>';
+      return '<li><a class="' + cur.trim() + '" href="' + learnURL(p.slug) + '">' + lab + wip + '</a></li>';
     }
     // recursive sub-folder render: a group may carry its own groups[] (sub-sub-folders, any depth);
-    // a group opens iff the current page lives somewhere inside it.
+    // Topic groups start expanded; the outer drawer handles narrow screens.
   /* ── Icons — Tabler (tabler.io), used verbatim ──────────────────────────
      Tabler's spec is a 24×24 grid, stroke-width 2, round caps and joins, no
      fill. Keeping all of that intact is the point: the paths below are the
@@ -132,13 +135,13 @@
       if (!inner) return { html: '', cur: false };
       var open = curHere || curInside;
       return {
-        html: '<details class="ashelf-grp"' + (open ? ' open' : '') + '><summary class="ashelf-grp-hd">' +
+        html: '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' +
           L(g.name_en, g.name_ja) + '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>',
         cur: open
       };
     }
 
-    var shelf = '<a class="ashelf-home" href="/learn/">' + icon("arrow-narrow-left", "ashelf-home-mark") + L('All of Learn', '基礎から学ぶ 一覧') + '</a>';
+    var shelf = '<a class="ashelf-home" href="' + learnURL('') + '">' + icon("arrow-narrow-left", "ashelf-home-mark") + L('All of Learn', '基礎から学ぶ 一覧') + '</a>';
 
     // routes — small, always visible, never collapses
     var routesCat = CATMAP['routes'];
@@ -167,7 +170,7 @@
 
     left.innerHTML = '<details class="ashelf-collapse" open><summary class="ashelf-toggle">' +
       L('Browse all topics', 'トピック一覧') +
-      '' + icon("chevron-down", "ashelf-arrow") + '</summary>' +
+      '' + icon("chevron-right", "ashelf-caret") + '</summary>' +
       shelf + '</details>';
     syncShelfDrawer(left.querySelector('.ashelf-collapse'));
 
@@ -181,7 +184,7 @@
       var lab = L(p.nav_en || p.title_en, p.nav_ja || p.title_ja);
       if (p.planned) return '<li><span class="nb-soon">' + lab +
         '<span class="wip wip-soon">' + L('soon', '準備中') + '</span></span></li>';
-      return '<li><a href="/learn/' + p.slug + '/">' + lab + '</a></li>';
+      return '<li><a href="' + learnURL(p.slug) + '">' + lab + '</a></li>';
     }
     function linkList(slugs) {
       var items = (slugs || []).map(pageLI).filter(Boolean).join('');
@@ -300,6 +303,7 @@
     tocActive();
 
     function appendNextCard() {
+      if (center.querySelector('[data-generated-next]')) return;
       if (page.layoutType === 'route') return;
       var groups = [['theory', 'Go deeper', '理論を深める'], ['application', 'Apply it', '材料・応用へ'],
                     ['experiment', 'Use it in the lab', '実験に使う'], ['frontier', 'Frontier', '発展']];
@@ -307,7 +311,7 @@
       groups.forEach(function (g) {
         ((page.nextLinks && page.nextLinks[g[0]]) || []).forEach(function (slug) {
           var q = MAP[slug]; if (!q || (!IS_DEV && !q.published)) return;
-          cards += '<a class="nc-item" href="/learn/' + q.slug + '/"><div class="nc-kind">' + L(g[1], g[2]) +
+          cards += '<a class="nc-item" href="' + learnURL(q.slug) + '"><div class="nc-kind">' + L(g[1], g[2]) +
             '</div><div class="nc-title">' + L(q.nav_en || q.title_en, q.nav_ja || q.title_ja) + '</div></a>';
         });
       });
