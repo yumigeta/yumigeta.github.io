@@ -1,0 +1,46 @@
+/* Keep the Dirac figures within the series' reading column. */
+.dirac-figure { overflow: hidden; }
+.dirac-figure .gfig-stage canvas { touch-action: pan-y; }
+.dirac-figure #dc-cone { touch-action: none; cursor: grab; }
+.dirac-figure #dc-cone:active { cursor: grabbing; }
+.dirac-figure .gfig-slider { min-width: 0; flex-basis: 100%; }
+.dirac-figure .gfig-slider label { min-width: 6.5em; text-align: left; }
+.dirac-figure .gfig-slider input { min-width: 45px; }
+.dirac-figure .gfig-slider output { min-width: 3.3em; }
+.dirac-figure .gfig-cap { margin-top: 1rem; }
+.dc-wave-options { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 3px 0 16px; }
+#velocity-figure { scroll-margin-top: 90px; }
+.dc-choice { display: grid; gap: 6px; }
+.dc-choice > span { font: 500 .78rem var(--gothic); color: var(--soft); }
+.dc-wave-figure .gfig-btns { gap: 6px; }
+.dc-wave-figure .gfig-btn { padding: 7px 11px; }
+.dc-wave-figure .gfig-slider label { min-width: 0; white-space: nowrap; }
+.dc-wave-figure .dc-time-controls { gap: 10px 16px; padding-top: 12px; }
+.dc-time-controls .gfig-slider { flex-basis: 100%; }
+.dc-wave-figure .dc-time-controls output { min-width: 5.2em; }
+body[data-learn-slug="graphene-dirac-cone"] .derivation .eq-block { margin: 1.2rem 0 1.5rem; }
+body[data-learn-slug="graphene-dirac-cone"] .derivation .eq-block .katex-display { overflow-y: hidden; }
+@media (max-width: 700px) {
+  .dirac-figure { padding: 12px 10px; }
+  .dirac-figure .gfig-controls { column-gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dirac-figure .gfig-btn { transition: none; }
+}
+
+.dc-comparison-stage { position: relative; }
+.dc-wave-handle {
+  position: absolute; width: 44px; height: 44px; transform: translate(-50%,-50%);
+  border: 0; background: transparent; padding: 0; cursor: grab; touch-action: none;
+  color: var(--color-teal, #3e6f6b); font: 700 12px var(--gothic); z-index: 1;
+}
+.dc-wave-handle::before {
+  content: ""; position: absolute; inset: 9px; border: 2px solid currentColor;
+  border-radius: 50%; background: var(--color-plate, #f8f5ed);
+}
+.dc-wave-handle span { position: relative; }
+.dc-wave-handle-2 { color: var(--color-terracotta, #b27a4d); }
+.dc-wave-handle-2::before { border-radius: 3px; }
+.dc-wave-handle:hover::before, .dc-wave-handle:focus-visible::before { box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 16%, transparent); }
+.dc-wave-handle:focus-visible { outline: 1px solid currentColor; outline-offset: 1px; border-radius: 3px; }
+.dc-wave-handle.is-dragging { cursor: grabbing; z-index: 2; }
