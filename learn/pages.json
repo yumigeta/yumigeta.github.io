@@ -816,17 +816,17 @@
       "category": "themes",
       "layoutType": "theme",
       "color": "material",
-      "published": false,
-      "title_en": "Zooming In on K: The Dirac Cone",
-      "title_ja": "K点を拡大する：ディラックコーン",
+      "published": true,
+      "title_en": "The Dirac Cone in Graphene",
+      "title_ja": "グラフェンのディラックコーン",
       "nav_en": "Dirac Cone",
       "nav_ja": "ディラックコーン",
       "level_en": "Standard",
       "level_ja": "標準",
-      "readingTime_en": "18 min",
-      "readingTime_ja": "18分",
-      "summary_en": "Expanding graphene's bands right next to the K point: f(K+q) to first order, the linear dispersion E± ≈ ±ħv_F|q|, the Dirac cone, the Fermi velocity v_F = 3ta/2ħ ≈ 10⁶ m/s, zero effective mass, and electron–hole symmetry.",
-      "summary_ja": "K点のすぐ近くでグラフェンのバンドを展開する：f(K+q) の一次近似、線形分散 E± ≈ ±ħv_F|q|、ディラックコーン、フェルミ速度 v_F = 3ta/2ħ ≈ 10⁶ m/s、有効質量ゼロ、そして電子正孔対称性。",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "How three graphene bonds produce a Dirac cone, how the A/B phase relation depends on wavevector direction, and why the cone slope gives an energy-independent electron speed.",
+      "summary_ja": "三つの結合からディラックコーンを導き、波数の向きとA・Bの位相の関係を調べる。確率密度の移動から群速度を求め、エネルギーが違っても速さが変わらない理由を読む。",
       "theme": [
         "graphene",
         "dirac-cone",
@@ -837,42 +837,24 @@
       ],
       "basicsUsed": [
         {
-          "label_en": "Linearization (tangent approximation)",
-          "label_ja": "線形化（接線近似）"
+          "label_en": "First-order expansion near K",
+          "label_ja": "K点近くの一次近似"
         },
         {
-          "label_en": "Structure factor near K",
-          "label_ja": "K点近くの構造因子"
+          "label_en": "A/B phase relation",
+          "label_ja": "A・Bの位相関係"
         },
         {
-          "label_en": "Dirac cone & linear dispersion",
-          "label_ja": "ディラックコーンと線形分散"
-        },
-        {
-          "label_en": "Fermi velocity",
-          "label_ja": "フェルミ速度"
-        },
-        {
-          "label_en": "Effective mass = band curvature",
-          "label_ja": "有効質量＝バンドの曲率"
-        },
-        {
-          "label_en": "Electron–hole symmetry",
-          "label_ja": "電子正孔対称性"
+          "label_en": "Group velocity from probability density",
+          "label_ja": "確率密度の移動と群速度"
         }
       ],
       "referenceLinks": [],
       "nextLinks": {
-        "theory": [
-          "graphene-v2"
-        ],
-        "application": [
-          "graphene-nanoribbons"
-        ],
+        "theory": [],
+        "application": [],
         "experiment": [],
-        "frontier": [
-          "graphene-phonon-emission"
-        ]
+        "frontier": []
       },
       "usedBy": [],
       "tags": [
@@ -880,10 +862,10 @@
         "#Graphene",
         "#DiracCone",
         "#LinearDispersion",
-        "#FermiVelocity",
-        "#MasslessDirac"
+        "#FermiVelocity"
       ],
-      "isVariantOf": ""
+      "isVariantOf": "",
+      "lastmod": "2026-09-11"
     },
     {
       "slug": "graphene-nanoribbons",
@@ -2018,5 +2000,5 @@
       "isVariantOf": ""
     }
   ],
-  "index_lastmod": "2026-09-09"
+  "index_lastmod": "2026-09-11"
 }
