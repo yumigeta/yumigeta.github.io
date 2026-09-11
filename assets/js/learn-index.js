@@ -90,7 +90,7 @@ window.initLearnIndex = function (opts) {
           gp.forEach(function (p) { placed[p.slug] = 1; });
           if (gp.length) inner += '<ul class="ashelf-list">' + gp.map(leafLI).join('') + '</ul>';
           if (!inner) return '';   // nothing visible in this sub-tree → skip
-          return '<details class="ashelf-grp"><summary class="ashelf-grp-hd">' + i18(g.name_en, g.name_ja) +
+          return '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' + i18(g.name_en, g.name_ja) +
             '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>';
         };
         var shelf = '';

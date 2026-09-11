@@ -97,7 +97,7 @@
       return '<li><a class="' + cur.trim() + '" href="' + learnURL(p.slug) + '">' + lab + wip + '</a></li>';
     }
     // recursive sub-folder render: a group may carry its own groups[] (sub-sub-folders, any depth);
-    // a group opens iff the current page lives somewhere inside it.
+    // Topic groups start expanded; the outer drawer handles narrow screens.
   /* ── Icons — Tabler (tabler.io), used verbatim ──────────────────────────
      Tabler's spec is a 24×24 grid, stroke-width 2, round caps and joins, no
      fill. Keeping all of that intact is the point: the paths below are the
@@ -135,7 +135,7 @@
       if (!inner) return { html: '', cur: false };
       var open = curHere || curInside;
       return {
-        html: '<details class="ashelf-grp"' + (open ? ' open' : '') + '><summary class="ashelf-grp-hd">' +
+        html: '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' +
           L(g.name_en, g.name_ja) + '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>',
         cur: open
       };
