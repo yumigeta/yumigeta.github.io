@@ -699,8 +699,8 @@
       "level_ja": "標準",
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
-      "summary_en": "Build the honeycomb with a two-dot stamp, construct its hexagonal wavevector map, and see the real-space waves at Γ, M, K and K′.",
-      "summary_ja": "二点の判子で蜂の巣を作り、波数をまとめる六角形を描く。Γ・M・K・K′を選んで、実空間の波の模様と原子ごとの位相を比べる。",
+      "summary_en": "What repeating unit makes up graphene’s honeycomb structure? Construct its reciprocal lattice and Brillouin zone from the atomic arrangement, and explore how crystal periodicity relates to waves.",
+      "summary_ja": "グラフェンの蜂の巣構造は、どんな単位の繰り返しでできているのか。原子の並びから逆格子とブリルアンゾーンを求め、結晶の繰り返しと波の関係を学ぶ。",
       "theme": [
         "graphene",
         "crystallography",
@@ -762,8 +762,8 @@
       "level_ja": "標準",
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
-      "summary_en": "How graphene’s two orbital amplitudes and three nearest-neighbour hoppings produce two bands that touch at K and K′. Follow the phase sum, band surfaces and neutral band filling.",
-      "summary_ja": "A・Bの二つの振幅と、三つの隣への移動からグラフェンのバンドを求める。位相の打ち消しがK・K′で接点を作る理由と、中性での電子の入り方を追う。",
+      "summary_en": "Learn how atomic orbitals and coupling between neighbouring atoms give rise to graphene’s two energy bands and the points where they touch.",
+      "summary_ja": "原子の電子軌道と隣接原子との結合から、グラフェンの二つのエネルギーバンドが生まれ、接する仕組みを学ぶ。",
       "theme": [
         "graphene",
         "tight-binding",
@@ -825,8 +825,8 @@
       "level_ja": "標準",
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
-      "summary_en": "How three graphene bonds produce a Dirac cone, how the A/B phase relation depends on wavevector direction, and why the cone slope gives an energy-independent electron speed.",
-      "summary_ja": "三つの結合からディラックコーンを導き、波数の向きとA・Bの位相の関係を調べる。確率密度の移動から群速度を求め、エネルギーが違っても速さが変わらない理由を読む。",
+      "summary_en": "Why do electrons in graphene behave like massless particles? Explore the connection between the shape of the Dirac cone and the electrons’ velocity.",
+      "summary_ja": "グラフェンの電子は、なぜ「質量のない粒子」のように振る舞うのか。ディラックコーンの形と電子の速度から考える。",
       "theme": [
         "graphene",
         "dirac-cone",
@@ -1355,8 +1355,8 @@
       "level_ja": "標準",
       "readingTime_en": "15 min",
       "readingTime_ja": "15分",
-      "summary_en": "A step-by-step classical derivation of Raman scattering: how a vibrating polarizability amplitude-modulates the scattered light into Stokes and anti-Stokes sidebands, why intensity scales as ω⁴, and how the Raman tensor sets the selection rule for which vibrations are visible.",
-      "summary_ja": "ラマン散乱の古典的導出を段階的に学ぶ。振動する分極率が散乱光を振幅変調してストークス／反ストークスの側帯波を生む仕組み、強度がω⁴に比例する理由、そしてラマンテンソルが「どの振動が見えるか」を決める選択則。",
+      "summary_en": "Use classical electromagnetism to derive how molecular vibrations produce light at frequencies different from the incident light. Examine scattering intensity, the conditions for observing a vibration, and experimental results that classical theory cannot explain.",
+      "summary_ja": "古典電磁気学から、分子の振動によって入射光とは異なる周波数の光が生まれる仕組みを導く。散乱の強さと観測できる振動の条件を調べ、古典論では説明できない実験結果にも触れる。",
       "theme": [
         "raman",
         "optics",
