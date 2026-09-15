@@ -31,7 +31,7 @@ window.initLearnIndex = function (opts) {
       : '<span class="dev-status dev-status--wip">' + i18('Dev', '非公開') + '</span>';
   }
 
-  fetch('/learn/pages.json')
+  fetch('/learn/pages.json?v=topic-order-20260915-r2')
     .then(function (r) { return r.json(); })
     .then(function (data) {
       var pages = publishedOnly
