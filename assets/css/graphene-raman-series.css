@@ -1,0 +1,77 @@
+/* The Raman articles use the existing graphene-series plate and controls. */
+body[data-raman-page] .demo-stage { background: transparent; }
+body[data-raman-page] .derivation p { font-size: 1rem; line-height: 1.7; }
+.raman-figure select {
+  min-width: 0; max-width: 100%; flex: 1;
+  font: inherit; color: var(--ink); background: var(--color-plate);
+  border: 1px solid var(--color-neutral); border-radius: 3px; padding: 3px 6px;
+}
+.raman-figure .gfig-slider--full > label { white-space: normal; min-width: 6em; flex: 0 1 10em; }
+.raman-figure .gfig-status:empty { display: none; }
+.raman-figure .gfig-stage canvas + canvas { margin-top: 12px; }
+.raman-figure .gfig-stage--row { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.raman-figure .gfig-stage--row canvas + canvas { margin-top: 0; }
+.gr-table-wrap { overflow-x: auto; margin: 1.4rem 0; }
+.gr-table { border-collapse: collapse; width: 100%; font-size: 1rem; }
+.gr-table th,.gr-table td { text-align: left; padding: .65rem; border-bottom: 1px solid var(--line); }
+@media(max-width:600px) {
+  .raman-figure { padding: 12px 8px; }
+  .raman-figure .gfig-slider { min-width: 0; flex-basis: 100%; }
+  .raman-figure .gfig-slider output { min-width: 54px; }
+}
+
+/* The branch picker and the motion control are separate interaction groups. */
+.raman-figure .gfig-btns--branches,
+.raman-figure .gfig-btns--motion { flex: 1 1 100%; }
+.raman-figure .gfig-btns--motion {
+  padding-top: 10px;
+  margin-top: 2px;
+  border-top: 1px solid rgba(120,98,58,0.12);
+}
+.raman-figure .gfig-btns--motion .gfig-btn { min-width: 96px; }
+
+/* Lattice and compact controls on the left, dispersion on the right. */
+#phonon-map[data-gr-layout="phonon-cards"] { --phonon-font-size: 13px; max-width: none; padding: 14px; border: 1px solid var(--rule); border-radius: 8px; background: var(--color-plate); font-family: var(--gothic); container-type: inline-size; }
+#phonon-map .gfig-stage--row { display: grid; grid-template-columns: minmax(0,44fr) minmax(0,56fr); grid-template-areas: "lattice dispersion" "modes dispersion"; gap: 12px; align-items: start; }
+#phonon-map .gfig-stage > canvas:nth-of-type(1) { grid-area: dispersion; }
+#phonon-map .gfig-stage > canvas:nth-of-type(2) { grid-area: lattice; }
+#phonon-map .gfig-stage--row canvas { flex-shrink: 0; margin-top: 0; }
+#phonon-map .gfig-stage canvas { outline: 1px solid color-mix(in srgb,var(--color-neutral) 20%,transparent); outline-offset: -1px; border-radius: 8px; background: var(--color-bg); box-shadow: none; }
+#phonon-map .phonon-controls { display: grid; gap: 0; padding: 16px 18px; margin-top: 12px; border: 1px solid color-mix(in srgb,var(--color-neutral) 20%,transparent); border-radius: 8px; background: var(--color-bg); box-shadow: none; }
+#phonon-map .phonon-q-row { display: grid; grid-template-columns: minmax(0,1fr) max-content; grid-template-areas: "label ." "track position"; align-items: center; gap: 8px; padding-bottom: 16px; }
+#phonon-map .phonon-control-label { grid-area: label; text-align: center; white-space: nowrap; font-family: var(--gothic); font-size: var(--phonon-font-size); font-weight: 700; line-height: 1.5; color: var(--color-text); }
+#phonon-map .phonon-q-track { grid-area: track; position: relative; min-width: 0; height: 24px; padding: 0; }
+#phonon-map input[type="range"] { appearance: none; display: block; width: 100%; height: 24px; margin: 0; background: transparent; cursor: pointer; }
+#phonon-map input::-webkit-slider-runnable-track { height: 3px; background: transparent; border-radius: 0; }
+#phonon-map input::-moz-range-track { height: 3px; background: transparent; border-radius: 0; }
+#phonon-map input::-webkit-slider-thumb { appearance: none; width: 11px; height: 24px; margin-top: -10px; border: 1px solid var(--color-terracotta); border-radius: 3px; background: var(--color-terracotta); box-shadow: none; }
+#phonon-map input::-moz-range-thumb { width: 11px; height: 24px; border: 1px solid var(--color-terracotta); border-radius: 3px; background: var(--color-terracotta); }
+#phonon-map .phonon-q-slider { position: relative; height: 24px; }
+#phonon-map .phonon-q-slider::before { content: ""; position: absolute; left: 5.5px; right: 5.5px; top: 50%; height: 3px; transform: translateY(-50%); background: color-mix(in srgb,var(--color-neutral) 38%,var(--color-bg)); pointer-events: none; }
+#phonon-map .phonon-q-slider input { position: relative; z-index: 1; }
+#phonon-map .phonon-path-ticks { position: absolute; top: 24px; left: 5.5px; right: 5.5px; display: block; height: 22px; margin: 0; font: 12px var(--gothic); color: var(--color-text); }
+#phonon-map .phonon-path-ticks span { position: absolute; top: 0; transform: translateX(-50%); }
+#phonon-map .phonon-path-ticks span:nth-child(1) { left: 0; }
+#phonon-map .phonon-path-ticks span:nth-child(2) { left: 33.333333%; }
+#phonon-map .phonon-path-ticks span:nth-child(3) { left: 66.666667%; }
+#phonon-map .phonon-path-ticks span:nth-child(4) { left: 100%; }
+#phonon-map .phonon-path-ticks span::before { content: ''; position: absolute; top: -17px; left: 50%; height: 9px; width: 1px; background: color-mix(in srgb,var(--color-neutral) 45%,transparent); pointer-events: none; }
+#phonon-map .phonon-q-output { grid-area: position; width: 8em; min-height: 32px; padding: 6px 8px; display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 6px; border: 1px solid color-mix(in srgb,var(--color-neutral) 25%,transparent); border-radius: 5px; background: var(--color-bg); box-shadow: none; font: 500 var(--phonon-font-size)/1 var(--gothic); }
+#phonon-map .phonon-progress { color: color-mix(in srgb,var(--color-terracotta) 75%,var(--color-text)); font: 700 var(--phonon-font-size)/1 var(--gothic); font-variant-numeric: tabular-nums; }
+#phonon-map .phonon-position { font: inherit; white-space: nowrap; }
+#phonon-map .phonon-progress[hidden] { display: none; }
+#phonon-map .phonon-mode-row { grid-area: modes; display: grid; gap: 6px; min-width: 0; padding: 8px; border: 1px solid color-mix(in srgb,var(--color-neutral) 20%,transparent); border-radius: 8px; background: var(--color-bg); }
+#phonon-map .phonon-mode-options { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 4px; }
+#phonon-map .phonon-mode-option { text-align: center; min-width: 0; }
+#phonon-map .gfig-btn { width: 100%; height: 32px; min-height: 32px; padding: 2px; border: 1px solid color-mix(in srgb,var(--color-neutral) 44%,var(--color-bg)); border-radius: 4px; background: var(--color-bg); color: var(--color-text); box-shadow: none; font: 700 var(--phonon-font-size) var(--gothic); }
+#phonon-map .gfig-btn:hover { border-color: var(--color-terracotta); }
+#phonon-map .gfig-btn.active,#phonon-map .phonon-play { color: var(--color-bg); border-color: color-mix(in srgb,var(--color-terracotta) 75%,var(--color-text)); background: var(--color-terracotta); box-shadow: none; }
+#phonon-map .phonon-play { height: 32px; min-height: 32px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--phonon-font-size); }
+#phonon-map .phonon-play i { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid currentColor; }
+#phonon-map .phonon-play[aria-pressed="true"] i { width: 8px; height: 10px; border: 0; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }
+#phonon-map .phonon-play-stop,#phonon-map .phonon-play[aria-pressed="true"] .phonon-play-start { display: none; }
+#phonon-map .phonon-play[aria-pressed="true"] .phonon-play-stop { display: inline; }
+#phonon-map button:focus-visible,#phonon-map input:focus-visible { outline: 2px solid var(--color-teal); outline-offset: 4px; }
+#phonon-map [data-gr-result] { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@container (max-width: 600px) { #phonon-map .phonon-mode-options { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@container (max-width: 460px) { #phonon-map .phonon-controls { padding: 16px 12px; } #phonon-map .phonon-q-row { grid-template-columns: minmax(0,1fr); grid-template-areas: "label" "track" "position"; gap: 8px; padding: 0; } #phonon-map .phonon-q-output { justify-self: end; margin-top: 20px; } #phonon-map .phonon-mode-row { padding: 6px; } #phonon-map .phonon-q-row,#phonon-map .phonon-mode-row { --phonon-font-size: 11px; } }

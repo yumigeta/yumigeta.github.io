@@ -1,0 +1,383 @@
+{
+  "schema": "graphene-raman-html-inventory/v2",
+  "pages": [
+    {
+      "slug": "graphene-raman-spectrum",
+      "title_ja": "グラフェンのラマンスペクトル",
+      "equations": {},
+      "sections": [
+        "observed-spectrum",
+        "phonon-map-reading",
+        "laser-observation",
+        "layers-observation",
+        "read-spectrum-again"
+      ],
+      "figures": [
+        {
+          "kind": "spectrum",
+          "id": "overview-spectrum"
+        },
+        {
+          "kind": "phonons",
+          "id": "phonon-map",
+          "node": 0,
+          "mode": 5,
+          "phase": 0
+        },
+        {
+          "kind": "lasercompare",
+          "id": "laser-comparison"
+        },
+        {
+          "kind": "layers",
+          "id": "layers-measured",
+          "comparison": "bilayer"
+        }
+      ],
+      "references": [
+        "R01",
+        "R14",
+        "R17"
+      ],
+      "published": false
+    },
+    {
+      "slug": "graphene-raman-g",
+      "title_ja": "グラフェンのGバンド",
+      "equations": {
+        "eqg-basis": 1,
+        "eqg-angle": 2,
+        "eqpolarizability": 3,
+        "eqsidebands": 4,
+        "eqg-momentum": 5,
+        "eqphoton-scale": 6,
+        "eqg-position": 7,
+        "eqg-tensors": 8,
+        "eqg-polarization": 9,
+        "eqg-resolvent": 10,
+        "eqg-amplitude": 11
+      },
+      "sections": [
+        "g-motion-section",
+        "electrons",
+        "g-selection",
+        "g-position-section",
+        "g-polarization-section",
+        "g-intensity"
+      ],
+      "figures": [
+        {
+          "kind": "gmode",
+          "id": "g-motion",
+          "angle": 0,
+          "phase": 0
+        },
+        {
+          "kind": "sidebands",
+          "id": "g-sidebands"
+        },
+        {
+          "kind": "photonmomentum",
+          "id": "g-wavevector",
+          "wavelength": 532
+        },
+        {
+          "kind": "polarization",
+          "id": "g-polarization-figure",
+          "polarization": 0
+        }
+      ],
+      "references": [
+        "R01",
+        "R04",
+        "R05",
+        "R17",
+        "R22"
+      ],
+      "published": false
+    },
+    {
+      "slug": "graphene-raman-double-resonance",
+      "title_ja": "グラフェンのDバンドと2Dバンド",
+      "equations": {
+        "eqdefect-balance": 1,
+        "eqpair-balance": 2,
+        "eqfull-local": 3,
+        "eqoptical-radius": 4,
+        "eqbackscatter-geometry": 5,
+        "eqtwice-radius": 6,
+        "eqlocal-phonon": 7,
+        "eqleading-dispersion": 8,
+        "eqslope-units": 9,
+        "eqdprime-chain": 10,
+        "eqinterference": 11,
+        "eqfinal-sum": 12,
+        "eqfour-vertex": 13,
+        "eqepc-matrix-element": 14,
+        "eqepc-factors": 15,
+        "eqloss-radii": 16,
+        "eqloss-kappa": 17,
+        "eqloss-energy": 18,
+        "eqloss-numbers": 19,
+        "eqloss-offset": 20
+      },
+      "sections": [
+        "final-states",
+        "valleys",
+        "resonance",
+        "laser-dispersion",
+        "dprime",
+        "amplitudes",
+        "epc",
+        "emission-loss"
+      ],
+      "figures": [
+        {
+          "kind": "spectrum",
+          "id": "dr-measured"
+        },
+        {
+          "kind": "process",
+          "id": "dr-process",
+          "process": "2D"
+        },
+        {
+          "kind": "geometry",
+          "id": "dr-geometry",
+          "theta": 180
+        },
+        {
+          "kind": "resonance",
+          "id": "dr-linked",
+          "loss": false,
+          "el": 2.33
+        },
+        {
+          "kind": "dprime",
+          "id": "dprime-slope"
+        },
+        {
+          "kind": "interference",
+          "id": "dr-interference",
+          "phase": 180
+        },
+        {
+          "kind": "angular",
+          "id": "epc-angle",
+          "theta": 0
+        },
+        {
+          "kind": "loss",
+          "id": "dr-loss",
+          "el": 2.33,
+          "slope": 100
+        }
+      ],
+      "references": [
+        "R01",
+        "R02",
+        "R03",
+        "R07",
+        "R08",
+        "R09",
+        "R14"
+      ],
+      "published": false
+    },
+    {
+      "slug": "graphene-raman-layers",
+      "title_ja": "ラマンでグラフェンの層数を調べる",
+      "equations": {
+        "eqlayer-fit": 1,
+        "eqbilayer-hamiltonian": 2,
+        "eqbilayer-determinant": 3,
+        "eqbilayer-roots": 4,
+        "eqbilayer-radii": 5
+      },
+      "sections": [
+        "layer-observation",
+        "interlayer",
+        "shape-fit",
+        "layer-reading",
+        "bilayer-derivation"
+      ],
+      "figures": [
+        {
+          "kind": "layers",
+          "id": "layers-measured",
+          "comparison": "bilayer"
+        },
+        {
+          "kind": "bilayer",
+          "id": "layers-bands",
+          "gamma": 0.39,
+          "el": 2.33
+        },
+        {
+          "kind": "layerfit",
+          "id": "layers-fit",
+          "fit": "single"
+        }
+      ],
+      "references": [
+        "R14",
+        "R15"
+      ],
+      "published": false
+    },
+    {
+      "slug": "graphene-raman-defects",
+      "title_ja": "ラマンでグラフェンの欠陥を調べる",
+      "equations": {
+        "eqlorentzian": 1,
+        "eqlorentz-area": 2,
+        "eqheight-area-ratio": 3,
+        "eqfit-residual": 4,
+        "eqdefect-calibration": 5,
+        "eqdefect-density": 6,
+        "eqactivation-model": 7,
+        "eqactivation-expansion": 8,
+        "eqdefect-errors": 9
+      },
+      "sections": [
+        "defect-observation",
+        "peak-definition",
+        "fitting",
+        "defect-regimes-section",
+        "defect-quantification",
+        "defect-derivation"
+      ],
+      "figures": [
+        {
+          "kind": "defectspectra",
+          "id": "defect-series",
+          "ld": 5
+        },
+        {
+          "kind": "heightarea",
+          "id": "height-area",
+          "width": 20,
+          "fixed": "height"
+        },
+        {
+          "kind": "fit",
+          "id": "fit-workbench",
+          "baseline": "linear"
+        },
+        {
+          "kind": "trajectory",
+          "id": "defect-regimes",
+          "el": 2.41,
+          "ratio": 1
+        },
+        {
+          "kind": "defectcalc",
+          "id": "defect-estimate",
+          "el": 2.33,
+          "ratio": 1,
+          "sample": "unknown"
+        }
+      ],
+      "references": [
+        "R16"
+      ],
+      "published": false
+    },
+    {
+      "slug": "graphene-raman-strain-doping",
+      "title_ja": "ラマンでひずみとドーピングを見分ける",
+      "equations": {
+        "eqstrain-stiffness": 1,
+        "eqstrain-matrix": 2,
+        "eqstrain-shifts": 3,
+        "eqstrain-mean-split": 4,
+        "eqdecay-energy": 5,
+        "eqself-energy-observables": 6,
+        "eqcorrelation-system": 7,
+        "eqcorrelation-solve": 8,
+        "eqpole-response": 9,
+        "eqpole-halfwidth": 10,
+        "eqfermi-factor": 11,
+        "eqoccupation-difference": 12,
+        "eqresponse-denominators": 13,
+        "eqself-energy-integral": 14,
+        "eqlinewidth-derivation": 15,
+        "eqreal-shift": 16,
+        "eqzero-temperature-integral": 17,
+        "eqpartial-fractions": 18,
+        "eqzero-temperature-shift": 19,
+        "eqasymptotic-slope": 20,
+        "eqprincipal-subtraction": 21,
+        "eqstatic-cancellation": 22,
+        "eqadiabatic-background": 23,
+        "eqcarrier-density": 24,
+        "eqinhomogeneity": 25,
+        "eqspectral-average": 26,
+        "eqcorrelation-errors": 27,
+        "eqcoupling-units": 28,
+        "eqphonon-normalization": 29
+      },
+      "sections": [
+        "strain-first",
+        "strain-equations",
+        "occupations-section",
+        "doping-shift-width",
+        "correlation",
+        "self-energy-derivation",
+        "temperature-derivation",
+        "static-dynamic",
+        "averaging-derivation",
+        "coupling-data"
+      ],
+      "figures": [
+        {
+          "kind": "strain",
+          "id": "strain-splitting",
+          "strain": 0.4,
+          "poisson": 0.33
+        },
+        {
+          "kind": "occupations",
+          "id": "g-occupations",
+          "mu": 0,
+          "temperature": 300
+        },
+        {
+          "kind": "doping",
+          "id": "doping-response",
+          "temperature": 300,
+          "sigma": 0.035
+        },
+        {
+          "kind": "dopingspectrum",
+          "id": "doping-average",
+          "mu": 0.15,
+          "temperature": 300,
+          "sigma": 0.035
+        },
+        {
+          "kind": "correlation",
+          "id": "g2d-correlation",
+          "dg": 10,
+          "d2": 15,
+          "ms": 2.2,
+          "md": 0.7
+        },
+        {
+          "kind": "static",
+          "id": "static-background"
+        }
+      ],
+      "references": [
+        "R07",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R21",
+        "R22"
+      ],
+      "published": false
+    }
+  ]
+}

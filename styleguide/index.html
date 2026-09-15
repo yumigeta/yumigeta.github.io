@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Template Audit — Style Guide</title>
+  <title>Style Guide</title>
   <meta name="description" content="Internal catalog of every reusable design template used on the site, tagged by source, for auditing which to keep or delete.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,7 +153,7 @@
 
   <!-- ============ WAFU VARIANT SYSTEM (gnr-variants.css) ============ -->
   <section class="sg-sec" id="wafu">
-    <h2>★ 和風 callout &amp; panel variants <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">— gnr-variants.css</span></h2>
+    <h2>★ 和風 callout &amp; panel variants</h2>
     <p class="sg-secnote">The site's switchable 和風 design system (washi 和紙 · sumi 墨 · vermilion 朱), loaded on every Learn page. <strong>Type is told by the label text, never by colour.</strong> This is the canonical callout/panel look; the asides I added should follow these, not the plainer base <code>.callout</code>.</p>
 
     <div class="sg-item">
@@ -202,7 +202,7 @@
 
   <!-- ============ CANONICAL LEARN COMPONENTS (measurement-error.css) ============ -->
   <section class="sg-sec" id="learncomp">
-    <h2>★ Canonical Learn components <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">— measurement-error.css (reference page)</span></h2>
+    <h2>★ Canonical Learn components</h2>
     <p class="sg-secnote">The interactive component set CLAUDE.md names as the template for every Learn explainer. I had excluded <code>measurement-error.css</code> as "page-specific": it is actually the reference component library.</p>
 
     <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.demo</code> / <code>.demo-head</code> / <code>.demo-num</code></span><span class="sg-badge site">site</span><span class="sg-note">section structure</span></div>
@@ -299,8 +299,8 @@
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">Heading scale</span><span class="sg-badge site">site</span><span class="sg-note">editorial titles are Mincho 700</span></div>
       <div class="sg-demo">
-        <div class="ptop" style="display:block"><h1 style="font-size:48px">Page title — <code style="font:inherit">.ptop h1</code> (Mincho 700)</h1></div>
-        <h2 style="font-family:var(--mincho);font-size:28px;font-weight:700;margin-top:18px">Section H2 — Mincho 700</h2>
+        <div class="ptop" style="display:block"><h1 style="font-size:48px">Page title</h1></div>
+        <h2 style="font-family:var(--mincho);font-size:28px;font-weight:700;margin-top:18px">Section H2</h2>
         <span class="eyebrow">.eyebrow — gothic label</span>
         <p class="pintro" style="margin-top:10px">Lead paragraph <code>.pintro</code> — gothic, soft, <em>accented em</em>.</p>
         <p style="margin-top:10px;max-width:70ch">Body paragraph — gothic, 16px, line-height 1.72. The quick brown fox。日本語の本文サンプル。</p>
@@ -309,15 +309,15 @@
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">Card heading font inconsistency</span><span class="sg-badge dupe">overlap</span><span class="sg-note">site mixes Gothic (.card/.hub-card h3) and Mincho (.ed-tools .et h3) for card titles — pick one rule</span></div>
       <div class="sg-demo sg-row">
-        <h3 style="font-family:var(--gothic);font-weight:600;font-size:22px">Gothic 600 — .card h3 / .hub-card h3</h3>
-        <h3 style="font-family:var(--mincho);font-weight:700;font-size:22px">Mincho 700 — .ed-tools .et h3</h3>
+        <h3 style="font-family:var(--gothic);font-weight:600;font-size:22px">Gothic 600</h3>
+        <h3 style="font-family:var(--mincho);font-weight:700;font-size:22px">Mincho 700</h3>
       </div>
     </div>
   </section>
 
   <!-- ============ OVERLAPS ============ -->
   <section class="sg-sec" id="overlaps">
-    <h2>3 · ⚠ Overlapping templates — decide which to keep</h2>
+    <h2>3 · ⚠ Overlapping templates</h2>
     <p class="sg-secnote">Multiple templates do the same job. These are the most likely sources of misuse. For each group, tell me which one to keep; I'll delete the rest and migrate usages.</p>
 
     <div class="sg-item">
@@ -542,7 +542,7 @@
 
   <!-- ============ TOOLING ============ -->
   <section class="sg-sec" id="tooling">
-    <h2>15 · Tooling UI — proofread.css <span style="font-family:var(--gothic);font-size:13px;font-weight:600;color:var(--soft)">(.pf-*)</span></h2>
+    <h2>15 · Tooling UI</h2>
     <p class="sg-secnote">The in-browser proofreading ("校正") layer auto-loaded on unpublished Learn pages. It is dev tooling, not a content template, listed here for completeness. Rendered live only in review mode (Alt+R / <code>?review</code>).</p>
     <div class="sg-item"><div class="sg-meta"><span class="sg-name"><code>.pf-*</code> family (~38 classes)</span><span class="sg-badge add">tool</span></div>
       <div class="sg-demo" style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.9;color:var(--ink-2)">
@@ -554,7 +554,7 @@
 
   <!-- ============ COVERAGE LEDGER ============ -->
   <section class="sg-sec" id="ledger">
-    <h2>16 · Coverage ledger — everything else, accounted for</h2>
+    <h2>16 · Coverage ledger</h2>
     <p class="sg-secnote">After missing <code>gnr-variants.css</code> and <code>measurement-error.css</code> earlier, this ledger lists every remaining class so nothing is silently omitted. None of these are reusable content templates; they are page-specific demo internals, states, or layout scaffold.</p>
     <div class="sg-item"><div class="sg-meta"><span class="sg-name">Homepage sections (shown in §13)</span><span class="sg-badge site">site</span></div>
       <div class="sg-demo" style="font-size:13px;line-height:1.8;color:var(--ink-2)"><code>.hero/.hero-inner/.hero-center/.hero-chips/.hero-meta</code> · <code>.about/.lead/.say/.chips</code> · <code>.news/.item</code> · <code>.pub/.cover-badge/.pub-cover</code> · <code>.tools/.tool</code> · <code>.cv/.cv-row/.cv-group</code> · <code>.contact/.glow2/.more-link</code> — full layouts live on <code>index.html</code>.</div></div>
