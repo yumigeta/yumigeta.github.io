@@ -1636,7 +1636,7 @@
       "category": "concepts",
       "layoutType": "concept",
       "color": "optical",
-      "published": false,
+      "published": true,
       "title_en": "Raman Scattering and Vibrational Quantization",
       "title_ja": "ラマン散乱と振動の量子化",
       "nav_en": "Vibrational Raman Theory",
@@ -1676,7 +1676,7 @@
         "#Polarizability"
       ],
       "isVariantOf": "",
-      "lastmod": "2026-09-13"
+      "lastmod": "2026-09-15"
     },
     {
       "slug": "raman-khd",

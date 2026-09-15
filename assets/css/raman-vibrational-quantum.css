@@ -3,6 +3,7 @@ body[data-learn-slug="raman-vibrational-quantum"] .demo-stage {
   background: transparent; padding: 0; border-radius: 0;
   color: var(--ink); max-width: var(--measure);
 }
+body[data-learn-slug="raman-vibrational-quantum"] .pintro { font-size: 1rem; line-height: 1.7; }
 .me-prose p { font-size: .94rem; line-height: 1.95; color: var(--ink-2); margin: 16px 0; }
 .me-prose p b { color: var(--ink); }
 .demo-head h2, .me-prose h3 { font-family: var(--mincho); }
