@@ -51,7 +51,7 @@
   header.parentNode.insertBefore(layout, footer);
 
   // ── 2. Populate the rails from pages.json (async) ─────────────────────
-  fetch('/learn/pages.json')
+  fetch('/learn/pages.json?v=topic-order-20260915-r2')
     .then(function (r) { return r.json(); })
     .then(function (data) { render(data); })
     .catch(function () { layout.classList.add('shell-bare'); });
