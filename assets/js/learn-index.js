@@ -108,7 +108,7 @@ window.initLearnIndex = function (opts) {
             return !gp.some(function (p) { return p.slug === cg.after; });
           }).forEach(function (cg) { inner += grpHTML(cg, placed); });
           if (!inner) return '';   // nothing visible in this sub-tree → skip
-          return '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' + i18(g.name_en, g.name_ja) +
+          return '<details class="ashelf-grp' + (g.after ? ' ashelf-grp--inline' : '') + '" open><summary class="ashelf-grp-hd">' + i18(g.name_en, g.name_ja) +
             '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>';
         };
         var shelf = '';

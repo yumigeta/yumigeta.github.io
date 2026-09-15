@@ -164,7 +164,7 @@
       if (!inner) return { html: '', cur: false };
       var open = curHere || curInside;
       return {
-        html: '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' +
+        html: '<details class="ashelf-grp' + (g.after ? ' ashelf-grp--inline' : '') + '" open><summary class="ashelf-grp-hd">' +
           L(g.name_en, g.name_ja) + '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>',
         cur: open
       };
