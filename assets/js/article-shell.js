@@ -125,13 +125,42 @@
   }
 
     function grpHTML(g, placed) {
-      var inner = '', curInside = false;
-      (g.groups || []).forEach(function (cg) { var r = grpHTML(cg, placed); inner += r.html; if (r.cur) curInside = true; });
+      var inner = '', curInside = false, deferred = [], leafRun = [];
+      function flushLeaves() {
+        if (!leafRun.length) return;
+        inner += '<ul class="ashelf-list">' + leafRun.join('') + '</ul>';
+        leafRun = [];
+      }
+      (g.groups || []).forEach(function (cg) {
+        if (cg.after) deferred.push(cg);
+        else {
+          var r = grpHTML(cg, placed);
+          inner += r.html;
+          if (r.cur) curInside = true;
+        }
+      });
       var gp = (g.pages || []).map(function (s) { return MAP[s]; })
         .filter(function (p) { return p && (IS_DEV || p.published); });
       gp.forEach(function (p) { placed[p.slug] = 1; });
       var curHere = gp.some(function (p) { return p.slug === SLUG; });
-      if (gp.length) inner += '<ul class="ashelf-list">' + gp.map(leafLI).join('') + '</ul>';
+      gp.forEach(function (p) {
+        leafRun.push(leafLI(p));
+        deferred.filter(function (cg) { return cg.after === p.slug; }).forEach(function (cg) {
+          var r;
+          flushLeaves();
+          r = grpHTML(cg, placed);
+          inner += r.html;
+          if (r.cur) curInside = true;
+        });
+      });
+      flushLeaves();
+      deferred.filter(function (cg) {
+        return !gp.some(function (p) { return p.slug === cg.after; });
+      }).forEach(function (cg) {
+        var r = grpHTML(cg, placed);
+        inner += r.html;
+        if (r.cur) curInside = true;
+      });
       if (!inner) return { html: '', cur: false };
       var open = curHere || curInside;
       return {

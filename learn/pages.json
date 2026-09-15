@@ -79,6 +79,7 @@
               "id": "graphene-raman-series",
               "name_en": "Raman Spectroscopy",
               "name_ja": "ラマン分光",
+              "after": "graphene-dirac-cone",
               "pages": [
                 "graphene-raman-spectrum",
                 "graphene-raman-g",
