@@ -52,7 +52,9 @@ never embedded in the theory pages. Fully data-driven.
   **This `groups[]` array is the one place to edit shelf grouping**: a slug may
   appear in several groups (a page can sit in more than one); pages in a category
   but in no group fall into a trailing ungrouped list; editing groups is
-  display-only and never moves a URL or file. `routes` and `handbook` define no
+  display-only and never moves a URL or file. A nested group may set
+  `after: "slug"` to appear immediately after that page in its parent group;
+  nested groups without `after` remain before the parent's page list. `routes` and `handbook` define no
   `groups` (rendered flat). The full-index page `all` is a separate safety-valve,
   **not** a category.
 - `pages[]` — every Learn page, keyed by `slug`. Fields: `slug`, `category`,

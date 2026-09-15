@@ -84,11 +84,29 @@ window.initLearnIndex = function (opts) {
 
         // recursive sub-folder render: a group may carry its own groups[] (sub-sub-folders, any depth)
         var grpHTML = function (g, placed) {
-          var inner = '';
-          (g.groups || []).forEach(function (cg) { inner += grpHTML(cg, placed); });
+          var inner = '', deferred = [], leafRun = [];
+          var flushLeaves = function () {
+            if (!leafRun.length) return;
+            inner += '<ul class="ashelf-list">' + leafRun.join('') + '</ul>';
+            leafRun = [];
+          };
+          (g.groups || []).forEach(function (cg) {
+            if (cg.after) deferred.push(cg);
+            else inner += grpHTML(cg, placed);
+          });
           var gp = (g.pages || []).map(function (s) { return bySlug[s]; }).filter(Boolean);
           gp.forEach(function (p) { placed[p.slug] = 1; });
-          if (gp.length) inner += '<ul class="ashelf-list">' + gp.map(leafLI).join('') + '</ul>';
+          gp.forEach(function (p) {
+            leafRun.push(leafLI(p));
+            deferred.filter(function (cg) { return cg.after === p.slug; }).forEach(function (cg) {
+              flushLeaves();
+              inner += grpHTML(cg, placed);
+            });
+          });
+          flushLeaves();
+          deferred.filter(function (cg) {
+            return !gp.some(function (p) { return p.slug === cg.after; });
+          }).forEach(function (cg) { inner += grpHTML(cg, placed); });
           if (!inner) return '';   // nothing visible in this sub-tree → skip
           return '<details class="ashelf-grp" open><summary class="ashelf-grp-hd">' + i18(g.name_en, g.name_ja) +
             '' + icon("chevron-right", "ashelf-caret") + '</summary>' + inner + '</details>';
