@@ -7,22 +7,22 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crystal Structure II — Same Element, Different Material: Why Arrangement Decides</title>
+  <title>Crystal Structure II</title>
   <meta name="description" content="Diamond and graphite are both pure carbon, so the ingredients cannot be the culprit. The arrangement of atoms is. The grammar of arrangements (lattice and basis), how waves probe them, the reciprocal lattice, diffraction, and the Brillouin zone.">
   <meta name="keywords" content="crystal structure, lattice, basis, unit cell, reciprocal lattice, Brillouin zone, aliasing, Nyquist, sampling, crystallography, condensed matter, physics tutorial">
   <link rel="canonical" href="https://yumigeta.github.io/learn/crystal-structure-v2/">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Crystal Structure II — Same Element, Different Material: Why Arrangement Decides">
+  <meta property="og:title" content="Crystal Structure II">
   <meta property="og:description" content="A hundred-odd elements, an infinity of materials, and pure carbon alone makes both diamond and pencil lead. The culprit is the arrangement of atoms: lattice and basis, waves, the reciprocal lattice, diffraction, and the Brillouin zone.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/crystal-structure-v2/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Crystal Structure II — Same Element, Different Material: Why Arrangement Decides">
+  <meta name="twitter:title" content="Crystal Structure II">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Crystal Structure II — Same Element, Different Material: Why Arrangement Decides",
+    "name": "Crystal Structure II",
     "description": "A story-driven introduction to crystal structure, driven by one question: why does a handful of elements produce an infinity of materials, and why can the same element make utterly different ones? Lattice and basis, sampling and aliasing, the reciprocal lattice, diffraction, and the Brillouin zone.",
     "url": "https://yumigeta.github.io/learn/crystal-structure-v2/",
     "author": {
@@ -72,7 +72,7 @@
     <div class="container">
       <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Crystal Structure II</span><span class="i18n-ja">結晶構造の基礎 Ⅱ</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">Crystal Structure&nbsp;Ⅱ</span><span class="i18n-ja">結晶構造の基礎 Ⅱ</span></h1>
+        <h1><span class="i18n-en">Crystal Structure II</span><span class="i18n-ja">結晶構造の基礎 II</span></h1>
       </div>
       <p class="pintro"><span class="i18n-en">The periodic table holds only a hundred-odd elements. The materials they produce are, for all practical purposes, infinite: hard ones, stretchy ones, transparent ones, conducting ones, insulating ones. How does so little produce so much? And there is a stranger fact lurking underneath. <b>Materials made of exactly the same element can be utterly different things.</b> Diamond is pure carbon: transparent, insulating, the hardest substance on Earth. Graphite is pure carbon too: black, conducting, and soft enough to flake onto paper: it is pencil lead. The list of ingredients is identical, line for line; so the ingredients cannot be the culprit. Only one suspect is left: <b>the arrangement of the atoms</b>. And arrangements turn out to be a whole world. Some repeat in perfect order (crystals). Some are a frozen jumble (glasses and amorphous solids). And inside an orderly file there can hide a few oddballs and rule-breakers  (missing atoms, intruders, defects) whose tiny minority can dominate the fate of the whole material; the semiconductor industry is, at bottom, the business of controlling exactly these. If arrangement holds this much power, the first job of materials science is to acquire a language to <em>describe</em> arrangements and a method to <em>measure</em> them. This page builds both from zero. What a crystal is, and the grammar of arrangements: lattice and basis (<b>§00</b>). The fingerprint an arrangement presses into a wave: interference and the reciprocal lattice (<b>§01</b>). Measuring the arrangement: diffraction photographs the reciprocal lattice (<b>§02</b>). The waves that <em>live inside</em> the crystal: sampling, and the Brillouin zone (<b>§03</b>). And at the end, the doorway to <em>why</em> arrangement dictates properties, handed over to the companion page, <a href="/learn/graphene-v2/">Electronic Structure of Graphene Ⅱ</a> (<b>§04</b>).</span><span class="i18n-ja">周期表に並ぶ元素は、たかだか100種類ほどしかない。ところが、そこから生まれてくる材料のほうは、事実上、数えきれないほど多彩だ。硬いもの、よく伸びるもの、透き通ったもの、電気を流すもの、まったく流さないもの。たったこれだけの部品から、どうしてこれほど多様な顔ぶれが出てくるのだろうか。しかも、その裏にはもっと不思議な事実が隠れている。<b>まったく同じ元素だけからできているのに、まるで別物としか思えない材料どうしが存在する</b>のだ。ダイヤモンドは純粋な炭素のかたまりで、透明で、電気を通さず、地上で最も硬い。鉛筆の芯（黒鉛）もまた純粋な炭素だが、こちらは黒く、電気を通し、紙の上でこすれて剥がれ落ちるほど柔らかい。並んでいる成分はまったく同じなのだから、両者を分けているものは、もはや中身ではありえない。残された可能性はただひとつ、<b>原子の並び方</b>である。しかも、この「並び方」というものは、それ自体でひとつの奥深い世界をなしている。同じ模様をどこまでも整然と繰り返すもの（結晶）もあれば、でたらめな配置のまま凍りついたように固まったもの（ガラスやアモルファス固体）もある。さらに、整然と並んだ列のなかにまぎれこんだ、ほんの少数の「はぐれもの」（抜け落ちた原子や、よそから入りこんだ別の原子。いわゆる欠陥や不純物だ）が、数こそわずかでも、材料全体の運命を握ってしまうことさえある。これほどまでに並び方がものを言うのなら、私たちがまずやるべきことは、はっきりしている。並び方を正確に<em>言い表す</em>ための言葉と、並び方を実際に<em>測る</em>ための手段、その両方を手に入れることだ。</span></p>
     </div>
@@ -335,7 +335,7 @@
     </div>
     <div class="demo-stage">
       <div class="me-prose">
-        <p><span class="i18n-en">So here is the handover. Graphene is the triangular lattice with a two-atom basis (§00). Its Brillouin zone is the hexagon you manufactured in §03. On the companion page, electrons hop across that two-atom basis, their states are cataloged by this very hexagon, and at its six corners, three interfering hopping paths cancel exactly, with consequences strange enough to earn a Nobel Prize. The stage is yours: <a href="/learn/graphene-v2/"><b>Electronic Structure of Graphene Ⅱ: From a Single Bond to the Dirac Cone</b></a>. And with that, the loop back to this page's opening closes: the companion page begins with the very same riddle  (diamond and pencil lead, one element, two materials) and shows, for one particular arrangement of carbon, exactly how the arrangement dictates what the electrons may do.</span><span class="i18n-ja">それでは、いよいよ受け渡しである。グラフェンとは、2原子の基底を載せた三角格子のことだった（§00）。そのブリルアンゾーンは、§03であなた自身が組み上げた、あの六角形である。姉妹ページでは、電子がこの2原子の基底の上を飛び移っていく。その状態たちは、まさにこの六角形の上に整理され、しかも六角形の6つの角では、3本の干渉しあうホッピング経路が、きっかり打ち消し合う。その帰結は、ノーベル賞に値するほど奇妙なものだ。舞台はもう、あなたのものである。「<a href="/learn/graphene-v2/"><b>グラフェンの電子構造 Ⅱ — 結合1本からディラック錐へ</b></a>」へどうぞ。これで、このページの冒頭へとぐるりと輪がつながる。姉妹ページもまた、まったく同じ謎（ダイヤモンドと鉛筆の芯、同じ元素なのに別々の材料）から幕を開け、炭素のあるひとつの並び方について、その並び方が電子に何を許すのかを、最後まで見届けるのである。</span></p>
+        <p><span class="i18n-en">So here is the handover. Graphene is the triangular lattice with a two-atom basis (§00). Its Brillouin zone is the hexagon you manufactured in §03. On the companion page, electrons hop across that two-atom basis, their states are cataloged by this very hexagon, and at its six corners, three interfering hopping paths cancel exactly, with consequences strange enough to earn a Nobel Prize. The stage is yours: <a href="/learn/graphene-v2/"><b>Electronic Structure of Graphene II</b></a>. And with that, the loop back to this page's opening closes: the companion page begins with the very same riddle  (diamond and pencil lead, one element, two materials) and shows, for one particular arrangement of carbon, exactly how the arrangement dictates what the electrons may do.</span><span class="i18n-ja">それでは、いよいよ受け渡しである。グラフェンとは、2原子の基底を載せた三角格子のことだった（§00）。そのブリルアンゾーンは、§03であなた自身が組み上げた、あの六角形である。姉妹ページでは、電子がこの2原子の基底の上を飛び移っていく。その状態たちは、まさにこの六角形の上に整理され、しかも六角形の6つの角では、3本の干渉しあうホッピング経路が、きっかり打ち消し合う。その帰結は、ノーベル賞に値するほど奇妙なものだ。舞台はもう、あなたのものである。「<a href="/learn/graphene-v2/"><b>グラフェンの電子構造 II</b></a>」へどうぞ。これで、このページの冒頭へとぐるりと輪がつながる。姉妹ページもまた、まったく同じ謎（ダイヤモンドと鉛筆の芯、同じ元素なのに別々の材料）から幕を開け、炭素のあるひとつの並び方について、その並び方が電子に何を許すのかを、最後まで見届けるのである。</span></p>
       </div>
       <div class="callout recap cv-daikake">
         <span class="co-label"><span class="i18n-en">The ledger of this page, in three lines</span><span class="i18n-ja">このページの要点を、3行で</span></span>

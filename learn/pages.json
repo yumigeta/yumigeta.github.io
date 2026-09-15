@@ -28,8 +28,11 @@
           "name_en": "Electronic States",
           "name_ja": "電子状態",
           "pages": [
+            "free-electron",
+            "nearly-free-electron",
+            "fermi-level",
             "band-formation",
-            "fermi-level"
+            "kronig-penney"
           ]
         },
         {
@@ -44,6 +47,10 @@
               "name_ja": "ラマン散乱",
               "pages": [
                 "raman",
+                "raman-vibrational-quantum",
+                "raman-khd",
+                "raman-placzek",
+                "raman-resonance",
                 "raman-quantum"
               ]
             }
@@ -65,15 +72,30 @@
             "graphene-geometry",
             "graphene-tight-binding",
             "graphene-dirac-cone",
-            "graphene-raman",
             "graphene-phonon-emission"
+          ],
+          "groups": [
+            {
+              "id": "graphene-raman-series",
+              "name_en": "Raman Spectroscopy",
+              "name_ja": "ラマン分光",
+              "pages": [
+                "graphene-raman-spectrum",
+                "graphene-raman-g",
+                "graphene-raman-double-resonance",
+                "graphene-raman-layers",
+                "graphene-raman-defects",
+                "graphene-raman-strain-doping"
+              ]
+            }
           ]
         },
         {
           "name_en": "Nanoribbons",
           "name_ja": "GNR",
           "pages": [
-            "graphene-nanoribbons"
+            "graphene-nanoribbons",
+            "graphene-nanoribbon-bands"
           ]
         },
         {
@@ -255,8 +277,8 @@
       "layoutType": "concept",
       "color": "foundation",
       "published": false,
-      "title_en": "Crystal Structure in 2D: Lattices, Symmetry & the Brillouin Zone",
-      "title_ja": "2次元の結晶構造：格子・対称性・ブリルアンゾーン",
+      "title_en": "Crystal Structure in 2D",
+      "title_ja": "2次元の結晶構造",
       "nav_en": "Crystal Structure (2D)",
       "nav_ja": "2次元の結晶構造",
       "level_en": "Intro",
@@ -317,7 +339,7 @@
         "graphene-nanoribbons",
         "raman",
         "angle-resolved-raman",
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "band-formation",
         "phonon"
       ],
@@ -333,6 +355,133 @@
       "isVariantOf": ""
     },
     {
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
+      "published": false,
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "referenceLinks": [],
+      "isVariantOf": "",
+      "slug": "free-electron",
+      "title_en": "The Free Electron",
+      "title_ja": "イオンを忘れた電子は何をするか",
+      "nav_en": "The Free Electron",
+      "nav_ja": "自由電子",
+      "readingTime_en": "10 min",
+      "readingTime_ja": "10分",
+      "summary_en": "Start with one electron in an empty box. See why its energy is an unbroken parabola, count the allowed wave patterns, turn that count into a density of states, and watch confinement change the result in 3D, 2D, 1D and 0D.",
+      "summary_ja": "何もない箱の中の電子から始める。エネルギーが一本の放物線になる理由、許される波の数え方、状態密度への直し方を順にたどり、閉じ込めによって3次元・2次元・1次元・0次元の見え方がどう変わるかを見る。",
+      "theme": [
+        "free-electron",
+        "state-counting"
+      ],
+      "prerequisites": [],
+      "basicsUsed": [
+        {
+          "label_en": "Plane waves & wavenumber",
+          "label_ja": "平面波と波数"
+        },
+        {
+          "label_en": "Periodic boundary conditions",
+          "label_ja": "周期境界条件"
+        },
+        {
+          "label_en": "Density of states",
+          "label_ja": "状態密度"
+        }
+      ],
+      "nextLinks": {
+        "theory": [
+          "nearly-free-electron",
+          "fermi-level"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "nearly-free-electron",
+        "fermi-level",
+        "kronig-penney"
+      ],
+      "tags": [
+        "#Concept",
+        "#FreeElectron",
+        "#DensityOfStates",
+        "#BandStructure"
+      ]
+    },
+    {
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
+      "published": false,
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "referenceLinks": [],
+      "isVariantOf": "",
+      "slug": "nearly-free-electron",
+      "title_en": "Is a Weak Periodic Potential Just a Small Correction?",
+      "title_ja": "弱い周期ポテンシャルは小さな補正で済むのか",
+      "nav_en": "Nearly Free Electrons",
+      "nav_ja": "ほぼ自由な電子",
+      "readingTime_en": "9 min",
+      "readingTime_ja": "9分",
+      "summary_en": "Put the ions back as a weak repeating energy landscape. The free-electron curve folds into one zone; where two waves meet at the zone edge, they split into standing waves with different energies and open a gap.",
+      "summary_ja": "イオンを、弱く繰り返すエネルギーの地形として戻す。自由電子の曲線を一つのゾーンへ折り畳み、端で出会う二つの波が、エネルギーの異なる定在波に分かれて隙間を開く様子を見る。",
+      "theme": [
+        "nearly-free-electron",
+        "band-gap",
+        "bloch-theorem"
+      ],
+      "prerequisites": [
+        "free-electron",
+        "crystal-structure"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Fourier components of a periodic potential",
+          "label_ja": "周期ポテンシャルのフーリエ成分"
+        },
+        {
+          "label_en": "Bloch's theorem & the Brillouin zone",
+          "label_ja": "Bloch の定理とブリルアンゾーン"
+        },
+        {
+          "label_en": "Degenerate perturbation (2×2)",
+          "label_ja": "縮退摂動論（2×2）"
+        },
+        {
+          "label_en": "Bragg reflection",
+          "label_ja": "ブラッグ反射"
+        }
+      ],
+      "nextLinks": {
+        "theory": [
+          "fermi-level",
+          "kronig-penney"
+        ],
+        "application": [],
+        "experiment": [
+          "crystal-structure-v2"
+        ],
+        "frontier": []
+      },
+      "usedBy": [
+        "fermi-level",
+        "band-formation",
+        "kronig-penney"
+      ],
+      "tags": [
+        "#Concept",
+        "#NearlyFreeElectron",
+        "#BandGap",
+        "#BlochTheorem",
+        "#BrillouinZone"
+      ]
+    },
+    {
       "slug": "band-formation",
       "category": "concepts",
       "layoutType": "concept",
@@ -344,15 +493,16 @@
       "nav_ja": "バンドの成り立ち",
       "level_en": "Intro",
       "level_ja": "入門",
-      "readingTime_en": "12 min",
-      "readingTime_ja": "12分",
-      "summary_en": "Why a single atomic energy level spreads into one continuous band once atoms are arranged periodically: a 1D tight-binding derivation (LCAO, Bloch's theorem, on-site energy ε and nearest-neighbour hopping t), ending at E(k) = ε − 2t cos(ka).",
-      "summary_ja": "孤立した原子の一つの準位が、原子を1次元に周期的に並べるとなぜ1本のエネルギーバンドに広がるのか。LCAO、ブロッホの定理、オンサイトエネルギー ε と最近接ホッピング t による1次元タイトバインディングの導出で、E(k) = ε − 2t cos(ka) に至る。",
+      "readingTime_en": "11 min",
+      "readingTime_ja": "11分",
+      "summary_en": "Start from one atomic electron wave. Two atoms make two energy levels; N atoms make N. Repetition then organizes those levels into a cosine-shaped band, while the controls show how spacing, hopping and crystal size change it.",
+      "summary_ja": "一つの原子に集まった電子の波から始める。原子が二つなら準位は二本、N個ならN本になる。周期的に並べると、それらが余弦形のバンドにまとまる。原子間隔、移りやすさ、結晶の大きさがバンドをどう変えるかも図で確かめる。",
       "theme": [
         "band-structure",
         "tight-binding"
       ],
       "prerequisites": [
+        "nearly-free-electron",
         "crystal-structure"
       ],
       "basicsUsed": [
@@ -370,7 +520,7 @@
         },
         {
           "label_en": "Tight-binding method",
-          "label_ja": "タイトバインディング法"
+          "label_ja": "強結合近似"
         },
         {
           "label_en": "Dispersion relation & energy band",
@@ -380,7 +530,7 @@
       "referenceLinks": [],
       "nextLinks": {
         "theory": [
-          "fermi-level"
+          "kronig-penney"
         ],
         "application": [
           "graphene-geometry"
@@ -389,6 +539,7 @@
         "frontier": []
       },
       "usedBy": [
+        "kronig-penney",
         "graphene-geometry",
         "graphene-tight-binding",
         "graphene",
@@ -404,37 +555,108 @@
       "isVariantOf": ""
     },
     {
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "foundation",
+      "published": false,
+      "level_en": "Intro",
+      "level_ja": "入門",
+      "referenceLinks": [],
+      "isVariantOf": "",
+      "slug": "kronig-penney",
+      "title_en": "The Kronig–Penney Model",
+      "title_ja": "二つの道は同じバンドにつながっているのか",
+      "nav_en": "Kronig–Penney",
+      "nav_ja": "クローニッヒ・ペニー模型",
+      "readingTime_en": "8 min",
+      "readingTime_ja": "8分",
+      "summary_en": "Turn one barrier-strength knob to connect the two band pictures. With no barriers the free-electron curve returns; weak barriers open gaps; strong barriers flatten the bands toward the levels of isolated boxes.",
+      "summary_ja": "壁の強さを一つのつまみで変え、二通りのバンドの見方をつなぐ。壁がなければ自由電子の曲線に戻り、弱い壁で隙間が開き、強い壁ではバンドが平らになって孤立した箱の準位へ近づく。",
+      "theme": [
+        "kronig-penney",
+        "band-structure",
+        "tight-binding",
+        "nearly-free-electron"
+      ],
+      "prerequisites": [
+        "band-formation",
+        "nearly-free-electron"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Delta-function potential matching",
+          "label_ja": "デルタ関数ポテンシャルの接続条件"
+        },
+        {
+          "label_en": "Bloch condition across a cell",
+          "label_ja": "一周期にわたる Bloch 条件"
+        },
+        {
+          "label_en": "Particle-in-a-box levels",
+          "label_ja": "箱の中の準位"
+        }
+      ],
+      "nextLinks": {
+        "theory": [],
+        "application": [
+          "graphene-geometry",
+          "graphene-tight-binding"
+        ],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-tight-binding"
+      ],
+      "tags": [
+        "#Concept",
+        "#KronigPenney",
+        "#BandStructure",
+        "#TightBinding",
+        "#NearlyFreeElectron"
+      ]
+    },
+    {
       "slug": "fermi-level",
       "category": "concepts",
       "layoutType": "concept",
       "color": "foundation",
       "published": false,
-      "planned": true,
-      "title_en": "What Is the Fermi Level?",
-      "title_ja": "フェルミ準位とは",
+      "title_en": "How Far Up Do the Electrons Fill?",
+      "title_ja": "電子はどこまで詰まるのか",
       "nav_en": "The Fermi Level",
-      "nav_ja": "フェルミ準位とは",
+      "nav_ja": "フェルミ準位",
       "level_en": "Intro",
       "level_ja": "入門",
-      "readingTime_en": "soon",
-      "readingTime_ja": "準備中",
-      "summary_en": "What the Fermi level actually is, how band filling decides whether a material is a metal, insulator, or semimetal, and why it sits exactly at graphene's band-touching points.",
-      "summary_ja": "フェルミ準位とは何か、バンドの占有が金属・絶縁体・半金属を分ける仕組み、そしてなぜグラフェンではバンドの接点にぴたりと来るのか。",
+      "readingTime_en": "8 min",
+      "readingTime_ja": "8分",
+      "summary_en": "Treat the bands as available seats and fill them from the bottom. This locates the Fermi level, explains the simplest difference between metals and insulators, and shows how temperature, doping and a gate voltage change the filling.",
+      "summary_ja": "バンドを電子の席と考え、低い方から埋める。これでフェルミ準位の位置、金属と絶縁体の最も単純な違いが分かる。温度、ドーピング、ゲート電圧で埋まり方がどう変わるかも見る。",
       "theme": [
         "fermi-level",
-        "band-filling"
+        "band-filling",
+        "density-of-states"
       ],
       "prerequisites": [
-        "band-formation"
+        "nearly-free-electron",
+        "free-electron"
       ],
       "basicsUsed": [
         {
-          "label_en": "Band filling & occupation",
-          "label_ja": "バンドの占有"
+          "label_en": "Pauli exclusion & band capacity 2N",
+          "label_ja": "Pauli の排他原理とバンドの容量 2N"
         },
         {
-          "label_en": "Metal / insulator / semimetal",
-          "label_ja": "金属・絶縁体・半金属"
+          "label_en": "Fermi energy & Fermi wavevector",
+          "label_ja": "フェルミエネルギーとフェルミ波数"
+        },
+        {
+          "label_en": "Metal / insulator / semiconductor",
+          "label_ja": "金属・絶縁体・半導体"
+        },
+        {
+          "label_en": "Fermi–Dirac distribution",
+          "label_ja": "Fermi–Dirac 分布"
         },
         {
           "label_en": "Density of states at E_F",
@@ -443,10 +665,14 @@
       ],
       "referenceLinks": [],
       "nextLinks": {
-        "theory": [],
+        "theory": [
+          "band-formation"
+        ],
         "application": [
+          "graphene-tight-binding",
           "graphene",
-          "graphene-v2"
+          "gate-dielectrics",
+          "schottky"
         ],
         "experiment": [],
         "frontier": []
@@ -454,13 +680,16 @@
       "usedBy": [
         "graphene",
         "graphene-v2",
+        "graphene-tight-binding",
         "schottky",
-        "gate-dielectrics"
+        "gate-dielectrics",
+        "graphene-raman-strain-doping"
       ],
       "tags": [
         "#Concept",
         "#FermiLevel",
-        "#BandFilling"
+        "#BandFilling",
+        "#DensityOfStates"
       ],
       "isVariantOf": ""
     },
@@ -506,7 +735,7 @@
       "nextLinks": {
         "theory": [],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "raman"
@@ -515,7 +744,7 @@
       },
       "usedBy": [
         "raman",
-        "graphene-raman"
+        "graphene-raman-spectrum"
       ],
       "tags": [
         "#Concept",
@@ -531,8 +760,8 @@
       "layoutType": "concept",
       "color": "foundation",
       "published": false,
-      "title_en": "Crystal Structure II — Same Element, Different Material: Why Arrangement Decides",
-      "title_ja": "結晶構造の基礎 II ― 同じ元素、違う材料：並び方が決める",
+      "title_en": "Crystal Structure II",
+      "title_ja": "結晶構造の基礎 II",
       "nav_en": "Crystal Structure II",
       "nav_ja": "結晶構造の基礎 II",
       "level_en": "Standard",
@@ -593,7 +822,7 @@
         "graphene",
         "graphene-v2",
         "graphene-nanoribbons",
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "angle-resolved-raman"
       ],
       "tags": [
@@ -661,7 +890,7 @@
           "raman-quantum"
         ],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "angle-resolved-raman"
@@ -692,9 +921,9 @@
       "color": "material",
       "published": true,
       "title_en": "Geometry of Graphene",
-      "title_ja": "グラフェンの幾何学",
+      "title_ja": "グラフェンの幾何",
       "nav_en": "Graphene Geometry",
-      "nav_ja": "グラフェンの幾何学",
+      "nav_ja": "グラフェンの幾何",
       "level_en": "Standard",
       "level_ja": "標準",
       "readingTime_en": "20 min",
@@ -736,7 +965,9 @@
         "experiment": [],
         "frontier": []
       },
-      "usedBy": [],
+      "usedBy": [
+        "graphene-raman-spectrum"
+      ],
       "tags": [
         "#Theme",
         "#Graphene",
@@ -856,7 +1087,12 @@
         "experiment": [],
         "frontier": []
       },
-      "usedBy": [],
+      "usedBy": [
+        "graphene-raman-spectrum",
+        "graphene-raman-g",
+        "graphene-raman-double-resonance",
+        "graphene-raman-strain-doping"
+      ],
       "tags": [
         "#Theme",
         "#Graphene",
@@ -866,6 +1102,59 @@
       ],
       "isVariantOf": "",
       "lastmod": "2026-09-11"
+    },
+    {
+      "slug": "graphene-nanoribbon-bands",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Electronic Structure of Graphene Nanoribbons",
+      "title_ja": "グラフェンナノリボンの電子構造",
+      "nav_en": "Nanoribbon Bands",
+      "nav_ja": "GNRの電子構造",
+      "level_en": "Advancing",
+      "level_ja": "やや発展",
+      "readingTime_en": "35 min",
+      "readingTime_ja": "35分",
+      "summary_en": "Follow the atomic bonds and boundary conditions of armchair and zigzag graphene nanoribbons to derive their subbands, width families and edge states.",
+      "summary_ja": "端に残った原子の結合から、アームチェアとジグザグの境界条件を導く。幅方向の定在波、サブバンドのギャップ、端に集まる状態を、原子配置からの計算と比較する。",
+      "theme": [
+        "graphene",
+        "nanoribbon",
+        "quantum-confinement"
+      ],
+      "prerequisites": [
+        "graphene-tight-binding",
+        "graphene-geometry"
+      ],
+      "basicsUsed": [
+        {
+          "label_en": "Complex probability amplitudes",
+          "label_ja": "複素数の確率振幅"
+        },
+        {
+          "label_en": "Bloch phases",
+          "label_ja": "格子並進による位相"
+        }
+      ],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#GNR",
+        "#QuantumConfinement",
+        "#EdgeStates",
+        "#BandGap"
+      ],
+      "lastmod": "2026-09-12"
     },
     {
       "slug": "graphene-nanoribbons",
@@ -911,7 +1200,7 @@
         },
         {
           "label_en": "Tight-binding dispersion",
-          "label_ja": "強結合分散"
+          "label_ja": "強結合近似の分散"
         },
         {
           "label_en": "Edge states",
@@ -925,7 +1214,7 @@
           "crystal-structure-v2"
         ],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [],
         "frontier": [
@@ -941,91 +1230,6 @@
         "#ZoneFolding",
         "#EdgeStates",
         "#BandGap"
-      ],
-      "isVariantOf": ""
-    },
-    {
-      "slug": "graphene-raman",
-      "category": "themes",
-      "layoutType": "theme",
-      "color": "material",
-      "published": false,
-      "title_en": "Raman Spectroscopy of Graphene",
-      "title_ja": "グラフェンのラマン分光",
-      "nav_en": "Graphene Raman",
-      "nav_ja": "グラフェンのラマン分光",
-      "level_en": "Standard",
-      "level_ja": "標準",
-      "readingTime_en": "18 min",
-      "readingTime_ja": "18分",
-      "summary_en": "How the G, 2D, and D bands arise from graphene's phonon dispersion, how double resonance and defect activation explain them, and how to read layer number, defect density, strain, and doping from a single spectrum, extended to nanoribbons via zone folding.",
-      "summary_ja": "グラフェンのフォノン分散からG・2D・Dバンドがどう生じるか、二重共鳴と欠陥活性化による説明、そして1枚のスペクトルから層数・欠陥密度・ひずみ・ドーピングを読み取る方法。ゾーンフォールディングを通じてナノリボンへも拡張する。",
-      "theme": [
-        "graphene",
-        "raman"
-      ],
-      "prerequisites": [
-        "graphene",
-        "raman",
-        "phonon"
-      ],
-      "basicsUsed": [
-        {
-          "label_en": "Phonon dispersion & branches (iTO/iLO/LA)",
-          "label_ja": "フォノン分散とブランチ（iTO/iLO/LA）"
-        },
-        {
-          "label_en": "Brillouin zone, Γ and K points",
-          "label_ja": "ブリルアンゾーン、Γ点とK点"
-        },
-        {
-          "label_en": "Momentum conservation & inter/intra-valley scattering",
-          "label_ja": "運動量保存と谷間・谷内散乱"
-        },
-        {
-          "label_en": "Double resonance Raman",
-          "label_ja": "二重共鳴ラマン"
-        },
-        {
-          "label_en": "Electron–phonon coupling / Kohn anomaly",
-          "label_ja": "電子-フォノン結合・コーン異常"
-        },
-        {
-          "label_en": "Zone folding & quantum confinement",
-          "label_ja": "ゾーンフォールディングと量子閉じ込め"
-        }
-      ],
-      "referenceLinks": [
-        "spectral-noise",
-        "measurement-error",
-        "peak-fitting"
-      ],
-      "nextLinks": {
-        "theory": [
-          "raman-quantum"
-        ],
-        "application": [
-          "graphene-nanoribbons"
-        ],
-        "experiment": [
-          "angle-resolved-raman",
-          "spectral-noise"
-        ],
-        "frontier": [
-          "graphene-phonon-emission"
-        ]
-      },
-      "usedBy": [
-        "graphene-nanoribbons"
-      ],
-      "tags": [
-        "#Theme",
-        "#Graphene",
-        "#Raman",
-        "#PhononDispersion",
-        "#DoubleResonance",
-        "#Defects",
-        "#StrainDoping"
       ],
       "isVariantOf": ""
     },
@@ -1196,8 +1400,8 @@
       "layoutType": "theme",
       "color": "device",
       "published": false,
-      "title_en": "The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors",
-      "title_ja": "ファンデルワールスギャップ：2次元トランジスタの限界を握る1.4Åの真空",
+      "title_en": "The van der Waals Gap",
+      "title_ja": "ファンデルワールスギャップ",
       "nav_en": "van der Waals Gap",
       "nav_ja": "vdWギャップ",
       "level_en": "Advanced",
@@ -1324,7 +1528,7 @@
         ],
         "application": [
           "graphene",
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [],
         "frontier": []
@@ -1395,10 +1599,11 @@
       "referenceLinks": [],
       "nextLinks": {
         "theory": [
+          "raman-vibrational-quantum",
           "raman-quantum"
         ],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "angle-resolved-raman"
@@ -1410,7 +1615,9 @@
       "usedBy": [
         "raman-quantum",
         "angle-resolved-raman",
-        "graphene-raman"
+        "graphene-raman-spectrum",
+        "graphene-raman-g",
+        "raman-vibrational-quantum"
       ],
       "tags": [
         "#Concept",
@@ -1423,6 +1630,199 @@
       ],
       "isVariantOf": "",
       "lastmod": "2026-09-09"
+    },
+    {
+      "slug": "raman-vibrational-quantum",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": false,
+      "title_en": "Raman Scattering and Vibrational Quantization",
+      "title_ja": "ラマン散乱と振動の量子化",
+      "nav_en": "Vibrational Raman Theory",
+      "nav_ja": "振動ラマンの量子論",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "question_en": "How does vibrational quantization explain the unequal Stokes and anti-Stokes strengths?",
+      "question_ja": "振動を量子化すると、ストークスと反ストークスの強さの違いはどう説明できるか？",
+      "summary_en": "Vibrational quantization explains Stokes and anti-Stokes intensities, their temperature dependence, and the recovery of classical Raman theory.",
+      "summary_ja": "古典論で等しかったストークス・反ストークスの振動振幅が、量子化によりどのように変わるのか。振動準位、遷移行列要素、温度依存を導き、高温で古典論に戻ることを確かめる。",
+      "theme": [
+        "raman",
+        "quantum",
+        "optics"
+      ],
+      "prerequisites": [
+        "raman"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "raman-khd"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Quantum",
+        "#StokesAntiStokes",
+        "#Polarizability"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-13"
+    },
+    {
+      "slug": "raman-khd",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": false,
+      "title_en": "Raman Scattering with Quantized Light and the KHD Formula",
+      "title_ja": "ラマン散乱と光の量子化",
+      "nav_en": "Quantized Light & KHD",
+      "nav_ja": "光の量子化とKHD式",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "question_en": "How do Raman scattering and its intermediate states follow from quantized light and matter?",
+      "question_ja": "光と分子の量子論から、ラマン散乱とその中間状態はどう導かれるか？",
+      "summary_en": "Follow one Raman event from photon-number states to the Kramers–Heisenberg–Dirac formula: two interactions, two operator orderings, time integrals, energy denominators, and virtual intermediate states.",
+      "summary_ja": "光子数状態から出発し、2回の相互作用、2種類の作用順序、時間積分、エネルギー分母を経てKramers–Heisenberg–Dirac式を導く。仮想中間状態が振幅の中に現れる意味も説明する。",
+      "theme": [
+        "raman",
+        "quantum",
+        "optics"
+      ],
+      "prerequisites": [
+        "raman",
+        "raman-vibrational-quantum"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "raman-placzek"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "raman-placzek"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Quantum",
+        "#KHD",
+        "#PerturbationTheory"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-14"
+    },
+    {
+      "slug": "raman-placzek",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": false,
+      "title_en": "From the KHD Formula to Placzek Polarizability Theory",
+      "title_ja": "KHD式からPlaczek分極率理論へ",
+      "nav_en": "KHD to Placzek",
+      "nav_ja": "KHD式からPlaczek理論へ",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "",
+      "readingTime_ja": "",
+      "question_en": "Under what conditions does the quantum scattering amplitude become a polarizability matrix element?",
+      "question_ja": "完全な量子論の散乱振幅は、どの条件で分極率の行列要素になるか？",
+      "summary_en": "Separate electronic and vibrational states, then use the adiabatic and non-resonant approximations and vibrational completeness to derive transition polarizabilities from KHD and connect them to the coordinate expansion.",
+      "summary_ja": "電子状態と振動状態を分け、断熱近似と非共鳴条件のもとで中間振動状態の完全性を使う。KHD式から遷移分極率を導き、分極率の振動座標による展開へつなぐ。",
+      "theme": [
+        "raman",
+        "quantum",
+        "optics"
+      ],
+      "prerequisites": [
+        "raman-khd"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "raman-resonance"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "raman-resonance"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Quantum",
+        "#Polarizability",
+        "#RamanTensor"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-13",
+      "planned": true
+    },
+    {
+      "slug": "raman-resonance",
+      "category": "concepts",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": false,
+      "title_en": "Resonance Raman Scattering",
+      "title_ja": "共鳴ラマン散乱",
+      "nav_en": "Resonance Raman",
+      "nav_ja": "共鳴ラマン散乱",
+      "level_en": "Advanced",
+      "level_ja": "発展",
+      "readingTime_en": "",
+      "readingTime_ja": "",
+      "question_en": "What changes at resonance, and why can different vibrations and overtones become strong?",
+      "question_ja": "共鳴すると何が変わり、なぜ異なる振動や倍音が強く現れるのか？",
+      "summary_en": "Distinguish non-resonant, pre-resonant, and resonant scattering and why the Placzek approximation fails near resonance. Use vibronic states, Franck–Condon factors, Herzberg–Teller coupling, and Albrecht A and B terms to explain changing intensities and selection rules.",
+      "summary_ja": "非共鳴・前期共鳴・真正共鳴を区別し、共鳴でPlaczek近似が破れる理由を考える。振電状態、Franck–Condon因子、Herzberg–Teller相互作用、Albrecht A項・B項から強度と選択則の変化を扱う。",
+      "theme": [
+        "raman",
+        "quantum",
+        "optics"
+      ],
+      "prerequisites": [
+        "raman-placzek"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#Quantum",
+        "#ResonanceRaman",
+        "#SelectionRule"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-13",
+      "planned": true
     },
     {
       "slug": "raman-quantum",
@@ -1485,7 +1885,7 @@
           "laser"
         ],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "angle-resolved-raman",
@@ -1496,7 +1896,7 @@
         ]
       },
       "usedBy": [
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "angle-resolved-raman",
         "graphene-phonon-emission"
       ],
@@ -1577,7 +1977,7 @@
         "spectral-noise",
         "peak-fitting",
         "angle-resolved-raman",
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "gate-dielectrics",
         "schottky"
       ],
@@ -1598,8 +1998,8 @@
       "layoutType": "handbook",
       "color": "reference",
       "published": false,
-      "title_en": "Noisy Spectra: Acquisition Time vs Accumulation",
-      "title_ja": "ノイズの多いスペクトル：取得時間と積算回数",
+      "title_en": "Noise in Spectral Measurements",
+      "title_ja": "スペクトル測定のノイズ",
       "nav_en": "Noisy Spectra & SNR",
       "nav_ja": "ノイズとSN比",
       "level_en": "Reference",
@@ -1648,7 +2048,7 @@
       "nextLinks": {
         "theory": [],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "measurement-error",
@@ -1658,7 +2058,7 @@
         "frontier": []
       },
       "usedBy": [
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "angle-resolved-raman",
         "peak-fitting"
       ],
@@ -1723,7 +2123,7 @@
       "nextLinks": {
         "theory": [],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "spectral-noise",
@@ -1732,7 +2132,7 @@
         "frontier": []
       },
       "usedBy": [
-        "graphene-raman"
+        "graphene-raman-spectrum"
       ],
       "tags": [
         "#Handbook",
@@ -1758,7 +2158,7 @@
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
       "summary_en": "Build graphene's band structure from scratch: a tight-binding derivation on the honeycomb lattice that produces the Dirac cones at K, explains why the Fermi level sits exactly at the band-touching points, and reveals what “massless” electrons actually means.",
-      "summary_ja": "ハニカム格子上のタイトバインディング計算でグラフェンのバンド構造をゼロから組み立て、K点のディラック錐、フェルミ準位が接点にぴったり来る理由、そして「質量ゼロ」電子の正体（質量＝バンドの曲率、擬スピン）を解き明かす。",
+      "summary_ja": "ハニカム格子上の強結合近似による計算でグラフェンのバンド構造をゼロから組み立て、K点のディラック錐、フェルミ準位が接点にぴったり来る理由、そして「質量ゼロ」電子の正体（質量＝バンドの曲率、擬スピン）を解き明かす。",
       "theme": [
         "graphene",
         "band-structure",
@@ -1789,7 +2189,7 @@
         },
         {
           "label_en": "Tight-binding / hopping energy",
-          "label_ja": "タイトバインディング・ホッピング"
+          "label_ja": "強結合近似・ホッピング"
         },
         {
           "label_en": "Fermi level & band filling",
@@ -1807,7 +2207,7 @@
         ],
         "application": [
           "graphene-nanoribbons",
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [],
         "frontier": [
@@ -1816,7 +2216,7 @@
       },
       "usedBy": [
         "graphene-nanoribbons",
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "graphene-phonon-emission"
       ],
       "tags": [
@@ -1836,8 +2236,8 @@
       "layoutType": "handbook",
       "color": "optical",
       "published": false,
-      "title_en": "Angle-Resolved Raman: Reading Crystal Symmetry",
-      "title_ja": "角度分解ラマン：結晶対称性を読む",
+      "title_en": "Angle-Resolved Raman Spectroscopy",
+      "title_ja": "角度分解ラマン分光",
       "nav_en": "Angle-Resolved Raman",
       "nav_ja": "角度分解ラマン",
       "level_en": "Advanced",
@@ -1891,7 +2291,7 @@
           "raman-quantum"
         ],
         "application": [
-          "graphene-raman",
+          "graphene-raman-spectrum",
           "graphene-nanoribbons"
         ],
         "experiment": [
@@ -1901,7 +2301,7 @@
         "frontier": []
       },
       "usedBy": [
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "graphene-nanoribbons"
       ],
       "tags": [
@@ -1921,8 +2321,8 @@
       "layoutType": "theme",
       "color": "material",
       "published": false,
-      "title_en": "Electronic Structure of Graphene II — From a Single Bond to the Dirac Cone",
-      "title_ja": "グラフェンの電子構造 II — 結合一本からディラック錐まで",
+      "title_en": "Electronic Structure of Graphene II",
+      "title_ja": "グラフェンの電子構造 II",
       "nav_en": "Why Graphene Is a Semimetal",
       "nav_ja": "なぜ金属でも絶縁体でもないのか",
       "level_en": "Standard",
@@ -1930,7 +2330,7 @@
       "readingTime_en": "20 min",
       "readingTime_ja": "20分",
       "summary_en": "Build graphene's band structure by pure addition (one bond splitting into bonding/antibonding, a ring of atoms becoming a band, the honeycomb's three phase arrows, the tight-binding derivation) to see why graphene is neither metal nor insulator but a semimetal with Dirac cones at K and K′.",
-      "summary_ja": "結合一本が結合・反結合に割れるところから、原子の輪がバンドになり、蜂の巣の三本の位相矢印、そしてタイトバインディングの導出まで、足し算だけでグラフェンのバンド構造を組み上げる。なぜ金属でも絶縁体でもなく、K・K′点にディラック錐を持つ半金属になるのかがわかる。",
+      "summary_ja": "結合一本が結合・反結合に割れるところから、原子の輪がバンドになり、蜂の巣の三本の位相矢印、そして強結合近似によるバンドの導出まで、足し算だけでグラフェンのバンド構造を組み上げる。なぜ金属でも絶縁体でもなく、K・K′点にディラック錐を持つ半金属になるのかがわかる。",
       "theme": [
         "graphene",
         "band-structure",
@@ -1945,7 +2345,7 @@
       "basicsUsed": [
         {
           "label_en": "Tight-binding model",
-          "label_ja": "タイトバインディング模型"
+          "label_ja": "強結合近似"
         },
         {
           "label_en": "Bonding & antibonding states",
@@ -1974,7 +2374,7 @@
           "graphene-nanoribbons"
         ],
         "application": [
-          "graphene-raman"
+          "graphene-raman-spectrum"
         ],
         "experiment": [
           "angle-resolved-raman"
@@ -1985,7 +2385,7 @@
       },
       "usedBy": [
         "graphene-nanoribbons",
-        "graphene-raman",
+        "graphene-raman-spectrum",
         "graphene-phonon-emission"
       ],
       "tags": [
@@ -1998,7 +2398,270 @@
         "#BrillouinZone"
       ],
       "isVariantOf": ""
+    },
+    {
+      "slug": "graphene-raman-spectrum",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": true,
+      "title_en": "The Raman Spectrum of Graphene",
+      "title_ja": "グラフェンのラマンスペクトル",
+      "nav_en": "The Raman Spectrum of Graphene",
+      "nav_ja": "グラフェンのラマンスペクトル",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "Read a measured graphene Raman spectrum, identify the phonons behind G, D and 2D, and use wavevector balance to explain why 2D can appear without D.",
+      "summary_ja": "グラフェンの実測ラマンスペクトルの目盛りを読み、G・D・2D に対応するフォノンを調べる。作るフォノンの数と波数のつり合いから、D が観測されなくても 2D が現れる理由を追う。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "raman",
+        "graphene-geometry",
+        "graphene-dirac-cone"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman-g",
+        "graphene-raman-double-resonance",
+        "graphene-raman-layers",
+        "graphene-raman-defects",
+        "graphene-raman-strain-doping"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-15"
+    },
+    {
+      "slug": "graphene-raman-g",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "The G Band of Graphene",
+      "title_ja": "グラフェンのGバンド",
+      "nav_en": "The G Band of Graphene",
+      "nav_ja": "グラフェンのGバンド",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "A green laser and a red laser both give G at 1580 cm⁻¹. Follow the vibration in which the two carbons of a cell move oppositely, how it modulates the electronic polarization, and how it appears on the Dirac cone.",
+      "summary_ja": "緑のレーザーでも赤のレーザーでも G は 1580 cm⁻¹ に現れる。単位胞の二つの炭素が逆向きに動く振動が、電子の分極を変調して散乱光に現れるまでを、3D の格子とディラックコーンの上で追う。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene-raman-spectrum",
+        "raman",
+        "graphene-dirac-cone"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman-strain-doping",
+        "graphene-raman-double-resonance"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-12"
+    },
+    {
+      "slug": "graphene-raman-double-resonance",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "The D and 2D Bands of Graphene",
+      "title_ja": "グラフェンのDバンドと2Dバンド",
+      "nav_en": "The D and 2D Bands of Graphene",
+      "nav_ja": "グラフェンのDバンドと2Dバンド",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "20 min",
+      "readingTime_ja": "20分",
+      "summary_en": "Change the laser colour and 2D moves. Follow how the electron on the Dirac cone, at a radius set by the photon energy, selects the phonon, and derive the slope.",
+      "summary_ja": "光の色を変えると 2D は動く。同じ材料の同じ振動なのに、なぜか。ディラックコーン上の電子が、光のエネルギーで決まる半径からどのフォノンを選ぶかを追い、傾きの式を出す。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene-raman-spectrum",
+        "graphene-raman-g",
+        "graphene-dirac-cone"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-raman-layers",
+        "graphene-raman-defects"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-12"
+    },
+    {
+      "slug": "graphene-raman-layers",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Reading Graphene Layer Number with Raman",
+      "title_ja": "ラマンでグラフェンの層数を調べる",
+      "nav_en": "Reading Graphene Layer Number with Raman",
+      "nav_ja": "ラマンでグラフェンの層数を調べる",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "15 min",
+      "readingTime_ja": "15分",
+      "summary_en": "Add one graphene layer and the narrow 2D peak grows a shoulder. Interlayer coupling doubles the electronic bands and gives four paths for 2D. The interlayer shear vibration counts the layers directly.",
+      "summary_ja": "グラフェンをもう一枚重ねると、細かった 2D の山に肩が生まれる。層の間の結びつきが電子のバンドを二本ずつに分け、2D を作る経路を四つにする。層どうしが滑る振動も、枚数を直接数える。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene-raman-spectrum",
+        "graphene-raman-double-resonance"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-12"
+    },
+    {
+      "slug": "graphene-raman-defects",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Reading Defects in Graphene with Raman",
+      "title_ja": "ラマンでグラフェンの欠陥を調べる",
+      "nav_en": "Reading Defects in Graphene with Raman",
+      "nav_ja": "ラマンでグラフェンの欠陥を調べる",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "Bombard graphene with ions and the D peak first grows, then shrinks. Count the area around each defect that produces D and the area that is destroyed, and follow the conditions under which the D to G height ratio converts to a defect spacing.",
+      "summary_ja": "グラフェンにイオンを当てて欠陥を増やすと、D の山はいったん育ち、さらに増やすと小さくなる。欠陥のまわりで D が生まれる面積と壊れる面積を数え、D と G の高さの比から欠陥の間隔へ換算する条件を追う。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene-raman-spectrum",
+        "graphene-raman-double-resonance"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-12"
+    },
+    {
+      "slug": "graphene-raman-strain-doping",
+      "category": "themes",
+      "layoutType": "theme",
+      "color": "material",
+      "published": false,
+      "title_en": "Separating Strain and Doping with Raman",
+      "title_ja": "ラマンでひずみとドーピングを見分ける",
+      "nav_en": "Separating Strain and Doping with Raman",
+      "nav_ja": "ラマンでひずみとドーピングを見分ける",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "18 min",
+      "readingTime_ja": "18分",
+      "summary_en": "The G peak moved. Was the graphene stretched, or did electrons enter? Stretching splits G in two; adding electrons makes G narrower and stiffer. Use these clues and the G to 2D correlation to separate the two causes.",
+      "summary_ja": "G が動いた。グラフェンが引き伸ばされたのか、電子が入ったのか。引っ張ると G は二つに割れ、電子が入ると G は細く硬くなる。二つの手がかりと G と 2D の相関で、重なった原因を分けて読む。",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "graphene-raman-spectrum",
+        "graphene-raman-g",
+        "graphene-dirac-cone",
+        "fermi-level"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#Raman"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-12"
     }
   ],
-  "index_lastmod": "2026-09-11"
+  "index_lastmod": "2026-09-15"
 }

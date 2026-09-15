@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+<title>The Raman Spectrum of Graphene</title>
+<meta name="description" content="Read a schematic graphene Raman spectrum, identify the phonons behind G, D and 2D, and use wavevector balance to explain why 2D can appear without D.">
+<meta name="keywords" content="graphene, Raman spectroscopy, G band, D band, 2D band, phonon dispersion, wavevector conservation">
+<link rel="canonical" href="https://yumigeta.com/learn/graphene-raman-spectrum/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Raman Spectrum of Graphene">
+<meta property="og:description" content="Read a schematic graphene Raman spectrum, identify the phonons behind G, D and 2D, and use wavevector balance to explain why 2D can appear without D.">
+<meta property="og:url" content="https://yumigeta.com/learn/graphene-raman-spectrum/">
+<meta property="og:site_name" content="Kentaro Yumigeta">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Raman Spectrum of Graphene">
+<meta name="twitter:description" content="Read a schematic graphene Raman spectrum, identify the phonons behind G, D and 2D, and use wavevector balance to explain why 2D can appear without D.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "The Raman Spectrum of Graphene",
+  "description": "Read a schematic graphene Raman spectrum, identify the phonons behind G, D and 2D, and use wavevector balance to explain why 2D can appear without D.",
+  "url": "https://yumigeta.com/learn/graphene-raman-spectrum/",
+  "author": {
+    "@type": "Person",
+    "name": "Kentaro Yumigeta",
+    "url": "https://yumigeta.com",
+    "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+  },
+  "educationalLevel": "Undergraduate",
+  "learningResourceType": "Tutorial",
+  "teaches": ["Raman spectrum of graphene", "G band", "D band", "2D band", "Phonon dispersion", "Wavevector conservation"],
+  "inLanguage": ["ja", "en"],
+  "isAccessibleForFree": true,
+  "interactivityType": "active"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bands-series.css">
+<link rel="stylesheet" href="/assets/css/gnr-variants.css">
+<link rel="stylesheet" href="/assets/css/article-shell.css">
+<link rel="stylesheet" href="/assets/css/eq-hover.css">
+<link rel="stylesheet" href="/assets/css/graphene-raman-series.css?v=phonon-spacing-20260914">
+<link rel="stylesheet" href="/assets/vendor/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<script defer src="/assets/js/eq-number.js"></script>
+<script src="/assets/js/analytics.js"></script>
+<script defer src="/assets/js/site-nav.js"></script>
+</head>
+<body data-learn-slug="graphene-raman-spectrum" data-raman-page="1">
+<script src="/assets/js/lang-toggle.js"></script>
+<header class="site-nav">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+    <nav class="links">
+      <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+      <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+      <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+      <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+      <a href="/#cv">CV</a>
+    </nav>
+    <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+  </div>
+</header>
+
+<div class="phead">
+  <div class="container">
+    <div class="phead-top">
+      <div class="crumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span>
+        <span><span class="i18n-en">Raman Spectrum</span><span class="i18n-ja">ラマンスペクトル</span></span>
+      </div>
+      <button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button>
+    </div>
+    <div class="ptop">
+      <h1><span class="i18n-en">The Raman Spectrum of Graphene</span><span class="i18n-ja">グラフェンのラマンスペクトル</span></h1>
+    </div>
+    <p class="pintro"><span class="i18n-en">Whether graphene is one layer or two, whether the crystal has defects, and whether strain or doping has occurred. To investigate such information in detail, advanced measurements suited to the purpose are needed, such as observing atomic-scale structure or measuring electronic states and electrical properties.</span><span class="i18n-ja">グラフェンが一層なのか二層なのか、結晶に欠陥があるのか、あるいはひずみやドーピングが生じているのか。こうした情報を詳しく調べようとすれば、原子レベルの構造観察や電子状態・電気特性の計測など、目的に応じた個別の高度な測定が必要になる。</span></p>
+    <p class="pintro"><span class="i18n-en">Yet in graphene, simply shining a laser and measuring the scattered light makes it possible to read much of this information. The clue is the Raman spectrum.</span><span class="i18n-ja">ところがグラフェンでは、レーザーを当てて散乱した光を測るだけで、こうした情報の多くを読み取ることができる。その手がかりとなるのが、ラマンスペクトルである。</span></p>
+    <p class="pintro"><span class="i18n-en">Why can a single Raman spectrum provide so much different information?</span><span class="i18n-ja">なぜ一本のラマンスペクトルから、これほど異なる情報を読み取ることができるのだろうか。</span></p>
+  </div>
+</div>
+
+<section class="demo" id="energy-axis">
+  <div class="demo-head"><span class="demo-num">01</span>
+    <h2><span class="i18n-en">The horizontal axis represents the energy lost by light</span><span class="i18n-ja">横軸は、光が失ったエネルギーを表す</span></h2>
+  </div>
+  <div class="demo-stage">
+    <div class="derivation">
+      <p><span class="i18n-en">In Raman scattering, a small frequency difference arises between the incident and scattered light. If the angular frequencies of the incident and scattered light are $\omega_i$ and $\omega_s$, respectively, then in Stokes scattering $\omega_s&lt;\omega_i$, and the light loses the energy corresponding to that difference.</span><span class="i18n-ja">ラマン散乱では、入射光と散乱光の間にわずかな周波数差が生じる。入射光と散乱光の角振動数をそれぞれ $\omega_i$、$\omega_s$ とすると、ストークス散乱では $\omega_s&lt;\omega_i$ となり、光はその差に相当するエネルギーを失う。</span></p>
+      <p><span class="i18n-en">In spectroscopy, the frequency difference is converted to the unit $\mathrm{cm}^{-1}$ and taken as the horizontal axis of the spectrum.</span><span class="i18n-ja">分光測定では、この周波数差を $\mathrm{cm}^{-1}$ の単位に換算したラマンシフトをスペクトルの横軸にとる。</span></p>
+      <div class="eq-block" id="eqshift">$$\tilde{\nu}\,[\mathrm{cm}^{-1}]=\frac{\omega_i-\omega_s}{2\pi c}\tag{1}$$</div>
+      <p><span class="i18n-en">The same difference expressed as energy is</span><span class="i18n-ja">同じ差をエネルギーで表せば、</span></p>
+      <div class="eq-block">$$\Delta E=\hbar(\omega_i-\omega_s)=hc\tilde{\nu}\tag{2}$$</div>
+      <p><span class="i18n-en">For example,</span><span class="i18n-ja">となる。たとえば、</span></p>
+      <div class="eq-block">$$1580\ \mathrm{cm}^{-1}\longleftrightarrow196\ \mathrm{meV}$$</div>
+      <p><span class="i18n-en">The Raman shift and the energy difference correspond one-to-one and can be converted into each other using Eq. (2). A peak farther to the right in the spectrum means that the energy transferred to graphene by the light is larger.</span><span class="i18n-ja">のように、ラマンシフトとエネルギー差は一対一に対応し、式(2)によって互いに換算できる。スペクトルの右側にあるピークほど、光がグラフェンへ渡したエネルギーが大きい。</span></p>
+      <figure class="gfig raman-figure" id="overview-spectrum" data-gr-csv="/assets/data/graphene-raman/graphene_raman_traced_from_image.csv" data-gr-config="{&quot;kind&quot;: &quot;spectrum&quot;, &quot;id&quot;: &quot;overview-spectrum&quot;}">
+        <div class="gfig-stage"><canvas role="img" aria-label="Raman spectrum of monolayer graphene"></canvas></div>
+      </figure>
+      <p><span class="i18n-en">In the spectrum, large peaks appear near 1580 $\mathrm{cm}^{-1}$ and 2700 $\mathrm{cm}^{-1}$, while the peak near 1350 $\mathrm{cm}^{-1}$ is weak. The peak near 1350 $\mathrm{cm}^{-1}$ is called the D band, the peak near 1580 $\mathrm{cm}^{-1}$ the G band, and the peak near 2700 $\mathrm{cm}^{-1}$ the 2D band.</span><span class="i18n-ja">図のスペクトルを見ると、1580 $\mathrm{cm}^{-1}$ 付近と 2700 $\mathrm{cm}^{-1}$ 付近に大きなピークが現れ、1350 $\mathrm{cm}^{-1}$ 付近のピークは弱い。1350 $\mathrm{cm}^{-1}$ 付近を D バンド、1580 $\mathrm{cm}^{-1}$ 付近を G バンド、2700 $\mathrm{cm}^{-1}$ 付近を 2D バンドと呼ぶ。</span></p>
+      <p><span class="i18n-en">In the G, D and 2D bands, graphene's lattice vibrations receive the energy lost by light.</span><span class="i18n-ja">G、D、2D バンドのいずれにおいても、光が失ったエネルギーを受け取っているのはグラフェンの格子振動である。</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="phonon-dispersion">
+  <div class="demo-head"><span class="demo-num">02</span>
+    <h2><span class="i18n-en">Connecting Raman peaks to phonon dispersion</span><span class="i18n-ja">ラマンピークをフォノン分散に結びつける</span></h2>
+  </div>
+  <div class="demo-stage">
+    <div class="derivation">
+      <p><span class="i18n-en">Because graphene's carbon atoms are bonded to one another, they do not move independently one by one; many atoms vibrate together. The collective vibration in a crystal treated as a quantum is a phonon.</span><span class="i18n-ja">グラフェンの炭素原子は互いに結合しているため、一個ずつ独立に動くのではなく、多数の原子がまとまって振動する。結晶中のこの集団振動を量子として扱ったものがフォノンである。</span></p>
+      <p><span class="i18n-en">A single phonon with angular frequency $\omega$ has the energy</span><span class="i18n-ja">角振動数 $\omega$ のフォノン一個は、</span></p>
+      <div class="eq-block">$$E_{\mathrm{ph}}=\hbar\omega$$</div>
+      <p><span class="i18n-en">When a scattering process creates one phonon, the light's energy decreases by the amount that phonon receives. This is why the Raman shift is connected to the energy of a lattice vibration.</span><span class="i18n-ja">のエネルギーを持つ。フォノンを一個作る散乱では、そのフォノンが受け取った分だけ光のエネルギーが小さくなる。ラマンシフトが格子振動のエネルギーと結びつくのはこのためである。</span></p>
+      <p><span class="i18n-en">Vibrations in a crystal differ not only in energy but also in their spatial patterns. The wavevector $Q$ of a phonon represents how much the phase changes when moving from one unit cell to the next.</span><span class="i18n-ja">結晶中の振動には、エネルギーだけでなく空間的な振動パターンの違いもある。単位胞を移ったときに振動の位相がどれだけ変化するかを表すのが、フォノンの波数ベクトル $Q$ である。</span></p>
+      <p><span class="i18n-en">A plot of the relation between wavevector $Q$ and the frequency of a phonon is called the phonon dispersion. A graphene unit cell contains two carbon atoms, A and B, and each can move in three directions, so the phonon dispersion has six branches.</span><span class="i18n-ja">この波数 $Q$ とフォノンの振動数の関係を描いたものがフォノン分散である。グラフェンの単位胞には A、B の二つの炭素原子があり、それぞれ三方向に動けるため、フォノン分散には六本の枝が現れる。</span></p>
+      <figure class="gfig raman-figure" id="phonon-map" data-gr-layout="phonon-cards" data-gr-config="{&quot;kind&quot;: &quot;phonons&quot;, &quot;presentation&quot;: &quot;cards&quot;, &quot;id&quot;: &quot;phonon-map&quot;, &quot;node&quot;: 0, &quot;mode&quot;: 5, &quot;phase&quot;: 0, &quot;rotX&quot;: 55, &quot;rotZ&quot;: 25, &quot;zoom&quot;: 1.15}" data-gr-drag="rotZ,rotX" data-gr-wheel="zoom">
+        <div class="gfig-stage">
+          <canvas role="img" aria-label="phonon dispersion of graphene"></canvas>
+          <canvas role="img" aria-label="graphene lattice vibration"></canvas>
+          <div class="phonon-mode-row">
+            <div class="phonon-mode-options" role="group" aria-label="Vibration mode">
+              <div class="phonon-mode-option"><button class="gfig-btn" type="button" data-gr-set="mode=0" aria-pressed="false">oTA</button></div>
+              <div class="phonon-mode-option"><button class="gfig-btn" type="button" data-gr-set="mode=1" aria-pressed="false">iTA</button></div>
+              <div class="phonon-mode-option"><button class="gfig-btn" type="button" data-gr-set="mode=2" aria-pressed="false">iLA</button></div>
+              <div class="phonon-mode-option"><button class="gfig-btn" type="button" data-gr-set="mode=3" aria-pressed="false">oTO</button></div>
+              <div class="phonon-mode-option"><button class="gfig-btn" type="button" data-gr-set="mode=4" aria-pressed="false">iTO</button></div>
+              <div class="phonon-mode-option"><button class="gfig-btn active" type="button" data-gr-set="mode=5" aria-pressed="true">iLO</button></div>
+            </div>
+            <button class="gfig-btn phonon-play" type="button" data-gr-play="phase" data-gr-step="3" data-gr-limit="360" aria-pressed="false"><i aria-hidden="true"></i><span class="phonon-play-start"><span class="i18n-en">Show vibration</span><span class="i18n-ja">振動を表示</span></span><span class="phonon-play-stop"><span class="i18n-en">Pause</span><span class="i18n-ja">一時停止</span></span></button>
+          </div>
+        </div>
+        <div class="gfig-controls phonon-controls">
+          <div class="phonon-q-row">
+            <label class="phonon-control-label" for="phonon-map-node"><span class="i18n-en">Wavevector Q</span><span class="i18n-ja">波数ベクトル Q</span></label>
+            <div class="phonon-q-track"><div class="phonon-q-slider"><input id="phonon-map-node" data-gr-input="node" data-gr-unit="" type="range" min="0" max="300" step="1" value="0"></div><div class="phonon-path-ticks" aria-hidden="true"><span>Γ</span><span>K</span><span>M</span><span>Γ</span></div></div>
+            <output class="phonon-q-output" for="phonon-map-node"><span class="phonon-position">Γ</span><strong class="phonon-progress" hidden></strong></output>
+          </div>
+        </div>
+      </figure>
+      <p><span class="i18n-en">Here $\Gamma$ is the point where the wavevector is zero ($Q=0$), and the same vibration pattern repeats with the same phase in each unit cell. $\Gamma$, K and M are points in reciprocal space that also appear in the electronic band structure.</span><span class="i18n-ja">ここで $\Gamma$ は波数がゼロ（$Q=0$）の点であり、各単位胞で同じ振動パターンが同じ位相で繰り返される。$\Gamma$、K、M は、電子バンド構造にも現れる逆格子空間の点である。</span></p>
+      <p><span class="i18n-en">Let us correspond each Raman peak to the phonon dispersion. The G band involves an in-plane optical phonon near $\Gamma$, while the D band and 2D band involve in-plane optical phonons near K.</span><span class="i18n-ja">ラマンスペクトルの各ピークをフォノン分散に対応させてみよう。G バンドには $\Gamma$ 付近の面内光学フォノンが関与し、D バンドと 2D バンドには K 付近の面内光学フォノンが関与する。</span></p>
+      <p><span class="i18n-en">The wavevector of the phonon related to G is $Q\simeq0$, whereas the phonons related to D and 2D have large wavevectors. This difference matters because scattering must balance wavevector as well as energy.</span><span class="i18n-ja">G に関わるフォノンの波数は $Q\simeq0$ であるのに対し、D と 2D に関わるフォノンは大きな波数を持つ。この違いが効いてくるのは、散乱ではエネルギーだけでなく波数もつり合わなければならないからである。</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="wavevector-balance">
+  <div class="demo-head"><span class="demo-num">03</span>
+    <h2><span class="i18n-en">G, D and 2D balance wavevector differently</span><span class="i18n-ja">G・D・2D では、波数のつり合わせ方が違う</span></h2>
+  </div>
+  <div class="demo-stage">
+    <div class="derivation">
+      <p><span class="i18n-en">In light scattering, not only energy but also wavevector must balance. The wavevector that light can transfer to graphene is determined by the difference between the incident and scattered light wavevectors, and when light with an excitation wavelength of 514 nm is used, even at its maximum estimate,</span><span class="i18n-ja">光散乱では、エネルギーだけでなく波数もつり合わなければならない。光がグラフェンへ渡せる波数は、入射光と散乱光の波数ベクトルの差で決まる。光の波数の大きさは $(2\pi/\lambda)$ であり、この差は入射光と散乱光が反対向きのときに最大となるため、その上限はおよそ $(4\pi/\lambda)$ である。たとえば励起波長 514 nm の光を用いた場合、</span></p>
+      <div class="eq-block" id="eqlightbound">$$|\Delta k_{\mathrm{light}}|\lesssim\frac{4\pi}{514\ \mathrm{nm}}\simeq0.024\ \mathrm{nm}^{-1}\tag{3}$$</div>
+      <p><span class="i18n-en">This remains only</span><span class="i18n-ja">にとどまる。</span></p>
+      <p><span class="i18n-en">On the other hand, the distance from $\Gamma$ to K in graphene is about</span><span class="i18n-ja">一方、グラフェンの $\Gamma$ から K までの距離は約</span></p>
+      <div class="eq-block">$$|\Gamma K|\simeq17\ \mathrm{nm}^{-1}$$</div>
+      <p><span class="i18n-en">This is the distance.</span><span class="i18n-ja">である。</span></p>
+      <figure class="gfig raman-figure" id="photon-wavevector" data-gr-config="{&quot;kind&quot;: &quot;lightwavevector&quot;, &quot;id&quot;: &quot;photon-wavevector&quot;, &quot;wavelength&quot;: 514}">
+        <div class="gfig-stage"><canvas role="img" aria-label="wavevector of light compared with the distance from Gamma to K"></canvas></div>
+      </figure>
+      <p><span class="i18n-en">The wavevector light can transfer is only about one seven-hundredth of the distance from $\Gamma$ to K. On the scale of reciprocal space, the wavevector that light can transfer is regarded as nearly zero.</span><span class="i18n-ja">光が渡せる波数は、$\Gamma$–K の距離の約 700 分の 1 しかない。逆格子空間の尺度では、光が受け渡せる波数はほぼゼロとみなせる。</span></p>
+      <p><span class="i18n-en">Therefore, when one phonon is created without wavevector compensation by a defect or the like, the phonon's wavevector must also be nearly zero. The G band, which uses a phonon near $\Gamma$, meets this condition.</span><span class="i18n-ja">そのため、欠陥などが波数を補わず、フォノンを一個だけ作る場合には、そのフォノンの波数もほぼゼロでなければならない。$\Gamma$ 付近のフォノンを使う G バンドは、この条件を満たす。</span></p>
+      <p><span class="i18n-en">In contrast, the phonon related to the D band is near K, and creating only one phonon does not balance the wavevector. In a periodic crystal, the periodicity of the atomic arrangement strongly constrains wavevector conservation, but at defects and edges that periodicity is interrupted, so the constraint is relaxed and the large wavevector of phonons near K can be taken up by the scattering process.</span><span class="i18n-ja">これに対し、D バンドに関係するフォノンは K 付近にあり、そのまま一個作るだけでは波数がつり合わない。周期的な結晶では原子配列の周期性によって波数保存に強い制約がかかるが、欠陥や端ではその周期性が途切れるため、この制約が緩み、K 付近のフォノンが持つ大きな波数も散乱過程に取り込めるようになる。</span></p>
+      <p><span class="i18n-en">If the wavevector of a phonon is $Q$ and the wavevector change brought to the scattering process by a defect or edge is $Q_d$, the D band can balance the wavevector for the whole scattering process as</span><span class="i18n-ja">フォノンが持つ波数を $Q$、欠陥や端が散乱過程にもたらす波数変化を $Q_d$ とすれば、D バンドでは散乱過程全体として</span></p>
+      <div class="eq-block">$$Q+Q_d\simeq0$$</div>
+      <p><span class="i18n-en">This is why the D band appears readily where defects or edges are present and becomes weak inside defect-poor graphene.</span><span class="i18n-ja">と波数をつり合わせることができる。このため D バンドは、欠陥や端がある場所で現れやすく、欠陥の少ないグラフェンの内部では弱くなる。</span></p>
+      <p><span class="i18n-en">For the 2D band, two phonons take the place of the defect. If two phonons have nearly opposite wavevectors,</span><span class="i18n-ja">2D バンドでは、欠陥の代わりに二個のフォノンが関わる。二個のフォノンが反対向きに近い波数を持てば、</span></p>
+      <div class="eq-block">$$Q_1+Q_2\simeq0$$</div>
+      <p><span class="i18n-en">the wavevectors can balance even without a defect. The two phonon wavevectors cancel, but the energies they receive are added. Therefore, the 2D band can appear even without a defect and has a peak in a Raman-shift region approximately twice that of the D band.</span><span class="i18n-ja">となるため、欠陥がなくても波数をつり合わせられる。二つのフォノンの波数は打ち消し合うが、二つが受け取るエネルギーは足し合わされる。そのため、2D バンドは欠陥がなくても現れ、D バンドのおよそ二倍のラマンシフトの領域にピークを持つ。</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="spectral-intensity">
+  <div class="demo-head"><span class="demo-num">04</span>
+    <h2><span class="i18n-en">Wavevector conservation alone does not determine the spectrum</span><span class="i18n-ja">波数保存だけでは、スペクトルは決まらない</span></h2>
+  </div>
+  <div class="demo-stage">
+    <div class="derivation">
+      <p><span class="i18n-en">However, wavevector conservation tells us only whether a scattering process satisfies the wavevector condition. Even when multiple processes satisfy the same condition, they do not appear in the Raman spectrum with the same strength.</span><span class="i18n-ja">ただし、波数保存から分かるのは、その散乱過程が波数の条件を満たすかどうかまでである。同じ条件を満たす過程が複数あっても、それらが同じ強さでラマンスペクトルに現れるわけではない。</span></p>
+      <p><span class="i18n-en">In graphene, electronic states also affect how readily Raman scattering occurs, so even when the same wavevector condition is satisfied, the scattering strength changes greatly depending on which electronic states are involved.</span><span class="i18n-ja">グラフェンではラマン散乱の起こりやすさに電子状態も関わるため、同じ波数条件を満たしていても、どの電子状態が関与するかによって散乱の強さは大きく変わる。</span></p>
+      <p><span class="i18n-en">Here, the Dirac cones near K and K′ become important.</span><span class="i18n-ja">ここで、K と K′ の近くにあるディラックコーンが効いてくる。</span></p>
+      <p><span class="i18n-en">The phonon dispersion shows what frequency phonons exist at each wavevector, wavevector conservation narrows down scattering processes from the perspective of wavevector, and electronic states influence which scattering processes are likely to occur.</span><span class="i18n-ja">フォノン分散が、どの波数にどんな振動数のフォノンが存在するかを示し、波数保存が散乱過程を波数の面から絞り、電子状態がその中でどの散乱が起こりやすいかを左右する。</span></p>
+      <p><span class="i18n-en">If the lattice or electronic states change, their effects appear in the position, intensity, width and shape of the peaks.</span><span class="i18n-ja">格子や電子状態が変われば、その影響がピークの位置、強さ、幅、形に現れる。</span></p>
+      <p><span class="i18n-en">That is why one Raman spectrum can provide different kinds of information, such as layer number, defects, strain and doping.</span><span class="i18n-ja">だから一本のラマンスペクトルから、層数、欠陥、ひずみ、ドーピングといった異なる情報を読み取ることができる。</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="backrow">
+  <div class="container">
+    <a class="back-home" href="/learn/"><span class="i18n-en">&larr; Back to Learn</span><span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span></a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot">
+    <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+    <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+  </div>
+</footer>
+
+<script src="/assets/js/article-shell.js"></script>
+<script src="/assets/js/eq-hover.js"></script>
+<script src="/assets/js/graphene-raman-core.js"></script>
+<script src="/assets/js/graphene-raman-views.js?v=csv-spectrum-20260915-r2"></script>
+<script src="/assets/js/graphene-raman-views-cone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script src="/assets/js/graphene-raman-views-lattice.js?v=phonon-wheel-fix-20260915-r5"></script>
+<script src="/assets/js/graphene-raman-ui.js?v=csv-spectrum-20260915-r2"></script>
+</body>
+</html>

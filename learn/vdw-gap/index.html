@@ -7,21 +7,21 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors</title>
+  <title>The van der Waals Gap</title>
   <meta name="description" content="A guided tour of Pourfath &amp; Grasser (Science 2026): how the tiny van der Waals gap at 2D semiconductor interfaces suppresses gate leakage yet weakens gate control and raises contact resistance, and how zipper-like interfaces may remove the bottleneck.">
   <meta name="keywords" content="van der Waals gap, 2D materials, MoS2, transistor scaling, EOT, equivalent oxide thickness, gate dielectric, contact resistance, hBN, SrTiO3, zipper interface, Bi2SeO5, IRDS, tunneling, 2D electronics">
   <link rel="canonical" href="https://yumigeta.github.io/learn/vdw-gap/">
 
   <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors">
+  <meta property="og:title" content="The van der Waals Gap">
   <meta property="og:description" content="A sub-nanometer vacuum hides at every 2D semiconductor interface. It blocks leakage, but also blocks scaling. A walkthrough of the Science 2026 analysis by Pourfath &amp; Grasser, ending with the engineered interfaces that may remove it.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/vdw-gap/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors">
+  <meta name="twitter:title" content="The van der Waals Gap">
   <meta name="twitter:description" content="Why the smallest gap in electronics (1.4 Å of near-vacuum) is both the friend and the enemy of 2D transistor scaling.">
 
   <!-- Structured data: educational article -->
@@ -29,7 +29,7 @@
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "The van der Waals Gap: the 1.4 Å Vacuum That Limits 2D Transistors",
+    "name": "The van der Waals Gap",
     "description": "An explainer based on Pourfath & Grasser, Science 392, eaeb2271 (2026): the van der Waals gap at 2D semiconductor interfaces, its dual role as a leakage suppressor and an electrostatic bottleneck, the resulting scaling limits for gate dielectrics and contacts, and interface-engineering routes such as zipper-like quasi-covalent bonding.",
     "url": "https://yumigeta.github.io/learn/vdw-gap/",
     "author": {
@@ -92,7 +92,7 @@
     <div class="container">
       <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">The van der Waals Gap</span><span class="i18n-ja">ファンデルワールスギャップ</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">The van der Waals Gap: the 1.4&nbsp;Å Vacuum That Limits 2D Transistors</span><span class="i18n-ja">ファンデルワールスギャップ：2次元トランジスタの限界を握る1.4Åの真空</span></h1>
+        <h1><span class="i18n-en">The van der Waals Gap</span><span class="i18n-ja">ファンデルワールスギャップ</span></h1>
       </div>
       <p class="pintro"><span class="i18n-en">Two-dimensional semiconductors (atomically thin sheets like MoS<sub>2</sub>) are leading candidates for the transistors that come after silicon. Yet wherever a 2D sheet meets a gate insulator or a metal electrode, the two crystals refuse to bond. They hover apart, held only by feeble van der Waals attraction, leaving a sliver of near-vacuum about <b>1.4&nbsp;Å</b> wide, narrower than a single atom. This page follows a 2026 <em>Science</em> paper by Pourfath and Grasser that asks a deceptively simple question: <em>what does that sliver of nothing do to a transistor?</em> The answer turns out to be double-edged. The gap is a wall that blocks leakage current, which is genuinely useful, but the same wall weakens the gate's grip on the channel and chokes the flow of current through the contacts. We will build the physics step by step, tally up the damage against the industry's official scaling targets, face the challenges honestly, and end with the escape route the paper points to: interfaces that zip the gap shut.</span><span class="i18n-ja">2次元半導体（MoS<sub>2</sub> のような原子1層分の厚さしかないシート）は、シリコンの次を担うトランジスタ材料の最有力候補である。ところが、2次元シートがゲート絶縁膜や金属電極と接するところでは、2つの結晶は決して結合しようとしない。弱々しいファンデルワールス引力だけでつなぎ留められたまま互いに浮いていて、そこに幅およそ <b>1.4Å</b>（原子1個よりも狭い）のほぼ真空の隙間が残る。このページでは、Pourfath と Grasser による2026年の <em>Science</em> 論文をたどりながら、一見たわいもない問いを追いかける。<em>その「何もない隙間」は、トランジスタに何をするのか？</em> 答えは見事に両刃の剣だった。この隙間はリーク電流をせき止める壁であり、これは正真正銘の利点である。しかし同じ壁が、ゲートがチャネルを握る力を弱め、電極を流れる電流の喉元を絞めるのだ。物理を一歩ずつ組み立て、業界公式のスケーリング目標と突き合わせて損害を勘定し、課題から目をそらさずに向き合ったうえで、最後に論文が指し示す脱出路、すなわち隙間をファスナーのように閉じてしまう界面、にたどり着くことにしよう。</span></p>
     </div>

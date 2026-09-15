@@ -8,6 +8,24 @@ existing bilingual sources with python tools/build_site.py; validate with
 python tools/validate_site.py. Publish _site/, not the source tree.
 See README.md. Merges to main automatically build, validate, and publish via GitHub Actions.
 
+### Japanese terminology (user decision, 2026-09-11)
+
+In Japanese text throughout the site, write 強結合近似 for tight binding.
+Use this term in article prose, headings, page titles, navigation, metadata,
+and figure labels. Do not use TB, tight-binding, タイトバインディング,
+or 強束縛近似 as the Japanese name. The Japanese graphene page title is
+グラフェンの強結合近似. Keep English terminology and URL/code identifiers
+unchanged.
+
+### Site titles (user decision, 2026-09-06)
+
+Use one self-contained title per page throughout the site. Do not append a
+subtitle with a dash, colon, or a separate tagline. Keep the visible page title,
+browser title, social title metadata, structured page name, and Learn registry
+consistent. The home page title is `Kentaro Yumigeta`; the graphene TB page's
+English title is `Tight-Binding Model of Graphene`. Hyphens within scientific
+terms (such as Tight-Binding) are part of the term, not subtitle separators.
+
 - `index.html` — main landing page
 - `learn/` — interactive Learn explainer pages (one subdirectory per topic)
 - `publications/` — publications list
@@ -461,3 +479,82 @@ real published view. On production the flag is ignored (never localhost).
 
 Feature branches: `claude/*`
 Never push to `main` directly.
+
+## Learn prose — the pink-elephant rule (user rule, 2026-09-04)
+
+Never reassure the reader about a doubt they have not formed. Sentences such as
+「名前を入れ替えても話は変わらない」「どちらを選んでもよい」「気にしなくてよい」
+"swap the names and nothing changes" / "this choice does not matter" plant the
+doubt they claim to remove (ピンクの象). A convention is marked by the verb alone
+(「〜と呼ぶことにする」「〜とする」「〜と置く」) and nothing more.
+
+Reader-side acknowledgements (「〜と感じるかもしれない」) are allowed only for
+misreadings a test reader actually produced, and must resolve the misreading in
+the same breath. Explanations are positive statements; a 「〜ではない」 sentence is
+allowed only when the next clause states the positive fact.
+
+Enforcement: `C:\Users\kenta\.claude\hooks\pink-elephant-lint.ps1` scans every
+`learn/*/index.html` (JA + EN prose) and `learn/pages.json` for the patterns in
+`pink-elephant-patterns.txt`; the Stop hook blocks the turn while an
+un-reviewed hit exists. A legitimate hit is approved by adding the exact sentence
+to `pink-elephant-allow.txt` with a one-line reason, never by weakening the
+patterns. Run manually: `powershell -NoProfile -File <script> -Report`.
+
+### Semantic check: pink-elephant-judge (2026-09-05)
+
+The regex linter only sees the wording of reassurance. A second Stop hook,
+`C:\Users\kenta\.claude\hooks\pink-elephant-judge.ps1`, catches the other
+kind: a sentence that answers a REVIEWER's objection or defends the author's
+choice inside the reader's text (e.g. a diffraction aside added because an
+expert said "XRD gives the lattice constant"). It snapshots the prose of every
+`learn/*/index.html` (`pe-judge-cache\<slug>.txt`); each sentence not in the
+snapshot must be judged into `reader` (resolves a doubt on the ledger
+`pink-elephant-reader-doubts.txt`), `content` (physics in the page's own flow),
+`reviewer`, or `defence`. reviewer/defence → the turn is blocked until the
+sentence is REMOVED (never relocated). If the `claude` CLI is installed and
+logged in, a fresh headless `claude -p` judges; otherwise the agent must record
+its own verdict in `pe-judge-verdict.txt` (`<category><TAB><sentence>`), which
+the hook consumes and logs. Only a new test-reading may add doubts to the
+ledger. Manual: `-Report` lists unjudged sentences; `-Baseline` accepts the
+current pages.
+
+## Learn: crystal-structure vs graphene-geometry (user decision, 2026-09-05)
+
+- **`crystal-structure` (物質のしくみ) is the general page.** It teaches lattice, basis,
+  unit cell (Wigner–Seitz), the rotation restriction, the 2D lattice census, the
+  reciprocal lattice as "the waves that fit", and the Brillouin zone as the
+  Wigner–Seitz recipe in k-space, **without graphene** as its example (use a
+  generic pattern). It does not pre-tell graphene's K point or the two bands.
+- **`graphene-geometry` is the application.** It keeps every graphene-specific
+  computation (A/B, δ_j, a₁ a₂ from the bonds, numbers, b₁ b₂, Γ M K coordinates,
+  K vs K′ via G, and the real-space wave patterns at Γ/M/K/K′) and carries **one-sentence refreshers**
+  of the general notions it uses (Bravais lattice, basis, unit cell, the
+  invisible-difference condition e^{iG·R}=1, the nearest-lattice-point rule for
+  the zone), so a reader who learned crystal structure long ago and forgot it
+  can still read straight through. General *derivations* (completeness of G,
+  alternative unit cells, the general bisector construction) belong to
+  `crystal-structure`, not here.
+- **Conflicts resolve in favour of `graphene-geometry`:** notation (a = C–C
+  distance 0.142 nm; a₁ = a(√3/2, 3/2), a₂ = a(−√3/2, 3/2); b₁ b₂ accordingly,
+  bold **K** = (4π/3√3a, 0)), the basis image (the rhombus stamp), and the
+  wavevector coordinates all follow graphene-geometry; crystal-structure adapts.
+- **Page scope revised 2026-09-05:** the geometry page ends with a linked
+  reciprocal-space / real-space view of plane-wave direction, wavelength, and
+  individual site phases. The sum of three bond phase factors and its
+  cancellation at K belong to `graphene-tight-binding`, where the equal
+  nearest-neighbour hopping model gives a reason to add those contributions.
+
+## Learn: general TB vs graphene TB (user decision, 2026-09-06)
+
+- A general tight-binding page is planned in the Electronic States group.
+  Its scope is the generic method, localized orbitals, Bloch sums and general
+  eigenvalue calculations. No page or URL has been assigned yet.
+- `graphene-tight-binding` focuses on graphene's two A/B amplitudes, three
+  equal nearest-neighbour hoppings, the phase sum, band contact at K/K′ and
+  neutral band filling. Keep the minimum reminders needed to follow these
+  steps; do not rebuild the general TB course or the geometry page here.
+- The user specifically requested an explanation of why the three neighbour
+  contributions are added: multiply each amplitude by its hopping coefficient,
+  then superpose the three contributions at the same A orbital.
+- Use atomic-position Bloch phases consistently with
+  `f(k) = sum_j exp(i k dot delta_j)` and Hamiltonian entries `-t f`, `-t f*`.

@@ -7,25 +7,25 @@
   <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noisy Spectra: Acquisition Time vs Accumulation</title>
+  <title>Noise in Spectral Measurements</title>
   <meta name="description" content="How acquisition time and accumulation count shape the signal-to-noise ratio of a spectrum. Shot, dark, and read noise; why SNR scales as the square root of total exposure; when to use a long single acquisition versus many short accumulations; cosmic-ray rejection and saturation.">
   <meta name="keywords" content="signal-to-noise ratio, SNR, Raman spectroscopy noise, acquisition time, accumulation, averaging, shot noise, read noise, dark current, cosmic ray rejection, detector saturation, spectroscopy, CCD, signal averaging">
   <link rel="canonical" href="https://yumigeta.github.io/learn/spectral-noise/">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Noisy Spectra: Acquisition Time vs Accumulation">
+  <meta property="og:title" content="Noise in Spectral Measurements">
   <meta property="og:description" content="Shot/read/dark noise, SNR ∝ √(total time), and when to prefer long acquisitions versus many accumulations: an interactive guide.">
   <meta property="og:url" content="https://yumigeta.github.io/learn/spectral-noise/">
   <meta property="og:site_name" content="Kentaro Yumigeta">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Noisy Spectra: Acquisition Time vs Accumulation">
+  <meta name="twitter:title" content="Noise in Spectral Measurements">
   <meta name="twitter:description" content="How acquisition time and accumulation count trade off against signal-to-noise ratio.">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    "name": "Noisy Spectra: Acquisition Time vs Accumulation",
+    "name": "Noise in Spectral Measurements",
     "description": "An interactive tutorial on the signal-to-noise ratio of spectroscopic measurements: shot, dark and read noise, the square-root-of-time scaling, and the trade-off between long single acquisitions and many short accumulations.",
     "url": "https://yumigeta.github.io/learn/spectral-noise/",
     "author": {
@@ -75,7 +75,7 @@
     <div class="container">
       <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Noisy Spectra &amp; SNR</span><span class="i18n-ja">ノイズとSN比</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
       <div class="ptop">
-        <h1><span class="i18n-en">Noisy Spectra: Acquisition Time vs Accumulation</span><span class="i18n-ja">ノイズの多いスペクトル：取得時間と積算回数</span></h1>
+        <h1><span class="i18n-en">Noise in Spectral Measurements</span><span class="i18n-ja">スペクトル測定のノイズ</span></h1>
       </div>
       <p class="pintro"><span class="i18n-en">Late at night in the lab, the spectrum you finally captured shows its peaks half-buried in a meadow of noise. At a moment like this, the acquisition software offers you two lifelines: make each exposure <b>longer</b> (acquisition time $t$), or repeat the same measurement <b>many times</b> and add the results (accumulation count $N$). Either way, the time you pay is $T=t\times N$. Pay the same time, get the same result, or so you'd think. But it doesn't work that way. The two knobs act on the signal-to-noise ratio differently, and they protect you from different enemies. Why is that, and how should you choose? That is the question of this page. The underlying ideas of random error and averaging are built from scratch on the <a href="/learn/measurement-error/">measurement-error</a> page, so feel free to hop back and forth.</span><span class="i18n-ja">夜の実験室。ようやく測れたスペクトルは、肝心のピークがノイズの草むらに半分埋もれている。こんなとき、測定ソフトが差し出してくれる頼みの綱は2本ある。1回の露光を<b>長く</b>する「取得時間 $t$」と、同じ測定を<b>何度も</b>繰り返して足し合わせる「積算回数 $N$」だ。どちらを増やしても、支払う時間は $T=t\times N$。同じ時間を払うのだから結果も同じになりそうなものだが、世の中そう甘くはない。この2つのつまみはSN比への効き方が違うし、守ってくれる敵も違うのである。なぜそうなるのか、どう使い分ければよいのか。それがこのページのテーマだ。土台になる偶然誤差と平均化の考え方は<a href="/learn/measurement-error/">測定と誤差</a>のページで一から説明しているので、行き来しながら読んでほしい。</span></p>
     </div>
