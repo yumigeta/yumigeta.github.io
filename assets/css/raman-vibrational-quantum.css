@@ -1,0 +1,72 @@
+/* The article uses the canonical Learn section structure and shared shell. */
+body[data-learn-slug="raman-vibrational-quantum"] .demo-stage {
+  background: transparent; padding: 0; border-radius: 0;
+  color: var(--ink); max-width: var(--measure);
+}
+.me-prose p { font-size: .94rem; line-height: 1.95; color: var(--ink-2); margin: 16px 0; }
+.me-prose p b { color: var(--ink); }
+.demo-head h2, .me-prose h3 { font-family: var(--mincho); }
+.rv-title-term { white-space: nowrap; }
+.me-prose h3 { font-size: 1.1rem; color: var(--ink); margin: 34px 0 12px; font-weight: 700; }
+.me-prose .rv-page-bridge { margin-top: clamp(46px, 6vw, 68px); }
+.me-prose .rv-page-bridge-title {
+  font-family: var(--mincho);
+  font-size: clamp(1.22rem, 2vw, 1.34rem);
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: .015em;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.me-prose .rv-page-bridge-title + p { margin-top: 0; }
+@media (max-width: 640px) {
+  .me-prose .rv-page-bridge { margin-top: 40px; }
+  .me-prose .rv-page-bridge-title { font-size: 1.18rem; }
+}
+.eq-block { text-align: center; color: var(--ink); font-size: .98rem; margin: 22px 0; padding: 8px 0; overflow-x: auto; }
+.eq-block .katex-display { margin: .6em 0; }
+body[data-learn-slug="raman-vibrational-quantum"] .me-prose .eq-block.raman-result-eq {
+  margin: 0.4rem 0 1.45rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 700px) {
+  body[data-learn-slug="raman-vibrational-quantum"] .me-prose .eq-block.raman-result-eq {
+    margin-bottom: 1.2rem;
+    padding: 0.6rem 0.65rem;
+  }
+}
+.rv-figure { margin: 34px 0; padding: 22px 22px 18px; border: 1px solid var(--rule); border-radius: 4px; background: #faf9f5; }
+.rv-figure-title { font-family: var(--mincho); color: var(--ink); font-size: 1.06rem; font-weight: 700; margin-bottom: 14px; }
+.rv-plot { width: 100%; min-width: 0; }
+.rv-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rv-plot text { font-family: var(--gothic); font-size: 12px; fill: #665e51; }
+.rv-plot .rv-panel-title { font-weight: 700; fill: #302a22; font-size: 13px; }
+.rv-plot .rv-s { fill: #aa4435; }
+.rv-plot .rv-as { fill: #276f96; }
+.rv-figure figcaption { color: var(--ink-2); font-size: .8rem; line-height: 1.8; padding-top: 15px; margin-top: 10px; border-top: 1px solid var(--rule); }
+.rv-controls { border-top: 1px solid var(--rule); margin-top: 14px; padding-top: 14px; }
+.rv-slider { display: grid; grid-template-columns: minmax(160px, auto) minmax(70px, 1fr) 88px; gap: 12px; align-items: center; margin: 10px 0; font-family: var(--gothic); font-size: .82rem; color: var(--ink-2); }
+.rv-slider input[type="range"] { appearance: none; width: 100%; min-width: 0; height: 24px; margin: 0; background: transparent; accent-color: #725385; cursor: pointer; }
+.rv-slider input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: #d2cbbf; border-radius: 4px; }
+.rv-slider input[type="range"]::-webkit-slider-thumb { appearance: none; width: 15px; height: 15px; margin-top: -6px; background: #725385; border: 0; border-radius: 50%; }
+.rv-slider input[type="range"]::-moz-range-track { height: 3px; background: #d2cbbf; border-radius: 4px; }
+.rv-slider input[type="range"]::-moz-range-thumb { width: 15px; height: 15px; background: #725385; border: 0; border-radius: 50%; }
+.rv-slider input[type="range"]:focus-visible { outline: 2px solid #725385; outline-offset: 4px; border-radius: 4px; }
+.rv-slider output { font-variant-numeric: tabular-nums; text-align: right; color: var(--ink); }
+@media (max-width: 600px) {
+  .rv-figure { padding: 16px 12px; margin: 28px 0; }
+  .rv-figure-title { font-size: .98rem; }
+  .rv-slider { grid-template-columns: 1fr 85px; gap: 6px 12px; }
+  .rv-slider label { grid-column: 1 / -1; }
+  .eq-block { font-size: .85rem; }
+  .me-prose p { font-size: .9rem; }
+}
+
+.rv-thermal-slider { grid-template-columns: 1fr; }
+.rv-thermal-range { display: grid; grid-template-columns: auto minmax(60px, 1fr) auto; align-items: center; gap: 14px; }
