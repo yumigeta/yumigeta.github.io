@@ -227,6 +227,13 @@
 .ashelf-grp > .ashelf-list { padding: 2px 0 8px 17px; }
 .ashelf-pillar > .ashelf-ungrouped { padding-left: 15px; }
 
+/* A sub-group inserted between sibling pages should read as part of the same
+   compact sequence, rather than starting a new widely separated block. */
+.ashelf-grp > .ashelf-list + .ashelf-grp--inline { margin-top: -5px; }
+.ashelf-grp--inline > .ashelf-grp-hd { padding-top: 2px; padding-bottom: 2px; }
+.ashelf-grp--inline > .ashelf-list { padding-top: 0; padding-bottom: 3px; }
+.ashelf-grp--inline + .ashelf-list { padding-top: 0; }
+
 /* Disclosure chevron (Tabler chevron-right, rotated 90° when open). The old
    ▸ glyph was set at 8.5px — far too small to read as a control. */
 .ashelf-caret {
