@@ -1,4 +1,4 @@
-"""Validate generated Learn pages. Run after build_site.py."""
+"""Validate generated site metadata and Learn pages. Run after build_site.py."""
 import json
 from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
@@ -22,6 +22,12 @@ def article_figures(node):
             yield from article_figures(child)
 
 def validate():
+    for file in OUTPUT.rglob('*.html'):
+        head = next((n for n in Document(file.read_text(encoding='utf-8')).root.walk() if n.tag == 'head'), None)
+        if head is not None:
+            check(not any(n.tag == 'meta' and 'og:site_name' in (n.attrs.get('property'), n.attrs.get('name'))
+                          for n in head.walk()), 'Site name in page metadata: ' + file.relative_to(OUTPUT).as_posix())
+
     registry = json.loads((ROOT / 'learn/pages.json').read_text(encoding='utf-8'))
     articles = [p for p in registry['pages'] if p.get('published') and not p.get('planned')]
     new_categories = {category['id'] for category in registry.get('category_architectures', [])}
@@ -42,7 +48,6 @@ def validate():
             if path in v2_paths or new_index:
                 shell = 'index' if new_index else 'article'
                 check(root.attrs.get('data-static-shell') == shell, 'Missing static Learn shell: ' + route)
-                check(not any(n.attrs.get('property') == 'og:site_name' for n in nodes), 'Site name in article metadata: ' + route)
             canonicals = [n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'canonical']
             check(canonicals == [ORIGIN + route], 'Wrong self canonical: ' + route)
             alternates = {n.attrs.get('hreflang'): n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'alternate'}

@@ -136,7 +136,7 @@ def generate(source, path, lang, page, registry, routes):
         raise ValueError('Missing localized metadata: ' + path + ' ' + lang)
     url = ORIGIN + localized(path, lang)
     replaced_meta = {'description', 'keywords', 'twitter:title', 'twitter:description', 'og:title', 'og:description',
-                     'og:url', 'og:locale', 'og:locale:alternate'}
+                     'og:url', 'og:site_name', 'og:locale', 'og:locale:alternate'}
     head.children = [n for n in head.children if not isinstance(n, Element) or not (
         n.tag == 'title' or (n.tag == 'meta' and (n.attrs.get('name') or n.attrs.get('property')) in replaced_meta)
         or (n.tag == 'link' and (n.attrs.get('rel') == 'canonical' or 'hreflang' in n.attrs)))]
