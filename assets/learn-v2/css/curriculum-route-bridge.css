@@ -1,0 +1,306 @@
+/* Shared article rhythm for every page in the new curriculum hierarchy.
+   Page-specific diagrams keep their own layout; learn-panel.css owns the
+   common figure surface. */
+
+/* Results reached by an in-page derivation use the existing R04 treatment.
+   The frame preserves the equation's font and mathematical notation. */
+body.learn-article-standard :is(.curriculum-prose, .me-prose, .derivation) .raman-result-eq {
+  margin: 0.4rem 0 1.45rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+@media (max-width: 700px) {
+  body.learn-article-standard :is(.curriculum-prose, .me-prose, .derivation) .raman-result-eq {
+    margin-bottom: 1.2rem;
+    padding: 0.6rem 0.65rem;
+  }
+}
+
+/* KaTeX supplies its own 1em display margins; combined with paragraph and
+   equation-block spacing that left 38px above and below each formula. */
+body[data-learn-slug="classical-raman-scattering"] .derivation p:has(+ .eq-block) {
+  margin-bottom: 0.75rem;
+}
+
+body[data-learn-slug="classical-raman-scattering"] .derivation .eq-block {
+  margin: 0 0 0.85rem;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+body[data-learn-slug="classical-raman-scattering"] .eq-block .katex-display {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+body[data-learn-slug="classical-raman-scattering"] .atom-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 11px;
+  margin: 0;
+  padding: 13px 16px 16px;
+  border-top: 1px solid rgba(74, 64, 56, 0.10);
+  background: var(--color-plate);
+}
+
+body[data-learn-slug="classical-raman-scattering"] #atom-mode {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+body[data-learn-slug="classical-raman-scattering"] #atom-mode .demo-btn {
+  width: 100%;
+  min-height: 44px;
+  padding: 5px 9px !important;
+  line-height: 1.2;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+body[data-learn-slug="classical-raman-scattering"] .atom-mode-formula {
+  display: block;
+  min-height: 1.1em;
+}
+
+@media (max-width: 760px) {
+  body.new-curriculum-bridge .crumb .crumb-item {
+    display: none;
+  }
+
+  body.new-curriculum-bridge .eq-block {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  body[data-learn-slug="classical-raman-scattering"] .atom-controls {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  body[data-learn-slug="classical-raman-scattering"] #atom-mode .demo-btn {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+  }
+
+  body[data-learn-slug="classical-raman-scattering"] #atom-mode {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+}
+
+
+/* Shared article presentation for every new curriculum route. */
+/* Shared article presentation for the curriculum concept lessons. */
+body.new-curriculum-bridge {
+  --cs-panel: #f8f5ee;
+  --cs-card: #fdfbf6;
+  --cs-rule: #e3ddd0;
+  --cs-ink: #4a4038;
+  --cs-muted: #786f65;
+  --cs-accent: #b5452f;
+  --cs-blue: #537a92;
+  --cs-tan: #a67c52;
+}
+
+body.new-curriculum-bridge .pintro {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+body.new-curriculum-bridge .demo-head {
+  margin-bottom: clamp(18px, 2.4vw, 28px);
+}
+
+/* Older concept lessons store a full translated heading in .demo-num.
+   Show only the chapter number here; h2 remains the one spoken title. */
+body.new-curriculum-bridge { counter-reset: curriculum-chapter; }
+body.new-curriculum-bridge .demo { counter-increment: curriculum-chapter; }
+body.new-curriculum-bridge .demo-head:has(> .demo-num) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 16px;
+  align-items: center;
+}
+body.new-curriculum-bridge .demo-head > .demo-num {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 0;
+  line-height: 1;
+}
+body.new-curriculum-bridge .demo-head > .demo-num > span { display: none !important; }
+body.new-curriculum-bridge .demo-head > .demo-num::before {
+  content: counter(curriculum-chapter, decimal-leading-zero);
+  color: var(--accent);
+  font-family: var(--mincho);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+body.new-curriculum-bridge .demo-head:has(> .demo-num)::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  height: 1px;
+  background: var(--rule);
+}
+body.new-curriculum-bridge .demo-head > .demo-num + h2 {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+body.new-curriculum-bridge .demo-head-rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+body.new-curriculum-bridge .demo-head-rule .demo-num {
+  flex: none;
+  color: var(--accent);
+  font-family: var(--mincho);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1;
+}
+body.new-curriculum-bridge .demo-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+body.new-curriculum-bridge .demo-head h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--mincho);
+  font-size: clamp(21px, 2.8vw, 29px);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+
+body.new-curriculum-bridge .demo-stage {
+  box-sizing: border-box;
+  max-width: var(--measure);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+}
+body.new-curriculum-bridge .curriculum-prose,
+body.new-curriculum-bridge .curriculum-prose p {
+  max-width: var(--measure);
+  margin-left: 0;
+  margin-right: 0;
+  color: var(--ink-2);
+  font-family: var(--gothic);
+  font-size: .94rem;
+  line-height: 1.95;
+}
+body.new-curriculum-bridge .cc-equation {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: .75rem 0 .85rem;
+  padding: 2px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+}
+body.new-curriculum-bridge .cc-equation .katex-display { margin: .4em 0; }
+body.new-curriculum-bridge .curriculum-panel svg {
+  max-width: 100%;
+}
+
+/* Keep older concept diagram internals legible on the shared paper panel. */
+body.new-curriculum-bridge .cc-flow { gap: 1.45rem; }
+body.new-curriculum-bridge .cc-flow-step,
+body.new-curriculum-bridge .cc-card,
+body.new-curriculum-bridge .cc-mode,
+body.new-curriculum-bridge .cc-ledger-box,
+body.new-curriculum-bridge .cc-shift-marker {
+  border: 1px solid var(--cs-rule);
+  background: var(--cs-card);
+  color: var(--cs-ink);
+}
+body.new-curriculum-bridge .cc-flow-step:not(:last-child)::after { border-color: var(--cs-accent); }
+body.new-curriculum-bridge .cc-flow-symbol,
+body.new-curriculum-bridge .cc-card h3,
+body.new-curriculum-bridge .cc-ledger-sign,
+body.new-curriculum-bridge .cc-shift-sign { color: var(--cs-accent); }
+body.new-curriculum-bridge .cc-flow-sub,
+body.new-curriculum-bridge .cc-card p,
+body.new-curriculum-bridge .cc-card li,
+body.new-curriculum-bridge .cc-mode-note,
+body.new-curriculum-bridge .cc-shift-side { color: var(--cs-muted); }
+body.new-curriculum-bridge .cc-axis,
+body.new-curriculum-bridge .cc-spectrum,
+body.new-curriculum-bridge .cc-observable-chart,
+body.new-curriculum-bridge .cc-fwhm-chart { border-color: var(--cs-muted); }
+body.new-curriculum-bridge .cc-spectrum {
+  box-sizing: border-box;
+  height: 225px;
+  padding-bottom: 28px;
+}
+body.new-curriculum-bridge .cc-axis::before,
+body.new-curriculum-bridge .cc-axis::after,
+body.new-curriculum-bridge .cc-peak::after,
+body.new-curriculum-bridge .cc-mode-label,
+body.new-curriculum-bridge .cc-shift-name,
+body.new-curriculum-bridge .cc-observable-key { color: var(--cs-ink); }
+body.new-curriculum-bridge .cc-curve path,
+body.new-curriculum-bridge .cc-observable-curve,
+body.new-curriculum-bridge .cc-fwhm-curve { stroke: var(--cs-accent); }
+body.new-curriculum-bridge .cc-curve path.secondary,
+body.new-curriculum-bridge .cc-observable-height { stroke: var(--cs-blue); }
+body.new-curriculum-bridge .cc-curve circle { fill: var(--cs-tan); stroke: var(--cs-panel); }
+body.new-curriculum-bridge .cc-table th,
+body.new-curriculum-bridge .cc-table td { border-color: var(--cs-rule); }
+body.new-curriculum-bridge .cc-table th { color: var(--cs-accent); }
+body.new-curriculum-bridge .cc-table td { color: var(--cs-ink); }
+body.new-curriculum-bridge .cc-bond,
+body.new-curriculum-bridge .cc-shift-axis::before { background: var(--cs-muted); border-color: var(--cs-muted); }
+body.new-curriculum-bridge .cc-checklist li { color: var(--cs-ink); }
+body.new-curriculum-bridge .cc-checklist li::before { background: var(--cs-accent); }
+
+@media (max-width: 640px) {
+  body.new-curriculum-bridge .curriculum-prose,
+  body.new-curriculum-bridge .curriculum-prose p { font-size: .9rem; }
+  body.new-curriculum-bridge .cc-equation { font-size: .86rem; }
+  body.new-curriculum-bridge .cc-flow { gap: .75rem; }
+}
+
+/* Ordinary prose uses the approved 1rem reference at every width.
+   Keep parent, introduction, equation and component role sizes unchanged. */
+body.new-curriculum-bridge
+:is(.curriculum-prose, .derivation, .me-prose, .r06-prose)
+:is(p, li):not(:where(.phead, .demo-head, .pintro, .second-wave-intro,
+  .learn-panel, figure, .eq-block, .cc-equation, .r06-equation,
+  .raman-result-eq, .callout, .recall, .math-note, .tb-reference) *):not(:where(.pintro, .second-wave-intro, .eq-block, .cc-equation,
+  .r06-equation, .raman-result-eq, .cap, .me-cap, .learn-panel-note)) {
+  font-size: 1rem;
+}

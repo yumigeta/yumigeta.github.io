@@ -1,0 +1,403 @@
+/* ── Raman-specific styles ── shared demo styles live in style.css ── */
+
+.raman-hero {
+  padding: 120px 28px 48px;
+  text-align: center;
+  background: var(--bg);
+}
+.raman-hero .eyebrow {
+  font-size: 13px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--accent); margin-bottom: 14px;
+}
+.raman-hero h1 {
+  font-size: clamp(26px, 4.5vw, 38px);
+  font-weight: 600; color: var(--ink);
+  letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px;
+}
+.raman-hero p {
+  max-width: 620px; margin: 0 auto;
+  color: var(--soft); font-size: 17px; line-height: 1.55;
+}
+
+/* ── Module 00 — Atom canvas ── */
+.atom-canvas {
+  width: 100%; height: 300px; display: block;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+/* ── Module 01 — Molecule + α(Q) panels ── */
+.mol-panel canvas, .aq-panel canvas {
+  width: 100%; height: 220px; display: block;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+.mode-explain {
+  font-size: 0.82rem; color: var(--faint); line-height: 1.65;
+  margin-bottom: 14px; min-height: 2.4em;
+}
+.mode-explain .mol-activity {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  margin-right: 6px; vertical-align: middle;
+}
+.mode-explain .mol-activity.raman { background: #064e3b; color: #6ee7b7; }
+.mode-explain .mol-activity.ir    { background: #422006; color: #fbbf24; }
+
+.physics-note {
+  margin-top: 12px;
+  font-size: 0.84rem; color: var(--soft); line-height: 1.7;
+}
+.physics-note b { color: var(--ink); }
+
+/* ── Trace rows ── */
+.trace-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
+.trace-label { font-size: 0.78rem; line-height: 1.4; color: var(--soft); }
+body:not([data-learn-slug="classical-raman-scattering"]) .trace-label b { color: var(--ink); }
+.trace-label .eq { display: block; font-size: 0.72rem; color: var(--faint); margin-top: 2px; }
+.trace-row canvas {
+  width: 100%; height: 74px; display: block;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+/* Only interactive animations/figures are framed — the section stage,
+   not being an animation, carries no card background of its own. */
+.demo-stage { background: transparent; padding: 0; border-radius: 0; }
+
+/* Section headings use the same mincho treatment as the measurement-error page */
+.demo-head h2 { font-family: var(--mincho); }
+
+/* ── Decomposition ── */
+.decomp-section {
+  margin-top: 18px;
+}
+.decomp-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--faint); margin-bottom: 10px;
+}
+.decomp-traces { display: flex; flex-direction: column; gap: 6px; }
+.decomp-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; align-items: center; }
+.decomp-tag { font-size: 0.74rem; font-weight: 600; }
+.decomp-row canvas {
+  width: 100%; height: 42px; display: block;
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+
+/* ── Spectrum ── */
+.spectrum-wrap { margin-top: 16px; }
+.spectrum-wrap canvas {
+  width: 100%; height: 150px; display: block;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+.spectrum-wrap .cap, .jab-cap {
+  font-size: 0.8rem; color: var(--faint); margin-top: 10px; line-height: 1.6;
+}
+
+/* ── Jablonski ── */
+.svg-wrap { width: 100%; }
+.svg-wrap svg {
+  width: 100%; height: auto; display: block;
+  background: #1b1711;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 0.76rem; color: var(--faint); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+/* ── Module 03 — Crystals ── */
+.crystal-explain {
+  display: flex; flex-direction: column; gap: 24px;
+}
+.crystal-concept h3 {
+  font-size: 0.92rem; font-weight: 700; color: var(--ink);
+  margin-bottom: 8px;
+}
+.crystal-concept p {
+  font-size: 0.84rem; color: var(--soft); line-height: 1.65;
+  margin-bottom: 8px;
+}
+.eq-block {
+  text-align: center; font-size: 1rem; font-weight: 600;
+  padding: 10px 0; letter-spacing: 0.02em;
+}
+body:not([data-learn-slug="classical-raman-scattering"]) .eq-block { color: var(--ink); }
+
+.tensor-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin: 14px 0;
+}
+.tensor-card {
+  border: 1px solid var(--rule); border-radius: 8px;
+  padding: 14px; text-align: center;
+  background: var(--bg-soft);
+}
+.tensor-label {
+  display: block; font-size: 0.88rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 8px;
+}
+.tensor-matrix table {
+  margin: 0 auto; border-collapse: collapse;
+}
+.tensor-matrix td {
+  width: 28px; height: 28px; text-align: center;
+  font-size: 0.82rem; color: var(--ink); font-style: italic;
+}
+.tensor-matrix td:empty::after {
+  content: "0"; color: #57534e;
+}
+.tensor-polar {
+  display: block; margin-top: 8px;
+  font-size: 0.7rem; color: var(--faint); font-style: italic;
+}
+
+.raman-info-list {
+  list-style: none; padding: 0; margin: 8px 0 0;
+}
+.raman-info-list li {
+  font-size: 0.82rem; color: var(--soft); line-height: 1.65;
+  padding: 4px 0 4px 18px; position: relative;
+}
+.raman-info-list li::before {
+  content: ""; position: absolute; left: 0; top: 12px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+}
+.raman-info-list li b { color: var(--ink); }
+
+.crystal-concept .ext-link {
+  color: var(--accent); text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px; font-weight: 500;
+}
+.crystal-concept .ext-link:hover {
+  color: var(--soft); text-decoration-color: var(--soft);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .trace-row { grid-template-columns: 1fr; gap: 6px; }
+  .trace-label { display: flex; gap: 8px; align-items: baseline; }
+  .decomp-row { grid-template-columns: 1fr; gap: 4px; }
+  .tensor-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Module 01 — Classical theory: Figure 1 + derivation ── */
+.ray-fig { margin: 4px 0 22px; }
+.ray-svg {
+  width: 100%; height: auto; display: block;
+  background: #f8fafc;
+  border: 1px solid var(--rule); border-radius: 10px;
+}
+.ray-lab { font-size: 13px; font-weight: 600; font-family: 'Zen Kaku Gothic New', sans-serif; }
+.ray-ax  { font-size: 13px; font-style: italic; font-weight: 700; }
+.ray-fig figcaption {
+  font-size: 0.8rem; color: var(--faint); line-height: 1.6;
+  margin-top: 10px; padding-left: 2px;
+}
+.ray-fig figcaption b { color: var(--soft); }
+
+.derivation { display: block; }
+.derivation h3 {
+  font-family: var(--mincho);
+  font-size: 1.18rem; font-weight: 700; color: var(--ink);
+  margin: 2.1rem 0 0.55rem; padding: 0;
+  letter-spacing: -.01em;
+}
+.derivation h3:first-child { margin-top: 0.3rem; }
+.derivation p {
+  font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 1.1rem;
+  max-width: var(--read-measure);
+}
+.derivation p:last-child { margin-bottom: 0; }
+.derivation p b { color: var(--ink); }
+.derivation .eq-block {
+  margin: 0 0 1.1rem; padding: 4px 0; overflow-x: auto;
+  /* equations inherit the prose measure (72ch) from `.derivation p`: long ones
+     are WRAPPED to fit (e.g. eq 11), never allowed to widen the column. */
+}
+
+body[data-learn-slug="raman"] .derivation .eq-block.raman-result-eq {
+  margin: 0.4rem 0 1.45rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  body[data-learn-slug="raman"] .derivation .eq-block.raman-result-eq {
+    margin-bottom: 1.2rem;
+    padding: 0.6rem 0.65rem;
+  }
+}
+
+
+.recall {
+  margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--bg-soft);
+}
+.recall > summary {
+  cursor: pointer; list-style: none; padding: 10px 16px;
+  font-size: 0.8rem; font-weight: 600; color: var(--faint);
+  display: flex; align-items: center; gap: 8px; user-select: none;
+}
+.recall > summary::-webkit-details-marker { display: none; }
+.recall > summary::before {
+  content: ""; flex: none; width: 15px; height: 15px;
+  background-color: currentColor;
+  -webkit-mask: var(--ti-chevron-right) center / contain no-repeat;
+          mask: var(--ti-chevron-right) center / contain no-repeat;
+  transition: transform .15s ease;
+}
+.recall[open] > summary::before { transform: rotate(90deg); }
+.recall[open] > summary { border-bottom: 1px solid var(--rule); }
+.recall > summary:hover { color: var(--ink); }
+.recall > div {
+  padding: 6px 16px 12px;
+}
+.recall p { font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 0.9rem; }
+.recall p:last-child { margin-bottom: 0; }
+
+/* ── Polarizability demo: α slider, mode toggle, legend ── */
+.atom-controls {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px 22px; margin: 14px 2px 8px;
+}
+.atom-slider { display: flex; align-items: center; gap: 10px; flex: 1 1 240px; }
+.atom-slider label { font-size: 0.82rem; color: var(--soft); white-space: nowrap; }
+.atom-slider input[type="range"] {
+  flex: 1 1 auto; min-width: 110px; cursor: pointer;
+}
+.atom-slider output {
+  font-size: 0.8rem; color: var(--accent); font-variant-numeric: tabular-nums;
+  min-width: 80px; text-align: right;
+}
+.atom-legend {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin: 0 2px 6px; font-size: 0.76rem; color: var(--faint);
+}
+.atom-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.atom-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
+/* ── In-section sub-demo heading (e.g. CO2 demo inside the classical theory) ── */
+.demo-sub {
+  font-family: var(--mincho);
+  font-size: 1.06rem; font-weight: 700; color: var(--ink);
+  margin: 2.25rem 0 0.55rem; padding: 0;
+  letter-spacing: -.01em;
+}
+.demo-sub-p { font-size: 1rem; color: var(--soft); line-height: 1.7; margin: 0 0 1.1rem; max-width: var(--read-measure); }
+
+@media (max-width: 700px) {
+  .demo-sub { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.02rem; }
+}
+
+/* ── Taylor reminder: sin x animation ── */
+.taylor-canvas {
+  width: 100%; height: 240px; display: block; margin: 6px 0 4px;
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+
+/* Paper page with interactive drawings inside the shared Learn panel. */
+body:not([data-learn-slug="classical-raman-scattering"]) .demo-stage { color: var(--ink); }
+.atom-canvas, .taylor-canvas,
+.mol-panel canvas, .aq-panel canvas,
+.trace-row canvas, .decomp-row canvas, .spectrum-wrap canvas,
+.ray-svg { box-shadow: var(--shadow-card); }
+
+/* The card layout is local; learn-panel.css owns its outer surface. */
+/* canvases become inset screens inside the card (the card is the frame) */
+.anim-card canvas { box-shadow: none;
+}
+/* Diagram labels retain their page-specific palette. */
+
+/* Align the page header with the demo content (same left edge) */
+
+/* Header row: title left, language toggle right (no number/meta on sub-pages) */
+.ptop { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+/* ── CO2 traces shown as a product: E(t) × α(t) = p(t) ── */
+.trace-mult { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.trace-cell { flex: 1 1 0; min-width: 0; }
+.trace-cell .trace-label { margin-bottom: 6px; }
+.trace-cell canvas { width: 100%; height: 96px; display: block; }
+.trace-op { flex: 0 0 auto; font-size: 1.4rem; font-weight: 600; margin-top: 16px; }
+@media (max-width: 640px) {
+  .trace-mult { flex-direction: column; align-items: stretch; }
+  .trace-op { margin: 0; text-align: center; }
+}
+
+/* ── Angle-resolved polar plots (I_parallel / I_perp vs angle) ── */
+.polar-fig { margin: 12px 0 6px; text-align: center; }
+.polar-svg { width: min(210px, 62%); height: auto; display: inline-block; }
+.polar-cap { font-size: 0.78rem; color: var(--soft); margin-top: 2px; }
+.polar-cap b { color: var(--ink); }
+.polar-cap .sw {
+  display: inline-block; width: 11px; height: 11px; border-radius: 2px;
+  vertical-align: middle; margin-right: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Unified reading rhythm — one body size, one leading, ONE column width.
+   Running prose = 1rem / 1.7, all capped at the SAME measure the shell
+   gives the intro (72ch), so body text lines up with the lead instead of
+   running the full ~820px center column. Figures (.anim-card) stay wide.
+   Previously font sizes jumped 13–16px, leading 1.55–1.75, and the body
+   ran full-width while the intro sat at 72ch — that mismatch is the fix.
+   ══════════════════════════════════════════════════════════════════ */
+:root { --read-measure: 72ch; }            /* page-scoped (raman.css only loads here) */
+
+/* Shell width is no longer page-scoped here — the whole site shares one outer
+   width (--maxw, 1190px) from style.css :root, so raman, every other Learn page,
+   and the nav all line up. The reading column is still kept tidy by the
+   --read-measure / 72ch caps below (text, equations and figures share one
+   measure); the shell just no longer needs its own width override. */
+
+.pintro { font-size: 1rem; line-height: 1.7; }
+.demo-head p { font-size: 1rem; line-height: 1.7; }
+
+/* every prose block + its captioned asides share the one reading measure.
+   Equations are NOT capped here — a few (e.g. the wide tensor sum) need the
+   full column; they stay centered within it rather than scroll. */
+.recall, .callout,
+p.cap { max-width: var(--read-measure); }
+
+/* figure / spectrum captions — single secondary size & leading */
+.cap,
+.spectrum-wrap .cap, .jab-cap { font-size: 0.875rem; line-height: 1.6; }
+
+/* Raman diagram semantics; shared panel appearance is in learn-panel.css. */
+.anim-card canvas,
+.anim-card.learn-panel canvas,
+.anim-card .atom-canvas,
+.anim-card .mol-panel canvas, .anim-card .aq-panel canvas,
+.anim-card .trace-cell canvas, .anim-card .decomp-row canvas,
+.anim-card .spectrum-wrap canvas{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+.anim-card .trace-label .eq,
+.anim-card .atom-legend,
+.anim-card .legend,
+.anim-card .decomp-label,
+.anim-card .mode-explain,
+.anim-card .spectrum-wrap .cap{ color:var(--ink-2); }
+.anim-card .trace-op{ font-family:var(--panel-math-font); font-weight:400; }
+body:not([data-learn-slug="classical-raman-scattering"]) .anim-card .trace-op{ color:#a89e92; }
+.anim-card .atom-legend{ display:none; }
+.anim-card.atom-labels-out .atom-legend{ display:flex; }
+.anim-card .atom-legend span:nth-child(1) i{ background:var(--color-teal)  !important; }
+.anim-card .atom-legend span:nth-child(2) i{ background:var(--color-accent-suo)   !important; }
+.anim-card .atom-legend span:nth-child(3) i{ background:var(--color-terracotta) !important; }
+.anim-card .decomp-row:nth-child(1) .decomp-tag{ color:var(--color-neutral) !important; }
+.anim-card .decomp-row:nth-child(2) .decomp-tag{ color:var(--color-accent-suo)  !important; }
+.anim-card .decomp-row:nth-child(3) .decomp-tag{ color:var(--color-teal) !important; }
+.anim-card .decomp-tag{ font-family:var(--panel-math-font); font-style:normal; font-weight:500; }
+.anim-card .mode-explain .mol-activity.raman{ background:#e3ebe8; color:var(--color-teal); }
+.anim-card .mode-explain .mol-activity.ir   { background:#f1e3dc; color:var(--color-accent-suo); }

@@ -1,0 +1,80 @@
+/* R01 geometry only. Shared Learn fields, axes, grids and type roles remain authoritative. */
+.classical-atom-panel .r01-atom-figure { padding: 12px; container-type: inline-size; }
+.classical-atom-panel .atom-canvas { width: 100%; height: 300px; display: block; border: 0; border-radius: 0; }
+.classical-atom-panel .r01-atom-controls { display: block; margin: 0; }
+.learn-panel.classical-atom-panel #atom-mode { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: 1fr; align-items: stretch; gap: var(--panel-related-gap); width: 100%; }
+.classical-atom-panel .atom-mode-formula { display: block; }
+.learn-panel.classical-frequency-panel .r01-product { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); gap: var(--panel-related-gap); align-items: center; }
+.learn-panel.classical-frequency-panel .r01-product-card { align-content: start; padding: var(--panel-related-gap); }
+.learn-panel.classical-frequency-panel .r01-product-operator { display: grid; place-items: center; min-width: var(--panel-symbol-size); min-height: var(--panel-symbol-size); font-size: var(--panel-symbol-size); line-height: 1; }
+.learn-panel.classical-frequency-panel .r01-quantity-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: var(--panel-related-gap); }
+.learn-panel.classical-frequency-panel .r01-product canvas { height: 146px; }
+.learn-panel.classical-frequency-panel .r01-decomposition-grid { display: grid; grid-template-columns: max-content max-content minmax(0,1fr); gap: var(--panel-related-gap); align-items: center; min-width: 0; }
+.learn-panel.classical-frequency-panel :is(.r01-frequency,.r01-scattering-name) { white-space: nowrap; }
+.learn-panel.classical-frequency-panel .r01-decomposition-grid > .r01-canvas-plot { min-width: 0; }
+.learn-panel.classical-frequency-panel .r01-decomposition-grid canvas { height: 63px; }
+.learn-panel.classical-frequency-panel .r01-component-time { grid-column: 3; padding-left: 18px; padding-right: 8px; text-align: center; }
+.learn-panel.classical-frequency-panel #c-spectrum { height: 197px; }
+:is(.classical-atom-panel, .classical-frequency-panel) .r01-canvas-plot { position: relative; min-width: 0; }
+:is(.classical-atom-panel, .classical-frequency-panel) .r01-canvas-plot canvas { position: relative; z-index: 1; display: block; width: 100%; background: transparent; border: 0; box-shadow: none; }
+:is(.classical-atom-panel, .classical-frequency-panel) .r01-axis-layer { position: absolute; z-index: 0; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
+@container (max-width: 520px) {
+  .classical-atom-panel .atom-canvas { height: 432px; }
+  .learn-panel.classical-frequency-panel .r01-product { grid-template-columns: minmax(0,1fr); }
+  .learn-panel.classical-frequency-panel .r01-product canvas { height: 134px; }
+}
+
+body[data-learn-slug="classical-raman-scattering"] .eqref {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  min-height:44px;
+  padding:8px 10px;
+  vertical-align:middle;
+}
+
+/* Long identities stay inside the reading column on narrow screens.  The
+   focusable region makes any horizontal scrolling explicit and keyboard
+   accessible instead of allowing the equation to widen the document. */
+body[data-learn-slug="classical-raman-scattering"] .equation-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+body[data-learn-slug="classical-raman-scattering"] .equation-scroll .katex-display {
+  overflow: visible;
+  min-width: max-content;
+}
+
+@media (max-width: 420px) {
+  body[data-learn-slug="classical-raman-scattering"] #eqproduct-sum .katex,
+  body[data-learn-slug="classical-raman-scattering"] #eq6 .katex {
+    font-size: .9em;
+  }
+}
+
+/* Keep the two controls on the first module comfortably tappable. */
+body[data-learn-slug="classical-raman-scattering"] .lang-btn {
+  min-height: 44px;
+  padding: 10px 12px;
+}
+
+.learn-panel.classical-atom-panel #atom-mode > .demo-btn {
+  min-width: 44px;
+  min-height: 44px !important;
+  width: 100%;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: var(--panel-related-gap) var(--panel-gap) !important;
+  line-height: 1.35;
+  white-space: normal;
+}
