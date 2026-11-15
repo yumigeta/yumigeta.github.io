@@ -38,8 +38,10 @@ def validate():
             nodes = list(Document(file.read_text(encoding='utf-8')).root.walk())
             root = next(n for n in nodes if n.tag == 'html')
             check(all(root.attrs.get(k) == lang for k in ('lang', 'data-lang', 'data-page-lang')), 'Wrong language: ' + route)
-            if path in v2_paths:
-                check(root.attrs.get('data-static-shell') == 'article', 'Missing static article shell: ' + route)
+            new_index = path == '/learn/' and bool(new_categories)
+            if path in v2_paths or new_index:
+                shell = 'index' if new_index else 'article'
+                check(root.attrs.get('data-static-shell') == shell, 'Missing static Learn shell: ' + route)
                 check(not any(n.attrs.get('property') == 'og:site_name' for n in nodes), 'Site name in article metadata: ' + route)
             canonicals = [n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'canonical']
             check(canonicals == [ORIGIN + route], 'Wrong self canonical: ' + route)
@@ -78,7 +80,7 @@ def validate():
             localized_source = Document(source).root
             strip_language(localized_source, lang)
             figure_tags = ('canvas', 'svg', 'input', 'select')
-            if path in v2_paths:
+            if path in v2_paths or new_index:
                 before, after = list(article_figures(localized_source)), list(article_figures(root))
             else:
                 before = [(n.tag, n.attrs) for n in localized_source.walk() if n.tag in figure_tags]
@@ -86,7 +88,15 @@ def validate():
             check(before == after, 'Figure markup changed: ' + route)
             if path == '/learn/':
                 links = {n.attrs.get('href') for n in nodes if n.tag == 'a'}
-                check(all(localized(p, lang) in links for p in paths[1:]), 'Index needs JS to discover articles')
+                if new_index:
+                    route_prefix = localized('/learn/', lang)
+                    article_links = {link for link in links if link and link.startswith(route_prefix)
+                                     and urlsplit(link).path != route_prefix}
+                    check(article_links == {localized(p, lang) for p in v2_paths},
+                          'Learn index articles must match the public curriculum: ' + route)
+                else:
+                    check(all(localized(p, lang) in links for p in paths[1:]),
+                          'Index needs JS to discover articles')
     ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9', 'x': 'http://www.w3.org/1999/xhtml'}
     sitemap = ET.parse(OUTPUT / 'sitemap.xml')
     entries = sitemap.getroot().findall('s:url', ns)

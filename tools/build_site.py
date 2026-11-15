@@ -174,9 +174,6 @@ def generate(source, path, lang, page, registry, routes):
             node.set('aria-label', 'Switch to English' if lang == 'ja' else '日本語に切り替える')
         if node.attrs.get('id') == 'learn-sections':
             node.children = [render_index(registry, lang)]
-        if node.attrs.get('id') == 'learn-curriculum-section':
-            from learn_v2 import render_new_index
-            node.children = [render_new_index(registry, lang)]
     next_card = render_next(page, registry, lang)
     if next_card:
         body = next(n for n in nodes if n.tag == 'body')
@@ -256,7 +253,7 @@ def build():
         source = file.read_text(encoding='utf-8')
         for lang in ('en', 'ja'):
             route = localized(path, lang)
-            if page and page.get('category') in new_categories:
+            if (page and page.get('category') in new_categories) or (page is None and new_categories):
                 generated[route] = generate_v2(source, path, lang, page, registry, sources)
                 v2_routes.append(route)
             else:

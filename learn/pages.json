@@ -2784,7 +2784,7 @@
   "category_architectures": [
     {
       "id": "matter-mechanisms-v2",
-      "num": "NⅠ",
+      "num": "Ⅰ",
       "name_en": "How Matter Works",
       "name_ja": "物質のしくみ",
       "color": "foundation",
@@ -2809,7 +2809,7 @@
     },
     {
       "id": "materials-phenomena-devices-v2",
-      "num": "NⅡ",
+      "num": "Ⅱ",
       "name_en": "Materials, Phenomena & Devices",
       "name_ja": "材料・現象・デバイス",
       "color": "material",
