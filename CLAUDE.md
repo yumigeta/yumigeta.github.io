@@ -22,8 +22,10 @@ unchanged.
 Use one self-contained title per page throughout the site. Do not append a
 subtitle with a dash, colon, or a separate tagline. Keep the visible page title,
 browser title, social title metadata, structured page name, and Learn registry
-consistent. The home page title is `Kentaro Yumigeta`; the graphene TB page's
-English title is `Tight-Binding Model of Graphene`. Hyphens within scientific
+consistent. Use the home page heading `Atomic-Scale Materials for Advanced
+Nanoelectronics` in its title fields. Omit `og:site_name` and do not add a
+`WebSite` name declaration. The graphene TB page's English title is
+`Tight-Binding Model of Graphene`. Hyphens within scientific
 terms (such as Tight-Binding) are part of the term, not subtitle separators.
 
 - `index.html` — main landing page
