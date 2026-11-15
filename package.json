@@ -1,0 +1,9 @@
+{
+  "name": "yumigeta-site-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static Learn navigation generation",
+  "dependencies": {
+    "linkedom": "0.18.12"
+  }
+}

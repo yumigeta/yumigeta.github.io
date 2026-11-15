@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Classical Theory of Raman Scattering</title>
+  <meta name="description" content="A classical account of how molecular vibration changes polarizability, creates Rayleigh, Stokes, and anti-Stokes frequencies, and determines the intensity of dipole radiation.">
+  <meta name="keywords" content="Raman spectroscopy, classical theory, polarizability, induced dipole, Stokes scattering, anti-Stokes scattering, molecular vibration, Rayleigh scattering, dipole radiation">
+  <link rel="canonical" href="https://yumigeta.com/learn/classical-raman-scattering/">
+  <!-- Open Graph (Facebook, LinkedIn, Discord, etc.) -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Classical Theory of Raman Scattering">
+  <meta property="og:description" content="How molecular vibration changes polarizability and creates Rayleigh, Stokes, and anti-Stokes frequencies in an induced dipole.">
+  <meta property="og:url" content="https://yumigeta.com/learn/classical-raman-scattering/">
+
+  <meta property="og:image" content="https://yumigeta.com/assets/img/og-raman.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Classical Theory of Raman Scattering">
+  <meta name="twitter:description" content="How molecular vibration changes polarizability and how dipole radiation determines the classical intensity dependence.">
+  <meta name="twitter:image" content="https://yumigeta.com/assets/img/og-raman.png">
+  <!-- Structured data: educational article -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Classical Theory of Raman Scattering","description":"A classical account of how molecular vibration changes polarizability, creates new frequencies, and determines dipole-radiation intensity.","url":"https://yumigeta.com/learn/classical-raman-scattering/","author":{"@type":"Person","name":"Kentaro Yumigeta"},"educationalLevel":"Undergraduate","inLanguage":["en","ja"],"isAccessibleForFree":true,"interactivityType":"mixed"}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/raman.css?v=20260916-r2">
+  <link rel="stylesheet" href="/assets/css/classical-raman-scattering.css?v=20260919-r01-panel">
+  <link rel="stylesheet" href="/assets/css/article-shell.css?v=raman-layout-20260923-r2">
+
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+  <link rel="stylesheet" href="/assets/css/eq-hover.css">
+  <link rel="stylesheet" href="/assets/css/curriculum-route-bridge.css">
+  <link rel="stylesheet" href="/assets/css/learn-panel.css">
+</head>
+<body class="new-curriculum-bridge learn-article-standard" data-learn-slug="classical-raman-scattering">
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Classical Raman Theory</span><span class="i18n-ja">ラマン古典論</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">Classical Theory of Raman Scattering</span><span class="i18n-ja">ラマン散乱の古典論</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">When you shine a laser on a material, most of the scattered light has the exact same frequency as the incident light. If you look closely, however, you will find a small portion of light with slightly shifted frequencies. This shift corresponds directly to the internal vibrations of atoms within the material. Through light, we can read out atomic vibrations that are invisible to the naked eye.</span><span class="i18n-ja">レーザーを物質に当てると、散乱光の大部分は入射光と同じ周波数をもつ。しかし詳しく調べると、その中に入射光とはわずかに周波数の異なる光が含まれている。この周波数のずれは、物質内部の原子の振動と対応している。光を通して、目には見えない原子の振動を読み取れるのである。</span></p>
+      <p class="pintro"><span class="i18n-en">How do these new frequencies originate? On this page, we explore Raman scattering arising from molecular vibrations using classical electromagnetism. By examining the dipole oscillations induced in a molecule by incident light, we will uncover how new frequencies emerge and what determines the intensity of the scattered light.</span><span class="i18n-ja">入射光にはなかった周波数は、どのようにして生まれるのだろうか。このページでは、分子振動に由来するラマン散乱を古典電磁気学で考える。入射光が分子に誘起する双極子の振動を調べ、新しい周波数が生まれる仕組みと、散乱光の強さを決める量を求める。</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════ Module 01 — Induced dipole ═══════ -->
+  <section class="demo">
+    <div class="demo-head" style="margin-bottom:clamp(18px,2.4vw,28px)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <span class="demo-num" style="font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:#bf2f25;letter-spacing:.16em">01</span>
+        <span style="flex:1;height:1px;background:rgba(30,25,19,.18)"></span>
+      </div>
+      <h2 style="font-family:'Shippori Mincho',serif;font-weight:700;font-size:clamp(21px,2.8vw,29px);line-height:1.5;margin:0;text-wrap:pretty"><span class="i18n-en">Incident Light Creates an Induced Dipole</span><span class="i18n-ja">入射光が誘起双極子をつくる</span></h2>
+    </div>
+    <div class="demo-stage">
+
+      <!-- Derivation: matches dissertation Appendix A.1 -->
+      <div class="derivation">
+
+        <p><span class="i18n-en">Laser light is practically monochromatic, and the size of a molecule is much smaller than the wavelength of light. Therefore, we can treat the electric field within the molecule as uniform, writing the incident electric field $E_i(t)$ as:</span><span class="i18n-ja">レーザーはほぼ単色であり、分子の大きさは光の波長に比べて十分小さい。そこで、分子内では電場を一様とみなし、入射電場を</span></p>
+        <p class="eq-block" id="eq1">$$E_i(t)=E_{i0}\cos\omega_i t\tag{1}$$</p>
+        <p><span class="i18n-en">where $E_{i0}$ is the amplitude of the incident electric field and $\omega_i$ is its angular frequency.</span><span class="i18n-ja">と書く。ここで $E_{i0}$ は入射電場の振幅、$\omega_i$ は角振動数である。</span></p>
+        <p><span class="i18n-en">When exposed to the electric field of light, the electron distribution inside the molecule distorts slightly, displacing the centers of positive and negative charge. This displacement generates an electric dipole known as an induced dipole. Focusing on a single directional component of the electric field and the induced dipole within the range where the induced dipole is proportional to the field, we express their relationship as:</span><span class="i18n-ja">光の電場を受けると分子内の電子分布がわずかに変形し、正負の電荷の中心がずれることで電気双極子（誘起双極子）が生じる。ここでは、電場と誘起双極子の一つの方向成分に注目し、誘起双極子が電場に比例する範囲を考える。その関係は次式で表される。</span></p>
+        <p class="eq-block" id="eqdipole">$$\mu(t)=\alpha E_i(t)=\alpha E_{i0}\cos\omega_i t$$</p>
+        <p><span class="i18n-en">The proportionality constant $\alpha$ is called the polarizability, which quantifies how easily the electron distribution deforms.</span><span class="i18n-ja">比例係数 $\alpha$ は分極率と呼ばれ、電子分布の変形しやすさを表す。</span></p>
+        <p id="atom-cap"><span class="i18n-en">As the electron distribution oscillates in response to the electric field of the incident light, the induced dipole oscillates as well. Oscillating charges emit electromagnetic radiation, which we observe as scattered light. If the polarizability is a time-independent constant $\alpha_0$, the induced dipole oscillates at the same angular frequency $\omega_i$ as the incident light, emitting light of the exact same frequency. This is Rayleigh scattering.</span><span class="i18n-ja">入射光の電場に応じて電子分布が揺れると、誘起双極子も振動する。振動する電荷は電磁波を放射し、この光が散乱光として観測される。分極率が時間によらない定数 $\alpha_0$ なら、誘起双極子は入射光と同じ角振動数 $\omega_i$ で振動し、放射される光も同じ周波数をもつ。これがレイリー散乱である。</span></p>
+        <p><span class="i18n-en">On the other hand, as molecular vibrations shift atomic positions, the polarizability itself can vary over time. Because the induced dipole is determined by the product of the electric field and the polarizability, this time variation generates frequency components distinct from the incident light. The radiation emitted by these new components is Raman scattering.</span><span class="i18n-ja">一方、分子の振動によって原子の配置が変わると、分極率も時間とともに変化する場合がある。誘起双極子は電場と分極率の積で決まるため、この変化によって入射光とは異なる周波数成分が生じる。その成分から放射される光がラマン散乱である。</span></p>
+        <figure class="curriculum-panel classical-atom-panel learn-panel" data-panel-kind="induced-dipole">
+<div class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Incident field and induced dipole</span><span class="i18n-ja">入射電場と誘起双極子</span></span></div>
+<div class="cc-panel-body learn-panel-stack">
+<div class="learn-panel-field r01-canvas-plot r01-atom-figure"><canvas id="c-atom" class="atom-canvas" role="img" aria-label="E(t) と誘起双極子 μ の関係、μ(t)の現在点"></canvas></div>
+<div class="r01-atom-controls">          <div class="learn-panel-button-row" id="atom-mode">
+            <button class="demo-btn active" data-amode="const" aria-pressed="true" aria-label="Polarizability is constant"><span class="i18n-en">Polarizability is constant</span><span class="i18n-ja">分極率が一定</span><span class="atom-mode-formula">$\alpha=\alpha_0$</span></button>
+            <button class="demo-btn" data-amode="mod" aria-pressed="false" aria-label="Polarizability changes with time"><span class="i18n-en">Polarizability changes with time</span><span class="i18n-ja">分極率が時間とともに変化</span></button>
+          </div></div>
+</div>
+</figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Module 02 — Vibrating polarizability ═══════ -->
+  <section class="demo">
+    <div class="demo-head" style="margin-bottom:clamp(18px,2.4vw,28px)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <span class="demo-num" style="font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:#bf2f25;letter-spacing:.16em">02</span>
+        <span style="flex:1;height:1px;background:rgba(30,25,19,.18)"></span>
+      </div>
+      <h2 style="font-family:'Shippori Mincho',serif;font-weight:700;font-size:clamp(21px,2.8vw,29px);line-height:1.5;margin:0;text-wrap:pretty"><span class="i18n-en">Oscillating Polarizability Generates New Frequency Components</span><span class="i18n-ja">振動する分極率が新しい周波数成分をつくる</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+
+        <p><span class="i18n-en">To derive the time dependence of polarizability, we first formulate the molecular vibrations mathematically. Small vibrations near the equilibrium position can be represented as a superposition of basic vibrational patterns called normal modes, where the direction and relative amplitude of each atom's displacement are fixed.</span><span class="i18n-ja">分極率の時間変化を求めるため、まず分子の振動を数式で表す。平衡位置の近くでの小さな振動は、いくつかの基本的な振動パターンの重ね合わせとして表せる。それぞれのパターンでは各原子の動く向きと振幅の比が決まっており、これらを正規モードと呼ぶ。</span></p>
+        <p><span class="i18n-en">Selecting a single normal mode $k$, we denote the displacement along this pattern using the normal coordinate $Q_k$, defining the equilibrium position as $Q_k = 0$.</span><span class="i18n-ja">一つの正規モード $k$ を選び、その振動パターンに沿った分子の変位を基準座標 $Q_k$ で表す。平衡位置を $Q_k=0$ とする。</span></p>
+        <p><span class="i18n-en">Near equilibrium, we approximate the polarizability $\alpha(Q_k)$ using a first-order Taylor expansion (the tangent line at $Q_k = 0$):</span><span class="i18n-ja">平衡位置の近くでは、分極率 $\alpha(Q_k)$ を、その点での接線で近似する。平衡位置での値と一次の傾きだけを残すと、</span></p>
+        <p class="eq-block" id="eq2">$$\alpha(Q_k)\simeq\alpha_0+\left(\frac{\partial\alpha}{\partial Q_k}\right)_0Q_k\tag{2}$$</p>
+        <p><span class="i18n-en">where $\alpha_0$ is the polarizability at equilibrium and $(\partial \alpha / \partial Q_k)_0$ represents the derivative (slope) of the polarizability with respect to $Q_k$ at equilibrium along the selected vibration pattern.</span><span class="i18n-ja">となる。$\alpha_0$ は平衡位置での分極率であり、$\left(\partial\alpha/\partial Q_k\right)_0$ は、選んだ振動パターンに沿って $Q_k$ を変えたときの、分極率の傾きである。</span></p>
+        <p><span class="i18n-en">Assuming this mode executes simple harmonic motion at angular frequency $\omega_k$ with amplitude $Q_{k0}$, we write:</span><span class="i18n-ja">このモードが角振動数 $\omega_k$、振幅 $Q_{k0}$ で単振動すると仮定すると、</span></p>
+        <p class="eq-block" id="eq3">$$Q_k(t)=Q_{k0}\cos\omega_k t\tag{3}$$</p>
+        <p><span class="i18n-en">$Q_{k0}$ is the amplitude of this vibration. Substituting <button type="button" class="eqref" data-eq="3">Equation (3)</button> into <button type="button" class="eqref" data-eq="2">Equation (2)</button> yields:</span><span class="i18n-ja">と書ける。$Q_{k0}$ はこの振動の振幅である。<button type="button" class="eqref" data-eq="3">式(3)</button>を<button type="button" class="eqref" data-eq="2">式(2)</button>に代入すると、</span></p>
+        <p class="eq-block" id="eq4">$$\alpha(t)=\alpha_0+\alpha_k\cos\omega_k t,\qquad\alpha_k=\left(\frac{\partial\alpha}{\partial Q_k}\right)_0Q_{k0}\tag{4}$$</p>
+        <p><span class="i18n-en">Thus, the polarizability oscillates around its equilibrium value $\alpha_0$ at the molecular vibrational angular frequency $\omega_k$. The coefficient $\alpha_k$ carries a sign; its absolute value $|\alpha_k|$ is the amplitude of this variation.</span><span class="i18n-ja">となる。分極率は平衡値 $\alpha_0$ のまわりで、分子振動と同じ角振動数 $\omega_k$ で変化する。$\alpha_k$ は符号を含む振動成分の係数であり、その絶対値 $|\alpha_k|$ が振幅を表す。</span></p>
+
+        <p><span class="i18n-en">Now, substituting <button type="button" class="eqref" data-eq="4">Equation (4)</button> into the induced dipole relationship $\mu(t) = \alpha(t) E_i(t)$, we obtain:</span><span class="i18n-ja"><button type="button" class="eqref" data-eq="4">式(4)</button>を、誘起双極子の関係式 $\mu(t)=\alpha(t)E_i(t)$ に代入すると、次の式が得られる。</span></p>
+        <p class="eq-block" id="eq5">$$\mu(t)=\left(\alpha_0+\alpha_k\cos\omega_k t\right)E_{i0}\cos\omega_i t\tag{5}$$</p>
+        <p><span class="i18n-en">Here, a product term $\cos(\omega_k t)\cos(\omega_i t)$ appears—a feature absent when polarizability is constant. Applying the product-to-sum trigonometric identity:</span><span class="i18n-ja">分極率が一定のときにはなかった、$\cos\omega_k t$ と $\cos\omega_i t$ の積が現れる。この積に含まれる周波数を取り出すため、積和公式</span></p>
+        <p class="eq-block equation-scroll" id="eqproduct-sum" role="region" tabindex="0" aria-label="Product-to-sum identity; scroll horizontally if needed">$$\cos\omega_k t\cos\omega_i t=\frac12\left[\cos(\omega_i-\omega_k)t+\cos(\omega_i+\omega_k)t\right]$$</p>
+        <p><span class="i18n-en">we can separate <button type="button" class="eqref" data-eq="5">Equation (5)</button> into three distinct components:</span><span class="i18n-ja">を使う。式(5)は、次の三つの成分に書き分けられる。</span></p>
+        <p class="eq-block raman-result-eq" id="eq6"><span class="i18n-en">$$\mu(t)=\underbrace{\alpha_0E_{i0}\cos\omega_i t}_{\text{Rayleigh}}+\frac12\alpha_kE_{i0}\left[\underbrace{\cos(\omega_i-\omega_k)t}_{\text{Stokes}}+\underbrace{\cos(\omega_i+\omega_k)t}_{\text{anti-Stokes}}\right]\tag{6}$$</span><span class="i18n-ja">$$\mu(t)=\underbrace{\alpha_0E_{i0}\cos\omega_i t}_{\text{レイリー}}+\frac12\alpha_kE_{i0}\left[\underbrace{\cos(\omega_i-\omega_k)t}_{\text{ストークス}}+\underbrace{\cos(\omega_i+\omega_k)t}_{\text{反ストークス}}\right]\tag{6}$$</span></p>
+          <p><span class="i18n-en">Assuming $\omega_i > \omega_k$, the first term oscillates at the incident angular frequency and corresponds to Rayleigh scattering. The remaining two terms oscillate at $\omega_i - \omega_k$ and $\omega_i + \omega_k$. The lower-frequency radiation is called Stokes light, while the higher-frequency radiation is called Anti-Stokes light.</span><span class="i18n-ja">ここでは $\omega_i>\omega_k$ とする。第一項は入射光と同じ角振動数で振動し、レイリー散乱に対応する。残る二項の角振動数は、それぞれ $\omega_i-\omega_k$ と $\omega_i+\omega_k$ である。これらから放射される、入射光より低周波の光をストークス光、高周波の光を反ストークス光と呼ぶ。</span></p>
+        <p><span class="i18n-en">The periodic modulation of polarizability creates sum and difference frequencies between the incident light and the molecular vibration. This is the fundamental mechanism behind the emergence of new frequencies.</span><span class="i18n-ja">分極率の周期的な変化によって、誘起双極子には入射光と分子振動の角振動数の和と差が現れる。これが、入射光になかった周波数が生まれる仕組みである。</span></p>
+        <p><span class="i18n-en">The condition for the selected polarizability component to change to first order with respect to the vibration is $(\partial \alpha / \partial Q_k)_0 \neq 0$. Vibrational modes satisfying this condition for at least one polarizability component are designated as Raman-active modes. If the derivative of the selected component along the chosen coordinate is zero, that component does not change to first order, causing $\alpha_k$ in <button type="button" class="eqref" data-eq="4">Equation (4)</button> and its Stokes and Anti-Stokes terms in <button type="button" class="eqref" data-eq="6">Equation (6)</button> to vanish.</span><span class="i18n-ja">分極率が振動に対して一次で変化する条件は、$\left(\partial\alpha/\partial Q_k\right)_0\ne0$ である。分極率のいずれかの成分がこの条件を満たすモードを、ラマン活性なモードという。ここで取り出した成分の傾きが0なら、分極率はその振動に対して一次では変化せず、<button type="button" class="eqref" data-eq="4">式(4)</button>の $\alpha_k$ と<button type="button" class="eqref" data-eq="6">式(6)</button>のストークス成分・反ストークス成分も0になる。</span></p>
+
+      </div>
+
+<figure class="curriculum-panel classical-frequency-panel learn-panel" data-panel-kind="frequency-components">
+<div class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">A vibrating polarizability modulates the induced dipole</span><span class="i18n-ja">振動する分極率が誘起双極子を変調する</span></span></div>
+<div class="cc-panel-body learn-panel-stack" data-classical-frequency-panel>
+<div class="learn-panel-triptych r01-product">
+<div class="learn-panel-card learn-panel-stack r01-product-card" data-product="field"><h4 class="r01-quantity-heading"><span class="i18n-en">Incident field</span><span class="i18n-ja">入射電場</span></h4><div class="r01-canvas-plot"><canvas id="c-field" role="img" aria-label="Incident field / 入射電場"></canvas></div></div>
+<span class="r01-product-operator rp-notation" aria-hidden="true">×</span>
+<div class="learn-panel-card learn-panel-stack r01-product-card" data-product="alpha"><h4 class="r01-quantity-heading"><span class="i18n-en">Polarizability</span><span class="i18n-ja">分極率</span></h4><div class="r01-canvas-plot"><canvas id="c-alpha" role="img" aria-label="Polarizability / 分極率"></canvas></div></div>
+<span class="r01-product-operator rp-notation" aria-hidden="true">=</span>
+<div class="learn-panel-card learn-panel-stack r01-product-card" data-product="dipole"><h4 class="r01-quantity-heading"><span class="i18n-en">Induced dipole</span><span class="i18n-ja">誘起双極子</span></h4><div class="r01-canvas-plot"><canvas id="c-dipole" role="img" aria-label="Induced dipole / 誘起双極子"></canvas></div></div>
+</div>
+<div class="learn-panel-field learn-panel-stack r01-decomposition"><h4><span class="i18n-en">Three induced-dipole components</span><span class="i18n-ja">誘起双極子の三成分</span></h4>
+<div class="r01-decomposition-grid">
+<span class="r01-frequency"><span class="rp-notation"><span class="rp-variable">ω</span><sub class="rp-sub rp-roman">i</sub></span></span><span class="r01-scattering-name"><span class="i18n-en">Rayleigh</span><span class="i18n-ja">レイリー</span></span>
+<div class="r01-canvas-plot"><canvas id="c-dec-ray" role="img" aria-label="Rayleigh dipole component / レイリー双極子成分"></canvas></div>
+<span class="r01-frequency"><span class="rp-notation"><span class="rp-variable">ω</span><sub class="rp-sub rp-roman">i</sub>−<span class="rp-variable">ω</span><sub class="rp-sub rp-variable">k</sub></span></span><span class="r01-scattering-name"><span class="i18n-en">Stokes</span><span class="i18n-ja">ストークス</span></span>
+<div class="r01-canvas-plot"><canvas id="c-dec-stokes" role="img" aria-label="Stokes dipole component / ストークス双極子成分"></canvas></div>
+<span class="r01-frequency"><span class="rp-notation"><span class="rp-variable">ω</span><sub class="rp-sub rp-roman">i</sub>+<span class="rp-variable">ω</span><sub class="rp-sub rp-variable">k</sub></span></span><span class="r01-scattering-name"><span class="i18n-en">anti-Stokes</span><span class="i18n-ja">反ストークス</span></span>
+<div class="r01-canvas-plot"><canvas id="c-dec-anti" role="img" aria-label="anti-Stokes dipole component / 反ストークス双極子成分"></canvas></div>
+<div class="r01-component-time"><span class="i18n-en">Time </span><span class="i18n-ja">時間 </span><span class="rp-notation"><span class="rp-variable">t</span></span></div>
+</div>
+</div>
+<div class="learn-panel-field learn-panel-stack r01-frequency-field"><div class="r01-canvas-plot"><canvas id="c-spectrum" role="img" aria-label="レイリー・ストークス・反ストークスの三つの周波数成分を並べた模式図"></canvas></div></div>
+</div>
+</figure>
+    </div>
+  </section>
+<!-- ═══════ Module 03 — Scattering intensity ═══════ -->
+  <section class="demo" data-rewritten-section="raman-intensity">
+    <div class="demo-head" style="margin-bottom:clamp(18px,2.4vw,28px)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <span class="demo-num" style="font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:#bf2f25;letter-spacing:.16em">03</span>
+        <span style="flex:1;height:1px;background:rgba(30,25,19,.18)"></span>
+      </div>
+      <h2 style="font-family:'Shippori Mincho',serif;font-weight:700;font-size:clamp(21px,2.8vw,29px);line-height:1.5;margin:0;text-wrap:pretty"><span class="i18n-en">Intensity of Raman Scattering</span><span class="i18n-ja">ラマン散乱の強度</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+         <p><span class="i18n-en">The intensity of scattered light is determined by the electric field radiated by each component in <button type="button" class="eqref" data-eq="6">Equation (6)</button>. Isolate a single scattered component with angular frequency $\omega_s$:</span><span class="i18n-ja">散乱光の強さは、式(6)の各成分が放射する電場から求められる。角振動数 $\omega_s$ の成分を一つ取り出し、</span></p>
+        <p class="eq-block">$$\mu_s(t)=\mu_{s,0}\cos\omega_s t$$</p>
+           <p><span class="i18n-en">where $\mu_{s,0}$ is the coefficient of the cosine term; its absolute value $|\mu_{s,0}|$ is the dipole oscillation amplitude.</span><span class="i18n-ja">と書く。$\mu_{s,0}$ は余弦項の係数であり、その絶対値 $|\mu_{s,0}|$ が双極子振動の振幅を表す。</span></p>
+        <p><span class="i18n-en">At an observation position and direction fixed sufficiently far from the molecule, classical dipole radiation theory shows that the radiated electric field amplitude $E_{s,0}$ is proportional to the amplitude of the second time derivative of the dipole moment.</span><span class="i18n-ja">分子から十分離れた場所で、観測位置と方向を固定する。<button type="button" class="eqref" data-eq-preview="dipole-radiation">双極子放射の式</button>から、放射電場の振幅 $E_{s,0}$ は、双極子モーメントの二階時間微分の振幅に比例する。</span></p>
+        <p><span class="i18n-en">Taking the second derivative of $\mu_s(t)$:</span><span class="i18n-ja">$\mu_s(t)$ を二階微分すると、</span></p>
+         <p class="eq-block">$$\frac{d^2\mu_s(t)}{dt^2}=-\omega_s^2\mu_{s,0}\cos(\omega_s t)$$</p>
+         <p><span class="i18n-en">we find that</span><span class="i18n-ja">となるため、</span></p>
+         <p class="eq-block">$$E_{s,0}\propto\omega_s^2\left|\mu_{s,0}\right|$$</p>
+         <p><span class="i18n-en">For a given dipole amplitude, faster oscillations correspond to greater acceleration of the charge centers—an effect captured by the $\omega_s^2$ term from the second derivative.</span><span class="i18n-ja">を得る。同じ双極子振幅でも、速く振動するほど電荷中心のずれの加速度は大きくなる。二階微分で現れる $\omega_s^2$ は、その効果を表している。</span></p>
+         <p><span class="i18n-en">Because the time-averaged scattered-light intensity $I_s$ is proportional to the square of the electric field amplitude:</span><span class="i18n-ja">時間平均した散乱光の強度を $I_s$ とする。光の強度は電場振幅の二乗に比例するため、次の関係が成り立つ。</span></p>
+         <p class="eq-block" id="eq7">$$I_s\propto E_{s,0}^2\propto\omega_s^4\left|\mu_{s,0}\right|^2\tag{7}$$</p>
+         <p><span class="i18n-en">From <button type="button" class="eqref" data-eq="6">Equation (6)</button>, the coefficients of the cosine terms for the Stokes and Anti-Stokes components are both:</span><span class="i18n-ja"><button type="button" class="eqref" data-eq="6">式(6)</button>より、ストークス成分と反ストークス成分の余弦項の係数は、ともに次のようになる。</span></p>
+        <p class="eq-block">$$\mu_{s,0}=\frac12\left(\frac{\partial\alpha}{\partial Q_k}\right)_0Q_{k0}E_{i0}$$</p>
+         <p><span class="i18n-en">Substituting this coefficient into <button type="button" class="eqref" data-eq="7">Equation (7)</button> and using the incident-intensity relation $I_i\propto E_{i0}^2$, the scattered intensity at the same observation position and in the same direction is given by:</span><span class="i18n-ja">この係数を<button type="button" class="eqref" data-eq="7">式(7)</button>に代入し、入射強度の関係 $I_i\propto E_{i0}^2$ を使うと、同じ観測位置・方向での散乱強度は次式で表される。</span></p>
+        <p class="eq-block raman-result-eq" id="eq8">$$I_s\propto\omega_s^4\left|\left(\frac{\partial\alpha}{\partial Q_k}\right)_0Q_{k0}\right|^2I_i\tag{8}$$</p>
+          <p><span class="i18n-en">Within the approximations used here, the scattered light intensity is directly proportional to the incident light intensity. Furthermore, all else being equal, a larger vibration-induced change in polarizability produces a stronger Raman component.</span><span class="i18n-ja">ここまでの近似では、散乱光の強さは入射光の強さに比例する。また、ほかの条件が同じなら、振動に伴う分極率の変化が大きいほど、ラマン成分も強くなる。</span></p>
+      </div>
+    </div>
+  </section>
+<!-- ═══════ Module 04 — Classical limit ═══════ -->
+  <section class="demo">
+    <div class="demo-head" style="margin-bottom:clamp(18px,2.4vw,28px)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <span class="demo-num" style="font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:#bf2f25;letter-spacing:.16em">04</span>
+        <span style="flex:1;height:1px;background:rgba(30,25,19,.18)"></span>
+      </div>
+      <h2 style="font-family:'Shippori Mincho',serif;font-weight:700;font-size:clamp(21px,2.8vw,29px);line-height:1.5;margin:0;text-wrap:pretty"><span class="i18n-en">What Classical Theory Can and Cannot Explain</span><span class="i18n-ja">古典論で分かることと分からないこと</span></h2>
+    </div>
+    <div class="demo-stage">
+      <div class="derivation">
+        <p><span class="i18n-en">In <button type="button" class="eqref" data-eq="6">Equation (6)</button>, the cosine terms for the Stokes and anti-Stokes components have equal coefficients. In contrast, the intensity in <button type="button" class="eqref" data-eq="8">Equation (8)</button> is proportional to the fourth power of the scattered-light angular frequency. Because the anti-Stokes angular frequency $\omega_i+\omega_k$ is higher than the Stokes angular frequency $\omega_i-\omega_k$, this model predicts stronger anti-Stokes light under the same observation conditions.</span><span class="i18n-ja"><button type="button" class="eqref" data-eq="6">式(6)</button>では、ストークス成分と反ストークス成分の余弦項の係数が等しい。一方、<button type="button" class="eqref" data-eq="8">式(8)</button>の強度は散乱光の角振動数の4乗に比例する。反ストークス光の角振動数 $\omega_i+\omega_k$ は、ストークス光の $\omega_i-\omega_k$ より高いため、同じ観測条件では、この模型は反ストークス光の方が強いと予測する。</span></p>
+         <p><span class="i18n-en">In ordinary Raman measurements, however, anti-Stokes light is weaker, and the anti-Stokes-to-Stokes intensity ratio increases with temperature. Although the frequency shifts can be explained, the simple classical model used here cannot explain this intensity difference and its temperature dependence.</span><span class="i18n-ja">ところが、通常のラマン測定では反ストークス光の方が弱く、ストークス光に対する反ストークス光の強度比は、温度が上がると大きくなる。周波数のずれは説明できても、この強度差と温度依存性は、ここで用いた単純な古典模型では説明できない。</span></p>
+         <p><span class="i18n-en">Classical theory shows that vibration-induced modulation of the polarizability generates new frequency components on both sides of the incident frequency. However, to distinguish these as processes that create one vibrational quantum and remove one vibrational quantum, and to describe the difference between Stokes and anti-Stokes scattering as changes in state, the vibration itself must be quantized.</span><span class="i18n-ja">古典論から、振動による分極率変調が入射光の両側に新しい周波数成分を生むことまでは分かる。しかし、この二つを「振動量子を一個作る過程」と「一個失う過程」として区別し、ストークスと反ストークスの違いを状態の変化として記述するには、振動そのものを量子化する必要がある。</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+
+  <script>
+  </script>
+  <template id="eq-preview-dipole-radiation">
+    <div class="eq-preview-note" lang="ja">
+      <strong class="eq-preview-title">双極子放射</strong>
+      <div>$$E_{s,0}\propto\left|\frac{d^2\mu_s}{dt^2}\right|_0=\omega_s^2|\mu_{s,0}|$$</div>
+      <p>分子から十分離れた観測位置で、観測方向を固定した場合。$\mu_s(t)=\mu_{s,0}\cos\omega_s t$ とし、添字0は振動成分の振幅を表す。</p>
+    </div>
+  </template>
+  <script src="/assets/js/article-shell.js?v=topic-spacing-20260916-r6"></script>
+  <script src="/assets/js/learn-panel-canvas.js"></script>
+  <script src="/assets/js/classical-raman-scattering.js?v=20260919-r01-spectrum-lines"></script>
+  <script src="/assets/js/eq-hover.js"></script>
+</body>
+</html>

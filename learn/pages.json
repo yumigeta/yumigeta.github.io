@@ -2662,7 +2662,213 @@
       ],
       "isVariantOf": "",
       "lastmod": "2026-09-12"
+    },
+    {
+      "slug": "classical-raman-scattering",
+      "category": "matter-mechanisms-v2",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": true,
+      "title_en": "Classical Theory of Raman Scattering",
+      "title_ja": "ラマン散乱の古典論",
+      "nav_en": "Classical Raman theory",
+      "nav_ja": "ラマン散乱の古典論",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "Derive Stokes and anti-Stokes sidebands from a vibration-modulated scalar polarizability, connect the induced-dipole amplitudes to the ω⁴ dipole-radiation law, and identify the classical limit.",
+      "summary_ja": "振動で変調されるスカラー分極率からストークス・反ストークス側帯波を導き、誘起双極子振幅をω⁴の双極子放射則へ結びつけて古典論の限界を示す。",
+      "theme": [
+        "raman",
+        "optics"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "usedBy": [
+        "quantum-vibrational-raman",
+        "crystal-raman-momentum-higher-order",
+        "spectroscopy-selection-rules-group-theory"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#R01"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-17"
+    },
+    {
+      "slug": "quantum-vibrational-raman",
+      "category": "matter-mechanisms-v2",
+      "layoutType": "concept",
+      "color": "optical",
+      "published": true,
+      "title_en": "Quantum Theory of Vibrational Raman Scattering",
+      "title_ja": "ラマン散乱と振動の量子化",
+      "nav_en": "Vibrational Raman quantum theory",
+      "nav_ja": "ラマン散乱と振動の量子化",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "Quantum Theory of Vibrational Raman Scattering",
+      "summary_ja": "振動ラマンの量子論",
+      "theme": [
+        "raman",
+        "optics"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "usedBy": [
+        "raman-khd"
+      ],
+      "tags": [
+        "#Concept",
+        "#Raman",
+        "#R04"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-16"
+    },
+    {
+      "slug": "graphene-sp2-geometry",
+      "category": "materials-phenomena-devices-v2",
+      "layoutType": "theme",
+      "color": "material",
+      "published": true,
+      "title_en": "sp² Bonding and the Geometry of Graphene",
+      "title_ja": "sp²結合とグラフェンの幾何",
+      "nav_en": "sp² bonding & geometry",
+      "nav_ja": "sp²結合と幾何",
+      "level_en": "Standard",
+      "level_ja": "標準",
+      "readingTime_en": "12 min",
+      "readingTime_ja": "12分",
+      "summary_en": "sp² Bonding and the Geometry of Graphene",
+      "summary_ja": "sp²結合とグラフェンの幾何",
+      "theme": [
+        "graphene",
+        "raman"
+      ],
+      "prerequisites": [
+        "crystal-lattice-reciprocal-lattice",
+        "atomic-orbitals-chemical-bonding"
+      ],
+      "basicsUsed": [],
+      "referenceLinks": [],
+      "nextLinks": {
+        "theory": [
+          "graphene-tight-binding-model"
+        ],
+        "application": [],
+        "experiment": [],
+        "frontier": []
+      },
+      "usedBy": [
+        "graphene-tight-binding-model",
+        "graphene-phonon-dispersion",
+        "graphene-symmetry-selection-rules"
+      ],
+      "tags": [
+        "#Theme",
+        "#Graphene",
+        "#G01"
+      ],
+      "isVariantOf": "",
+      "lastmod": "2026-09-17"
     }
   ],
   "index_lastmod": "2026-09-15"
+,
+  "category_architectures": [
+    {
+      "id": "matter-mechanisms-v2",
+      "num": "NⅠ",
+      "name_en": "How Matter Works",
+      "name_ja": "物質のしくみ",
+      "color": "foundation",
+      "groups": [
+        {
+          "id": "optical-response",
+          "name_en": "Optical Response",
+          "name_ja": "光学応答",
+          "groups": [
+            {
+              "id": "raman-scattering",
+              "name_en": "Raman Scattering",
+              "name_ja": "ラマン散乱",
+              "pages": [
+                "classical-raman-scattering",
+                "quantum-vibrational-raman"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "materials-phenomena-devices-v2",
+      "num": "NⅡ",
+      "name_en": "Materials, Phenomena & Devices",
+      "name_ja": "材料・現象・デバイス",
+      "color": "material",
+      "groups": [
+        {
+          "id": "graphene-physics",
+          "name_en": "Physics of Graphene",
+          "name_ja": "グラフェンの物理",
+          "groups": [
+            {
+              "id": "graphene-structure-electronic-states",
+              "name_en": "Structure & Electronic States",
+              "name_ja": "構造と電子状態",
+              "pages": [
+                "graphene-sp2-geometry"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "learning_relations": {
+    "classical-raman-scattering": {
+      "prerequisite": [
+        "absorption-emission-scattering"
+      ],
+      "helpful": [],
+      "next": {
+        "page": "quantum-vibrational-raman"
+      },
+      "related": []
+    },
+    "quantum-vibrational-raman": {
+      "prerequisite": [
+        "coupled-oscillators-normal-modes",
+        "classical-raman-scattering"
+      ],
+      "helpful": [],
+      "next": {
+        "page": "raman-khd"
+      },
+      "related": []
+    },
+    "graphene-sp2-geometry": {
+      "prerequisite": [
+        "crystal-lattice-reciprocal-lattice",
+        "atomic-orbitals-chemical-bonding"
+      ],
+      "helpful": [],
+      "related": [],
+      "next": {
+        "page": "graphene-tight-binding-model"
+      }
+    }
+  },
+  "learning_order": [
+    "classical-raman-scattering",
+    "quantum-vibrational-raman",
+    "graphene-sp2-geometry"
+  ]
 }

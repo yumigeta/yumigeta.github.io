@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <title>Quantum Theory of Vibrational Raman Scattering</title>
+  <meta name="description" content="How vibrational quantization explains Stokes and anti-Stokes scattering, their unequal intensities, and their temperature dependence.">
+  <link rel="canonical" href="https://yumigeta.com/learn/quantum-vibrational-raman/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Quantum Theory of Vibrational Raman Scattering">
+  <meta property="og:description" content="How vibrational quanta make Stokes and anti-Stokes scattering intrinsically asymmetric.">
+  <meta property="og:url" content="https://yumigeta.com/learn/quantum-vibrational-raman/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Quantum Theory of Vibrational Raman Scattering">
+  <meta name="twitter:description" content="How vibrational quanta make Stokes and anti-Stokes scattering intrinsically asymmetric.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Quantum Theory of Vibrational Raman Scattering","description":"How vibrational quantization explains Stokes and anti-Stokes intensities and their temperature dependence.","url":"https://yumigeta.com/learn/quantum-vibrational-raman/","author":{"@type":"Person","name":"Kentaro Yumigeta"},"educationalLevel":"Undergraduate","inLanguage":["en","ja"],"isAccessibleForFree":true,"interactivityType":"mixed"}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/quantum-vibrational-raman.css?v=chapter-style-20260923-r2">
+
+  <link rel="stylesheet" href="/assets/css/article-shell.css?v=raman-layout-20260923-r2">
+
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <link rel="stylesheet" href="/assets/css/eq-hover.css">
+  <script src="/assets/js/analytics.js"></script>
+  <script defer src="/assets/js/site-nav.js"></script>
+  <link rel="stylesheet" href="/assets/css/curriculum-route-bridge.css">
+  <link rel="stylesheet" href="/assets/css/learn-panel.css">
+</head>
+<body class="new-curriculum-bridge learn-article-standard" data-learn-slug="quantum-vibrational-raman">
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+  <div class="phead"><div class="container">
+    <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span><span class="i18n-en">Vibrational Raman Theory</span><span class="i18n-ja">ラマン散乱と振動の量子化</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+    <div class="ptop"><h1><span class="i18n-en">Quantum Theory of Vibrational Raman Scattering</span><span class="i18n-ja">ラマン散乱と振動の量子化</span></h1></div>
+    <p class="pintro"><span class="i18n-en">Classical theory showed that a time-varying polarizability produces scattered light at frequencies below and above that of the incident light. In the quantum picture, Stokes scattering creates one vibrational quantum and anti-Stokes scattering removes one. In typical measurements, the anti-Stokes light is weaker, contrary to the prediction of the model on the previous page. Explaining this difference requires quantizing molecular vibration.</span><span class="i18n-ja">古典論では、分極率の時間変化によって、入射光より低い周波数と高い周波数の散乱光が生まれることを確かめた。量子論では、ストークス散乱を「振動量子を1個作る過程」、反ストークス散乱を「1個失う過程」と捉え直す。通常の測定では、前ページの模型の予測に反して反ストークス光の方が弱くなる。この現象を説明するには、分子振動の量子化が欠かせない。</span></p>
+    <p class="pintro i18n-en">On this page, we use harmonic-oscillator states and operators to describe Raman scattering. By finding how readily scattering occurs from each state and how likely a molecule is to occupy that state, we explain why the two intensities differ and how their ratio depends on temperature.</p>
+    <p class="pintro i18n-ja">このページでは、調和振動子の状態や演算子を使ってラマン散乱を記述する。各状態からの散乱の起こりやすさと、分子がその状態にいる確率を調べることで、二つの散乱光の強さが異なる理由と、その温度依存性を解き明かす。</p>
+  </div></div>
+<!-- Page 1 scope: classical limitation, quantized vibration, coordinate matrix elements, one-quantum selection, intensity factors, thermal occupation, classical limit. Keep prerequisite derivations and the light-molecule interaction for their respective pages. -->
+<section class="demo" id="classical"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">01</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Why is anti-Stokes light weaker?</span><span class="i18n-ja">反ストークス光が弱いのはなぜか</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>For two scattering processes associated with the same molecular vibration, anti-Stokes light is often observed to be weaker than Stokes light. Cooling the sample makes the anti-Stokes light weaker still. In the model on the <a href="/learn/classical-raman-scattering/">previous page</a>, the dipole oscillations that produce the two components had equal amplitudes. Including the fourth-power dependence of the intensity on the scattered angular frequency led the model to predict stronger anti-Stokes light. The model explained the frequency shifts, while the observed difference in intensity and the temperature dependence of the intensity ratio remained unexplained.</p>
+        <p>To investigate the difference, choose one molecular normal mode $k$. Let $Q_k$ be the normal coordinate describing displacement along that mode and $\omega_k$ its angular frequency. If the incident-light angular frequency is $\omega_{\mathrm{i}}$, the scattered angular frequencies are $\omega_{\mathrm{s}}^{(\mathrm{St})}=\omega_{\mathrm{i}}-\omega_k$ for Stokes scattering and $\omega_{\mathrm{s}}^{(\mathrm{AS})}=\omega_{\mathrm{i}}+\omega_k$ for anti-Stokes scattering.</p>
+        <p>Treat the vibration as a small harmonic oscillation about equilibrium. We consider nonresonant conditions, where the incident-light energy is well separated from the energies of the molecular electronic transitions. Fix the incident and scattered polarizations and denote the corresponding polarizability by $\alpha$.</p>
+        <p>For the chosen polarizations, the component of the induced dipole that radiates the scattered light is $\mu = \alpha E_i$, the product of the incident electric field $E_i$ and the polarizability $\alpha$. We use the same first-order approximation as in the classical theory for the change in polarizability due to molecular vibration:</p>
+<div class="eq-block" id="eq-en-1">$$\alpha(Q_k)\simeq\alpha_0+\alpha'Q_k,\qquad \alpha'=\left(\frac{\partial\alpha}{\partial Q_k}\right)_0 \tag{1}$$</div>
+        <p>Here, $\alpha_0$ is the polarizability at equilibrium ($Q_k=0$), and $\alpha'$ is the rate of change of polarizability with the normal coordinate $Q_k$. The part of the induced dipole due to molecular vibration is therefore $\alpha' Q_k E_i$.</p>
+      </div>
+<p class="i18n-ja" id="eq-sidebands">同じ分子振動に由来する二つの散乱を比べると、反ストークス光がストークス光より弱く観測されることが多い。温度を下げると、反ストークス光はさらに弱くなる。<a href="/learn/classical-raman-scattering/">前ページ</a>の模型では、両成分を生む双極子振動の振幅は等しく、散乱光の角振動数の4乗が強度に掛かる効果まで含めると、むしろ反ストークス光の方が強くなると予測された。周波数のずれは説明できても、観測される強度の大小関係と、二つの散乱光の強度比の温度依存性は説明できていない。</p>
+<p class="i18n-ja" id="eq-classical-motion">この違いを調べるため、分子の正規モード $k$ を一つ選び、その振動パターンに沿った変位を表す基準座標を $Q_k$、角振動数を $\omega_k$ とする。入射光の角振動数を $\omega_{\mathrm{i}}$ と書くと、散乱光の角振動数は、ストークスでは $\omega_{\mathrm{s}}^{(\mathrm{St})}=\omega_{\mathrm{i}}-\omega_k$、反ストークスでは $\omega_{\mathrm{s}}^{(\mathrm{AS})}=\omega_{\mathrm{i}}+\omega_k$ である。</p>
+<p class="i18n-ja">振動は、平衡位置のまわりの小さな調和振動として扱う。また、入射光のエネルギーが分子の電子遷移のエネルギーから十分に離れた非共鳴条件を考える。入射光と散乱光の偏光配置を固定し、その配置に対応する分極率を $\alpha$ と書く。</p>
+<p class="i18n-ja">選んだ偏光配置では、散乱光を放射する誘起双極子の成分は、入射電場 $E_i$ と分極率 $\alpha$ の積 $\mu = \alpha E_i$ で表される。分子の振動に伴う分極率の変化には、古典論と同じ一次近似を用いる。</p>
+<div class="eq-block i18n-ja" id="eq-polarizability">$$\alpha(Q_k) \simeq \alpha_0 + \alpha' Q_k, \qquad \alpha' = \left(\frac{\partial \alpha}{\partial Q_k}\right)_0 \tag{1}$$</div>
+<p class="i18n-ja">ここで $\alpha_0$ は平衡位置（$Q_k = 0$）での分極率、$\alpha'$ は振動座標 $Q_k$ に対する分極率の変化率である。したがって、誘起双極子のうち分子振動に伴う部分は $\alpha' Q_k E_i$ となる。</p>
+</div></div></section>
+<section class="demo" id="quantization"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">02</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Quantization of vibrational energy</span><span class="i18n-ja">振動エネルギーの量子化</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>In a classical harmonic oscillator, the energy changes continuously as the amplitude varies. In a quantum harmonic oscillator, the energy can take only discrete values.</p>
+        <p>Taking the energy at the bottom of the potential to be zero, the energy $E_{v_k}$ of vibrational mode $k$ with angular frequency $\omega_k$ is given by</p>
+<div class="eq-block" id="eq-en-2">$$E_{v_k}=\hbar\omega_k\left(v_k+\frac12\right)\tag{2}$$</div>
+        <p>Here, $\hbar=h/(2\pi)$ is the reduced Planck constant, and $v_k=0,1,2,\ldots$ is the vibrational quantum number specifying the level of mode $k$.</p>
+        <p><button type="button" class="eqref" data-eq="-en-2">Equation (2)</button> gives the energy difference between adjacent levels and the energy of the ground state ($v_k=0$):</p>
+<div class="eq-block">$$\Delta E = E_{v_k+1} - E_{v_k} = \hbar\omega_k, \qquad E_0 = \frac{1}{2}\hbar\omega_k \tag{3}$$</div>
+        <p>Moving up by one level increases the vibrational energy by one quantum, $\hbar\omega_k$. The ground-state energy $E_0$ is called the zero-point energy. Even in the ground state, measurements of the vibrational coordinate $Q_k$ have a quantum spread around the equilibrium position.</p>
+      </div>
+<p class="i18n-ja">古典的な調和振動子では、振幅を変えるとエネルギーは連続的に変わる。一方、量子調和振動子では、エネルギーは飛び飛びの値しか取れない。</p>
+<p class="i18n-ja">ポテンシャルの底のエネルギーを0とすると、角振動数 $\omega_k$ を持つ振動モード $k$ のエネルギー $E_{v_k}$ は次の式で表される。</p>
+<div class="eq-block i18n-ja" id="eq-levels">$$E_{v_k}=\hbar\omega_k\left(v_k+\frac12\right)\tag{2}$$</div>
+<p class="i18n-ja">ここで $\hbar=h/(2\pi)$ は換算プランク定数、$v_k=0,1,2,\dots$ はモード $k$ の準位を指定する振動量子数である。</p>
+<p class="i18n-ja"><button type="button" class="eqref" data-eq="-levels">式(2)</button>から、隣り合う準位のエネルギー差と、基底状態（$v_k=0$）のエネルギーが求まる。</p>
+<div class="eq-block i18n-ja" id="eq-spacing">$$\Delta E = E_{v_k+1} - E_{v_k} = \hbar\omega_k, \qquad E_0 = \frac{1}{2}\hbar\omega_k \tag{3}$$</div>
+<p class="i18n-ja">準位が1段上がるごとに、振動量子1個分のエネルギー $\hbar\omega_k$ が増える。基底状態のエネルギー $E_0$ を零点エネルギーと呼ぶ。基底状態でも、振動座標 $Q_k$ の測定値は平衡位置のまわりに量子的なばらつきを示す。</p>
+<figure class="rv-figure learn-panel learn-panel-stack" id="fig-wells">
+      <div class="cc-panel-head"><strong class="cc-panel-title"><span class="i18n-en">Continuous energies and discrete levels</span><span class="i18n-ja">連続的なエネルギーと離散的な準位</span></strong></div>
+      <div class="cc-panel-body learn-panel-stack">
+      <div class="rv-plot learn-panel-field" id="rv-wells"></div>
+      </div>
+    </figure>
+<p class="i18n-en">When the molecule interacts with light, which transitions between these levels can occur?</p>
+<p class="i18n-ja">では、光との相互作用によって、分子はどの準位からどの準位へ遷移するのだろうか。</p>
+ </div></div></section>
+<section class="demo" id="coordinate"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">03</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Coordinate operator and coupling between adjacent levels</span><span class="i18n-ja">座標演算子と隣接準位の結合</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>In <button type="button" class="eqref" data-eq="-en-1">Eq. (1)</button>, we wrote the change in polarizability due to molecular vibration as $\alpha' Q_k$. To describe the vibration quantum mechanically, replace the classical coordinate $Q_k$ with the operator $\hat Q_k$. The change in polarizability then becomes $\alpha'\hat Q_k$.</p>
+        <p>Write the energy eigenstate with vibrational quantum number $v_k$ as $|v_k\rangle$. For a harmonic oscillator, the coordinate operator $\hat Q_k$ can be written in terms of the annihilation operator $\hat b_k$, which lowers the state by one level, and the creation operator $\hat b_k^\dagger$, which raises it by one level:</p>
+<div class="eq-block">$$\hat Q_k=Q_{k,\mathrm{zpf}}\left(\hat b_k+\hat b_k^\dagger\right),\qquad Q_{k,\mathrm{zpf}}=\sqrt{\frac{\hbar}{2m_k\omega_k}}\tag{4}$$</div>
+        <p>Here, $m_k$ is the effective mass defined by writing the kinetic energy of the mode as $\frac{1}{2}m_k\dot Q_k^2$, where $\dot Q_k$ is the time derivative of $Q_k$. The quantity $Q_{k,\mathrm{zpf}}$ is the standard deviation of the vibrational coordinate $Q_k$ in the ground state.</p>
+        <p>The two operators act on energy eigenstates as follows:</p>
+<div class="eq-block">$$\begin{aligned}\hat b_k|v_k\rangle&=\sqrt{v_k}\,|v_k-1\rangle\qquad (v_k\geq1),\\\hat b_k^\dagger|v_k\rangle&=\sqrt{v_k+1}\,|v_k+1\rangle\qquad (v_k\geq0)\end{aligned}\tag{5}$$</div>
+        <p>Applying the annihilation operator gives a multiple of the state one level below, $|v_k-1\rangle$. Applying the creation operator gives a multiple of the state one level above, $|v_k+1\rangle$. The corresponding factors on the right-hand sides are $\sqrt{v_k}$ and $\sqrt{v_k+1}$.</p>
+        <p>First take $v_k\ge1$. Applying the coordinate operator $\hat Q_k$ to $|v_k\rangle$ gives</p>
+<div class="eq-block raman-result-eq" id="eq-en-6">$$\hat Q_k|v_k\rangle=Q_{k,\mathrm{zpf}}\left[\sqrt{v_k}\,|v_k-1\rangle+\sqrt{v_k+1}\,|v_k+1\rangle\right]\tag{6}$$</div>
+        <p>The result is a superposition of two energy eigenstates, the state one level below, $|v_k-1\rangle$, and the state one level above, $|v_k+1\rangle$.</p>
+      </div>
+<p class="i18n-ja"><button type="button" class="eqref" data-eq="-polarizability">式(1)</button>では、分子の振動に伴う分極率の変化を $\alpha' Q_k$ と表した。この振動を量子論で扱うため、古典的な座標 $Q_k$ を演算子 $\hat{Q}_k$ に置き換え、分極率の変化分を $\alpha' \hat{Q}_k$ と表す。</p>
+<p class="i18n-ja">振動量子数が $v_k$ のエネルギー固有状態を $|v_k\rangle$ と書く。調和振動子では、1段下の状態へ移す消滅演算子 $\hat{b}_k$ と、1段上の状態へ移す生成演算子 $\hat{b}_k^\dagger$ を用いて、座標演算子 $\hat{Q}_k$ を次のように表す。</p>
+<div class="eq-block i18n-ja" id="eq-coordinate">$$\hat{Q}_k = Q_{k,\mathrm{zpf}} \left(\hat{b}_k + \hat{b}_k^\dagger\right), \qquad Q_{k,\mathrm{zpf}} = \sqrt{\frac{\hbar}{2m_k\omega_k}} \tag{4}$$</div>
+<p class="i18n-ja">$m_k$ は、このモードの運動エネルギーを $\frac{1}{2}m_k\dot{Q}_k^2$ と書いたときの有効質量であり、$\dot{Q}_k$ は $Q_k$ の時間微分である。$Q_{k,\mathrm{zpf}}$ は、基底状態における振動座標 $Q_k$ のばらつきの大きさ（標準偏差）に対応する。</p>
+<p class="i18n-ja">二つの演算子のエネルギー固有状態への作用は、</p>
+<div class="eq-block i18n-ja" id="eq-ladder-actions">$$
+\begin{aligned}
+\hat{b}_k |v_k\rangle &amp;= \sqrt{v_k}\,|v_k-1\rangle &amp;&amp; (v_k \ge 1),\\
+\hat{b}_k^\dagger |v_k\rangle &amp;= \sqrt{v_k+1}\,|v_k+1\rangle &amp;&amp; (v_k \ge 0)
+\end{aligned}
+\tag{5}
+$$</div>
+<p class="i18n-ja">である。消滅演算子を作用させると1段下の状態 $|v_k-1\rangle$ が、生成演算子を作用させると1段上の状態 $|v_k+1\rangle$ が、それぞれ定数倍された形で得られる。右辺の $\sqrt{v_k}$ と $\sqrt{v_k+1}$ はその比例係数である。</p>
+<p class="i18n-ja">まず $v_k \ge 1$ として、座標演算子 $\hat{Q}_k$ を $|v_k\rangle$ に作用させると、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-q-action">$$\hat{Q}_k |v_k\rangle = Q_{k,\mathrm{zpf}} \left[ \sqrt{v_k}\,|v_k-1\rangle + \sqrt{v_k+1}\,|v_k+1\rangle \right] \tag{6}$$</div>
+<p class="i18n-ja">となる。作用させた結果は、1段下の状態 $|v_k-1\rangle$ と1段上の状態 $|v_k+1\rangle$ という二つの固有状態の重ね合わせとして表される。</p>
+</div></div></section>
+<section class="demo" id="transitions"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">04</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Vibrational selection rule and energy conservation</span><span class="i18n-ja">振動選択則とエネルギー保存</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>The incident electric field $E_i$ induces a dipole $\mu = \alpha E_i$ in the molecule. This dipole radiates the scattered light. Here we ask under what conditions scattering changes the molecule's vibrational state ($v_k'\ne v_k$).</p>
+        <p>Even for the same incident electric field $E_i$, a change in the polarizability $\alpha$ as the molecule vibrates changes the induced dipole $\mu=\alpha E_i$ that radiates the scattered light. In this model, we use the polarizability operator $\hat{\alpha}=\alpha_0+\alpha'\hat Q_k$ to see how the scattering amplitude depends on the vibrational states. Apply $\hat{\alpha}$ to the initial state $|v_k\rangle$, then take the inner product with the final state $|v_k'\rangle$ to pick out the coefficient of that state. This coefficient $\langle v_k'|\hat{\alpha}|v_k\rangle$ is the factor in the scattering amplitude that depends on the vibrational states.</p>
+        <p>Expanding the polarizability matrix element gives</p>
+<div class="eq-block">$$\begin{aligned}
+&amp;\langle v_k' \vert{} (\alpha_0 + \alpha' \hat{Q}_k) \vert{} v_k \rangle \\
+&amp;= \alpha_0 \langle v_k' \vert{} v_k \rangle + \alpha' \langle v_k' \vert{} \hat{Q}_k \vert{} v_k \rangle
+\end{aligned}$$</div>
+        <p>The constant polarizability $\alpha_0$ leaves the molecule's vibrational state unchanged. The harmonic-oscillator eigenstates are orthonormal, so $\langle v_k'|v_k\rangle=0$ when $v_k'\ne v_k$. Thus $\alpha_0$ makes no contribution when scattering changes the vibrational state. It contributes to Rayleigh scattering, where $v_k'=v_k$. The only term left in the polarizability matrix element for a change of vibrational state is $\alpha'\langle v_k'|\hat Q_k|v_k\rangle$, which comes from the change in polarizability.</p>
+        <p>For $v_k\ge1$, take the inner product of the final state $|v_k'\rangle$ with $\hat Q_k|v_k\rangle$ from <button type="button" class="eqref" data-eq="-en-6">Eq. (6)</button>:</p>
+<div class="eq-block" id="eq-en-7">$$\begin{aligned}\langle v_k'|\hat Q_k|v_k\rangle=Q_{k,\mathrm{zpf}}\Bigl[&\sqrt{v_k}\,\langle v_k'|v_k-1\rangle\\+&\sqrt{v_k+1}\,\langle v_k'|v_k+1\rangle\Bigr]\end{aligned}\tag{7}$$</div>
+        <p>If the final state is one level higher, its inner product with the higher state on the right-hand side is one, so the term with $\sqrt{v_k+1}$ remains. If it is one level lower, the term with $\sqrt{v_k}$ remains. For any other final state, both inner products are zero.</p>
+<div class="eq-block">$$\begin{aligned} \langle v_k+1 \vert{} \hat{Q}_k \vert{} v_k \rangle &amp;= Q_{k,\mathrm{zpf}} \sqrt{v_k+1}, \\ \langle v_k-1 \vert{} \hat{Q}_k \vert{} v_k \rangle &amp;= Q_{k,\mathrm{zpf}} \sqrt{v_k} \qquad (v_k \ge 1) \end{aligned}$$</div>
+        <p>Thus the allowed changes in the vibrational quantum number are</p>
+<div class="eq-block raman-result-eq">$$\Delta v_k=v_k^{\prime}-v_k=\pm1 \tag{8}$$</div>
+        <p>This is the <strong>vibrational selection rule</strong> for a harmonic vibration and the first-order polarizability approximation. A downward transition ($\Delta v_k=-1$) requires an excited initial state ($v_k\ge1$). For a fundamental vibration to appear in the scattered light for the chosen polarizations, the polarizability derivative must satisfy $\alpha'\ne0$.</p>
+        <p>The frequency shift for a one-level transition follows from the transfer of energy between the molecule and the photon. If the initial molecular energy is $E_{v_k}$ and the incident photon energy is $\hbar\omega_i$, conservation of total energy gives $E_{v_k}+\hbar\omega_i=E_{v_k'}+\hbar\omega_s$.</p>
+        <p>In an upward transition ($v_k\to v_k+1$), the molecule gains $\hbar\omega_k$ of vibrational energy, and the scattered photon loses the same amount. This gives Stokes scattering at a lower frequency:</p>
+<div class="eq-block raman-result-eq">$$\omega_{\mathrm{s}}^{(\mathrm{St})}=\omega_{\mathrm{i}}-\omega_k\tag{9}$$</div>
+        <p>In a downward transition from an excited state ($v_k\to v_k-1$, with $v_k\ge1$), the molecule releases $\hbar\omega_k$ to the photon. This gives anti-Stokes scattering at a higher frequency:</p>
+<div class="eq-block raman-result-eq">$$\omega_{\mathrm{s}}^{(\mathrm{AS})}=\omega_{\mathrm{i}}+\omega_k\tag{10}$$</div>
+        <p>The two frequencies obtained in the classical theory thus correspond to transitions one vibrational level up and one level down, or to the creation and annihilation of a vibrational quantum.</p>
+      </div>
+<p class="i18n-ja">入射電場 $E_i$ が分子内に作る誘起双極子 $\mu = \alpha E_i$ は、散乱光を放射する源となる。この節では、分子の振動状態が変化する散乱（$v_k' \ne v_k$）がどのような条件で起こるかを調べる。</p>
+<p class="i18n-ja">同じ入射電場 $E_i$ を受けていても、分子の振動に伴って分極率 $\alpha$ が変われば、散乱光を出す誘起双極子 $\mu=\alpha E_i$ も変わる。この模型では、振動状態による散乱振幅の違いを、分極率演算子 $\hat{\alpha}=\alpha_0+\alpha'\hat Q_k$ を使って調べる。始状態 $\vert{}v_k\rangle$ に $\hat{\alpha}$ を作用させ、その結果から終状態 $\vert{}v_k'\rangle$ に掛かる係数を内積で取り出す。この係数 $\langle v_k'\vert{}\hat{\alpha}\vert{}v_k\rangle$ が、散乱振幅のうち振動状態に関わる因子である。</p>
+<p class="i18n-ja">分極率の行列要素を展開すると、次のようになる。</p>
+<div class="eq-block i18n-ja">$$\begin{aligned}
+&amp;\langle v_k' \vert{} (\alpha_0 + \alpha' \hat{Q}_k) \vert{} v_k \rangle \\
+&amp;= \alpha_0 \langle v_k' \vert{} v_k \rangle + \alpha' \langle v_k' \vert{} \hat{Q}_k \vert{} v_k \rangle
+\end{aligned}$$</div>
+<p class="i18n-ja">定数分極率 $\alpha_0$ は分子の振動状態を変えない。調和振動子の固有状態の正規直交性（$v_k' \ne v_k$ のとき $\langle v_k' \vert{} v_k \rangle = 0$）により、振動状態が変化する散乱では $\alpha_0$ の寄与は消える（$\alpha_0$ が寄与するのは $v_k' = v_k$ のレイリー散乱である）。したがって、分極率の行列要素には、分極率の変化分を表す項 $\alpha' \langle v_k' \vert{} \hat{Q}_k \vert{} v_k \rangle$ のみが残る。</p>
+<p class="i18n-ja">$v_k\ge1$ の場合、<button type="button" class="eqref" data-eq="-q-action">式(6)</button>で得た $\hat Q_k\vert{}v_k\rangle$ と終状態 $\vert{}v_k'\rangle$ の内積を取ると、</p>
+<div class="eq-block i18n-ja" id="eq-matrix-element">$$\begin{aligned} \langle v_k' \vert{} \hat{Q}_k \vert{} v_k \rangle = Q_{k,\mathrm{zpf}} \Bigl[ &amp;\sqrt{v_k}\,\langle v_k' \vert{} v_k-1 \rangle \\ +&amp;\sqrt{v_k+1}\,\langle v_k' \vert{} v_k+1 \rangle \Bigr] \end{aligned} \tag{7}$$</div>
+<p class="i18n-ja">となる。終状態が1段上なら、右辺で1段上の状態との内積が1になり、$\sqrt{v_k+1}$ の項が残る。1段下なら $\sqrt{v_k}$ の項が残り、どちらの準位でもなければ二つの内積はともに0になる。</p>
+<div class="eq-block i18n-ja">$$\begin{aligned} \langle v_k+1 \vert{} \hat{Q}_k \vert{} v_k \rangle &amp;= Q_{k,\mathrm{zpf}} \sqrt{v_k+1}, \\ \langle v_k-1 \vert{} \hat{Q}_k \vert{} v_k \rangle &amp;= Q_{k,\mathrm{zpf}} \sqrt{v_k} \qquad (v_k \ge 1) \end{aligned}$$</div>
+<p class="i18n-ja">したがって、振動量子数の変化量は</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-selection">$$\Delta v_k = v_k' - v_k = \pm 1 \tag{8}$$</div>
+<p class="i18n-ja">に限られる。これが調和振動と分極率の一次近似から導かれる<strong>振動選択則</strong>である。なお、1段下への遷移（$\Delta v_k = -1$）が起こるには初期状態が励起状態（$v_k \ge 1$）である必要があり、また選んだ偏光配置で基本振動が散乱に現れるには分極率の変化率 $\alpha' \ne 0$ が必要である。</p>
+<p class="i18n-ja">この1段の遷移に伴う散乱光の周波数変化は、分子と光子の間のエネルギー移動から直観的に理解できる。始状態の分子エネルギーを $E_{v_k}$、入射光子のエネルギーを $\hbar\omega_i$ とすると、散乱前後の全エネルギー保存は $E_{v_k} + \hbar\omega_i = E_{v_k'} + \hbar\omega_s$ と書ける。</p>
+<p class="i18n-ja">分子が振動エネルギーを1段分得て励起する遷移（$v_k \to v_k+1$）では、分子に奪われた $\hbar\omega_k$ の分だけ散乱光子のエネルギーが減るため、低周波側にストークス散乱が現れる。</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-stokes-energy">$$\omega_s^{(\mathrm{St})} = \omega_i - \omega_k \tag{9}$$</div>
+<p class="i18n-ja">一方、励起していた分子が1段下へ脱励起する遷移（$v_k \to v_k-1$、$v_k \ge 1$）では、分子が放出した $\hbar\omega_k$ が光子に与えられるため、高周波側に反ストークス散乱が現れる。</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-antistokes-energy">$$\omega_s^{(\mathrm{AS})} = \omega_i + \omega_k \tag{10}$$</div>
+<p class="i18n-ja">こうして、古典論で得られた二つの周波数が、量子論における振動準位の1段の上昇と下降（振動量子の生成と消滅）にそのまま対応することが示される。</p>
+</div></div></section>
+<section class="demo" id="asymmetry"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">05</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Quantum-mechanical asymmetry of the transition strengths</span><span class="i18n-ja">遷移強度の量子力学的非対称性</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>Compare Stokes and anti-Stokes scattering from the same initial vibrational level $|v_k\rangle$. We will include the effect of the different scattered frequencies (the $\omega_s^4$ factor) later. Here we find the part of the scattering intensity that depends on the vibrational states.</p>
+        <p>When the vibrational state changes ($v_k'\ne v_k$), the part of the scattering intensity that depends on the vibrational states is given by the squared magnitude of the polarizability matrix element $\left|\langle v_k'|\hat\alpha|v_k\rangle\right|^2=|\alpha'|^2\left|\langle v_k'|\hat Q_k|v_k\rangle\right|^2$.</p>
+        <p>Squaring the two coordinate matrix elements obtained from <button type="button" class="eqref" data-eq="-en-7">Eq. (7)</button> gives, for $v_k\geq1$,</p>
+<div class="eq-block">$$\begin{aligned}\left|\langle v_k+1|\hat Q_k|v_k\rangle\right|^2&amp;=Q_{k,\mathrm{zpf}}^2(v_k+1),\\\left|\langle v_k-1|\hat Q_k|v_k\rangle\right|^2&amp;=Q_{k,\mathrm{zpf}}^2v_k\end{aligned}\tag{11}$$</div>
+        <p>Factor out $|\alpha'|^2Q_{k,\mathrm{zpf}}^2$, which is common to both processes. With other conditions held fixed, write the intensity factors that depend on the initial level $v_k$ as $F_{\mathrm S}(v_k)$ and $F_{\mathrm{AS}}(v_k)$. This gives</p>
+<div class="eq-block raman-result-eq" id="eq-en-12">$$F_{\mathrm S}(v_k)=v_k+1,\qquad F_{\mathrm{AS}}(v_k)=v_k \tag{12}$$</div>
+        <p>Even when both processes start in the same state $|v_k\rangle$, the intensity factor for Stokes scattering, which raises the vibrational level by one, has an extra $1$ from the action of the creation operator.</p>
+      </div>
+<p class="i18n-ja">同じ初期振動準位 $|v_k\rangle$ からのストークス散乱と反ストークス散乱を比べる。散乱光の周波数の違い（$\omega_s^4$ の効果）は後で組み込むことにして、ここでは散乱強度のうち振動状態に依存する部分を求める。</p>
+<p class="i18n-ja">振動状態が変わる場合（$v_k' \ne v_k$）、散乱強度のうち、振動状態に依存する部分は、分極率の行列要素の絶対値二乗 $|\langle v_k' | \hat{\alpha} | v_k \rangle|^2 = |\alpha'|^2 |\langle v_k' | \hat{Q}_k | v_k \rangle|^2$ で与えられる。</p>
+<p class="i18n-ja"><button type="button" class="eqref" data-eq="-matrix-element">式(7)</button>から得た二つの座標行列要素を二乗すると、$v_k \ge 1$ では次のようになる。</p>
+<div class="eq-block i18n-ja" id="eq-strengths">$$
+\begin{aligned}
+\left|\langle v_k+1 | \hat{Q}_k | v_k \rangle\right|^2 &amp;= Q_{k,\mathrm{zpf}}^2 (v_k+1), \\
+\left|\langle v_k-1 | \hat{Q}_k | v_k \rangle\right|^2 &amp;= Q_{k,\mathrm{zpf}}^2 v_k \tag{11}
+\end{aligned}
+$$</div>
+<p class="i18n-ja">両過程に共通する因子 $|\alpha'|^2 Q_{k,\mathrm{zpf}}^2$ を除き、ほかの条件をそろえたときの初期振動状態 $v_k$ による強度の違いを表す係数を $F_{\mathrm{S}}(v_k)$, $F_{\mathrm{AS}}(v_k)$ と置くと、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-v-plus-one">$$F_{\mathrm{S}}(v_k) = v_k+1, \qquad F_{\mathrm{AS}}(v_k) = v_k \tag{12}$$</div>
+<p class="i18n-ja">が得られる。同じ初期状態 $|v_k\rangle$ から出発しても、1段上へ移るストークス散乱の強度因子には、生成演算子の作用に由来する $+1$ の差が生じる。</p>
+ <figure class="rv-figure learn-panel learn-panel-stack" id="fig-ladder">
+       <div class="cc-panel-head"><strong class="cc-panel-title"><span class="i18n-en">Two scattering processes from the same initial level</span><span class="i18n-ja">同じ初期準位からの二つの散乱</span></strong></div>
+      <div class="cc-panel-body learn-panel-stack">
+       <div class="rv-plot learn-panel-field" id="rv-ladder"></div>
+      </div>
+     </figure>
+      <div class="i18n-en">
+        <p>Now consider the ground state ($v_k=0$). There is no lower level, so the annihilation operator gives zero ($\hat b_k|0\rangle=0$). The creation operator gives the state one level above ($\hat b_k^\dagger|0\rangle=|1\rangle$). The action of the coordinate operator and the resulting matrix element are</p>
+<div class="eq-block">$$\hat Q_k|0\rangle=Q_{k,\mathrm{zpf}}|1\rangle\quad\implies\quad\langle1|\hat Q_k|0\rangle=Q_{k,\mathrm{zpf}}\tag{13}$$</div>
+        <p>For a mode with $\alpha'\ne0$, Stokes scattering can occur from the ground state ($F_{\mathrm S}(0)=1$), while anti-Stokes scattering cannot ($F_{\mathrm{AS}}(0)=0$). Thus <button type="button" class="eqref" data-eq="-en-12">Eq. (12)</button> also holds at $v_k=0$.</p>
+      </div>
+<p class="i18n-ja">基底状態（$v_k = 0$）についても確認しておく。基底状態からはこれ以上下へ移れないため消滅演算子の作用はゼロとなり（$\hat{b}_k |0\rangle = 0$）、生成演算子は1段上の状態を与える（$\hat{b}_k^\dagger |0\rangle = |1\rangle$）。したがって、座標演算子の作用と行列要素は</p>
+<div class="eq-block i18n-ja" id="eq-ground">$$\hat{Q}_k |0\rangle = Q_{k,\mathrm{zpf}} |1\rangle \implies \langle 1 | \hat{Q}_k | 0 \rangle = Q_{k,\mathrm{zpf}} \tag{13}$$</div>
+<p class="i18n-ja">となる。すなわち、$\alpha' \ne 0$ のモードでは基底状態からのストークス散乱が可能であり（$F_{\mathrm{S}}(0) = 1$）、反ストークス散乱は起こらない（$F_{\mathrm{AS}}(0) = 0$）。この結果から、<button type="button" class="eqref" data-eq="-v-plus-one">式(12)</button>は $v_k = 0$ でもそのまま成り立つ。</p>
+</div></div></section>
+<section class="demo" id="temperature"><div class="demo-head"><div class="demo-head-rule"><span class="demo-num">06</span><span class="demo-rule" aria-hidden="true"></span></div><h2><span class="i18n-en">Temperature dependence of the spectrum</span><span class="i18n-ja">スペクトルの温度依存性</span></h2></div><div class="demo-stage"><div class="me-prose">
+      <div class="i18n-en">
+        <p>In a real sample, the fraction of molecules in each vibrational level depends on temperature. Even for the same mode, the intensity factors from the previous section depend on the initial level. To take the thermal average, weight each intensity factor by the probability of occupying that level.</p>
+        <p>Consider a sample in thermal equilibrium at temperature $T$. Let $p_{v_k}$ be the probability that the chosen mode $k$ occupies level $v_k$.</p>
+        <h3>Boltzmann distribution and mean vibrational quantum number</h3>
+        <p>Adjacent vibrational levels differ in energy by $\hbar\omega_k$. At thermal equilibrium, the occupation probability of the higher level is $\exp(-\hbar\omega_k/(k_{\mathrm B}T))$ times that of the lower level, where $k_{\mathrm B}$ is Boltzmann's constant.</p>
+        <p>For $T&gt;0$, write the ratio of occupation probabilities for adjacent levels as</p>
+<div class="eq-block">$$x=\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)$$</div>
+        <p>Since $0&lt;x&lt;1$, the occupation probability decreases with each step up in energy.</p>
+        <p>If the ground-state occupation probability is $p_0$, then $p_{v_k}=p_0x^{v_k}$. The probabilities of all levels sum to one, so $p_0(1+x+x^2+\dots)=p_0\frac{1}{1-x}=1$. This gives the occupation probability</p>
+<div class="eq-block raman-result-eq">$$p_{v_k}=(1-x)x^{v_k}\tag{14}$$</div>
+        <p>The mean vibrational quantum number $\bar v_k$ is the average number of vibrational quanta in mode $k$ of a molecule. By its definition $\bar v_k=\sum_{v_k=0}^{\infty}v_kp_{v_k}$, we have</p>
+<div class="eq-block">$$\begin{aligned}\bar v_k&amp;=(1-x)\sum_{v_k=0}^{\infty}v_kx^{v_k}\\&amp;=(1-x)\frac{x}{(1-x)^2}\\&amp;=\frac{x}{1-x}\end{aligned}$$</div>
+        <p>Substituting $x=\exp(-\hbar\omega_k/(k_{\mathrm B}T))$ gives the mean in terms of temperature:</p>
+<div class="eq-block raman-result-eq">$$\begin{aligned}\bar v_k&amp;=\frac{\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)}{1-\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)}\\&amp;=\frac{1}{\exp\left(\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)-1}\end{aligned}\tag{15}$$</div>
+        <h3>Thermal average of contributions from each vibrational level</h3>
+        <p>Multiply the vibrational factor for each level by the fraction $p_{v_k}$ of molecules in that level, then sum over all initial levels. Denote the thermal averages by $\overline F_{\mathrm S}$ and $\overline F_{\mathrm{AS}}$.</p>
+        <p>The Stokes factor is $v_k+1$ and the anti-Stokes factor is $v_k$. Using the normalization $\sum p_{v_k}=1$ and the definition of the mean, their averages are</p>
+<div class="eq-block">$$\begin{aligned}\overline F_{\mathrm S}&amp;=\sum_{v_k=0}^{\infty}p_{v_k}(v_k+1)=\bar v_k+1,\\\overline F_{\mathrm{AS}}&amp;=\sum_{v_k=0}^{\infty}p_{v_k}v_k=\bar v_k\end{aligned}\tag{16}$$</div>
+        <p>Taking the ratio of the two vibrational factors gives</p>
+<div class="eq-block raman-result-eq">$$\begin{aligned}\frac{\overline F_{\mathrm{AS}}}{\overline F_{\mathrm S}}&amp;=\frac{\bar v_k}{\bar v_k+1}=x\\&amp;=\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)\end{aligned}\tag{17}$$</div>
+        <p>Thus the Boltzmann factor for the energy of one vibrational quantum also appears after averaging the contributions from all initial levels.</p>
+        <p>At low temperatures ($k_{\mathrm B}T\ll\hbar\omega_k$), anti-Stokes scattering is strongly suppressed. As $T\to0$, the mean $\bar v_k$ goes to zero, and the anti-Stokes vibrational factor $\overline F_{\mathrm{AS}}$ approaches zero. This reflects the fact that most molecules occupy the ground state at low temperatures.</p>
+      </div>
+<p class="i18n-ja">実際の試料では、分子は、温度に応じた割合で各振動準位に分布している。同じモードであっても初期準位が違えば前節で求めた強度因子も違うため、各準位にいる確率で強度因子を重み付けして平均（熱平均）する必要がある。</p>
+<p class="i18n-ja">温度 $T$ で熱平衡にある場合を考え、選んだモード $k$ が準位 $v_k$ を占める確率を $p_{v_k}$ とする。</p>
+<h3 class="i18n-ja"><span class="i18n-ja">ボルツマン分布と平均振動量子数</span></h3>
+<p class="i18n-ja">隣り合う振動準位のエネルギー差は $\hbar\omega_k$ であった。熱平衡では、一段上の準位を占める確率は、一段下の準位の $\exp(-\hbar\omega_k/(k_{\mathrm B}T))$ 倍になる。ここで $k_{\mathrm B}$ はボルツマン定数である。</p>
+<p class="i18n-ja">以下では $T&gt;0$ とし、この隣り合う準位を占める確率の比を、</p>
+<div class="eq-block i18n-ja">$$x=\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)$$</div>
+<p class="i18n-ja">と書く。$0&lt;x&lt;1$ なので、準位が一段高くなるごとに占有確率は小さくなる。</p>
+<p class="i18n-ja" id="eq-boltzmann">基底状態を占める確率を $p_0$ とすると、一般の準位については $p_{v_k}=p_0x^{v_k}$ と書ける。すべての準位の確率の和が1になることから $p_0(1+x+x^2+\dots)=p_0\frac{1}{1-x}=1$ となり、各準位を占める確率は、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-population">$$p_{v_k}=(1-x)x^{v_k}\tag{14}$$</div>
+<p class="i18n-ja">と求まる。一分子のモード $k$ に平均して何個の振動量子があるかを表す平均振動量子数 $\bar v_k$ は、定義 $\bar v_k=\sum_{v_k=0}^{\infty}v_kp_{v_k}$ より、</p>
+<div class="eq-block i18n-ja">$$\begin{aligned}\bar v_k&amp;=(1-x)\sum_{v_k=0}^{\infty}v_kx^{v_k}\\&amp;=(1-x)\frac{x}{(1-x)^2}\\&amp;=\frac{x}{1-x}\end{aligned}$$</div>
+<p class="i18n-ja">となる。$x=\exp(-\hbar\omega_k/(k_{\mathrm B}T))$ を代入すると、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-mean">$$\begin{aligned}\bar v_k&amp;=\frac{\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)}{1-\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)}\\&amp;=\frac{1}{\exp\left(\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)-1}\end{aligned}\tag{15}$$</div>
+<p class="i18n-ja">を得る。</p>
+<h3 class="i18n-ja"><span class="i18n-ja">各振動準位からの寄与の熱平均</span></h3>
+<p class="i18n-ja">各準位にいる割合 $p_{v_k}$ に、その準位からの振動因子を掛け、すべての初期準位について足し合わせる。この熱平均を $\overline F_{\mathrm S}$、$\overline F_{\mathrm{AS}}$ と書く。</p>
+<p class="i18n-ja">ストークス側では $v_k+1$、反ストークス側では $v_k$ を平均し、確率の規格化 $\sum p_{v_k}=1$ と平均の定義を使うと、</p>
+<div class="eq-block i18n-ja" id="eq-averages">$$\begin{aligned}\overline F_{\mathrm S}&amp;=\sum_{v_k=0}^{\infty}p_{v_k}(v_k+1)=\bar v_k+1,\\\overline F_{\mathrm{AS}}&amp;=\sum_{v_k=0}^{\infty}p_{v_k}v_k=\bar v_k\end{aligned}\tag{16}$$</div>
+<p class="i18n-ja">となる。二つの振動因子の比を取ると、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-occupation-ratio">$$\begin{aligned}\frac{\overline F_{\mathrm{AS}}}{\overline F_{\mathrm S}}&amp;=\frac{\bar v_k}{\bar v_k+1}=x\\&amp;=\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)\end{aligned}\tag{17}$$</div>
+<p class="i18n-ja">となる。各初期準位からの寄与を平均した結果にも、振動量子1個分のエネルギーに対するボルツマン因子が現れる。</p>
+<p class="i18n-ja">低温（$k_{\mathrm B}T\ll\hbar\omega_k$）では反ストークス散乱が強く抑えられ、$T\to0$ の極限で $\bar v_k\to0$ となり、その振動因子 $\overline F_{\mathrm{AS}}$ は0に近づく。これは、低温では多くの分子が基底状態を占めることに対応している。</p>
+<figure class="rv-figure learn-panel learn-panel-stack" id="fig-thermal">
+      <div class="cc-panel-head"><strong class="cc-panel-title"><span class="i18n-en">Temperature and vibrational-level populations</span><span class="i18n-ja">温度と振動準位の占有</span></strong></div>
+      <div class="cc-panel-body learn-panel-stack">
+<div class="rv-plot learn-panel-field" id="rv-thermal"></div>
+<div class="rv-controls learn-panel-controls"><div class="learn-panel-range learn-panel-range-unframed">
+        <label for="rv-temperature"><span class="i18n-en">Temperature</span><span class="i18n-ja">温度</span></label>
+        <div class="learn-panel-track"><input id="rv-temperature" type="range" min="0" max="1" step="0.01" value="0.5" aria-describedby="rv-temperature-output"></div><output id="rv-temperature-output" for="rv-temperature"><span class="i18n-en">Intermediate temperature</span><span class="i18n-ja">中間の温度</span></output>
+      </div></div>
+</div>
+    </figure>
+      <div class="i18n-en">
+        <h3>Radiative efficiency and the full intensity ratio</h3>
+        <p>To obtain the ratio of scattered intensities, include the frequency dependence of radiation found in the classical theory. Here, $I_{\mathrm S}$ and $I_{\mathrm{AS}}$ are the radiated-energy intensities integrated over their respective scattering lines.</p>
+        <p>Under nonresonant conditions, use the first-order polarizability approximation in <button type="button" class="eqref" data-eq="-en-1">Eq. (1)</button> and assume the same polarizability derivative $\alpha'$ applies to both processes. With the same incident and collection conditions, combining the radiation factor proportional to the fourth power of the scattered angular frequency with the thermal averages gives</p>
+<div class="eq-block">$$\begin{aligned}I_{\mathrm S}&amp;\propto\left[\omega_{\mathrm{s}}^{(\mathrm{St})}\right]^4|\alpha'|^2Q_{k,\mathrm{zpf}}^2(\bar v_k+1),\\I_{\mathrm{AS}}&amp;\propto\left[\omega_{\mathrm{s}}^{(\mathrm{AS})}\right]^4|\alpha'|^2Q_{k,\mathrm{zpf}}^2\bar v_k\end{aligned}\tag{18}$$</div>
+        <p>Taking the ratio cancels the common proportionality constant and $|\alpha'|^2Q_{k,\mathrm{zpf}}^2$, giving</p>
+<div class="eq-block raman-result-eq">$$\begin{aligned}\frac{I_{\mathrm{AS}}}{I_{\mathrm S}}&amp;=\left(\frac{\omega_{\mathrm{s}}^{(\mathrm{AS})}}{\omega_{\mathrm{s}}^{(\mathrm{St})}}\right)^4\frac{\bar v_k}{\bar v_k+1}\\&amp;=\left(\frac{\omega_{\mathrm{i}}+\omega_k}{\omega_{\mathrm{i}}-\omega_k}\right)^4\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)\end{aligned}\tag{19}$$</div>
+        <p>This expression multiplies the frequency dependence of radiation, given by the fourth power of the frequency ratio, by the temperature-dependent factor obtained from the vibrational-state populations. At low temperatures this exponential factor is small, suppressing the anti-Stokes signal.</p>
+      </div>
+<h3 class="i18n-ja"><span class="i18n-ja">放射効率と全強度比</span></h3>
+<p class="i18n-ja">散乱強度の比を得るには、古典論で求めた散乱光の周波数による放射の違いも組み合わせる必要がある。ここで $I_{\mathrm S}$、$I_{\mathrm{AS}}$ は、各散乱線を積分した、放射エネルギーとしての強度を表す。</p>
+<p class="i18n-ja">非共鳴条件のもと、<button type="button" class="eqref" data-eq="-polarizability">式(1)</button>で示した分極率の一次近似を用い、二つの散乱過程で同じ分極率微分 $\alpha'$ を使えるとする。同じ入射条件と集光配置のもとで、散乱光の角振動数の4乗に比例する放射因子と熱平均を組み合わせると、</p>
+<div class="eq-block i18n-ja" id="eq-full-intensities">$$\begin{aligned}I_{\mathrm S}&amp;\propto\left[\omega_{\mathrm{s}}^{(\mathrm{St})}\right]^4|\alpha'|^2Q_{k,\mathrm{zpf}}^2(\bar v_k+1),\\I_{\mathrm{AS}}&amp;\propto\left[\omega_{\mathrm{s}}^{(\mathrm{AS})}\right]^4|\alpha'|^2Q_{k,\mathrm{zpf}}^2\bar v_k\end{aligned}\tag{18}$$</div>
+<p class="i18n-ja">となる。比を取ると、共通の比例係数と $|\alpha'|^2Q_{k,\mathrm{zpf}}^2$ が消え、</p>
+<div class="eq-block i18n-ja raman-result-eq" id="eq-full-ratio">$$\begin{aligned}\frac{I_{\mathrm{AS}}}{I_{\mathrm S}}&amp;=\left(\frac{\omega_{\mathrm{s}}^{(\mathrm{AS})}}{\omega_{\mathrm{s}}^{(\mathrm{St})}}\right)^4\frac{\bar v_k}{\bar v_k+1}\\&amp;=\left(\frac{\omega_{\mathrm{i}}+\omega_k}{\omega_{\mathrm{i}}-\omega_k}\right)^4\exp\left(-\frac{\hbar\omega_k}{k_{\mathrm B}T}\right)\end{aligned}\tag{19}$$</div>
+<p class="i18n-ja">となる。この式には、放射の周波数依存（周波数比の4乗）と、振動状態の占有確率から得られた温度依存の因子が掛け合わされている。低温ではこの指数因子が小さくなるため、反ストークス側の信号が抑えられる。</p>
+<div class="rv-high-temperature-summary">
+<p class="i18n-en">In the high-temperature limit of this harmonic model ($\hbar\omega_k\ll k_{\mathrm B}T$), $\bar v_k\approx\frac{k_{\mathrm B}T}{\hbar\omega_k}\gg1$, and $\frac{\bar v_k}{\bar v_k+1}\approx1$. The two vibrational factors are then nearly equal, and the intensity ratio approaches the classical result, which retains the fourth power of the frequency ratio.</p>
+<p class="i18n-ja">反対に、この調和模型の高温極限（$\hbar\omega_k\ll k_{\mathrm B}T$）では、$\bar v_k\approx\frac{k_{\mathrm B}T}{\hbar\omega_k}\gg1$ となり、$\frac{\bar v_k}{\bar v_k+1}\approx1$ に近づく。そのため振動状態に由来する二つの因子はほぼ等しくなり、強度比は周波数比の4乗が残る古典模型の結果へ近づく。</p>
+</div>
+<div class="rv-page-bridge"><p><span class="i18n-en">We can now describe Stokes and anti-Stokes scattering as changes in vibrational state. It remains to see how a photon couples to matter and which intermediate states contribute to the Raman amplitude from the initial state to the final state. To obtain that amplitude, we must also quantize light and write the light–matter interaction in terms of matrix elements between states.</span><span class="i18n-ja">これでストークスと反ストークスを、振動状態の変化として記述できた。しかし、光子が物質とどう結合し、どの中間状態を介して始状態から終状態へのラマン振幅が生まれるかはまだ書いていない。その振幅を得るには、光も量子化し、光–物質相互作用を状態間の行列要素として組み立てる必要がある。</span></p></div>
+</div></div></section>
+<div class="backrow"><div class="container"><a class="back-home" href="/learn/"><span class="i18n-en">← Back to Learn</span><span class="i18n-ja">← 基礎から学ぶ に戻る</span></a></div></div>
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">    </div>
+  </footer>
+  <script src="/assets/js/article-shell.js?v=raman-exit-20260923-r1"></script>
+  <script src="/assets/js/quantum-vibrational-raman.js"></script>
+  <script src="/assets/js/eq-hover.js"></script>
+</body>
+</html>

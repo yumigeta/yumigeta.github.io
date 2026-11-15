@@ -11,9 +11,21 @@ def check(condition, message):
 def content(node):
     return ''.join(content(c) if isinstance(c, Element) else c for c in node.children)
 
+def article_figures(node):
+    shell = {'site-nav', 'rail-left', 'rail-right', 'mobile-toc'}
+    if shell.intersection((node.attrs.get('class') or '').split()):
+        return
+    if node.tag in ('canvas', 'svg', 'input', 'select'):
+        yield node.tag, {k: '' if v is None else v for k, v in node.attrs.items()}
+    for child in node.children:
+        if isinstance(child, Element):
+            yield from article_figures(child)
+
 def validate():
     registry = json.loads((ROOT / 'learn/pages.json').read_text(encoding='utf-8'))
     articles = [p for p in registry['pages'] if p.get('published') and not p.get('planned')]
+    new_categories = {category['id'] for category in registry.get('category_architectures', [])}
+    v2_paths = {'/learn/' + p['slug'] + '/' for p in articles if p['category'] in new_categories}
     paths = ['/learn/'] + ['/learn/' + p['slug'] + '/' for p in articles]
     for path in paths:
         source = (ROOT / path.strip('/') / 'index.html').read_text(encoding='utf-8')
@@ -26,6 +38,9 @@ def validate():
             nodes = list(Document(file.read_text(encoding='utf-8')).root.walk())
             root = next(n for n in nodes if n.tag == 'html')
             check(all(root.attrs.get(k) == lang for k in ('lang', 'data-lang', 'data-page-lang')), 'Wrong language: ' + route)
+            if path in v2_paths:
+                check(root.attrs.get('data-static-shell') == 'article', 'Missing static article shell: ' + route)
+                check(not any(n.attrs.get('property') == 'og:site_name' for n in nodes), 'Site name in article metadata: ' + route)
             canonicals = [n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'canonical']
             check(canonicals == [ORIGIN + route], 'Wrong self canonical: ' + route)
             alternates = {n.attrs.get('hreflang'): n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'alternate'}
@@ -63,8 +78,11 @@ def validate():
             localized_source = Document(source).root
             strip_language(localized_source, lang)
             figure_tags = ('canvas', 'svg', 'input', 'select')
-            before = [(n.tag, n.attrs) for n in localized_source.walk() if n.tag in figure_tags]
-            after = [(n.tag, n.attrs) for n in nodes if n.tag in figure_tags]
+            if path in v2_paths:
+                before, after = list(article_figures(localized_source)), list(article_figures(root))
+            else:
+                before = [(n.tag, n.attrs) for n in localized_source.walk() if n.tag in figure_tags]
+                after = [(n.tag, n.attrs) for n in nodes if n.tag in figure_tags]
             check(before == after, 'Figure markup changed: ' + route)
             if path == '/learn/':
                 links = {n.attrs.get('href') for n in nodes if n.tag == 'a'}

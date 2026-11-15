@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/favicon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sp² Bonding and the Geometry of Graphene</title>
+  <meta name="description" content="Connect carbon sp² bonding and the pz orbital to graphene's honeycomb lattice, A/B basis, primitive vectors, reciprocal lattice, and Γ, M, K, and K′ points.">
+  <meta name="keywords" content="graphene, honeycomb lattice, Bravais lattice, sublattice, A B sites, primitive vectors, reciprocal lattice, Brillouin zone, K point, nearest neighbour">
+  <link rel="canonical" href="https://yumigeta.com/learn/graphene-sp2-geometry/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="sp² Bonding and the Geometry of Graphene">
+  <meta property="og:description" content="From carbon bonding to graphene's real-space and reciprocal-space geometry.">
+  <meta property="og:url" content="https://yumigeta.com/learn/graphene-sp2-geometry/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="sp² Bonding and the Geometry of Graphene">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "sp² Bonding and the Geometry of Graphene",
+    "description": "Connect carbon sp² bonding and the pz orbital to graphene's honeycomb lattice, A/B basis, primitive vectors, reciprocal lattice, and high-symmetry points.",
+    "url": "https://yumigeta.com/learn/graphene-sp2-geometry/",
+    "author": {
+      "@type": "Person",
+      "name": "Kentaro Yumigeta",
+      "url": "https://yumigeta.com",
+      "affiliation": { "@type": "Organization", "name": "University of Arizona" }
+    },
+    "educationalLevel": "Undergraduate",
+    "learningResourceType": "Tutorial",
+    "teaches": ["sp² bonding", "pz orbital", "Honeycomb lattice", "Bravais lattice and basis", "Reciprocal lattice", "Brillouin zone"],
+    "inLanguage": ["ja", "en"],
+    "isAccessibleForFree": true,
+    "interactivityType": "active"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/bands-series.css">
+  <link rel="stylesheet" href="/assets/css/graphene-sp2-geometry.css">
+
+  <link rel="stylesheet" href="/assets/css/article-shell.css?v=topic-spacing-20260915-r3">
+
+
+  <link rel="stylesheet" href="/assets/vendor/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <script defer src="/assets/js/eq-number.js"></script>
+  <script src="/assets/js/analytics.js"></script>  <script defer src="/assets/js/site-nav.js"></script>
+  <link rel="stylesheet" href="/assets/css/eq-hover.css">
+  <link rel="stylesheet" href="/assets/css/curriculum-route-bridge.css">
+  <link rel="stylesheet" href="/assets/css/learn-panel.css">
+  <link rel="stylesheet" href="/assets/css/graphene-bz-distance-panel.css">
+</head>
+<body class="new-curriculum-bridge learn-article-standard" data-learn-slug="graphene-sp2-geometry">
+  <script src="/assets/js/lang-toggle.js"></script>
+  <header class="site-nav">
+    <div class="nav">
+      <a class="brand" href="/" aria-label="Kentaro Yumigeta — home"><img class="seal-img" src="/assets/img/hanko-seal.png" alt="Kentaro Yumigeta"></a>
+      <nav class="links">
+        <a href="/#news"><span class="i18n-en">News</span><span class="i18n-ja">ニュース</span></a>
+        <a href="/#research"><span class="i18n-en">Research</span><span class="i18n-ja">研究</span></a>
+        <a href="/#publications"><span class="i18n-en">Publications</span><span class="i18n-ja">論文</span></a>
+        <a href="/#learn" aria-current="page"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a>
+        <a href="/#cv">CV</a>
+      </nav>
+      <a class="end" href="/#contact"><span class="i18n-en">Contact</span><span class="i18n-ja">連絡先</span></a>
+    </div>
+  </header>
+
+  <div class="phead">
+    <div class="container">
+      <div class="phead-top"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/learn/"><span class="i18n-en">Learn</span><span class="i18n-ja">基礎から学ぶ</span></a><span class="sep">/</span><span class="crumb-current"><span class="i18n-en">Graphene Bonding and Geometry</span><span class="i18n-ja">グラフェンの結合と幾何</span></span></div><button class="lang-btn" aria-label="Switch language / 言語切替"><span class="l-en">EN</span><span class="l-sep">/</span><span class="l-ja">日本語</span></button></div>
+      <div class="ptop">
+        <h1><span class="i18n-en">sp² Bonding and the Geometry of Graphene</span><span class="i18n-ja">sp²結合とグラフェンの幾何</span></h1>
+      </div>
+      <p class="pintro"><span class="i18n-en">Understanding graphene's electronic bands, phonons, and Raman peaks starts with the lattice formed by its carbon atoms. The real-space honeycomb lattice produced by carbon $sp^2$ bonding determines the reciprocal lattice and the shape of the first Brillouin zone. Its high-symmetry points (<span class="rp-point">Γ</span>, <span class="rp-point">K</span>, <span class="rp-point">K′</span>, and <span class="rp-point">M</span>) provide common reference points for specifying electronic and phonon wavevectors later on.</span><span class="i18n-ja">グラフェンの電子バンド、フォノン、そしてラマンピークの理解はすべて、炭素原子が形成する格子構造を出発点とする。炭素の $sp^2$ 結合が作る実空間の蜂の巣格子から、その周期に対応する逆格子と第1ブリルアンゾーンの形状が求まる。特にその高対称点（<span class="rp-point">Γ</span>、<span class="rp-point">K</span>、<span class="rp-point">K′</span>、<span class="rp-point">M</span>）は、後に電子状態やフォノンの波数を指定する共通の基準点となる。</span></p>
+    </div>
+  </div>
+
+  <section class="demo" id="bonding">
+    <div class="demo-head"><span class="demo-num">01</span><h2><span class="i18n-en">sp² bonding forms bonds in three directions</span><span class="i18n-ja">sp²結合が三方向の結合をつくる</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+       <p><span class="i18n-en">With graphene in the $xy$ plane, each carbon atom's $2s$ orbital and in-plane $2p_x, 2p_y$ orbitals combine to form three $sp^2$ hybrid orbitals. They lie 120° apart in the same plane and overlap along the internuclear axes with hybrid orbitals on neighboring atoms to form strong $\sigma$ bonds. We consider an ideal flat monolayer in which all bond lengths are equal ($a_{\mathrm{C-C}}\approx1.42\text{ \AA}$).</span><span class="i18n-ja">グラフェン面を $xy$ 面に取ると、各炭素原子の $2s$ 軌道と面内の $2p_x, 2p_y$ 軌道を組み合わせて、三つの $sp^2$ 混成軌道が作られる。三つの混成軌道は同一平面内で120°ずつ開き、隣接原子の混成軌道と軸上で重なって強固な $\sigma$ 結合を形成する。ここでは、結合長がすべて等しい（$a_{\mathrm{C-C}} \approx 1.42\text{ \AA}$）、平らな単層の理想的な配置を考える。</span></p>
+       <p><span class="i18n-en">The remaining $p_z$ orbital is perpendicular to the plane and overlaps sideways with $p_z$ orbitals on neighboring atoms. This overlap forms the extended π electronic system and provides the starting point for constructing the π bands.</span><span class="i18n-ja">混成に使われずに残る $p_z$ 軌道は面に垂直で、隣接原子の $p_z$ 軌道と側面で重なり合う。この重なりが結晶全体に広がる $\pi$ 電子系を作り、後で $\pi$ バンドを組み立てる出発点になる。</span></p>
+      <figure class="gfig sp2-figure learn-panel g01-native">
+        <figcaption class="cc-panel-head" id="sp2-model-caption"><span class="cc-panel-title"><span class="i18n-ja">sp²軌道とグラフェンの結合</span><span class="i18n-en">sp² orbitals and graphene bonding</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+<div class="learn-panel-comparison">
+<div class="learn-panel-card learn-panel-stack g01-heading-card sp2-atom-view">
+        <h4><span class="i18n-ja">炭素原子</span><span class="i18n-en">Carbon atom</span></h4>
+<div class="gfig-stage sp2-model-stage learn-panel-plot learn-panel-unframed">
+          <canvas id="sp2-orbital-model" role="img" aria-describedby="sp2-model-caption" aria-label="Three planar sp² hybrid orbitals and perpendicular p_z orbital of a carbon atom; xy is the graphene plane."></canvas>
+          <div class="sp2-plane-label"><span class="rp-notation rp-variable">xy</span> <span class="i18n-ja">グラフェン面</span><span class="i18n-en">graphene plane</span></div><span id="sp2-axis-x" class="sp2-coordinate-label rp-notation rp-variable">x</span><span id="sp2-axis-y" class="sp2-coordinate-label rp-notation rp-variable">y</span><span id="sp2-axis-z" class="sp2-coordinate-label rp-notation rp-variable">z</span>
+          <p class="sp2-model-fallback" hidden><span class="i18n-en">The 3D model could not be displayed in this browser.</span><span class="i18n-ja">このブラウザでは3Dモデルを表示できません。</span></p>
+        </div>
+</div>
+<div class="learn-panel-card learn-panel-stack g01-heading-card sp2-lattice-view">
+        <h4><span class="i18n-ja">グラフェン構造</span><span class="i18n-en">Graphene lattice</span></h4><div class="gfig-stage sp2-model-stage sp2-structure-stage learn-panel-plot learn-panel-unframed"><canvas id="sp2-structure-model" role="img"></canvas><span id="sp2-label-hybrid" class="sp2-coordinate-label rp-notation rp-identifier">sp²</span><span id="sp2-label-sigma" class="sp2-coordinate-label rp-notation rp-identifier">σ</span><span id="sp2-label-pz" class="sp2-coordinate-label"><span class="rp-notation rp-variable">p<span class="rp-sub rp-variable">z</span></span></span><span id="sp2-label-pi" class="sp2-coordinate-label rp-notation rp-identifier">π</span><p class="sp2-model-fallback" hidden><span class="i18n-ja">立体図を表示できません。</span><span class="i18n-en">The 3D view could not be displayed.</span></p></div>
+</div>
+</div>
+<div class="sp2-bonding-controls">
+        <div class="learn-panel-buttons" aria-label="3D model controls">
+          <div class="learn-panel-button-row" role="group" aria-label="Orbital emphasis">
+            <button class="gfig-btn active" data-sp2-mode="all" type="button" aria-pressed="true"><span class="i18n-en">All orbitals</span><span class="i18n-ja">すべての軌道</span></button>
+            <button class="gfig-btn" data-sp2-mode="sp2" type="button" aria-pressed="false"><span class="rp-notation rp-identifier">sp²</span></button>
+            <button class="gfig-btn" data-sp2-mode="pz" type="button" aria-pressed="false"><span class="rp-notation rp-variable">p<span class="rp-sub rp-variable">z</span></span></button>
+          </div>
+        </div>
+        <div class="sp2-model-legend learn-panel-note" aria-label="Wavefunction sign"><span><span class="i18n-ja">波動関数の符号</span><span class="i18n-en">Wavefunction sign</span></span><span><i class="sp2-swatch phase-positive" aria-hidden="true"></i><span class="rp-notation rp-roman">+</span></span><span><i class="sp2-swatch phase-negative" aria-hidden="true"></i><span class="rp-notation rp-roman">−</span></span></div>
+</div>
+      </div>
+</figure>
+       <p><span class="i18n-en">Now slide the entire lattice so that one carbon atom overlaps a neighboring atom. Do the three bonds extending from it also line up exactly with the bonds of the atom it overlaps?</span><span class="i18n-ja">では、格子全体をずらして、一つの炭素原子を隣の原子に重ねてみる。そのとき、そこから伸びる3本の結合も、重ねた先の原子の結合とぴったり重なるだろうか。</span></p>
+    </div></div>
+  </section>
+
+  <section class="demo" id="lattice-translation">
+    <div class="demo-head"><span class="demo-num">02</span><h2><span class="i18n-en">A/B sublattices and the two-atom basis</span><span class="i18n-ja">A/B副格子と二原子基底</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">Label one carbon atom A and its three nearest neighbors B. Label the neighbors of the B atoms A, dividing the lattice into two groups so that every bond connects an A atom to a B atom. Both groups consist of carbon atoms. A and B label the group each atom belongs to, and each group is called a sublattice.</span><span class="i18n-ja">一つの炭素原子をAとし、その最近接の三原子をBとする。さらに、Bに隣接する原子をAとして、すべての結合がAとBを結ぶように格子全体を二分する。どちらの組も炭素原子からなる。AとBは、原子がどちらの組に属するかを示すラベルである。それぞれの組を副格子と呼ぶ。</span></p>
+        <p><span class="i18n-en">Slide the entire lattice so that an A atom overlaps a neighboring B atom. The two atomic positions coincide, while the three bonds extending from those positions do not. The single bond vector from A to B therefore does not represent a lattice translation.</span><span class="i18n-ja">格子全体をずらしてAを隣のBに重ねると、原子の位置は重なるが、そこから伸びる3本の結合は重ならない。つまり、AとBを結ぶ1本の結合ベクトルは、格子全体の周期性を表す並進ベクトルにはならない。</span></p>
+        <p><span class="i18n-en">When the whole lattice is shifted from an A site to the nearest other A site, every atom, including those on both sublattices, overlaps an atom in the original arrangement.</span><span class="i18n-ja">一方、Aから最も近い別のAまで格子全体を平行移動すると、AとBを含むすべての原子を元の配置へ重ねられる。</span></p>
+        <figure class="gfig learn-panel g01-native">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Bond step and lattice translation</span><span class="i18n-ja">結合一本の移動と、格子並進を比べる</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+          <div class="gfig-stage"><canvas class="learn-panel-plot" id="fig-lattice" role="img" aria-label="Honeycomb lattice showing translations from A to B and from A to A / ハニカム格子全体をAからBへ移す場合と、AからAへ移す場合を比較する図。"></canvas></div>
+          <div class="learn-panel-buttons">
+            <div class="learn-panel-button-row">
+              <button class="gfig-btn" id="lat-ab" aria-pressed="false" type="button"><span class="i18n-en">To a neighbouring atom (A→B)</span><span class="i18n-ja">隣の原子へ（A→B）</span></button>
+              <button class="gfig-btn" id="lat-aa" aria-pressed="false" type="button"><span class="i18n-en">To an atom with the same orientation (A→A)</span><span class="i18n-ja">次のAサイトへ（A→A）</span></button>
+              <button class="gfig-btn" id="lat-reset" type="button"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+            </div>
+            <span class="learn-panel-note" id="lat-status" aria-live="polite" aria-atomic="true" hidden><span class="i18n-en">&nbsp;</span><span class="i18n-ja">&nbsp;</span></span>
+          </div>
+        </div>
+</figure>
+        <p class="i18n-en"><span class="i18n-en">The A sites alone form a triangular lattice. The B sites form the same triangular lattice, offset from the A sites by one bond length. Placing an A atom at each triangular-lattice point and one neighboring B atom in the same direction from each A builds the entire honeycomb lattice. This A/B pair is the <strong>two-atom basis</strong>.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">Aだけを見てみると、原子は三角格子をつくる。Bも同じ形の三角格子をつくり、Aの並びから結合1本分だけずれている。三角格子の各点にAを置き、それぞれのAから同じ向きに隣のBを一つ置けば、蜂の巣格子全体ができる。このAとBの一組が、<strong>二原子基底</strong>である。</span></p>
+    </div></div>
+  </section>
+
+  <section class="demo" id="basis-unit-cell">
+    <div class="demo-head"><span class="demo-num">03</span><h2><span class="i18n-en">Carving Two Points on a Stamp</span><span class="i18n-ja">判子に二点を彫る</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p><span class="i18n-en">Choose the A atom at the origin and its nearest B atom directly above as the two points on the stamp. When placing copies of the stamp in the same orientation, specify each placement by the position of its A atom.</span><span class="i18n-ja">原点のAと、その真上にある最も近いBを、判子に彫る二点に選ぶ。この判子を同じ向きで並べるとき、置く場所はAの位置で指定できる。</span></p>
+        <p><span class="i18n-en">Choose the two vectors from the A atom at the origin to the nearest A atoms at the upper right and upper left as the primitive translation vectors $\boldsymbol{a}_1,\boldsymbol{a}_2$. The position of the A atom on the stamp is given by</span><span class="i18n-ja">原点のAから、右上と左上にある最も近いAへ向かう二本を、基本並進ベクトル $\boldsymbol{a}_1,\boldsymbol{a}_2$ に選ぶ。判子のAを置く位置は、</span></p>
+        <p class="eq-block" id="eq1"><span class="i18n-en">$$\boldsymbol{R}=m\,\boldsymbol{a}_1+n\,\boldsymbol{a}_2 \tag{1}$$</span><span class="i18n-ja">$$\boldsymbol{R}=m\,\boldsymbol{a}_1+n\,\boldsymbol{a}_2 \tag{1}$$</span></p>
+        <p><span class="i18n-en">The integers $m,n$ count steps along the two primitive vectors; negative values reverse the direction. For example, $m=1,n=-1$ gives $\boldsymbol{R}=\boldsymbol{a}_1-\boldsymbol{a}_2$, the A site immediately to the right of the origin.</span><span class="i18n-ja">整数 $m,n$ は各方向への移動回数で、負なら逆向きに進む。例えば $m=1,n=-1$ なら、$\boldsymbol{R}=\boldsymbol{a}_1-\boldsymbol{a}_2$ は原点の右隣のAを指す。</span></p>
+        <p><span class="i18n-en">The positions $\boldsymbol{R}$ of the A sites form graphene's Bravais lattice. In the figure, the unit cell is a parallelogram with sides $\boldsymbol{a}_1$ and $\boldsymbol{a}_2$, shifted so that the A atom at the origin and the B atom directly above it both lie inside. Repeating this cell by lattice translations builds the honeycomb lattice.</span><span class="i18n-ja"><button type="button" class="eqref" data-eq="1">式(1)</button>で表されるAの位置の集合が、グラフェンのブラベー格子である。図では、$\boldsymbol{a}_1$ と $\boldsymbol{a}_2$ を辺とする平行四辺形をずらし、原点のAとその真上のBが一つずつ内側に入るように単位胞を取る。この単位胞を格子並進で繰り返すと、蜂の巣格子全体ができる。</span></p>
+        <figure class="gfig learn-panel g01-native">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Repeating the A/B basis</span><span class="i18n-ja">A/Bの一組を基本並進で繰り返す</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+          <div class="gfig-stage"><canvas class="learn-panel-plot" id="fig-stamp" role="img" aria-label="A two-dot stamp with sides a1 and a2 is pressed on every point R of a triangular Bravais lattice to build the honeycomb / Aとその真上のBからなる二原子基底を、基本並進ベクトルa_1とa_2の整数倍の位置へ繰り返し置く図。"></canvas></div>
+          <div class="learn-panel-buttons">
+            <div class="learn-panel-button-row">
+              <button class="gfig-btn" id="st-press" type="button"><span class="i18n-en">Press the stamp</span><span class="i18n-ja">判子を押す</span></button>
+              <button class="gfig-btn" id="st-reset" type="button"><span class="i18n-en">Reset</span><span class="i18n-ja">リセット</span></button>
+            </div>
+            <span class="learn-panel-note" id="st-status"><span class="i18n-en">&nbsp;</span><span class="i18n-ja">&nbsp;</span></span>
+          </div>
+        </div>
+</figure>
+    </div></div>
+  </section>
+
+  <section class="demo" id="bond-vectors">
+    <div class="demo-head"><span class="demo-num">04</span><h2><span class="i18n-en">Finding the primitive translation vectors from three bonds</span><span class="i18n-ja">三本の結合から基本並進ベクトルを求める</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p class="i18n-en"><span class="i18n-en">Take the nearest-neighbor C–C distance introduced in Section 01 to be $a=0.142\,\mathrm{nm}$. Let the $x$-axis point to the right and the $y$-axis point upward. Write the bond vectors from A to its three nearest B sites as $\boldsymbol\delta_1,\boldsymbol\delta_2,\boldsymbol\delta_3$.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">§01で示した最近接C–C距離を $a=0.142\,\mathrm{nm}$ とする。$x$ 軸を右向き、$y$ 軸を上向きに取り、Aから三つの最近接Bへ向かう結合ベクトルを $\boldsymbol\delta_1,\boldsymbol\delta_2,\boldsymbol\delta_3$ と書く。</span></p>
+        <p class="i18n-en"><span class="i18n-en">All three bonds have length $a$ and are 120° apart. Let $\boldsymbol\delta_1$ point straight up. Its components are</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">三本の長さはすべて $a$ で、互いに120°ずつ開いている。真上に向かう一本を $\boldsymbol\delta_1$ とすると、その成分は次のようになる。</span></p>
+        <p class="eq-block" id="eq2"><span class="i18n-en">$$\boldsymbol{\delta}_1=a(0,1) \tag{2}$$</span><span class="i18n-ja">$$\boldsymbol{\delta}_1=a(0,1) \tag{2}$$</span></p>
+        <p class="i18n-en"><span class="i18n-en">The lower-right bond $\boldsymbol\delta_2$ makes an angle of $30^\circ$ with the $x$-axis, so its components are $(a\cos30^\circ,-a\sin30^\circ)$. The lower-left bond $\boldsymbol\delta_3$ is its mirror image, so only the sign of the $x$ component changes.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">右下の結合 $\boldsymbol\delta_2$ の成分は、$x$ 軸となす角度 $30^\circ$ を使って $(a\cos30^\circ, -a\sin30^\circ)$ と表せる。左下の $\boldsymbol\delta_3$ は左右対称なので、$x$ 成分の符号だけが逆になる。</span></p>
+        <p class="raman-result-eq eq-block" id="eq3"><span class="i18n-en">$$\begin{aligned} \boldsymbol{\delta}_2&=a\left(\frac{\sqrt3}{2},-\frac12\right)\\ \boldsymbol{\delta}_3&=a\left(-\frac{\sqrt3}{2},-\frac12\right) \end{aligned} \tag{3}$$</span><span class="i18n-ja">$$
+\begin{aligned}
+\boldsymbol\delta_2 &= a\left(\frac{\sqrt3}{2},-\frac12\right),\\
+\boldsymbol\delta_3 &= a\left(-\frac{\sqrt3}{2},-\frac12\right)
+\end{aligned}
+\tag{3}
+$$</span></p>
+        <p class="i18n-en"><span class="i18n-en">To reach the nearest other A site, take two bond steps via B. The bond vectors point from A to B, so reverse the sign of the corresponding bond vector when going from B to a different A site.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">1本の結合では届かない隣のAへ向かうため、Bを経由して進む。Bから別のAへ進むときは、AからBへ向けて定義した結合ベクトルの符号を反転させる。</span></p>
+        <figure class="gfig learn-panel g01-native">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Nearest-neighbor and primitive vectors</span><span class="i18n-ja">二本の結合をたどって、隣のAへ進む</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+          <div class="gfig-stage"><canvas class="learn-panel-plot" id="fig-nnvec" role="img" aria-label="An A site with the three nearest-neighbour vectors to its B sites, plus the primitive vectors a1 and a2 built as two-step paths / 三本の最近接結合ベクトルと、AからBを経由して隣のAへ進む二つの経路を示す図。"></canvas></div>
+          <div class="learn-panel-buttons">
+            <div class="learn-panel-button-row">
+              <button class="gfig-btn active" id="nn-all" aria-pressed="true" type="button"><span class="i18n-en">all three</span><span class="i18n-ja">三方向</span></button>
+              <button class="gfig-btn" id="nn-d1" aria-pressed="false" type="button"><span class="gv">δ</span><sub>1</sub></button>
+              <button class="gfig-btn" id="nn-d2" aria-pressed="false" type="button"><span class="gv">δ</span><sub>2</sub></button>
+              <button class="gfig-btn" id="nn-d3" aria-pressed="false" type="button"><span class="gv">δ</span><sub>3</sub></button>
+              <button class="gfig-btn" id="nn-a1" aria-pressed="false" type="button"><span class="gv">a</span><sub>1</sub> = <span class="gv">δ</span><sub>1</sub> − <span class="gv">δ</span><sub>3</sub></button>
+              <button class="gfig-btn" id="nn-a2" aria-pressed="false" type="button"><span class="gv">a</span><sub>2</sub> = <span class="gv">δ</span><sub>1</sub> − <span class="gv">δ</span><sub>2</sub></button>
+            </div>
+            <span class="learn-panel-note" id="nn-hint">120° · |<span class="rp-notation rp-variable rp-vector">δ</span>| = <span class="rp-notation rp-variable">a</span></span>
+          </div>
+        </div>
+</figure>
+        <p class="i18n-en"><span class="i18n-en">From the A site at the origin, move by $\boldsymbol\delta_1$ to the B site directly above, then by $-\boldsymbol\delta_3$ to the A site at the upper right. This gives the primitive translation vector $\boldsymbol{a}_1$.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">原点のAから真上のBへ $\boldsymbol\delta_1$ だけ進み、そこから右上のAへ $-\boldsymbol\delta_3$ だけ進むと、基本並進ベクトル $\boldsymbol{a}_1$ が得られる。</span></p>
+        <p class="raman-result-eq eq-block" id="eq4"><span class="i18n-en">$$
+\begin{aligned}
+\boldsymbol{a}_1
+&=\boldsymbol\delta_1-\boldsymbol\delta_3\\
+&=a\left(
+\frac{\sqrt3}{2},
+\frac32
+\right)
+\end{aligned}
+\tag{4}
+$$</span><span class="i18n-ja">$$
+\begin{aligned}
+\boldsymbol{a}_1
+&=\boldsymbol\delta_1-\boldsymbol\delta_3\\
+&=a\left(
+\frac{\sqrt3}{2},
+\frac32
+\right)
+\end{aligned}
+\tag{4}
+$$</span></p>
+        <p class="i18n-en"><span class="i18n-en">Changing the second step to $-\boldsymbol\delta_2$ instead gives $\boldsymbol{a}_2$, which points to the A site at the upper left.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">後半の経路を $-\boldsymbol\delta_2$ に変えれば、左上のAへ向かう $\boldsymbol{a}_2$ になる。</span></p>
+        <p class="raman-result-eq eq-block"><span class="i18n-en">$$
+\begin{aligned}
+\boldsymbol{a}_2
+&=\boldsymbol\delta_1-\boldsymbol\delta_2\\
+&=a\left(
+-\frac{\sqrt3}{2},
+\frac32
+\right)
+\end{aligned}
+\tag{5}
+$$</span><span class="i18n-ja">$$
+\begin{aligned}
+\boldsymbol{a}_2
+&=\boldsymbol\delta_1-\boldsymbol\delta_2\\
+&=a\left(
+-\frac{\sqrt3}{2},
+\frac32
+\right)
+\end{aligned}
+\tag{5}
+$$</span></p>
+        <p class="i18n-en"><span class="i18n-en">Using <button type="button" class="eqref" data-eq="4">Equation (4)</button> and the corresponding expression for the second vector, we can check the lengths of both primitive vectors.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">二本の長さも確かめておこう。</span></p>
+        <div class="eq-block i18n-en"><span class="i18n-en">$$\vert{}\boldsymbol{a}_1\vert{} =a\sqrt{\left(\frac{\sqrt3}{2}\right)^2+\left(\frac32\right)^2} =a\sqrt{\frac34+\frac94} =\sqrt3\,a$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">The two vectors have the same length because their components differ only in the sign of the horizontal component.</span></p>
+        <div class="raman-result-eq eq-block"><span class="i18n-en">$$
+|\boldsymbol{a}_1|
+=
+|\boldsymbol{a}_2|
+=
+\sqrt3\,a
+\approx
+0.246\,\mathrm{nm}
+$$</span><span class="i18n-ja">$$
+|\boldsymbol{a}_1|
+=
+|\boldsymbol{a}_2|
+=
+\sqrt3\,a
+\approx
+0.246\,\mathrm{nm}
+$$</span></div>
+        <p class="i18n-ja"><span class="i18n-ja">ここで $a$ はAとBの間の結合長、$\sqrt3\,a$ は最も近いAどうしの距離である。文献によっては後者を $a$ と書くものもあるため、数式を比較する際は定義を確認する。</span></p>
+        <p class="i18n-en"><span class="i18n-en">Here, $a$ is the A–B bond length and $\sqrt3\,a$ is the distance between the nearest A sites. Some references use $a$ for the latter, so check how it is defined when comparing equations.</span></p>
+        <p class="i18n-en"><span class="i18n-en">The positions of A and B within a unit cell are given relative to the Bravais-lattice point $\boldsymbol{R}$ as follows.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">単位胞内のAとBの位置は、ブラベー格子の点 $\boldsymbol{R}$ を基準にして次のように表される。</span></p>
+        <div class="eq-block"><span class="i18n-en">$$
+\boldsymbol{r}_{\mathrm{A}}(\boldsymbol{R})=\boldsymbol{R},
+\qquad
+\boldsymbol{r}_{\mathrm{B}}(\boldsymbol{R})=\boldsymbol{R}+\boldsymbol\delta_1
+$$</span><span class="i18n-ja">$$
+\boldsymbol{r}_{\mathrm{A}}(\boldsymbol{R})=\boldsymbol{R},
+\qquad
+\boldsymbol{r}_{\mathrm{B}}(\boldsymbol{R})=\boldsymbol{R}+\boldsymbol\delta_1
+$$</span></div>
+    </div></div>
+  </section>
+
+  <section class="demo" id="reciprocal-lattice">
+    <div class="demo-head"><span class="demo-num">05</span><h2><span class="i18n-en">Find the reciprocal lattice from the real-space period</span><span class="i18n-ja">実空間の周期から逆格子を求める</span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p class="i18n-en"><span class="i18n-en">A lattice translation $\boldsymbol{R}$ changes the phase of a plane wave with wavevector $\boldsymbol{k}$ by $\boldsymbol{k}\cdot\boldsymbol{R}$. A reciprocal-lattice vector is a wavevector for which this phase change is an integer multiple of $2\pi$ for every lattice translation.</span></p>
+        <p class="i18n-en"><span class="i18n-en">Choose $\boldsymbol{b}_1$ so that translating by $\boldsymbol{a}_1$ advances the phase by $2\pi$, and translating by $\boldsymbol{a}_2$ gives zero phase change. For $\boldsymbol{b}_2$, reverse these roles. Integer combinations of the two vectors can therefore set the phase changes for the two primitive translations independently to integer multiples of $2\pi$. The defining conditions for the primitive vectors can be written as the following dot products.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">平面波の波数ベクトルを $\boldsymbol{k}$ とすると、格子並進 $\boldsymbol{R}$ による位相の変化は $\boldsymbol{k}\cdot\boldsymbol{R}$ である。どの格子並進でも、この変化が $2\pi$ の整数倍になる波数ベクトルが逆格子ベクトルである。</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">$\boldsymbol{b}_1$ は、$\boldsymbol{a}_1$ の並進で位相が $2\pi$ 進み、$\boldsymbol{a}_2$ の並進では位相変化が $0$ になるように選ぶ。$\boldsymbol{b}_2$ では二つの役割を入れ替える。この二本を整数倍して組み合わせれば、二つの基本並進に対する位相変化をそれぞれ独立に $2\pi$ の整数倍にできる。基本ベクトルの条件は、次の内積の関係にまとめられる。</span></p>
+        <div class="eq-block" id="eq6"><span class="i18n-en">$$
+\boldsymbol{a}_i\cdot\boldsymbol{b}_j
+=
+2\pi\delta_{ij}
+\tag{6}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{a}_i\cdot\boldsymbol{b}_j
+=
+2\pi\delta_{ij}
+\tag{6}
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">Here $i,j=1,2$, and $\delta_{ij}$ is the Kronecker delta. It is 1 when the indices are equal and 0 when they differ.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">ここで $i,j=1,2$ であり、$\delta_{ij}$ は添字が同じとき1、異なるとき0を表すクロネッカーのデルタである。</span></p>
+        <p class="i18n-en"><span class="i18n-en">Here we apply this relation to graphene's real-space vectors found in the previous section,</span></p>
+        <div class="eq-block i18n-en"><span class="i18n-en">$$
+\boldsymbol{a}_1
+=
+a\left(
+\frac{\sqrt3}{2},
+\frac32
+\right),
+\qquad
+\boldsymbol{a}_2
+=
+a\left(
+-\frac{\sqrt3}{2},
+\frac32
+\right)
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">to obtain graphene's reciprocal-lattice vectors $\boldsymbol{b}_1,\boldsymbol{b}_2$ explicitly.</span></p>
+        <p><span class="i18n-en">First, write the first primitive reciprocal-lattice vector in components</span><span class="i18n-ja">まず $\boldsymbol{b}_1=(b_{1x},b_{1y})$ と置く。<button type="button" class="eqref" data-eq="6">式(6)</button>で $j=1$ とすると、次の二つの内積が得られる。</span></p>
+        <div class="eq-block i18n-en"><span class="i18n-en">$$\boldsymbol{b}_1=(b_{1x},b_{1y})$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">Setting $j=1$ in <button type="button" class="eqref" data-eq="6">Equation (6)</button> gives the following two dot products.</span></p>
+        <div class="eq-block"><span class="i18n-en">$$
+\boldsymbol{a}_1\cdot\boldsymbol{b}_1=2\pi,
+\qquad
+\boldsymbol{a}_2\cdot\boldsymbol{b}_1=0
+$$</span><span class="i18n-ja">$$
+\boldsymbol{a}_1\cdot\boldsymbol{b}_1=2\pi,
+\qquad
+\boldsymbol{a}_2\cdot\boldsymbol{b}_1=0
+$$</span></div>
+        <p><span class="i18n-en">Substituting the components of $(\boldsymbol{a}_1,\boldsymbol{a}_2)$ found in the previous section into these equations gives</span><span class="i18n-ja">ここに $\boldsymbol{a}_1,\boldsymbol{a}_2$ の成分を代入すると、二つの未知成分について次の連立方程式が得られる。</span></p>
+        <div class="eq-block" id="eq7"><span class="i18n-en">$$
+\begin{aligned}
+a\left(\frac{\sqrt3}{2}b_{1x}+\frac32b_{1y}\right)&=2\pi,\\
+a\left(-\frac{\sqrt3}{2}b_{1x}+\frac32b_{1y}\right)&=0
+\end{aligned}
+\tag{7}
+$$</span><span class="i18n-ja">$$
+\begin{aligned}
+a\left(
+\frac{\sqrt3}{2}b_{1x}+\frac32b_{1y}
+\right)
+&=
+2\pi,
+\\
+a\left(
+-\frac{\sqrt3}{2}b_{1x}+\frac32b_{1y}
+\right)
+&=
+0
+\end{aligned}
+\tag{7}
+$$</span></div>
+        <p><span class="i18n-en">Adding the two equations cancels the $b_{1x}$ terms because they have opposite signs. This gives</span><span class="i18n-ja">二式を足すと符号が逆の $b_{1x}$ の項が消え、縦成分が $b_{1y}=\frac{2\pi}{3a}$ と定まる。求めた縦成分を二式目に代入すると横成分が $b_{1x}=\frac{2\pi}{\sqrt3\,a}$ と決まり、一つ目の基本逆格子ベクトルが得られる。</span></p>
+        <div class="eq-block i18n-en"><span class="i18n-en">$$3ab_{1y}=2\pi$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">so the vertical component $b_{1y}$ is</span></p>
+        <div class="eq-block i18n-en"><span class="i18n-en">$$b_{1y}=\frac{2\pi}{3a}$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">Substituting $b_{1y}$ into the second equation gives the horizontal component $b_{1x}$</span></p>
+        <div class="eq-block i18n-en">$$b_{1x}=\frac{2\pi}{\sqrt3a}$$</div>
+        <p class="i18n-en"><span class="i18n-en">The first primitive reciprocal-lattice vector is therefore</span></p>
+        <div class="raman-result-eq eq-block" id="eq8"><span class="i18n-en">$$
+\boldsymbol{b}_1
+=
+\left(
+\frac{2\pi}{\sqrt3a},
+\frac{2\pi}{3a}
+\right)
+\tag{8}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{b}_1
+=
+\left(
+\frac{2\pi}{\sqrt3a},
+\frac{2\pi}{3a}
+\right)
+\tag{8}
+$$</span></div>
+        <p><span class="i18n-en">For the second vector $\boldsymbol{b}_2$, solve the corresponding pair of dot-product conditions</span><span class="i18n-ja">二つ目の $\boldsymbol{b}_2$ についても同様に $\boldsymbol{a}_1\cdot\boldsymbol{b}_2=0$、$\boldsymbol{a}_2\cdot\boldsymbol{b}_2=2\pi$ を解くことで、$x$ 成分の符号が反転したベクトルが得られる。</span></p>
+        <div class="eq-block i18n-en">$$
+\boldsymbol{a}_1\cdot\boldsymbol{b}_2=0,
+\qquad
+\boldsymbol{a}_2\cdot\boldsymbol{b}_2=2\pi
+$$</div>
+        <p class="i18n-en"><span class="i18n-en">The $x$ component changes sign, giving</span></p>
+        <div class="raman-result-eq eq-block" id="eq9"><span class="i18n-en">$$
+\boldsymbol{b}_2
+=
+\left(
+-\frac{2\pi}{\sqrt3a},
+\frac{2\pi}{3a}
+\right)
+\tag{9}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{b}_2
+=
+\left(
+-\frac{2\pi}{\sqrt3a},
+\frac{2\pi}{3a}
+\right)
+\tag{9}
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">An arbitrary reciprocal-lattice vector is written using integers $m',n'$ as</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">これらを整数 $m',n'$ を用いて組み合わせると、任意の逆格子ベクトルを表せる。</span></p>
+        <div class="eq-block" id="eq10"><span class="i18n-en">$$
+\boldsymbol{G}
+=
+m'\boldsymbol{b}_1+n'\boldsymbol{b}_2
+\tag{10}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{G}
+=
+m'\boldsymbol{b}_1+n'\boldsymbol{b}_2
+\tag{10}
+$$</span></div>
+        <p><span class="i18n-en">The two primitive vectors both have length $4\pi/(3a)$ and meet at $120^\circ$. The points generated by their integer combinations form graphene's triangular reciprocal lattice.</span><span class="i18n-ja">二本の基本逆格子ベクトルの長さはともに $4\pi/(3a)$ で、なす角は120°である。したがって、<button type="button" class="eqref" data-eq="10">式(10)</button>で得られる逆格子点は三角格子をなす。</span></p>
+        <figure class="gfig learn-panel g01-native">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Reciprocal lattice from <span class="rp-notation rp-variable rp-vector">b</span><span class="rp-notation rp-sub rp-roman">1</span> and <span class="rp-notation rp-variable rp-vector">b</span><span class="rp-notation rp-sub rp-roman">2</span></span><span class="i18n-ja">求めた<span class="rp-notation rp-variable rp-vector">b</span><span class="rp-notation rp-sub rp-roman">1</span>と<span class="rp-notation rp-variable rp-vector">b</span><span class="rp-notation rp-sub rp-roman">2</span>から逆格子点を作る</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+          <div class="gfig-stage"><canvas class="learn-panel-plot" id="fig-recip" role="img" aria-label="Graphene reciprocal-lattice map generated from b1 and b2 / 基本逆格子ベクトルb_1、b_2と、その整数結合で得られる逆格子点を示すグラフェンの逆格子地図。"></canvas></div>
+          <div class="learn-panel-buttons">
+            <div class="learn-panel-button-row">
+              <button class="gfig-btn active" id="rc-b1" aria-pressed="true" type="button"><span class="gv">b</span><sub>1</sub></button>
+              <button class="gfig-btn" id="rc-b2" aria-pressed="false" type="button"><span class="gv">b</span><sub>2</sub></button>
+              <button class="gfig-btn" id="rc-double" aria-pressed="false" type="button">2<span class="gv">b</span><sub>1</sub></button>
+              <button class="gfig-btn" id="rc-b12" aria-pressed="false" type="button"><span class="gv">b</span><sub>1</sub> + <span class="gv">b</span><sub>2</sub></button>
+            </div>
+            <span class="learn-panel-note" id="rc-status" aria-live="polite"></span>
+          </div>
+        </div>
+</figure>
+    </div></div>
+  </section>
+
+  <section class="demo" id="brillouin-zone">
+    <div class="demo-head"><span class="demo-num">06</span><h2><span class="i18n-en">The first Brillouin zone and <span class="rp-point">K</span>, <span class="rp-point">K′</span></span><span class="i18n-ja">第一ブリルアンゾーンと<span class="rp-point">K</span>・<span class="rp-point">K′</span></span></h2></div>
+    <div class="demo-stage"><div class="derivation">
+        <p class="i18n-en"><span class="i18n-en">Adding a reciprocal-lattice vector to a wavevector changes the phase shift under a lattice translation only by an integer multiple of $2\pi$, so the phase is the same. To group equivalent wavevectors, we take the region where the origin <span class="rp-point">Γ</span> is the closest reciprocal-lattice point. The region includes the boundary, where another reciprocal-lattice point is equally close.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">波数ベクトルに逆格子ベクトルを足しても、格子並進による平面波の位相変化には $2\pi$ の整数倍が加わるだけなので、位相は同じになる。こうして等価な波数をまとめるため、逆格子点のうち、原点 <span class="rp-point">Γ</span> が最も近い範囲を代表領域として取る。原点と別の逆格子点が同じ近さになる境界も、この領域に含める。</span></p>
+        <p class="i18n-en"><span class="i18n-en">The six reciprocal-lattice points nearest to <span class="rp-point">Γ</span> are $\pm\boldsymbol{b}_1$, $\pm\boldsymbol{b}_2$, and $\pm(\boldsymbol{b}_1+\boldsymbol{b}_2)$.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">今回の逆格子で、<span class="rp-point">Γ</span> に最も近い六つの逆格子点は、</span></p>
+        <div class="eq-block i18n-ja">$$
+\pm\boldsymbol{b}_1,\qquad
+\pm\boldsymbol{b}_2,\qquad
+\pm(\boldsymbol{b}_1+\boldsymbol{b}_2)
+$$</div>
+        <p class="i18n-en"><span class="i18n-en">Drawing the perpendicular bisectors between <span class="rp-point">Γ</span> and the surrounding reciprocal-lattice points encloses the region containing the wavevectors nearest to <span class="rp-point">Γ</span>. This is the first Brillouin zone. Because graphene's reciprocal lattice is triangular, the first Brillouin zone is a regular hexagon.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja"><span class="rp-point">Γ</span> と各点を結ぶ線分の垂直二等分線を引くと、原点を囲む正六角形ができる。これがグラフェンの第一ブリルアンゾーンである。</span></p>
+        <p class="i18n-en"><span class="i18n-en">The center of this hexagon is <span class="rp-point">Γ</span>, its edge midpoints are called <span class="rp-point">M</span> points, and its vertices are called <span class="rp-point">K</span> and <span class="rp-point">K′</span> points. All of these points represent wavevectors in reciprocal space.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">この六角形の中心が <span class="rp-point">Γ</span>、辺の中点が <span class="rp-point">M</span>、頂点が <span class="rp-point">K</span>, <span class="rp-point">K′</span> と呼ばれる点である。これらはいずれも、逆空間で波数を表す点である。</span></p>
+        <figure class="gfig learn-panel g01-native">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Real-space translations and the first Brillouin zone</span><span class="i18n-ja">実空間の基本並進と第一ブリルアンゾーン</span></span></figcaption>
+          <div class="cc-panel-body learn-panel-stack">
+            <div class="learn-panel-comparison">
+              <div class="learn-panel-card learn-panel-stack g01-heading-card">
+                <h4><span class="i18n-en">Real space</span><span class="i18n-ja">実空間</span></h4>
+                <div class="gfig-stage"><canvas class="learn-panel-plot learn-panel-unframed" id="fig-bz-real" role="img" aria-label="Real-space graphene honeycomb, with an A site at the origin and the two primitive translations"></canvas></div>
+              </div>
+              <div class="learn-panel-card learn-panel-stack g01-heading-card">
+                <h4><span class="i18n-en">Reciprocal space</span><span class="i18n-ja">逆空間</span></h4>
+                <div class="gfig-stage"><canvas class="learn-panel-plot learn-panel-unframed" id="fig-bz" role="img" aria-label="Six nearest reciprocal-lattice points and their perpendicular bisectors enclosing graphene's first Brillouin zone"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </figure>
+        <p class="i18n-en"><span class="i18n-en">In the reciprocal-space diagram, the six directions from the origin to the nearest reciprocal-lattice points are rotated by 30° relative to the six directions from an A site to the nearest other A sites in the real-space diagram. These reciprocal-space directions lie along the C–C bond axes.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">逆空間の図で、原点から最も近い六つの逆格子点へ向かう方向は、実空間の図でAから最も近い別のAへ向かう六方向に対して30°ずれており、C–C結合の軸に沿う。</span></p>
+        <p class="i18n-en"><span class="i18n-en">The midpoint <span class="rp-point">M</span> of the edge on the $\boldsymbol{b}_1$ side is also the midpoint of the segment joining <span class="rp-point">Γ</span> and $\boldsymbol{b}_1$. Its coordinates are</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">$\boldsymbol{b}_1$ 側の辺の中点 <span class="rp-point">M</span> は、<span class="rp-point">Γ</span> と $\boldsymbol{b}_1$ を結ぶ線分の中点でもある。そのため、その座標は次のようになる。</span></p>
+        <div class="eq-block" id="eq11"><span class="i18n-en">$$
+\boldsymbol{M}
+=
+\frac12\boldsymbol{b}_1
+=
+\left(
+\frac{\pi}{\sqrt3a},
+\frac{\pi}{3a}
+\right)
+\tag{11}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{M}
+=
+\frac12\boldsymbol{b}_1
+=
+\left(
+\frac{\pi}{\sqrt3a},
+\frac{\pi}{3a}
+\right)
+\tag{11}
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">Let <span class="rp-point">K</span> be the rightmost vertex. It lies at the intersection of the perpendicular bisectors of the segments from the origin to $\boldsymbol{b}_1$ and to $-\boldsymbol{b}_2$. It is therefore equidistant from the three reciprocal-lattice points $\boldsymbol{0}, \boldsymbol{b}_1, -\boldsymbol{b}_2$. These points form an equilateral triangle, so its circumcenter <span class="rp-point">K</span> coincides with its centroid and is given by the average of the three position vectors.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">右端の頂点を <span class="rp-point">K</span> とする。この点は、原点から $\boldsymbol{b}_1$ と $-\boldsymbol{b}_2$ へ引いた二本の線分の垂直二等分線が交わる位置にある。したがって、三つの逆格子点 $\boldsymbol{0}, \boldsymbol{b}_1, -\boldsymbol{b}_2$ から等距離にある。これら三点は正三角形を作るため、外心である頂点 <span class="rp-point">K</span> は三角形の重心と一致し、三つの位置ベクトルの平均で求められる。</span></p>
+        <div class="raman-result-eq eq-block" id="eq12"><span class="i18n-en">$$
+\boldsymbol{K}
+=
+\frac{0+\boldsymbol{b}_1-\boldsymbol{b}_2}{3}
+=
+\left(
+\frac{4\pi}{3\sqrt3a},
+0
+\right)
+\tag{12}
+$$</span><span class="i18n-ja">$$
+\begin{aligned}
+\boldsymbol{K}
+&=
+\frac{\mathbf0+\boldsymbol{b}_1-\boldsymbol{b}_2}{3}\\
+&=
+\frac13
+\left(
+\frac{4\pi}{\sqrt3\,a},0
+\right)\\
+&=
+\left(
+\frac{4\pi}{3\sqrt3\,a},0
+\right)
+\end{aligned}
+\tag{12}
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">Let <span class="rp-point">K′</span> be the leftmost vertex. Its coordinates are the negatives of those of the rightmost vertex.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">反対側にある左端の頂点を <span class="rp-point">K′</span> とすると、その座標は右端の頂点の符号を反転したものになる。</span></p>
+        <div class="eq-block" id="eq13"><span class="i18n-en">$$
+\boldsymbol{K}'
+=
+-\boldsymbol{K}
+=
+\left(
+-\frac{4\pi}{3\sqrt3a},
+0
+\right)
+\tag{13}
+$$</span><span class="i18n-ja">$$
+\boldsymbol{K}'
+=
+-\boldsymbol{K}
+=
+\left(
+-\frac{4\pi}{3\sqrt3\,a},0
+\right)
+\tag{13}
+$$</span></div>
+        <p class="i18n-en"><span class="i18n-en">How are the other four vertices related to these two?</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">残る四つの頂点は、この二点とどう関係するのだろうか。</span></p>
+        <figure class="gfig learn-panel g01-native g01-bz-corners-compact">
+          <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-en">Two corner groups: <span class="rp-notation rp-point">K</span> and <span class="rp-notation rp-point">K′</span></span><span class="i18n-ja">六つの頂点を、<span class="rp-notation rp-point">K</span>と<span class="rp-notation rp-point">K′</span>の二組に分ける</span></span></figcaption>
+<div class="cc-panel-body learn-panel-stack">
+          <div class="gfig-stage"><canvas class="learn-panel-plot" id="fig-bz-corners" role="img" aria-label="Reciprocal lattice translations connect alternating corners in two separate groups, starting from K and K′"></canvas></div>
+
+        </div>
+</figure>
+        <p class="i18n-en"><span class="i18n-en">Adding $\boldsymbol{b}_2$ to $\boldsymbol{K}$ moves to the upper-left vertex, while subtracting $\boldsymbol{b}_1$ moves to the lower-left vertex. Reciprocal-lattice translations connect these three vertices.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">$\boldsymbol{K}$ に $\boldsymbol{b}_2$ を加えると左上の頂点へ、$\boldsymbol{b}_1$ を引くと左下の頂点へ移る。この三点は、逆格子並進で互いに移り合う。</span></p>
+        <p class="i18n-en"><span class="i18n-en">Likewise, adding $\boldsymbol{b}_1$ to $\boldsymbol{K}'$ moves to the upper-right vertex, while subtracting $\boldsymbol{b}_2$ moves to the lower-right vertex. Reciprocal-lattice translations also connect these three vertices.</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">同じように、$\boldsymbol{K}'$ に $\boldsymbol{b}_1$ を加えると右上へ、$\boldsymbol{b}_2$ を引くと右下へ移る。こちらの三点も互いに移り合う。</span></p>
+        <p class="i18n-en"><span class="i18n-en">Can <span class="rp-point">K</span> and <span class="rp-point">K′</span> themselves be related by a reciprocal-lattice translation? Computing their difference gives</span></p>
+        <p class="i18n-ja"><span class="i18n-ja">残るのは、<span class="rp-point">K</span> と <span class="rp-point">K′</span> 自身も逆格子並進でつながるか、という点である。二つの差を計算すると、</span></p>
+        <div class="raman-result-eq eq-block" id="eq14"><span class="i18n-en">$$
+\boldsymbol{K}'-\boldsymbol{K}
+=
+-2\boldsymbol{K}
+=
+-\frac23\boldsymbol{b}_1
++\frac23\boldsymbol{b}_2
+\tag{14}
+$$</span><span class="i18n-ja">$$
+\begin{aligned}
+\boldsymbol{K}'-\boldsymbol{K}
+&=
+-2\boldsymbol{K}\\
+&=
+-\frac23(\boldsymbol{b}_1-\boldsymbol{b}_2)\\
+&=
+-\frac23\boldsymbol{b}_1+\frac23\boldsymbol{b}_2
+\end{aligned}
+\tag{14}
+$$</span></div>
+        <p><span class="i18n-en">Since $\boldsymbol{b}_1$ and $\boldsymbol{b}_2$ are linearly independent, the coefficients in this basis are unique. The coefficients $-2/3$ and $2/3$ are not integers, so the difference vector in <button type="button" class="eqref" data-eq="14">Equation (14)</button> is not a reciprocal-lattice vector.</span><span class="i18n-ja">$\boldsymbol{b}_1,\boldsymbol{b}_2$ は独立な基本ベクトルなので、この二本で表した係数は一意に決まる。<button type="button" class="eqref" data-eq="14">式(14)</button>で得た $-2/3$ と $2/3$ は整数ではないため、この差は逆格子ベクトルではない。</span></p>
+        <p><span class="i18n-en">Therefore, <span class="rp-point">K</span> and <span class="rp-point">K′</span> are not related by a reciprocal-lattice translation. The six vertices split into two inequivalent groups of three, one containing <span class="rp-point">K</span> and the other <span class="rp-point">K′</span>. Low-energy electronic states can also be distinguished by whether their wavevector is near <span class="rp-point">K</span> or <span class="rp-point">K′</span>. This distinction is called the valley degree of freedom.</span><span class="i18n-ja">したがって、<span class="rp-point">K</span> と <span class="rp-point">K′</span> は逆格子並進では移り合わない。六つの頂点は、<span class="rp-point">K</span>を含む三点と<span class="rp-point">K′</span>を含む三点という、二つの非等価な組に分かれる。低エネルギーの電子状態は、波数が<span class="rp-point">K</span>と<span class="rp-point">K′</span>のどちらの近傍にあるかでも区別できる。この区別をバレー自由度と呼ぶ。</span></p>
+        <figure class="learn-panel g01-bz-distance" id="g01-bz-distance">
+        <figcaption class="cc-panel-head"><span class="cc-panel-title"><span class="i18n-ja">逆空間の座標と距離</span><span class="i18n-en">Coordinates and distances in reciprocal space</span></span></figcaption>
+        <div class="cc-panel-body">
+          <div class="g01-bz-distance-plot learn-panel-field">
+            <canvas id="g01-bz-distance-map" class="learn-panel-plot learn-panel-unframed" tabindex="0" role="img" aria-label="Coordinates and distances in reciprocal space. Press to set the start, then drag to the end. With a keyboard, use the arrow keys to move and Enter to set the start." data-label-ja="逆空間の座標と距離。押した位置が始点、ドラッグ先が終点。キーボードでは矢印キーで移動し、Enterで始点を設定。" data-label-en="Coordinates and distances in reciprocal space. Press to set the start, then drag to the end. With a keyboard, use the arrow keys to move and Enter to set the start."></canvas>
+          </div>
+          <dl class="g01-bz-distance-readout" aria-live="polite">
+            <div><dt><i class="g01-bz-distance-point g01-bz-distance-start-mark"></i><span><span class="i18n-ja">始点</span><span class="i18n-en">Start</span></span></dt><dd id="g01-bz-distance-start"></dd></div>
+            <div><dt><i class="g01-bz-distance-point g01-bz-distance-end-mark"></i><span><span class="i18n-ja">終点</span><span class="i18n-en">End</span></span></dt><dd id="g01-bz-distance-end"></dd></div>
+            <div class="g01-bz-distance-length"><dt><span class="i18n-ja">距離</span><span class="i18n-en">Distance</span></dt><dd id="g01-bz-distance-distance"></dd></div>
+          </dl>
+        </div>
+      </figure>
+    </div></div>
+  </section>
+
+  <div class="backrow">
+    <div class="container">
+      <a class="back-home" href="/learn/">
+        <span class="i18n-en">&larr; Back to Learn</span>
+        <span class="i18n-ja">&larr; 基礎から学ぶ に戻る</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="foot">
+      <span class="foot-l">&copy; 2026 Kentaro Yumigeta</span>
+      <img class="hanko" src="/assets/img/hanko-seal.png" alt="" aria-hidden="true">
+    </div>
+  </footer>
+
+  <script src="/assets/js/article-shell.js?v=topic-spacing-20260915-r3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script src="/assets/js/graphene-sp2-orbitals.js?v=schematic-1"></script>
+  <script src="/assets/js/graphene-bz-geometry.js"></script>
+  <script src="/assets/js/learn-panel-canvas.js"></script>
+  <script src="/assets/js/graphene-sp2-geometry-figures.js"></script>
+  <script src="/assets/js/graphene-bz-distance-panel.js"></script>
+<script src="/assets/js/eq-hover.js"></script>
+</body>
+</html>

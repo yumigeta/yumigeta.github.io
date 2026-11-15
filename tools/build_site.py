@@ -174,6 +174,9 @@ def generate(source, path, lang, page, registry, routes):
             node.set('aria-label', 'Switch to English' if lang == 'ja' else '日本語に切り替える')
         if node.attrs.get('id') == 'learn-sections':
             node.children = [render_index(registry, lang)]
+        if node.attrs.get('id') == 'learn-curriculum-section':
+            from learn_v2 import render_new_index
+            node.children = [render_new_index(registry, lang)]
     next_card = render_next(page, registry, lang)
     if next_card:
         body = next(n for n in nodes if n.tag == 'body')
@@ -244,11 +247,20 @@ def build():
                 raise ValueError('Missing ' + key + ': ' + path)
         sources[path] = (file, page)
     sitemap = sitemap_document(registry, sources)
+    from learn_v2 import generate as generate_v2, embed_article_shell
+
+    new_categories = {category['id'] for category in registry.get('category_architectures', [])}
     generated = {}
+    v2_routes = []
     for path, (file, page) in sources.items():
         source = file.read_text(encoding='utf-8')
         for lang in ('en', 'ja'):
-            generated[localized(path, lang)] = generate(source, path, lang, page, registry, sources)
+            route = localized(path, lang)
+            if page and page.get('category') in new_categories:
+                generated[route] = generate_v2(source, path, lang, page, registry, sources)
+                v2_routes.append(route)
+            else:
+                generated[route] = generate(source, path, lang, page, registry, sources)
     if OUTPUT.exists():
         if OUTPUT.is_symlink() or OUTPUT.resolve() != ROOT.resolve() / '_site' or not (OUTPUT / '.generated-site').is_file():
             raise ValueError('Refusing to replace an unrecognized _site directory')
@@ -279,6 +291,8 @@ def build():
         file.parent.mkdir(parents=True, exist_ok=True)
         file.write_text(text, encoding='utf-8')
     ET.ElementTree(sitemap).write(OUTPUT / 'sitemap.xml', encoding='utf-8', xml_declaration=True)
+    if v2_routes:
+        embed_article_shell(ROOT, OUTPUT, v2_routes)
     print(f'Built {len(generated)} localized Learn pages in {OUTPUT}')
 
 if __name__ == '__main__':

@@ -1,0 +1,53 @@
+#g01-bz-distance { max-width: 640px; margin-inline: auto; }
+
+#g01-bz-distance > .cc-panel-head { padding-block-end: 14px; }
+#g01-bz-distance > .cc-panel-body {
+  display: grid;
+  gap: var(--panel-related-gap);
+  padding-block-start: 0;
+}
+#g01-bz-distance .g01-bz-distance-plot { min-width: 0; padding: 0; }
+#g01-bz-distance canvas { display: block; width: 100%; aspect-ratio: 1.62; cursor: crosshair; touch-action: none; }
+#g01-bz-distance canvas.g01-bz-distance-over-point { cursor: pointer; }
+#g01-bz-distance canvas.g01-bz-distance-measuring { cursor: crosshair; }
+#g01-bz-distance canvas:focus-visible { outline-color: var(--color-accent-suo); outline-offset: -3px; }
+#g01-bz-distance .g01-bz-distance-readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--panel-gap);
+  align-items: stretch;
+}
+#g01-bz-distance .g01-bz-distance-readout > div {
+  display: grid;
+  grid-template-rows: auto 2.85em;
+  justify-items: center;
+  align-items: center;
+  min-width: 0;
+  padding-inline: var(--panel-related-gap);
+}
+#g01-bz-distance dt { display: flex; align-items: center; gap: 5px; color: var(--ink-2); font-weight: 500; white-space: nowrap; }
+#g01-bz-distance dd { display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+#g01-bz-distance .g01-bz-distance-point { width: 9px; height: 9px; border: 1.5px solid var(--color-accent-suo); }
+#g01-bz-distance .g01-bz-distance-point.g01-bz-distance-start-mark { border-radius: 50%; }
+#g01-bz-distance .g01-bz-distance-point.g01-bz-distance-end-mark { border-color: var(--color-text); }
+#g01-bz-distance .g01-bz-distance-point-name { margin-inline-end: .35em; }
+#g01-bz-distance .g01-bz-distance-math {
+  vertical-align: middle;
+  math-style: normal;
+  font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math;
+}
+
+@container (max-width: 500px) {
+  #g01-bz-distance canvas { aspect-ratio: 1.28; }
+  #g01-bz-distance .g01-bz-distance-readout > div { padding-inline: 3px; }
+}
+
+@container (max-width: 330px) {
+  #g01-bz-distance .g01-bz-distance-readout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--panel-related-gap);
+  }
+  #g01-bz-distance .g01-bz-distance-readout > .g01-bz-distance-length {
+    grid-column: 1 / -1;
+  }
+}
