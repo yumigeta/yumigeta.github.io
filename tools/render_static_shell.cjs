@@ -22,12 +22,18 @@ async function renderStaticShell(source, route, registry, assetRoot) {
   const run = name => vm.runInContext(fs.readFileSync(path.join(assetRoot, 'js', name), 'utf8'), context,
     { filename: name, timeout: 10000 });
   run('site-nav.js');
-  run('article-shell.js');
+  const isIndex = /^(?:\/ja)?\/learn\/$/.test(route);
+  if (isIndex) {
+    run('learn-index.js');
+    window.initLearnIndex({ publishedOnly: true, showStatus: false });
+  } else {
+    run('article-shell.js');
+  }
   await new Promise(resolve => setImmediate(resolve));
   if (!document.querySelector('.ashelf-list a') || document.querySelector('.shell-bare')) {
     throw new Error('Static shell failed: ' + route);
   }
-  document.documentElement.setAttribute('data-static-shell', 'article');
+  document.documentElement.setAttribute('data-static-shell', isIndex ? 'index' : 'article');
   document.querySelectorAll('.i18n-' + (lang === 'ja' ? 'en' : 'ja')).forEach(el => el.remove());
   document.querySelectorAll('[data-nav-active]').forEach(el => el.removeAttribute('data-nav-active'));
   document.querySelectorAll('.ashelf-collapse').forEach(el => el.removeAttribute('open'));

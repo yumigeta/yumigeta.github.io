@@ -35,22 +35,6 @@ def page_hierarchy(registry, page):
     collection = next((c for c in registry.get('collections', []) if c['id'] == page.get('collection')), None)
     return [collection] if collection else []
 
-def render_new_index(registry, lang):
-    pages = [page for page in registry['pages'] if page.get('published') and not page.get('planned')]
-    categories = {cat['id'] for cat in registry.get('category_architectures', [])}
-    new_pages = [page for page in pages if page['category'] in categories]
-    if not new_pages:
-        return ''
-    heading = '新しいLearn体系' if lang == 'ja' else 'New Learn curriculum'
-    cards = []
-    for page in new_pages:
-        url = localized('/learn/' + page['slug'] + '/', lang)
-        cards.append('<a class="et" href="' + url + '"><div><h3>'
-                     + esc(page['title_' + lang]) + '</h3><p>'
-                     + esc(page['summary_' + lang]) + '</p></div></a>')
-    return ('<section class="ed-cat" id="learn-curriculum"><div class="ed-cat-hd"><span class="ed-cat-name">'
-            + esc(heading) + '</span></div><div class="ed-tools">' + ''.join(cards) + '</div></section>')
-
 def embed_article_shell(root, output, routes):
     subprocess.run(['node', str(root / 'tools/render_static_shell.cjs'), str(output), *routes], check=True)
     asset_root = output / 'assets/learn-v2'
