@@ -28,6 +28,22 @@ def validate():
             check(not any(n.tag == 'meta' and 'og:site_name' in (n.attrs.get('property'), n.attrs.get('name'))
                           for n in head.walk()), 'Site name in page metadata: ' + file.relative_to(OUTPUT).as_posix())
 
+    site_pages = json.loads((ROOT / 'site/pages.json').read_text(encoding='utf-8'))['pages']
+    for page in site_pages:
+        route = page['path']
+        file = OUTPUT / route.strip('/') / 'index.html'
+        nodes = list(Document(file.read_text(encoding='utf-8')).root.walk())
+        canonicals = [n.attrs.get('href') for n in nodes if n.tag == 'link' and n.attrs.get('rel') == 'canonical']
+        check(canonicals == [ORIGIN + route], 'Wrong site page canonical: ' + route)
+        og_urls = [n.attrs.get('content') for n in nodes if n.tag == 'meta' and n.attrs.get('property') == 'og:url']
+        check(og_urls == [ORIGIN + route], 'Wrong site page Open Graph URL: ' + route)
+        titles = [content(n) for n in nodes if n.tag == 'title']
+        check(len(titles) == 1 and titles[0], 'Missing/duplicate site page title: ' + route)
+        for key in ('og:title', 'twitter:title'):
+            values = [n.attrs.get('content') for n in nodes
+                      if n.tag == 'meta' and (n.attrs.get('property') or n.attrs.get('name')) == key]
+            check(values == titles, 'Site page title metadata differs: ' + route)
+
     registry = json.loads((ROOT / 'learn/pages.json').read_text(encoding='utf-8'))
     articles = [p for p in registry['pages'] if p.get('published') and not p.get('planned')]
     new_categories = {category['id'] for category in registry.get('category_architectures', [])}
@@ -106,7 +122,6 @@ def validate():
     sitemap = ET.parse(OUTPUT / 'sitemap.xml')
     entries = sitemap.getroot().findall('s:url', ns)
     check(not (ROOT / 'sitemap.xml').exists(), 'Source sitemap must not exist')
-    site_pages = json.loads((ROOT / 'site/pages.json').read_text(encoding='utf-8'))['pages']
     expected = {ORIGIN + p['path']: p.get('lastmod') for p in site_pages}
     for path in paths:
         article = next((p for p in articles if path == '/learn/' + p['slug'] + '/'), None)
